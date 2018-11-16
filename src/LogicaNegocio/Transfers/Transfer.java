@@ -23,4 +23,6 @@ public abstract class Transfer {
 	 * 
 	 */
 	public abstract Point2D getPosicion();
+	
+	
 }

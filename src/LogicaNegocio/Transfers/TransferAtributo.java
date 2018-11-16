@@ -14,10 +14,10 @@ public class TransferAtributo extends Transfer{
 	private boolean compuesto;
 	private boolean notnull;
 	private boolean unique; 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	private Vector listaComponentes;
 	private boolean multivalorado;
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	private Vector listaRestricciones;
 	private Point2D posicion;
 	
@@ -26,7 +26,7 @@ public class TransferAtributo extends Transfer{
 
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public TransferAtributo clonar (){
 		TransferAtributo clon_ta = new TransferAtributo();
 		clon_ta.setIdAtributo(this.getIdAtributo());
@@ -96,11 +96,11 @@ public class TransferAtributo extends Transfer{
 	public void setIdAtributo(int idAtributo) {
 		this.idAtributo = idAtributo;
 	}
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public Vector getListaComponentes() {
 		return listaComponentes;
 	}
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public void setListaComponentes(Vector listaComponentes) {
 		this.listaComponentes = listaComponentes;
 	}
@@ -122,11 +122,11 @@ public class TransferAtributo extends Transfer{
 	public void setClavePrimaria(boolean clavePrimaria) {
 		ClavePrimaria = clavePrimaria;
 	}
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public Vector getListaRestricciones() {
 		return listaRestricciones;
 	}
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public void setListaRestricciones(Vector listaRestricciones) {
 		this.listaRestricciones = listaRestricciones;
 	}
@@ -141,12 +141,14 @@ public class TransferAtributo extends Transfer{
 		Ellipse2D figura;
 		// Si el tamaño del nombre es pequeño dibuja elipse standard
 		if (this.nombre.length() < 8){
-			figura = new Ellipse2D.Double(-40,-15,80,30);
+			figura = new Ellipse2D.Double(-50,-20,100,40);
 			return figura;
 		}
 		// Si es grande ajusta el tamaño al nombre
-		int anchura = this.nombre.length() * 10 / 2;
-		figura = new Ellipse2D.Double(-anchura,-15,anchura * 2,30);
+		int anchura = this.nombre.length() * 11 / 2;
+		int altura = this.nombre.length() * 6 / 2;
+		figura = new Ellipse2D.Double(-anchura,-altura,anchura * 2,altura*2);
+		
 		return figura;
 	}
 	
@@ -155,12 +157,13 @@ public class TransferAtributo extends Transfer{
 		Ellipse2D figura;
 		// Si el tamaño del nombre es pequeño dibuja elipse standard
 		if (this.nombre.length() < 8){
-			figura = new Ellipse2D.Double(-45,-20,90,40);
+			figura = new Ellipse2D.Double(-55,-25,110,50);
 			return figura;
 		}
 		// Si es grande ajusta el tamaño al nombre
-		int anchura = (this.nombre.length() * 10 / 2) + 5;
-		figura = new Ellipse2D.Double(-anchura,-20,anchura * 2,40);
+		int anchura = (this.nombre.length() * 11 / 2) + 5;
+		int altura = (this.nombre.length() * 6 / 2) + 5;
+		figura = new Ellipse2D.Double(-anchura,-altura,anchura * 2,altura*2);
 		return figura;
 	}
 	

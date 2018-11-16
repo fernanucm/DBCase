@@ -5,12 +5,12 @@ import java.awt.geom.Point2D;
 import java.util.Vector;
 
 import Utilidades.TipoDominio;
-
-@SuppressWarnings("unchecked")
+@SuppressWarnings("rawtypes")
 public class TransferDominio extends Transfer{
 	private int idDominio;
 	private String nombre;
 	private TipoDominio tipoBase;
+	
 	private Vector listaValores;
 	
 	public TransferDominio(){

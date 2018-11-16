@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="include/src/jung-algorithms-2.0-alpha2-sources.jar"/>
+	<classpathentry kind="lib" path="include/src/jung-api-2.0-alpha2-sources.jar"/>
+	<classpathentry kind="lib" path="include/src/jung-graph-impl-2.0-alpha2-sources.jar"/>
+	<classpathentry kind="lib" path="include/src/jung-io-2.0-alpha2-sources.jar"/>
+	<classpathentry kind="lib" path="include/src/jung-visualization-2.0-alpha2-sources.jar"/>
+	<classpathentry kind="lib" path="include/collections-generic-4.01.jar"/>
+	<classpathentry kind="lib" path="include/colt-1.2.0.jar"/>
+	<classpathentry kind="lib" path="include/concurrent-1.3.4.jar"/>
+	<classpathentry kind="lib" path="include/crawler4j-3.1.jar"/>
+	<classpathentry kind="lib" path="include/json-simple-1.1.jar"/>
+	<classpathentry kind="lib" path="include/jung-algorithms-2.0-alpha2.jar"/>
+	<classpathentry kind="lib" path="include/jung-api-2.0-alpha2.jar"/>
+	<classpathentry kind="lib" path="include/jung-graph-impl-2.0-alpha2.jar"/>
+	<classpathentry kind="lib" path="include/jung-io-2.0-alpha2.jar"/>
+	<classpathentry kind="lib" path="include/jung-visualization-2.0-alpha2.jar"/>
+	<classpathentry kind="lib" path="include/jung-visualization-2.0.jar"/>
+	<classpathentry kind="lib" path="include/looks-2.1.4.jar"/>
+	<classpathentry kind="lib" path="include/mysql-connector-java-5.1.6-bin.jar"/>
+	<classpathentry kind="lib" path="include/ojdbc6.jar"/>
+	<classpathentry kind="lib" path="include/org.json.jar"/>
+	<classpathentry kind="lib" path="include/xercesimpl.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

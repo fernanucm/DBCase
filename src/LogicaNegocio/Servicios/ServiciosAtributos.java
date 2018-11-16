@@ -38,7 +38,7 @@ public class ServiciosAtributos {
 	/* Añadir atributo
 	 * -> en v viene el atributo padre (pos 0) y el atributo hijo (pos 1)
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void anadirAtributo(Vector v){
 		TransferAtributo tap = (TransferAtributo) v.get(0);
 		TransferAtributo tah = (TransferAtributo) v.get(1);
@@ -102,7 +102,7 @@ public class ServiciosAtributos {
 	 * Si se produce un error al usar el DAOAtributos ->  SA_EliminarAtributo_ERROR_DAOAtributos
 	 * Hay que comprobar primero que el atributo que viene en el transfer exista con un consultar
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public void eliminarAtributo (TransferAtributo ta){
 		DAOAtributos daoAtributos = new DAOAtributos(this.controlador.getPath());
 		ta = daoAtributos.consultarAtributo(ta);
@@ -158,7 +158,7 @@ public class ServiciosAtributos {
 	 * de un atributo compuesto). El metodo moficara el elemento (uno de estos 3) que lo referencia
 	 * y lo devolvera en un transfer para comunicar la modificacion al controlador.
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	private Transfer eliminaRefererenciasAlAtributo(TransferAtributo ta){
 		// Obtenemos el identificador del atributo
 		int idAtributo = ta.getIdAtributo();
@@ -264,7 +264,7 @@ public class ServiciosAtributos {
 	 * Renombrar atributo
 	 * -> Recibe el atributo y el nuevo nombre
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void renombrarAtributo(Vector v){
 		TransferAtributo ta = (TransferAtributo) v.get(0);
 		String nuevoNombre = (String) v.get(1);
@@ -460,7 +460,7 @@ public class ServiciosAtributos {
 		return;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void anadirRestriccion(Vector v){
 		TransferAtributo ta = (TransferAtributo) v.get(0);
 		String restriccion = (String) v.get(1);
@@ -494,7 +494,7 @@ public class ServiciosAtributos {
 		return;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void quitarRestriccion(Vector v){
 		TransferAtributo te = (TransferAtributo) v.get(0);
 		String restriccion = (String) v.get(1);
@@ -534,7 +534,7 @@ public class ServiciosAtributos {
 		return;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public void setRestricciones(Vector v) {
 		Vector restricciones = (Vector) v.get(0);
 		TransferAtributo ta = (TransferAtributo) v.get(1);

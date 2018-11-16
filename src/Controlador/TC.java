@@ -23,6 +23,7 @@ public enum TC {
 	GUI_Principal_Click_Submenu_Cerrar,
 	GUI_Principal_Click_Submenu_GuardarComo,
 	GUI_Principal_CambiarLenguaje,
+	GUI_Principal_CambiarTema,
 	// Generacion de codigo
 	GUI_Principal_Click_BotonLimpiarPantalla,
 	GUI_Principal_Click_BotonValidar,

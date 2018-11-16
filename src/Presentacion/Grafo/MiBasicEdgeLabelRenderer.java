@@ -80,7 +80,6 @@ public class MiBasicEdgeLabelRenderer<V,E>
         float distX = x2 - x1;
         float distY = y2 - y1;
         double totalLength = Math.sqrt(distX * distX + distY * distY);
-
         double closeness = rc.getEdgeLabelClosenessTransformer().transform(Context.<Graph<V,E>,E>getInstance(graph, e)).doubleValue();
 
         int posX = (int) (x1 + (closeness) * distX);

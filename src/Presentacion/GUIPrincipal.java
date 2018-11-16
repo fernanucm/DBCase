@@ -1,6 +1,10 @@
 package Presentacion;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +22,7 @@ import java.util.Vector;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -33,6 +38,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButton;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
@@ -40,8 +46,11 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
 import javax.swing.JToolBar;
 import javax.swing.JTree;
+import javax.swing.LookAndFeel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
@@ -49,8 +58,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
-
 import Controlador.Controlador;
 import Controlador.TC;
 import LogicaNegocio.Transfers.Transfer;
@@ -62,10 +71,15 @@ import LogicaNegocio.Transfers.TransferRelacion;
 import Presentacion.Grafo.PanelGrafo;
 import Presentacion.Grafo.PanelThumbnail;
 import Presentacion.Lenguajes.Lenguaje;
+import Presentacion.Theme.Theme;
 import Utilidades.AccionMenu;
 import Utilidades.ApplicationLauncher;
 import Utilidades.ImagePath;
 
+import javax.swing.plaf.basic.BasicLookAndFeel;
+import javax.swing.plaf.metal.*;
+import javax.swing.plaf.multi.MultiLookAndFeel;
+import javax.swing.plaf.synth.SynthLookAndFeel;
 
 /**
  * This code was edited or generated using CloudGarden's Jigloo
@@ -80,16 +94,6 @@ import Utilidades.ImagePath;
  * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
  */
 public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
-
-	{
-		//Set Look & Feel
-		try {
-			javax.swing.UIManager.setLookAndFeel("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 
 	private static final long serialVersionUID = 1L;
 	// Controlador de la aplicacion
@@ -126,6 +130,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private JScrollPane panelScrollGeneracion;
 	private JMenuItem submenuContenidos;
 	private JMenuItem submenuAcercaDe;
+	private JMenuItem menuVista;
 	private JMenu menuAyuda;
 	private JMenuItem submenuExportarJPEG;
 	private JMenu menuOpciones;
@@ -148,7 +153,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private JButton botonModeloRelacional;
 	private JButton botonValidar;
 	private JButton botonEjecutarEnDBMS;
-	private JSplitPane split2;
+	private JSplitPane splitDiagrama;
 	private JSplitPane split1;
 	private JPanel panelGeneracion;
 	private JPanel panelDiagrama;
@@ -163,9 +168,11 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private static JPopupMenu popup;
 	private JRadioButton salvado;
 	private boolean mostrarPanelSucesos;
+	private Theme theme;
+	private JMenu themeMenu;
 	
-	public GUIPrincipal(){
-		
+	public GUIPrincipal(Theme theme){
+		this.theme = theme;
 	}
 
 	/*
@@ -177,35 +184,88 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		conexionActual = listaConexiones.get(0);
 		mostrarPanelSucesos =false;
 		
+		setLookAndFeel();
 		this.initComponents();
 		this.labelBarraEstado.setText("  "+Lenguaje.getMensaje(Lenguaje.WORKSPACE_IS)+" "+this.controlador.getPath());
+		changeFont(this,new java.awt.Font("Avenir", 0, 16), theme.font());
 		this.setVisible(true);
 	}
 	
 	public void setInactiva(){
 		this.setVisible(false);
 	}
-
+	
+	public static void changeFont (Component component, Font font, Color color){
+	    component.setFont(font);
+	    component.setForeground(color);
+	    if (component instanceof Container)
+	        for(Component child : ((Container) component).getComponents())
+	        	changeFont (child, font, color);
+	}
+	private void setLookAndFeel(){
+		UIManager.put("Button.defaultButtonFollowsFocus", Boolean.TRUE);	
+		UIManager.put("nimbusBase", theme.main());
+		UIManager.put("Button.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("ToggleButton.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("RadioButton.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("CheckBox.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("ColorChooser.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("ComboBox.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("Label.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("List.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("MenuBar.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("MenuItem.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("RadioButtonMenuItem.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("CheckBoxMenuItem.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("Menu.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("PopupMenu.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("OptionPane.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("Panel.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("ProgressBar.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("ScrollPane.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("Viewport.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("TabbedPane.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("Table.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("TableHeader.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("TextField.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("PasswordField.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("TextArea.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("TextPane.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("EditorPane.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("TitledBorder.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("ToolBar.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("ToolTip.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("Tree.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("control", Color.white);
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) 
+            if ("Nimbus".equals(info.getName())) {
+            	try { javax.swing.UIManager.setLookAndFeel(info.getClassName());} 
+            	catch (ClassNotFoundException | InstantiationException | IllegalAccessException| UnsupportedLookAndFeelException e) {e.printStackTrace();}
+            break;
+        }
+	}
 	private void initComponents() {
 		try {
 			{
 				this.setTitle(Lenguaje.getMensaje(Lenguaje.DBCASE));
 				this.setSize(800, 600);
 				this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-				getContentPane().setLayout(new BorderLayout());
 				{
 					barraDeMenus = new JMenuBar();
 					setJMenuBar(barraDeMenus);
+					barraDeMenus.add(Box.createRigidArea(new Dimension(0,30)));
+					barraDeMenus.setOpaque(true);
 					barraDeMenus.setBorder(BorderFactory.createCompoundBorder(
 							null, 
 							null));
 					
-					{
+					{	//File
 						menuSistema = new JMenu();
 						barraDeMenus.add(menuSistema);
 						menuSistema.setText(Lenguaje.getMensaje(Lenguaje.FILE));
 						menuSistema.setMnemonic(Lenguaje.getMensaje(Lenguaje.FILE).charAt(0));
-						{
+						
+						{//File/new
 							submenuNuevo = new JMenuItem();
 							menuSistema.add(submenuNuevo);
 							submenuNuevo.setText(Lenguaje.getMensaje(Lenguaje.NEW));
@@ -217,7 +277,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 								}
 							});
 						}
-						{
+						{//File/open
 							submenuAbrir = new JMenuItem();
 							menuSistema.add(submenuAbrir);
 							submenuAbrir.setText(Lenguaje.getMensaje(Lenguaje.OPEN)+"...");
@@ -229,7 +289,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 								}
 							});
 						}
-						{
+						{//File/close
 							submenuCerrar = new JMenuItem();
 							menuSistema.add(submenuCerrar);
 							submenuCerrar.setText(Lenguaje.getMensaje(Lenguaje.CLOSE));
@@ -240,9 +300,9 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 									submenuCerrarActionPerformed(evt);
 								}
 							});
-						}
+						}//File/separator
 						menuSistema.add(new JSeparator());
-						{
+						{//File/save
 							submenuGuardar = new JMenuItem();
 							menuSistema.add(submenuGuardar);
 							submenuGuardar.setText(Lenguaje.getMensaje(Lenguaje.SAVE));
@@ -254,7 +314,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 								}
 							});
 						}
-						{
+						{//File/save as...
 							submenuGuardarComo = new JMenuItem();
 							menuSistema.add(submenuGuardarComo);
 							submenuGuardarComo.setText(Lenguaje.getMensaje(Lenguaje.SAVE_AS)+"...");
@@ -265,9 +325,9 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 									submenuGuardarComoActionPerformed(evt);
 								}
 							});
-						}
+						}//File/separator2
 						menuSistema.add(new JSeparator());
-						{
+						{//File/imprimir
 							submenuImprimir = new JMenuItem();
 							menuSistema.add(submenuImprimir);
 							submenuImprimir.setText(Lenguaje.getMensaje(Lenguaje.PRINT_DIAGRAM)+"...");
@@ -279,7 +339,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 								}
 							});
 						}
-						{
+						{//File/Export
 							submenuExportarJPEG = new JMenuItem();
 							menuSistema.add(submenuExportarJPEG);
 							submenuExportarJPEG.setText(Lenguaje.getMensaje(Lenguaje.EXPORT_DIAGRAM));
@@ -290,9 +350,9 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 									submenuExportarJPEGActionPerformed(evt);
 								}
 							});
-						}
+						}//File/Separator
 						menuSistema.add(new JSeparator());
-						{
+						{//File/salir
 							submenuSalir = new JMenuItem();
 							menuSistema.add(submenuSalir);
 							submenuSalir.setText(Lenguaje.getMensaje(Lenguaje.EXIT_MINCASE));
@@ -305,7 +365,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 							});
 						}
 					}
-					{
+					{//Opciones
 						menuOpciones = new JMenu();
 						barraDeMenus.add(menuOpciones);
 						menuOpciones.setText(Lenguaje.getMensaje(Lenguaje.OPTIONS));
@@ -313,6 +373,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						{
 							// Menú GESTORES DE BASES DE DATOS
 							menuSGBDActual = new JMenu();
+							menuSGBDActual.setFont(new java.awt.Font("Avenir", 0, 16));
 							menuOpciones.add(menuSGBDActual);
 							menuSGBDActual.setText(Lenguaje.getMensaje(Lenguaje.CURRENT_DBMS));
 							menuSGBDActual.setMnemonic(Lenguaje.getMensaje(Lenguaje.CURRENT_DBMS).charAt(0));
@@ -346,6 +407,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 							
 							// Menu SELECCIONAR LENGUAJE
 							menuLenguajes = new JMenu();
+							menuLenguajes.setFont(new java.awt.Font("Avenir", 0, 16));
 							menuOpciones.add(menuLenguajes);
 							menuLenguajes.setText(Lenguaje.getMensaje(Lenguaje.SELECT_LANGUAGE));
 							menuLenguajes.setMnemonic(Lenguaje.getMensaje(Lenguaje.SELECT_LANGUAGE).charAt(0));
@@ -385,27 +447,77 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 								elementosMenuLenguajes.add(lenguaje);
 							}
 							
-						}
-						{
+						}	
+					}
+					{
+						menuVista = new JMenu();
+						barraDeMenus.add(menuVista);
+						menuVista.setText("View");
+						menuVista.setMnemonic(Lenguaje.getMensaje(Lenguaje.HELP).charAt(0));
+						{		
+							
+							JCheckBoxMenuItem model = new JCheckBoxMenuItem();
+							JCheckBoxMenuItem er = new JCheckBoxMenuItem();
+							JCheckBoxMenuItem code = new JCheckBoxMenuItem();
 							menuPanelSucesos = new JCheckBoxMenuItem();
-							menuOpciones.add(menuPanelSucesos);
+							themeMenu = new JMenu();
+							for(String s : this.theme.getAvaiableThemes()) {
+								JCheckBoxMenuItem item = new JCheckBoxMenuItem();
+								if(theme.getThemeName().equals(s))item.setSelected(true);
+								item.setText(s);
+								item.setFont(new java.awt.Font("Avenir", 0, 16));
+								item.setActionCommand(s);
+								item.addActionListener(new ActionListener() {
+
+									@Override
+									public void actionPerformed(ActionEvent e) {
+										cambiaTema(e);
+									}
+									
+								});
+								themeMenu.add(item);
+							}
+							
+							themeMenu.setFont(new java.awt.Font("Avenir", 0, 16));
+							
+							menuVista.add(er);
+							menuVista.add(model);
+							menuVista.add(code);
+							menuVista.add(new JSeparator());
+							menuVista.add(themeMenu);
+							//menuVista.add(new JSeparator());
+							//menuVista.add(menuPanelSucesos);
+							
+							
+							er.setText("Diagrama");
+							er.setSelected(true);
+							er.setFont(new java.awt.Font("Avenir", 0, 16));
+							model.setText("Modelo");
+							model.setSelected(false);
+							model.setFont(new java.awt.Font("Avenir", 0, 16));
+							code.setText("Codigo");
+							code.setSelected(false);
+							code.setFont(new java.awt.Font("Avenir", 0, 16));
+							themeMenu.setText("Tema");
+							
 							menuPanelSucesos.setText(Lenguaje.getMensaje(Lenguaje.SHOW_EVENTS_PANEL));
 							menuPanelSucesos.setMnemonic(Lenguaje.getMensaje(Lenguaje.SHOW_EVENTS_PANEL).charAt(0));
-							//menuPanelSucesos.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.N_CERRAR)));
+							menuPanelSucesos.setFont(new java.awt.Font("Avenir", 0, 16));
+							
 							menuPanelSucesos.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent evt) {
 									menuPanelSucesosActionPerformed(evt);
 								}
 							});
-						}						
-						
+								
+						}
 					}
-					{
+					{//Ayuda
 						menuAyuda = new JMenu();
 						barraDeMenus.add(menuAyuda);
 						menuAyuda.setText(Lenguaje.getMensaje(Lenguaje.HELP));
 						menuAyuda.setMnemonic(Lenguaje.getMensaje(Lenguaje.HELP).charAt(0));
-						{
+						{//Ayuda/contenidos
 							submenuContenidos = new JMenuItem();
 							menuAyuda.add(submenuContenidos);
 							submenuContenidos.setText(Lenguaje.getMensaje(Lenguaje.CONTENTS));
@@ -417,7 +529,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 								}
 							});
 						}
-						{
+						{//Ayuda/acerca de
 							submenuAcercaDe = new JMenuItem();
 							menuAyuda.add(submenuAcercaDe);
 							submenuAcercaDe.setText(Lenguaje.getMensaje(Lenguaje.ABOUT));
@@ -431,6 +543,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						}
 					}
 				}
+				
 				{
 					salvado = new JRadioButton();
 					barraDeMenus.add(salvado);
@@ -448,87 +561,117 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				{
 					panelPrincipal = new JTabbedPane();
 					getContentPane().add(panelPrincipal, BorderLayout.CENTER);
-					{
+					{//Tabs principales
 						panelDiagrama = new JPanel();
 						BorderLayout panelDiagramaLayout = new BorderLayout();
-						panelDiagrama.setLayout(panelDiagramaLayout);
+						panelDiagrama.setLayout(panelDiagramaLayout);						
 						panelPrincipal.addTab(Lenguaje.getMensaje(Lenguaje.ER_MODEL), null, panelDiagrama, null);
+						
+						//panelPrincipal.setBackground(theme.background());
+						panelPrincipal.setFocusable(false);
 						{
 							split1 = new JSplitPane();
 							panelDiagrama.add(split1, BorderLayout.CENTER);
-							split1.setOrientation(JSplitPane.VERTICAL_SPLIT);
+							split1.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 							split1.setOneTouchExpandable(false);
-							split1.setResizeWeight(0.8);
+							split1.setResizeWeight(0.75);
 							// Localizacion del split en funcion del alto de la pantalla
-							java.awt.Dimension tamanoPantalla = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+							Dimension tamanoPantalla = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 							String altoString = String.valueOf(tamanoPantalla.getHeight()*0.65);
 							int loc = Integer.parseInt(altoString.substring(0,altoString.indexOf(".")));
 							split1.setDividerLocation(loc);
 							{
-								split2 = new JSplitPane();
-								split1.add(split2, JSplitPane.LEFT);
-								split2.setOneTouchExpandable(true);
-								split2.setResizeWeight(0.1);
-								split2.setDividerLocation(170);
+								JSplitPane infoSplit = new JSplitPane();
+								JTabbedPane tabPanelDcha = new JTabbedPane();
+								tabPanelDcha.setFocusable(false);
+								infoSplit.add(tabPanelDcha,JSplitPane.RIGHT);
+								infoSplit.setResizeWeight(0.82);
+								infoSplit.setDividerSize(0);
+								infoSplit.setBorder(null);
+								infoSplit.setEnabled(false);
+								splitDiagrama = new JSplitPane();
+								infoSplit.add(splitDiagrama, JSplitPane.LEFT);
+								split1.add(infoSplit, JSplitPane.LEFT);
+								split1.add(tabPanelDcha,JSplitPane.RIGHT);
+								split1.setBorder(null);
+								
+								splitDiagrama.setEnabled(false);
+								splitDiagrama.setBorder(null);
+								splitDiagrama.setResizeWeight(0.08);
+								Dimension dim = new Dimension();
+								dim.setSize(tamanoPantalla.width*.2, tamanoPantalla.height*.2);
+								splitDiagrama.setMinimumSize(dim);
+								dim.setSize(tamanoPantalla.width*.1, tamanoPantalla.height*.1);
+								splitDiagrama.setMaximumSize(dim);
+								splitDiagrama.setDividerSize(0);
 								{
 									// Actualizacion de listas y creacion del grafo
 									controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeEntidades, null);
 									controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeAtributos, null);
 									controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeRelaciones, null);
-									panelDiseno = new PanelGrafo(listaEntidades,listaAtributos,listaRelaciones);
+									panelDiseno = new PanelGrafo(listaEntidades,listaAtributos,listaRelaciones,theme);
 									panelDiseno.setControlador(this.getControlador());
-									split2.add(panelDiseno, JSplitPane.RIGHT);
+									splitDiagrama.add(panelDiseno, JSplitPane.RIGHT);
 								}
-								{
+								{//Panel de la izquierda
 									split3 = new JSplitPane();
-									split2.add(split3, JSplitPane.LEFT);
+									split3.setBorder(null);
+									split3.setDividerSize(0);
+									split3.setEnabled(false);
 									split3.setOrientation(JSplitPane.VERTICAL_SPLIT);
-									split3.setResizeWeight(0.5);
+									split3.setResizeWeight(0.3);
 									split3.setDividerLocation(150);//100
+									splitDiagrama.add(split3, JSplitPane.LEFT);
+									splitDiagrama.setMaximumSize(new Dimension(5,100));
+									splitDiagrama.setDividerLocation(160);
+									JPanel ElementosArrastre = new JPanel();
+									ElementosArrastre.setBackground(theme.background());
+									ElementosArrastre.setMaximumSize(new Dimension(5,100));
+									ElementosArrastre.setBorder(BorderFactory.createLineBorder(Color.lightGray));
+									split3.add(ElementosArrastre, JSplitPane.BOTTOM);
+									
 									{
-										split4 = new JSplitPane();
-										split3.add(split4, JSplitPane.RIGHT);
-										split4.setOrientation(JSplitPane.VERTICAL_SPLIT);
-										split4.setResizeWeight(0.5);
-										split4.setDividerLocation(240);//140
 										{
 											panelInfo = new JPanel();
 											BorderLayout panelInfoLayout = new BorderLayout();
 											panelInfo.setLayout(panelInfoLayout);
-											split4.add(panelInfo, JSplitPane.LEFT);
-											panelInfo.setBorder(BorderFactory.createTitledBorder(null, Lenguaje.getMensaje(Lenguaje.INF_PANEL), TitledBorder.LEADING, TitledBorder.BELOW_TOP));
-											panelInfo.setBackground(new java.awt.Color(255,255,255));
+											//panelInfo.setBorder(BorderFactory.createTitledBorder(null, Lenguaje.getMensaje(Lenguaje.INF_PANEL), TitledBorder.LEADING, TitledBorder.BELOW_TOP));
+											panelInfo.setBackground(theme.background());
 											panelInfo.addMouseListener(mls);
+											tabPanelDcha.addTab("Elementos", null, panelInfo ,null);
 											{
 												panelArbol = new JScrollPane();
 												
 												panelInfo.add(panelArbol, BorderLayout.CENTER);
-												panelArbol.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+												panelArbol.setBorder(BorderFactory.createEmptyBorder(4, 4, 0, 0));
 												panelArbol.setVisible(false);
 											}
 										}
 										{
 											panelDom = new JPanel();
-											BorderLayout panelInfoLayout = new BorderLayout();
-											panelDom.setLayout(panelInfoLayout);
-											split4.add(panelDom, JSplitPane.RIGHT);
-											panelDom.setBorder(BorderFactory.createTitledBorder(null,Lenguaje.getMensaje(Lenguaje.DOM_PANEL), TitledBorder.LEADING, TitledBorder.BELOW_TOP));
-											panelDom.setBackground(new java.awt.Color(255,255,255));
+											panelDom.setLayout(new BorderLayout());
+											panelDom.setBackground(theme.background());
+											tabPanelDcha.addTab("Dominios", null, panelDom ,null);
 											{
 												panelArbolDom = new JScrollPane();
 												panelDom.add(panelArbolDom, BorderLayout.CENTER);
-												panelArbolDom.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+												panelArbolDom.setBorder(BorderFactory.createEmptyBorder(4, 4, 0, 0));
 												panelArbolDom.addMouseListener(ml);
+												panelArbolDom.setVisible(false);
 												this.actualizaArbolDominio(null);
 											}
 
 										}
+										{
+											JPanel panelTablas = new JPanel();
+											panelTablas.setLayout(new BorderLayout());
+											panelTablas.setBackground(theme.background());
+											tabPanelDcha.addTab("Tablas", null, panelTablas ,null);
+										}
 									}
 									{
-										panelGrafo = new PanelThumbnail(panelDiseno);
+										panelGrafo = new PanelThumbnail(panelDiseno, theme);
 										split3.add(panelGrafo, JSplitPane.LEFT);
-										panelGrafo.setBackground(new java.awt.Color(255,255,255));
-										panelGrafo.setBorder(BorderFactory.createTitledBorder(null, Lenguaje.getMensaje(Lenguaje.GRAPH_PANEL), TitledBorder.LEADING, TitledBorder.BELOW_TOP));
 									}
 								}
 							}
@@ -536,7 +679,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 								panelSucesos = new JPanel();
 								BorderLayout panelSucesosLayout = new BorderLayout();
 								panelSucesos.setLayout(panelSucesosLayout);
-								split1.add(panelSucesos, JSplitPane.RIGHT);
+								//split1.add(panelSucesos, JSplitPane.RIGHT);
 								{
 									panelScrollSucesos = new JScrollPane();
 									panelSucesos.add(panelScrollSucesos, BorderLayout.CENTER);
@@ -720,12 +863,25 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		// Construccion del JPopupMenu
 		popup = new JPopupMenu();
 
-	}
+	}//InitComponents
+	
+	
 	
 	/*
 	 * Oyentes de la barra de menus
 	 */
-
+	
+	private void cambiaTema(ActionEvent evt) {
+		controlador.mensajeDesde_GUIPrincipal(
+				TC.GUI_Principal_CambiarTema, evt.getActionCommand());
+		int i = 0;
+		for(String s : this.theme.getAvaiableThemes()) {
+			if(theme.getThemeName().equals(s))themeMenu.getItem(i).setSelected(true);
+			else themeMenu.getItem(i).setSelected(false);
+			i++;
+		}
+	}
+	
 	private void submenuNuevoActionPerformed(ActionEvent evt) {
 		this.controlador.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_Submenu_Nuevo, null);
 		this.panelPrincipal.setVisible(true);
@@ -1227,7 +1383,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		}
 		case Controlador_LimpiarPanelInformacion:{
 			if (this.arbol != null){
-				this.panelArbol.setVisible(false);
+				//this.panelArbol.setVisible(false);
 			}
 			break;
 		}
@@ -1235,6 +1391,12 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 			this.panelArbol.setVisible(true);
 			this.arbol = (JTree) datos;
 			this.arbol.addMouseListener(mls);
+			DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
+		    renderer.setOpenIcon(null);
+		    renderer.setClosedIcon(null);
+		    renderer.setLeafIcon(null);
+		    arbol.setCellRenderer(renderer);
+			this.arbol.setFont(new java.awt.Font("Avenir", 0, 15));
 			this.panelArbol.setViewportView(arbol);
 			this.repaint();
 			break;
@@ -1248,6 +1410,13 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		case Controlador_MostrarDatosEnPanelDominio:{
 			this.panelArbolDom.setVisible(true);
 			this.arbolDom = (JTree) datos;
+			//this.arbolDom.addMouseListener(mls);
+			DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
+		    renderer.setOpenIcon(null);
+		    renderer.setClosedIcon(null);
+		    renderer.setLeafIcon(null);
+		    this.arbolDom.setCellRenderer(renderer);
+			this.arbolDom.setFont(new java.awt.Font("Avenir", 0, 15));
 			this.panelArbolDom.setViewportView(arbolDom);
 			this.repaint();
 			break;
@@ -1393,7 +1562,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private JTree generaArbolDominio(Vector<TransferDominio> listaDominios, String expandir){
 		
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.DOM_TREE_CREATED_DOMS));
-																
+		
 		for (Iterator<TransferDominio> it = listaDominios.iterator(); it.hasNext();){
 			TransferDominio td = it.next();
 			//Nombre
@@ -1402,7 +1571,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 			//TipoBase
 			nodoNombre.add(new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.DOM_TREE_TYPE)+" \""+td.getTipoBase()+"\""));
 			// Valores
-			if (td.getListaValores().size()>0){
+			if (td.getListaValores()!=null && td.getListaValores().size()>0){
 				DefaultMutableTreeNode nodo_valores = new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.DOM_TREE_VALUES));
 				nodoNombre.add(nodo_valores);
 				Vector lista = td.getListaValores();

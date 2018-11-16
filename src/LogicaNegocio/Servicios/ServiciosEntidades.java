@@ -40,7 +40,7 @@ public class ServiciosEntidades {
 	 * Si el nombre ya existe -> SE_InsertarEntidad_ERROR_NombreDeEntidadYaExiste
 	 * Si al usar el DAOEntidades se produce un error -> SE_InsertarEntidad_ERROR_DAO
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public void anadirEntidad(TransferEntidad te){
 		if (te.getNombre().isEmpty()){
 			controlador.mensajeDesde_SE(TC.SE_InsertarEntidad_ERROR_NombreDeEntidadEsVacio, null);
@@ -83,7 +83,7 @@ public class ServiciosEntidades {
 	 * Si el nombre ya existe -> SE_InsertarEntidad_ERROR_NombreDeEntidadYaExiste
 	 * Si al usar el DAOEntidades se produce un error -> SE_InsertarEntidad_ERROR_DAO
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public boolean SePuedeAnadirEntidad(TransferEntidad te){
 		if (te.getNombre().isEmpty()){
 			controlador.mensajeDesde_SE(TC.SE_ComprobarInsertarEntidad_ERROR_NombreDeEntidadEsVacio, null);
@@ -108,14 +108,6 @@ public class ServiciosEntidades {
 			}
 		}
 		return true;
-		//TODO DIRÍA QUE NO HAY QUE PONERLO, PORQUE NO SE VA A INSERTAR AQUÍ SI NO EN ANADIR ENTIDAD
-		/*int id = daoEntidades.anadirEntidad(te);
-		if (id==-1)	controlador.mensajeDesde_SE(TC.SE_ComprobarInsertarEntidad_ERROR_DAO,false);
-		
-		else{
-			te.setIdEntidad(id);
-			controlador.mensajeDesde_SE(TC.SE_InsertarEntidad_HECHO, daoEntidades.consultarEntidad(te));
-		}*/
 	}
 	
 	
@@ -124,7 +116,7 @@ public class ServiciosEntidades {
 	 * Renombrar una en entidad
 	 * -> Recibe la entidad y el nuevo nombre
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void renombrarEntidad(Vector v){
 		TransferEntidad te = (TransferEntidad) v.get(0);
 		String nuevoNombre = (String) v.get(1);
@@ -203,7 +195,7 @@ public class ServiciosEntidades {
 	 * Anadir un atributo a una entidad
 	 * -> en v viene la entidad (pos 0) y el atributo (pos 1)
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void anadirAtributo(Vector v){
 		TransferEntidad te = (TransferEntidad) v.get(0);
 		TransferAtributo ta = (TransferAtributo) v.get(1);
@@ -286,7 +278,7 @@ public class ServiciosEntidades {
 	 * relaciones la modificaremos quitando la referencia, la persistimos.
 	 * Deolveremos un vector de relaciones modificadas. Cuando no este referenciada, el vector estara vacio.
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	private Vector<TransferRelacion> eliminaRefererenciasAEntidad(TransferEntidad te){
 		Vector<TransferRelacion> vectorRelaciones = new Vector<TransferRelacion>();
 		int idEntidad = te.getIdEntidad();
@@ -321,7 +313,7 @@ public class ServiciosEntidades {
 		return vectorRelaciones;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void anadirRestriccion(Vector v){
 		TransferEntidad te = (TransferEntidad) v.get(0);
 		String restriccion = (String) v.get(1);
@@ -355,7 +347,7 @@ public class ServiciosEntidades {
 		return;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void quitarRestriccion(Vector v){
 		TransferEntidad te = (TransferEntidad) v.get(0);
 		String restriccion = (String) v.get(1);
@@ -395,7 +387,7 @@ public class ServiciosEntidades {
 		return;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings( "rawtypes" )
 	public void setRestricciones(Vector v) {
 		Vector restricciones = (Vector) v.get(0);
 		TransferEntidad te = (TransferEntidad) v.get(1);
@@ -417,7 +409,7 @@ public class ServiciosEntidades {
 		return;		
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void anadirUnique(Vector v){
 		TransferEntidad te = (TransferEntidad) v.get(0);
 		String unique = (String) v.get(1);
@@ -451,7 +443,7 @@ public class ServiciosEntidades {
 		return;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void quitarUnique(Vector v){
 		TransferEntidad te = (TransferEntidad) v.get(0);
 		String unique = (String) v.get(1);
@@ -490,7 +482,7 @@ public class ServiciosEntidades {
 		return;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public void setUniques(Vector v) {
 		Vector uniques = (Vector) v.get(0);
 		TransferEntidad te = (TransferEntidad) v.get(1);
@@ -514,7 +506,7 @@ public class ServiciosEntidades {
 	/*
 	 * Quitar/poner un Unique unitario a la entidad
 	 * */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void setUniqueUnitario(Vector v) {
 		TransferEntidad te = (TransferEntidad) v.get(0);
 		TransferAtributo ta= (TransferAtributo) v.get(1);
@@ -549,7 +541,7 @@ public class ServiciosEntidades {
 		return;		
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void eliminarReferenciasUnitario(Vector v) {
 		TransferEntidad te = (TransferEntidad) v.get(0);
 		TransferAtributo ta= (TransferAtributo) v.get(1);
@@ -597,7 +589,7 @@ public class ServiciosEntidades {
 		return;		
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void renombraUnique(Vector v) {
 		TransferEntidad te = (TransferEntidad) v.get(0);
 		TransferAtributo ta= (TransferAtributo) v.get(1);

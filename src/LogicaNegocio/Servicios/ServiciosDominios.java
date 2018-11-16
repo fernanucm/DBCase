@@ -12,6 +12,7 @@ import Controlador.TC;
 import LogicaNegocio.Transfers.TransferDominio;
 import Persistencia.DAODominios;
 import Presentacion.Lenguajes.Lenguaje;
+import Utilidades.TipoDominio;
 
 public class ServiciosDominios {
 
@@ -25,8 +26,16 @@ public class ServiciosDominios {
 	
 
 	public void ListaDeDominios(){
+		Object[] items = Utilidades.TipoDominio.values();
 		DAODominios dao = new DAODominios(this.controlador.getPath());
 		Vector <TransferDominio> lista_dominios = dao.ListaDeDominios();
+		for(int i = 0; i < items.length;i++){
+			TransferDominio td = new TransferDominio();
+			td.setNombre(items[i].toString());
+			td.setTipoBase((TipoDominio)items[i]);
+			td.setListaValores(null);
+			lista_dominios.add(td);
+		}
 		controlador.mensajeDesde_SD(TC.SD_ListarDominios_HECHO, lista_dominios);
 	}
 	
@@ -39,7 +48,7 @@ public class ServiciosDominios {
 	 * Si el nombre ya existe -> SD_InsertarDominio_ERROR_NombreDeDominioYaExiste
 	 * Si al usar el DAODominio se produce un error -> SD_InsertarDominio_ERROR_DAO
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void anadirDominio(TransferDominio td){
 		if (td.getNombre().isEmpty()){
 			controlador.mensajeDesde_SD(TC.SD_InsertarDominio_ERROR_NombreDeDominioEsVacio, null);
@@ -79,7 +88,7 @@ public class ServiciosDominios {
 	 * Renombrar un dominio
 	 * -> Recibe el dominio y el nuevo nombre
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void renombrarDominio(Vector v){
 		TransferDominio td = (TransferDominio) v.get(0);
 		String nuevoNombre = (String) v.get(1);
@@ -227,7 +236,7 @@ public class ServiciosDominios {
 	   	}
 
 	
-	@SuppressWarnings({ "unchecked" })
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private boolean comprobarTipoBase(TransferDominio td){
 		Vector listaValores = td.getListaValores();
 		Utilidades.TipoDominio tipoBase = td.getTipoBase();

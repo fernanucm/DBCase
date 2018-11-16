@@ -51,7 +51,7 @@ public class ServiciosRelaciones {
 	 * Si el nombre ya existe -> SR_InsertarRelacion_ERROR_NombreDeRelacionYaExiste
 	 * Si al usar el DAORelaciones se produce un error -> SR_InsertarRelacion_ERROR_DAO
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public void anadirRelacion(TransferRelacion tr){
 		if (tr.getNombre().isEmpty()){
 			controlador.mensajeDesde_SR(TC.SR_InsertarRelacion_ERROR_NombreDeRelacionEsVacio, null);
@@ -92,7 +92,7 @@ public class ServiciosRelaciones {
 	 * Si el nombre ya existe -> SR_InsertarRelacion_ERROR_NombreDeRelacionYaExiste
 	 * Si al usar el DAORelaciones se produce un error -> SR_InsertarRelacion_ERROR_DAO
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public boolean SePuedeAnadirRelacion(TransferRelacion tr){
 		if (tr.getNombre().isEmpty()){
 			controlador.mensajeDesde_SR(TC.SR_InsertarRelacion_ERROR_NombreDeRelacionEsVacio, null);
@@ -128,7 +128,7 @@ public class ServiciosRelaciones {
 	/*
 	 * Anadir una relacion IsA
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public void anadirRelacionIsA(TransferRelacion tr){
 		tr.setNombre("IsA");
 		tr.setTipo("IsA");
@@ -168,7 +168,7 @@ public class ServiciosRelaciones {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public void renombrarRelacion(TransferRelacion tr, String nuevoNombre){
 		Vector<Object> v = new Vector<Object>();
 		v.add(tr);
@@ -324,7 +324,7 @@ public class ServiciosRelaciones {
 	 * Anadir un atributo a una relacion
 	 * -> en v viene la relacion (pos 0) y el atributo (pos 1)
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void anadirAtributo(Vector v){
 		TransferRelacion tr = (TransferRelacion) v.get(0);
 		TransferAtributo ta = (TransferAtributo) v.get(1);
@@ -368,7 +368,7 @@ public class ServiciosRelaciones {
 		this.controlador.mensajeDesde_SR(TC.SR_AnadirAtributoARelacion_HECHO, v); 
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void anadirRestriccion(Vector v){
 		TransferRelacion tr = (TransferRelacion) v.get(0);
 		String restriccion = (String) v.get(1);
@@ -402,7 +402,7 @@ public class ServiciosRelaciones {
 		return;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void quitarRestriccion(Vector v){
 		TransferRelacion te = (TransferRelacion) v.get(0);
 		String restriccion = (String) v.get(1);
@@ -442,7 +442,7 @@ public class ServiciosRelaciones {
 		return;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public void setRestricciones(Vector v) {
 		Vector restricciones = (Vector) v.get(0);
 		TransferRelacion tr = (TransferRelacion) v.get(1);
@@ -464,7 +464,7 @@ public class ServiciosRelaciones {
 		return;		
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void anadirUnique(Vector v){
 		TransferRelacion tr = (TransferRelacion) v.get(0);
 		String unique = (String) v.get(1);
@@ -498,7 +498,7 @@ public class ServiciosRelaciones {
 		return;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void quitarUnique(Vector v){
 		TransferRelacion tr = (TransferRelacion) v.get(0);
 		String unique = (String) v.get(1);
@@ -537,7 +537,7 @@ public class ServiciosRelaciones {
 		return;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public void setUniques(Vector v) {
 		Vector uniques = (Vector) v.get(0);
 		TransferRelacion tr = (TransferRelacion) v.get(1);
@@ -561,7 +561,7 @@ public class ServiciosRelaciones {
 	/*
 	 * Quitar/poner un Unique unitario a la entidad
 	 * */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void setUniqueUnitario(Vector v) {
 		TransferRelacion tr = (TransferRelacion) v.get(0);
 		TransferAtributo ta= (TransferAtributo) v.get(1);
@@ -596,7 +596,7 @@ public class ServiciosRelaciones {
 		return;		
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void eliminarReferenciasUnitario(Vector v) {
 		TransferRelacion tr = (TransferRelacion) v.get(0);
 		TransferAtributo ta= (TransferAtributo) v.get(1);
@@ -644,7 +644,7 @@ public class ServiciosRelaciones {
 		return;		
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void renombraUnique(Vector v) {
 		TransferRelacion tr = (TransferRelacion) v.get(0);
 		TransferAtributo ta= (TransferAtributo) v.get(1);
@@ -772,7 +772,7 @@ public class ServiciosRelaciones {
 	/*
 	 * Anadir una entidad a una relacion
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void anadirEntidadARelacion(Vector v){
 		// Sacamos los componentes del vector que sabemos que son correctos
 		TransferRelacion tr = (TransferRelacion) v.get(0);
@@ -847,7 +847,7 @@ public class ServiciosRelaciones {
 	/*
 	 * Editar la aridad de una entidad en una relacion
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void editarAridadEntidad(Vector<Object> v){
 		// Sacamos los componentes del vector que sabemos que son correctos
 		TransferRelacion tr = (TransferRelacion) v.get(0);
@@ -919,7 +919,7 @@ public class ServiciosRelaciones {
 	 * Forzar la aridad de una entidad en una relacion para que sea uno a uno
 	 */
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public void aridadEntidadUnoUno(Vector v){
 		//DAORelaciones daoRelaciones = new DAORelaciones(this.controlador.getPath());
 		controlador.mensajeDesde_SR(TC.SR_AridadEntidadUnoUno_HECHO, v);

@@ -12,7 +12,6 @@ import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
-import javax.swing.UIManager;
 
 import LogicaNegocio.Servicios.ServiciosAtributos;
 import LogicaNegocio.Servicios.ServiciosDominios;
@@ -27,34 +26,35 @@ import LogicaNegocio.Transfers.TransferEntidad;
 import LogicaNegocio.Transfers.TransferRelacion;
 import Persistencia.EntidadYAridad;
 import Presentacion.GUIPrincipal;
-import Presentacion.GUI_AnadirAtributoEntidad;
-import Presentacion.GUI_AnadirAtributoRelacion;
-import Presentacion.GUI_AnadirEntidadARelacion;
-import Presentacion.GUI_AnadirEntidadHija;
-import Presentacion.GUI_AnadirSubAtributoAtributo;
-import Presentacion.GUI_Conexion;
-import Presentacion.GUI_EditarCardinalidadEntidad;
-import Presentacion.GUI_EditarDominioAtributo;
-import Presentacion.GUI_EstablecerEntidadPadre;
-import Presentacion.GUI_InsertarDominio;
-import Presentacion.GUI_InsertarEntidad;
-import Presentacion.GUI_InsertarRelacion;
-import Presentacion.GUI_InsertarRestriccionAAtributo;
-import Presentacion.GUI_InsertarRestriccionAEntidad;
-import Presentacion.GUI_InsertarRestriccionARelacion;
-import Presentacion.GUI_ModificarDominio;
-import Presentacion.GUI_QuitarEntidadARelacion;
-import Presentacion.GUI_QuitarEntidadHija;
-import Presentacion.GUI_QuitarEntidadPadre;
-import Presentacion.GUI_RenombrarAtributo;
-import Presentacion.GUI_RenombrarDominio;
-import Presentacion.GUI_RenombrarEntidad;
-import Presentacion.GUI_RenombrarRelacion;
-import Presentacion.GUI_SeleccionarConexion;
-import Presentacion.GUI_TablaUniqueEntidad;
-import Presentacion.GUI_TablaUniqueRelacion;
-import Presentacion.GUI_WorkSpace;
+import Presentacion.GUIFrames.GUI_AnadirAtributoEntidad;
+import Presentacion.GUIFrames.GUI_AnadirAtributoRelacion;
+import Presentacion.GUIFrames.GUI_AnadirEntidadARelacion;
+import Presentacion.GUIFrames.GUI_AnadirEntidadHija;
+import Presentacion.GUIFrames.GUI_AnadirSubAtributoAtributo;
+import Presentacion.GUIFrames.GUI_Conexion;
+import Presentacion.GUIFrames.GUI_EditarCardinalidadEntidad;
+import Presentacion.GUIFrames.GUI_EditarDominioAtributo;
+import Presentacion.GUIFrames.GUI_EstablecerEntidadPadre;
+import Presentacion.GUIFrames.GUI_InsertarDominio;
+import Presentacion.GUIFrames.GUI_InsertarEntidad;
+import Presentacion.GUIFrames.GUI_InsertarRelacion;
+import Presentacion.GUIFrames.GUI_InsertarRestriccionAAtributo;
+import Presentacion.GUIFrames.GUI_InsertarRestriccionAEntidad;
+import Presentacion.GUIFrames.GUI_InsertarRestriccionARelacion;
+import Presentacion.GUIFrames.GUI_ModificarDominio;
+import Presentacion.GUIFrames.GUI_QuitarEntidadARelacion;
+import Presentacion.GUIFrames.GUI_QuitarEntidadHija;
+import Presentacion.GUIFrames.GUI_QuitarEntidadPadre;
+import Presentacion.GUIFrames.GUI_RenombrarAtributo;
+import Presentacion.GUIFrames.GUI_RenombrarDominio;
+import Presentacion.GUIFrames.GUI_RenombrarEntidad;
+import Presentacion.GUIFrames.GUI_RenombrarRelacion;
+import Presentacion.GUIFrames.GUI_SeleccionarConexion;
+import Presentacion.GUIFrames.GUI_TablaUniqueEntidad;
+import Presentacion.GUIFrames.GUI_TablaUniqueRelacion;
+import Presentacion.GUIFrames.GUI_WorkSpace;
 import Presentacion.Lenguajes.Lenguaje;
+import Presentacion.Theme.Theme;
 import Utilidades.ImagePath;
 import Utilidades.PanelOpciones;
 import Utilidades.PanelOpcionesPequeno;
@@ -110,6 +110,7 @@ public class Controlador {
 	private File fileguardar;
 	private PanelOpciones panelOpciones;
 	private PanelOpcionesPequeno panelOpcionesPeque;
+	private Theme theme;
 	
 	public Controlador() {
 
@@ -199,21 +200,23 @@ public class Controlador {
 		panelOpcionesPeque= new PanelOpcionesPequeno();
 
 		// GUIPrincipal
-		theGUIPrincipal = new GUIPrincipal();
+		theme = new Theme();
+		theGUIPrincipal = new GUIPrincipal(theme);
 		theGUIPrincipal.setControlador(this);
-		
-		//Enter sobre el focus
-		UIManager.put("Button.defaultButtonFollowsFocus", Boolean.TRUE);
-
 	}
-
+	
+	
+	
 	public static void main(String[] args) {
+		
 		// Obtenemos configuración inicial (si la hay)
 		ConfiguradorInicial conf = new ConfiguradorInicial();
 		conf.leerFicheroConfiguracion();
 		
 		// Obtenemos el lenguaje en el que vamos a trabajar
 		Lenguaje.encuentraLenguajes();
+		Theme.loadThemes();
+		Theme.changeTheme(conf.obtenTema());
 		
 		if (conf.existeFichero()){
 			Vector<String> lengs = Lenguaje.obtenLenguajesDisponibles();
@@ -224,10 +227,9 @@ public class Controlador {
 				k++;
 			}
 			
-			if (encontrado)
-				Lenguaje.cargaLenguaje(conf.obtenLenguaje());
-			else
-				Lenguaje.cargaLenguajePorDefecto();
+			if (encontrado) Lenguaje.cargaLenguaje(conf.obtenLenguaje());
+			else Lenguaje.cargaLenguajePorDefecto();
+			
 			
 		}else{
 			Lenguaje.cargaLenguajePorDefecto();
@@ -270,7 +272,7 @@ public class Controlador {
 			Dimension tamano = this.getTheGUIPrincipal().getSize();
 			Point localizacion = this.getTheGUIPrincipal().getLocation();
 			theGUIPrincipal.dispose();
-			theGUIPrincipal = new GUIPrincipal();
+			theGUIPrincipal = new GUIPrincipal(theme);
 			theGUIPrincipal.setControlador(this);
 			this.getTheGUIPrincipal().setActiva();
 			theGUIPrincipal.setSize(tamano);
@@ -327,7 +329,7 @@ public class Controlador {
 			
 			
 			//new de todos
-			theGUIPrincipal = new GUIPrincipal();
+			theGUIPrincipal = new GUIPrincipal(theme);
 			theGUIInsertarDominio = new GUI_InsertarDominio();
 			theGUIInsertarEntidad = new GUI_InsertarEntidad();
 			theGUIInsertarRelacion = new GUI_InsertarRelacion();
@@ -425,11 +427,13 @@ public class Controlador {
 					Lenguaje.getMensaje(Lenguaje.OF_XMLFILES)+"\n"+this.getPath(),Lenguaje.getMensaje(Lenguaje.DBCASE),JOptionPane.ERROR_MESSAGE);
 			break;
 		}
+		default:
+			break;
 		}// Switch
 	}
 
 	// Mensajes que manda el Panel de Diseño al Controlador
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void mensajeDesde_PanelDiseno(TC mensaje, Object datos){
 		switch(mensaje){
 		case PanelDiseno_Click_InsertarEntidad:{
@@ -1214,12 +1218,15 @@ public class Controlador {
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_MostrarDatosEnPanelDeInformacion, arbol);
 			break;
 		}
+		default:
+			break;
 		
 		
 		} // switch 
 	}
 
 	// Mensajes que manda la GUIPrincipal al Controlador
+	@SuppressWarnings("static-access")
 	public void mensajeDesde_GUIPrincipal(TC mensaje, Object datos){
 		switch(mensaje){
 		case GUIPrincipal_ObtenDBMSDisponibles: {
@@ -1341,7 +1348,7 @@ public class Controlador {
 						conf = new ConfiguradorInicial(
 							Lenguaje.getIdiomaActual(),
 							this.getTheGUIPrincipal().getConexionActual().getRuta(),
-							ruta
+							ruta, theme.getThemeName()
 						);
 				
 						conf.guardarFicheroCofiguracion();
@@ -1361,7 +1368,7 @@ public class Controlador {
 							conf = new ConfiguradorInicial(
 								Lenguaje.getIdiomaActual(),
 								this.getTheGUIPrincipal().getConexionActual().getRuta(),
-								ruta
+								ruta, theme.getThemeName()
 						);
 				
 				conf.guardarFicheroCofiguracion();
@@ -1379,7 +1386,7 @@ public class Controlador {
 				conf = new ConfiguradorInicial(
 					Lenguaje.getIdiomaActual(),
 					this.getTheGUIPrincipal().getConexionActual().getRuta(),
-					ruta
+					ruta, theme.getThemeName()
 				);
 		
 				conf.guardarFicheroCofiguracion();
@@ -1595,6 +1602,42 @@ public class Controlador {
 			
 			break;
 		}
+		case GUI_Principal_CambiarTema:{
+			// Extraer lenguaje seleccionado
+			@SuppressWarnings("unused")
+			String lenguaje = (String)datos;
+			System.out.println("Cambiando tema...");
+			theme.changeTheme((String)datos);
+			/* guardar, "guardado", tempguarda... y todo eso. guardar en un temporal nuevo y luego abrirlo para dejarlo como estuviese*/ 
+			boolean cambios = this.cambios;
+			boolean enableCerrar = this.theGUIPrincipal.getEnableCerrar();
+			boolean enableGuardar = this.theGUIPrincipal.getEnableGuardar();
+			boolean enableGuardarComo = this.theGUIPrincipal.getEnableGuardarComo();
+			boolean visiblePrincipal = this.theGUIPrincipal.getVisiblePrincipal();
+			File fileguardar = this.fileguardar;
+			try{
+				if (filetemp.exists()){
+					File guardado =File.createTempFile("dbcase", "xml");
+					FileCopy(filetemp.getAbsolutePath(), guardado.getAbsolutePath());
+					mensajeDesde_GUIWorkSpace(TC.GUI_WorkSpace_Click_Abrir, guardado.getAbsolutePath());
+					guardado.delete();
+				}
+				else{
+					this.getTheGUIWorkSpace().nuevoTemp();
+				}
+			}
+			catch(IOException e){
+				
+			}
+					
+			this.fileguardar=fileguardar;
+			this.cambios= cambios;
+			this.theGUIPrincipal.enableCerrar(enableCerrar);
+			this.theGUIPrincipal.enableGuardar(enableGuardar);
+			this.theGUIPrincipal.enableGuardarComo(enableGuardarComo);
+			this.theGUIPrincipal.visiblePrincipal(visiblePrincipal);
+			break;
+		}
 		/*
 		 * Limpiar pantalla
 		 */
@@ -1632,12 +1675,14 @@ public class Controlador {
 			//this.getTheGUIConfigurarConexionDBMS().setConexion(tc);
 			//this.getTheGUIConfigurarConexionDBMS().setActiva();
 		}
+		default:
+			break;
 
 		} // switch
 	}
 
 	// Mensajes que le mandan las GUIs al controlador
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void mensajeDesde_GUI(TC mensaje, Object datos){
 		switch(mensaje){
 		case GUIInsertarEntidad_Click_BotonInsertar:{
@@ -2028,12 +2073,14 @@ public class Controlador {
 			this.getTheServiciosSistema().compruebaConexion(tc);
 			break;
 		}
+		default:
+			break;
 		
 		} // Switch	
 	}
 
 	// Mensajes que mandan los Servicios de Entidades al Controlador
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void mensajeDesde_SE(TC mensaje, Object datos){
 		switch(mensaje){
 
@@ -2408,11 +2455,13 @@ public class Controlador {
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_setUniqueUnitarioEntidad, clon_entidad);
 			break;
 		}
+		default:
+			break;
 		} // switch
 	}
 
 	// Mensajes que mandan los Servicios de Dominios al Controlador
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void mensajeDesde_SD(TC mensaje, Object datos){
 		switch(mensaje){
 
@@ -2604,11 +2653,13 @@ public class Controlador {
 				"Algún valor no es correcto.");
 			break;
 		}
+		default:
+			break;
 		} // switch
 	}
 	
 	// Mensajes que mandan los Servicios de Atributos al Controlador
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void mensajeDesde_SA(TC mensaje, Object datos){
 		switch(mensaje){
 
@@ -2967,13 +3018,15 @@ public class Controlador {
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_MoverAtributo_HECHO, ta);
 			break;
 		}
+		default:
+			break;
 
 		} // switch
 	}
 
 	
 	// Mensajes que mandan los Servicios de Relaciones al Controlador
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void mensajeDesde_SR(TC mensaje, Object datos){
 		switch(mensaje){
 
@@ -3669,12 +3722,15 @@ public class Controlador {
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_setUniqueUnitarioRelacion, clon_relacion);
 			break;
 		}
+		default:
+			break;
 
 	  }
 	}
 
 
 	// Mensajes que mandan los Servicios del Sistema al Controlador
+	@SuppressWarnings("incomplete-switch")
 	public void mensajeDesde_SS(TC mensaje, Object datos){
 		switch(mensaje){
 		case SS_Validacion:{
@@ -3765,7 +3821,7 @@ public class Controlador {
 	 * Getters y Setters
 	 */
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void setListaAtributos(Vector datos) {
 		this.listaAtributos = datos;
 		

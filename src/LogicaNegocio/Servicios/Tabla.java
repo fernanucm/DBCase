@@ -7,7 +7,7 @@ import java.util.Vector;
 import LogicaNegocio.Transfers.TransferConexion;
 import Utilidades.ConectorDBMS.ConectorDBMS;
 import Utilidades.ConectorDBMS.FactoriaConectores;
-//la clase tabla, almacenara las tablas a traducir del diseño al script.
+//la clase tabla, almacenara las tablas a traducir del disenio al script.
 public class Tabla {
 
 	/* Se almacena cada atributo y su dominio en una pareja String[].
@@ -76,7 +76,7 @@ public class Tabla {
 		this.uniques = uniques;
 	}
 	
-	public void añadeAtributo(String nombre, String dominio,String tablaReferencia,
+	public void aniadeAtributo(String nombre, String dominio,String tablaReferencia,
 														Hashtable<Integer,Enumerado> dominios,
 														boolean unique, boolean notNull){
 		String [] trio=new String[5];
@@ -90,7 +90,7 @@ public class Tabla {
 		if (notNull) trio[4] = "1";
 		else trio[4] = "0";
 		
-		// Comprobar si el dominio pertenece a dominios, y si es así, añadir la referencia
+		// Comprobar si el dominio pertenece a dominios, y si es así, aniadir la referencia
 		boolean encontrado = false;
 		Iterator<Enumerado> doms = dominios.values().iterator();
 		while (!encontrado && doms.hasNext()){
@@ -104,31 +104,31 @@ public class Tabla {
 		
 		atributos.add(trio);
 		if (encontrado) 
-			añadeClaveForanea(trio[0], trio[1], trio[2]);
+			aniadeClaveForanea(trio[0], trio[1], trio[2]);
 	}
 	
-	public void añadeListaAtributos(Vector<String[]> listado, Hashtable<Integer,Enumerado> dominios){
+	public void aniadeListaAtributos(Vector<String[]> listado, Hashtable<Integer,Enumerado> dominios){
 		for (int i=0;i<listado.size();i++){
 			String[] trio = listado.elementAt(i);
 			if (trio.length < 4){
-				añadeAtributo(trio[0], trio[1], trio[2], dominios,
+				aniadeAtributo(trio[0], trio[1], trio[2], dominios,
 						false,
 						false);
 			}else{
-				añadeAtributo(trio[0], trio[1], trio[2], dominios,
+				aniadeAtributo(trio[0], trio[1], trio[2], dominios,
 								trio[3].equalsIgnoreCase("1"),
 								trio[4].equalsIgnoreCase("1"));
 			}
 		}
 	}
 	
-	public void añadeListaClavesPrimarias(Vector<String[]> listado){
+	public void aniadeListaClavesPrimarias(Vector<String[]> listado){
 		for (int i=0;i<listado.size();i++){
 			primaries.add(listado.elementAt(i));
 		}
 	}
 	
-	public void añadeListaClavesForaneas(Vector<String[]> listado,String nombreEntidad, String[] atributosReferenciados){
+	public void aniadeListaClavesForaneas(Vector<String[]> listado,String nombreEntidad, String[] atributosReferenciados){
 		for (int i=0;i<listado.size();i++){
 			String []trio=new String[3];
 			String []par=listado.elementAt(i);
@@ -139,7 +139,7 @@ public class Tabla {
 		}
 	}
 
-	public void añadeClavePrimaria(String nombre,String dominio,String tablaReferencia){
+	public void aniadeClavePrimaria(String nombre,String dominio,String tablaReferencia){
 		String [] trio=new String[3];
 		trio[0]=nombre;
 		trio[1]=dominio;
@@ -147,7 +147,7 @@ public class Tabla {
 		primaries.add(trio);
 	}
 	
-	private void añadeClaveForanea(String nombre, String dominio,String tablaDeReferencia){
+	private void aniadeClaveForanea(String nombre, String dominio,String tablaDeReferencia){
 		String [] trio=new String[3];
 		trio[0]=nombre;
 		trio[1]=dominio;
@@ -155,7 +155,7 @@ public class Tabla {
 		foreigns.add(trio);
 	}
 	
-	private void añadeAtributo(String nombre, String dominio,String tablaReferencia, 
+	private void aniadeAtributo(String nombre, String dominio,String tablaReferencia, 
 														boolean unique, boolean notNull){
 		String [] trio=new String[5];
 		trio[0]=nombre;
@@ -175,19 +175,19 @@ public class Tabla {
 		// Crea la tabla con el mismo nombre
 		Tabla t = new Tabla(ponGuionesBajos(this.nombreTabla));
 		
-		// Añade todos los atributos
+		// Aniade todos los atributos
 		for (int i=0;i<atributos.size();i++){
 			String repe="";
 			if (this.estaRepe(atributos.elementAt(i)[0], atributos)) 
 				repe +="_"+atributos.elementAt(i)[2];
-			t.añadeAtributo(ponGuionesBajos(atributos.elementAt(i)[0]+repe), 
+			t.aniadeAtributo(ponGuionesBajos(atributos.elementAt(i)[0]+repe), 
 							atributos.elementAt(i)[1], 
 							ponGuionesBajos(atributos.elementAt(i)[2]),
 							atributos.elementAt(i)[3].equalsIgnoreCase("1"),
 							atributos.elementAt(i)[4].equalsIgnoreCase("1"));
 		}
 		
-		// Añade las claves primarias
+		// Aniade las claves primarias
 		if (!primaries.isEmpty()){
 			for (int i=0;i<primaries.size();i++){
 				String repe ="";
@@ -200,13 +200,13 @@ public class Tabla {
 					}
 				}
 				
-				t.añadeClavePrimaria(ponGuionesBajos(primaries.elementAt(i)[0]+repe), 
+				t.aniadeClavePrimaria(ponGuionesBajos(primaries.elementAt(i)[0]+repe), 
 									primaries.elementAt(i)[1], 
 									ponGuionesBajos(primaries.elementAt(i)[2]));
 			}
 		}
 		
-		// Añade las claves foráneas
+		// Aniade las claves foráneas
 		if (!foreigns.isEmpty()){
 			for (int i=0;i<foreigns.size();i++){
 				String repe="";
@@ -219,13 +219,13 @@ public class Tabla {
 					}
 				}
 				
-				t.añadeClaveForanea(ponGuionesBajos(foreigns.elementAt(i)[0]+repe), 
+				t.aniadeClaveForanea(ponGuionesBajos(foreigns.elementAt(i)[0]+repe), 
 									foreigns.elementAt(i)[1], 
 									ponGuionesBajos(foreigns.elementAt(i)[2]));
 			}
 		}
 		
-		// Añade las unique
+		// Aniade las unique
 		if (!uniques.isEmpty()) {
 			for (int i = 0; i < uniques.size(); i++) {
 				// Extraer tabla a la que referencian
@@ -249,7 +249,7 @@ public class Tabla {
 						unis[m] += "_" + tabla;
 					}
 					
-					// Añadir a la lista de uniques
+					// Aniadir a la lista de uniques
 					if (m == 0) {
 						resul += ponGuionesBajos(unis[m].trim());
 					}else{
@@ -333,7 +333,7 @@ public class Tabla {
 		return cadena;
 	}
 	
-	public void añadeListaAtributosComoSlave(Vector<String[]> listado){
+	public void aniadeListaAtributosComoSlave(Vector<String[]> listado){
 		for (int i=0;i<listado.size();i++){
 			String[]par=new String[2];
 			String[]aux=listado.elementAt(i);

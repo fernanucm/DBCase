@@ -769,7 +769,6 @@ public class Lenguaje {
 		case WARNING_DELETE_WEAK_ENTITY:texto = _textos.get("warningDeleteWeakEntity");break;
 		case WARNING_DELETE_WEAK_RELATION:texto = _textos.get("warningDeleteWeakRelation");break;
 		case REPEATED_ENTITY_REL:texto = _textos.get("repeatedEntyRel");break;
-		//TODO
 		//SERVICIOS
 		case EMPTY_VALUE: texto = _textos.get("emptyValue"); break;//"Uno de los valores es vacío."
 		case INCORRECT_NUMBER: texto = _textos.get("incorrectNumber"); break;//"Uno de los valores no es correcto. Introduzca valores numéricos enteros"

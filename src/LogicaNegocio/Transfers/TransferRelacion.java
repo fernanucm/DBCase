@@ -6,20 +6,16 @@ import java.awt.geom.Point2D;
 import java.util.Vector;
 
 import Persistencia.EntidadYAridad;
-
+@SuppressWarnings("rawtypes")
 public class TransferRelacion extends Transfer {
 
 	private int idRelacion;
 	private String nombre;
 	private String tipo;
 	private String rol;
-	@SuppressWarnings("unchecked")
 	private Vector listaEntidadesYAridades;
-	@SuppressWarnings("unchecked")
 	private Vector listaAtributos;
-	@SuppressWarnings("unchecked")
 	private Vector listaRestricciones;
-	@SuppressWarnings("unchecked")
 	private Vector listaUniques;
 	private Point2D posicion;
 
@@ -27,7 +23,6 @@ public class TransferRelacion extends Transfer {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	public TransferRelacion clonar() {
 		TransferRelacion clon_tr = new TransferRelacion();
 		clon_tr.setIdRelacion(this.getIdRelacion());
@@ -119,29 +114,28 @@ public class TransferRelacion extends Transfer {
 		// Si el tamaño del nombre es pequeño dibuja elipse standard
 		if (this.nombre.length() < 8) {
 			Polygon p = new Polygon();
-			p.addPoint(-40, 0);
-			p.addPoint(0, -20);
-			p.addPoint(40, 0);
-			p.addPoint(0, 20);
+			p.addPoint(-50, 0);
+			p.addPoint(0, -30);
+			p.addPoint(50, 0);
+			p.addPoint(0, 30);
 			return p;
 		}
 		// Si es grande ajusta el tamaño al nombre
-		int anchura = this.nombre.length() * 10 / 2;
-		// return new Rectangle(-anchura,-15,anchura * 2,30);Polygon p = new
-		// Polygon();
+		int anchura = this.nombre.length() * 11 / 2;
+		int altura = this.nombre.length() * 5 / 2;
 		Polygon p = new Polygon();
 		p.addPoint(-anchura, 0);
-		p.addPoint(0, -20);
+		p.addPoint(0, -altura);
 		p.addPoint(anchura, 0);
-		p.addPoint(0, 20);
+		p.addPoint(0, altura);
 		return p;
 	}
 
 	private Shape toShapeIsA() {
 		Polygon p = new Polygon();		
-		p.addPoint(-25, -15);
-		p.addPoint(25, -15);
-		p.addPoint(0, 28);
+		p.addPoint(-35, -23);
+		p.addPoint(35, -23);
+		p.addPoint(0, 35);
 		return p;
 	}
 
@@ -151,19 +145,20 @@ public class TransferRelacion extends Transfer {
 		// Si el tamaño del nombre es pequeño dibuja rombo standard
 		if (this.nombre.length() < 8) {
 			figura = new Polygon();
-			figura.addPoint(-45, 0);
-			figura.addPoint(0, -25);
-			figura.addPoint(45, 0);
-			figura.addPoint(0, 25);
+			figura.addPoint(-57, 0);
+			figura.addPoint(0, -35);
+			figura.addPoint(57, 0);
+			figura.addPoint(0, 35);
 			return figura;
 		}
 		// Si es grande ajusta el tamaño al nombre
-		int anchura = (this.nombre.length() * 10 / 2) + 5;
+		int anchura = (this.nombre.length() * 11 / 2) + 7;
+		int altura = (this.nombre.length() * 5 / 2) + 5;
 		figura = new Polygon();
 		figura.addPoint(-anchura, 0);
-		figura.addPoint(0, -30);
+		figura.addPoint(0, -altura);
 		figura.addPoint(anchura, 0);
-		figura.addPoint(0, 30);
+		figura.addPoint(0, altura);
 		return figura;
 	}
 
@@ -175,22 +170,18 @@ public class TransferRelacion extends Transfer {
 		this.idRelacion = idRelacion;
 	}
 
-	@SuppressWarnings("unchecked")
 	public Vector getListaAtributos() {
 		return listaAtributos;
 	}
 
-	@SuppressWarnings("unchecked")
 	public void setListaAtributos(Vector listaAtributos) {
 		this.listaAtributos = listaAtributos;
 	}
 
-	@SuppressWarnings("unchecked")
 	public Vector getListaEntidadesYAridades() {
 		return listaEntidadesYAridades;
 	}
 
-	@SuppressWarnings("unchecked")
 	public void setListaEntidadesYAridades(Vector listaEntidadesYAridades) {
 		this.listaEntidadesYAridades = listaEntidadesYAridades;
 	}
@@ -226,19 +217,15 @@ public class TransferRelacion extends Transfer {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-	@SuppressWarnings("unchecked")
 	public Vector getListaRestricciones() {
 		return listaRestricciones;
 	}
-	@SuppressWarnings("unchecked")
 	public void setListaRestricciones(Vector listaRestricciones) {
 		this.listaRestricciones = listaRestricciones;
 	}
-	@SuppressWarnings("unchecked")
 	public Vector getListaUniques() {
 		return listaUniques;
 	}
-	@SuppressWarnings("unchecked")
 	public void setListaUniques(Vector listaUniques) {
 		this.listaUniques = listaUniques;
 	}

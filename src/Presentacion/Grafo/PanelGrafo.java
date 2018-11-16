@@ -2,10 +2,13 @@
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Paint;
+import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -22,11 +25,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
-
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -35,10 +38,8 @@ import javax.swing.JSeparator;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultMutableTreeNode;
-
 import org.apache.commons.collections15.Transformer;
 import org.apache.commons.collections15.functors.ConstantTransformer;
-
 import Controlador.Controlador;
 import Controlador.TC;
 import LogicaNegocio.Transfers.Transfer;
@@ -47,12 +48,14 @@ import LogicaNegocio.Transfers.TransferEntidad;
 import LogicaNegocio.Transfers.TransferRelacion;
 import Persistencia.EntidadYAridad;
 import Presentacion.Lenguajes.Lenguaje;
+import Presentacion.Theme.Theme;
 import Utilidades.ImagePath;
 import edu.uci.ics.jung.algorithms.layout.GraphElementAccessor;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.UndirectedSparseMultigraph;
 import edu.uci.ics.jung.graph.util.EdgeIndexFunction;
 import edu.uci.ics.jung.visualization.DefaultVertexLabelRenderer;
+import edu.uci.ics.jung.visualization.EdgeLabelRenderer;
 import edu.uci.ics.jung.visualization.RenderContext;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.AbstractPopupGraphMousePlugin;
@@ -97,13 +100,14 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 	protected Map<Integer,TransferEntidad> entidades;
 	protected Map<Integer,TransferAtributo> atributos;
 	protected Map<Integer,TransferRelacion> relaciones;
+
+	private Theme theme;
 		
 	@SuppressWarnings("unchecked")
 	public PanelGrafo(Vector<TransferEntidad> entidades, Vector<TransferAtributo> atributos,
-			Vector<TransferRelacion> relaciones){
-
+			Vector<TransferRelacion> relaciones, Theme theme){
+		this.theme = theme;
 		this.setLayout(new GridLayout(1,1));
-		
 		//Para que los grafos admitan paralelas el tipo de grafo debe ser este:
 		graph = new UndirectedSparseMultigraph<Transfer, Object>();
 		// Inicializa el layout, el visualizador y el renderer
@@ -188,19 +192,18 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		// this class will provide both label drawing and vertex shapes
 		LabelRenderer<Transfer,Object> vlasr = new LabelRenderer<Transfer, Object>();
 		vv.setDoubleBuffered(true); // Incrementa rendimiento
-		vv.setBackground(Color.white);//Color del panel grande sobre el que se pinta
-		vv.setForeground(Color.black);//Color con el que se escribe:las cardinalidades, lo de dentro de las entidades/relaciones...
-
 		
-		Object oj = vv.getRenderer().getEdgeLabelRenderer();
 		
-		MiBasicEdgeLabelRenderer mio = new MiBasicEdgeLabelRenderer();
-		vv.getRenderer().setEdgeLabelRenderer(mio);
+		
+		//Color del panel grande sobre el que se pinta
+		vv.setBackground(theme.background());
+		
+		//Renderiza las lineas que unen los elementos
+		vv.getRenderer().setEdgeLabelRenderer(new MiBasicEdgeLabelRenderer<Transfer, Object>());
 
 		RenderContext<Transfer, Object> rc = vv.getRenderContext();
 		rc.getEdgeLabelRenderer();
-		rc.setLabelOffset( 10 );
-		
+		rc.setLabelOffset(10);
 		rc.getParallelEdgeIndexFunction();
 		
 		EdgeIndexFunction<Transfer, Object> mp = MiParallelEdgeIndexFunction.getInstance(); 
@@ -212,7 +215,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		//rc.setEdgeLabelRenderer((EdgeLabelRenderer) new MiBasicEdgeLabelRenderer());
 		
 		
-		// customize the render context
+		// Escribe el texto del elemento
 		vv.getRenderContext().setVertexLabelTransformer(new Transformer<Transfer, String>(){
 			public String transform(Transfer input) {
 				if (input instanceof TransferEntidad) {
@@ -233,45 +236,22 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 					return texto;
 				}
 				if (input instanceof TransferRelacion) {
-					return "<html><center>"+input+"<p>";
+					return "<html><center><font color=\"white\">"+input+"<p></font>";
 				}
-				/*if (input instanceof TransferDominio) {
-					return "<html><center>"+input+"<p>";
-				}*/
 				return "<html><center>"+input+"<p>";
 			}
 
 		});
-		/*)	// this chains together Transformers so that the html tags
-				// are prepended to the toString method output
-				new ChainedTransformer<Transfer,String>(new Transformer[]{
-						new ToStringLabeller<Transfer>(),
-						new Transformer<Transfer,String>() {
-							public String transform(Transfer input) {
-								if (input instanceof TransferEntidad) {
-									TransferEntidad entidad = (TransferEntidad) input;
-									return "<html><center>Entidad_"+input+"<p>";
-								}
-								if (input instanceof TransferAtributo) {
-									TransferAtributo atributo = (TransferAtributo) input;
-									return "<html><center>Atributo_"+input+"<p>";
-								}
-								if (input instanceof TransferRelacion) {
-									TransferRelacion relacion = (TransferRelacion) input;
-									return "<html><center>Relacion_"+input+"<p>";
-								}
-								return "<html><center>"+input+"<p>";
-							}}}));*/
+		
 
 		vv.getRenderContext().setVertexShapeTransformer(vlasr);
-		vv.getRenderContext().setVertexLabelRenderer(new DefaultVertexLabelRenderer(Color.blue));
-		DefaultVertexLabelRenderer vlr = new DefaultVertexLabelRenderer(Color.black);//Color de la letra al pinchar
-		vlr.setBackground(Color.blue);
-		vv.getRenderContext().setVertexLabelRenderer(vlr);
-		vv.getRenderContext().setEdgeDrawPaintTransformer(new ConstantTransformer(Color.black));		
-		vv.getRenderContext().setEdgeStrokeTransformer(new ConstantTransformer(new BasicStroke(1.8f)));//Ancho de las aristas
+		//Color de la letra al pinchar
+		vv.getRenderContext().setVertexLabelRenderer(new DefaultVertexLabelRenderer(Color.black));
+		//Ancho de las aristas
+		vv.getRenderContext().setEdgeStrokeTransformer(new ConstantTransformer<Stroke>(new BasicStroke(0.5f)));
+		//Hace las lineas rectas
 		vv.getRenderContext().setEdgeShapeTransformer(new EdgeShape.Line());
-		
+		//Escribe datos sobre las líneas
 		vv.getRenderContext().setEdgeLabelTransformer(new Transformer<Object, String>(){
 			public String transform(Object input) {
 				if (input instanceof EntidadYAridad){
@@ -290,22 +270,25 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 						strfRango = "n";
 					else strfRango = Integer.toString(dato.getFinalRango());
 					strRol = dato.getRol();
-					return "<html><center>"+ strPRango + ".." + "   "+ strfRango + "   "+ strRol+"<p>";
+					return "<html><center><font size=\"5\" face=\"avenir\">"+ strPRango + "   -   "+ strfRango + "   "+ strRol+"<p>";
 				}
 				else return null; // Si no es una relación no escribe la aridad
 			}
 		});
-		// customize the renderer
-		/*La siguiente línea define el color de las entidades, relaciones, etc,el primer color es el que aparece en todas ellas, y el
-		 * segundo es del que se pinta al seleccionarla pinchando con el ratón sobre una de ellas */		
-		vv.getRenderContext().setVertexFillPaintTransformer(
-				new PickableVertexPaintTransformer<Transfer>(vv.getPickedVertexState(),(new java.awt.Color(240, 240, 240)),
-															(new java.awt.Color(170, 170, 170)))
-				);//Si al color le añades un parametro más al final: alpha =0->transparente, alpha=1->opaco
 		
-		vv.getRenderer().setVertexRenderer(new VertexRenderer<Transfer,Object>(new java.awt.Color(240, 240, 240), new java.awt.Color(255, 255, 255), true));
+		//Color elementos
+		vv.getRenderer().setVertexRenderer(new VertexRenderer<Transfer,Object>(theme.entity(),theme.entity(), true, theme));
+		//Etiquetas de los vertices
+		vv.getRenderer().setVertexLabelRenderer(vlasr);
 		
-		vv.getRenderer().setVertexLabelRenderer(vlasr);//Etiquetas de los vertices
+		//Ancho del borde de los elementos
+		vv.getRenderContext().setVertexStrokeTransformer(new Transformer<Transfer,Stroke>(){
+			@Override
+			public Stroke transform(Transfer arg0) {
+			
+				return new BasicStroke(0.5f);
+		}});
+		
 		vv.getRenderer().setEdgeRenderer(new EdgeRenderer<Transfer,Object>());
 		// add a listener for ToolTips
 		vv.setVertexToolTipTransformer(new ToStringLabeller<Transfer>());
@@ -315,15 +298,28 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		final PopUpMenu clickDerecho = new PopUpMenu();
 
 		
-		
 		// El evento se dispara al terminar de mover un nodo
 		graphMouse.add(new PickingGraphMousePlugin<Transfer, Double>(){
 			@Override
 			public void mouseReleased(MouseEvent e) {
+				
 				SwingUtilities.invokeLater(doFocus);
 				VisualizationViewer<Transfer,Double> vv2 = (VisualizationViewer<Transfer,Double>)e.getSource();
 				//Aqui empieza lo de cambiar la fuente
 				final PickedState<Transfer> ps = vv2.getPickedVertexState();
+				
+				//Marca los elementos seleccionados con un borde más ancho
+				vv2.getRenderContext().setVertexStrokeTransformer(new Transformer<Transfer,Stroke>(){
+					@Override
+					public Stroke transform(Transfer arg0) {
+						for (Transfer t : ps.getPicked()) 							
+							if(arg0.equals(t)) {
+								System.out.println(t.getPosicion().getX() + " - " + t.getPosicion().getY());
+								return new BasicStroke(3f);
+							}
+						
+						return new BasicStroke(0.5f);
+				}});
 				
 				final int bt = e.getButton();
 				/*Esto es para que cuando pinches en el botón derecho no se quede en negrita lo que seleccionastes
@@ -344,6 +340,8 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		        ;
 		        vv2.getRenderContext().setVertexFontTransformer(vertexFontAux);
 				//Aquí termina lo de quitar lo seleccionado con el botón izquierdo
+		        
+		        
 				if(e.getModifiers() == modifiers) {
 					if(down != null) {
 						Point2D out = obtenerPuntoExacto(e);
@@ -389,8 +387,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 						            			encontrado =true;
 						            		i++;
 						            	}
-						            	//System.out.println(ps.getPicked().toString());
-						            	//System.out.println(arg0);
 						            	if(ps.getPicked().toString().equals(aux)&&(encontrado) || ps.getPicked().contains(arg0) && encontrado){					    
 						            		return new Font("Arial", Font.BOLD, 15);
 						            		

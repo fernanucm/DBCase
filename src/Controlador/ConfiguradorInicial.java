@@ -26,7 +26,10 @@ public class ConfiguradorInicial{
 	 * Lenguaje por defecto
 	 */
 	protected String _lenguaje;
-	
+	/**
+	 * Lenguaje por defecto
+	 */
+	protected String _tema;
 	/**
 	 * Gestor de bases de datos por defecto
 	 */
@@ -50,6 +53,7 @@ public class ConfiguradorInicial{
 	 * Construye un configurador inicial vacío
 	 */
 	public ConfiguradorInicial(){
+		_tema = "";
 		_lenguaje = "";
 		_gestorBBDD = "";
 		_ultimoProyecto = "";
@@ -65,7 +69,8 @@ public class ConfiguradorInicial{
 	 * @param gestorBBDD Gestor de bases de datos por defecto
 	 * @param ultimoProy Último proyecto abierto
 	 */
-	public ConfiguradorInicial(String lenguaje, String gestorBBDD, String ultimoProy){
+	public ConfiguradorInicial(String lenguaje, String gestorBBDD, String ultimoProy, String theme){
+		_tema = theme;
 		_lenguaje = lenguaje;
 		_gestorBBDD = gestorBBDD;
 		_ultimoProyecto = ultimoProy;
@@ -110,6 +115,7 @@ public class ConfiguradorInicial{
 			out.write("language=\"" + _lenguaje + "\" ");
 			out.write("database=\"" + _gestorBBDD + "\" ");
 			out.write("lastProject=\"" + _ultimoProyecto + "\" ");
+			out.write("theme=\"" + _tema + "\" ");
 			out.write(" > \n");
 			
 			// Conexiones
@@ -161,6 +167,7 @@ public class ConfiguradorInicial{
 			_lenguaje = atributos.getNamedItem("language").getNodeValue();
 			_gestorBBDD = atributos.getNamedItem("database").getNodeValue();
 			_ultimoProyecto = atributos.getNamedItem("lastProject").getNodeValue();
+			_tema = atributos.getNamedItem("theme").getNodeValue();
 			
 			// Obtener conexiones
 			NodeList connections = doc.getElementsByTagName("connection");
@@ -214,6 +221,10 @@ public class ConfiguradorInicial{
 		return _lenguaje;
 	}
 	
+	public String obtenTema(){
+		return _tema;
+	}
+	
 	public String obtenGestorBBDD(){
 		return _gestorBBDD;
 	}
@@ -232,6 +243,10 @@ public class ConfiguradorInicial{
 	
 	public void ponLenguaje(String lenguaje){
 		_lenguaje = lenguaje;
+	}
+	
+	public void ponTema(String tema){
+		_tema = tema;
 	}
 	
 	public void ponGestorBBDD(String gestorBBDD){

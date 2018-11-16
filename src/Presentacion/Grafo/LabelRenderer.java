@@ -1,5 +1,7 @@
 package Presentacion.Grafo;
 
+import java.awt.Color;
+
 /*
  * Copyright (c) 2005, the JUNG Project and the Regents of the University of
  * California All rights reserved.
@@ -12,6 +14,8 @@ package Presentacion.Grafo;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
@@ -27,6 +31,7 @@ import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.visualization.Layer;
 import edu.uci.ics.jung.visualization.RenderContext;
 import edu.uci.ics.jung.visualization.VertexLabelRenderer;
+import edu.uci.ics.jung.visualization.renderers.Renderer.Edge;
 import edu.uci.ics.jung.visualization.transform.shape.GraphicsDecorator;
 
 /**
@@ -41,7 +46,7 @@ import edu.uci.ics.jung.visualization.transform.shape.GraphicsDecorator;
  * @param <E>
  */
 public class LabelRenderer<V,E> 
-implements edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel<V,E>, Transformer<V,Shape> {
+implements edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel<V,E>, Transformer<V,Shape>{
 
 	protected Map<V,Shape> shapes = new HashMap<V,Shape>();
 
@@ -60,15 +65,33 @@ implements edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel<V,E>, T
 	 * the label is offset slightly.
 	 */
 	public void labelVertex(RenderContext<V,E> rc, Layout<V,E> layout, V v, String label) {
+		
+		/*Cambia la fuente de los elementos*/
+		rc.setVertexFontTransformer(new Transformer<V,Font>(){
+			@Override public Font transform(V arg0) {return new java.awt.Font("Avenir", 0, 16);}
+		});
+		
+		/*Cambia el color de las uniones entre elementos*/
+		rc.setEdgeDrawPaintTransformer(new Transformer<E, Paint>() {
+			@Override public Paint transform(E arg0){return Color.black;}
+		});
+		
+		/*Cambia el color del borde de los elementos*/
+		rc.setVertexDrawPaintTransformer(new Transformer<V, Paint>() {
+			@Override public Paint transform(V arg0){return Color.black;}
+		});
+		
+
+		
 		Graph<V,E> graph = layout.getGraph();
-		if (rc.getVertexIncludePredicate().evaluate(Context.<Graph<V,E>,V>getInstance(graph,v)) == false) {
-			return;
-		}
+		
+		if (rc.getVertexIncludePredicate().evaluate(Context.<Graph<V,E>,V>getInstance(graph,v)) == false) return;
+		
 		GraphicsDecorator g = rc.getGraphicsContext();
 		Component component = prepareRenderer(rc, rc.getVertexLabelRenderer(), label,
 				rc.getPickedVertexState().isPicked(v), v);
 		Dimension d = component.getPreferredSize();
-
+		
 		int h_offset = -d.width / 2;
 		int v_offset = -d.height / 2;
 
@@ -80,12 +103,10 @@ implements edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel<V,E>, T
 
 		
 		g.draw(component, rc.getRendererPane(), x+h_offset, y+v_offset, d.width, d.height, true);
-//		rc.getRendererPane().paintComponent(g.getDelegate(), component, rc.getScreenDevice(), x+h_offset, y+v_offset,
-//		d.width, d.height, true);
 				
-		Dimension size = component.getPreferredSize();
-		Rectangle bounds = new Rectangle(-size.width/2, -size.height/2, size.width, size.height);
-		shapes.put(v, bounds);
+		//Dimension size = component.getPreferredSize();
+		//Rectangle bounds = new Rectangle(-size.width/2, -size.height/2, size.width, size.height);
+		//shapes.put(v, bounds);
 	}
 
 	public Shape transform(V v) {
