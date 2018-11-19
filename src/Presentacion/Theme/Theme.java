@@ -16,10 +16,7 @@ public class Theme {
 	private static String current;
 	private static HashMap<String,Color> colors;
 	
-	public Theme(){
-		//current = "dark";
-		
-	}
+	public Theme(){}
 	
 	public static void loadThemes(){
 		colors = new HashMap<String,Color>();
@@ -85,5 +82,8 @@ public class Theme {
 	}
 	public Color font() {
 		return colors.get("font");
+	}
+	public Color lines() {
+		return colors.get("lines");
 	}
 }

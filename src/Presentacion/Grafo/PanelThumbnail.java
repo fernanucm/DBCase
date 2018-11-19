@@ -10,6 +10,7 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.CrossoverScalingControl;
 import edu.uci.ics.jung.visualization.control.SatelliteVisualizationViewer;
 import edu.uci.ics.jung.visualization.control.ScalingControl;
+import edu.uci.ics.jung.visualization.decorators.EdgeShape;
 
 public class PanelThumbnail extends JPanel{
 
@@ -40,6 +41,8 @@ public class PanelThumbnail extends JPanel{
 		LabelRenderer<Transfer,Double> vlasr = new LabelRenderer<Transfer, Double>();
 		vv.setDoubleBuffered(true); // Incrementa rendimiento
 		vv.getRenderContext().setVertexShapeTransformer(vlasr);
+		//Hace las lineas rectas
+		vv.getRenderContext().setEdgeShapeTransformer(new EdgeShape.Line());
 		// customize the renderer
 		//Esto cambia el color con el que se marcan las cosas en el mini panel de la izquierda
 		vv.getRenderer().setVertexRenderer(new VertexRenderer<Transfer,Object>(Color.white, Color.white, true, theme));

@@ -74,6 +74,7 @@ public class ServiciosSistema {
 	}
 
 	//metodos privados de validacion de atributos.
+	@SuppressWarnings("unlikely-arg-type")
 	private boolean validaDominioDeAtributo(TransferAtributo ta){
 		//comprueba que tenga dominio
 

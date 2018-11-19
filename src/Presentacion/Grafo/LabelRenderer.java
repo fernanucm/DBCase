@@ -103,10 +103,7 @@ implements edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel<V,E>, T
 
 		
 		g.draw(component, rc.getRendererPane(), x+h_offset, y+v_offset, d.width, d.height, true);
-				
-		//Dimension size = component.getPreferredSize();
-		//Rectangle bounds = new Rectangle(-size.width/2, -size.height/2, size.width, size.height);
-		//shapes.put(v, bounds);
+		
 	}
 
 	public Shape transform(V v) {

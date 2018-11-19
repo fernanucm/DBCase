@@ -22,7 +22,7 @@ import Presentacion.Lenguajes.Lenguaje;
 
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
-
+@SuppressWarnings("rawtypes")
 public class DAOAtributos{
 	
 	// Atributos
@@ -283,7 +283,6 @@ public class DAOAtributos{
 		return AtributoBuscado;
 	}
 
-	@SuppressWarnings("unchecked")
 	private TransferAtributo nodoAtributoATransferAtributo(Node nodo) {
 		int id = dameAtributo(nodo);
 		String nombre = dameValorDelElemento(dameNodoPedidoDeAtributo(nodo,

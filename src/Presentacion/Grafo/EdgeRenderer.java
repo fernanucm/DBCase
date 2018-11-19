@@ -32,7 +32,7 @@ import LogicaNegocio.Transfers.TransferAtributo;
 import LogicaNegocio.Transfers.TransferEntidad;
 import LogicaNegocio.Transfers.TransferRelacion;
 import Persistencia.EntidadYAridad;
-
+import Presentacion.Theme.Theme;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.util.Context;
 import edu.uci.ics.jung.graph.Graph;
@@ -50,19 +50,16 @@ import edu.uci.ics.jung.visualization.transform.shape.GraphicsDecorator;
 
 
 public class EdgeRenderer<V,E> implements Renderer.Edge<V, E> {
+	public EdgeRenderer(Theme theme) {
+		this.theme = theme;
+	}
+	private Theme theme;
 
 	public void paintEdge(RenderContext<V,E> rc, Layout<V, E> layout, E e) {
-		
-		//TODO ESTO ES PARA LAS ETIQUETAS
-		/*VisualizationViewer<Transfer,Object> vv;
-		layout = new GrafoLayout<Transfer, Object>(graph);
-		vv = new VisualizationViewer<Transfer, Object>(layout);
-		MiBasicEdgeLabelRenderer mio = new MiBasicEdgeLabelRenderer();
-		vv.getRenderer().setEdgeLabelRenderer(mio);*/
-		//FIN TODO ESTO ES PARA LAS ETIQUETAS
-		
 		GraphicsDecorator g2d = rc.getGraphicsContext();
+		g2d.setColor(theme.lines());
         Graph<V,E> graph = layout.getGraph();
+        
         if (!rc.getEdgeIncludePredicate().evaluate(Context.<Graph<V,E>,E>getInstance(graph,e)))
             return;
         // don't draw edge if either incident vertex is not drawn
@@ -135,12 +132,11 @@ public class EdgeRenderer<V,E> implements Renderer.Edge<V, E> {
         // restore paint and stroke
         if (new_stroke != null)
             g2d.setStroke(old_stroke);
+        
 }
 	private int minimo(int a,int b){
-		if (a>=b)
-    		return b;
-    	else
-    		return a;
+		if (a>=b) return b;
+    	else return a;
 	}
 
     /**
@@ -155,6 +151,7 @@ protected void drawSimpleEdge(RenderContext<V,E> rc, Layout<V,E> layout, E e,Str
 						String nombre2,int tipo1,int tipo2,int numApariciones, int vuelta) {
         
         GraphicsDecorator g = rc.getGraphicsContext();
+        g.setColor(theme.lines());
         Graphics2D graf2d = g.getDelegate();//NUEVO!!!
         Graph<V,E> graph = layout.getGraph();
         Pair<V> endpoints = graph.getEndpoints(e);

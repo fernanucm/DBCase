@@ -17,7 +17,7 @@ import LogicaNegocio.Transfers.TransferEntidad;
 import Presentacion.Lenguajes.Lenguaje;
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
-
+@SuppressWarnings("rawtypes")
 public class DAOEntidades {
 
 	// Atributos
@@ -265,7 +265,6 @@ public class DAOEntidades {
 		return EntidadBuscado;
 	}
 
-	@SuppressWarnings("unchecked")
 	private TransferEntidad nodoEntidadATransferEntidad(Node nodo) {
 		int id = dameIdEntidad(nodo);
 		String nombre = dameValorDelElemento(dameNodoPedidoDeEntidad(nodo,
@@ -297,7 +296,6 @@ public class DAOEntidades {
 		return transfer;
 	}
 
-	@SuppressWarnings("unchecked")
 	private Vector nodoListaAObjetoLista(Node nodo,String tipoLista){
 		//tipoLista puede ser : Atributo y clavePrimaria 
 		//Resultado que devolveremos

@@ -37,6 +37,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.tree.DefaultMutableTreeNode;
 import org.apache.commons.collections15.Transformer;
 import org.apache.commons.collections15.functors.ConstantTransformer;
@@ -80,12 +81,9 @@ import edu.uci.ics.jung.visualization.picking.PickedState;
 * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
+@SuppressWarnings("serial")
 public class PanelGrafo extends JPanel implements Printable, KeyListener{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2455701194153996759L;
 
 	Graph<Transfer,Object> graph;
 
@@ -100,13 +98,10 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 	protected Map<Integer,TransferEntidad> entidades;
 	protected Map<Integer,TransferAtributo> atributos;
 	protected Map<Integer,TransferRelacion> relaciones;
-
-	private Theme theme;
 		
 	@SuppressWarnings("unchecked")
 	public PanelGrafo(Vector<TransferEntidad> entidades, Vector<TransferAtributo> atributos,
 			Vector<TransferRelacion> relaciones, Theme theme){
-		this.theme = theme;
 		this.setLayout(new GridLayout(1,1));
 		//Para que los grafos admitan paralelas el tipo de grafo debe ser este:
 		graph = new UndirectedSparseMultigraph<Transfer, Object>();
@@ -248,7 +243,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		//Color de la letra al pinchar
 		vv.getRenderContext().setVertexLabelRenderer(new DefaultVertexLabelRenderer(Color.black));
 		//Ancho de las aristas
-		vv.getRenderContext().setEdgeStrokeTransformer(new ConstantTransformer<Stroke>(new BasicStroke(0.5f)));
+		vv.getRenderContext().setEdgeStrokeTransformer(new ConstantTransformer<Stroke>(new BasicStroke(2f)));
 		//Hace las lineas rectas
 		vv.getRenderContext().setEdgeShapeTransformer(new EdgeShape.Line());
 		//Escribe datos sobre las líneas
@@ -259,6 +254,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 					String strPRango;
 					String strfRango;
 					String strRol;
+					String color;
 					if (dato.getPrincipioRango() == 0 && // Si es IsA no escribe 
 						dato.getFinalRango() == 0){
 						return null;
@@ -270,7 +266,9 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 						strfRango = "n";
 					else strfRango = Integer.toString(dato.getFinalRango());
 					strRol = dato.getRol();
-					return "<html><center><font size=\"5\" face=\"avenir\">"+ strPRango + "   -   "+ strfRango + "   "+ strRol+"<p>";
+					
+					color = "rgb(" + theme.lines().getRed() + "," + theme.lines().getGreen() + "," + theme.lines().getBlue() + ")";
+					return "<html><center><font size=\"5\" face=\"avenir\" color=\"" + color +"\">"+ strPRango + "   -   "+ strfRango + "   "+ strRol+"<p>";
 				}
 				else return null; // Si no es una relación no escribe la aridad
 			}
@@ -286,10 +284,10 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 			@Override
 			public Stroke transform(Transfer arg0) {
 			
-				return new BasicStroke(0.5f);
+				return new BasicStroke(0f);
 		}});
 		
-		vv.getRenderer().setEdgeRenderer(new EdgeRenderer<Transfer,Object>());
+		vv.getRenderer().setEdgeRenderer(new EdgeRenderer<Transfer,Object>(theme));
 		// add a listener for ToolTips
 		vv.setVertexToolTipTransformer(new ToStringLabeller<Transfer>());
 
@@ -312,35 +310,14 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				vv2.getRenderContext().setVertexStrokeTransformer(new Transformer<Transfer,Stroke>(){
 					@Override
 					public Stroke transform(Transfer arg0) {
+						//Ancho del borde al seleccionar
 						for (Transfer t : ps.getPicked()) 							
-							if(arg0.equals(t)) {
-								System.out.println(t.getPosicion().getX() + " - " + t.getPosicion().getY());
-								return new BasicStroke(3f);
-							}
+							if(arg0.equals(t)) return new BasicStroke(3f);
 						
-						return new BasicStroke(0.5f);
+						return new BasicStroke(0f);//Ancho del borde por defecto
 				}});
 				
-				final int bt = e.getButton();
-				/*Esto es para que cuando pinches en el botón derecho no se quede en negrita lo que seleccionastes
-				 * pinchando con el botón izquierdo*/
-				Transformer<Transfer, Font> vertexFontAux = new Transformer<Transfer,Font>() {
-		          public Font transform(Transfer arg0) {
-		            	if( ps.getPicked().contains(arg0) || (bt == 3)){
-			          		//ps.pick(arg0, false);
-		            		return new Font("Helvetica", Font.PLAIN, 12);
-		            	}
-		            	else{
-		            		//ps.pick(arg0, false);
-		            		return new Font("Helvetica", Font.PLAIN, 12);
-		            	}
-		            	
-		            }
-				}
-		        ;
-		        vv2.getRenderContext().setVertexFontTransformer(vertexFontAux);
-				//Aquí termina lo de quitar lo seleccionado con el botón izquierdo
-		        
+				final int bt = e.getButton();		        
 		        
 				if(e.getModifiers() == modifiers) {
 					if(down != null) {
@@ -369,9 +346,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 							//TODO Con esto se cambia la fuente del elemento seleccionado con el botón izq :)
 							Transformer<Transfer, Font> vertexFont = new Transformer<Transfer,Font>() {
 					            public Font transform(Transfer arg0) {
-					            	//if((ps.getSelectedObjects().length!=0)&&( ps.getSelectedObjects()[0].equals(arg0))){
-					               		//String aux1= ps.getPicked().toString();
-					            		//System.out.println("Está seleccionado el nodo"+ aux1);
 					            		String aux="";
 					            	for (Transfer t : ps.getPicked()){	
 					            		aux= t.toString();
@@ -729,7 +703,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		}
 		// Creamos el arbol
 		JTree arbol = new JTree(root);
-		arbol.setFont(new java.awt.Font("SansSerif", 0, 11));
 		arbol.setShowsRootHandles(true);
 		arbol.setToggleClickCount(1);
 		// Expandimos todas las ramas
@@ -833,7 +806,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		}
 		// Creamos el arbol
 		JTree arbol = new JTree(root);
-		arbol.setFont(new java.awt.Font("SansSerif", 0, 11));
 		arbol.setShowsRootHandles(true);
 		arbol.setToggleClickCount(1);
 		// Expandimos todas las ramas
@@ -894,7 +866,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 			}
 		}
 		JTree arbol = new JTree(root);
-		arbol.setFont(new java.awt.Font("SansSerif", 0, 11));
 		arbol.setShowsRootHandles(true);
 		arbol.setToggleClickCount(1);
 		// Expandimos todas las ramas
@@ -1163,7 +1134,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 
 				// Insertar una entidad
 				JMenuItem j1 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_ENTITY));
-				j1.setFont(new java.awt.Font("SansSerif", 0, 11));
+				
 				j1.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu)((JMenuItem)e.getSource()).getParent();
@@ -1178,7 +1149,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				// Insertar una relacion normal
 				
 				JMenuItem j2 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_RELATION));
-				j2.setFont(new java.awt.Font("SansSerif", 0, 11));
+				
 				j2.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu)((JMenuItem)e.getSource()).getParent();
@@ -1193,7 +1164,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				// Insertar una relacion IsA
 				
 				JMenuItem j3 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_ISARELATION));
-				j3.setFont(new java.awt.Font("SansSerif", 0, 11));
 				j3.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu)((JMenuItem)e.getSource()).getParent();
@@ -1208,7 +1178,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				// 	Insertar un dominio
 				
 				JMenuItem j4 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_DOMAIN));
-				j4.setFont(new java.awt.Font("SansSerif", 0, 11));
 				j4.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu)((JMenuItem)e.getSource()).getParent();
@@ -1228,7 +1197,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 			if (nodo instanceof TransferEntidad) { // Si es entidad
 				// Anadir un atributo a una entidad
 				JMenuItem j3 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_ATTRIBUTE));
-				j3.setFont(new java.awt.Font("SansSerif", 0, 11));
 				j3.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu)((JMenuItem)e.getSource()).getParent();
@@ -1243,7 +1211,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				
 				// Renombrar la entidad
 				JMenuItem j1 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.RENAME_ENTITY));
-				j1.setFont(new java.awt.Font("SansSerif", 0, 11));
 				j1.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu)((JMenuItem)e.getSource()).getParent();
@@ -1264,7 +1231,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				}
 				if (seleccionados<2){
 					JMenuItem j4 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.DELETE_ENT));
-					j4.setFont(new java.awt.Font("SansSerif", 0, 11));
 					j4.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu)((JMenuItem)e.getSource()).getParent();
@@ -1281,7 +1247,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				}
 				else{
 					JMenuItem j4 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.DELETE));
-					j4.setFont(new java.awt.Font("SansSerif", 0, 11));
 					j4.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							suprimir();
@@ -1293,7 +1258,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				
 				//Añadir restricciones			
 				JMenuItem j5 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.RESTRICTIONS));
-				j5.setFont(new java.awt.Font("SansSerif", 0, 11));
 				j5.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu)((JMenuItem)e.getSource()).getParent();
@@ -1307,7 +1271,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				
 				//Añadir tablaUnique			
 				JMenuItem j6 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.TABLE_UNIQUE));
-				j6.setFont(new java.awt.Font("SansSerif", 0, 11));
 				j6.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu)((JMenuItem)e.getSource()).getParent();
@@ -1322,7 +1285,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 			if (nodo instanceof TransferAtributo) { // Si es atributo
 				// Editar el dominio del atributo
 				JMenuItem j2 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.EDIT_DOMAIN));
-				j2.setFont(new java.awt.Font("SansSerif", 0, 11));
 				j2.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu)((JMenuItem)e.getSource()).getParent();
@@ -1336,7 +1298,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				
 				// Renombrar un atributo
 				JMenuItem j1 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.RENAME_ATTRIB));
-				j1.setFont(new java.awt.Font("SansSerif", 0, 11));
 				j1.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu)((JMenuItem)e.getSource()).getParent();
@@ -1357,7 +1318,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				}
 				if (seleccionados<2){
 					JMenuItem j7 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.DELETE_ATTRIB));
-					j7.setFont(new java.awt.Font("SansSerif", 0, 11));
 					j7.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu)((JMenuItem)e.getSource()).getParent();
@@ -1374,7 +1334,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				}
 				else{
 					JMenuItem j7 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.DELETE));
-					j7.setFont(new java.awt.Font("SansSerif", 0, 11));
 					j7.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							suprimir();
@@ -1390,7 +1349,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				final TransferEntidad ent = esAtributoDirecto((TransferAtributo)nodo);
 				if (ent != null){
 					JCheckBoxMenuItem j6 = new JCheckBoxMenuItem(Lenguaje.getMensaje(Lenguaje.IS_PRIMARY_KEY)+" \""+ent.getNombre()+"\"");
-					j6.setFont(new java.awt.Font("SansSerif", 0, 11));
 					if (((TransferAtributo)nodo).isClavePrimaria()) j6.setSelected(true);
 					j6.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
@@ -1409,7 +1367,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				}
 				// Es un atributo compuesto
 				JCheckBoxMenuItem j3 = new JCheckBoxMenuItem(Lenguaje.getMensaje(Lenguaje.COMPOSED));
-				j3.setFont(new java.awt.Font("SansSerif", 0, 11));
 				final boolean notnul= ((TransferAtributo)nodo).getNotnull();
 				final boolean unique = ((TransferAtributo)nodo).getUnique();
 				if (((TransferAtributo)nodo).getCompuesto()) j3.setSelected(true);
@@ -1434,7 +1391,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				// Si es compuesto
 				if (((TransferAtributo)nodo).getCompuesto()){
 					JMenuItem j4 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_SUBATTRIBUTE));
-					j4.setFont(new java.awt.Font("SansSerif", 0, 11));
 					j4.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu)((JMenuItem)e.getSource()).getParent();
@@ -1451,7 +1407,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				// Es un atributo NotNull
 				if(!((TransferAtributo)nodo).getCompuesto() && !((TransferAtributo)nodo).isClavePrimaria()){
 					JCheckBoxMenuItem j3a = new JCheckBoxMenuItem(Lenguaje.getMensaje(Lenguaje.NOT_NULL));
-					j3a.setFont(new java.awt.Font("SansSerif", 0, 11));
 					if (((TransferAtributo)nodo).getNotnull()) j3a.setSelected(true);
 					else j3a.setSelected(false);
 					j3a.addActionListener(new java.awt.event.ActionListener() {
@@ -1469,7 +1424,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				// Es un atributo Unique
 				if(!((TransferAtributo)nodo).getCompuesto() && !((TransferAtributo)nodo).isClavePrimaria()){
 				JCheckBoxMenuItem j3b = new JCheckBoxMenuItem(Lenguaje.getMensaje(Lenguaje.UNIQUE));
-				j3b.setFont(new java.awt.Font("SansSerif", 0, 11));
 				if (((TransferAtributo)nodo).getUnique()) j3b.setSelected(true);
 				else j3b.setSelected(false);
 				j3b.addActionListener(new java.awt.event.ActionListener() {
@@ -1488,7 +1442,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				// Es un atributo multivalorado
 				if( !((TransferAtributo)nodo).isClavePrimaria()){
 					JCheckBoxMenuItem j5 = new JCheckBoxMenuItem(Lenguaje.getMensaje(Lenguaje.IS_MULTIVALUATED));
-					j5.setFont(new java.awt.Font("SansSerif", 0, 11));
 					if (((TransferAtributo)nodo).isMultivalorado()) j5.setSelected(true);
 					else j5.setSelected(false);
 					j5.addActionListener(new java.awt.event.ActionListener() {
@@ -1510,7 +1463,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				this.add(new JSeparator());
 				//Añadir restricciones			
 				JMenuItem j8 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.RESTRICTIONS));
-				j8.setFont(new java.awt.Font("SansSerif", 0, 11));
 				j8.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu)((JMenuItem)e.getSource()).getParent();
@@ -1529,7 +1481,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				if (((TransferRelacion)nodo).getTipo().equals("IsA")){
 
 					this.add(new JMenu().add(new AbstractAction(Lenguaje.getMensaje(Lenguaje.SET_PARENT_ENT)){
-						private static final long serialVersionUID = 8766595520619916135L;
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu)((JMenuItem)e.getSource()).getParent();
 							TransferRelacion relacion = (TransferRelacion)menu.nodo;
@@ -1599,7 +1550,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 					}
 					else{
 						JMenuItem j6 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.DELETE));
-						j6.setFont(new java.awt.Font("SansSerif", 0, 11));
 						j6.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								suprimir();
@@ -1614,7 +1564,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				else{
 					// Anadir una entidad
 					JMenuItem j3 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_ENT));
-					j3.setFont(new java.awt.Font("SansSerif", 0, 11));
 					if (((TransferRelacion)nodo).getTipo().equals("Debil")){
 						j3.setEnabled(false);
 					}
@@ -1633,7 +1582,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 
 					// Quitar una entidad
 					JMenuItem j4 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.REMOVE_ENTITY));
-					j4.setFont(new java.awt.Font("SansSerif", 0, 11));
 					//Si es débil
 					if (((TransferRelacion)nodo).getTipo().equals("Debil")){
 						j4.setEnabled(false);
@@ -1655,7 +1603,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 					// Editar la aridad de una entidad
 					
 					JMenuItem j5 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.EDIT_CARD_ROL));
-					j5.setFont(new java.awt.Font("SansSerif", 0, 11));
 					if (((TransferRelacion)nodo).getTipo().equals("Debil"))
 						j5.setEnabled(false);
 					else{
@@ -1676,7 +1623,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 
 					// Anadir un atributo a la relacion
 					JMenuItem j6 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_ATTRIBUTE));
-					j6.setFont(new java.awt.Font("SansSerif", 0, 11));
 					if (((TransferRelacion)nodo).getTipo().equals("Debil"))
 						j6.setEnabled(false);
 					else{
@@ -1696,7 +1642,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 
 					// Renombrar la relacion
 					JMenuItem j1 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.RENAME_RELATION));
-					j1.setFont(new java.awt.Font("SansSerif", 0, 11));
 					j1.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu)((JMenuItem)e.getSource()).getParent();
@@ -1717,7 +1662,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 					}
 					if (seleccionados<2){
 						JMenuItem j7 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.DELETE_REL));
-						j7.setFont(new java.awt.Font("SansSerif", 0, 11));
 						j7.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								PopUpMenu menu = (PopUpMenu)((JMenuItem)e.getSource()).getParent();
@@ -1734,7 +1678,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 					}
 					else{
 						JMenuItem j7 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.DELETE));
-						j7.setFont(new java.awt.Font("SansSerif", 0, 11));
 						j7.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								suprimir();
@@ -1746,7 +1689,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 					
 					//Añadir restricciones			
 					JMenuItem j8 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.RESTRICTIONS));
-					j8.setFont(new java.awt.Font("SansSerif", 0, 11));
 					j8.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu)((JMenuItem)e.getSource()).getParent();
@@ -1759,7 +1701,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 					this.add(j8);
 					//Añadir tablaUnique			
 					JMenuItem j9 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.TABLE_UNIQUE));
-					j9.setFont(new java.awt.Font("SansSerif", 0, 11));
 					j9.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu)((JMenuItem)e.getSource()).getParent();

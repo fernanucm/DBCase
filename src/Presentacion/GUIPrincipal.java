@@ -124,7 +124,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private PanelGrafo panelDiseno;
 	private JScrollPane panelArbolDom;
 	private JPanel panelDom;
-	private JSplitPane split4;
 	private JTextPane areaTextoSucesos;
 	private JPanel panelSucesos;
 	private JScrollPane panelScrollGeneracion;
@@ -187,7 +186,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		setLookAndFeel();
 		this.initComponents();
 		this.labelBarraEstado.setText("  "+Lenguaje.getMensaje(Lenguaje.WORKSPACE_IS)+" "+this.controlador.getPath());
-		changeFont(this,new java.awt.Font("Avenir", 0, 16), theme.font());
+		changeFont(this,new java.awt.Font("Avenir", 0, 16));
 		this.setVisible(true);
 	}
 	
@@ -195,12 +194,11 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		this.setVisible(false);
 	}
 	
-	public static void changeFont (Component component, Font font, Color color){
+	public static void changeFont (Component component, Font font){
 	    component.setFont(font);
-	    component.setForeground(color);
 	    if (component instanceof Container)
 	        for(Component child : ((Container) component).getComponents())
-	        	changeFont (child, font, color);
+	        	changeFont (child, font);
 	}
 	private void setLookAndFeel(){
 		UIManager.put("Button.defaultButtonFollowsFocus", Boolean.TRUE);	

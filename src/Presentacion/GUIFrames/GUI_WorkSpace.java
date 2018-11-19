@@ -41,15 +41,6 @@ import Utilidades.ImagePath;
  */
 public class GUI_WorkSpace extends javax.swing.JDialog{
 
-	{
-		//Set Look & Feel
-		try {
-			javax.swing.UIManager.setLookAndFeel("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	private static final long serialVersionUID = 1L;
 	private Controlador controlador;
 	private JPanel panelPrincipal;

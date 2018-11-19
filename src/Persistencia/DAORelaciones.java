@@ -22,7 +22,7 @@ import Presentacion.Lenguajes.Lenguaje;
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
-
+@SuppressWarnings("rawtypes")
 public class DAORelaciones{
 		
 	// Atributos
@@ -281,7 +281,6 @@ public class DAORelaciones{
 		return RelacionBuscado;
 	}
 
-	@SuppressWarnings("unchecked")
 	private TransferRelacion nodoRelacionATransferRelacion(Node nodo) {
 		int id = dameRelacion(nodo);
 		String nombre = dameValorDelElemento(dameNodoPedidoDeRelacion(nodo,

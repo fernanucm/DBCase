@@ -21,7 +21,7 @@ import Utilidades.TipoDominio;
 
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
-
+@SuppressWarnings("rawtypes")
 public class DAODominios {
 
 	// Atributos
@@ -195,7 +195,6 @@ public class DAODominios {
 		return DominioBuscado;
 	}
 	
-	@SuppressWarnings("unchecked")
 	private TransferDominio nodoDominioATransferDominio(Node nodo) {
 		int id = dameIdDominio(nodo);
 		String nombre = dameValorDelElemento(dameNodoPedidoDeDominio(nodo,"Name"));
@@ -213,7 +212,6 @@ public class DAODominios {
 		return transfer;
 	}
 
-	@SuppressWarnings("unchecked")
 	private Vector nodoListaAObjetoLista(Node nodo,String tipoLista){
 		//tipoLista puede ser : Atributo y clavePrimaria 
 		//Resultado que devolveremos

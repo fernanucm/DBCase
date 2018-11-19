@@ -4,7 +4,7 @@ import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.Vector;
-
+@SuppressWarnings("rawtypes")
 public class TransferAtributo extends Transfer{
 
 	private int idAtributo;
@@ -14,10 +14,9 @@ public class TransferAtributo extends Transfer{
 	private boolean compuesto;
 	private boolean notnull;
 	private boolean unique; 
-	@SuppressWarnings("rawtypes")
+	
 	private Vector listaComponentes;
 	private boolean multivalorado;
-	@SuppressWarnings("rawtypes")
 	private Vector listaRestricciones;
 	private Point2D posicion;
 	
@@ -26,7 +25,6 @@ public class TransferAtributo extends Transfer{
 
 	}
 	
-	@SuppressWarnings("rawtypes")
 	public TransferAtributo clonar (){
 		TransferAtributo clon_ta = new TransferAtributo();
 		clon_ta.setIdAtributo(this.getIdAtributo());
@@ -96,11 +94,9 @@ public class TransferAtributo extends Transfer{
 	public void setIdAtributo(int idAtributo) {
 		this.idAtributo = idAtributo;
 	}
-	@SuppressWarnings("rawtypes")
 	public Vector getListaComponentes() {
 		return listaComponentes;
 	}
-	@SuppressWarnings("rawtypes")
 	public void setListaComponentes(Vector listaComponentes) {
 		this.listaComponentes = listaComponentes;
 	}
@@ -122,11 +118,9 @@ public class TransferAtributo extends Transfer{
 	public void setClavePrimaria(boolean clavePrimaria) {
 		ClavePrimaria = clavePrimaria;
 	}
-	@SuppressWarnings("rawtypes")
 	public Vector getListaRestricciones() {
 		return listaRestricciones;
 	}
-	@SuppressWarnings("rawtypes")
 	public void setListaRestricciones(Vector listaRestricciones) {
 		this.listaRestricciones = listaRestricciones;
 	}

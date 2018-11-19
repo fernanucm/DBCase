@@ -159,7 +159,7 @@ public class VertexRenderer<V,E> implements Renderer.Vertex<V,E> {
             g.setStroke(stroke);
         }
         //Color de los bordes de los elementos
-        g.setColor(new Color(50,50,50));
+        g.setColor(this.theme.lines());
         g.draw(shape);
         g.setPaint(oldPaint);
         g.setStroke(oldStroke);

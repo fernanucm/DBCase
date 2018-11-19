@@ -37,16 +37,6 @@ import Utilidades.ImagePath;
  * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
  */
 public class GUI_InsertarRestriccionAAtributo extends javax.swing.JDialog  implements KeyListener, MouseListener {
-
-	{
-		//Set Look & Feel
-		try {
-			javax.swing.UIManager.setLookAndFeel("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	private static final long serialVersionUID = 1L;
 	private Controlador controlador;
 	private TransferAtributo atributo;

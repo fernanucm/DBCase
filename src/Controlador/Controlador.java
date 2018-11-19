@@ -12,6 +12,7 @@ import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import LogicaNegocio.Servicios.ServiciosAtributos;
 import LogicaNegocio.Servicios.ServiciosDominios;
@@ -208,7 +209,12 @@ public class Controlador {
 	
 	
 	public static void main(String[] args) {
-		
+		for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) 
+            if ("Nimbus".equals(info.getName())) {
+            	try { javax.swing.UIManager.setLookAndFeel(info.getClassName());} 
+            	catch (ClassNotFoundException | InstantiationException | IllegalAccessException| UnsupportedLookAndFeelException e) {e.printStackTrace();}
+            break;
+        }
 		// Obtenemos configuración inicial (si la hay)
 		ConfiguradorInicial conf = new ConfiguradorInicial();
 		conf.leerFicheroConfiguracion();
