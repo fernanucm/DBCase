@@ -72,13 +72,9 @@ public class TransferRelacion extends Transfer {
 				//	listaEntidadesFiltrada.add(te);
 				cont++;
 			}
-			//this.setListaEntidades(listaEntidadesFiltrada);
-		if (repetido)
-			this.posicion = new Point2D.Double(arg0.getPosicion().getX(), arg0
-					.getPosicion().getY());
-		else
-			this.posicion = new Point2D.Double(arg0.getPosicion().getX(), arg0
-					.getPosicion().getY());
+		//this.setListaEntidades(listaEntidadesFiltrada);
+		if (repetido) this.posicion = new Point2D.Double(arg0.getPosicion().getX(), arg0.getPosicion().getY());
+		else this.posicion = new Point2D.Double(arg0.getPosicion().getX(), arg0.getPosicion().getY());
 			
 	}
 	

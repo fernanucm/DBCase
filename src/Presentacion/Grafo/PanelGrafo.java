@@ -81,7 +81,7 @@ import edu.uci.ics.jung.visualization.picking.PickedState;
 * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
-@SuppressWarnings("serial")
+@SuppressWarnings({ "rawtypes", "serial" })
 public class PanelGrafo extends JPanel implements Printable, KeyListener{
 
 
@@ -595,9 +595,9 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 			controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_LimpiarPanelInformacion, null);
 			return;
 		}
-				
+		controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_MostrarDatosEnPanelDeInformacion, generaArbolInformacion());
 		// Envía el Tree con los datos del nodo pulsado
-		if (t instanceof TransferEntidad) {
+		/*if (t instanceof TransferEntidad) {
 			TransferEntidad entidad = (TransferEntidad) t;
 			JTree arbolEntidad = generaArbolEntidad(entidad);
 			controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_MostrarDatosEnPanelDeInformacion, arbolEntidad);			
@@ -611,11 +611,69 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 			TransferRelacion relacion = (TransferRelacion) t;
 			JTree arbolRelacion = generaArbolRelacion(relacion);
 			controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_MostrarDatosEnPanelDeInformacion, arbolRelacion);
-		}
+		}*/
 		
 	}
-	
-	@SuppressWarnings("unchecked")
+	private JTree generaArbolInformacion() {
+		JTree arbolInformacion;
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode();
+		
+		DefaultMutableTreeNode arbolEntidades = new DefaultMutableTreeNode("Entidades");
+		for(int i=1;i<this.entidades.size()+1;i++) {
+			TransferEntidad ent = this.entidades.get(i);
+			DefaultMutableTreeNode nodoEntidad = new DefaultMutableTreeNode("* "+ent.toString());
+			Vector lista = (ent.getListaAtributos());
+			for(int j=0; j<lista.size();j++) {
+				nodoEntidad.add(new DefaultMutableTreeNode(
+						"# " + this.atributos.get(Integer.parseInt((String)lista.get(j))).getNombre()
+						+ " ["+this.atributos.get(Integer.parseInt((String)lista.get(j))).getDominio()+"]"
+						));
+			}
+			arbolEntidades.add(nodoEntidad);
+		}
+		
+		DefaultMutableTreeNode arbolRelaciones = new DefaultMutableTreeNode("Relaciones");
+		for(int i=1;i<this.relaciones.size()+1;i++) {
+			TransferRelacion rel = this.relaciones.get(i);
+			DefaultMutableTreeNode nodoRelacion = new DefaultMutableTreeNode("> "+rel.toString());
+			
+			DefaultMutableTreeNode entidadesDeRel = new DefaultMutableTreeNode("Entidades");
+			Vector listaEnt = (rel.getListaEntidadesYAridades());
+			if(!listaEnt.isEmpty()) {
+				for(int j=0; j<listaEnt.size();j++) {
+					int prango = ((EntidadYAridad) listaEnt.get(j)).getPrincipioRango();
+					int frango = ((EntidadYAridad) listaEnt.get(j)).getFinalRango();
+					String rango = " ( ";
+					rango += (prango == 2147483647)?"n":prango;
+					rango+=" , ";
+					rango += (frango == 2147483647)?"n":frango;
+					rango+=" ) ";
+					entidadesDeRel.add(new DefaultMutableTreeNode("* "+this.entidades.get(((EntidadYAridad) listaEnt.get(j)).getEntidad()).getNombre()+rango));
+				}
+				nodoRelacion.add(entidadesDeRel);
+			}
+			DefaultMutableTreeNode atributosDeRel = new DefaultMutableTreeNode("Atributos");
+			Vector listaAtr = (rel.getListaAtributos());
+			if(!listaAtr.isEmpty()) {
+				for(int j=0; j<listaAtr.size();j++) {
+					atributosDeRel.add(new DefaultMutableTreeNode(
+							"# " + this.atributos.get(Integer.parseInt((String)listaAtr.get(j))).getNombre()
+							+ " ["+this.atributos.get(Integer.parseInt((String)listaAtr.get(j))).getDominio()+"]"
+							));
+				}
+				nodoRelacion.add(atributosDeRel);
+			}
+			arbolRelaciones.add(nodoRelacion);
+		}
+		root.add(arbolEntidades);
+		root.add(arbolRelaciones);
+		arbolInformacion = new JTree(root);
+		arbolInformacion.setRootVisible(false);
+		for(int i=0; i<arbolInformacion.getRowCount(); i++) arbolInformacion.expandRow(i);
+		arbolInformacion.setToggleClickCount(1);
+		return arbolInformacion;
+	}
+
 	private JTree generaArbolRelacion (TransferRelacion tr){
 		DefaultMutableTreeNode root = null;
 		// Si es una relacion IsA
@@ -711,7 +769,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 
 	}
 	
-	@SuppressWarnings("unchecked")
 	private JTree generaArbolAtributo(TransferAtributo ta){
 		// Entidad, relacion o atributo al que pertenece.
 		int id =ta.getIdAtributo();
@@ -813,7 +870,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		return arbol;
 	}
 	
-	@SuppressWarnings("unchecked")
 	private JTree generaArbolEntidad(TransferEntidad te){
 		// Nombre de la entidad
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.ENTITY)+" \""+te.getNombre()+"\"");

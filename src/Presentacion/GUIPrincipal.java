@@ -1,4 +1,5 @@
 package Presentacion;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -19,7 +20,6 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.Vector;
-
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -38,7 +38,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButton;
-import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
@@ -46,7 +45,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
 import javax.swing.JToolBar;
 import javax.swing.JTree;
-import javax.swing.LookAndFeel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -75,12 +73,6 @@ import Presentacion.Theme.Theme;
 import Utilidades.AccionMenu;
 import Utilidades.ApplicationLauncher;
 import Utilidades.ImagePath;
-
-import javax.swing.plaf.basic.BasicLookAndFeel;
-import javax.swing.plaf.metal.*;
-import javax.swing.plaf.multi.MultiLookAndFeel;
-import javax.swing.plaf.synth.SynthLookAndFeel;
-
 /**
  * This code was edited or generated using CloudGarden's Jigloo
  * SWT/Swing GUI Builder, which is free for non-commercial
@@ -1408,12 +1400,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		case Controlador_MostrarDatosEnPanelDominio:{
 			this.panelArbolDom.setVisible(true);
 			this.arbolDom = (JTree) datos;
-			//this.arbolDom.addMouseListener(mls);
-			DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
-		    renderer.setOpenIcon(null);
-		    renderer.setClosedIcon(null);
-		    renderer.setLeafIcon(null);
-		    this.arbolDom.setCellRenderer(renderer);
 			this.arbolDom.setFont(new java.awt.Font("Avenir", 0, 15));
 			this.panelArbolDom.setViewportView(arbolDom);
 			this.repaint();
@@ -1445,6 +1431,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha modificado el dominio "+ td.getNombre() +".");
 			break;	
 		}
+		default:
+			break;
 		
 		} // mensajesDesde_Controlador	
 	}
@@ -1560,11 +1548,10 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private JTree generaArbolDominio(Vector<TransferDominio> listaDominios, String expandir){
 		
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.DOM_TREE_CREATED_DOMS));
-		
 		for (Iterator<TransferDominio> it = listaDominios.iterator(); it.hasNext();){
 			TransferDominio td = it.next();
 			//Nombre
-			DefaultMutableTreeNode nodoNombre = new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.DOMAIN)+" \""+td.getNombre()+"\"");
+			DefaultMutableTreeNode nodoNombre = new DefaultMutableTreeNode(td.getNombre());
 			root.add(nodoNombre);
 			//TipoBase
 			nodoNombre.add(new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.DOM_TREE_TYPE)+" \""+td.getTipoBase()+"\""));
@@ -1573,18 +1560,22 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				DefaultMutableTreeNode nodo_valores = new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.DOM_TREE_VALUES));
 				nodoNombre.add(nodo_valores);
 				Vector lista = td.getListaValores();
-				for (int cont=0; cont<lista.size(); cont++ ){
+				for (int cont=0; cont<lista.size(); cont++ )
 					nodo_valores.add(new DefaultMutableTreeNode(lista.get(cont)));
-					
-				}
+
 			}
 		}
 		
 		JTree arbolDom = new JTree(root);
-		arbolDom.setFont(new java.awt.Font("SansSerif", 0, 11));
+		arbolDom.setRootVisible(false);
 		arbolDom.setShowsRootHandles(true);
 		arbolDom.setToggleClickCount(1);
 		arbolDom.addMouseListener(ml);
+		DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
+	    renderer.setOpenIcon(null);
+	    renderer.setClosedIcon(null);
+	    renderer.setLeafIcon(null);
+	    arbolDom.setCellRenderer(renderer);
 		// Expandimos todas las ramas
 		 for(int cont=0; cont<arbolDom.getRowCount(); cont++){
 			 try{ 
@@ -1776,7 +1767,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					
 					// Anadir un atributo a una entidad
 					JMenuItem j3 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_ATTRIBUTE));
-					j3.setFont(new java.awt.Font("SansSerif", 0, 11));
 					j3.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
@@ -1789,7 +1779,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					popup.add(new JSeparator());
 					// Renombrar la entidad
 					JMenuItem j1 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.RENAME_ENTITY));
-					j1.setFont(new java.awt.Font("SansSerif", 0, 11));
 					j1.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
@@ -1802,7 +1791,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					popup.add(j1);
 					// Eliminar una entidad 
 					JMenuItem j4 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.DELETE_ENT));
-					j4.setFont(new java.awt.Font("SansSerif", 0, 11));
 					j4.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								popup.setVisible(false);
@@ -1818,7 +1806,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					popup.add(new JSeparator());
 					//Añadir restricciones			
 					JMenuItem j5 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.RESTRICTIONS));
-					j5.setFont(new java.awt.Font("SansSerif", 0, 11));
 					j5.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
@@ -1830,7 +1817,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					popup.add(j5);
 					//Añadir restricciones	Unique		
 					JMenuItem j6 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.TABLE_UNIQUE));
-					j6.setFont(new java.awt.Font("SansSerif", 0, 11));
 					j6.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
@@ -1932,7 +1918,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						}
 					// Editar el dominio del atributo
 					JMenuItem j2 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.EDIT_DOMAIN));
-					j2.setFont(new java.awt.Font("SansSerif", 0, 11));
 					j2.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
@@ -1945,7 +1930,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					
 					// Renombrar un atributo
 					JMenuItem j1 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.RENAME_ATTRIB));
-					j1.setFont(new java.awt.Font("SansSerif", 0, 11));
 					j1.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
@@ -1958,7 +1942,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 
 					// Eliminar un atributo
 					JMenuItem j7 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.DELETE_ATTRIB));
-					j7.setFont(new java.awt.Font("SansSerif", 0, 11));
 					j7.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
@@ -1978,7 +1961,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					final TransferEntidad ent = esAtributoDirecto(atributo);
 					if (ent != null){
 						JCheckBoxMenuItem j6 = new JCheckBoxMenuItem(Lenguaje.getMensaje(Lenguaje.IS_PRIMARY_KEY)+" \""+ent.getNombre()+"\"");
-						j6.setFont(new java.awt.Font("SansSerif", 0, 11));
 						if (atributo.isClavePrimaria()) j6.setSelected(true);
 						j6.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
@@ -1997,7 +1979,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					
 					// Es un atributo compuesto
 					JCheckBoxMenuItem j3 = new JCheckBoxMenuItem(Lenguaje.getMensaje(Lenguaje.COMPOSED));
-					j3.setFont(new java.awt.Font("SansSerif", 0, 11));
 					final boolean notnul= atributo.getNotnull();
 					final boolean unique = atributo.getUnique();
 					if (atributo.getCompuesto()) j3.setSelected(true);
@@ -2021,7 +2002,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					// Si es compuesto
 					if (atributo.getCompuesto()){
 						JMenuItem j4 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_SUBATTRIBUTE));
-						j4.setFont(new java.awt.Font("SansSerif", 0, 11));
 						j4.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								popup.setVisible(false);
@@ -2037,7 +2017,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					// Es un atributo NotNull
 					if(!atributo.getCompuesto() && !atributo.isClavePrimaria()){
 						JCheckBoxMenuItem j3a = new JCheckBoxMenuItem(Lenguaje.getMensaje(Lenguaje.NOT_NULL));
-						j3a.setFont(new java.awt.Font("SansSerif", 0, 11));
 						if (atributo.getNotnull()) j3a.setSelected(true);
 						else j3a.setSelected(false);
 						j3a.addActionListener(new java.awt.event.ActionListener() {
@@ -2054,7 +2033,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					// Es un atributo Unique
 					if(!atributo.getCompuesto() && !atributo.isClavePrimaria()){
 					JCheckBoxMenuItem j3b = new JCheckBoxMenuItem(Lenguaje.getMensaje(Lenguaje.UNIQUE));
-					j3b.setFont(new java.awt.Font("SansSerif", 0, 11));
 					if (atributo.getUnique()) j3b.setSelected(true);
 					else j3b.setSelected(false);
 					j3b.addActionListener(new java.awt.event.ActionListener() {
@@ -2072,7 +2050,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					// Es un atributo multivalorado
 					if( !atributo.isClavePrimaria()){
 					JCheckBoxMenuItem j5 = new JCheckBoxMenuItem(Lenguaje.getMensaje(Lenguaje.IS_MULTIVALUATED));
-					j5.setFont(new java.awt.Font("SansSerif", 0, 11));
 					if (atributo.isMultivalorado()) j5.setSelected(true);
 					else j5.setSelected(false);
 					j5.addActionListener(new java.awt.event.ActionListener() {
@@ -2091,7 +2068,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					popup.add(new JSeparator());
 					//Añadir restricciones			
 					JMenuItem j8 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.RESTRICTIONS));
-					j8.setFont(new java.awt.Font("SansSerif", 0, 11));
 					j8.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
@@ -2132,7 +2108,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					if (!(relacion.getTipo().equals("IsA"))){
 						// Anadir una entidad
 						JMenuItem j3 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_ENT));
-						j3.setFont(new java.awt.Font("SansSerif", 0, 11));
 						j3.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								popup.setVisible(false);
@@ -2145,7 +2120,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 
 						// Quitar una entidad
 						JMenuItem j4 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.REMOVE_ENTITY));
-						j4.setFont(new java.awt.Font("SansSerif", 0, 11));
 						j4.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								popup.setVisible(false);
@@ -2158,7 +2132,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 
 						// Editar la aridad de una entidad
 						JMenuItem j5 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.EDIT_CARD_ROL));
-						j5.setFont(new java.awt.Font("SansSerif", 0, 11));
 						j5.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								popup.setVisible(false);
@@ -2172,7 +2145,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 
 						// Anadir un atributo a la relacion
 						JMenuItem j6 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_ATTRIBUTE));
-						j6.setFont(new java.awt.Font("SansSerif", 0, 11));
 						if (relacion.getTipo().equals("Debil"))
 							j6.setEnabled(false);
 						else{
@@ -2191,7 +2163,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						
 						// Renombrar la relacion
 						JMenuItem j1 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.RENAME_RELATION));
-						j1.setFont(new java.awt.Font("SansSerif", 0, 11));
 						j1.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								popup.setVisible(false);
@@ -2204,7 +2175,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						
 						// Eliminar la relacion
 							JMenuItem j7 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.DELETE_REL));
-							j7.setFont(new java.awt.Font("SansSerif", 0, 11));
 							j7.addActionListener(new java.awt.event.ActionListener() {
 								public void actionPerformed(ActionEvent e) {
 									popup.setVisible(false);
@@ -2221,7 +2191,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 
 						//Añadir restricciones			
 						JMenuItem j8 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.RESTRICTIONS));
-						j8.setFont(new java.awt.Font("SansSerif", 0, 11));
 						j8.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								popup.setVisible(false);
@@ -2233,7 +2202,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						popup.add(j8);
 						//Añadir restricciones	Unique		
 						JMenuItem j9 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.TABLE_UNIQUE));
-						j9.setFont(new java.awt.Font("SansSerif", 0, 11));
 						j9.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								popup.setVisible(false);
