@@ -1224,6 +1224,11 @@ public class Controlador {
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_MostrarDatosEnPanelDeInformacion, arbol);
 			break;
 		}
+		case PanelDiseno_MostrarDatosEnTablaDeVolumenes:{
+
+			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_MostrarDatosEnTablaDeVolumenes,datos);
+			break;
+		}
 		default:
 			break;
 		

@@ -596,6 +596,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 			return;
 		}
 		controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_MostrarDatosEnPanelDeInformacion, generaArbolInformacion());
+		controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_MostrarDatosEnTablaDeVolumenes, generaTablaVolumenes());
 		// Envía el Tree con los datos del nodo pulsado
 		/*if (t instanceof TransferEntidad) {
 			TransferEntidad entidad = (TransferEntidad) t;
@@ -613,6 +614,40 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 			controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_MostrarDatosEnPanelDeInformacion, arbolRelacion);
 		}*/
 		
+	}
+	private int numMultivalorados(){
+		int m=0;
+		for(int i=0;i<atributos.size();i++)
+			if(atributos.get(i+1).isMultivalorado())
+				m++;
+		//System.out.println(m);
+		return m;
+	}
+	private String[] nombreMultivalorados(){
+		String[] s = new String[numMultivalorados()];
+		for(int i=0;i<atributos.size();i++)
+			if(atributos.get(i+1).isMultivalorado())
+				s[i] = atributos.get(i+1).getNombre();
+		return s;
+	}
+	private String[][] generaTablaVolumenes(){
+		String[] multis = nombreMultivalorados();
+		int filas=entidades.size()+relaciones.size()+multis.length;
+		int columnas =3;
+		String valor="";
+		String[][] hola = new String[filas][3];
+		for (int row = 0; row < filas; row ++)
+		    for (int col = 0; col < columnas; col++){
+		    	if(col==0){
+		    		if(row<entidades.size())valor = entidades.get(row+1).getNombre();
+		    		else if(row+entidades.size()<entidades.size()+relaciones.size()+row)valor = relaciones.get(row-entidades.size()+1).getNombre();
+		    		else valor=multis[row-entidades.size()-relaciones.size()+1];
+		    	}
+		    	else if(col==1) valor = "100";
+		    	else valor = "30";
+		    	hola[row][col] = valor;
+		    }    
+		return hola;
 	}
 	private JTree generaArbolInformacion() {
 		JTree arbolInformacion;

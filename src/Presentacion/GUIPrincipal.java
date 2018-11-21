@@ -20,6 +20,7 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.Vector;
+
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -58,6 +59,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
+
 import Controlador.Controlador;
 import Controlador.TC;
 import LogicaNegocio.Transfers.Transfer;
@@ -66,6 +68,7 @@ import LogicaNegocio.Transfers.TransferConexion;
 import LogicaNegocio.Transfers.TransferDominio;
 import LogicaNegocio.Transfers.TransferEntidad;
 import LogicaNegocio.Transfers.TransferRelacion;
+import Presentacion.GUIPanels.TablaVolumenes;
 import Presentacion.Grafo.PanelGrafo;
 import Presentacion.Grafo.PanelThumbnail;
 import Presentacion.Lenguajes.Lenguaje;
@@ -102,6 +105,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	//variables de escritura
 	private String acumulador="";
 	// Componentes
+	private TablaVolumenes tablaVolumenes;
 	private JTabbedPane panelPrincipal;
 	private JMenu menuSistema;
 	private JScrollPane panelScrollSucesos;
@@ -656,6 +660,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 											JPanel panelTablas = new JPanel();
 											panelTablas.setLayout(new BorderLayout());
 											panelTablas.setBackground(theme.background());
+											tablaVolumenes = new TablaVolumenes();
+											panelTablas.add(new JScrollPane(tablaVolumenes));
 											tabPanelDcha.addTab("Tablas", null, panelTablas ,null);
 										}
 									}
@@ -1389,6 +1395,10 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 			this.arbol.setFont(new java.awt.Font("Avenir", 0, 15));
 			this.panelArbol.setViewportView(arbol);
 			this.repaint();
+			break;
+		}
+		case Controlador_MostrarDatosEnTablaDeVolumenes:{
+			this.tablaVolumenes.refresh((String[][]) datos);
 			break;
 		}
 		case Controlador_LimpiarPanelDominio:{
