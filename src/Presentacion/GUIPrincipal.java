@@ -106,6 +106,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private String acumulador="";
 	// Componentes
 	private TablaVolumenes tablaVolumenes;
+	private JPanel panelTablas;
 	private JTabbedPane panelPrincipal;
 	private JMenu menuSistema;
 	private JScrollPane panelScrollSucesos;
@@ -657,7 +658,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 
 										}
 										{
-											JPanel panelTablas = new JPanel();
+											panelTablas = new JPanel();
 											panelTablas.setLayout(new BorderLayout());
 											panelTablas.setBackground(theme.background());
 											tablaVolumenes = new TablaVolumenes();
@@ -1399,6 +1400,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		}
 		case Controlador_MostrarDatosEnTablaDeVolumenes:{
 			this.tablaVolumenes.refresh((String[][]) datos);
+			this.panelTablas.repaint();
 			break;
 		}
 		case Controlador_LimpiarPanelDominio:{

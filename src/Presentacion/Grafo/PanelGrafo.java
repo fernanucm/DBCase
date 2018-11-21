@@ -300,7 +300,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		graphMouse.add(new PickingGraphMousePlugin<Transfer, Double>(){
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				
 				SwingUtilities.invokeLater(doFocus);
 				VisualizationViewer<Transfer,Double> vv2 = (VisualizationViewer<Transfer,Double>)e.getSource();
 				//Aqui empieza lo de cambiar la fuente
@@ -469,7 +468,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		this.add(vv);
 		//content.add(gzsp);
 		//content.setSize(this.getHeight(),this.getWidth());
-		graphMouse.setMode(ModalGraphMouse.Mode.PICKING);		
+		graphMouse.setMode(ModalGraphMouse.Mode.PICKING);
 	}
 	
 		
@@ -590,46 +589,30 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 	 */
 	
 	public void EnviaInformacionNodo(Transfer t){
+		controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_MostrarDatosEnTablaDeVolumenes, generaTablaVolumenes());
 		if (t == null){
 			// Envia mensaje al controlador para que vacíe el panel
 			controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_LimpiarPanelInformacion, null);
 			return;
 		}
 		controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_MostrarDatosEnPanelDeInformacion, generaArbolInformacion());
-		controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_MostrarDatosEnTablaDeVolumenes, generaTablaVolumenes());
-		// Envía el Tree con los datos del nodo pulsado
-		/*if (t instanceof TransferEntidad) {
-			TransferEntidad entidad = (TransferEntidad) t;
-			JTree arbolEntidad = generaArbolEntidad(entidad);
-			controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_MostrarDatosEnPanelDeInformacion, arbolEntidad);			
-		}
-		if (t instanceof TransferAtributo) {
-			TransferAtributo atributo = (TransferAtributo) t;
-			JTree arbolAtributo = generaArbolAtributo(atributo);
-			controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_MostrarDatosEnPanelDeInformacion, arbolAtributo);
-		}
-		if (t instanceof TransferRelacion) {
-			TransferRelacion relacion = (TransferRelacion) t;
-			JTree arbolRelacion = generaArbolRelacion(relacion);
-			controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_MostrarDatosEnPanelDeInformacion, arbolRelacion);
-		}*/
 		
 	}
 	private int numMultivalorados(){
 		int m=0;
 		for(int i=0;i<atributos.size();i++)
-			if(atributos.get(i+1).isMultivalorado())
-				m++;
-		//System.out.println(m);
+			if(atributos.get(i+1).isMultivalorado()) m++;
 		return m;
 	}
+	
 	private String[] nombreMultivalorados(){
 		String[] s = new String[numMultivalorados()];
-		for(int i=0;i<atributos.size();i++)
+		for(int i=0, pos=0;i<atributos.size();i++)
 			if(atributos.get(i+1).isMultivalorado())
-				s[i] = atributos.get(i+1).getNombre();
+				s[pos++] = atributos.get(i+1).getNombre();
 		return s;
 	}
+	
 	private String[][] generaTablaVolumenes(){
 		String[] multis = nombreMultivalorados();
 		int filas=entidades.size()+relaciones.size()+multis.length;
@@ -640,11 +623,10 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		    for (int col = 0; col < columnas; col++){
 		    	if(col==0){
 		    		if(row<entidades.size())valor = entidades.get(row+1).getNombre();
-		    		else if(row+entidades.size()<entidades.size()+relaciones.size()+row)valor = relaciones.get(row-entidades.size()+1).getNombre();
-		    		else valor=multis[row-entidades.size()-relaciones.size()+1];
+		    		else if(row<entidades.size()+relaciones.size())valor = relaciones.get(row-entidades.size()+1).getNombre();
+		    		else valor=multis[row-entidades.size()-relaciones.size()];
 		    	}
-		    	else if(col==1) valor = "100";
-		    	else valor = "30";
+		    	else valor = "";
 		    	hola[row][col] = valor;
 		    }    
 		return hola;
@@ -1015,7 +997,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		if (object instanceof TransferRelacion) {
 			TransferRelacion relacion = (TransferRelacion) object;
 			TransferRelacion antigua = relaciones.get(relacion.getIdRelacion());
-			//TODO revisar si es necesario el parametro rolRepe
 			Boolean rolRepe =false;
 			antigua.CopiarRelacion(relacion,relacion.getIdRelacion(),rolRepe);
 			graph.removeVertex(antigua);
