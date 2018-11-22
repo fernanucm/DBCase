@@ -7,6 +7,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -25,6 +26,7 @@ import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
@@ -166,6 +168,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private boolean mostrarPanelSucesos;
 	private Theme theme;
 	private JMenu themeMenu;
+	private JScrollPane scrollPanelTablas;
 	
 	public GUIPrincipal(Theme theme){
 		this.theme = theme;
@@ -232,6 +235,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		UIManager.put("ToolTip.font",  new java.awt.Font("Avenir", 0, 16));
 		UIManager.put("Tree.font",  new java.awt.Font("Avenir", 0, 16));
 		UIManager.put("control", Color.white);
+		UIManager.put("Tree.collapsedIcon", false);
+		UIManager.put("Tree.expandedIcon", false);
         for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) 
             if ("Nimbus".equals(info.getName())) {
             	try { javax.swing.UIManager.setLookAndFeel(info.getClassName());} 
@@ -541,7 +546,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				
 				{
 					salvado = new JRadioButton();
-					barraDeMenus.add(salvado);
+					//barraDeMenus.add(salvado);
 					salvado.setSelected(true);
 					salvado.setFocusable(false);
 					salvado.setForeground(Color.GREEN);
@@ -653,6 +658,17 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 												panelArbolDom.setBorder(BorderFactory.createEmptyBorder(4, 4, 0, 0));
 												panelArbolDom.addMouseListener(ml);
 												panelArbolDom.setVisible(false);
+												JButton nuevoDom = new JButton(Lenguaje.getMensaje(Lenguaje.ADD_DOMAIN));
+												JPanel panelBoton = new JPanel();
+												nuevoDom.addActionListener(new ActionListener() {
+													@Override
+													public void actionPerformed(ActionEvent e) {
+														controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_CrearDominio, 0);
+													}
+												});		
+												nuevoDom.setFocusable(false);
+												panelBoton.add(nuevoDom);
+												panelDom.add(panelBoton, BorderLayout.NORTH);
 												this.actualizaArbolDominio(null);
 											}
 
@@ -662,7 +678,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 											panelTablas.setLayout(new BorderLayout());
 											panelTablas.setBackground(theme.background());
 											tablaVolumenes = new TablaVolumenes();
-											panelTablas.add(new JScrollPane(tablaVolumenes));
+											scrollPanelTablas = new JScrollPane(tablaVolumenes);
+											panelTablas.add(scrollPanelTablas);
 											tabPanelDcha.addTab("Tablas", null, panelTablas ,null);
 										}
 									}
@@ -1400,7 +1417,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		}
 		case Controlador_MostrarDatosEnTablaDeVolumenes:{
 			this.tablaVolumenes.refresh((String[][]) datos);
-			this.panelTablas.repaint();
+			
 			break;
 		}
 		case Controlador_LimpiarPanelDominio:{

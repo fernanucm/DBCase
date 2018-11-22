@@ -9,12 +9,13 @@ public class TablaVolumenes extends JTable{
 
 	public void refresh(String[][] s){
 		((MyTableModel) this.getModel()).refresh(s);
-		this.repaint();
+		((MyTableModel) this.getModel()).fireTableDataChanged();
 	}
 	
 	public TablaVolumenes(){
 		super(new MyTableModel());
 		this.setRowHeight(30);
+		this.getTableHeader().setReorderingAllowed(false);
 	}
 }
 
@@ -45,7 +46,6 @@ class MyTableModel extends AbstractTableModel{
 	
 	@Override
 	public int getRowCount() {
-		System.out.println("Pide Row Count" + data.size());
 		return data.size();
 	}
 
@@ -61,7 +61,6 @@ class MyTableModel extends AbstractTableModel{
     }
 	@Override
 	public String getValueAt(int rowIndex, int columnIndex) {
-		System.out.println(data.get(rowIndex).get(columnIndex));
 		return data.get(rowIndex).get(columnIndex);
 	}
 	

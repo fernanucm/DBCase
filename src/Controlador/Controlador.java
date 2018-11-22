@@ -1225,14 +1225,10 @@ public class Controlador {
 			break;
 		}
 		case PanelDiseno_MostrarDatosEnTablaDeVolumenes:{
-			System.out.println("Estoy en el controlador y me han llegado estos datos:\n"+datos);
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_MostrarDatosEnTablaDeVolumenes,datos);
 			break;
 		}
-		default:
-			break;
-		
-		
+		default: break;
 		} // switch 
 	}
 

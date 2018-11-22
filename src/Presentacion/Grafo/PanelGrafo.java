@@ -687,7 +687,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		arbolInformacion = new JTree(root);
 		arbolInformacion.setRootVisible(false);
 		for(int i=0; i<arbolInformacion.getRowCount(); i++) arbolInformacion.expandRow(i);
-		arbolInformacion.setToggleClickCount(1);
+		arbolInformacion.setToggleClickCount(2);
 		return arbolInformacion;
 	}
 

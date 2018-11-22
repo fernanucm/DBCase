@@ -116,10 +116,10 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 			botonInsertar.setMnemonic(Lenguaje.getMensaje(Lenguaje.INSERT).charAt(0));
 		}
 		{
-			labelIcono = new JLabel();
+			/*labelIcono = new JLabel();
 			getContentPane().add(labelIcono);
 			labelIcono.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.TECLADO)));
-			labelIcono.setBounds(14, 39, 94, 86);
+			labelIcono.setBounds(14, 39, 94, 86);*/
 		}
 		{
 			explicacion = new JTextPane();
@@ -134,7 +134,7 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 		{
 			cajaNombre = new JTextField();
 			getContentPane().add(cajaNombre);
-			cajaNombre.setBounds(83, 13, 230, 20);
+			cajaNombre.setBounds(100, 13, 200, 29);
 			cajaNombre.addKeyListener(general);
 		}
 		{
