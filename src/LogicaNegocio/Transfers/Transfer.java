@@ -23,6 +23,14 @@ public abstract class Transfer {
 	 * 
 	 */
 	public abstract Point2D getPosicion();
+
+	public abstract String getNombre();
 	
+	public abstract int getVolumen();
 	
+	public abstract int getFrecuencia();
+	
+	public abstract void setVolumen(int v);
+	
+	public abstract void setFrecuencia(int f);
 }

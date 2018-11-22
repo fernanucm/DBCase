@@ -1224,6 +1224,10 @@ public class Controlador {
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_MostrarDatosEnPanelDeInformacion, arbol);
 			break;
 		}
+		case PanelDiseno_ActualizarDatosEnTablaDeVolumenes:{
+			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_ActualizarDatosEnTablaDeVolumenes,datos);
+			break;
+		}
 		case PanelDiseno_MostrarDatosEnTablaDeVolumenes:{
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_MostrarDatosEnTablaDeVolumenes,datos);
 			break;

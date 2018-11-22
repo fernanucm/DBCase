@@ -482,6 +482,9 @@ public enum TC {
 	Controlador_QuitarUniqueRelacion,
 	Controlador_setUniquesRelacion,
 	Controlador_setUniqueUnitarioRelacion, 
-	PanelDiseno_MostrarDatosEnTablaDeVolumenes, Controlador_MostrarDatosEnTablaDeVolumenes,
+	PanelDiseno_MostrarDatosEnTablaDeVolumenes, 
+	Controlador_MostrarDatosEnTablaDeVolumenes,
+	PanelDiseno_ActualizarDatosEnTablaDeVolumenes, 
+	Controlador_ActualizarDatosEnTablaDeVolumenes, 
 
 }

@@ -13,8 +13,9 @@ public class TransferAtributo extends Transfer{
 	private boolean ClavePrimaria;
 	private boolean compuesto;
 	private boolean notnull;
-	private boolean unique; 
-	
+	private boolean unique;
+	private int volumen;
+	private int frecuencia;
 	private Vector listaComponentes;
 	private boolean multivalorado;
 	private Vector listaRestricciones;
@@ -38,6 +39,8 @@ public class TransferAtributo extends Transfer{
 		clon_ta.setPosicion((Point2D) this.getPosicion().clone());
 		clon_ta.setListaRestricciones((Vector) this.getListaRestricciones().clone());
 		clon_ta.setClavePrimaria(this.isClavePrimaria());
+		clon_ta.setVolumen(this.getVolumen());
+		clon_ta.setFrecuencia(this.getFrecuencia());
 		return clon_ta;
 	}
 
@@ -49,6 +52,8 @@ public class TransferAtributo extends Transfer{
 		this.notnull = arg0.getNotnull();
 		this.unique = arg0.getUnique();
 		this.listaComponentes = arg0.getListaComponentes();
+		this.volumen = arg0.getVolumen();
+		this.frecuencia = arg0.getFrecuencia();
 		this.multivalorado = arg0.isMultivalorado();
 		this.listaRestricciones = arg0.getListaRestricciones();
 		this.posicion = new Point2D.Double(arg0.getPosicion().getX(),
@@ -125,6 +130,22 @@ public class TransferAtributo extends Transfer{
 		this.listaRestricciones = listaRestricciones;
 	}
 	
+	public int getVolumen() {
+		return volumen;
+	}
+
+	public void setVolumen(int volumen) {
+		this.volumen = volumen;
+	}
+
+	public int getFrecuencia() {
+		return frecuencia;
+	}
+
+	public void setFrecuencia(int frecuencia) {
+		this.frecuencia = frecuencia;
+	}
+
 	@Override
 	public String toString() {
 		return this.nombre;

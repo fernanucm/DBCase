@@ -2,12 +2,10 @@
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
-import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -29,7 +27,6 @@ import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -37,7 +34,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.event.TableModelEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
 import org.apache.commons.collections15.Transformer;
 import org.apache.commons.collections15.functors.ConstantTransformer;
@@ -56,7 +53,6 @@ import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.UndirectedSparseMultigraph;
 import edu.uci.ics.jung.graph.util.EdgeIndexFunction;
 import edu.uci.ics.jung.visualization.DefaultVertexLabelRenderer;
-import edu.uci.ics.jung.visualization.EdgeLabelRenderer;
 import edu.uci.ics.jung.visualization.RenderContext;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.AbstractPopupGraphMousePlugin;
@@ -64,10 +60,9 @@ import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.PickingGraphMousePlugin;
 import edu.uci.ics.jung.visualization.decorators.EdgeShape;
-import edu.uci.ics.jung.visualization.decorators.PickableVertexPaintTransformer;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import edu.uci.ics.jung.visualization.picking.PickedState;
-
+import Presentacion.GUIPanels.MyTableModel;
 
 /**
 * This code was edited or generated using CloudGarden's Jigloo
@@ -98,6 +93,8 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 	protected Map<Integer,TransferEntidad> entidades;
 	protected Map<Integer,TransferAtributo> atributos;
 	protected Map<Integer,TransferRelacion> relaciones;
+	//guarda los elementos que formaran tablas
+	protected Map<Integer, Transfer> tablas;
 		
 	@SuppressWarnings("unchecked")
 	public PanelGrafo(Vector<TransferEntidad> entidades, Vector<TransferAtributo> atributos,
@@ -500,7 +497,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 			TransferRelacion relacion = it.next();
 			this.relaciones.put(relacion.getIdRelacion(), relacion);
 		}
-		
+		creaArrayTablas();
 	}
 	
 	/*
@@ -589,47 +586,50 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 	 */
 	
 	public void EnviaInformacionNodo(Transfer t){
-		controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_MostrarDatosEnTablaDeVolumenes, generaTablaVolumenes());
 		if (t == null){
 			// Envia mensaje al controlador para que vacíe el panel
 			controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_LimpiarPanelInformacion, null);
 			return;
 		}
 		controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_MostrarDatosEnPanelDeInformacion, generaArbolInformacion());
+		controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_MostrarDatosEnTablaDeVolumenes, generaTablaVolumenes());
 		
 	}
-	private int numMultivalorados(){
-		int m=0;
-		for(int i=0;i<atributos.size();i++)
-			if(atributos.get(i+1).isMultivalorado()) m++;
-		return m;
+	private void creaArrayTablas() {
+		tablas = new HashMap<Integer, Transfer>(entidades);
+		HashMap<Integer, TransferAtributo> multis = (HashMap<Integer, TransferAtributo>) listaMultivalorados();
+		for(int i=1;i<relaciones.size()+1;i++) tablas.put(entidades.size()+i, relaciones.get(i));
+		for(int i=1;i<multis.size()+1;i++) tablas.put(entidades.size()+relaciones.size()+i, multis.get(i));
+	}
+	public void refreshTables(TableModelEvent datos) {
+		MyTableModel tabla = (MyTableModel) datos.getSource();
+		for (int row = 0; row < tabla.getRowCount(); row ++)
+		    for (int col = 0; col < tabla.getColumnCount(); col++) {
+		    	if(col==1) tablas.get(row+1).setVolumen(Integer.parseInt(tabla.getValueAt(row, col)));
+		    	if(col==2) tablas.get(row+1).setFrecuencia(Integer.parseInt(tabla.getValueAt(row, col)));
+		    }
 	}
 	
-	private String[] nombreMultivalorados(){
-		String[] s = new String[numMultivalorados()];
-		for(int i=0, pos=0;i<atributos.size();i++)
-			if(atributos.get(i+1).isMultivalorado())
-				s[pos++] = atributos.get(i+1).getNombre();
-		return s;
+	private HashMap<Integer, TransferAtributo> listaMultivalorados(){
+		HashMap<Integer, TransferAtributo> multis = new HashMap<Integer, TransferAtributo>();
+		for(int i=1, pos=1;i<atributos.size()+1;i++)
+			if(atributos.get(i).isMultivalorado()) multis.put(pos++, atributos.get(i));
+		return multis;
 	}
 	
 	private String[][] generaTablaVolumenes(){
-		String[] multis = nombreMultivalorados();
-		int filas=entidades.size()+relaciones.size()+multis.length;
+		int filas=tablas.size();
 		int columnas =3;
-		String valor="";
-		String[][] hola = new String[filas][3];
+		String valor;
+		String[][] tabla = new String[filas][3];
 		for (int row = 0; row < filas; row ++)
 		    for (int col = 0; col < columnas; col++){
-		    	if(col==0){
-		    		if(row<entidades.size())valor = entidades.get(row+1).getNombre();
-		    		else if(row<entidades.size()+relaciones.size())valor = relaciones.get(row-entidades.size()+1).getNombre();
-		    		else valor=multis[row-entidades.size()-relaciones.size()];
-		    	}
-		    	else valor = "";
-		    	hola[row][col] = valor;
+		    	if(col==0) valor = tablas.get(row+1).getNombre();
+		    	else if(col==1) valor = String.valueOf(tablas.get(row+1).getVolumen());
+		    	else valor = String.valueOf(tablas.get(row+1).getFrecuencia());
+		    	tabla[row][col] = valor;
 		    }    
-		return hola;
+		return tabla;
 	}
 	private JTree generaArbolInformacion() {
 		JTree arbolInformacion;
@@ -1083,7 +1083,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 			relaciones.put(relacion.getIdRelacion(), relacion);
 			layout.anadeVertice(relacion);
 		}
-		
+		creaArrayTablas();
 		vv.repaint();
 	}
 

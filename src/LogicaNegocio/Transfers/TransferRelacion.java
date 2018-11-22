@@ -18,6 +18,8 @@ public class TransferRelacion extends Transfer {
 	private Vector listaRestricciones;
 	private Vector listaUniques;
 	private Point2D posicion;
+	private int volumen;
+	private int frecuencia;
 
 	public TransferRelacion() {
 
@@ -37,6 +39,8 @@ public class TransferRelacion extends Transfer {
 			clon_tr.setListaUniques((Vector) this.getListaUniques().clone());
 		}
 		clon_tr.setPosicion((Point2D) this.getPosicion().clone());
+		clon_tr.setVolumen(this.getVolumen());
+		clon_tr.setFrecuencia(this.getFrecuencia());
 		return clon_tr;
 	}
 	//Antes sólo tenía un parámetro, el primero; arg0
@@ -48,6 +52,8 @@ public class TransferRelacion extends Transfer {
 		this.listaEntidadesYAridades = arg0.getListaEntidadesYAridades();
 		this.listaAtributos = arg0.getListaAtributos();
 		this.listaRestricciones = arg0.getListaRestricciones();
+		this.volumen = arg0.getVolumen();
+		this.frecuencia = arg0.getFrecuencia();
 		this.listaUniques = arg0.getListaUniques();
 		this.rol=arg0.getRol();
 		//Si entidad ya está asociada con dicha relación, la línea que las unirá deberá ser diferente a la existente
@@ -224,6 +230,22 @@ public class TransferRelacion extends Transfer {
 	}
 	public void setListaUniques(Vector listaUniques) {
 		this.listaUniques = listaUniques;
+	}
+
+	public int getVolumen() {
+		return volumen;
+	}
+
+	public void setVolumen(int volumen) {
+		this.volumen = volumen;
+	}
+
+	public int getFrecuencia() {
+		return frecuencia;
+	}
+
+	public void setFrecuencia(int frecuencia) {
+		this.frecuencia = frecuencia;
 	}
 		
 }

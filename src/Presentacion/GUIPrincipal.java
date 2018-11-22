@@ -57,6 +57,8 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -678,6 +680,11 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 											panelTablas.setLayout(new BorderLayout());
 											panelTablas.setBackground(theme.background());
 											tablaVolumenes = new TablaVolumenes();
+											tablaVolumenes.getModel().addTableModelListener(new TableModelListener() {
+												@Override
+												public void tableChanged(TableModelEvent e) {
+													controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_ActualizarDatosEnTablaDeVolumenes, e);
+												}});
 											scrollPanelTablas = new JScrollPane(tablaVolumenes);
 											panelTablas.add(scrollPanelTablas);
 											tabPanelDcha.addTab("Tablas", null, panelTablas ,null);
@@ -1417,7 +1424,10 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		}
 		case Controlador_MostrarDatosEnTablaDeVolumenes:{
 			this.tablaVolumenes.refresh((String[][]) datos);
-			
+			break;
+		}
+		case Controlador_ActualizarDatosEnTablaDeVolumenes:{
+			this.panelDiseno.refreshTables((TableModelEvent) datos);
 			break;
 		}
 		case Controlador_LimpiarPanelDominio:{

@@ -14,6 +14,8 @@ public class TransferEntidad extends Transfer{
 	private Vector listaRestricciones;
 	private Vector listaUniques;
 	private Point2D posicion;
+	private int volumen;
+	private int frecuencia;
 	
 	public TransferEntidad(){
 		
@@ -28,7 +30,9 @@ public class TransferEntidad extends Transfer{
 		clon_te.setListaClavesPrimarias((Vector) this.getListaClavesPrimarias().clone());
 		clon_te.setListaRestricciones((Vector) this.getListaRestricciones().clone());
 		clon_te.setListaUniques((Vector) this.getListaUniques().clone());
-		clon_te.setPosicion((Point2D) this.getPosicion().clone());		
+		clon_te.setPosicion((Point2D) this.getPosicion().clone());	
+		clon_te.setVolumen(this.getVolumen());
+		clon_te.setFrecuencia(this.getFrecuencia());
 		return clon_te;
 	}
 	
@@ -40,6 +44,8 @@ public class TransferEntidad extends Transfer{
 		this.listaClavesPrimarias = arg0.getListaClavesPrimarias();
 		this.listaRestricciones = arg0.getListaRestricciones();
 		this.listaUniques = arg0.getListaUniques();
+		this.volumen = arg0.getVolumen();
+		this.frecuencia = arg0.getFrecuencia();
 		this.posicion = new Point2D.Double(arg0.getPosicion().getX(),
 										   arg0.getPosicion().getY());
 	}
@@ -93,6 +99,18 @@ public class TransferEntidad extends Transfer{
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+	public int getVolumen() {
+		return volumen;
+	}
+	public void setVolumen(int volumen) {
+		this.volumen = volumen;
+	}
+	public int getFrecuencia() {
+		return frecuencia;
+	}
+	public void setFrecuencia(int frecuencia) {
+		this.frecuencia = frecuencia;
+	}
 
 	@Override
 	public String toString() {
@@ -122,6 +140,4 @@ public class TransferEntidad extends Transfer{
 		figura = new RoundRectangle2D.Double(-anchura,-25,anchura * 2,50,8,8);
 		return figura;
 	}
-		
-
 }
