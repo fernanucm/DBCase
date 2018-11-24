@@ -12,6 +12,7 @@ import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
+import javax.swing.SwingUtilities;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import LogicaNegocio.Servicios.ServiciosAtributos;
@@ -267,9 +268,9 @@ public class Controlador {
 		switch (mensaje){
 
 		case GUI_WorkSpace_PrimeraSeleccion:{
-			this.setPath((String)datos);
-			this.getTheGUIWorkSpace().setInactiva();
-			this.getTheGUIPrincipal().setActiva();
+	    	this.setPath((String)datos);
+	    	this.getTheGUIWorkSpace().setInactiva();
+	    	this.getTheGUIPrincipal().setActiva();
 			break;
 		}
 		case GUI_WorkSpace_Nuevo:{

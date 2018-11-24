@@ -174,6 +174,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	
 	public GUIPrincipal(Theme theme){
 		this.theme = theme;
+		
 	}
 
 	/*
@@ -190,6 +191,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		this.labelBarraEstado.setText("  "+Lenguaje.getMensaje(Lenguaje.WORKSPACE_IS)+" "+this.controlador.getPath());
 		changeFont(this,new java.awt.Font("Avenir", 0, 16));
 		this.setVisible(true);
+
 	}
 	
 	public void setInactiva(){
@@ -203,8 +205,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	        	changeFont (child, font);
 	}
 	private void setLookAndFeel(){
-		UIManager.put("Button.defaultButtonFollowsFocus", Boolean.TRUE);	
-		UIManager.put("nimbusBase", theme.main());
+		UIManager.put("Button.defaultButtonFollowsFocus", Boolean.TRUE);
 		UIManager.put("Button.font",  new java.awt.Font("Avenir", 0, 16));
 		UIManager.put("ToggleButton.font",  new java.awt.Font("Avenir", 0, 16));
 		UIManager.put("RadioButton.font",  new java.awt.Font("Avenir", 0, 16));
@@ -236,7 +237,23 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		UIManager.put("ToolBar.font",  new java.awt.Font("Avenir", 0, 16));
 		UIManager.put("ToolTip.font",  new java.awt.Font("Avenir", 0, 16));
 		UIManager.put("Tree.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("control", Color.white);
+		
+		UIManager.put("nimbusBase", theme.main());
+		UIManager.put("control", theme.control());
+		UIManager.put("nimbusSelectionBackground", theme.SelectionBackground());
+		UIManager.put("text", theme.fontColor());
+		UIManager.put("nimbusSelectedText", theme.fontColor());
+		UIManager.put("nimbusFocus", theme.SelectionBackground());
+		
+		UIManager.put("menu", theme.background());
+		UIManager.put("menuText", theme.background());
+		UIManager.put("nimbusBlueGrey", theme.background());
+		UIManager.put("nimbusBorder", theme.background());
+		UIManager.put("nimbusSelection", theme.SelectionBackground());
+		UIManager.put("scrollbar", theme.background());
+		
+		UIManager.put("TabbedPane.disabled", Color.red);
+		
 		UIManager.put("Tree.collapsedIcon", false);
 		UIManager.put("Tree.expandedIcon", false);
         for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) 
@@ -385,28 +402,29 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 							elementosMenuSGBDActual = new Vector<JCheckBoxMenuItem>(0,1);
 							
 							// Añadir las conexiones listadas
-							for (int i=0; i < listaConexiones.size(); i++){
-								TransferConexion tc = listaConexiones.get(i);
-								
-								JCheckBoxMenuItem menuConexion = new JCheckBoxMenuItem();
-								menuConexion.setText(tc.getRuta());
-								menuConexion.setSelected(i == 0);
-								
-								menuConexion.addActionListener(new ActionListener() {
-									public void actionPerformed(ActionEvent e) {
-										// Obtener el checkBox que ha sido pulsado
-										JCheckBoxMenuItem check = (JCheckBoxMenuItem) e.getSource();
-										System.out.println("He pulsado la opción " + check.getText());
-										
-										// Cambiar la conexión actual
-										cambiarConexion(check.getText());
-									}
-								});
-								
-								menuSGBDActual.add(menuConexion);
-								elementosMenuSGBDActual.add(menuConexion);
+							if(listaConexiones!=null) {
+								for (int i=0; i < listaConexiones.size(); i++){
+									TransferConexion tc = listaConexiones.get(i);
+									
+									JCheckBoxMenuItem menuConexion = new JCheckBoxMenuItem();
+									menuConexion.setText(tc.getRuta());
+									menuConexion.setSelected(i == 0);
+									
+									menuConexion.addActionListener(new ActionListener() {
+										public void actionPerformed(ActionEvent e) {
+											// Obtener el checkBox que ha sido pulsado
+											JCheckBoxMenuItem check = (JCheckBoxMenuItem) e.getSource();
+											System.out.println("He pulsado la opción " + check.getText());
+											
+											// Cambiar la conexión actual
+											cambiarConexion(check.getText());
+										}
+									});
+									
+									menuSGBDActual.add(menuConexion);
+									elementosMenuSGBDActual.add(menuConexion);
+								}
 							}
-							
 							// Menu SELECCIONAR LENGUAJE
 							menuLenguajes = new JMenu();
 							menuLenguajes.setFont(new java.awt.Font("Avenir", 0, 16));
@@ -637,13 +655,11 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 											panelInfo = new JPanel();
 											BorderLayout panelInfoLayout = new BorderLayout();
 											panelInfo.setLayout(panelInfoLayout);
-											//panelInfo.setBorder(BorderFactory.createTitledBorder(null, Lenguaje.getMensaje(Lenguaje.INF_PANEL), TitledBorder.LEADING, TitledBorder.BELOW_TOP));
-											panelInfo.setBackground(theme.background());
 											panelInfo.addMouseListener(mls);
 											tabPanelDcha.addTab("Elementos", null, panelInfo ,null);
 											{
 												panelArbol = new JScrollPane();
-												
+												panelArbol.setBackground(theme.background());
 												panelInfo.add(panelArbol, BorderLayout.CENTER);
 												panelArbol.setBorder(BorderFactory.createEmptyBorder(4, 4, 0, 0));
 												panelArbol.setVisible(false);
@@ -656,6 +672,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 											tabPanelDcha.addTab("Dominios", null, panelDom ,null);
 											{
 												panelArbolDom = new JScrollPane();
+												panelArbolDom.setBackground(theme.background());
 												panelDom.add(panelArbolDom, BorderLayout.CENTER);
 												panelArbolDom.setBorder(BorderFactory.createEmptyBorder(4, 4, 0, 0));
 												panelArbolDom.addMouseListener(ml);
@@ -685,7 +702,9 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 												public void tableChanged(TableModelEvent e) {
 													controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_ActualizarDatosEnTablaDeVolumenes, e);
 												}});
+											tablaVolumenes.setBackground(theme.background());
 											scrollPanelTablas = new JScrollPane(tablaVolumenes);
+											scrollPanelTablas.setBackground(theme.background());
 											panelTablas.add(scrollPanelTablas);
 											tabPanelDcha.addTab("Tablas", null, panelTablas ,null);
 										}
@@ -1418,6 +1437,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		    renderer.setLeafIcon(null);
 		    arbol.setCellRenderer(renderer);
 			this.arbol.setFont(new java.awt.Font("Avenir", 0, 15));
+			this.arbol.setBackground(theme.background());
 			this.panelArbol.setViewportView(arbol);
 			this.repaint();
 			break;
@@ -1440,6 +1460,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 			this.panelArbolDom.setVisible(true);
 			this.arbolDom = (JTree) datos;
 			this.arbolDom.setFont(new java.awt.Font("Avenir", 0, 15));
+			this.arbolDom.setBackground(theme.background());
 			this.panelArbolDom.setViewportView(arbolDom);
 			this.repaint();
 			break;
@@ -1582,8 +1603,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		this.panelArbolDom.setViewportView(arbolDom);
 		this.repaint();
 	}
-		
-	@SuppressWarnings("unchecked")
+	
 	private JTree generaArbolDominio(Vector<TransferDominio> listaDominios, String expandir){
 		
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.DOM_TREE_CREATED_DOMS));
@@ -1610,6 +1630,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		arbolDom.setShowsRootHandles(true);
 		arbolDom.setToggleClickCount(1);
 		arbolDom.addMouseListener(ml);
+		arbolDom.setBackground(theme.background());
 		DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
 	    renderer.setOpenIcon(null);
 	    renderer.setClosedIcon(null);
@@ -1628,9 +1649,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				 //expandir== null o getParentPath == null
 			 }
 		 }
-
-	
-		
 		return arbolDom;
 	}
 	
@@ -2467,22 +2485,21 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	// --- --- --- METODOS AUXILIARES --- --- ---
 
 	public void cambiarConexion(String nombreConexion) {
+		if(listaConexiones==null) return;
 		// Obtener conexión indicada
 		TransferConexion tc = null;
 		int i=0;
 		boolean encontrado = false;
+		
 		while (!encontrado && i<listaConexiones.size()){
 			tc = listaConexiones.get(i);
 			encontrado = tc.getRuta().equalsIgnoreCase(nombreConexion);
-			
 			i++;
 		}
-		
 		// Cambiar conexión actual
 		conexionActual = tc;
-		
 		cboSeleccionDBMS.setSelectedIndex(tc.getTipoConexion());
-		
+	
 		for (int k=0; k<elementosMenuSGBDActual.size(); k++){
 			JCheckBoxMenuItem elem = elementosMenuSGBDActual.get(k);
 			elem.setSelected(elem.getText().equalsIgnoreCase(tc.getRuta()));

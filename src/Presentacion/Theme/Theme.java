@@ -80,10 +80,17 @@ public class Theme {
 	public Color relation() {
 		return colors.get("relation");
 	}
-	public Color font() {
-		return colors.get("font");
+	public Color fontColor() {
+		return colors.get("fontColor");
 	}
 	public Color lines() {
 		return colors.get("lines");
 	}
+	public Color control() {
+		return colors.get("control");
+	}
+	public Color SelectionBackground() {
+		return colors.get("SelectionBackground");
+	}
+	
 }

@@ -2,11 +2,13 @@
   "name": "dark",
   "colors": {
     "background": [42,42,42],
-    "main": [42,42,42],
+    "main": [0,0,0],
     "entity": [248,214,48],
     "atribute": [126,223,255],
     "relation": [235,88,77],
     "lines": [255,255,255],
-    "font": [255,255,255]
+    "fontColor": [255,255,255],
+    "control": [42,42,42],
+    "SelectionBackground": [92,92,92],
   }
 }
