@@ -60,9 +60,15 @@ import Presentacion.Theme.Theme;
 import Utilidades.ImagePath;
 import Utilidades.PanelOpciones;
 import Utilidades.PanelOpcionesPequeno;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafxapplication3.JavaFXApplication3;
 
 
-public class Controlador {
+public class Controlador extends Application{
 	// GUIs
 	private GUIPrincipal theGUIPrincipal;
 	private GUI_WorkSpace theGUIWorkSpace;
@@ -113,6 +119,16 @@ public class Controlador {
 	private PanelOpciones panelOpciones;
 	private PanelOpcionesPequeno panelOpcionesPeque;
 	private Theme theme;
+	
+	 @Override
+    public void start(Stage stage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        
+        Scene scene = new Scene(root);
+        
+        stage.setScene(scene);
+        stage.show();
+    }
 	
 	public Controlador() {
 
@@ -205,6 +221,14 @@ public class Controlador {
 		theme = new Theme();
 		theGUIPrincipal = new GUIPrincipal(theme);
 		theGUIPrincipal.setControlador(this);
+		
+		JavaFXApplication3 app = new JavaFXApplication3();
+		try {
+			app.start(null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
