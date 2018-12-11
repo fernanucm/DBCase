@@ -27,7 +27,7 @@ public class ConfiguradorInicial{
 	 */
 	protected String _lenguaje;
 	/**
-	 * Lenguaje por defecto
+	 * Tema por defecto
 	 */
 	protected String _tema;
 	/**

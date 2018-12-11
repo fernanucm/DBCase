@@ -222,13 +222,12 @@ public class Controlador extends Application{
 		theGUIPrincipal = new GUIPrincipal(theme);
 		theGUIPrincipal.setControlador(this);
 		
-		JavaFXApplication3 app = new JavaFXApplication3();
-		try {
-			app.start(null);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		new Thread() {
+            @Override
+            public void run() {
+                javafx.application.Application.launch(JavaFXApplication3.class);
+            }
+        }.start();
 	}
 	
 	

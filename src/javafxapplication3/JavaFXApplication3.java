@@ -18,7 +18,6 @@ public class JavaFXApplication3 extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
         Scene scene = new Scene(root);
-        System.out.println(scene.getHeight());
         stage.setScene(scene);
         stage.show();
     }
@@ -27,7 +26,7 @@ public class JavaFXApplication3 extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-    	System.out.println("BBB");
+    	
         launch(args);
         System.out.println("AAA");
     }
