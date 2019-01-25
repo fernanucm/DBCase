@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
@@ -263,6 +264,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
             break;
         }
 	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initComponents() {
 		try {
 			{
@@ -601,6 +603,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 							int loc = Integer.parseInt(altoString.substring(0,altoString.indexOf(".")));
 							split1.setDividerLocation(loc);
 							{
+								//TODO
 								JSplitPane infoSplit = new JSplitPane();
 								JTabbedPane tabPanelDcha = new JTabbedPane();
 								tabPanelDcha.setFocusable(false);
@@ -741,7 +744,70 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						BorderLayout panelGeneracionLayout = new BorderLayout();
 						panelGeneracion.setLayout(panelGeneracionLayout);
 						panelPrincipal.addTab(Lenguaje.getMensaje(Lenguaje.CODE_GENERATION), null, panelGeneracion, null);
-						{
+						//TODO
+						JSplitPane codesSplit = new JSplitPane();
+						
+						codesSplit.setResizeWeight(0.57);
+						codesSplit.setDividerSize(10);
+						codesSplit.setBorder(null);
+						codesSplit.setEnabled(true);
+						codesSplit.setBackground(Color.black);
+						panelGeneracion.add(codesSplit, BorderLayout.CENTER);
+						
+						JPanel modeloPanel = new JPanel();
+						modeloPanel.setBackground(theme.background());
+						modeloPanel.setLayout(new BorderLayout());
+						
+						JPanel textPanel = new JPanel();
+						textPanel.setLayout(new BoxLayout(textPanel,BoxLayout.X_AXIS));
+						JLabel text = new JLabel("<html><span style='font-size:30px'>"+"Modelo"+"</span></html>");
+						text.setPreferredSize(new Dimension(150, 100));
+						JButton generaModelo = new JButton("Generar");
+						textPanel.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 50));
+						textPanel.add(text);
+						textPanel.add(generaModelo);
+						modeloPanel.add(textPanel, BorderLayout.NORTH);
+						
+						/***********************/
+						
+						JPanel codePanel = new JPanel();
+						codePanel.setBackground(theme.background());
+						codePanel.setLayout(new BorderLayout());
+						
+						cboSeleccionDBMS = new JComboBox();
+						for (int i=0; i < listaConexiones.size(); i++)
+							cboSeleccionDBMS.insertItemAt(listaConexiones.get(i).getRuta(),
+									listaConexiones.get(i).getTipoConexion());
+						
+						cboSeleccionDBMS.setSelectedIndex(0);
+						cboSeleccionDBMS.addActionListener(new ActionListener(){
+							public void actionPerformed(ActionEvent e) {
+								JComboBox cbo = (JComboBox) e.getSource();
+								cambiarConexion((String)cbo.getSelectedItem());// Cambiar la conexionActual
+							}
+						});
+						cboSeleccionDBMS.setMaximumSize(new Dimension(500,40));
+						cboSeleccionDBMS.setAlignmentX(Component.RIGHT_ALIGNMENT);
+						
+						JPanel textPanel2 = new JPanel();
+						textPanel2.setLayout(new BoxLayout(textPanel2,BoxLayout.X_AXIS));
+						JLabel text2 = new JLabel("<html><span style='font-size:30px'>"+"Codigo"+"</span></html>");
+						text2.setPreferredSize(new Dimension(150, 100));
+						JButton generaCodigo = new JButton("Generar");
+						JPanel accionesCodigo = new JPanel();
+						generaCodigo.setAlignmentX(Component.RIGHT_ALIGNMENT);
+						accionesCodigo.setLayout(new BoxLayout(accionesCodigo,BoxLayout.Y_AXIS));
+						textPanel2.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 50));
+						textPanel2.add(text2);
+						accionesCodigo.add(cboSeleccionDBMS);
+						accionesCodigo.add(generaCodigo);
+						textPanel2.add(accionesCodigo);
+						codePanel.add(textPanel2, BorderLayout.NORTH);
+						
+						codesSplit.add(modeloPanel,JSplitPane.LEFT);
+						codesSplit.add(codePanel,JSplitPane.RIGHT);
+
+						/*{
 							toolBarGeneracion = new JToolBar();
 							panelGeneracion.add(toolBarGeneracion, BorderLayout.WEST);
 							toolBarGeneracion.setOrientation(SwingConstants.VERTICAL);
@@ -817,7 +883,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						}
 						{
 							panelScrollGeneracion = new JScrollPane();
-							panelGeneracion.add(panelScrollGeneracion, BorderLayout.CENTER);
+							//panelGeneracion.add(panelScrollGeneracion, BorderLayout.CENTER);
 							{
 								areaTextoGeneracion = new JTextPane();
 								areaTextoGeneracion.setContentType("text/html");
@@ -825,54 +891,17 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 								areaTextoGeneracion.setEditable(false);
 								areaTextoGeneracion.setPreferredSize(new java.awt.Dimension(721, 440));
 							}
-						}
+						}*/
 						{
-							barraSeleccionDBMS = new JToolBar();
-							panelGeneracion.add(barraSeleccionDBMS, BorderLayout.NORTH);
-							{
-								pnlSelectorDBMS = new JPanel();
-								BorderLayout pnlSelectorDBMSLayout = new BorderLayout();
-								pnlSelectorDBMS.setLayout(pnlSelectorDBMSLayout);
-								barraSeleccionDBMS.add(pnlSelectorDBMS);
-								{
-									pnlSeleccionBDMSInterno = new JPanel();
-									BoxLayout pnlSeleccionBDMSInternoLayout = new BoxLayout(pnlSeleccionBDMSInterno, javax.swing.BoxLayout.X_AXIS);
-									pnlSelectorDBMS.add(pnlSeleccionBDMSInterno, BorderLayout.EAST);
-									pnlSeleccionBDMSInterno.setLayout(pnlSeleccionBDMSInternoLayout);
-									{
-										lblSeleccionDBMS = new JLabel();
-										pnlSeleccionBDMSInterno.add(lblSeleccionDBMS);
-										lblSeleccionDBMS.setText(Lenguaje.getMensaje(Lenguaje.CURRENT_DBMS)+": ");
-									}
-									{
-										cboSeleccionDBMS = new JComboBox();
-										cboSeleccionDBMS.setPreferredSize(new java.awt.Dimension(200, 20));
+							
 										
-										for (int i=0; i < listaConexiones.size(); i++){
-											cboSeleccionDBMS.insertItemAt(
-													listaConexiones.get(i).getRuta(), 
-													listaConexiones.get(i).getTipoConexion());
-										}
-										cboSeleccionDBMS.setSelectedIndex(0);
-										
-										cboSeleccionDBMS.addActionListener(new ActionListener(){
-											public void actionPerformed(
-													ActionEvent e) {
-												// Obtener el comboBox
-												JComboBox cbo = (JComboBox) e.getSource();
-												
-												// Cambiar la conexionActual
-												cambiarConexion((String)cbo.getSelectedItem());
-											}
-										});
-										
-										pnlSeleccionBDMSInterno.add(cboSeleccionDBMS);
+									
 									}
 								}
 							}
-						}
-					}
-				}
+						
+					
+				
 				{
 					panelBarraEstado = new JPanel();
 					BorderLayout panelBarraEstadoLayout = new BorderLayout();
