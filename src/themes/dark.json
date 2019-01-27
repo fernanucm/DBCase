@@ -3,9 +3,9 @@
   "colors": {
     "background": [42,42,42],
     "main": [0,0,0],
-    "entity": [248,214,48],
-    "atribute": [126,223,255],
-    "relation": [235,88,77],
+    "entity": [255,191,0],
+    "atribute": [71,199,255],
+    "relation": [255,50,50],
     "lines": [255,255,255],
     "fontColor": [255,255,255],
     "control": [42,42,42],

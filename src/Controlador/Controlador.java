@@ -3747,23 +3747,23 @@ public class Controlador {
 		switch(mensaje){
 		case SS_Validacion:{
 			String info = (String) datos;
-			this.getTheGUIPrincipal().anadeMensajeHTMLAreaDeGeneracion(info);
+			this.getTheGUIPrincipal().escribeEnModelo(info);
 			break;
 		}
 		case SS_GeneracionScriptSQL:{
 			String info = (String) datos;
-			this.getTheGUIPrincipal().anadeMensajeHTMLAreaDeGeneracion(info);
+			this.getTheGUIPrincipal().escribeEnCodigo(info);
 			this.getTheGUIPrincipal().setScriptGeneradoCorrectamente(true);
 			break;
 		}
 		case SS_GeneracionArchivoScriptSQL:{
 			String info = (String) datos;
-			this.getTheGUIPrincipal().anadeMensajeHTMLAreaDeGeneracion(info);
+			this.getTheGUIPrincipal().escribeEnCodigo(info);
 			break;
 		}
 		case SS_GeneracionModeloRelacional:{
 			String info = (String) datos;
-			this.getTheGUIPrincipal().anadeMensajeHTMLAreaDeGeneracion(info);
+			this.getTheGUIPrincipal().escribeEnModelo(info);
 			break;
 		}
 

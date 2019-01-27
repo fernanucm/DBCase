@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import javax.swing.AbstractAction;
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -46,6 +47,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.JToolBar;
 import javax.swing.JTree;
@@ -172,6 +174,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private Theme theme;
 	private JMenu themeMenu;
 	private JScrollPane scrollPanelTablas;
+	protected JTextPane codigoText;
+	protected JTextPane modeloText;
 	
 	public GUIPrincipal(Theme theme){
 		this.theme = theme;
@@ -603,7 +607,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 							int loc = Integer.parseInt(altoString.substring(0,altoString.indexOf(".")));
 							split1.setDividerLocation(loc);
 							{
-								//TODO
+								
 								JSplitPane infoSplit = new JSplitPane();
 								JTabbedPane tabPanelDcha = new JTabbedPane();
 								tabPanelDcha.setFocusable(false);
@@ -744,7 +748,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						BorderLayout panelGeneracionLayout = new BorderLayout();
 						panelGeneracion.setLayout(panelGeneracionLayout);
 						panelPrincipal.addTab(Lenguaje.getMensaje(Lenguaje.CODE_GENERATION), null, panelGeneracion, null);
-						//TODO
+					
 						JSplitPane codesSplit = new JSplitPane();
 						
 						codesSplit.setResizeWeight(0.57);
@@ -763,12 +767,25 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						JLabel text = new JLabel("<html><span style='font-size:30px'>"+"Modelo"+"</span></html>");
 						text.setPreferredSize(new Dimension(150, 100));
 						JButton generaModelo = new JButton("Generar");
+						generaModelo.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent evt) {
+								acumulador = "";
+								botonModeloRelacionalActionPerformed(evt);
+							}
+						});
 						textPanel.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 50));
 						textPanel.add(text);
 						textPanel.add(generaModelo);
 						modeloPanel.add(textPanel, BorderLayout.NORTH);
 						
+						modeloText = new JTextPane();
+						modeloText.setContentType("text/html");
+						//modeloText.setLineWrap(true);
+						modeloText.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
+						modeloPanel.add(new JScrollPane(modeloText), BorderLayout.CENTER);
+						
 						/***********************/
+						//TODO
 						
 						JPanel codePanel = new JPanel();
 						codePanel.setBackground(theme.background());
@@ -794,6 +811,11 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						JLabel text2 = new JLabel("<html><span style='font-size:30px'>"+"Codigo"+"</span></html>");
 						text2.setPreferredSize(new Dimension(150, 100));
 						JButton generaCodigo = new JButton("Generar");
+						generaCodigo.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent evt) {
+								botonScriptSQLActionPerformed(evt);
+							}
+						});
 						JPanel accionesCodigo = new JPanel();
 						generaCodigo.setAlignmentX(Component.RIGHT_ALIGNMENT);
 						accionesCodigo.setLayout(new BoxLayout(accionesCodigo,BoxLayout.Y_AXIS));
@@ -806,6 +828,22 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						
 						codesSplit.add(modeloPanel,JSplitPane.LEFT);
 						codesSplit.add(codePanel,JSplitPane.RIGHT);
+						
+						JPanel panelExportar = new JPanel();
+						panelExportar.setLayout(new FlowLayout());
+						JButton exportarCodigo = new JButton("Exportar");
+						JButton ejecutarCodigo = new JButton("Ejecutar");
+						panelExportar.add(exportarCodigo);
+						panelExportar.add(ejecutarCodigo);
+						codePanel.add(panelExportar, BorderLayout.SOUTH);
+						
+						codigoText = new JTextPane();
+						codigoText.setContentType("text/html");
+						codigoText.setBorder(null);
+						codigoText.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
+						
+						
+						codePanel.add(new JScrollPane(codigoText), BorderLayout.CENTER);
 
 						/*{
 							toolBarGeneracion = new JToolBar();
@@ -1006,9 +1044,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private void botonValidarActionPerformed(ActionEvent evt) {
 		Thread hilo = new Thread(new Runnable(){
 			public void run() {
-				desactivaBotones();
 				controlador.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_BotonValidar, null);
-				activaBotones();
 			}
 		});
 		hilo.start();
@@ -1018,9 +1054,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private void botonModeloRelacionalActionPerformed(ActionEvent evt) {
 		Thread hilo = new Thread(new Runnable(){
 			public void run() {
-				desactivaBotones();
 				controlador.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_BotonGenerarModeloRelacional, null);
-				activaBotones();
 			}
 		});
 		hilo.start();
@@ -1029,14 +1063,11 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private void botonScriptSQLActionPerformed(ActionEvent evt) {
 		Thread hilo = new Thread(new Runnable(){
 			public void run() {
-				desactivaBotones();
 				conexionActual.setDatabase("");
-				controlador.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_BotonGenerarScriptSQL, 
-						conexionActual);
+				controlador.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_BotonGenerarScriptSQL, conexionActual);
 				
 				// Restaurar el sistema
 				conexionActual.setDatabase("");
-				activaBotones();
 			}
 		});
 		hilo.start();
@@ -1602,22 +1633,29 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		this.areaTextoSucesos.setText(texto + mensaje);
 	}
 	
-	public void anadeMensajeHTMLAreaDeGeneracion(String mensaje){
+	public void escribeEnModelo(String mensaje){
 		acumulador+=mensaje;
 		try {
 			SwingUtilities.invokeAndWait(new Runnable(){
-
-				
 				public void run() {
-					areaTextoGeneracion.setText(acumulador);
-				}
-				
-			});
+					modeloText.setText(acumulador);
+				}});
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
+		
+	}
+	
+	public void escribeEnCodigo(String mensaje){
+		acumulador+=mensaje;
+		try {
+			SwingUtilities.invokeAndWait(new Runnable(){
+			public void run() {codigoText.setText(acumulador);}
+		});} 
+		catch (InterruptedException e) {e.printStackTrace();} 
+		catch (InvocationTargetException e) {e.printStackTrace();}
 		
 	}
 	

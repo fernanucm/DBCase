@@ -41,6 +41,7 @@ public class ServiciosSistema {
 	private String sql="";
 	private String sqlHTML="";
 	private TransferConexion conexionScriptGenerado = null;
+	private String mensaje;
 
 	//aqui se almacenaran las tablas ya creadas, organizadas por el id de la entidad /relacion (clave) y con el objeto tabla como valor.
 	private Hashtable<Integer,Tabla> tablasEntidades=new Hashtable<Integer,Tabla>();
@@ -61,15 +62,15 @@ public class ServiciosSistema {
 		boolean valido=true;
 		int i=0;
 		TransferAtributo t = new TransferAtributo();
-		while (i<atributos.size()&& valido){
+		while (i<atributos.size()){
 			t=atributos.elementAt(i);													
-			controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(Lenguaje.getMensaje(Lenguaje.RATIFYING))+HTMLUtils.toItalic(t.getNombre())+HTMLUtils.newLine());
+			mensaje += HTMLUtils.toBold(Lenguaje.getMensaje(Lenguaje.RATIFYING))+HTMLUtils.toItalic(t.getNombre())+HTMLUtils.newLine();
 			valido=validaFidelidadAtributo(t)&& validaDominioDeAtributo(t);
 			if (t.getCompuesto()) valido=valido && validaCompuesto(t); 
 			i++;
-			controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.newLine()+HTMLUtils.newLine());
+			mensaje += HTMLUtils.newLine()+HTMLUtils.newLine();
 		}
-
+		
 		return valido;
 	}
 
@@ -80,33 +81,33 @@ public class ServiciosSistema {
 
 		boolean valido=true;
 		String dom = ta.getDominio();
-		controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.RATIFYING_ATTRIB_DOMAIN))+HTMLUtils.newLine());
+		mensaje += HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.RATIFYING_ATTRIB_DOMAIN))+HTMLUtils.newLine();
 		if (ta.getCompuesto()){
 			if(!dom.equals("null")){
 				valido=false;
-				controlador.mensajeDesde_SS(TC.SS_Validacion, HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-						Lenguaje.getMensaje(Lenguaje.COMPOSED_ATTRIBUTE)+HTMLUtils.newLine());				
+				mensaje +=  HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
+						Lenguaje.getMensaje(Lenguaje.COMPOSED_ATTRIBUTE)+HTMLUtils.newLine();				
 			}
-			else controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
-					Lenguaje.getMensaje(Lenguaje.CORRECT_DOMAIN)+HTMLUtils.newLine()); 
+			else mensaje += HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
+					Lenguaje.getMensaje(Lenguaje.CORRECT_DOMAIN)+HTMLUtils.newLine(); 
 		}
 		else{
 			if (dom.equals("")||dom.equals("null")){ 
 				valido =false;
-				controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-						Lenguaje.getMensaje(Lenguaje.NO_DOMAIN)+HTMLUtils.newLine());
+				mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
+						Lenguaje.getMensaje(Lenguaje.NO_DOMAIN)+HTMLUtils.newLine();
 			}
 			else{
 				if (dom.contains("(")) dom=quitaParenDominio(dom);
 				int i=0;
 				while(i<TipoDominio.values().length && !TipoDominio.values()[i].equals(dom))i++;
 				if (i>TipoDominio.values().length){
-					controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-							Lenguaje.getMensaje(Lenguaje.UNKNOWN_DOMAIN)+HTMLUtils.newLine());
+					mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
+							Lenguaje.getMensaje(Lenguaje.UNKNOWN_DOMAIN)+HTMLUtils.newLine();
 					valido=false;
 				}
-				else controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
-						Lenguaje.getMensaje(Lenguaje.CORRECT_DOMAIN)+HTMLUtils.newLine());
+				else mensaje += HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
+						Lenguaje.getMensaje(Lenguaje.CORRECT_DOMAIN)+HTMLUtils.newLine();
 			}
 		}
 
@@ -122,7 +123,7 @@ public class ServiciosSistema {
 		Vector <TransferRelacion> relaciones =daoRelaciones.ListaDeRelaciones();
 		boolean valido=true;
 		boolean enEntidad=false;
-		controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.RATIFYING_ATTRIBUTE))+HTMLUtils.newLine());
+		mensaje += HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.RATIFYING_ATTRIBUTE))+HTMLUtils.newLine();
 		TransferEntidad te= new TransferEntidad();
 		TransferRelacion tr= new TransferRelacion();
 		int cont =0;
@@ -161,21 +162,21 @@ public class ServiciosSistema {
 					}
 				i++;
 			}
-			if (contSubAtrib==1)controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
-					Lenguaje.getMensaje(Lenguaje.ATTRIBUTE)+" "+ta.getNombre()+ Lenguaje.getMensaje(Lenguaje.ONE_ATTRIB_SUBATTRIB)+HTMLUtils.newLine());
+			if (contSubAtrib==1)mensaje += HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
+					Lenguaje.getMensaje(Lenguaje.ATTRIBUTE)+" "+ta.getNombre()+ Lenguaje.getMensaje(Lenguaje.ONE_ATTRIB_SUBATTRIB)+HTMLUtils.newLine();
 			else	{
-				controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-					Lenguaje.getMensaje(Lenguaje.ATTRIBUTE)+" "+ta.getNombre()+Lenguaje.getMensaje(Lenguaje.MANY_ATTRIB_SUBATTRIB)+HTMLUtils.newLine());
+				mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
+					Lenguaje.getMensaje(Lenguaje.ATTRIBUTE)+" "+ta.getNombre()+Lenguaje.getMensaje(Lenguaje.MANY_ATTRIB_SUBATTRIB)+HTMLUtils.newLine();
 				valido=false;
 			}
 			break;
 		case 1:
-			controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
-					Lenguaje.getMensaje(Lenguaje.ATTRIBUTE)+" "+ta.getNombre()+Lenguaje.getMensaje(Lenguaje.ONE_ENTITY)+HTMLUtils.newLine());
+			mensaje += HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
+					Lenguaje.getMensaje(Lenguaje.ATTRIBUTE)+" "+ta.getNombre()+Lenguaje.getMensaje(Lenguaje.ONE_ENTITY)+HTMLUtils.newLine();
 			break;
 		default:
-			controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-					Lenguaje.getMensaje(Lenguaje.ATTRIBUTE)+" "+ta.getNombre()+Lenguaje.getMensaje(Lenguaje.MANY_ENTITIES)+HTMLUtils.newLine());
+			mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
+					Lenguaje.getMensaje(Lenguaje.ATTRIBUTE)+" "+ta.getNombre()+Lenguaje.getMensaje(Lenguaje.MANY_ENTITIES)+HTMLUtils.newLine();
 		valido=false;
 		break;
 		}
@@ -184,15 +185,15 @@ public class ServiciosSistema {
 	}
 	private boolean validaCompuesto(TransferAtributo ta){
 		boolean valido = true;
-		controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.RATIFYING_CHILDREN))+HTMLUtils.newLine());
+		mensaje += HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.RATIFYING_CHILDREN))+HTMLUtils.newLine();
 		int numSubs=ta.getListaComponentes().size();
 		switch (numSubs) {
 		case 0: valido = false;
-		controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+ 
-				Lenguaje.getMensaje(Lenguaje.NO_SUBATTRIB)+ HTMLUtils.newLine());
+		mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+ 
+				Lenguaje.getMensaje(Lenguaje.NO_SUBATTRIB)+ HTMLUtils.newLine();
 		break;
-		case 1: controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toYellowColor(Lenguaje.getMensaje(Lenguaje.WARNING)+": "))+
-				Lenguaje.getMensaje(Lenguaje.ONE_SUBATTRIB)+HTMLUtils.newLine());
+		case 1: mensaje += HTMLUtils.toBold(HTMLUtils.toYellowColor(Lenguaje.getMensaje(Lenguaje.WARNING)+": "))+
+				Lenguaje.getMensaje(Lenguaje.ONE_SUBATTRIB)+HTMLUtils.newLine();
 		break;
 		}
 
@@ -207,17 +208,17 @@ public class ServiciosSistema {
 		boolean valido=true;
 		int i=0;
 		TransferEntidad t = new TransferEntidad();
-		while (i<entidades.size()&& valido){
+		while (i<entidades.size()){
 			t=entidades.elementAt(i);
-			controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(Lenguaje.getMensaje(Lenguaje.RATIFYING)+" ")+HTMLUtils.toItalic(t.getNombre())+HTMLUtils.newLine());
+			mensaje += HTMLUtils.toBold(t.getNombre())+HTMLUtils.newLine();
 			
 			//por ahora validamos las claves y avisamos de si es padre de varias isA
-			valido= validaKey(t)&&this.validaNombresAtributosEntidad(t);
+			valido = validaKey(t) && this.validaNombresAtributosEntidad(t);
 			validaFidelidadEntidadEnIsA(t);
 			i++;
-			controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.newLine()+HTMLUtils.newLine());
+			mensaje += HTMLUtils.newLine()+HTMLUtils.newLine();
 		}
-
+		
 		return valido;
 	}
 
@@ -227,7 +228,7 @@ public class ServiciosSistema {
 		DAOAtributos daoAtributos= new DAOAtributos(this.controlador.getPath());
 		//valida si la entidad tiene clave y si esta dentro de sus atributos.
 		//ademas si la entidad es debil, debe tener un atributo discriminante.
-		controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.RATIFYING_PRIMARYKEYS))+HTMLUtils.newLine());
+		mensaje += HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.RATIFYING_PRIMARYKEYS))+HTMLUtils.newLine();
 		boolean valido=true;
 		boolean noMulti = true;
 		boolean compuesto=false;
@@ -271,12 +272,14 @@ public class ServiciosSistema {
 			
 			if (relacionada){
 				if (te.isDebil()){
-					controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-							Lenguaje.getMensaje(Lenguaje.NOKEY_WEAK_ENTITY)+HTMLUtils.newLine());
+					mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": 1"))+
+							te.getNombre()+
+							Lenguaje.getMensaje(Lenguaje.NOKEY_WEAK_ENTITY)+HTMLUtils.newLine();
 					valido=false;
 				}else{ 
-					controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+ 
-							Lenguaje.getMensaje(Lenguaje.NOKEY_ENTITY_RELATION)+HTMLUtils.newLine());
+					mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": 2"))+ 
+							te.getNombre()+
+							Lenguaje.getMensaje(Lenguaje.NOKEY_ENTITY_RELATION)+HTMLUtils.newLine();
 					valido=false;
 				}
 			}
@@ -298,12 +301,14 @@ public class ServiciosSistema {
 						}
 						contador++;
 					}
-					if (compuesto) controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toYellowColor(Lenguaje.getMensaje(Lenguaje.WARNING)+": "))+
-							Lenguaje.getMensaje(Lenguaje.ALL_CHILDREN_KEYS)+HTMLUtils.newLine()); 
+					if (compuesto) mensaje += HTMLUtils.toBold(HTMLUtils.toYellowColor(Lenguaje.getMensaje(Lenguaje.WARNING)+": 3"))+
+							"The entity "+te.getNombre()+
+							Lenguaje.getMensaje(Lenguaje.ALL_CHILDREN_KEYS)+HTMLUtils.newLine(); 
 					else{
 						valido=false;
-						controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-								Lenguaje.getMensaje(Lenguaje.NO_ATTRIB_KEY)+HTMLUtils.newLine());
+						mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": 4"))+
+								te.getNombre()+
+								Lenguaje.getMensaje(Lenguaje.NO_ATTRIB_KEY)+HTMLUtils.newLine();
 					}
 				}
 				else{ // comprobamos que no haya una clave que sea un atributo multivalorado.
@@ -313,27 +318,15 @@ public class ServiciosSistema {
 						if(aux.isMultivalorado()){
 							valido=false;
 							noMulti=false;
-							controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-								Lenguaje.getMensaje(Lenguaje.ATTRIBUTE)+" "+aux.getNombre()+Lenguaje.getMensaje(Lenguaje.MULTIVALUE_KEY)+HTMLUtils.newLine());
+							mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": 5"))+
+								Lenguaje.getMensaje(Lenguaje.ATTRIBUTE)+" "+aux.getNombre()+Lenguaje.getMensaje(Lenguaje.MULTIVALUE_KEY)+HTMLUtils.newLine();
 						}
 						contador++;
 					}
 				}
-		if (valido){
-			//puede validarse por dos motivos:
-			//1. si tiene clave 
-			//2. si no la tiene y es hija en una relacion isA.
-			//3. si no tiene clave, pero no estÃ¡ relacionada
-			if (enIsA==1) 
-				controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+ 
-						Lenguaje.getMensaje(Lenguaje.ISA_PARENT)+HTMLUtils.newLine());
-			else if (!relacionada)
-				controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toYellowColor(Lenguaje.getMensaje(Lenguaje.WARNING)+": "))+ 
-						Lenguaje.getMensaje(Lenguaje.NO_PRIMARY_KEY)+HTMLUtils.newLine());
-			else
-				controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+ 
-						Lenguaje.getMensaje(Lenguaje.CORRECT_KEYS)+HTMLUtils.newLine());
-		}
+		if (valido && !relacionada)
+			mensaje += HTMLUtils.toBold(HTMLUtils.toYellowColor(Lenguaje.getMensaje(Lenguaje.WARNING)+": 7"))+
+			"The entity "+te.getNombre()+Lenguaje.getMensaje(Lenguaje.NO_PRIMARY_KEY)+HTMLUtils.newLine();
 
 		return valido;
 	}
@@ -361,12 +354,12 @@ public class ServiciosSistema {
 	}
 	private boolean validaNombresAtributosEntidad(TransferEntidad te){
 		//comprueba que una entidad tenga atributos con nombres distintos.
-		controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.RATIFYING_ATTRIB_NAMES))+HTMLUtils.newLine());
+		mensaje += HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.RATIFYING_ATTRIB_NAMES))+HTMLUtils.newLine();
 		Vector<TransferAtributo> ats= this.dameAtributosEnTransfer(te.getListaAtributos());
 		
 		if (ats.size() < 1){
-			controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+ 
-					Lenguaje.getMensaje(Lenguaje.ENTITY)+" "+te.getNombre()+Lenguaje.getMensaje(Lenguaje.NO_ATTRIB)+HTMLUtils.newLine());
+			mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+ 
+					Lenguaje.getMensaje(Lenguaje.ENTITY)+" "+te.getNombre()+Lenguaje.getMensaje(Lenguaje.NO_ATTRIB)+HTMLUtils.newLine();
 			return false;
 		}
 		
@@ -375,14 +368,14 @@ public class ServiciosSistema {
 		int i=0;
 		int j=1;
 		boolean valido=true;
-		while (i<ats.size() && valido){
+		while (i<ats.size()){
 			ti=ats.elementAt(i);
-			while (j<ats.size() && valido){
+			while (j<ats.size()){
 				tj=ats.elementAt(j);
 				if(ti.getNombre().toLowerCase().equals(tj.getNombre().toLowerCase())) {
 					valido=false;
-					controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+ 
-							Lenguaje.getMensaje(Lenguaje.ATTRIB_NAME)+" "+tj.getNombre()+Lenguaje.getMensaje(Lenguaje.IS_REPEATED_IN_ENTITY)+te.getNombre()+"."+HTMLUtils.newLine());
+					mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+ 
+							Lenguaje.getMensaje(Lenguaje.ATTRIB_NAME)+" "+tj.getNombre()+Lenguaje.getMensaje(Lenguaje.IS_REPEATED_IN_ENTITY)+te.getNombre()+"."+HTMLUtils.newLine();
 				}
 
 				j++;
@@ -391,8 +384,8 @@ public class ServiciosSistema {
 			j=i+1;
 		}
 		if (valido)	
-			controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+ 
-					Lenguaje.getMensaje(Lenguaje.ATTRIB_NAMES)+" "+te.getNombre()+Lenguaje.getMensaje(Lenguaje.ARE_CORRECT)+HTMLUtils.newLine());
+			mensaje += HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+ 
+					Lenguaje.getMensaje(Lenguaje.ATTRIB_NAMES)+" "+te.getNombre()+Lenguaje.getMensaje(Lenguaje.ARE_CORRECT)+HTMLUtils.newLine();
 		return valido;
 	}
 	@SuppressWarnings("unchecked")
@@ -412,8 +405,8 @@ public class ServiciosSistema {
 			i++;
 		}
 
-		if (papi>1)	controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toYellowColor(Lenguaje.getMensaje(Lenguaje.WARNING)+": "))+
-				Lenguaje.getMensaje(Lenguaje.ENT_PARENT_IN)+papi+Lenguaje.getMensaje(Lenguaje.ISA_RELATIONS)+"</p>");
+		if (papi>1)	mensaje += HTMLUtils.toBold(HTMLUtils.toYellowColor(Lenguaje.getMensaje(Lenguaje.WARNING)+": "))+
+				Lenguaje.getMensaje(Lenguaje.ENT_PARENT_IN)+papi+Lenguaje.getMensaje(Lenguaje.ISA_RELATIONS)+"</p>";
 
 
 	}
@@ -426,9 +419,9 @@ public class ServiciosSistema {
 		boolean valido=true;
 		int i=0;
 		TransferRelacion t = new TransferRelacion();
-		while (i<relaciones.size()&& valido){
+		while (i<relaciones.size()){
 			t=relaciones.elementAt(i);
-			controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(Lenguaje.getMensaje(Lenguaje.RATIFYING))+HTMLUtils.toItalic(t.getNombre())+HTMLUtils.newLine());
+			mensaje += HTMLUtils.toBold(Lenguaje.getMensaje(Lenguaje.RATIFYING))+HTMLUtils.toItalic(t.getNombre())+HTMLUtils.newLine();
 			if(t.getTipo().equals("IsA"))
 				valido= validaComponentesRelacionIsA(t);
 			else if (t.getTipo().equals("Normal")) 
@@ -436,9 +429,9 @@ public class ServiciosSistema {
 			else 
 				valido=validaComponentesRelacionDebil(t);
 			i++;
-			controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.newLine()+HTMLUtils.newLine());
+			mensaje += HTMLUtils.newLine()+HTMLUtils.newLine();
 		}
-
+		
 		return valido;		
 	}
 
@@ -449,25 +442,25 @@ public class ServiciosSistema {
 		boolean valida=true;
 		if(dameNumEntidadesDebiles(tr)>0){
 			valida= false;
-			controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-					Lenguaje.getMensaje(Lenguaje.NO_WEAK_ENT_RELAT)+"</p>");
+			mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
+					Lenguaje.getMensaje(Lenguaje.NO_WEAK_ENT_RELAT)+"</p>";
 		}
 		else{
-			//controlador.mensajeDesde_SS(TC.SS_Validacion,"La relaciÃ³n "+tr.getNombre()+" es de tipo IsA");
+			//mensaje += "La relaciÃ³n "+tr.getNombre()+" es de tipo IsA");
 			Vector<EntidadYAridad> veya =tr.getListaEntidadesYAridades();
 			int tam =veya.size();
 			switch (tam){
-			case 0: controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+ 
-					Lenguaje.getMensaje(Lenguaje.NO_PARENT_REL)+HTMLUtils.newLine());
+			case 0: mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+ 
+					Lenguaje.getMensaje(Lenguaje.NO_PARENT_REL)+HTMLUtils.newLine();
 			valida=false;
 			break;
-			case 1: controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-					Lenguaje.getMensaje(Lenguaje.NO_CHILD_RELATION)+HTMLUtils.newLine());
+			case 1: mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
+					Lenguaje.getMensaje(Lenguaje.NO_CHILD_RELATION)+HTMLUtils.newLine();
 			valida=false;
 			break;
 			default: {
-				controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
-						Lenguaje.getMensaje(Lenguaje.OK_RELATION)+HTMLUtils.newLine());
+				mensaje += HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
+						Lenguaje.getMensaje(Lenguaje.OK_RELATION)+HTMLUtils.newLine();
 				break;
 			}
 			}
@@ -478,28 +471,28 @@ public class ServiciosSistema {
 	@SuppressWarnings("unchecked")
 	private boolean validaComponentesRelacionNormal(TransferRelacion tr){
 		boolean valida=true;
-		controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.THE_RELATION)+" "+tr.getNombre()+
-				Lenguaje.getMensaje(Lenguaje.IS_NORMAL_TYPE))+HTMLUtils.newLine());
+		mensaje += HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.THE_RELATION)+" "+tr.getNombre()+
+				Lenguaje.getMensaje(Lenguaje.IS_NORMAL_TYPE))+HTMLUtils.newLine();
 		if(dameNumEntidadesDebiles(tr)>0 && !this.misDebilesEstanEnDebiles(tr)){
 			valida= false;
-			controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-					Lenguaje.getMensaje(Lenguaje.NO_WEAK_ENT_RELAT)+"</p>");
+			mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
+					Lenguaje.getMensaje(Lenguaje.NO_WEAK_ENT_RELAT)+"</p>";
 		}
 		else{
 			Vector<EntidadYAridad> veya =tr.getListaEntidadesYAridades();
 			int tam =veya.size();
 			switch (tam){
-			case 0: controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-					Lenguaje.getMensaje(Lenguaje.NO_ENT_RELATION)+HTMLUtils.newLine());
+			case 0: mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
+					Lenguaje.getMensaje(Lenguaje.NO_ENT_RELATION)+HTMLUtils.newLine();
 					valida = false;
 			break;
-			case 1: controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-					Lenguaje.getMensaje(Lenguaje.ONE_ENT_REL)+HTMLUtils.newLine());
+			case 1: mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
+					Lenguaje.getMensaje(Lenguaje.ONE_ENT_REL)+HTMLUtils.newLine();
 					valida = false;
 			break;
 			default: {
-				controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
-						Lenguaje.getMensaje(Lenguaje.MANY_ENT_REL)+HTMLUtils.newLine());
+				mensaje += HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
+						Lenguaje.getMensaje(Lenguaje.MANY_ENT_REL)+HTMLUtils.newLine();
 				break;
 			}
 			}
@@ -510,18 +503,18 @@ public class ServiciosSistema {
 	@SuppressWarnings("unchecked")
 	private boolean validaComponentesRelacionDebil(TransferRelacion tr){
 		boolean valida=true;
-		controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.THE_RELATION)+" "+tr.getNombre()+
-				Lenguaje.getMensaje(Lenguaje.IS_WEAK_TYPE))+HTMLUtils.newLine());
+		mensaje += HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.THE_RELATION)+" "+tr.getNombre()+
+				Lenguaje.getMensaje(Lenguaje.IS_WEAK_TYPE))+HTMLUtils.newLine();
 		Vector<EntidadYAridad> veya =tr.getListaEntidadesYAridades();
 		int tam =veya.size();
 		int contD=0,contF=0;
 		switch (tam){
-		case 0: controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-				Lenguaje.getMensaje(Lenguaje.NO_ENT_RELATION)+HTMLUtils.newLine());
+		case 0: mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
+				Lenguaje.getMensaje(Lenguaje.NO_ENT_RELATION)+HTMLUtils.newLine();
 		valida=false;
 		break;
-		case 1: controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-				Lenguaje.getMensaje(Lenguaje.ONE_ENT_WEAK_REL)+HTMLUtils.newLine());
+		case 1: mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
+				Lenguaje.getMensaje(Lenguaje.ONE_ENT_WEAK_REL)+HTMLUtils.newLine();
 		valida=false;
 		break;
 		default:
@@ -531,26 +524,26 @@ public class ServiciosSistema {
 		}
 
 		if(contD<1){
-			controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-					Lenguaje.getMensaje(Lenguaje.NO_WEAK_ENT_REL)+HTMLUtils.newLine());
+			mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
+					Lenguaje.getMensaje(Lenguaje.NO_WEAK_ENT_REL)+HTMLUtils.newLine();
 			valida=false;
 		}
 		
 		if (contD > 1){
-			controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-					Lenguaje.getMensaje(Lenguaje.MANY_WEAK_ENT_REL)+HTMLUtils.newLine());
+			mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
+					Lenguaje.getMensaje(Lenguaje.MANY_WEAK_ENT_REL)+HTMLUtils.newLine();
 			valida=false;
 		}
 		
 		if(contF<1){
-			controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-					Lenguaje.getMensaje(Lenguaje.NO_STRONG_ENT_REL)+HTMLUtils.newLine());
+			mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
+					Lenguaje.getMensaje(Lenguaje.NO_STRONG_ENT_REL)+HTMLUtils.newLine();
 			valida=false;
 		}
 		
 		if(contD == 1 && contF <= 1)
-			controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
-					Lenguaje.getMensaje(Lenguaje.OK_ENT_REL)+HTMLUtils.newLine());
+			mensaje += HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
+					Lenguaje.getMensaje(Lenguaje.OK_ENT_REL)+HTMLUtils.newLine();
 
 		return valida;
 	}
@@ -562,15 +555,13 @@ public class ServiciosSistema {
 		boolean valido=true;
 		int i=0;
 		TransferDominio t;
-		while (i<dominios.size()&& valido){
+		while (i<dominios.size()){
 			t=dominios.get(i);
-			controlador.mensajeDesde_SS(TC.SS_Validacion,
-					HTMLUtils.toBold(Lenguaje.getMensaje(Lenguaje.RATIFYING))+HTMLUtils.toItalic(t.getNombre())+
-					HTMLUtils.newLine());
+			mensaje += HTMLUtils.toBold(Lenguaje.getMensaje(Lenguaje.RATIFYING))+HTMLUtils.toItalic(t.getNombre())+
+					HTMLUtils.newLine();
 
 			// Validar que es Ãºnico
-			controlador.mensajeDesde_SS(TC.SS_Validacion,
-					HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.RATIFYING_DOMAIN))+HTMLUtils.newLine());
+			mensaje += HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.RATIFYING_DOMAIN))+HTMLUtils.newLine();
 			boolean encontrado = false;
 			int j = i+1;
 			while (!encontrado && j<dominios.size()){
@@ -580,25 +571,21 @@ public class ServiciosSistema {
 			
 			if (encontrado){
 				valido=false;
-				controlador.mensajeDesde_SS(TC.SS_Validacion, 
-						HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-						Lenguaje.getMensaje(Lenguaje.REPEATED_DOM_NAMES)+HTMLUtils.newLine());				
+				mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
+						Lenguaje.getMensaje(Lenguaje.REPEATED_DOM_NAMES)+HTMLUtils.newLine();				
 			}else{
-				controlador.mensajeDesde_SS(TC.SS_Validacion,
-						HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
-						Lenguaje.getMensaje(Lenguaje.OK_DOMAIN)+HTMLUtils.newLine());
+				mensaje += HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
+						Lenguaje.getMensaje(Lenguaje.OK_DOMAIN)+HTMLUtils.newLine();
 			}
 			
 			// Validar que tiene valores y son distintos
-			controlador.mensajeDesde_SS(TC.SS_Validacion,
-					HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.RATIFYING_DOMAIN_VALUES))+HTMLUtils.newLine());
+			mensaje += HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.RATIFYING_DOMAIN_VALUES))+HTMLUtils.newLine();
 			Vector<String> valores = t.getListaValores();
 			
 			if (valores == null || valores.size() < 1){
 				valido=false;
-				controlador.mensajeDesde_SS(TC.SS_Validacion, 
-						HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-						Lenguaje.getMensaje(Lenguaje.NO_VALUE_DOM)+HTMLUtils.newLine());
+				mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
+						Lenguaje.getMensaje(Lenguaje.NO_VALUE_DOM)+HTMLUtils.newLine();
 			}else{
 				String valorComprobado = null;
 				int k = 0;
@@ -615,19 +602,16 @@ public class ServiciosSistema {
 				
 				if (seRepite){
 					valido=false;
-					controlador.mensajeDesde_SS(TC.SS_Validacion, 
-							HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-							Lenguaje.getMensaje(Lenguaje.THE_VALUE) + valorComprobado +Lenguaje.getMensaje(Lenguaje.IS_REPEATED)+HTMLUtils.newLine());
+					mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
+							Lenguaje.getMensaje(Lenguaje.THE_VALUE) + valorComprobado +Lenguaje.getMensaje(Lenguaje.IS_REPEATED)+HTMLUtils.newLine();
 				}else{
-					controlador.mensajeDesde_SS(TC.SS_Validacion,
-							HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
-							Lenguaje.getMensaje(Lenguaje.OK_DOM_VALUES)+HTMLUtils.newLine());
+					mensaje += HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
+							Lenguaje.getMensaje(Lenguaje.OK_DOM_VALUES)+HTMLUtils.newLine();
 				}
 			}
 			
 			// Comprobar si se usa (esto sÃ³lo da un aviso si falla)
-			controlador.mensajeDesde_SS(TC.SS_Validacion, 
-					HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.RATIFYING_DOM_USE))+HTMLUtils.newLine());
+			mensaje += HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.RATIFYING_DOM_USE))+HTMLUtils.newLine();
 			
 			DAOAtributos daoAtributos= new DAOAtributos(this.controlador.getPath());
 			Vector <TransferAtributo> atributos =daoAtributos.ListaDeAtributos();
@@ -639,55 +623,37 @@ public class ServiciosSistema {
 			}
 			
 			if (esta){
-				controlador.mensajeDesde_SS(TC.SS_Validacion, HTMLUtils.toBold(
+				mensaje +=  HTMLUtils.toBold(
 								HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
-								Lenguaje.getMensaje(Lenguaje.USE_DOM) + HTMLUtils.newLine());
+								Lenguaje.getMensaje(Lenguaje.USE_DOM) + HTMLUtils.newLine();
 			}else {
-				controlador.mensajeDesde_SS(TC.SS_Validacion, HTMLUtils.toBold(
+				mensaje +=  HTMLUtils.toBold(
 						HTMLUtils.toYellowColor(Lenguaje.getMensaje(Lenguaje.WARNING)+": "))+
-						Lenguaje.getMensaje(Lenguaje.NO_USE_DOM) + HTMLUtils.newLine());
+						Lenguaje.getMensaje(Lenguaje.NO_USE_DOM) + HTMLUtils.newLine();
 			}
 			
 			// Incrementar contador
 			i++;
-			controlador.mensajeDesde_SS(TC.SS_Validacion,HTMLUtils.newLine()+HTMLUtils.newLine());
+			mensaje += HTMLUtils.newLine()+HTMLUtils.newLine();
 		}
-
 		return valido;
 	}
 
 	//metodo principal
 	public void validaBaseDeDatos(){
-		boolean fenomeno=false;
+		//TODO
+		mensaje = "<p align=\"center\"><font size=\"5\" color=\"#FF0000\"><b>"+Lenguaje.getMensaje(Lenguaje.RATIFY_ERROR)+"</b></font></p>";
+		boolean fenomeno=true;
 		//un fallo en la validacion detiene el proceso
-		controlador.mensajeDesde_SS(TC.SS_Validacion,"<p align=\"center\"><b><font size=\"5\">"+Lenguaje.getMensaje(Lenguaje.RATIFYING_DB)+"</font></b></p>");
-		
-		controlador.mensajeDesde_SS(TC.SS_Validacion,"<p><b>"+Lenguaje.getMensaje(Lenguaje.RATIFYING_DOMAINS)+"</b></p>");
-		controlador.mensajeDesde_SS(TC.SS_Validacion,"<hr>");
-		if (this.validaDominios()){
-			controlador.mensajeDesde_SS(TC.SS_Validacion,"<p>&nbsp;</p>");
-			controlador.mensajeDesde_SS(TC.SS_Validacion,"<p><b>"+Lenguaje.getMensaje(Lenguaje.RATIFYING_ATTRIBUTES)+"</b></p>");
-			controlador.mensajeDesde_SS(TC.SS_Validacion,"<hr>");
-			if (this.validaAtributos()){
-				controlador.mensajeDesde_SS(TC.SS_Validacion,"<p>&nbsp;</p>");
-				controlador.mensajeDesde_SS(TC.SS_Validacion,"<p><b>"+Lenguaje.getMensaje(Lenguaje.RATIFYING_ENTITIES)+"</b></p>");
-				controlador.mensajeDesde_SS(TC.SS_Validacion,"<hr>");
-				if (this.validaEntidades()){
-					controlador.mensajeDesde_SS(TC.SS_Validacion,"<p>&nbsp;</p>");
-					controlador.mensajeDesde_SS(TC.SS_Validacion,"<p><b>"+Lenguaje.getMensaje(Lenguaje.RATIFYING_RELATIONS)+"</b></p>");
-					controlador.mensajeDesde_SS(TC.SS_Validacion,"<hr>");
-					if (this.validaRelaciones()) fenomeno=true;
-				} // validaEntidades
-			} // ValidaAtributos
-		} // ValidaDominios
-		
-		// Recordar si la validaciÃ³n fue correcta
+			
+		fenomeno &= this.validaDominios();
+		fenomeno &= this.validaAtributos();
+		fenomeno &= this.validaEntidades();
+		fenomeno &= this.validaRelaciones();
 		modeloValidado = fenomeno;
-		
 		// Mostrar el texto
-		controlador.mensajeDesde_SS(TC.SS_Validacion,"<p>&nbsp;</p>");
-		if (fenomeno) 	controlador.mensajeDesde_SS(TC.SS_Validacion,"<p align=\"center\"><b><font color=\"#008000\" size=\"5\">"+Lenguaje.getMensaje(Lenguaje.RATIFY_SUCCESS)+"</font></b></p>");
-		else 	controlador.mensajeDesde_SS(TC.SS_Validacion,"<p align=\"center\"><font size=\"5\" color=\"#FF0000\"><b>"+Lenguaje.getMensaje(Lenguaje.RATIFY_ERROR)+"</b></font></p>");
+		if (!fenomeno) controlador.mensajeDesde_SS(TC.SS_Validacion,mensaje);
+		
 	}
 
 
@@ -1136,15 +1102,9 @@ public class ServiciosSistema {
 	}
 
 	public void generaScriptSQL(TransferConexion conexion){
-		if (!modeloValidado){
-			JOptionPane.showMessageDialog(null,
-					Lenguaje.getMensaje(Lenguaje.ERROR)+".\n" +
-					Lenguaje.getMensaje(Lenguaje.MUST_RATIFY_MODEL),
-					Lenguaje.getMensaje(Lenguaje.DBCASE),
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
-			return;
-		}
+		validaBaseDeDatos();
+		if (!modeloValidado)return;
+		
 		
 		// Eliminar tablas anteriores, pero recordar que el modelo sÃ­ ha sido validado
 		reset();
@@ -1537,13 +1497,9 @@ public class ServiciosSistema {
 
 	@SuppressWarnings("rawtypes")
 	public void generaModeloRelacional(){
+		validaBaseDeDatos();
 		if (!modeloValidado){
-			JOptionPane.showMessageDialog(null,
-					Lenguaje.getMensaje(Lenguaje.ERROR)+".\n" +
-					Lenguaje.getMensaje(Lenguaje.MUST_VALIDATE_MODEL),
-					Lenguaje.getMensaje(Lenguaje.DBCASE),
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
+			//controlador.mensajeDesde_SS(TC.SS_GeneracionModeloRelacional,HTMLUtils.toRedColor("<p>Error al generar las tablas</p>"));
 			return;
 		}
 		
@@ -1554,21 +1510,19 @@ public class ServiciosSistema {
 		while (tablasE.hasNext()){
 			Tabla t =(Tabla)tablasE.next();
 			mr+=t.modeloRelacionalDeTabla();
-			//controlador.mensajeDesde_SS(TC.SS_GeneracionModeloRelacional,t.modeloRelacionalDeTabla());
 		}
+		
 		Iterator tablasR=tablasRelaciones.values().iterator();
 		while (tablasR.hasNext()){
 			Tabla t =(Tabla)tablasR.next();
 			mr+=t.modeloRelacionalDeTabla();
-			//controlador.mensajeDesde_SS(TC.SS_GeneracionModeloRelacional,t.modeloRelacionalDeTabla());
 		}
+		
 		Iterator tablasM=tablasMultivalorados.iterator();
 		while (tablasM.hasNext()){
 			Tabla t =(Tabla)tablasM.next();
 			mr+=t.modeloRelacionalDeTabla();
-			//controlador.mensajeDesde_SS(TC.SS_GeneracionModeloRelacional,t.modeloRelacionalDeTabla());
 		}
-		//	System.out.println(mr);
 		controlador.mensajeDesde_SS(TC.SS_GeneracionModeloRelacional,mr);
 	}
 
