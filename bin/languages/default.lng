@@ -216,8 +216,8 @@ cantCloseConexion=Connection could not be closed.
 okScriptExecut=Script executed correctly.		
 tablesSection='CREATING TABLES' SECTION
 typesSection='CREATING ENUMERATED TYPES' SECTION
-keysSection='KEY ASSIGNEMENT' SECTION
-constraintsSection='CONSTRAINT ASSIGNEMENT' SECTION		
+keysSection='KEY ASSIGNMENT' SECTION
+constraintsSection='CONSTRAINT ASSIGNMENT' SECTION		
 mustValidateModel=You must validate model before generating the relational model.
 relationalModelGenerated=RELATIONAL MODEL GENERATED		
 

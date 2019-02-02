@@ -1122,10 +1122,10 @@ public class ServiciosSistema {
 		this.generaTablasEntidades();
 		this.generaTablasRelaciones();
 		//sacamos el codigo de cada una de ellas recorriendo las hashtables e imprimiendo.
-		this.creaTablas(conexion);
-		this.creaEnums(conexion);
-		this.ponClaves(conexion);	
-		this.ponRestricciones();
+		creaTablas(conexion);
+		creaEnums(conexion);
+		ponClaves(conexion);	
+		ponRestricciones();
 		controlador.mensajeDesde_SS(TC.SS_GeneracionScriptSQL,sqlHTML);
 	}
 
@@ -1408,6 +1408,48 @@ public class ServiciosSistema {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	private void ponRestricciones(){
+		sqlHTML+="<p><b>"+Lenguaje.getMensaje(Lenguaje.CONSTRAINTS_SECTION)+"</b></p><hr>";
+		sql+="\n-- "+Lenguaje.getMensaje(Lenguaje.CONSTRAINTS_SECTION)+"\n";
+		
+		// Escribir restricciones de entidad
+		DAOEntidades daoEntidades = new DAOEntidades(controlador.getPath());
+		Vector<TransferEntidad> entidades = daoEntidades.ListaDeEntidades();
+		
+		for (int i=0; i < entidades.size(); i++){
+			Vector<String> rests = entidades.get(i).getListaRestricciones();
+			for (int j=0; j < rests.size(); j++){
+				sqlHTML += rests.get(j) + ";" + HTMLUtils.newLine();
+				sql += rests.get(j) + "; \n";
+			}
+		}
+		
+		// Escribir restricciones de relaciÃ³n
+		DAORelaciones daoRelaciones = new DAORelaciones(controlador.getPath());
+		Vector<TransferRelacion> relaciones = daoRelaciones.ListaDeRelaciones();
+		
+		for (int i=0; i < relaciones.size(); i++){
+			Vector<String> rests = relaciones.get(i).getListaRestricciones();
+			for (int j=0; j < rests.size(); j++){
+				sqlHTML += rests.get(j) + ";" + HTMLUtils.newLine();
+				sql += rests.get(j) + "; \n";
+			}
+		}
+		
+		// Escribir restricciones de atributo
+		DAOAtributos daoAtributos = new DAOAtributos(controlador.getPath());
+		Vector<TransferAtributo> atributos = daoAtributos.ListaDeAtributos();
+		
+		for (int i=0; i < atributos.size(); i++){
+			Vector<String> rests = atributos.get(i).getListaRestricciones();
+			for (int j=0; j < rests.size(); j++){
+				sqlHTML += rests.get(j) + ";" + HTMLUtils.newLine();
+				sql += rests.get(j) + "; \n";
+			}
+		}
+	}
+	
 	@SuppressWarnings("rawtypes")
 	private void ponClaves(TransferConexion conexion){
 		sqlHTML+="<p><b>"+Lenguaje.getMensaje(Lenguaje.KEYS_SECTION)+"</b></p><hr>";
@@ -1453,77 +1495,90 @@ public class ServiciosSistema {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
-	private void ponRestricciones(){
-		sqlHTML+="<p><b>"+Lenguaje.getMensaje(Lenguaje.CONSTRAINTS_SECTION)+"</b></p><hr>";
-		sql+="\n-- "+Lenguaje.getMensaje(Lenguaje.CONSTRAINTS_SECTION)+"\n";
+	public String restriccionesIR() {
+		String mr= "";
 		
-		// Escribir restricciones de entidad
-		DAOEntidades daoEntidades = new DAOEntidades(controlador.getPath());
-		Vector<TransferEntidad> entidades = daoEntidades.ListaDeEntidades();
-		
-		for (int i=0; i < entidades.size(); i++){
-			Vector<String> rests = entidades.get(i).getListaRestricciones();
-			for (int j=0; j < rests.size(); j++){
-				sqlHTML += rests.get(j) + ";" + HTMLUtils.newLine();
-				sql += rests.get(j) + "; \n";
+		Iterator<Tabla> tablasE=tablasEntidades.values().iterator();
+		while (tablasE.hasNext()){
+			Tabla t =(Tabla)tablasE.next();
+			Vector<String[]> foreigns = t.getForeigns();
+			if(!foreigns.isEmpty()){
+				for (int j=0;j<foreigns.size();j++){
+					mr+="<p><font size=\"4\">" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[0]+") &rarr; " +
+							foreigns.elementAt(j)[2]+"</p>";
+				}
+					
 			}
 		}
 		
-		// Escribir restricciones de relaciÃ³n
-		DAORelaciones daoRelaciones = new DAORelaciones(controlador.getPath());
-		Vector<TransferRelacion> relaciones = daoRelaciones.ListaDeRelaciones();
-		
-		for (int i=0; i < relaciones.size(); i++){
-			Vector<String> rests = relaciones.get(i).getListaRestricciones();
-			for (int j=0; j < rests.size(); j++){
-				sqlHTML += rests.get(j) + ";" + HTMLUtils.newLine();
-				sql += rests.get(j) + "; \n";
+		Iterator<Tabla> tablasR=tablasRelaciones.values().iterator();
+		while (tablasR.hasNext()){
+			Tabla t =(Tabla)tablasR.next();
+			Vector<String[]> foreigns = t.getForeigns();
+			if(!foreigns.isEmpty()){
+				for (int j=0;j<foreigns.size();j++){
+					mr+="<p><font size=\"4\">" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[0]+") &rarr; " +
+							foreigns.elementAt(j)[2]+"</p>";
+				}
+					
 			}
 		}
 		
-		// Escribir restricciones de atributo
-		DAOAtributos daoAtributos = new DAOAtributos(controlador.getPath());
-		Vector<TransferAtributo> atributos = daoAtributos.ListaDeAtributos();
-		
-		for (int i=0; i < atributos.size(); i++){
-			Vector<String> rests = atributos.get(i).getListaRestricciones();
-			for (int j=0; j < rests.size(); j++){
-				sqlHTML += rests.get(j) + ";" + HTMLUtils.newLine();
-				sql += rests.get(j) + "; \n";
+		Iterator<Tabla> tablasM=tablasMultivalorados.iterator();
+		while (tablasM.hasNext()){
+			Tabla t =(Tabla)tablasM.next();
+			Vector<String[]> foreigns = t.getForeigns();
+			if(!foreigns.isEmpty()){
+				for (int j=0;j<foreigns.size();j++){
+					mr+="<p><font size=\"4\">" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[0]+") &rarr; " +
+							foreigns.elementAt(j)[2]+"</p>";
+				}
+					
 			}
 		}
+		
+		return mr;
 	}
-
+	
 	@SuppressWarnings("rawtypes")
 	public void generaModeloRelacional(){
+		//TODO
+		String mr;
 		validaBaseDeDatos();
 		if (!modeloValidado){
 			//controlador.mensajeDesde_SS(TC.SS_GeneracionModeloRelacional,HTMLUtils.toRedColor("<p>Error al generar las tablas</p>"));
 			return;
 		}
 		
-		this.generaTablasEntidades();
-		this.generaTablasRelaciones();							
-		String mr="<p align=\"center\"><b><font size=\"5\">"+Lenguaje.getMensaje(Lenguaje.RELATIONAL_MODEL_GENERATED)+":</font></b></p>";
-		Iterator tablasE=tablasEntidades.values().iterator();
-		while (tablasE.hasNext()){
-			Tabla t =(Tabla)tablasE.next();
-			mr+=t.modeloRelacionalDeTabla();
-		}
-		
-		Iterator tablasR=tablasRelaciones.values().iterator();
-		while (tablasR.hasNext()){
-			Tabla t =(Tabla)tablasR.next();
-			mr+=t.modeloRelacionalDeTabla();
-		}
-		
-		Iterator tablasM=tablasMultivalorados.iterator();
-		while (tablasM.hasNext()){
-			Tabla t =(Tabla)tablasM.next();
-			mr+=t.modeloRelacionalDeTabla();
-		}
+		generaTablasEntidades();
+		generaTablasRelaciones();
+		if(tablasEntidades.values().isEmpty() && tablasRelaciones.values().isEmpty()) 
+			mr = "<p align=\"center\"><b><font size=\"5\">"+"El diagrama está vacio"+"</font></b></p>";
+		else {
+			mr = "<h1>"+"Relaciones"+"</h1>";
+			Iterator tablasE=tablasEntidades.values().iterator();
+			while (tablasE.hasNext()){
+				Tabla t =(Tabla)tablasE.next();
+				mr+=t.modeloRelacionalDeTabla();
+			}
+			
+			Iterator tablasR=tablasRelaciones.values().iterator();
+			while (tablasR.hasNext()){
+				Tabla t =(Tabla)tablasR.next();
+				mr+=t.modeloRelacionalDeTabla();
+			}
+			
+			Iterator tablasM=tablasMultivalorados.iterator();
+			while (tablasM.hasNext()){
+				Tabla t =(Tabla)tablasM.next();
+				mr+=t.modeloRelacionalDeTabla();
+			}
+			mr += "<br><h1>"+"Restricciones de Integridad Referencial"+"</h1>";
+			mr += restriccionesIR();
+			mr += "<br><h1>"+"Restricciones perdidas"+"</h1>";
+		}//else -> diagrama no vacio
 		controlador.mensajeDesde_SS(TC.SS_GeneracionModeloRelacional,mr);
+		controlador.mensajeDesde_SS(TC.SS_GeneracionModeloRelacional,sqlHTML);
 	}
 
 	//metodos auxiliares.

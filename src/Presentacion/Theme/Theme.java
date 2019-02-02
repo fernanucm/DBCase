@@ -89,6 +89,9 @@ public class Theme {
 	public Color control() {
 		return colors.get("control");
 	}
+	public Color codeBackground() {
+		return colors.get("codeBackground");
+	}
 	public Color SelectionBackground() {
 		return colors.get("SelectionBackground");
 	}

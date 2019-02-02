@@ -7,8 +7,9 @@
     "atribute": [71,199,255],
     "relation": [255,50,50],
     "lines": [50,50,50],
-    "fontColor": [0,0,0]
-    "control": [255,255,255]
+    "fontColor": [0,0,0],
+    "control": [255,255,255],
+    "codeBackground": [47, 47, 47],
     "SelectionBackground": [110,110,110],
   }
 }

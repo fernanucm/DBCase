@@ -150,7 +150,6 @@ public class ConectorMySQL extends ConectorDBMS {
 		String codigo="";
 		
 		//si tiene claves primarias, las añadimos.
-
 		Vector<String[]> primaries = t.getPrimaries();
 		if (!primaries.isEmpty()){
 			codigo+=HTMLUtils.toRedColor("ALTER TABLE ")+t.getNombreTabla()+HTMLUtils.toBlueColor(" ADD PRIMARY KEY ")+"(";
