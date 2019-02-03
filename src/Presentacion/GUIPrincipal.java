@@ -778,6 +778,12 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						textPanel.add(generaModelo);
 						modeloPanel.add(textPanel, BorderLayout.NORTH);
 						
+						JPanel panelBotones = new JPanel();
+						panelBotones.setLayout(new FlowLayout());
+						JButton exportarModelo = new JButton("Guardar Como");
+						panelBotones.add(exportarModelo);
+						modeloPanel.add(panelBotones, BorderLayout.SOUTH);
+						
 						modeloText = new JTextPane();
 						modeloText.setContentType("text/html");
 						//modeloText.setLineWrap(true);
@@ -813,6 +819,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						JButton generaCodigo = new JButton("Generar");
 						generaCodigo.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent evt) {
+								acumulador = "";
 								botonScriptSQLActionPerformed(evt);
 							}
 						});
@@ -831,7 +838,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						
 						JPanel panelExportar = new JPanel();
 						panelExportar.setLayout(new FlowLayout());
-						JButton exportarCodigo = new JButton("Exportar");
+						JButton exportarCodigo = new JButton("Guardar Como");
 						JButton ejecutarCodigo = new JButton("Ejecutar");
 						panelExportar.add(exportarCodigo);
 						panelExportar.add(ejecutarCodigo);

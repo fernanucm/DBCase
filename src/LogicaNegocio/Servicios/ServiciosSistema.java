@@ -641,7 +641,6 @@ public class ServiciosSistema {
 
 	//metodo principal
 	public void validaBaseDeDatos(){
-		//TODO
 		mensaje = "<p align=\"center\"><font size=\"5\" color=\"#FF0000\"><b>"+Lenguaje.getMensaje(Lenguaje.RATIFY_ERROR)+"</b></font></p>";
 		boolean fenomeno=true;
 		//un fallo en la validacion detiene el proceso
@@ -653,7 +652,6 @@ public class ServiciosSistema {
 		modeloValidado = fenomeno;
 		// Mostrar el texto
 		if (!fenomeno) controlador.mensajeDesde_SS(TC.SS_Validacion,mensaje);
-		
 	}
 
 
@@ -1102,6 +1100,7 @@ public class ServiciosSistema {
 	}
 
 	public void generaScriptSQL(TransferConexion conexion){
+		//TODO
 		validaBaseDeDatos();
 		if (!modeloValidado)return;
 		
@@ -1545,10 +1544,7 @@ public class ServiciosSistema {
 		//TODO
 		String mr;
 		validaBaseDeDatos();
-		if (!modeloValidado){
-			//controlador.mensajeDesde_SS(TC.SS_GeneracionModeloRelacional,HTMLUtils.toRedColor("<p>Error al generar las tablas</p>"));
-			return;
-		}
+		if (!modeloValidado)return;
 		
 		generaTablasEntidades();
 		generaTablasRelaciones();
@@ -1576,9 +1572,9 @@ public class ServiciosSistema {
 			mr += "<br><h1>"+"Restricciones de Integridad Referencial"+"</h1>";
 			mr += restriccionesIR();
 			mr += "<br><h1>"+"Restricciones perdidas"+"</h1>";
+			mr += "<p></p>";
 		}//else -> diagrama no vacio
 		controlador.mensajeDesde_SS(TC.SS_GeneracionModeloRelacional,mr);
-		controlador.mensajeDesde_SS(TC.SS_GeneracionModeloRelacional,sqlHTML);
 	}
 
 	//metodos auxiliares.
