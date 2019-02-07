@@ -30,7 +30,7 @@ public class PanelOpciones extends javax.swing.JDialog implements KeyListener {
 	{
 		//Set Look & Feel
 		try {
-			javax.swing.UIManager.setLookAndFeel("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
+			//javax.swing.UIManager.setLookAndFeel("com.jgoodies.looks.plastic.Plastic3DLookAndFeel");
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

@@ -489,7 +489,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 							themeMenu = new JMenu();
 							for(String s : this.theme.getAvaiableThemes()) {
 								JCheckBoxMenuItem item = new JCheckBoxMenuItem();
-								if(theme.getThemeName().equals(s))item.setSelected(true);
+								//if(theme.getThemeName().equals(s))item.setSelected(true);
 								item.setText(s);
 								item.setFont(new java.awt.Font("Avenir", 0, 16));
 								item.setActionCommand(s);

@@ -21,7 +21,7 @@ public class Theme {
 	public static void loadThemes(){
 		colors = new HashMap<String,Color>();
 		themes = new ArrayList<String>();
-		listFilesForFolder(new File("./src/themes/"));
+		listFilesForFolder(new File("./themes/"));
 	}
 	
 	private static void listFilesForFolder(final File folder) {
@@ -36,7 +36,7 @@ public class Theme {
 	private static void loadTheme() {
 		JSONParser parser = new JSONParser();
         try {
-        	JSONObject obj = (JSONObject) parser.parse(new FileReader("./src/themes/"+current+".json"));
+        	JSONObject obj = (JSONObject) parser.parse(new FileReader("./themes/"+current+".json"));
         	JSONObject jsoncolors = (JSONObject) obj.get("colors");
 			Set<String> key = jsoncolors.keySet();
         	for(String s : key) {
