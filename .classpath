@@ -23,5 +23,6 @@
 	<classpathentry kind="lib" path="include/ojdbc6.jar"/>
 	<classpathentry kind="lib" path="include/org.json.jar"/>
 	<classpathentry kind="lib" path="include/xercesimpl.jar"/>
+	<classpathentry kind="lib" path="include/jsoup-1.11.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

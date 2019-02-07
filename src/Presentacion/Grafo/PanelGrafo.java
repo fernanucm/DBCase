@@ -248,24 +248,22 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 			public String transform(Object input) {
 				if (input instanceof EntidadYAridad){
 					EntidadYAridad dato = (EntidadYAridad)input;
-					String strPRango;
-					String strfRango;
-					String strRol;
-					String color;
+					String strPRango, strfRango, strRol, color, numerito;
+					
 					if (dato.getPrincipioRango() == 0 && // Si es IsA no escribe 
 						dato.getFinalRango() == 0){
 						return null;
 					}
 					if (dato.getPrincipioRango() == Integer.MAX_VALUE)
 						strPRango = "n";
-					else strPRango = Integer.toString(dato.getPrincipioRango());
+					else strPRango = String.valueOf(dato.getPrincipioRango());
 					if (dato.getFinalRango() == Integer.MAX_VALUE)
 						strfRango = "n";
-					else strfRango = Integer.toString(dato.getFinalRango());
+					else strfRango = String.valueOf(dato.getFinalRango());
 					strRol = dato.getRol();
-					
+					numerito = (strPRango.equals("1"))?"1":(strPRango.equals("n"))?"N":strPRango + "  . .  "+ strfRango;
 					color = "rgb(" + theme.lines().getRed() + "," + theme.lines().getGreen() + "," + theme.lines().getBlue() + ")";
-					return "<html><center><font size=\"5\" face=\"avenir\" color=\"" + color +"\">"+ strPRango + "   -   "+ strfRango + "   "+ strRol+"<p>";
+					return "<html><center><font size=\"5\" face=\"avenir\" color=\"" + color +"\">"+ numerito + "   "+ strRol+"<p>";
 				}
 				else return null; // Si no es una relación no escribe la aridad
 			}

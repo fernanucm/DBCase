@@ -14,6 +14,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import org.jsoup.Jsoup;
+
 import Controlador.Controlador;
 import Controlador.TC;
 import LogicaNegocio.Transfers.TransferAtributo;
@@ -40,6 +42,7 @@ public class ServiciosSistema {
 	private boolean modeloValidado;
 	private String sql="";
 	private String sqlHTML="";
+	private String mr="";
 	private TransferConexion conexionScriptGenerado = null;
 	private String mensaje;
 
@@ -1128,9 +1131,16 @@ public class ServiciosSistema {
 		controlador.mensajeDesde_SS(TC.SS_GeneracionScriptSQL,sqlHTML);
 	}
 
-	public void generaFicheroSQL(){
+	public void generaFicheroSQL(boolean texto){
+		String text = (texto)?sql:mr;
+		text = text.replaceAll("<h1>","\n");
+		text = text.replaceAll("</h1>", "\n-----------------\n");
+		text = text.replaceAll("</p>", "\n");
+		text = text.replaceAll("\\<.*?>","");
+		text = text.replaceAll("&rarr;","\u2192");
+		//TODO
 		// Si no se ha generado antes el script lanzamos un error
-		if (sql.isEmpty()){
+		if (text.isEmpty()){
 			JOptionPane.showMessageDialog(null,
 					Lenguaje.getMensaje(Lenguaje.ERROR)+".\n" +
 					Lenguaje.getMensaje(Lenguaje.MUST_GENERATE_SCRIPT),
@@ -1142,13 +1152,14 @@ public class ServiciosSistema {
 		// Si ya se ha generado el Script
 		JFileChooser jfc = new JFileChooser();
 		jfc.setDialogTitle(Lenguaje.getMensaje(Lenguaje.DBCASE));
-		jfc.setFileFilter(new FileNameExtensionFilter(Lenguaje.getMensaje(Lenguaje.SQL_FILES), "sql"));
+		if(texto)jfc.setFileFilter(new FileNameExtensionFilter(Lenguaje.getMensaje(Lenguaje.SQL_FILES), "sql"));
+		jfc.setFileFilter(new FileNameExtensionFilter("Text", "txt"));
 		int resul = jfc.showSaveDialog(null);
 		if (resul == 0){
 			File ruta = jfc.getSelectedFile();
 			try {
 				FileWriter file = new FileWriter(ruta);
-				file.write(sql);
+				file.write(text);
 				file.close();
 
 				JOptionPane.showMessageDialog(
@@ -1542,7 +1553,6 @@ public class ServiciosSistema {
 	@SuppressWarnings("rawtypes")
 	public void generaModeloRelacional(){
 		//TODO
-		String mr;
 		validaBaseDeDatos();
 		if (!modeloValidado)return;
 		

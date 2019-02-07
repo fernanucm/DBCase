@@ -1677,7 +1677,8 @@ public class Controlador {
 			break;
 		}
 		case GUI_Principal_Click_BotonGenerarArchivoScriptSQL:{
-			this.getTheServiciosSistema().generaFicheroSQL();
+			boolean texto = (boolean) datos;
+			this.getTheServiciosSistema().generaFicheroSQL(texto);
 			break;
 		}
 		case GUI_Principal_Click_BotonEjecutarEnDBMS:{

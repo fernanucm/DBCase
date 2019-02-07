@@ -781,6 +781,11 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						JPanel panelBotones = new JPanel();
 						panelBotones.setLayout(new FlowLayout());
 						JButton exportarModelo = new JButton("Guardar Como");
+						exportarModelo.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent evt) {
+								botonExportarArchivoActionPerformed(evt,false);
+							}
+						});
 						panelBotones.add(exportarModelo);
 						modeloPanel.add(panelBotones, BorderLayout.SOUTH);
 						
@@ -839,7 +844,17 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						JPanel panelExportar = new JPanel();
 						panelExportar.setLayout(new FlowLayout());
 						JButton exportarCodigo = new JButton("Guardar Como");
+						exportarCodigo.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent evt) {
+								botonExportarArchivoActionPerformed(evt,true);
+							}
+						});
 						JButton ejecutarCodigo = new JButton("Ejecutar");
+						ejecutarCodigo.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent evt) {
+								botonEjecutarEnDBMSActionPerformed(evt);
+							}
+						});
 						panelExportar.add(exportarCodigo);
 						panelExportar.add(ejecutarCodigo);
 						codePanel.add(panelExportar, BorderLayout.SOUTH);
@@ -1079,13 +1094,15 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		});
 		hilo.start();
 	}
-
-	private void botonExportarArchivoActionPerformed(ActionEvent evt) {
+	/*
+	 * boolean texto:
+	 * false: panel de modelo
+	 * true: panel de codigo
+	 * */
+	private void botonExportarArchivoActionPerformed(ActionEvent evt, boolean texto) {
 		Thread hilo = new Thread(new Runnable(){
 			public void run() {
-				desactivaBotones();
-				controlador.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_BotonGenerarArchivoScriptSQL, null);
-				activaBotones();
+				controlador.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_BotonGenerarArchivoScriptSQL, texto);
 			}
 		});
 		hilo.start();
@@ -1094,8 +1111,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private void botonEjecutarEnDBMSActionPerformed(ActionEvent evt) {
 		Thread hilo = new Thread(new Runnable(){
 			public void run() {
-				desactivaBotones();
-				
 				// Comprobar si hay codigo
 				if (!scriptGeneradoCorrectamente){
 					JOptionPane.showMessageDialog(null,
@@ -1104,7 +1119,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 							Lenguaje.getMensaje(Lenguaje.DBCASE),
 							JOptionPane.PLAIN_MESSAGE,
 							new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
-					activaBotones();
 					return;
 				}
 				
@@ -1114,7 +1128,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						cboSeleccionDBMS.getSelectedItem().toString());
 				
 				controlador.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_BotonEjecutarEnDBMS, tc);
-				activaBotones();
 			}
 		});
 		hilo.start();
