@@ -240,6 +240,7 @@ public class Controlador {
 			
 		}else{
 			Lenguaje.cargaLenguajePorDefecto();
+			Theme.loadDefaultTheme();
 		}
 		
 		// Creamos el controlador de toda la aplicacion

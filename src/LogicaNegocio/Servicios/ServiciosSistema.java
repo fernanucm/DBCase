@@ -1514,8 +1514,8 @@ public class ServiciosSistema {
 			Vector<String[]> foreigns = t.getForeigns();
 			if(!foreigns.isEmpty()){
 				for (int j=0;j<foreigns.size();j++){
-					mr+="<p><font size=\"4\">" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[0]+") &rarr; " +
-							foreigns.elementAt(j)[2]+"</p>";
+					mr+="<p><font size=\"4\">" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[0]+"_"+foreigns.elementAt(j)[3]+") "
+							+ "&rarr; " + foreigns.elementAt(j)[2]+"</p>";
 				}
 					
 			}
@@ -1527,8 +1527,8 @@ public class ServiciosSistema {
 			Vector<String[]> foreigns = t.getForeigns();
 			if(!foreigns.isEmpty()){
 				for (int j=0;j<foreigns.size();j++){
-					mr+="<p><font size=\"4\">" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[0]+") &rarr; " +
-							foreigns.elementAt(j)[2]+"</p>";
+					mr+="<p><font size=\"4\">" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[0]+"_"+foreigns.elementAt(j)[3]+") "
+							+ "&rarr; " + foreigns.elementAt(j)[2]+"</p>";
 				}
 					
 			}
@@ -1540,8 +1540,8 @@ public class ServiciosSistema {
 			Vector<String[]> foreigns = t.getForeigns();
 			if(!foreigns.isEmpty()){
 				for (int j=0;j<foreigns.size();j++){
-					mr+="<p><font size=\"4\">" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[0]+") &rarr; " +
-							foreigns.elementAt(j)[2]+"</p>";
+					mr+="<p><font size=\"4\">" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[0]+"_"+foreigns.elementAt(j)[3]+") "
+							+ "&rarr; " + foreigns.elementAt(j)[2]+"</p>";
 				}
 					
 			}

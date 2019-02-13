@@ -10,11 +10,14 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import Presentacion.Lenguajes.Lenguaje;
+
 public class Theme {
 
 	private static ArrayList<String> themes;
 	private static String current;
 	private static HashMap<String,Color> colors;
+	private static final String DEFAULT = "light";
 	
 	public Theme(){}
 	
@@ -30,8 +33,10 @@ public class Theme {
 	        else  themes.add(fileEntry.getName().split(".json")[0]); 
 	}
 
-	
-	
+	public static void loadDefaultTheme(){
+		current = Theme.DEFAULT;
+		loadTheme();
+	}
 	@SuppressWarnings("unchecked")
 	private static void loadTheme() {
 		JSONParser parser = new JSONParser();

@@ -130,11 +130,12 @@ public class Tabla {
 	
 	public void aniadeListaClavesForaneas(Vector<String[]> listado,String nombreEntidad, String[] atributosReferenciados){
 		for (int i=0;i<listado.size();i++){
-			String []trio=new String[3];
+			String []trio=new String[4];
 			String []par=listado.elementAt(i);
 			trio[0]=par[0];
 			trio[1]=par[1];
 			trio[2]=nombreEntidad + " (" + atributosReferenciados[i] + ")";
+			trio[3]=nombreEntidad;
 			foreigns.add(trio);
 		}
 	}

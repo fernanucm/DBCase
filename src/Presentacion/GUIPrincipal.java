@@ -515,13 +515,13 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 							//menuVista.add(menuPanelSucesos);
 							
 							
-							er.setText("Diagrama");
+							er.setText(Lenguaje.getMensaje(Lenguaje.CONC_MODEL));
 							er.setSelected(true);
 							er.setFont(new java.awt.Font("Avenir", 0, 16));
-							model.setText("Modelo");
+							model.setText(Lenguaje.getMensaje(Lenguaje.LOGIC_MODEL));
 							model.setSelected(false);
 							model.setFont(new java.awt.Font("Avenir", 0, 16));
-							code.setText("Codigo");
+							code.setText(Lenguaje.getMensaje(Lenguaje.PHYS_MODEL));
 							code.setSelected(false);
 							code.setFont(new java.awt.Font("Avenir", 0, 16));
 							themeMenu.setText("Tema");
@@ -764,7 +764,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						
 						JPanel textPanel = new JPanel();
 						textPanel.setLayout(new BoxLayout(textPanel,BoxLayout.X_AXIS));
-						JLabel text = new JLabel("<html><span style='font-size:30px'>"+"Modelo"+"</span></html>");
+						JLabel text = new JLabel("<html><span style='font-size:30px'>"+Lenguaje.getMensaje(Lenguaje.LOGIC_MODEL)+"</span></html>");
 						text.setPreferredSize(new Dimension(150, 100));
 						JButton generaModelo = new JButton("Generar");
 						generaModelo.addActionListener(new ActionListener() {
@@ -819,7 +819,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						
 						JPanel textPanel2 = new JPanel();
 						textPanel2.setLayout(new BoxLayout(textPanel2,BoxLayout.X_AXIS));
-						JLabel text2 = new JLabel("<html><span style='font-size:30px'>"+"Codigo"+"</span></html>");
+						JLabel text2 = new JLabel("<html><span style='font-size:30px'>"+Lenguaje.getMensaje(Lenguaje.PHYS_MODEL)+"</span></html>");
 						text2.setPreferredSize(new Dimension(150, 100));
 						JButton generaCodigo = new JButton("Generar");
 						generaCodigo.addActionListener(new ActionListener() {

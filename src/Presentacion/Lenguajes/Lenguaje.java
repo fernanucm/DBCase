@@ -502,6 +502,9 @@ public class Lenguaje {
 		public static final int ADD_UNIQUE =4303;
 		public static final int UNIQUE_ERROR =4304;
 		public static final int ERROR_TABLE =4305;
+		public static final int CONC_MODEL =4306;
+		public static final int LOGIC_MODEL =4307;
+		public static final int PHYS_MODEL =4308;
 	
 		
 	// Mensaje por defecto
@@ -1087,6 +1090,9 @@ public class Lenguaje {
 		case CONTENTS: texto = _textos.get("contents"); break;//"Contenidos"
 		case ABOUT: texto = _textos.get("about"); break;//"Acerca de DBDT"
 		case ER_MODEL: texto = _textos.get("erModel"); break;//"Diagrama Entidad Relación"
+		case CONC_MODEL: texto = _textos.get("concModel"); break;//"Esquema Conceptual"
+		case LOGIC_MODEL: texto = _textos.get("logicModel"); break;//"Esquema Lógico"
+		case PHYS_MODEL: texto = _textos.get("physicModel"); break;//"Esquema Físico"
 		case INF_PANEL: texto = _textos.get("infPanel"); break;//"Panel de información"
 		case DOM_PANEL: texto = _textos.get("domPanel"); break;//"Panel dominios"
 		case GRAPH_PANEL: texto = _textos.get("graphPanel"); break;//"Panel grafo"
