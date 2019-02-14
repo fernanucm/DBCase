@@ -99,6 +99,5 @@ public class Theme {
 	}
 	public Color SelectionBackground() {
 		return colors.get("SelectionBackground");
-	}
-	
+	}	
 }

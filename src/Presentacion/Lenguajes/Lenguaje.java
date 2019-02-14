@@ -1091,7 +1091,7 @@ public class Lenguaje {
 		case ABOUT: texto = _textos.get("about"); break;//"Acerca de DBDT"
 		case ER_MODEL: texto = _textos.get("erModel"); break;//"Diagrama Entidad Relación"
 		case CONC_MODEL: texto = _textos.get("concModel"); break;//"Esquema Conceptual"
-		case LOGIC_MODEL: texto = _textos.get("logicModel"); break;//"Esquema Lógico"
+		case LOGIC_MODEL: texto = _textos.get("logicModel"); break;//"Esquema Logico"
 		case PHYS_MODEL: texto = _textos.get("physicModel"); break;//"Esquema Físico"
 		case INF_PANEL: texto = _textos.get("infPanel"); break;//"Panel de información"
 		case DOM_PANEL: texto = _textos.get("domPanel"); break;//"Panel dominios"

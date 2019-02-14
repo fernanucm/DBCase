@@ -8,7 +8,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Frame;
-import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -22,13 +21,10 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.Vector;
-
 import javax.swing.AbstractAction;
-import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
@@ -47,16 +43,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextPane;
-import javax.swing.JToolBar;
 import javax.swing.JTree;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -66,7 +58,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
-
 import Controlador.Controlador;
 import Controlador.TC;
 import LogicaNegocio.Transfers.Transfer;
@@ -118,7 +109,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private JMenu menuSistema;
 	private JScrollPane panelScrollSucesos;
 	private JButton botonLimpiarPantalla;
-	private JToolBar toolBarGeneracion;
 	private PanelThumbnail panelGrafo;
 	private JTree arbol;
 	private JTree arbolDom;
@@ -130,7 +120,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private JPanel panelDom;
 	private JTextPane areaTextoSucesos;
 	private JPanel panelSucesos;
-	private JScrollPane panelScrollGeneracion;
 	private JMenuItem submenuContenidos;
 	private JMenuItem submenuAcercaDe;
 	private JMenuItem menuVista;
@@ -138,19 +127,13 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private JMenuItem submenuExportarJPEG;
 	private JMenu menuOpciones;
 	private JCheckBoxMenuItem menuPanelSucesos;	
-	private JLabel labelBarraEstado;
-	private JPanel panelBarraEstado;
 	private JMenu menuSGBDActual;
 	private Vector<JCheckBoxMenuItem> elementosMenuSGBDActual;
 	private JMenu menuLenguajes;
 	private Vector<JCheckBoxMenuItem> elementosMenuLenguajes;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cboSeleccionDBMS;
-	private JLabel lblSeleccionDBMS;
-	private JPanel pnlSeleccionBDMSInterno;
-	private JPanel pnlSelectorDBMS;
-	private JToolBar barraSeleccionDBMS;
 	private JMenuItem submenuImprimir;
-	private JTextPane areaTextoGeneracion;
 	private JButton botonExportarArchivo;
 	private JButton botonScriptSQL;
 	private JButton botonModeloRelacional;
@@ -179,7 +162,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	
 	public GUIPrincipal(Theme theme){
 		this.theme = theme;
-		
 	}
 
 	/*
@@ -193,7 +175,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		
 		setLookAndFeel();
 		this.initComponents();
-		this.labelBarraEstado.setText("  "+Lenguaje.getMensaje(Lenguaje.WORKSPACE_IS)+" "+this.controlador.getPath());
 		changeFont(this,new java.awt.Font("Avenir", 0, 16));
 		this.setVisible(true);
 
@@ -271,7 +252,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initComponents() {
 		try {
-			{
+			
 				this.setTitle(Lenguaje.getMensaje(Lenguaje.DBCASE));
 				this.setSize(800, 600);
 				this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -863,138 +844,20 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						codigoText.setContentType("text/html");
 						codigoText.setBorder(null);
 						codigoText.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
-						
-						
-						codePanel.add(new JScrollPane(codigoText), BorderLayout.CENTER);
 
-						/*{
-							toolBarGeneracion = new JToolBar();
-							panelGeneracion.add(toolBarGeneracion, BorderLayout.WEST);
-							toolBarGeneracion.setOrientation(SwingConstants.VERTICAL);
-							toolBarGeneracion.setPreferredSize(new java.awt.Dimension(55, 475));
-							{
-								botonLimpiarPantalla = new JButton();
-								toolBarGeneracion.add(botonLimpiarPantalla);
-								botonLimpiarPantalla.setPreferredSize(new java.awt.Dimension(85, 26));
-								botonLimpiarPantalla.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LIMPIAR)));
-								botonLimpiarPantalla.setHorizontalTextPosition(SwingConstants.RIGHT);
-								botonLimpiarPantalla.setToolTipText(Lenguaje.getMensaje(Lenguaje.CLEAN));
-								botonLimpiarPantalla.addActionListener(new ActionListener() {
-									public void actionPerformed(ActionEvent evt) {
-										botonLimpiarPantallaActionPerformed(evt);
-									}
-								});
-							}
-							{
-								botonValidar = new JButton();
-								toolBarGeneracion.add(botonValidar);
-								botonValidar.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.VALIDAR)));
-								botonValidar.setToolTipText(Lenguaje.getMensaje(Lenguaje.VALIDATE_DESIGN));
-								botonValidar.addActionListener(new ActionListener() {
-									public void actionPerformed(ActionEvent evt) {
-										botonValidarActionPerformed(evt);
-									}
-								});
-							}
-							{
-								botonModeloRelacional = new JButton();
-								toolBarGeneracion.add(botonModeloRelacional);
-								botonModeloRelacional.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.MODELORELACIONAL)));
-								botonModeloRelacional.setToolTipText(Lenguaje.getMensaje(Lenguaje.GENERATE_REL_MODEL));
-								botonModeloRelacional.addActionListener(new ActionListener() {
-									public void actionPerformed(ActionEvent evt) {
-										botonModeloRelacionalActionPerformed(evt);
-									}
-								});
-							}
-							{
-								botonScriptSQL = new JButton();
-								toolBarGeneracion.add(botonScriptSQL);
-								botonScriptSQL.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.SCRIPTSQL)));
-								botonScriptSQL.setToolTipText(Lenguaje.getMensaje(Lenguaje.GENERATE_SQL_CODE));
-								botonScriptSQL.addActionListener(new ActionListener() {
-									public void actionPerformed(ActionEvent evt) {
-										botonScriptSQLActionPerformed(evt);
-									}
-								});
-							}
-							{
-								botonExportarArchivo = new JButton();
-								toolBarGeneracion.add(botonExportarArchivo);
-								botonExportarArchivo.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.EXPORTARSQL)));
-								botonExportarArchivo.setToolTipText(Lenguaje.getMensaje(Lenguaje.EXPORT_SQL_FILE));
-								botonExportarArchivo.addActionListener(new ActionListener() {
-									public void actionPerformed(ActionEvent evt) {
-										botonExportarArchivoActionPerformed(evt);
-									}
-								});
-							}
-							{
-								botonEjecutarEnDBMS = new JButton();
-								toolBarGeneracion.add(botonEjecutarEnDBMS);
-								botonEjecutarEnDBMS.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.EJECUTARSQL)));
-								botonEjecutarEnDBMS.setToolTipText(Lenguaje.getMensaje(Lenguaje.EXECUTE_SCRIPT));
-								botonEjecutarEnDBMS.addActionListener(new ActionListener() {
-									public void actionPerformed(ActionEvent evt) {
-										botonEjecutarEnDBMSActionPerformed(evt);
-									}
-								});
-							}
-						}
-						{
-							panelScrollGeneracion = new JScrollPane();
-							//panelGeneracion.add(panelScrollGeneracion, BorderLayout.CENTER);
-							{
-								areaTextoGeneracion = new JTextPane();
-								areaTextoGeneracion.setContentType("text/html");
-								panelScrollGeneracion.setViewportView(areaTextoGeneracion);
-								areaTextoGeneracion.setEditable(false);
-								areaTextoGeneracion.setPreferredSize(new java.awt.Dimension(721, 440));
-							}
-						}*/
-						{
-							
-										
-									
-									}
-								}
-							}
-						
-					
-				
-				{
-					panelBarraEstado = new JPanel();
-					BorderLayout panelBarraEstadoLayout = new BorderLayout();
-					panelBarraEstado.setLayout(panelBarraEstadoLayout);
-					getContentPane().add(panelBarraEstado, BorderLayout.SOUTH);
-					panelBarraEstado.setOpaque(false);
-					panelBarraEstado.setBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED));
-					{
-						labelBarraEstado = new JLabel();
-						panelBarraEstado.add(labelBarraEstado, BorderLayout.CENTER);
-						labelBarraEstado.setText(Lenguaje.getMensaje(Lenguaje.WORKSPACE_IS));
-						labelBarraEstado.setHorizontalAlignment(SwingConstants.LEFT);
-						labelBarraEstado.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.DIRECTORIO)));
-					}
+						codePanel.add(new JScrollPane(codigoText), BorderLayout.CENTER);
 				}
 				this.setExtendedState(Frame.MAXIMIZED_BOTH);
 				this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
 				this.addWindowListener(this);
 		        this.addKeyListener(this);
-
-			
 				
 			}
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		
+		} catch(Exception e) {e.printStackTrace();}
 		// Construccion del JPopupMenu
 		popup = new JPopupMenu();
 
 	}//InitComponents
-	
-	
 	
 	/*
 	 * Oyentes de la barra de menus
@@ -1055,23 +918,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	/*
 	 * Oyentes de la toolbar de generacion
 	 */
-
-	private void botonLimpiarPantallaActionPerformed(ActionEvent evt) {
-		this.areaTextoGeneracion.setText("");
-		this.acumulador="";
-		this.scriptGeneradoCorrectamente = false;
-		controlador.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_BotonLimpiarPantalla, null);
-	}
-
-	private void botonValidarActionPerformed(ActionEvent evt) {
-		Thread hilo = new Thread(new Runnable(){
-			public void run() {
-				controlador.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_BotonValidar, null);
-			}
-		});
-		hilo.start();
-		
-	}
 
 	private void botonModeloRelacionalActionPerformed(ActionEvent evt) {
 		Thread hilo = new Thread(new Runnable(){
@@ -1146,7 +992,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	/*
 	 * Mensajes que le manda el controlador a la GUIPrincipal
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void mensajesDesde_Controlador(TC mensaje, Object datos){
 		switch(mensaje){
 		case Controlador_InsertarEntidad:{
@@ -1594,7 +1440,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		scriptGeneradoCorrectamente = valor;
 	}
 
-	@SuppressWarnings("unchecked")
+
+	@SuppressWarnings("rawtypes")
 	public Vector getListaConexiones() {
 		return listaConexiones;
 	}
@@ -1602,8 +1449,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	public void setListaConexiones(Vector<TransferConexion> listaConexiones) {
 		this.listaConexiones = listaConexiones;
 	}
-	
-	@SuppressWarnings("unchecked")
+
+	@SuppressWarnings("rawtypes")
 	public Vector getListaEntidades() {
 		return listaEntidades;
 	}
@@ -1612,7 +1459,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		this.listaEntidades = listaEntidades;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public Vector getListaAtributos() {
 		return listaAtributos;
 	}
@@ -1621,7 +1468,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		this.listaAtributos = listaAtributos;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public Vector getListaRelaciones() {
 		return listaRelaciones;
 	}
@@ -1630,7 +1477,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		this.listaRelaciones = listaRelaciones;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public Vector getListaDominios() {
 		return listaDominios;
 	}
@@ -1691,6 +1538,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		this.repaint();
 	}
 	
+	@SuppressWarnings("rawtypes")
 	private JTree generaArbolDominio(Vector<TransferDominio> listaDominios, String expandir){
 		
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.DOM_TREE_CREATED_DOMS));
@@ -2453,21 +2301,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	}
 		 
 		 
-	/**
-	 * Desactiva los botones, ya que lanzan hilos y podrían solaparse acciones.
-	 */
-	private void desactivaBotones(){
-		botonLimpiarPantalla.setEnabled(false);
-		botonValidar.setEnabled(false);
-		botonModeloRelacional.setEnabled(false);
-		botonScriptSQL.setEnabled(false);
-		botonExportarArchivo.setEnabled(false);
-		botonEjecutarEnDBMS.setEnabled(false);
-	}
-	
-	/**
-	 * Activa los botones tras la ejecución del hilo
-	 */
 	public void activaBotones(){
 		botonLimpiarPantalla.setEnabled(true);
 		botonValidar.setEnabled(true);

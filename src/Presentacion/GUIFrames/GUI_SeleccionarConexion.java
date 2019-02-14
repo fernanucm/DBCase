@@ -9,8 +9,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Vector;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -20,7 +18,6 @@ import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-
 import Controlador.ConfiguradorInicial;
 import Controlador.Controlador;
 import Controlador.TC;
@@ -55,7 +52,6 @@ public class GUI_SeleccionarConexion extends javax.swing.JDialog  implements Key
 	private JButton botonNueva;
 	private JButton botonAceptar;
 	private JTable tablaConjuntos;
-	private Vector<JButton> botones;
 	private JButton botonBorrar;
 	private JButton botonEditar;
 	// End of variables declaration
@@ -398,8 +394,6 @@ public class GUI_SeleccionarConexion extends javax.swing.JDialog  implements Key
 	public void setInactiva(){
 		this.setVisible(false);
 		this.dispose();
-		
-		controlador.getTheGUIPrincipal().activaBotones();
 	}
 
 	public void keyPressed( KeyEvent e ) {
