@@ -45,6 +45,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
 import javax.swing.JTree;
+import javax.swing.OverlayLayout;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -105,7 +106,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	// Componentes
 	private TablaVolumenes tablaVolumenes;
 	private JPanel panelTablas;
-	private JTabbedPane panelPrincipal;
 	private JMenu menuSistema;
 	private JScrollPane panelScrollSucesos;
 	private JButton botonLimpiarPantalla;
@@ -139,7 +139,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private JButton botonModeloRelacional;
 	private JButton botonValidar;
 	private JButton botonEjecutarEnDBMS;
-	private JSplitPane splitDiagrama;
+	private JPanel splitDiagrama;
 	private JSplitPane split1;
 	private JPanel panelGeneracion;
 	private JPanel panelDiagrama;
@@ -249,6 +249,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
             break;
         }
 	}
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initComponents() {
 		try {
@@ -256,608 +257,560 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				this.setTitle(Lenguaje.getMensaje(Lenguaje.DBCASE));
 				this.setSize(800, 600);
 				this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-				{
-					barraDeMenus = new JMenuBar();
-					setJMenuBar(barraDeMenus);
-					barraDeMenus.add(Box.createRigidArea(new Dimension(0,30)));
-					barraDeMenus.setOpaque(true);
-					barraDeMenus.setBorder(BorderFactory.createCompoundBorder(
-							null, 
-							null));
-					
-					{	//File
-						menuSistema = new JMenu();
-						barraDeMenus.add(menuSistema);
-						menuSistema.setText(Lenguaje.getMensaje(Lenguaje.FILE));
-						menuSistema.setMnemonic(Lenguaje.getMensaje(Lenguaje.FILE).charAt(0));
-						
-						{//File/new
-							submenuNuevo = new JMenuItem();
-							menuSistema.add(submenuNuevo);
-							submenuNuevo.setText(Lenguaje.getMensaje(Lenguaje.NEW));
-							submenuNuevo.setMnemonic(Lenguaje.getMensaje(Lenguaje.NEW).charAt(0));
-							submenuNuevo.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.N_NUEVO)));
-							submenuNuevo.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent evt) {
-									submenuNuevoActionPerformed(evt);
-								}
-							});
-						}
-						{//File/open
-							submenuAbrir = new JMenuItem();
-							menuSistema.add(submenuAbrir);
-							submenuAbrir.setText(Lenguaje.getMensaje(Lenguaje.OPEN)+"...");
-							submenuAbrir.setMnemonic(Lenguaje.getMensaje(Lenguaje.OPEN).charAt(0));
-							submenuAbrir.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.N_ABRIR)));
-							submenuAbrir.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent evt) {
-									submenuAbrirActionPerformed(evt);
-								}
-							});
-						}
-						{//File/close
-							submenuCerrar = new JMenuItem();
-							menuSistema.add(submenuCerrar);
-							submenuCerrar.setText(Lenguaje.getMensaje(Lenguaje.CLOSE));
-							submenuCerrar.setMnemonic(Lenguaje.getMensaje(Lenguaje.CLOSE).charAt(0));
-							submenuCerrar.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.N_CERRAR)));
-							submenuCerrar.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent evt) {
-									submenuCerrarActionPerformed(evt);
-								}
-							});
-						}//File/separator
-						menuSistema.add(new JSeparator());
-						{//File/save
-							submenuGuardar = new JMenuItem();
-							menuSistema.add(submenuGuardar);
-							submenuGuardar.setText(Lenguaje.getMensaje(Lenguaje.SAVE));
-							submenuGuardar.setMnemonic(Lenguaje.getMensaje(Lenguaje.SAVE).charAt(0));
-							submenuGuardar.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.N_GUARDAR)));
-							submenuGuardar.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent evt) {
-									submenuGuardarActionPerformed(evt);
-								}
-							});
-						}
-						{//File/save as...
-							submenuGuardarComo = new JMenuItem();
-							menuSistema.add(submenuGuardarComo);
-							submenuGuardarComo.setText(Lenguaje.getMensaje(Lenguaje.SAVE_AS)+"...");
-							submenuGuardarComo.setMnemonic(Lenguaje.getMensaje(Lenguaje.SAVE_AS).charAt(1));
-							//submenuGuardarComo.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.DIRECTORIO)));
-							submenuGuardarComo.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent evt) {
-									submenuGuardarComoActionPerformed(evt);
-								}
-							});
-						}//File/separator2
-						menuSistema.add(new JSeparator());
-						{//File/imprimir
-							submenuImprimir = new JMenuItem();
-							menuSistema.add(submenuImprimir);
-							submenuImprimir.setText(Lenguaje.getMensaje(Lenguaje.PRINT_DIAGRAM)+"...");
-							submenuImprimir.setMnemonic(Lenguaje.getMensaje(Lenguaje.PRINT_DIAGRAM).charAt(0));
-							submenuImprimir.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.IMPRESORA)));
-							submenuImprimir.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent evt) {
-									submenuImprimirActionPerformed(evt);
-								}
-							});
-						}
-						{//File/Export
-							submenuExportarJPEG = new JMenuItem();
-							menuSistema.add(submenuExportarJPEG);
-							submenuExportarJPEG.setText(Lenguaje.getMensaje(Lenguaje.EXPORT_DIAGRAM));
-							submenuExportarJPEG.setMnemonic(Lenguaje.getMensaje(Lenguaje.EXPORT_DIAGRAM).charAt(0));
-							submenuExportarJPEG.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.EXPORTARIMAGEN)));
-							submenuExportarJPEG.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent evt) {
-									submenuExportarJPEGActionPerformed(evt);
-								}
-							});
-						}//File/Separator
-						menuSistema.add(new JSeparator());
-						{//File/salir
-							submenuSalir = new JMenuItem();
-							menuSistema.add(submenuSalir);
-							submenuSalir.setText(Lenguaje.getMensaje(Lenguaje.EXIT_MINCASE));
-							submenuSalir.setMnemonic(Lenguaje.getMensaje(Lenguaje.EXIT_MINCASE).charAt(0));
-							submenuSalir.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.SALIR)));
-							submenuSalir.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent evt) {
-									submenuSalirActionPerformed(evt);
-								}
-							});
-						}
-					}
-					{//Opciones
-						menuOpciones = new JMenu();
-						barraDeMenus.add(menuOpciones);
-						menuOpciones.setText(Lenguaje.getMensaje(Lenguaje.OPTIONS));
-						menuOpciones.setMnemonic(Lenguaje.getMensaje(Lenguaje.OPTIONS).charAt(0));
-						{
-							// Menú GESTORES DE BASES DE DATOS
-							menuSGBDActual = new JMenu();
-							menuSGBDActual.setFont(new java.awt.Font("Avenir", 0, 16));
-							menuOpciones.add(menuSGBDActual);
-							menuSGBDActual.setText(Lenguaje.getMensaje(Lenguaje.CURRENT_DBMS));
-							menuSGBDActual.setMnemonic(Lenguaje.getMensaje(Lenguaje.CURRENT_DBMS).charAt(0));
-							menuSGBDActual.setIcon(new ImageIcon(
-									getClass().getClassLoader().getResource(
-											ImagePath.SELECCIONARSGBD)));
-							elementosMenuSGBDActual = new Vector<JCheckBoxMenuItem>(0,1);
-							
-							// Añadir las conexiones listadas
-							if(listaConexiones!=null) {
-								for (int i=0; i < listaConexiones.size(); i++){
-									TransferConexion tc = listaConexiones.get(i);
-									
-									JCheckBoxMenuItem menuConexion = new JCheckBoxMenuItem();
-									menuConexion.setText(tc.getRuta());
-									menuConexion.setSelected(i == 0);
-									
-									menuConexion.addActionListener(new ActionListener() {
-										public void actionPerformed(ActionEvent e) {
-											// Obtener el checkBox que ha sido pulsado
-											JCheckBoxMenuItem check = (JCheckBoxMenuItem) e.getSource();
-											System.out.println("He pulsado la opción " + check.getText());
-											
-											// Cambiar la conexión actual
-											cambiarConexion(check.getText());
-										}
-									});
-									
-									menuSGBDActual.add(menuConexion);
-									elementosMenuSGBDActual.add(menuConexion);
-								}
-							}
-							// Menu SELECCIONAR LENGUAJE
-							menuLenguajes = new JMenu();
-							menuLenguajes.setFont(new java.awt.Font("Avenir", 0, 16));
-							menuOpciones.add(menuLenguajes);
-							menuLenguajes.setText(Lenguaje.getMensaje(Lenguaje.SELECT_LANGUAGE));
-							menuLenguajes.setMnemonic(Lenguaje.getMensaje(Lenguaje.SELECT_LANGUAGE).charAt(0));
-							menuLenguajes.setIcon(new ImageIcon(
-									getClass().getClassLoader().getResource(
-											ImagePath.SELECCIONARLENGUAJE)));
-							
-							elementosMenuLenguajes = new Vector<JCheckBoxMenuItem>(0,1);
-							
-							Vector<String> lenguajes = Lenguaje.obtenLenguajesDisponibles();
-							for (int m=0; m<lenguajes.size(); m++){
-								JCheckBoxMenuItem lenguaje = new JCheckBoxMenuItem();
-								lenguaje.setText(lenguajes.get(m));
-								lenguaje.setSelected(lenguajes.get(m).equalsIgnoreCase(
-										Lenguaje.getIdiomaActual()));
-								
-								lenguaje.addActionListener(new ActionListener() {
-									public void actionPerformed(ActionEvent e) {
-										// Obtener el checkBox que ha sido pulsado
-										JCheckBoxMenuItem check = (JCheckBoxMenuItem) e.getSource();
-										System.out.println("Lenguajes: He pulsado la opción " + check.getText());
-										
-										// Cambiar el lenguaje
-										controlador.mensajeDesde_GUIPrincipal(
-												TC.GUI_Principal_CambiarLenguaje, 
-												check.getText());
-										
-										// Actualizar los checkBox
-										for (int k=0; k<elementosMenuLenguajes.size(); k++){
-											JCheckBoxMenuItem l = elementosMenuLenguajes.get(k);
-											l.setSelected(l.getText().equalsIgnoreCase(Lenguaje.getIdiomaActual()));
-										}
-									}
-								});
-								
-								menuLenguajes.add(lenguaje);
-								elementosMenuLenguajes.add(lenguaje);
-							}
-							
-						}	
-					}
-					{
-						menuVista = new JMenu();
-						barraDeMenus.add(menuVista);
-						menuVista.setText("View");
-						menuVista.setMnemonic(Lenguaje.getMensaje(Lenguaje.HELP).charAt(0));
-						{		
-							
-							JCheckBoxMenuItem model = new JCheckBoxMenuItem();
-							JCheckBoxMenuItem er = new JCheckBoxMenuItem();
-							JCheckBoxMenuItem code = new JCheckBoxMenuItem();
-							menuPanelSucesos = new JCheckBoxMenuItem();
-							themeMenu = new JMenu();
-							for(String s : this.theme.getAvaiableThemes()) {
-								JCheckBoxMenuItem item = new JCheckBoxMenuItem();
-								//if(theme.getThemeName().equals(s))item.setSelected(true);
-								item.setText(s);
-								item.setFont(new java.awt.Font("Avenir", 0, 16));
-								item.setActionCommand(s);
-								item.addActionListener(new ActionListener() {
-
-									@Override
-									public void actionPerformed(ActionEvent e) {
-										cambiaTema(e);
-									}
-									
-								});
-								themeMenu.add(item);
-							}
-							
-							themeMenu.setFont(new java.awt.Font("Avenir", 0, 16));
-							
-							menuVista.add(er);
-							menuVista.add(model);
-							menuVista.add(code);
-							menuVista.add(new JSeparator());
-							menuVista.add(themeMenu);
-							//menuVista.add(new JSeparator());
-							//menuVista.add(menuPanelSucesos);
-							
-							
-							er.setText(Lenguaje.getMensaje(Lenguaje.CONC_MODEL));
-							er.setSelected(true);
-							er.setFont(new java.awt.Font("Avenir", 0, 16));
-							model.setText(Lenguaje.getMensaje(Lenguaje.LOGIC_MODEL));
-							model.setSelected(false);
-							model.setFont(new java.awt.Font("Avenir", 0, 16));
-							code.setText(Lenguaje.getMensaje(Lenguaje.PHYS_MODEL));
-							code.setSelected(false);
-							code.setFont(new java.awt.Font("Avenir", 0, 16));
-							themeMenu.setText("Tema");
-							
-							menuPanelSucesos.setText(Lenguaje.getMensaje(Lenguaje.SHOW_EVENTS_PANEL));
-							menuPanelSucesos.setMnemonic(Lenguaje.getMensaje(Lenguaje.SHOW_EVENTS_PANEL).charAt(0));
-							menuPanelSucesos.setFont(new java.awt.Font("Avenir", 0, 16));
-							
-							menuPanelSucesos.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent evt) {
-									menuPanelSucesosActionPerformed(evt);
-								}
-							});
-								
-						}
-					}
-					{//Ayuda
-						menuAyuda = new JMenu();
-						barraDeMenus.add(menuAyuda);
-						menuAyuda.setText(Lenguaje.getMensaje(Lenguaje.HELP));
-						menuAyuda.setMnemonic(Lenguaje.getMensaje(Lenguaje.HELP).charAt(0));
-						{//Ayuda/contenidos
-							submenuContenidos = new JMenuItem();
-							menuAyuda.add(submenuContenidos);
-							submenuContenidos.setText(Lenguaje.getMensaje(Lenguaje.CONTENTS));
-							submenuContenidos.setMnemonic(Lenguaje.getMensaje(Lenguaje.CONTENTS).charAt(0));
-							submenuContenidos.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.AYUDA)));
-							submenuContenidos.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent evt) {
-									submenuContenidosActionPerformed(evt);
-								}
-							});
-						}
-						{//Ayuda/acerca de
-							submenuAcercaDe = new JMenuItem();
-							menuAyuda.add(submenuAcercaDe);
-							submenuAcercaDe.setText(Lenguaje.getMensaje(Lenguaje.ABOUT));
-							submenuAcercaDe.setMnemonic(Lenguaje.getMensaje(Lenguaje.ABOUT).charAt(0));
-							submenuAcercaDe.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.CREDITOS)));
-							submenuAcercaDe.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent evt) {
-									submenuAcercaDeActionPerformed(evt);
-								}
-							});
-						}
-					}
-				}
+				initMenu();
 				
-				{
-					salvado = new JRadioButton();
-					//barraDeMenus.add(salvado);
-					salvado.setSelected(true);
-					salvado.setFocusable(false);
-					salvado.setForeground(Color.GREEN);
-					salvado.addChangeListener(new ChangeListener() {
-						public void stateChanged(ChangeEvent arg0) {
-							if(salvado.isSelected()==false){
-								salvado.setSelected(true);
-							}
-						} 
-					});
-				}
-				{
-					panelPrincipal = new JTabbedPane();
-					getContentPane().add(panelPrincipal, BorderLayout.CENTER);
-					{//Tabs principales
-						panelDiagrama = new JPanel();
-						BorderLayout panelDiagramaLayout = new BorderLayout();
-						panelDiagrama.setLayout(panelDiagramaLayout);						
-						panelPrincipal.addTab(Lenguaje.getMensaje(Lenguaje.ER_MODEL), null, panelDiagrama, null);
-						
-						//panelPrincipal.setBackground(theme.background());
-						panelPrincipal.setFocusable(false);
-						{
-							split1 = new JSplitPane();
-							panelDiagrama.add(split1, BorderLayout.CENTER);
-							split1.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-							split1.setOneTouchExpandable(false);
-							split1.setResizeWeight(0.75);
-							// Localizacion del split en funcion del alto de la pantalla
-							Dimension tamanoPantalla = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-							String altoString = String.valueOf(tamanoPantalla.getHeight()*0.65);
-							int loc = Integer.parseInt(altoString.substring(0,altoString.indexOf(".")));
-							split1.setDividerLocation(loc);
-							{
-								
-								JSplitPane infoSplit = new JSplitPane();
-								JTabbedPane tabPanelDcha = new JTabbedPane();
-								tabPanelDcha.setFocusable(false);
-								infoSplit.add(tabPanelDcha,JSplitPane.RIGHT);
-								infoSplit.setResizeWeight(0.82);
-								infoSplit.setDividerSize(0);
-								infoSplit.setBorder(null);
-								infoSplit.setEnabled(false);
-								splitDiagrama = new JSplitPane();
-								infoSplit.add(splitDiagrama, JSplitPane.LEFT);
-								split1.add(infoSplit, JSplitPane.LEFT);
-								split1.add(tabPanelDcha,JSplitPane.RIGHT);
-								split1.setBorder(null);
-								
-								splitDiagrama.setEnabled(false);
-								splitDiagrama.setBorder(null);
-								splitDiagrama.setResizeWeight(0.08);
-								Dimension dim = new Dimension();
-								dim.setSize(tamanoPantalla.width*.2, tamanoPantalla.height*.2);
-								splitDiagrama.setMinimumSize(dim);
-								dim.setSize(tamanoPantalla.width*.1, tamanoPantalla.height*.1);
-								splitDiagrama.setMaximumSize(dim);
-								splitDiagrama.setDividerSize(0);
-								{
-									// Actualizacion de listas y creacion del grafo
-									controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeEntidades, null);
-									controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeAtributos, null);
-									controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeRelaciones, null);
-									panelDiseno = new PanelGrafo(listaEntidades,listaAtributos,listaRelaciones,theme);
-									panelDiseno.setControlador(this.getControlador());
-									splitDiagrama.add(panelDiseno, JSplitPane.RIGHT);
-								}
-								{//Panel de la izquierda
-									split3 = new JSplitPane();
-									split3.setBorder(null);
-									split3.setDividerSize(0);
-									split3.setEnabled(false);
-									split3.setOrientation(JSplitPane.VERTICAL_SPLIT);
-									split3.setResizeWeight(0.3);
-									split3.setDividerLocation(150);//100
-									splitDiagrama.add(split3, JSplitPane.LEFT);
-									splitDiagrama.setMaximumSize(new Dimension(5,100));
-									splitDiagrama.setDividerLocation(160);
-									JPanel ElementosArrastre = new JPanel();
-									ElementosArrastre.setBackground(theme.background());
-									ElementosArrastre.setMaximumSize(new Dimension(5,100));
-									ElementosArrastre.setBorder(BorderFactory.createLineBorder(Color.lightGray));
-									split3.add(ElementosArrastre, JSplitPane.BOTTOM);
-									
-									{
-										{
-											panelInfo = new JPanel();
-											BorderLayout panelInfoLayout = new BorderLayout();
-											panelInfo.setLayout(panelInfoLayout);
-											panelInfo.addMouseListener(mls);
-											tabPanelDcha.addTab("Elementos", null, panelInfo ,null);
-											{
-												panelArbol = new JScrollPane();
-												panelArbol.setBackground(theme.background());
-												panelInfo.add(panelArbol, BorderLayout.CENTER);
-												panelArbol.setBorder(BorderFactory.createEmptyBorder(4, 4, 0, 0));
-												panelArbol.setVisible(false);
-											}
-										}
-										{
-											panelDom = new JPanel();
-											panelDom.setLayout(new BorderLayout());
-											panelDom.setBackground(theme.background());
-											tabPanelDcha.addTab("Dominios", null, panelDom ,null);
-											{
-												panelArbolDom = new JScrollPane();
-												panelArbolDom.setBackground(theme.background());
-												panelDom.add(panelArbolDom, BorderLayout.CENTER);
-												panelArbolDom.setBorder(BorderFactory.createEmptyBorder(4, 4, 0, 0));
-												panelArbolDom.addMouseListener(ml);
-												panelArbolDom.setVisible(false);
-												JButton nuevoDom = new JButton(Lenguaje.getMensaje(Lenguaje.ADD_DOMAIN));
-												JPanel panelBoton = new JPanel();
-												nuevoDom.addActionListener(new ActionListener() {
-													@Override
-													public void actionPerformed(ActionEvent e) {
-														controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_CrearDominio, 0);
-													}
-												});		
-												nuevoDom.setFocusable(false);
-												panelBoton.add(nuevoDom);
-												panelDom.add(panelBoton, BorderLayout.NORTH);
-												this.actualizaArbolDominio(null);
-											}
-
-										}
-										{
-											panelTablas = new JPanel();
-											panelTablas.setLayout(new BorderLayout());
-											panelTablas.setBackground(theme.background());
-											tablaVolumenes = new TablaVolumenes();
-											tablaVolumenes.getModel().addTableModelListener(new TableModelListener() {
-												@Override
-												public void tableChanged(TableModelEvent e) {
-													controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_ActualizarDatosEnTablaDeVolumenes, e);
-												}});
-											tablaVolumenes.setBackground(theme.background());
-											scrollPanelTablas = new JScrollPane(tablaVolumenes);
-											scrollPanelTablas.setBackground(theme.background());
-											panelTablas.add(scrollPanelTablas);
-											tabPanelDcha.addTab("Tablas", null, panelTablas ,null);
-										}
-									}
-									{
-										panelGrafo = new PanelThumbnail(panelDiseno, theme);
-										split3.add(panelGrafo, JSplitPane.LEFT);
-									}
-								}
-							}
-							{
-								panelSucesos = new JPanel();
-								BorderLayout panelSucesosLayout = new BorderLayout();
-								panelSucesos.setLayout(panelSucesosLayout);
-								//split1.add(panelSucesos, JSplitPane.RIGHT);
-								{
-									panelScrollSucesos = new JScrollPane();
-									panelSucesos.add(panelScrollSucesos, BorderLayout.CENTER);
-									panelScrollSucesos.setBorder(BorderFactory.createTitledBorder(null,Lenguaje.getMensaje(Lenguaje.EVENT_PANEL), TitledBorder.LEADING, TitledBorder.BELOW_TOP));
-									panelScrollSucesos.setBackground(new java.awt.Color(255,255,255));
-									{
-										areaTextoSucesos = new JTextPane();
-										panelScrollSucesos.setViewportView(areaTextoSucesos);
-										areaTextoSucesos.setEditable(false);
-										areaTextoSucesos.setContentType("text/plain");
-									}
-								}
-								panelSucesos.setVisible(false);
-							}
-						}
-					}
-					{
-						panelGeneracion = new JPanel();
-						BorderLayout panelGeneracionLayout = new BorderLayout();
-						panelGeneracion.setLayout(panelGeneracionLayout);
-						panelPrincipal.addTab(Lenguaje.getMensaje(Lenguaje.CODE_GENERATION), null, panelGeneracion, null);
+				
+				JSplitPane diagramaCode = new JSplitPane();
+				//TODO
+				diagramaCode.setResizeWeight(0.8);
+				getContentPane().add(diagramaCode);
+				
+				//Tabs principales
+				panelDiagrama = new JPanel();
+				diagramaCode.add(panelDiagrama, JSplitPane.LEFT);
+				BorderLayout panelDiagramaLayout = new BorderLayout();
+				panelDiagrama.setLayout(panelDiagramaLayout);
+				
+				split1 = new JSplitPane();
+				panelDiagrama.add(split1, BorderLayout.CENTER);
+				split1.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+				split1.setOneTouchExpandable(false);
+				split1.setResizeWeight(0.87);
 					
-						JSplitPane codesSplit = new JSplitPane();
-						
-						codesSplit.setResizeWeight(0.57);
-						codesSplit.setDividerSize(10);
-						codesSplit.setBorder(null);
-						codesSplit.setEnabled(true);
-						codesSplit.setBackground(Color.black);
-						panelGeneracion.add(codesSplit, BorderLayout.CENTER);
-						
-						JPanel modeloPanel = new JPanel();
-						modeloPanel.setBackground(theme.background());
-						modeloPanel.setLayout(new BorderLayout());
-						
-						JPanel textPanel = new JPanel();
-						textPanel.setLayout(new BoxLayout(textPanel,BoxLayout.X_AXIS));
-						JLabel text = new JLabel("<html><span style='font-size:30px'>"+Lenguaje.getMensaje(Lenguaje.LOGIC_MODEL)+"</span></html>");
-						text.setPreferredSize(new Dimension(150, 100));
-						JButton generaModelo = new JButton("Generar");
-						generaModelo.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent evt) {
-								acumulador = "";
-								botonModeloRelacionalActionPerformed(evt);
-							}
-						});
-						textPanel.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 50));
-						textPanel.add(text);
-						textPanel.add(generaModelo);
-						modeloPanel.add(textPanel, BorderLayout.NORTH);
-						
-						JPanel panelBotones = new JPanel();
-						panelBotones.setLayout(new FlowLayout());
-						JButton exportarModelo = new JButton("Guardar Como");
-						exportarModelo.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent evt) {
-								botonExportarArchivoActionPerformed(evt,false);
-							}
-						});
-						panelBotones.add(exportarModelo);
-						modeloPanel.add(panelBotones, BorderLayout.SOUTH);
-						
-						modeloText = new JTextPane();
-						modeloText.setContentType("text/html");
-						//modeloText.setLineWrap(true);
-						modeloText.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
-						modeloPanel.add(new JScrollPane(modeloText), BorderLayout.CENTER);
-						
-						/***********************/
-						//TODO
-						
-						JPanel codePanel = new JPanel();
-						codePanel.setBackground(theme.background());
-						codePanel.setLayout(new BorderLayout());
-						
-						cboSeleccionDBMS = new JComboBox();
-						for (int i=0; i < listaConexiones.size(); i++)
-							cboSeleccionDBMS.insertItemAt(listaConexiones.get(i).getRuta(),
-									listaConexiones.get(i).getTipoConexion());
-						
-						cboSeleccionDBMS.setSelectedIndex(0);
-						cboSeleccionDBMS.addActionListener(new ActionListener(){
-							public void actionPerformed(ActionEvent e) {
-								JComboBox cbo = (JComboBox) e.getSource();
-								cambiarConexion((String)cbo.getSelectedItem());// Cambiar la conexionActual
-							}
-						});
-						cboSeleccionDBMS.setMaximumSize(new Dimension(500,40));
-						cboSeleccionDBMS.setAlignmentX(Component.RIGHT_ALIGNMENT);
-						
-						JPanel textPanel2 = new JPanel();
-						textPanel2.setLayout(new BoxLayout(textPanel2,BoxLayout.X_AXIS));
-						JLabel text2 = new JLabel("<html><span style='font-size:30px'>"+Lenguaje.getMensaje(Lenguaje.PHYS_MODEL)+"</span></html>");
-						text2.setPreferredSize(new Dimension(150, 100));
-						JButton generaCodigo = new JButton("Generar");
-						generaCodigo.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent evt) {
-								acumulador = "";
-								botonScriptSQLActionPerformed(evt);
-							}
-						});
-						JPanel accionesCodigo = new JPanel();
-						generaCodigo.setAlignmentX(Component.RIGHT_ALIGNMENT);
-						accionesCodigo.setLayout(new BoxLayout(accionesCodigo,BoxLayout.Y_AXIS));
-						textPanel2.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 50));
-						textPanel2.add(text2);
-						accionesCodigo.add(cboSeleccionDBMS);
-						accionesCodigo.add(generaCodigo);
-						textPanel2.add(accionesCodigo);
-						codePanel.add(textPanel2, BorderLayout.NORTH);
-						
-						codesSplit.add(modeloPanel,JSplitPane.LEFT);
-						codesSplit.add(codePanel,JSplitPane.RIGHT);
-						
-						JPanel panelExportar = new JPanel();
-						panelExportar.setLayout(new FlowLayout());
-						JButton exportarCodigo = new JButton("Guardar Como");
-						exportarCodigo.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent evt) {
-								botonExportarArchivoActionPerformed(evt,true);
-							}
-						});
-						JButton ejecutarCodigo = new JButton("Ejecutar");
-						ejecutarCodigo.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent evt) {
-								botonEjecutarEnDBMSActionPerformed(evt);
-							}
-						});
-						panelExportar.add(exportarCodigo);
-						panelExportar.add(ejecutarCodigo);
-						codePanel.add(panelExportar, BorderLayout.SOUTH);
-						
-						codigoText = new JTextPane();
-						codigoText.setContentType("text/html");
-						codigoText.setBorder(null);
-						codigoText.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
+				JSplitPane infoSplit = new JSplitPane();
+				JTabbedPane tabPanelDcha = new JTabbedPane();
+				JSplitPane splitTabMapa = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+				splitTabMapa.setResizeWeight(0.155);
+				splitTabMapa.add(tabPanelDcha, JSplitPane.RIGHT);
+				tabPanelDcha.setFocusable(false);
+				infoSplit.add(splitTabMapa,JSplitPane.RIGHT);
+				infoSplit.setResizeWeight(0.82);
+				infoSplit.setDividerSize(0);
+				infoSplit.setBorder(null);
+				infoSplit.setEnabled(false);
+				
+				split1.add(infoSplit, JSplitPane.LEFT);
+				split1.add(splitTabMapa,JSplitPane.RIGHT);
+			
+				// Actualizacion de listas y creacion del grafo
+				controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeEntidades, null);
+				controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeAtributos, null);
+				controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeRelaciones, null);
+				panelDiseno = new PanelGrafo(listaEntidades,listaAtributos,listaRelaciones,theme);
+				panelDiseno.setControlador(this.getControlador());
+				panelDiseno.setLayout(new OverlayLayout(panelDiseno));
+	
+				
+				//Panel de la izquierda
+				split3 = new JSplitPane();
+				split3.setBorder(null);
+				split3.setDividerSize(0);
+				split3.setEnabled(false);
+				split3.setOrientation(JSplitPane.VERTICAL_SPLIT);
+				split3.setResizeWeight(0.3);
+				split3.setDividerLocation(150);//100
+				JPanel ElementosArrastre = new JPanel();
+				ElementosArrastre.setBackground(theme.background());
+				ElementosArrastre.setMaximumSize(new Dimension(5,100));
+				ElementosArrastre.setBorder(BorderFactory.createLineBorder(Color.lightGray));
+				split3.add(ElementosArrastre, JSplitPane.BOTTOM);
 
-						codePanel.add(new JScrollPane(codigoText), BorderLayout.CENTER);
-				}
+				panelInfo = new JPanel();
+				BorderLayout panelInfoLayout = new BorderLayout();
+				panelInfo.setLayout(panelInfoLayout);
+				panelInfo.addMouseListener(mls);
+				tabPanelDcha.addTab("Elementos", null, panelInfo ,null);
+				
+				panelArbol = new JScrollPane();
+				panelArbol.setBackground(theme.background());
+				panelInfo.add(panelArbol, BorderLayout.CENTER);
+				panelArbol.setBorder(BorderFactory.createEmptyBorder(4, 4, 0, 0));
+				panelArbol.setVisible(false);
+
+				panelDom = new JPanel();
+				panelDom.setLayout(new BorderLayout());
+				panelDom.setBackground(theme.background());
+				tabPanelDcha.addTab("Dominios", null, panelDom ,null);
+				
+				panelArbolDom = new JScrollPane();
+				panelArbolDom.setBackground(theme.background());
+				panelDom.add(panelArbolDom, BorderLayout.CENTER);
+				panelArbolDom.setBorder(BorderFactory.createEmptyBorder(4, 4, 0, 0));
+				panelArbolDom.addMouseListener(ml);
+				panelArbolDom.setVisible(false);
+				JButton nuevoDom = new JButton(Lenguaje.getMensaje(Lenguaje.ADD_DOMAIN));
+				JPanel panelBoton = new JPanel();
+				nuevoDom.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_CrearDominio, 0);
+					}
+				});		
+				nuevoDom.setFocusable(false);
+				panelBoton.add(nuevoDom);
+				panelDom.add(panelBoton, BorderLayout.NORTH);
+				this.actualizaArbolDominio(null);
+				
+				panelTablas = new JPanel();
+				panelTablas.setLayout(new BorderLayout());
+				panelTablas.setBackground(theme.background());
+				tablaVolumenes = new TablaVolumenes();
+				tablaVolumenes.getModel().addTableModelListener(new TableModelListener() {
+					@Override
+					public void tableChanged(TableModelEvent e) {
+						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_ActualizarDatosEnTablaDeVolumenes, e);
+				}});
+				tablaVolumenes.setBackground(theme.background());
+				scrollPanelTablas = new JScrollPane(tablaVolumenes);
+				scrollPanelTablas.setBackground(theme.background());
+				panelTablas.add(scrollPanelTablas);
+				tabPanelDcha.addTab("Tablas", null, panelTablas ,null);
+				panelGrafo = new PanelThumbnail(panelDiseno, theme);
+				splitTabMapa.add(panelGrafo, JSplitPane.LEFT);
+				infoSplit.add(panelDiseno, JSplitPane.LEFT);
+						
+				panelGeneracion = new JPanel();
+				BorderLayout panelGeneracionLayout = new BorderLayout();
+				panelGeneracion.setLayout(panelGeneracionLayout);
+				diagramaCode.add(panelGeneracion, JSplitPane.RIGHT);
+			
+				JSplitPane codesSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+				
+				codesSplit.setResizeWeight(0.57);
+				codesSplit.setDividerSize(10);
+				codesSplit.setBorder(null);
+				codesSplit.setEnabled(true);
+				codesSplit.setBackground(Color.black);
+				panelGeneracion.add(codesSplit, BorderLayout.CENTER);
+				
+				JPanel modeloPanel = new JPanel();
+				modeloPanel.setBackground(theme.background());
+				modeloPanel.setLayout(new BorderLayout());
+				
+				JPanel textPanel = new JPanel();
+				textPanel.setLayout(new BoxLayout(textPanel,BoxLayout.X_AXIS));
+				JLabel text = new JLabel("<html><span style='font-size:30px'>"+Lenguaje.getMensaje(Lenguaje.LOGIC_MODEL)+"</span></html>");
+				text.setPreferredSize(new Dimension(150, 100));
+				JButton generaModelo = new JButton("Generar");
+				generaModelo.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent evt) {
+						acumulador = "";
+						botonModeloRelacionalActionPerformed(evt);
+					}
+				});
+				textPanel.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 50));
+				textPanel.add(text);
+				textPanel.add(generaModelo);
+				modeloPanel.add(textPanel, BorderLayout.NORTH);
+				
+				JPanel panelBotones = new JPanel();
+				panelBotones.setLayout(new FlowLayout());
+				JButton exportarModelo = new JButton("Guardar Como");
+				exportarModelo.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent evt) {
+						botonExportarArchivoActionPerformed(evt,false);
+					}
+				});
+				panelBotones.add(exportarModelo);
+				modeloPanel.add(panelBotones, BorderLayout.SOUTH);
+				
+				modeloText = new JTextPane();
+				modeloText.setContentType("text/html");
+				//modeloText.setLineWrap(true);
+				modeloText.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
+				modeloPanel.add(new JScrollPane(modeloText), BorderLayout.CENTER);
+				
+				/***********************/
+				
+				JPanel codePanel = new JPanel();
+				codePanel.setBackground(theme.background());
+				codePanel.setLayout(new BorderLayout());
+				
+				cboSeleccionDBMS = new JComboBox();
+				for (int i=0; i < listaConexiones.size(); i++)
+					cboSeleccionDBMS.insertItemAt(listaConexiones.get(i).getRuta(),
+							listaConexiones.get(i).getTipoConexion());
+				
+				cboSeleccionDBMS.setSelectedIndex(0);
+				cboSeleccionDBMS.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e) {
+						JComboBox cbo = (JComboBox) e.getSource();
+						cambiarConexion((String)cbo.getSelectedItem());// Cambiar la conexionActual
+					}
+				});
+				cboSeleccionDBMS.setMaximumSize(new Dimension(500,40));
+				cboSeleccionDBMS.setAlignmentX(Component.RIGHT_ALIGNMENT);
+				
+				JPanel textPanel2 = new JPanel();
+				textPanel2.setLayout(new BoxLayout(textPanel2,BoxLayout.X_AXIS));
+				JLabel text2 = new JLabel("<html><span style='font-size:30px'>"+Lenguaje.getMensaje(Lenguaje.PHYS_MODEL)+"</span></html>");
+				text2.setPreferredSize(new Dimension(150, 100));
+				JButton generaCodigo = new JButton("Generar");
+				generaCodigo.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent evt) {
+						acumulador = "";
+						botonScriptSQLActionPerformed(evt);
+					}
+				});
+				JPanel accionesCodigo = new JPanel();
+				generaCodigo.setAlignmentX(Component.RIGHT_ALIGNMENT);
+				accionesCodigo.setLayout(new BoxLayout(accionesCodigo,BoxLayout.Y_AXIS));
+				textPanel2.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 50));
+				textPanel2.add(text2);
+				accionesCodigo.add(cboSeleccionDBMS);
+				accionesCodigo.add(generaCodigo);
+				textPanel2.add(accionesCodigo);
+				codePanel.add(textPanel2, BorderLayout.NORTH);
+				
+				codesSplit.add(modeloPanel,JSplitPane.TOP);
+				codesSplit.add(codePanel,JSplitPane.BOTTOM);
+				
+				JPanel panelExportar = new JPanel();
+				panelExportar.setLayout(new FlowLayout());
+				JButton exportarCodigo = new JButton("Guardar Como");
+				exportarCodigo.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent evt) {
+						botonExportarArchivoActionPerformed(evt,true);
+					}
+				});
+				JButton ejecutarCodigo = new JButton("Ejecutar");
+				ejecutarCodigo.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent evt) {
+						botonEjecutarEnDBMSActionPerformed(evt);
+					}
+				});
+				panelExportar.add(exportarCodigo);
+				panelExportar.add(ejecutarCodigo);
+				codePanel.add(panelExportar, BorderLayout.SOUTH);
+				
+				codigoText = new JTextPane();
+				codigoText.setContentType("text/html");
+				codigoText.setBorder(null);
+				codigoText.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
+
+				codePanel.add(new JScrollPane(codigoText), BorderLayout.CENTER);
+				
 				this.setExtendedState(Frame.MAXIMIZED_BOTH);
 				this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
 				this.addWindowListener(this);
 		        this.addKeyListener(this);
 				
-			}
+			
 		} catch(Exception e) {e.printStackTrace();}
 		// Construccion del JPopupMenu
 		popup = new JPopupMenu();
 
 	}//InitComponents
+	private void initMenu() {
+		{
+			barraDeMenus = new JMenuBar();
+			setJMenuBar(barraDeMenus);
+			barraDeMenus.add(Box.createRigidArea(new Dimension(0,30)));
+			barraDeMenus.setOpaque(true);
+			barraDeMenus.setBorder(BorderFactory.createCompoundBorder(
+					null, 
+					null));
+			
+			{	//File
+				menuSistema = new JMenu();
+				barraDeMenus.add(menuSistema);
+				menuSistema.setText(Lenguaje.getMensaje(Lenguaje.FILE));
+				menuSistema.setMnemonic(Lenguaje.getMensaje(Lenguaje.FILE).charAt(0));
+				
+				{//File/new
+					submenuNuevo = new JMenuItem();
+					menuSistema.add(submenuNuevo);
+					submenuNuevo.setText(Lenguaje.getMensaje(Lenguaje.NEW));
+					submenuNuevo.setMnemonic(Lenguaje.getMensaje(Lenguaje.NEW).charAt(0));
+					submenuNuevo.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.N_NUEVO)));
+					submenuNuevo.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent evt) {
+							submenuNuevoActionPerformed(evt);
+						}
+					});
+				}
+				{//File/open
+					submenuAbrir = new JMenuItem();
+					menuSistema.add(submenuAbrir);
+					submenuAbrir.setText(Lenguaje.getMensaje(Lenguaje.OPEN)+"...");
+					submenuAbrir.setMnemonic(Lenguaje.getMensaje(Lenguaje.OPEN).charAt(0));
+					submenuAbrir.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.N_ABRIR)));
+					submenuAbrir.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent evt) {
+							submenuAbrirActionPerformed(evt);
+						}
+					});
+				}
+				{//File/close
+					submenuCerrar = new JMenuItem();
+					menuSistema.add(submenuCerrar);
+					submenuCerrar.setText(Lenguaje.getMensaje(Lenguaje.CLOSE));
+					submenuCerrar.setMnemonic(Lenguaje.getMensaje(Lenguaje.CLOSE).charAt(0));
+					submenuCerrar.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.N_CERRAR)));
+					submenuCerrar.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent evt) {
+							submenuCerrarActionPerformed(evt);
+						}
+					});
+				}//File/separator
+				menuSistema.add(new JSeparator());
+				{//File/save
+					submenuGuardar = new JMenuItem();
+					menuSistema.add(submenuGuardar);
+					submenuGuardar.setText(Lenguaje.getMensaje(Lenguaje.SAVE));
+					submenuGuardar.setMnemonic(Lenguaje.getMensaje(Lenguaje.SAVE).charAt(0));
+					submenuGuardar.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.N_GUARDAR)));
+					submenuGuardar.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent evt) {
+							submenuGuardarActionPerformed(evt);
+						}
+					});
+				}
+				{//File/save as...
+					submenuGuardarComo = new JMenuItem();
+					menuSistema.add(submenuGuardarComo);
+					submenuGuardarComo.setText(Lenguaje.getMensaje(Lenguaje.SAVE_AS)+"...");
+					submenuGuardarComo.setMnemonic(Lenguaje.getMensaje(Lenguaje.SAVE_AS).charAt(1));
+					//submenuGuardarComo.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.DIRECTORIO)));
+					submenuGuardarComo.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent evt) {
+							submenuGuardarComoActionPerformed(evt);
+						}
+					});
+				}//File/separator2
+				menuSistema.add(new JSeparator());
+				{//File/imprimir
+					submenuImprimir = new JMenuItem();
+					menuSistema.add(submenuImprimir);
+					submenuImprimir.setText(Lenguaje.getMensaje(Lenguaje.PRINT_DIAGRAM)+"...");
+					submenuImprimir.setMnemonic(Lenguaje.getMensaje(Lenguaje.PRINT_DIAGRAM).charAt(0));
+					submenuImprimir.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.IMPRESORA)));
+					submenuImprimir.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent evt) {
+							submenuImprimirActionPerformed(evt);
+						}
+					});
+				}
+				{//File/Export
+					submenuExportarJPEG = new JMenuItem();
+					menuSistema.add(submenuExportarJPEG);
+					submenuExportarJPEG.setText(Lenguaje.getMensaje(Lenguaje.EXPORT_DIAGRAM));
+					submenuExportarJPEG.setMnemonic(Lenguaje.getMensaje(Lenguaje.EXPORT_DIAGRAM).charAt(0));
+					submenuExportarJPEG.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.EXPORTARIMAGEN)));
+					submenuExportarJPEG.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent evt) {
+							submenuExportarJPEGActionPerformed(evt);
+						}
+					});
+				}//File/Separator
+				menuSistema.add(new JSeparator());
+				{//File/salir
+					submenuSalir = new JMenuItem();
+					menuSistema.add(submenuSalir);
+					submenuSalir.setText(Lenguaje.getMensaje(Lenguaje.EXIT_MINCASE));
+					submenuSalir.setMnemonic(Lenguaje.getMensaje(Lenguaje.EXIT_MINCASE).charAt(0));
+					submenuSalir.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.SALIR)));
+					submenuSalir.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent evt) {
+							submenuSalirActionPerformed(evt);
+						}
+					});
+				}
+			}
+			{//Opciones
+				menuOpciones = new JMenu();
+				barraDeMenus.add(menuOpciones);
+				menuOpciones.setText(Lenguaje.getMensaje(Lenguaje.OPTIONS));
+				menuOpciones.setMnemonic(Lenguaje.getMensaje(Lenguaje.OPTIONS).charAt(0));
+				{
+					// Menú GESTORES DE BASES DE DATOS
+					menuSGBDActual = new JMenu();
+					menuSGBDActual.setFont(new java.awt.Font("Avenir", 0, 16));
+					menuOpciones.add(menuSGBDActual);
+					menuSGBDActual.setText(Lenguaje.getMensaje(Lenguaje.CURRENT_DBMS));
+					menuSGBDActual.setMnemonic(Lenguaje.getMensaje(Lenguaje.CURRENT_DBMS).charAt(0));
+					menuSGBDActual.setIcon(new ImageIcon(
+							getClass().getClassLoader().getResource(
+									ImagePath.SELECCIONARSGBD)));
+					elementosMenuSGBDActual = new Vector<JCheckBoxMenuItem>(0,1);
+					
+					// Añadir las conexiones listadas
+					if(listaConexiones!=null) {
+						for (int i=0; i < listaConexiones.size(); i++){
+							TransferConexion tc = listaConexiones.get(i);
+							
+							JCheckBoxMenuItem menuConexion = new JCheckBoxMenuItem();
+							menuConexion.setText(tc.getRuta());
+							menuConexion.setSelected(i == 0);
+							
+							menuConexion.addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent e) {
+									// Obtener el checkBox que ha sido pulsado
+									JCheckBoxMenuItem check = (JCheckBoxMenuItem) e.getSource();
+									System.out.println("He pulsado la opción " + check.getText());
+									
+									// Cambiar la conexión actual
+									cambiarConexion(check.getText());
+								}
+							});
+							
+							menuSGBDActual.add(menuConexion);
+							elementosMenuSGBDActual.add(menuConexion);
+						}
+					}
+					// Menu SELECCIONAR LENGUAJE
+					menuLenguajes = new JMenu();
+					menuLenguajes.setFont(new java.awt.Font("Avenir", 0, 16));
+					menuOpciones.add(menuLenguajes);
+					menuLenguajes.setText(Lenguaje.getMensaje(Lenguaje.SELECT_LANGUAGE));
+					menuLenguajes.setMnemonic(Lenguaje.getMensaje(Lenguaje.SELECT_LANGUAGE).charAt(0));
+					menuLenguajes.setIcon(new ImageIcon(
+							getClass().getClassLoader().getResource(
+									ImagePath.SELECCIONARLENGUAJE)));
+					
+					elementosMenuLenguajes = new Vector<JCheckBoxMenuItem>(0,1);
+					
+					Vector<String> lenguajes = Lenguaje.obtenLenguajesDisponibles();
+					for (int m=0; m<lenguajes.size(); m++){
+						JCheckBoxMenuItem lenguaje = new JCheckBoxMenuItem();
+						lenguaje.setText(lenguajes.get(m));
+						lenguaje.setSelected(lenguajes.get(m).equalsIgnoreCase(
+								Lenguaje.getIdiomaActual()));
+						
+						lenguaje.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								// Obtener el checkBox que ha sido pulsado
+								JCheckBoxMenuItem check = (JCheckBoxMenuItem) e.getSource();
+								System.out.println("Lenguajes: He pulsado la opción " + check.getText());
+								
+								// Cambiar el lenguaje
+								controlador.mensajeDesde_GUIPrincipal(
+										TC.GUI_Principal_CambiarLenguaje, 
+										check.getText());
+								
+								// Actualizar los checkBox
+								for (int k=0; k<elementosMenuLenguajes.size(); k++){
+									JCheckBoxMenuItem l = elementosMenuLenguajes.get(k);
+									l.setSelected(l.getText().equalsIgnoreCase(Lenguaje.getIdiomaActual()));
+								}
+							}
+						});
+						
+						menuLenguajes.add(lenguaje);
+						elementosMenuLenguajes.add(lenguaje);
+					}
+					
+				}	
+			}
+			{
+				menuVista = new JMenu();
+				barraDeMenus.add(menuVista);
+				menuVista.setText("View");
+				menuVista.setMnemonic(Lenguaje.getMensaje(Lenguaje.HELP).charAt(0));
+				{		
+					
+					JCheckBoxMenuItem model = new JCheckBoxMenuItem();
+					JCheckBoxMenuItem er = new JCheckBoxMenuItem();
+					JCheckBoxMenuItem code = new JCheckBoxMenuItem();
+					menuPanelSucesos = new JCheckBoxMenuItem();
+					themeMenu = new JMenu();
+					for(String s : this.theme.getAvaiableThemes()) {
+						JCheckBoxMenuItem item = new JCheckBoxMenuItem();
+						//if(theme.getThemeName().equals(s))item.setSelected(true);
+						item.setText(s);
+						item.setFont(new java.awt.Font("Avenir", 0, 16));
+						item.setActionCommand(s);
+						item.addActionListener(new ActionListener() {
+
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								cambiaTema(e);
+							}
+							
+						});
+						themeMenu.add(item);
+					}
+					
+					themeMenu.setFont(new java.awt.Font("Avenir", 0, 16));
+					menuVista.add(er);
+					menuVista.add(model);
+					menuVista.add(code);
+					menuVista.add(new JSeparator());
+					menuVista.add(themeMenu);
+					
+					
+					er.setText(Lenguaje.getMensaje(Lenguaje.CONC_MODEL));
+					er.setSelected(true);
+					er.setFont(new java.awt.Font("Avenir", 0, 16));
+					model.setText(Lenguaje.getMensaje(Lenguaje.LOGIC_MODEL));
+					model.setSelected(false);
+					model.setFont(new java.awt.Font("Avenir", 0, 16));
+					code.setText(Lenguaje.getMensaje(Lenguaje.PHYS_MODEL));
+					code.setSelected(false);
+					code.setFont(new java.awt.Font("Avenir", 0, 16));
+					themeMenu.setText("Tema");
+					
+					menuPanelSucesos.setText(Lenguaje.getMensaje(Lenguaje.SHOW_EVENTS_PANEL));
+					menuPanelSucesos.setMnemonic(Lenguaje.getMensaje(Lenguaje.SHOW_EVENTS_PANEL).charAt(0));
+					menuPanelSucesos.setFont(new java.awt.Font("Avenir", 0, 16));
+					
+					menuPanelSucesos.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent evt) {
+							menuPanelSucesosActionPerformed(evt);
+						}
+					});
+						
+				}
+			}
+			{//Ayuda
+				menuAyuda = new JMenu();
+				barraDeMenus.add(menuAyuda);
+				menuAyuda.setText(Lenguaje.getMensaje(Lenguaje.HELP));
+				menuAyuda.setMnemonic(Lenguaje.getMensaje(Lenguaje.HELP).charAt(0));
+				{//Ayuda/contenidos
+					submenuContenidos = new JMenuItem();
+					menuAyuda.add(submenuContenidos);
+					submenuContenidos.setText(Lenguaje.getMensaje(Lenguaje.CONTENTS));
+					submenuContenidos.setMnemonic(Lenguaje.getMensaje(Lenguaje.CONTENTS).charAt(0));
+					submenuContenidos.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.AYUDA)));
+					submenuContenidos.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent evt) {
+							submenuContenidosActionPerformed(evt);
+						}
+					});
+				}
+				{//Ayuda/acerca de
+					submenuAcercaDe = new JMenuItem();
+					menuAyuda.add(submenuAcercaDe);
+					submenuAcercaDe.setText(Lenguaje.getMensaje(Lenguaje.ABOUT));
+					submenuAcercaDe.setMnemonic(Lenguaje.getMensaje(Lenguaje.ABOUT).charAt(0));
+					submenuAcercaDe.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.CREDITOS)));
+					submenuAcercaDe.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent evt) {
+							submenuAcercaDeActionPerformed(evt);
+						}
+					});
+				}
+			}
+		}
+		
+		{
+			salvado = new JRadioButton();
+			//barraDeMenus.add(salvado);
+			salvado.setSelected(true);
+			salvado.setFocusable(false);
+			salvado.setForeground(Color.GREEN);
+			salvado.addChangeListener(new ChangeListener() {
+				public void stateChanged(ChangeEvent arg0) {
+					if(salvado.isSelected()==false){
+						salvado.setSelected(true);
+					}
+				} 
+			});
+		}
+	}//initMenu
+	
+	
 	
 	/*
 	 * Oyentes de la barra de menus
@@ -876,7 +829,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	
 	private void submenuNuevoActionPerformed(ActionEvent evt) {
 		this.controlador.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_Submenu_Nuevo, null);
-		this.panelPrincipal.setVisible(true);
+		//this.panelPrincipal.setVisible(true);
 	}
 	
 	private void submenuCerrarActionPerformed(ActionEvent evt) {
@@ -2447,7 +2400,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		this.submenuGuardarComo.setEnabled(c);
 	}
 	public void visiblePrincipal(boolean b) {
-		this.panelPrincipal.setVisible(b);
+		//this.panelPrincipal.setVisible(b);
 	}
 	
 	public boolean getEnableCerrar(){
@@ -2460,7 +2413,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		return submenuGuardarComo.isEnabled();
 	}
 	public boolean getVisiblePrincipal() {
-		return panelPrincipal.isVisible();
+		//return panelPrincipal.isVisible();
+		return true;
 	}
 	public void setSalvado(boolean b){
 		if (b) salvado.setForeground(Color.GREEN);
