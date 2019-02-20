@@ -457,9 +457,6 @@ public class Controlador {
 			TransferEntidad te = (TransferEntidad) datos;
 			if(!te.isDebil() && this.getTheServiciosRelaciones().tieneHermanoDebil(te)){
 				JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ALREADY_WEAK_ENTITY), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-				this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-						"ERROR: No se ha podido debilitar la entidad\"" +
-				"La relación débil " + "" +" ya tiene una entidad débil ." );
 			}
 			else{
 				//mensajeDesde_GUIWorkSpace(TC.PanelDiseno_Click_DebilitarRelacion,datos);
@@ -642,9 +639,6 @@ public class Controlador {
 				// ...y tiene más de una entidad débil no se puede debilitar
 				if(numDebiles>1){
 					JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATION_WEAK_ENTITIES), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-					this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-							"ERROR: No se ha podido debilitar la relación. " + 
-					"Tiene más de una entidad débil.");
 					break;
 				}
 				int respuesta1=-1;//-1 no hay conflicto, 0 el usuario dice SI, 1 el usuario dice NO
@@ -1613,9 +1607,6 @@ public class Controlador {
 			break;
 		}
 		case GUI_Principal_CambiarTema:{
-			// Extraer lenguaje seleccionado
-			@SuppressWarnings("unused")
-			String lenguaje = (String)datos;
 			System.out.println("Cambiando tema...");
 			theme.changeTheme((String)datos);
 			/* guardar, "guardado", tempguarda... y todo eso. guardar en un temporal nuevo y luego abrirlo para dejarlo como estuviese*/ 
@@ -1713,9 +1704,6 @@ public class Controlador {
 		}
 		case GUIInsertarEntidadDebil_Entidad_Relacion_Repetidos:{
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_ENTITY_REL), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido insertar la entidad \""+((TransferEntidad)datos).getNombre()+"\". " +
-			"Una relación y una entidad no pueden llamarse de la misma forma.");
 			break;
 		}
 		case GUIRenombrarEntidad_Click_BotonRenombrar:{
@@ -1993,9 +1981,6 @@ public class Controlador {
 			
 			if(relDebil && entDebil && relTieneEntDebil){
 				JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ALREADY_WEAK_ENTITY), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-				this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-						"ERROR: No se ha podido añadir la entidad a la relación \"" +
-				"Ya existe una entidad débil en esta relación." );
 			}else{
 				this.getTheServiciosRelaciones().anadirEntidadARelacion(v);
 			}
@@ -2115,57 +2100,45 @@ public class Controlador {
 		 */
 		case SE_InsertarEntidad_ERROR_NombreDeEntidadEsVacio:{
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.EMPTY_ENT_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-			"ERROR: No se ha podido insertar la entidad. El nombre de la entidad es vacío.");
+			
 			break;
 		}
 		case SE_ComprobarInsertarEntidad_ERROR_NombreDeEntidadEsVacio:{
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.EMPTY_ENT_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-			"ERROR: No se ha podido insertar la entidad. El nombre de la entidad es vacío.");
+			
 			break;
 		}
 		case SE_InsertarEntidad_ERROR_NombreDeEntidadYaExiste:{
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_ENT_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido insertar la entidad \""+((TransferEntidad)datos).getNombre()+"\". " +
-			"Existe otra entidad en el sistema con el mismo nombre.");
+			
 			break;
 		}
 		case SE_ComprobarInsertarEntidad_ERROR_NombreDeEntidadYaExiste:{
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_ENT_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido insertar la entidad \""+((TransferEntidad)datos).getNombre()+"\". " +
-			"Existe otra entidad en el sistema con el mismo nombre.");
+		
 			break;
 		}
 		case SE_InsertarEntidad_ERROR_NombreDeEntidadYaExisteComoRelacion:{
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_REL_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido insertar la entidad \""+((TransferEntidad)datos).getNombre()+"\". " +
-			"Existe una relación en el sistema con el mismo nombre.");
+			
 			break;
 		}
 		case SE_ComprobarInsertarEntidad_ERROR_NombreDeEntidadYaExisteComoRelacion:{
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_REL_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido insertar la entidad \""+((TransferEntidad)datos).getNombre()+"\". " +
-			"Existe una relación en el sistema con el mismo nombre.");
+			
 			break;
 		}
 		case SE_InsertarEntidad_ERROR_DAO:{
 			this.getTheGUIInsertarEntidad().setInactiva();
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ENTITIES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido insertar la entidad \""+((TransferEntidad)datos).getNombre()+"\". " +
-			"Se ha producido un error en el acceso al fichero.");
+			
 			break;
 		}
 		case SE_InsertarEntidad_HECHO:{
 			this.getTheGUIInsertarEntidad().setInactiva();
 			setCambios(true);
 			TransferEntidad te = (TransferEntidad) datos;
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos("INFO: Se ha insertado correctamente la entidad \""+te.getNombre()+"\". ");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_InsertarEntidad, te);
 			break;
 		}
@@ -2175,59 +2148,42 @@ public class Controlador {
 		 */
 		case SE_RenombrarEntidad_ERROR_NombreDeEntidadEsVacio:{
 			Vector v = (Vector) datos;
-			TransferEntidad te = (TransferEntidad) v.get(0);
+			v.get(0);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.EMPTY_ENT_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido renombrar la entidad \""+te.getNombre()+"\". " +
-			"El nuevo nombre era vacío.");
+			
 			break;
 		}
 		case SE_RenombrarEntidad_ERROR_NombreDeEntidadYaExiste:{
 			Vector v = (Vector) datos;
-			TransferEntidad te = (TransferEntidad) v.get(0);
-			String nuevoNombre = (String) v.get(1);
+			v.get(0);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_ENT_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido renombrar la entidad \""+te.getNombre()+"\" a \""+nuevoNombre+"\". " +
-			"Existe otra entidad en el sistema con el mismo nombre.");
+			
 			break;
 		}
 		case SE_RenombrarEntidad_ERROR_NombreDeEntidadYaExisteComoRelacion:{
-			TransferEntidad te = (TransferEntidad) datos;
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_REL_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido renombrar la entidad \""+te.getNombre()+"\". " +
-			"Existe una relación en el sistema con el mismo nombre.");
+			
 			break;
 		}
 		case SE_RenombrarEntidad_ERROR_DAOEntidades:{
 			Vector v = (Vector) datos;
-			TransferEntidad te = (TransferEntidad) v.get(0);
-			String nuevoNombre = (String) v.get(1);
+			v.get(0);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ENTITIES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido renombrar la entidad \""+te.getNombre()+"\" a \""+nuevoNombre+"\". " +
-			"Se ha producido un error en el acceso al fichero de entidades.");
+			
 			break;
 		}
 		case SE_RenombrarEntidad_ERROR_DAORelaciones:{
 			Vector v = (Vector) datos;
-			TransferEntidad te = (TransferEntidad) v.get(0);
-			String nuevoNombre = (String) v.get(1);
+			v.get(0);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido renombrar la entidad \""+te.getNombre()+"\" a \""+nuevoNombre+"\". " +
-			"Se ha producido un error en el acceso al fichero de relaciones.");
+			
 			break;
 		}
 		case SE_RenombrarEntidad_HECHO:{
 			Vector v = (Vector) datos;
 			TransferEntidad te = (TransferEntidad) v.get(0);
-			String nuevoNombre = (String) v.get(1);
-			String antiguoNombre = (String) v.get(2);
 			setCambios(true);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha renombrado la entidad \""+antiguoNombre+"\" a \""+nuevoNombre+"\". ");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_RenombrarEntidad, te);
 			this.getTheGUIRenombrarEntidad().setInactiva();
 			break;
@@ -2236,28 +2192,13 @@ public class Controlador {
 		 * Debilitar/Fortalecer una entidad
 		 */
 		case SE_DebilitarEntidad_ERROR_DAOEntidades:{
-			TransferEntidad te = (TransferEntidad) datos;
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ENTITIES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			if(te.isDebil())
-				this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-						"ERROR: No se ha podido fortalecer la entidad \""+ te.getNombre() + "\". "+
-				"Se ha producido un error en el acceso al fichero de entidades." );
-			else
-				this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-						"ERROR: No se ha podido debilitar la entidad \""+ te.getNombre() + "\". "+
-				"Se ha producido un error en el acceso al fichero de entidades." );
+			
 			break;
 		}
 		case SE_DebilitarEntidad_HECHO:{
 			TransferEntidad te = (TransferEntidad) datos;
-			setCambios(true);
-			if(!te.isDebil())
-				this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-						"INFO: Se ha fortalecido la entidad \""+ te.getNombre() + "\".");
-			else
-				this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-						"INFO: Se ha debilitado la entidad \""+ te.getNombre() + "\".");
-			
+			setCambios(true);			
 			ActualizaArbol(te);
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_DebilitarEntidad, te);
 			break;
@@ -2266,72 +2207,46 @@ public class Controlador {
 		 * Añadir atributo a una relacion
 		 */
 		case SE_AnadirAtributoAEntidad_ERROR_NombreDeAtributoVacio:{
-			Vector<Transfer> v = (Vector<Transfer>) datos;
-			TransferEntidad te = (TransferEntidad) v.get(0);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.EMPTY_ATTRIB_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido añadir el atributo a la entidad \""+ te.getNombre() + "\". "+
-			"El nombre del atributo es vacío." );
+			
 			break;
 		}
 		case SE_AnadirAtributoAEntidad_ERROR_NombreDeAtributoYaExiste:{
-			Vector<Transfer> v = (Vector<Transfer>) datos;
-			TransferEntidad te = (TransferEntidad) v.get(0);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_ATTRIB_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido añadir el atributo a la entidad \""+ te.getNombre() + "\". "+
-			"El nombre del atributo es vacío." );
+			
 			break;
 		}
 		case SE_AnadirAtributoAEntidad_ERROR_TamanoNoEsEntero:{
-			Vector<Transfer> v = (Vector<Transfer>) datos;
-			TransferEntidad te = (TransferEntidad) v.get(0);
-			TransferAtributo ta = (TransferAtributo) v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_SIZE3), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido añadir el atributo \""+ta.getNombre()+"\" a la entidad \""+ te.getNombre() + "\". "+
-			"El tamano del dominio del atributo no es un valor entero positivo." );
+			
 			break;
 		}
 		case SE_AnadirAtributoAEntidad_ERROR_TamanoEsNegativo:{
-			Vector<Transfer> v = (Vector<Transfer>) datos;
-			TransferEntidad te = (TransferEntidad) v.get(0);
-			TransferAtributo ta = (TransferAtributo) v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_SIZE2), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido añadir el atributo \""+ta.getNombre()+"\" a la entidad \""+ te.getNombre() + "\". "+
-			"El tamano del dominio del atributo es nulo o negativo." );
+			
 			break;
 		}
 		case SE_AnadirAtributoAEntidad_ERROR_DAOAtributos:{
-			Vector<Transfer> v = (Vector<Transfer>) datos;
-			TransferEntidad te = (TransferEntidad) v.get(0);
-			TransferAtributo ta = (TransferAtributo) v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido añadir el atributo \""+ta.getNombre()+"\" a la entidad \""+ te.getNombre() + "\". "+
-			"Se ha producido un error en el acceso al fichero de atributos." );
+			
 			this.getTheGUIAnadirAtributoRelacion().setInactiva();
 			break;
 		}
 		case SE_AnadirAtributoAEntidad_ERROR_DAOEntidades:{
 			Vector<Transfer> v = (Vector<Transfer>) datos;
-			TransferEntidad te = (TransferEntidad) v.get(0);
-			TransferAtributo ta = (TransferAtributo) v.get(1);
+			v.get(0);
+			v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ENTITIES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido referenciar el atributo \""+ ta.getNombre() + "\"a la entidad \""+ te.getNombre() + "\". "+
-			"Se ha producido un error en el acceso al fichero de entidades." );
+			
 			this.getTheGUIAnadirAtributoRelacion().setInactiva();
 			break;
 		} 
 		case SE_AnadirAtributoAEntidad_HECHO:{
 			Vector<Transfer> v = (Vector<Transfer>) datos;
-			TransferEntidad te = (TransferEntidad) v.get(0);
-			TransferAtributo ta = (TransferAtributo) v.get(1);
+			v.get(0);
+			v.get(1);
 			setCambios(true);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha añadido el atributo \""+ ta.getNombre() + "\"a la entidad \""+ te.getNombre() + "\". ");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_AnadirAtributoAEntidad, v);
 			this.getTheGUIAnadirAtributoEntidad().setInactiva();
 			break;
@@ -2341,28 +2256,14 @@ public class Controlador {
 		 */
 		case SE_EliminarEntidad_ERROR_DAOEntidades:{
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ENTITIES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido eliminar la entidad \""+ ((TransferEntidad)datos).getNombre() + "\". " +
-			"Se ha producido un error en el acceso al fichero de entidades.");
+			
 			break;
 		}
 		case SE_EliminarEntidad_HECHO:{
-			/*
-			 * Aqui llega un vector de 2 elementos: el primero es la entidad eliminada y el segundo es un vector que
-			 * contiene todas las relaciones modificadas al eliminar la entidad
-			 */
-			TransferEntidad te = (TransferEntidad) ((Vector)datos).get(0);
+			((Vector)datos).get(0);
 			setCambios(true);
-			Vector<TransferRelacion> vectorRelacionesModificadas = (Vector<TransferRelacion>) ((Vector)datos).get(1);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha eliminado correctamente la entidad \""+ te.getNombre() + "\". " );
-			int cont = 0;
-			while (cont < vectorRelacionesModificadas.size()){
-				TransferRelacion tr = vectorRelacionesModificadas.get(cont);
-				this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-						"INFO: Se ha modificado la relacion \""+tr.getNombre()+"\" quitándole la referencia a la entidad \""+ te.getNombre() + "\". " );
-				cont++;
-			}
+			((Vector)datos).get(1);
+			
 			ActualizaArbol(null);
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_EliminarEntidad, datos);
 			break;
@@ -2373,9 +2274,7 @@ public class Controlador {
 		case SE_MoverPosicionEntidad_ERROR_DAOEntidades:{
 			TransferEntidad te = (TransferEntidad) datos;
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ENTITIES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: Se ha producido un error al persitir el la posicion de la entidad \""+ te.getNombre() + "\". Se ha" +
-			"producido un error de acceso al fichero de entidades. " );
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_MoverEntidad_ERROR, te);
 			break;
 		}
@@ -2391,11 +2290,9 @@ public class Controlador {
 		case SE_AnadirRestriccionAEntidad_HECHO:{
 			Vector v = (Vector) datos;
 			TransferEntidad te = (TransferEntidad) v.get(0);
-			String nuevaRestriccion = (String) v.get(1);
+			v.get(1);
 			setCambios(true);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha añadido la restricción " +nuevaRestriccion +
-					" a la entidad "+te.getNombre() +". ");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_AnadirRestriccionEntidad, te);
 			//this.getTheGUIAnadirRestriccionAEntidad().setInactiva();
 			break;
@@ -2403,11 +2300,9 @@ public class Controlador {
 		case SE_QuitarRestriccionAEntidad_HECHO:{
 			Vector v = (Vector) datos;
 			TransferEntidad te = (TransferEntidad) v.get(0);
-			String nuevaRestriccion = (String) v.get(1);
+			v.get(1);
 			setCambios(true);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha quitado la restricción " +nuevaRestriccion +
-					" a la entidad "+te.getNombre() +". ");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_QuitarRestriccionEntidad, te);
 			break;
 		}
@@ -2415,8 +2310,7 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			TransferEntidad te = (TransferEntidad) v.get(1);
 			setCambios(true);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se han modificado las restricciones.");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_setRestriccionesEntidad, te);
 			break;
 		}
@@ -2427,11 +2321,9 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			TransferEntidad te = (TransferEntidad) v.get(0);
 			TransferEntidad clon_entidad =te.clonar();
-			String nuevaUnique = (String) v.get(1);
+			v.get(1);
 			setCambios(true);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha añadido la 'unique' " +nuevaUnique +
-					" a la entidad "+te.getNombre() +". ");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_AnadirUniqueEntidad, clon_entidad);
 			//this.getTheGUIAnadirRestriccionAEntidad().setInactiva();
 			break;
@@ -2440,11 +2332,9 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			TransferEntidad te = (TransferEntidad) v.get(0);
 			TransferEntidad clon_entidad =te.clonar();
-			String nuevaUnique = (String) v.get(1);
+			v.get(1);
 			setCambios(true);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha quitado la 'unique' " +nuevaUnique +
-					" a la entidad "+te.getNombre() +". ");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_QuitarUniqueEntidad, clon_entidad);
 			break;
 		}
@@ -2453,8 +2343,7 @@ public class Controlador {
 			TransferEntidad te = (TransferEntidad) v.get(1);
 			TransferEntidad clon_entidad =te.clonar();
 			setCambios(true);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se han modificado las restricciones 'unique'.");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_setUniquesEntidad, clon_entidad);
 			break;
 		}
@@ -2493,40 +2382,33 @@ public class Controlador {
 		 */
 		case SD_InsertarDominio_ERROR_NombreDeDominioEsVacio:{
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.EMPTY_DOM_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-			"ERROR: No se ha podido insertar el dominio. El nombre del dominio es vacío.");
+			
 			break;
 		}		
 		case SD_InsertarDominio_ERROR_NombreDeDominioYaExiste:{
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_DOM_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-			"ERROR: No se ha podido insertar el dominio \""+((TransferDominio)datos).getNombre()+"\". " +
-			"Existe otro dominio en el sistema con el mismo nombre.");
+			
 			break;
 		}
 		case SD_InsertarDominio_ERROR_DAO:{
 			this.getTheGUIInsertarDominio().setInactiva();
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.DOMAINS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-			"ERROR: No se ha podido insertar el dominio \""+((TransferDominio)datos).getNombre()+"\". " +
-			"Se ha producido un error en el acceso al fichero.");
+			
 			break;
 		}
 		case SD_InsertarDominio_ERROR_ValorNoValido:{
 			Vector v = (Vector) datos;
-			TransferDominio td = (TransferDominio) v.get(0);
+			v.get(0);
 			String error = (String) v.get(1);
 			JOptionPane.showMessageDialog(null, error, Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-			"ERROR: No se ha podido insertar el dominio \""+(td).getNombre()+"\". " +
-			error);
+			
 			break;
 		}
 		case SD_InsertarDominio_HECHO:{
 			this.getTheGUIInsertarDominio().setInactiva();
 			TransferDominio td = (TransferDominio) datos;
 			setCambios(true);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos("INFO: Se ha insertado correctamente el dominio \""+td.getNombre()+"\". ");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_InsertarDominio, td);
 			break;
 		}
@@ -2536,41 +2418,34 @@ public class Controlador {
 		 */
 		case SD_RenombrarDominio_ERROR_NombreDeDominioEsVacio:{
 			Vector v = (Vector) datos;
-			TransferDominio td = (TransferDominio) v.get(0);
+			v.get(0);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.EMPTY_DOM_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido renombrar el dominio \""+td.getNombre()+"\". " +
-			"El nuevo nombre era vacío.");
+			
 			break;
 		}
 		case SD_RenombrarDominio_ERROR_NombreDeDominioYaExiste:{
 			Vector v = (Vector) datos;
-			TransferDominio td = (TransferDominio) v.get(0);
-			String nuevoNombre = (String) v.get(1);
+			v.get(0);
+			v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_DOM_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido renombrar el dominio \""+td.getNombre()+"\" a \""+nuevoNombre+"\". " +
-			"Existe otro dominio en el sistema con el mismo nombre.");
+			
 			break;
 		}
 		case SD_RenombrarDominio_ERROR_DAODominios:{
 			Vector v = (Vector) datos;
-			TransferDominio td = (TransferDominio) v.get(0);
-			String nuevoNombre = (String) v.get(1);
+			v.get(0);
+			v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.DOMAINS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido renombrar el dominio \""+td.getNombre()+"\" a \""+nuevoNombre+"\". " +
-			"Se ha producido un error en el acceso al fichero de dominios.");
+			
 			break;
 		}
 		case SD_RenombrarDominio_HECHO:{
 			Vector v = (Vector) datos;
 			TransferDominio td = (TransferDominio) v.get(0);
-			String nuevoNombre = (String) v.get(1);
-			String antiguoNombre = (String) v.get(2);
+			v.get(1);
+			v.get(2);
 			setCambios(true);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha renombrado el dominio \""+antiguoNombre+"\" a \""+nuevoNombre+"\". ");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_RenombrarDominio, td);
 			this.getTheGUIRenombrarDominio().setInactiva();
 			break;
@@ -2580,18 +2455,13 @@ public class Controlador {
 		 */
 		case SD_EliminarDominio_ERROR_DAODominios:{
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.DOMAINS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido eliminar el dominio \""+ ((TransferDominio)datos).getNombre() + "\". " +
-					"Se ha producido un error en el acceso al fichero de dominios.");
+			
 			break;
 		}
 		case SD_EliminarDominio_HECHO:{
 			setCambios(true);
 			TransferDominio td = (TransferDominio) ((Vector)datos).get(0);
-			//Vector<TransferDominio> vectorAtributosModificados = (Vector<TransferRelacion>) ((Vector)datos).get(1);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha eliminado correctamente el dominio \""+ td.getNombre() + "\". " );
-			
+	
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_EliminarDominio, td);
 			break;
 		}
@@ -2602,66 +2472,54 @@ public class Controlador {
 			setCambios(true);
 			Vector v = (Vector) datos;
 			TransferDominio td = (TransferDominio) v.get(0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha modificado el dominio \""+td.getNombre()+"\". ");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_ModificarTipoBaseDominio, td);
 			break;
 		}
     	case SD_ModificarTipoBaseDominio_ERROR_DAODominios:{
 			Vector v = (Vector) datos;
-			TransferDominio td = (TransferDominio) v.get(0);
-			String nuevoNombre = (String) v.get(1);
+			v.get(0);
+			v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_DOM_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido renombrar el dominio \""+td.getNombre()+"\" a \""+nuevoNombre+"\". " +
-			"Existe otro dominio en el sistema con el mismo nombre.");
+			
 			break;
 		}
 		case SD_ModificarTipoBaseDominio_ERROR_TipoBaseDominioEsVacio:{
 			Vector v = (Vector) datos;
-			TransferDominio td = (TransferDominio) v.get(0);
+			v.get(0);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.EMPTY_TYPE_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido modificar el dominio \""+td.getNombre()+". " +
-				"El nuevo tipo es erroneo.");
+			
 			break;
 		}
 		case SD_ModificarElementosDominio_HECHO:{
 			setCambios(true);
 			Vector v = (Vector) datos;
 			TransferDominio td = (TransferDominio) v.get(0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha modificado el dominio \""+td.getNombre()+"\". ");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_ModificarTipoBaseDominio, td);
 			this.getTheGUIModificarElementosDominio().setInactiva();
 			break;
 		}
     	case SD_ModificarElementosDominio_ERROR_DAODominios:{
 			Vector v = (Vector) datos;
-			TransferDominio td = (TransferDominio) v.get(0);
-			String nuevoNombre = (String) v.get(1);
+			v.get(0);
+			v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_DOM_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido renombrar el dominio \""+td.getNombre()+"\" a \""+nuevoNombre+"\". " +
-			"Existe otro dominio en el sistema con el mismo nombre.");
+			
 			break;
 		}
 		case SD_ModificarElementosDominio_ERROR_ElementosDominioEsVacio:{
 			Vector v = (Vector) datos;
-			TransferDominio td = (TransferDominio) v.get(0);
+			v.get(0);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.EMPTY_VALUES), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido modificar el dominio \""+td.getNombre()+". " +
-				"El campo 'valores' es vacío.");
+			
 			break;
 		}
 		case SD_ModificarElementosDominio_ERROR_ValorNoValido:{
 			Vector v = (Vector) datos;
-			TransferDominio td = (TransferDominio) v.get(0);
+			v.get(0);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_VALUE), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido modificar el dominio \""+td.getNombre()+". " +
-				"Algún valor no es correcto.");
+			
 			break;
 		}
 		default:
@@ -2685,17 +2543,14 @@ public class Controlador {
 		 */
 		case SA_EliminarAtributo_ERROR_DAOAtributos:{
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido eliminar el atributo \""+ ((TransferAtributo)datos).getNombre() + "\". " +
-			"Se ha producido un error en el acceso al fichero de atributos.");
+			
 			break;
 		}
 		case SA_EliminarAtributo_HECHO:{
 			setCambios(true);
 			Vector<Transfer> vectorAtributoYElemMod = (Vector<Transfer>) datos;
-			TransferAtributo ta = (TransferAtributo) vectorAtributoYElemMod.get(0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha eliminado correctamente el atributo \""+ ta.getNombre() + "\". " );
+			vectorAtributoYElemMod.get(0);
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_EliminarAtributo, vectorAtributoYElemMod);
 			ActualizaArbol(null);
 			break;
@@ -2705,29 +2560,23 @@ public class Controlador {
 		 */
 		case SA_RenombrarAtributo_ERROR_NombreDeAtributoEsVacio:{
 			Vector v = (Vector) datos;
-			TransferAtributo ta = (TransferAtributo) v.get(0);
+			v.get(0);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.EMPTY_ATTRIB_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido renombrar el atributo \""+ta.getNombre()+"\". "+
-			"El nombre proporcionado es vacío.");
+			
 			break;			
 		}
 		case SA_RenombrarAtributo_ERROR_NombreDeAtributoYaExiste:{
 			Vector v = (Vector) datos;
-			TransferAtributo ta = (TransferAtributo) v.get(0);
+			v.get(0);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_SUBATR_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido renombrar el atributo \""+ta.getNombre()+"\". "+
-			"Existe otro subatributo con ese nombre.");
+			
 			break;			
 		}
 		case SA_RenombrarAtributo_ERROR_DAOAtributos:{
 			Vector v = (Vector) datos;
-			TransferAtributo ta = (TransferAtributo) v.get(0);
+			v.get(0);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido renombrar el atributo \""+ ta.getNombre()+ "\". "+
-			"Se ha producido un error en el acceso al fichero de atributos.");
+			
 			break;
 		}
 		case SA_RenombrarAtributo_HECHO:{
@@ -2750,8 +2599,7 @@ public class Controlador {
 			v1.add(antiguoNombre);
 			this.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_ModificarUniqueAtributo,v1);
 			
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha renombrado el atributo \""+ antiguoNombre + "\" a \""+ta.getNombre()+"\".");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_RenombrarAtributo, ta);
 			this.getTheGUIRenombrarAtributo().setInactiva();			
 			break;
@@ -2760,35 +2608,24 @@ public class Controlador {
 		 * Editar dominio atributo
 		 */
 		case SA_EditarDominioAtributo_ERROR_DAOAtributos:{
-			TransferAtributo ta = (TransferAtributo) datos;
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido editar el dominio del atributo \""+ ta.getNombre() + "\". " +
-			"Se ha producido un error en el acceso al fichero de atributos.");
+			
 			break;
 		}
 		case SA_EditarDominioAtributo_ERROR_TamanoNoEsEntero:{
-			TransferAtributo ta = (TransferAtributo) datos;
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_SIZE1), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido editar el dominio del atributo \""+ ta.getNombre() + "\". " +
-			"El tamano del dominio no es un valor entero positivo.");
+			
 			break;
 		}
 		case SA_EditarDominioAtributo_ERROR_TamanoEsNegativo:{
-			TransferAtributo ta = (TransferAtributo) datos;
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_SIZE2), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido editar el dominio del atributo \""+ ta.getNombre() + "\". " +
-			"El tamano del dominio es un valor nulo o negativo.");
+			
 			break;
 		}
 		case SA_EditarDominioAtributo_HECHO:{
 			setCambios(true);
 			TransferAtributo ta = (TransferAtributo) datos;
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha editado el dominio del atributo \""+ ta.getNombre() + "\". " +
-					"Su dominio es \""+ta.getDominio()+"\".");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_EditarDominioAtributo, ta);
 			this.getTheGUIEditarDominioAtributo().setInactiva();
 
@@ -2798,23 +2635,19 @@ public class Controlador {
 		 * Editar caracter compuesto de atributo
 		 */
 		case SA_EditarCompuestoAtributo_ERROR_DAOAtributos:{
-			TransferAtributo ta = (TransferAtributo) datos;
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido editar el caracter compuesto del atributo \""+ ta.getNombre() + "\". " +
-			"Se ha producido un error en el acceso al fichero de atributos.");
+			
 			break;
 		}
 		case SA_EditarCompuestoAtributo_HECHO:{
 			setCambios(true);
 			TransferAtributo ta = (TransferAtributo) datos;
-			String aux = "INFO: Se ha editado el atributo \""+ ta.getNombre() + "\" ";
-			if(ta.getCompuesto()) 
-				aux +=  "siendo ahora un atributo compuesto.";
-			else
-				aux +=  "siendo ahora un atributo simple.";
+			ta.getNombre();
+			if(ta.getCompuesto()) {
+			} else {
+			}
 			ActualizaArbol(ta);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(aux);
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_EditarCompuestoAtributo, ta);
 			break;
 		}
@@ -2822,40 +2655,26 @@ public class Controlador {
 		 * Editar caracter multivalorado de atributo
 		 */
 		case SA_EditarMultivaloradoAtributo_ERROR_DAOAtributos:{
-			TransferAtributo ta = (TransferAtributo) datos;
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido editar el caracter de multivalorado del atributo \""+ ta.getNombre() + "\". " +
-			"Se ha producido un error en el acceso al fichero de atributos.");
+			
 			break;
 		}
 		case SA_EditarMultivaloradoAtributo_HECHO:{
 			setCambios(true);
 			TransferAtributo ta = (TransferAtributo) datos;
-			String aux = "INFO: Se ha editado el atributo \""+ ta.getNombre() + "\" ";
-			if(ta.isMultivalorado()) 
-				aux +=  "siendo ahora un atributo multivalorado.";
-			else
-				aux +=  "siendo ahora un atributo monovalorado.";
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(aux);
 			ActualizaArbol(ta);
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_EditarMultivaloradoAtributo, ta);
 			break;
 		}
 
 		case SA_EditarNotNullAtributo_ERROR_DAOAtributos:{
-			TransferAtributo ta = (TransferAtributo) datos;
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido editar el caracter not null del atributo \""+ ta.getNombre() + "\". " +
-			"Se ha producido un error en el acceso al fichero de atributos.");
+			
 			break;
 		}
 		case SA_EditarNotNullAtributo_HECHO:{
 			setCambios(true);
 			TransferAtributo ta = (TransferAtributo) datos;
-			String aux = "INFO: Se ha editado el atributo \""+ ta.getNombre() + "\" ";
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(aux);
 			ActualizaArbol(ta);
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_EditarNotNullAtributo, ta);
 			break;
@@ -2871,8 +2690,6 @@ public class Controlador {
 		case SA_EditarUniqueAtributo_HECHO:{
 			setCambios(true);
 			TransferAtributo ta = (TransferAtributo) datos;
-			String aux = "INFO: Se ha editado el atributo \""+ ta.getNombre() + "\" ";
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(aux);
 			ActualizaArbol(ta);
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_EditarUniqueAtributo, ta);
 			break;
@@ -2883,70 +2700,55 @@ public class Controlador {
 		 */
 		case SA_AnadirSubAtributoAtributo_ERROR_NombreDeAtributoVacio:{
 			Vector v = (Vector) datos;
-			TransferAtributo tap = (TransferAtributo) v.get(0);
+			v.get(0);
 			
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.EMPTY_SUBATTR_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido añadir el subatributo al atributo \""+ tap.getNombre() + "\". "+
-			"El nombre del subatributo es vacío." );
 			break;
 		}
 		case SA_AnadirSubAtributoAtributo_ERROR_NombreDeAtributoYaExiste:{
 			Vector v = (Vector) datos;
-			TransferAtributo tap = (TransferAtributo) v.get(0);
+			v.get(0);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_SUBATR_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido añadir el subatributo al atributo \""+ tap.getNombre() + "\". "+
-			"El nombre del subatributo ya existe." );
+
 			break;
 		}
 		case SA_AnadirSubAtributoAtributo_ERROR_TamanoNoEsEntero:{
 			Vector v = (Vector) datos;
-			TransferAtributo tap = (TransferAtributo) v.get(0);
-			TransferAtributo tah = (TransferAtributo) v.get(1);
+			v.get(0);
+			v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_SIZE1), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido añadir el subatributo \""+tah.getNombre()+"\" al atributo \""+ tap.getNombre() + "\". "+
-			"El tamano del dominio del subatributo no es un valor entero positivo." );
+			
 			break;	
 		}
 		case SA_AnadirSubAtributoAtributo_ERROR_TamanoEsNegativo:{
 			Vector v = (Vector) datos;
-			TransferAtributo tap = (TransferAtributo) v.get(0);
-			TransferAtributo tah = (TransferAtributo) v.get(1);
+			v.get(0);
+			v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_SIZE2), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido añadir el subatributo \""+tah.getNombre()+"\" al atributo \""+ tap.getNombre() + "\". "+
-			"El tamano del dominio del subatributo es nulo o negativo." );
+			
 			break;	
 		}
 		case SA_AnadirSubAtributoAtributo_ERROR_DAOAtributosHijo:{
 			Vector v = (Vector) datos;
-			TransferAtributo tap = (TransferAtributo) v.get(0);
-			TransferAtributo tah = (TransferAtributo) v.get(1);
+			v.get(0);
+			v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido añadir el subatributo \""+tah.getNombre()+"\" al atributo \""+ tap.getNombre() + "\". "+
-					"Se ha producido un error en el acceso al fichero de atributos al crear el subatributo \""+tah.getNombre()+"\"." );
 			break;
 		}
 		case SA_AnadirSubAtributoAtributo_ERROR_DAOAtributosPadre:{
 			Vector v = (Vector) datos;
-			TransferAtributo tap = (TransferAtributo) v.get(0);
-			TransferAtributo tah = (TransferAtributo) v.get(1);
+			v.get(0);
+			v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido añadir el subatributo \""+tah.getNombre()+"\" al atributo \""+ tap.getNombre() + "\". "+
-					"Se ha producido un error en el acceso al fichero de atributos al modificar el atributo \""+tap.getNombre()+"\"." );
+			
 			break;
 		}
 		case SA_AnadirSubAtributoAtributo_HECHO:{
 			setCambios(true);
 			Vector v = (Vector) datos;
-			TransferAtributo tap = (TransferAtributo) v.get(0);
-			TransferAtributo tah = (TransferAtributo) v.get(1);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha añadido el atributo \""+ tah.getNombre() + "\"al atributo \""+ tap.getNombre() + "\". ");
+			v.get(0);
+			v.get(1);
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_AnadirSubAtributoAAtributo, v);
 			this.getTheGUIAnadirSubAtributoAtributo().setInactiva();
 			break;
@@ -2956,23 +2758,16 @@ public class Controlador {
 		 */
 		case SA_EditarClavePrimariaAtributo_ERROR_DAOEntidades:{
 			Vector<Transfer> vt = (Vector<Transfer>) datos;
-			TransferEntidad te = (TransferEntidad) vt.get(1);
+			vt.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido editar la lista de claves primaria de la entidad \""+te.getNombre()+"\". Se ha producido un error" +
-			"en el acceso al fichero de entidades.");
+			
 			break;	
 		}
 		case SA_EditarClavePrimariaAtributo_HECHO:{
 			setCambios(true);
 			Vector<Transfer> vt = (Vector<Transfer>) datos;
-			TransferAtributo ta = (TransferAtributo) vt.get(0);
-			TransferEntidad te = (TransferEntidad) vt.get(1);
-			String info = "INFO: Se ha editado la entidad \""+te.getNombre()+"\" ";
-			if (ta.isClavePrimaria())  info += "añadiendo el atributo \""+ta.getNombre()+"\" a ";
-			else info += "quitando el atributo \""+ta.getNombre()+"\" de ";
-			info += "su lista de claves primarias.";
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(info);
+			vt.get(0);
+			vt.get(1);
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_EditarClavePrimariaAtributo, vt);
 			break;
 		}
@@ -2982,11 +2777,9 @@ public class Controlador {
 		case SA_AnadirRestriccionAAtributo_HECHO:{
 			Vector v = (Vector) datos;
 			TransferAtributo te = (TransferAtributo) v.get(0);
-			String nuevaRestriccion = (String) v.get(1);
+			v.get(1);
 			setCambios(true);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha añadido la restricción " +nuevaRestriccion +
-					" al atributo "+te.getNombre() +". ");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_AnadirRestriccionAtributo, te);
 			//this.getTheGUIAnadirRestriccionAAtributo().setInactiva();
 			break;
@@ -2994,11 +2787,9 @@ public class Controlador {
 		case SA_QuitarRestriccionAAtributo_HECHO:{
 			Vector v = (Vector) datos;
 			TransferAtributo te = (TransferAtributo) v.get(0);
-			String nuevaRestriccion = (String) v.get(1);
+			v.get(1);
 			setCambios(true);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha quitado la restricción " +nuevaRestriccion +
-					" al atributo "+te.getNombre() +". ");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_QuitarRestriccionAtributo, te);
 			break;
 		}
@@ -3006,8 +2797,7 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			TransferAtributo te = (TransferAtributo) v.get(1);
 			setCambios(true);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se han modificado las restricciones.");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_setRestriccionesAtributo, te);
 			break;
 		}
@@ -3017,9 +2807,7 @@ public class Controlador {
 		case SA_MoverPosicionAtributo_ERROR_DAOAtributos:{
 			TransferAtributo ta = (TransferAtributo) datos;
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: Se ha producido un error al persitir el la posicion del atributo \""+ ta.getNombre() + "\". Se ha" +
-			"producido un error de acceso al fichero de atributos." );
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_MoverAtributo_ERROR, ta);
 			break;
 		}
@@ -3050,53 +2838,41 @@ public class Controlador {
 		 */
 		case SR_InsertarRelacion_ERROR_NombreDeRelacionEsVacio:{
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.EMPTY_REL_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-			"ERROR: No se ha podido insertar la relacion. El nombre de la relación era vacío.");
+			
 			break;
 		}		
 		case SR_InsertarRelacion_ERROR_NombreDeRelacionYaExiste:{
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_REL_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido insertar la Relacion \""+((TransferRelacion)datos).getNombre()+"\". " +
-			"Existe otra relacion en el sistema con el mismo nombre.");
+			
 			break;
 		}
 		case SR_InsertarRelacion_ERROR_NombreDeRelacionYaExisteComoEntidad:{
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_ENT_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido insertar la Relacion \""+((TransferRelacion)datos).getNombre()+"\". " +
-			"Existe una entidad en el sistema con el mismo nombre.");
+			
 			break;
 		}
 		case SR_InsertarRelacion_ERROR_NombreDelRolYaExiste:{
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_ROL_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido insertar el rol \""+((TransferRelacion)datos).getRol()+"\". " +
-			"Existe otro rol en la relacion con el mismo nombre.");
+			
 			break;
 		}
 		
 		case SR_InsertarRelacion_ERROR_NombreDeRolNecesario:{
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.NECESARY_ROL), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido insertar el rol \""+((TransferRelacion)datos).getRol()+"\". " +
-			"Existe otro rol en la relacion con el mismo nombre.");
+			
 			break;
 		}
 		
 		case SR_InsertarRelacion_ERROR_DAORelaciones:{
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
 			this.getTheGUIInsertarRelacion().setInactiva();
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido insertar la relacion \""+((TransferRelacion)datos).getNombre()+"\". " +
-			"Se ha producido un error en el acceso al fichero de relaciones.");
+			
 			break;
 		}
 		case SR_InsertarRelacion_HECHO:{
 			setCambios(true);
 			this.getTheGUIInsertarRelacion().setInactiva();
 			TransferRelacion te = (TransferRelacion) datos;
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos("INFO: Se ha insertado correctamente la relacion \""+te.getNombre()+"\". ");
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_InsertarRelacion, te);
 			
 			break;
@@ -3106,9 +2882,7 @@ public class Controlador {
 		 */
 		case SR_EliminarRelacion_ERROR_DAORelaciones:{
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido eliminar la relacion \""+ ((TransferEntidad)datos).getNombre() + "\". " +
-			"Se ha producido un error en el acceso al fichero de relaciones.");
+			
 			break;
 		}
 		
@@ -3116,8 +2890,7 @@ public class Controlador {
 		case SR_EliminarRelacion_HECHO:{
 			setCambios(true);
 			TransferRelacion tr = (TransferRelacion) datos;
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha eliminado correctamente la relacion \""+ tr.getNombre() + "\". " );
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_EliminarRelacion, tr);
 			
 			break;
@@ -3126,61 +2899,50 @@ public class Controlador {
 		// Renombrar relacion
 		case SR_RenombrarRelacion_ERROR_NombreDeRelacionEsVacio:{
 			Vector v = (Vector) datos;
-			String antiguoNombre = (String) v.get(2);
+			v.get(2);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.EMPTY_REL_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido renombrar la relacion \""+ antiguoNombre +"\". " +
-			"El nombre proporcionado era vacío.");
+			
 			break;
 		}
 		case SR_RenombrarRelacion_ERROR_NombreDeRelacionYaExiste:{
 			Vector v = (Vector) datos;
-			String nuevoNombre = (String) v.get(1);
-			String antiguoNombre = (String) v.get(2);
+			v.get(1);
+			v.get(2);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_REL_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido renombrar la relacion \""+ antiguoNombre + "\" a \"" + nuevoNombre +"\". "+
-			"Ya existe una relacion con ese nombre en el sistema." );
+			
 			break;
 		}
 		case SR_RenombrarRelacion_ERROR_NombreDeRelacionYaExisteComoEntidad:{
 			this.getTheGUIRenombrarRelacion().setInactiva();
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_ENT_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
 			this.getTheGUIRenombrarRelacion().setActiva();
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido renombrar la relacion \""+((TransferRelacion)datos).getNombre()+"\". " +
-			"Existe una entidad en el sistema con el mismo nombre.");
+			
 			
 			break;
 		}
 		case SR_RenombrarRelacion_ERROR_DAORelaciones:{
 			Vector v = (Vector) datos;
-			String nuevoNombre = (String) v.get(1);
-			String antiguoNombre = (String) v.get(2);
+			v.get(1);
+			v.get(2);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido renombrar la relacion \""+ antiguoNombre + "\" a \"" + nuevoNombre +"\". "+
-			"Se ha producido un error en el acceso al fichero de relaciones." );
+			
 			break;
 		}
 		case SR_RenombrarRelacion_ERROR_DAOEntidades:{
 			Vector v = (Vector) datos;
-			String nuevoNombre = (String) v.get(1);
-			String antiguoNombre = (String) v.get(2);
+			v.get(1);
+			v.get(2);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ENTITIES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido renombrar la relacion \""+ antiguoNombre + "\" a \"" + nuevoNombre +"\". "+
-			"Se ha producido un error en el acceso al fichero de entidades." );
+			
 			break;
 		}
 		case SR_RenombrarRelacion_HECHO:{
 			setCambios(true);
 			Vector v = (Vector) datos;
 			TransferRelacion tr = (TransferRelacion) v.get(0);
-			String nuevoNombre = (String) v.get(1);
-			String antiguoNombre = (String) v.get(2);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha renombrado la relacion \""+ antiguoNombre + "\" a \"" + nuevoNombre +"\".");
+			v.get(1);
+			v.get(2);
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_RenombrarRelacion, tr);
 			this.getTheGUIRenombrarRelacion().setInactiva();
 			break;
@@ -3189,27 +2951,13 @@ public class Controlador {
 		 * Debilitar una relacion
 		 */
 		case SR_DebilitarRelacion_ERROR_DAORelaciones:{
-			TransferRelacion tr = (TransferRelacion) datos;
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			if(tr.getTipo().equals("Debil"))
-				this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-						"ERROR: No se ha podido fortalecer la relacion \""+ tr.getNombre() + "\". "+
-				"Se ha producido un error en el acceso al fichero de relaciones." );
-			else
-				this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-						"ERROR: No se ha podido debilitar la relacion \""+ tr.getNombre() + "\". "+
-				"Se ha producido un error en el acceso al fichero de relaciones." );
+			
 			break;
 		}
 		case SR_DebilitarRelacion_HECHO:{
 			setCambios(true);
 			TransferRelacion tr = (TransferRelacion) datos;
-			if(!tr.getTipo().equals("Debil"))
-				this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-						"INFO: Se ha fortalecido la relacion \""+ tr.getNombre() + "\".");
-			else
-				this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-						"INFO: Se ha debilitado la relacion \""+ tr.getNombre() + "\".");
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_DebilitarRelacion, tr);
 			ActualizaArbol(tr);
 			break;
@@ -3220,11 +2968,9 @@ public class Controlador {
 		case SR_AnadirRestriccionARelacion_HECHO:{
 			Vector v = (Vector) datos;
 			TransferRelacion te = (TransferRelacion) v.get(0);
-			String nuevaRestriccion = (String) v.get(1);
+			v.get(1);
 			setCambios(true);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha añadido la restricción " +nuevaRestriccion +
-					" a la relacion "+te.getNombre() +". ");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_AnadirRestriccionRelacion, te);
 			//this.getTheGUIAnadirRestriccionAAtributo().setInactiva();
 			break;
@@ -3232,11 +2978,9 @@ public class Controlador {
 		case SR_QuitarRestriccionARelacion_HECHO:{
 			Vector v = (Vector) datos;
 			TransferRelacion te = (TransferRelacion) v.get(0);
-			String nuevaRestriccion = (String) v.get(1);
+			v.get(1);
 			setCambios(true);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha quitado la restricción " +nuevaRestriccion +
-					" a la relación "+te.getNombre() +". ");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_QuitarRestriccionRelacion, te);
 			break;
 		}
@@ -3244,8 +2988,7 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			TransferRelacion te = (TransferRelacion) v.get(1);
 			setCambios(true);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se han modificado las restricciones.");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_setRestriccionesRelacion, te);
 			break;
 		}
@@ -3256,9 +2999,7 @@ public class Controlador {
 		case SR_MoverPosicionRelacion_ERROR_DAORelaciones:{
 			TransferRelacion tr = (TransferRelacion) datos;
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: Se ha producido un error al persitir el la posicion de la relacion \""+ tr.getNombre() + "\". Se ha" +
-			"producido un error de acceso al fichero de relaciones." );
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_MoverRelacion_ERROR, tr);
 			break;
 		}
@@ -3274,71 +3015,58 @@ public class Controlador {
 		 */
 		case SR_AnadirAtributoARelacion_ERROR_NombreDeAtributoVacio:{
 			Vector<Transfer> v = (Vector<Transfer>) datos;
-			TransferRelacion tr = (TransferRelacion) v.get(0);
+			v.get(0);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.EMPTY_ATTRIB_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido añadir el atributo a la relacion \""+ tr.getNombre() + "\". "+
-			"El nombre del atributo es vacío." );
+			
 			break;
 		}
 		case SR_AnadirAtributoARelacion_ERROR_NombreDeAtributoYaExiste:{
 			Vector<Transfer> v = (Vector<Transfer>) datos;
-			TransferRelacion tr = (TransferRelacion) v.get(0);
+			v.get(0);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_ATTRIB_NAME_REL), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido añadir el atributo a la relacion \""+ tr.getNombre() + "\". "+
-			"El nombre del atributo ya existe." );
+			
 			break;
 		}
 		case SR_AnadirAtributoARelacion_ERROR_TamanoNoEsEntero:{
 			Vector<Transfer> v = (Vector<Transfer>) datos;
-			TransferRelacion tr = (TransferRelacion) v.get(0);
-			TransferAtributo ta = (TransferAtributo) v.get(1);
+			v.get(0);
+			v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_SIZE1), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido añadir el atributo \""+ta.getNombre()+"\" a la relacion \""+ tr.getNombre() + "\". "+
-			"El tamano del dominio del atributo no es un valor entero positivo." );
+			
 			break;
 		}
 		case SR_AnadirAtributoARelacion_ERROR_TamanoEsNegativo:{
 			Vector<Transfer> v = (Vector<Transfer>) datos;
-			TransferRelacion tr = (TransferRelacion) v.get(0);
-			TransferAtributo ta = (TransferAtributo) v.get(1);
+			v.get(0);
+			v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_SIZE2), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido añadir el atributo \""+ta.getNombre()+"\" a la relacion \""+ tr.getNombre() + "\". "+
-			"El tamano del dominio del atributo es nulo o negativo." );
+			
 			break;
 		}
 		case SR_AnadirAtributoARelacion_ERROR_DAOAtributos:{
 			Vector<Transfer> v = (Vector<Transfer>) datos;
-			TransferRelacion tr = (TransferRelacion) v.get(0);
-			TransferAtributo ta = (TransferAtributo) v.get(1);
+			v.get(0);
+			v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido añadir el atributo \""+ta.getNombre()+"\" a la relacion \""+ tr.getNombre() + "\". "+
-			"Se ha producido un error en el acceso al fichero de atributos." );
+			
 			this.getTheGUIAnadirAtributoRelacion().setInactiva();
 			break;
 		}
 		case SR_AnadirAtributoARelacion_ERROR_DAORelaciones:{
 			Vector<Transfer> v = (Vector<Transfer>) datos;
-			TransferRelacion tr = (TransferRelacion) v.get(0);
-			TransferAtributo ta = (TransferAtributo) v.get(1);
+			v.get(0);
+			v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido referenciar el atributo \""+ ta.getNombre() + "\"a la relacion \""+ tr.getNombre() + "\". "+
-			"Se ha producido un error en el acceso al fichero de relaciones." );
+			
 			this.getTheGUIAnadirAtributoRelacion().setInactiva();
 			break;
 		}
 		case SR_AnadirAtributoARelacion_HECHO:{
 			setCambios(true);
 			Vector<Transfer> v = (Vector<Transfer>) datos;
-			TransferRelacion tr = (TransferRelacion) v.get(0);
-			TransferAtributo ta = (TransferAtributo) v.get(1);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha añadido el atributo \""+ ta.getNombre() + "\"a la relacion \""+ tr.getNombre() + "\". ");
+			v.get(0);
+			v.get(1);
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_AnadirAtributoARelacion, v);
 			this.getTheGUIAnadirAtributoRelacion().setInactiva();
 			break;
@@ -3350,20 +3078,17 @@ public class Controlador {
 		case SR_EstablecerEntidadPadre_ERROR_DAORelaciones:{
 			this.getTheGUIEstablecerEntidadPadre().setInactiva();
 			Vector<Transfer> vt = (Vector<Transfer>) datos;
-			TransferEntidad te = (TransferEntidad) vt.get(1);
+			vt.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido establecer la entidad \""+te.getNombre()+"\" como entidad padre. " +
-			"Se ha producido un error en el acceso al fichero de relaciones.");
+			
 			break;
 		}
 		case SR_EstablecerEntidadPadre_HECHO:{
 			setCambios(true);
 			this.getTheGUIEstablecerEntidadPadre().setInactiva();
 			Vector<Transfer> vt = (Vector<Transfer>) datos;
-			TransferEntidad te = (TransferEntidad) vt.get(1);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha establecido la entidad \""+te.getNombre()+"\" como entidad padre.");
+			vt.get(1);
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_EstablecerEntidadPadre, vt);
 			break;
 		}
@@ -3373,17 +3098,14 @@ public class Controlador {
 		case SR_QuitarEntidadPadre_ERROR_DAORelaciones:{
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
 			this.getTheGUIQuitarEntidadPadre().setInactiva();
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido quitar la entidad padre de la relación IsA. "+
-			"Se ha producido un error en el acceso al fichero de relaciones.");
+			
 			break;			
 		}
 		case SR_QuitarEntidadPadre_HECHO:{
 			setCambios(true);
 			this.getTheGUIQuitarEntidadPadre().setInactiva();
 			TransferRelacion tr = (TransferRelacion) datos;
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-			"INFO: Se ha quitado la entidad padre de la relación IsA y sus entidades hijas.");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_QuitarEntidadPadre, tr);			
 			break;			
 		}
@@ -3393,20 +3115,17 @@ public class Controlador {
 		case SR_AnadirEntidadHija_ERROR_DAORelaciones:{
 			this.getTheGUIEstablecerEntidadPadre().setInactiva();
 			Vector<Transfer> vt = (Vector<Transfer>) datos;
-			TransferEntidad te = (TransferEntidad) vt.get(1);
+			vt.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido establecer la entidad \""+te.getNombre()+"\" como entidad hija. " +
-			"Se ha producido un error en el acceso al fichero de relaciones.");
+			
 			break;
 		}
 		case SR_AnadirEntidadHija_HECHO:{
 			setCambios(true);
 			this.getTheGUIAnadirEntidadHija().setInactiva();
 			Vector<Transfer> vt = (Vector<Transfer>) datos;
-			TransferEntidad te = (TransferEntidad) vt.get(1);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha establecido la entidad \""+te.getNombre()+"\" como entidad hija.");
+			vt.get(1);
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_AnadirEntidadHija, vt);
 			break;
 		}
@@ -3417,19 +3136,16 @@ public class Controlador {
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
 			this.getTheGUIQuitarEntidadHija().setInactiva();
 			Vector<Transfer> vt = (Vector<Transfer>) datos;
-			TransferEntidad te = (TransferEntidad) vt.get(1);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido quitar la entidad \""+te.getNombre()+"\" como entidad hija. " +
-			"Se ha producido un error en el acceso al fichero de relaciones.");
+			vt.get(1);
+			
 			break;
 		}
 		case SR_QuitarEntidadHija_HECHO:{
 			setCambios(true);
 			this.getTheGUIQuitarEntidadHija().setInactiva();
 			Vector<Transfer> vt = (Vector<Transfer>) datos;
-			TransferEntidad te = (TransferEntidad) vt.get(1);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha quitado la entidad \""+te.getNombre()+"\" como entidad hija.");
+			vt.get(1);
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_QuitarEntidadHija, vt);
 			break;
 		}
@@ -3438,16 +3154,13 @@ public class Controlador {
 		 */
 		case SR_EliminarRelacionIsA_ERROR_DAORelaciones:{
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido eliminar la relación IsA. Se ha producido un error en el acceso" +
-			" al fichero de relaciones.");
+			
 			break;
 		}
 		case SR_EliminarRelacionIsA_HECHO:{
 			setCambios(true);
 			TransferRelacion tr = (TransferRelacion) datos;
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-			"INFO: Se ha eliminado correctamente la relación IsA");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_EliminarRelacionIsA, tr);
 			ActualizaArbol(null);
 			break;
@@ -3456,18 +3169,14 @@ public class Controlador {
 		 * Eliminar una relacion Normal
 		 */
 		case SR_EliminarRelacionNormal_ERROR_DAORelaciones:{
-			TransferRelacion tr = (TransferRelacion) datos;
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido eliminar la relación\""+tr.getNombre()+"\". Se ha producido un error en el acceso" +
-			" al fichero de relaciones.");
+			
 			break;
 		}
 		case SR_EliminarRelacionNormal_HECHO:{
 			setCambios(true);
 			TransferRelacion tr = (TransferRelacion) datos;
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha eliminado correctamente la relación \""+tr.getNombre()+"\"."); 
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_EliminarRelacionNormal, tr);
 			ActualizaArbol(null);
 			break;
@@ -3477,15 +3186,13 @@ public class Controlador {
 		 */
 		case SR_InsertarRelacionIsA_ERROR_DAORelaciones:{
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido insertar la relacion IsA . Se ha producido un error en el acceso" +
-			" al fichero de relaciones.");
+			
 			break;	
 		}
 		case SR_InsertarRelacionIsA_HECHO:{
 			setCambios(true);
 			TransferRelacion tr = (TransferRelacion) datos;
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos("INFO: Se ha insertado correctamente la relacion IsA");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_InsertarRelacionIsA, tr);
 			ActualizaArbol(tr);
 			break;
@@ -3495,81 +3202,60 @@ public class Controlador {
 		 */
 		case SR_AnadirEntidadARelacion_ERROR_InicioNoEsEnteroOn:{
 			Vector v = (Vector) datos;
-			TransferRelacion tr = (TransferRelacion) v.get(0);
-			TransferEntidad te = (TransferEntidad) v.get(1);
+			v.get(0);
+			v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_CARDINALITY1), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido añadir la entidad \""+te.getNombre()+"\" a la relacion \""+tr.getNombre()+"\"." +
-			" El valor de inicio no es un número entero positivo o n.");
+			
 			break;
 		}
 		case SR_AnadirEntidadARelacion_ERROR_InicioEsNegativo:{
 			Vector v = (Vector) datos;
-			TransferRelacion tr = (TransferRelacion) v.get(0);
-			TransferEntidad te = (TransferEntidad) v.get(1);
+			v.get(0);
+			v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_CARDINALITY2), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido añadir la entidad \""+te.getNombre()+"\" a la relacion \""+tr.getNombre()+"\"." +
-			" El valor de inicio es un número negativo.");
+			
 			break;
 		}
 		case SR_AnadirEntidadARelacion_ERROR_FinalNoEsEnteroOn:{
 			Vector v = (Vector) datos;
-			TransferRelacion tr = (TransferRelacion) v.get(0);
-			TransferEntidad te = (TransferEntidad) v.get(1);
+			v.get(0);
+			v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_CARDINALITY3), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido añadir la entidad \""+te.getNombre()+"\" a la relacion \""+tr.getNombre()+"\"." +
-			" El valor de fin no es un número entero positivo o n.");
+			
 			break;
 		}
 		case SR_AnadirEntidadARelacion_ERROR_FinalEsNegativo:{
 			Vector v = (Vector) datos;
-			TransferRelacion tr = (TransferRelacion) v.get(0);
-			TransferEntidad te = (TransferEntidad) v.get(1);
+			v.get(0);
+			v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_CARDINALITY4), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido añadir la entidad \""+te.getNombre()+"\" a la relacion \""+tr.getNombre()+"\"." +
-			" El valor de fin es un número negativo.");
+			
 			break;
 		}
 		case SR_AnadirEntidadARelacion_ERROR_InicioMayorQueFinal:{
 			Vector v = (Vector) datos;
-			TransferRelacion tr = (TransferRelacion) v.get(0);
-			TransferEntidad te = (TransferEntidad) v.get(1);
+			v.get(0);
+			v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_CARDINALITY5), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido añadir la entidad \""+te.getNombre()+"\" a la relacion \""+tr.getNombre()+"\"." +
-			" El valor de inicio es mayor que el de fin.");
+			
 			break;
 		}
 		case SR_AnadirEntidadARelacion_ERROR_DAORelaciones:{
 			Vector v = (Vector) datos;
-			TransferRelacion tr = (TransferRelacion) v.get(0);
-			TransferEntidad te = (TransferEntidad) v.get(1);
+			v.get(0);
+			v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido añadir la entidad \""+te.getNombre()+"\" a la relacion \""+tr.getNombre()+"\"." +
-			" Se ha producido un error en el acceso al fichero de relaciones.");
+			
 			break;
 		}
 		case SR_AnadirEntidadARelacion_HECHO:{
 			setCambios(true);
 			Vector v = (Vector) datos;
-			TransferRelacion tr = (TransferRelacion) v.get(0);
-			TransferEntidad te = (TransferEntidad) v.get(1);
-			String inicio = (String) v.get(2);
-			String fin = (String) v.get(3);
-			if((tr.getRol().equals(""))){
-				this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-						"INFO: Se ha añadido la entidad \""+te.getNombre()+"\" a la la relacion \""+tr.getNombre()+"\" " +
-						" con una aridad de "+inicio+" a "+fin+".");
-			}
-			else{
-				this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-						"INFO: Se ha añadido la entidad \""+te.getNombre()+"\" a la la relacion \""+tr.getNombre()+"\" " +
-						" con una aridad de "+inicio+" a "+fin+" cuyo rol es \""+tr.getRol()+"\".");
-			}
+			v.get(0);
+			v.get(1);
+			v.get(2);
+			v.get(3);
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_AnadirEntidadARelacion, v);
 			this.getTheGUIAnadirEntidadARelacion().setInactiva();
 			break;
@@ -3580,22 +3266,19 @@ public class Controlador {
 		case SR_QuitarEntidadARelacion_ERROR_DAORelaciones:{
 			this.getTheGUIQuitarEntidadARelacion().setInactiva();
 			Vector<Transfer> vt = (Vector<Transfer>) datos;
-			TransferRelacion tr = (TransferRelacion) vt.get(0);
-			TransferEntidad te = (TransferEntidad) vt.get(1);
+			vt.get(0);
+			vt.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido quitar la entidad \""+te.getNombre()+"\" como de la relacion \""+tr.getNombre()+"\"." +
-			". Se ha producido un error en el acceso al fichero de relaciones.");
+			
 			break;
 		}
 		case SR_QuitarEntidadARelacion_HECHO:{
 			setCambios(true);
 			this.getTheGUIQuitarEntidadARelacion().setInactiva();
 			Vector<Transfer> vt = (Vector<Transfer>) datos;
-			TransferRelacion tr = (TransferRelacion) vt.get(0);
-			TransferEntidad te = (TransferEntidad) vt.get(1);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha quitado la entidad \""+te.getNombre()+"\" de la relacion \""+tr.getNombre()+"\".");
+			vt.get(0);
+			vt.get(1);
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_QuitarEntidadARelacion, vt);
 			break;
 		}
@@ -3604,75 +3287,61 @@ public class Controlador {
 		 */
 		case SR_EditarCardinalidadEntidad_ERROR_InicioNoEsEnteroOn:{
 			Vector v = (Vector) datos;
-			TransferRelacion tr = (TransferRelacion) v.get(0);
-			TransferEntidad te = (TransferEntidad) v.get(1);
+			v.get(0);
+			v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_CARDINALITY1), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido editar la cardinalidad de la entidad \""+te.getNombre()+"\" en la relacion \""+tr.getNombre()+"\"." +
-			" El valor de inicio no es un número entero positivo o n.");
+			
 			break;
 		}
 		case SR_EditarCardinalidadEntidad_ERROR_InicioEsNegativo:{
 			Vector v = (Vector) datos;
-			TransferRelacion tr = (TransferRelacion) v.get(0);
-			TransferEntidad te = (TransferEntidad) v.get(1);
+			v.get(0);
+			v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_CARDINALITY2), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido editar la cardinalidad de la entidad \""+te.getNombre()+"\" en la relacion \""+tr.getNombre()+"\"." +
-			" El valor de inicio es un número negativo.");
+			
 			break;
 		}
 		case SR_EditarCardinalidadEntidad_ERROR_FinalNoEsEnteroOn:{
 			Vector v = (Vector) datos;
-			TransferRelacion tr = (TransferRelacion) v.get(0);
-			TransferEntidad te = (TransferEntidad) v.get(1);
+			v.get(0);
+			v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_CARDINALITY3), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido editar la cardinalidad de la entidad \""+te.getNombre()+"\" en la relacion \""+tr.getNombre()+"\"." +
-			" El valor de fin no es un número entero positivo o n.");
+			
 			break;
 		}
 		case SR_EditarCardinalidadEntidad_ERROR_FinalEsNegativo:{
 			Vector v = (Vector) datos;
-			TransferRelacion tr = (TransferRelacion) v.get(0);
-			TransferEntidad te = (TransferEntidad) v.get(1);
+			v.get(0);
+			v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_CARDINALITY4), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido editar la cardinalidad de la entidad \""+te.getNombre()+"\" en la relacion \""+tr.getNombre()+"\"." +
-			" El valor de fin es un número negativo.");
+			
 			break;
 		}
 		case SR_EditarCardinalidadEntidad_ERROR_InicioMayorQueFinal:{
 			Vector v = (Vector) datos;
-			TransferRelacion tr = (TransferRelacion) v.get(0);
-			TransferEntidad te = (TransferEntidad) v.get(1);
+			v.get(0);
+			v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_CARDINALITY5), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido editar la cardinalidad de la entidad \""+te.getNombre()+"\" en la relacion \""+tr.getNombre()+"\"." +
-			" El valor de inicio es mayor que el de fin.");
+			
 			break;
 		}
 		case SR_EditarCardinalidadEntidad_ERROR_DAORelaciones:{
 			Vector v = (Vector) datos;
-			TransferRelacion tr = (TransferRelacion) v.get(0);
-			TransferEntidad te = (TransferEntidad) v.get(1);
+			v.get(0);
+			v.get(1);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"ERROR: No se ha podido editar la cardinalidad de la entidad \""+te.getNombre()+"\" en la relacion \""+tr.getNombre()+"\"." +
-			" Se ha producido un error en el acceso al fichero de relaciones.");
+			
 			break;
 		}
 		case SR_EditarCardinalidadEntidad_HECHO:{
 			setCambios(true);
 			Vector v = (Vector) datos;
-			TransferRelacion tr = (TransferRelacion) v.get(0);
-			TransferEntidad te = (TransferEntidad) v.get(1);
-			String inicio = (String) v.get(2);
-			String fin = (String) v.get(3);
-			String rol = (String) v.get(4);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha editado la cardinalidad de la entidad \""+te.getNombre()+"\" en la relacion \""+tr.getNombre()+"\"." +
-					" La nueva cardinalidad es de "+inicio+" a "+fin+"."+" El nuevo rol es \""+rol+"\".");
+			v.get(0);
+			v.get(1);
+			v.get(2);
+			v.get(3);
+			v.get(4);
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_EditarCardinalidadEntidad, v);
 			this.getTheGUIEditarCardinalidadEntidad().setInactiva();
 			break;
@@ -3682,8 +3351,7 @@ public class Controlador {
 		case SR_AridadEntidadUnoUno_HECHO:{
 			setCambios(true);
 			Vector v = (Vector) datos;
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha debilitado y editado la cardinalidad de la entidad.");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_CardinalidadUnoUno, v);
 			break;
 		} // switch
@@ -3691,11 +3359,9 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			TransferRelacion tr = (TransferRelacion) v.get(0);
 			TransferRelacion clon_relacion =tr.clonar();
-			String nuevaUnique = (String) v.get(1);
+			v.get(1);
 			setCambios(true);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha añadido la 'unique' " +nuevaUnique +
-					" a la relacion "+tr.getNombre() +". ");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_AnadirUniqueRelacion, clon_relacion);
 			//this.getTheGUIAnadirRestriccionAEntidad().setInactiva();
 			break;
@@ -3704,11 +3370,9 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			TransferRelacion tr = (TransferRelacion) v.get(0);
 			TransferRelacion clon_relacion =tr.clonar();
-			String nuevaUnique = (String) v.get(1);
+			v.get(1);
 			setCambios(true);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se ha quitado la 'unique' " +nuevaUnique +
-					" a la relacion "+tr.getNombre() +". ");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_QuitarUniqueRelacion, clon_relacion);
 			break;
 		}
@@ -3718,8 +3382,7 @@ public class Controlador {
 			TransferRelacion tr = (TransferRelacion) v.get(1);
 			TransferRelacion clon_relacion =tr.clonar();
 			setCambios(true);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se han modificado las restricciones 'unique'.");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_setUniquesRelacion, clon_relacion);
 			break;
 		}
@@ -3728,8 +3391,7 @@ public class Controlador {
 			TransferRelacion tr = (TransferRelacion) v.get(0);
 			TransferRelacion clon_relacion =tr.clonar();
 			setCambios(true);
-			this.getTheGUIPrincipal().anadeMensajeAreaDeSucesos(
-					"INFO: Se han modificado las restricciones 'unique'.");
+			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_setUniqueUnitarioRelacion, clon_relacion);
 			break;
 		}

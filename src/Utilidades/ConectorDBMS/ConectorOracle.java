@@ -95,7 +95,7 @@ public class ConectorOracle extends ConectorDBMS {
 	@Override
 	public String obtenerCodigoCreacionTablaHTML(Tabla t) {
 		// Crear la tabla
-		String codigo=HTMLUtils.toRedColor("CREATE TABLE ")+t.getNombreTabla()+"(";
+		String codigo="<p><strong>CREATE TABLE </strong>"+t.getNombreTabla()+"(";
 		
 		// Para cada atributo...
 		Vector<String[]> atributos = t.getAtributos();
@@ -105,14 +105,14 @@ public class ConectorOracle extends ConectorDBMS {
 			codigo+=atributos.elementAt(i)[0];
 			//metemos el dominio
 			String dominio = equivalenciaTipoOracle(atributos.elementAt(i)[1]);
-			codigo+=" "+HTMLUtils.toRedColor(dominio);
+			codigo+=" <strong>"+dominio+"</strong>";
 			
 			// Not null
 			if (atributos.elementAt(i)[4].equalsIgnoreCase("1"))
-				codigo+= HTMLUtils.toRedColor(" NOT NULL");
+				codigo+= "<strong> NOT NULL</strong>";
 		}
 		//cerramos la creacion de la tabla
-		codigo+=")" + ";"+HTMLUtils.newLine()+HTMLUtils.newLine();
+		codigo+=")" + ";</p>";
 		return codigo;
 	}
 
@@ -171,14 +171,14 @@ public class ConectorOracle extends ConectorDBMS {
 		//si tiene claves primarias, las añadimos
 		Vector<String[]> primaries = t.getPrimaries();
 		if (!primaries.isEmpty()){
-			codigo+= HTMLUtils.toRedColor("ALTER TABLE ") + t.getNombreTabla() +
-			HTMLUtils.toBlueColor(" ADD CONSTRAINT ") + t.getNombreTabla() + "_pk" +
-			HTMLUtils.toBlueColor(" PRIMARY KEY ")+"(";
+			codigo+= "<p><strong>ALTER TABLE </strong>" + t.getNombreTabla() +
+			"<strong> ADD CONSTRAINT </strong>" + t.getNombreTabla() + "_pk" +
+			"<strong> PRIMARY KEY </strong>"+"(";
 			for (int i=0;i<primaries.size();i++){
 				if (i>0)codigo+=", ";
 				codigo+=primaries.elementAt(i)[0];
 			}
-			codigo+=");"+HTMLUtils.newLine();
+			codigo+=");</p>";
 		}
 		//si tiene claves foraneas:
 		Vector<String[]> foreigns = t.getForeigns();
@@ -188,12 +188,12 @@ public class ConectorOracle extends ConectorDBMS {
 				if (atributo.indexOf("(") >= 0){
 					atributo = atributo.substring(0, atributo.indexOf("("));
 				}
-				codigo+= HTMLUtils.toRedColor("ALTER TABLE ") + t.getNombreTabla() +
-						HTMLUtils.toBlueColor(" ADD CONSTRAINT ") + 
+				codigo+= "<p><strong>ALTER TABLE </strong>" + t.getNombreTabla() +
+						"<strong> ADD CONSTRAINT </strong>" + 
 										t.getNombreTabla() + "_" +atributo +
-						HTMLUtils.toBlueColor(" FOREIGN KEY ")+
-				"("+foreigns.elementAt(j)[0]+") " + HTMLUtils.toBlueColor(" REFERENCES ")+foreigns.elementAt(j)[2]+";"+
-				HTMLUtils.newLine();
+						"<strong> FOREIGN KEY </strong>"+
+				"("+foreigns.elementAt(j)[0]+") " + "<strong> REFERENCES </strong>"+foreigns.elementAt(j)[2]+";"+
+				"</p>";
 			}
 				
 		}
@@ -202,10 +202,10 @@ public class ConectorOracle extends ConectorDBMS {
 		Vector<String> uniques = t.getUniques();
 		if(!uniques.isEmpty()){
 			for (int j=0;j<uniques.size();j++){
-				codigo+=HTMLUtils.toRedColor("ALTER TABLE ")+t.getNombreTabla()+
-				HTMLUtils.toBlueColor(" ADD CONSTRAINT ")+t.getNombreTabla() + "_unique_" + j + 
-				HTMLUtils.toBlueColor(" UNIQUE") + 
-				"("+uniques.elementAt(j)+");" + HTMLUtils.newLine();
+				codigo+="<p><strong>ALTER TABLE </strong>"+t.getNombreTabla()+
+				"<strong> ADD CONSTRAINT </strong>"+t.getNombreTabla() + "_unique_" + j + 
+				"<strong> UNIQUE</strong>" + 
+				"("+uniques.elementAt(j)+");" + "</p>";
 			}	
 		}
 		
@@ -240,14 +240,14 @@ public class ConectorOracle extends ConectorDBMS {
 	@Override
 	public String obtenerCodigoEnumeradoHTML(Enumerado e) {
 		// Crear la tabla
-		String codigo =HTMLUtils.toRedColor("CREATE TABLE ")+e.getNombre()+"(";
-		codigo += "value_list " + HTMLUtils.toRedColor("VARCHAR2(" + e.getLongitud() + ")");
-		codigo+=")" + ";"+HTMLUtils.newLine();
+		String codigo ="<p><strong>CREATE TABLE </strong>"+e.getNombre()+"(";
+		codigo += "value_list " + "<strong>VARCHAR2(" + e.getLongitud() + ")</strong>";
+		codigo+=")" + ";</p>";
 
 		// Establecer la clave primaria
-		codigo+=HTMLUtils.toRedColor("ALTER TABLE ")+e.getNombre()+
-				HTMLUtils.toRedColor(" ADD CONSTRAINT ") + e.getNombre() + "_pk" +
-				HTMLUtils.toRedColor(" PRIMARY KEY ")+"(value_list);"+HTMLUtils.newLine();
+		codigo+="<p><strong>ALTER TABLE </strong>"+e.getNombre()+
+				"<strong> ADD CONSTRAINT </strong>" + e.getNombre() + "_pk" +
+				"<strong> PRIMARY KEY </strong>"+"(value_list);</p>";
 		
 		// Insertar los valores
 		for (int i=0; i<e.getNumeroValores(); i++){
@@ -256,13 +256,12 @@ public class ConectorOracle extends ConectorDBMS {
 				valor = valor.substring(1, valor.length() - 1);
 			}
 			
-			codigo += HTMLUtils.toRedColor("INSERT INTO ") + e.getNombre() + 
-						HTMLUtils.toRedColor(" VALUES ") + "(" + 
+			codigo += "<p><strong>INSERT INTO </strong>" + e.getNombre() + 
+						"<strong> VALUES </strong>" + "(" + 
 						HTMLUtils.toGreenColor("'" + valor + "'") + ");" + 
-						HTMLUtils.newLine();
+						"</p>";
 		}
 		
-		codigo += HTMLUtils.newLine();
 		return codigo;
 	}
 	

@@ -221,10 +221,10 @@ cantExecuteScript=No se pudo ejecutar el script.
 enquiryError=El error se produjo en la consulta
 cantCloseConexion=No se pudo cerrar la conexión.
 okScriptExecut=El script se ha ejecutado correctamente.		
-tablesSection=SECCIÓN DE CREACIÓN DE TABLAS
-typesSection=SECCIÓN DE CREACIÓN DE TIPOS ENUERADOS
-keysSection=SECCIÓN DE ESTABLECIMIENTO DE CLAVES
-constraintsSection=SECCIÓN DE ESTABLECIMIENTO DE RESTRICCIONES	
+tablesSection=Tablas
+typesSection=Tipos enumerados
+keysSection=Claves
+constraintsSection=Restricciones	
 mustValidateModel=Debe validar satisfactoriamente el modelo antes de generar el modelo relacional.
 relationalModelGenerated=MODELO RELACIONAL GENERADO		
 

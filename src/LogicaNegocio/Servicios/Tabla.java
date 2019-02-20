@@ -290,7 +290,7 @@ public class Tabla {
 	}
 
 	public String modeloRelacionalDeTabla(){
-		String mr="<p><font size=\"4\">"+this.ponGuionesBajos(nombreTabla)+" (";
+		String mr="<p>"+this.ponGuionesBajos(nombreTabla)+" (";
 		Vector<String[]>definitivo= new Vector<String[]>();
 		//dejamos los elementos en las 3 listas sin duplicados.
 		definitivo=this.filtra(atributos, primaries);
@@ -310,7 +310,7 @@ public class Tabla {
 			if (this.estaRepe(definitivo.elementAt(j)[0], atributos)) repe +="_"+definitivo.elementAt(j)[2];
 			mr+=this.ponGuionesBajos(definitivo.elementAt(j)[0]+repe);
 		}	
-		mr+=")</font></p>";
+		mr+=")</p>";
 		return mr;
 	}
 	

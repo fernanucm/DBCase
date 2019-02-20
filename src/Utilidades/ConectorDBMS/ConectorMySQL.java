@@ -80,10 +80,10 @@ public class ConectorMySQL extends ConectorDBMS {
 	@Override
 	public String obtenerCodigoCreacionTablaHTML(Tabla t) {
 		// Eliminar la tabla (si existía)
-		String codigo=HTMLUtils.toRedColor("DROP TABLE IF EXISTS ")+t.getNombreTabla()+";"+HTMLUtils.newLine();
+		String codigo="<p><strong>DROP TABLE IF EXISTS </strong>"+t.getNombreTabla()+";</p>";
 		
 		// Crear la tabla
-		codigo+=HTMLUtils.toRedColor("CREATE TABLE ")+t.getNombreTabla()+"(";
+		codigo+="<p><strong>CREATE TABLE </strong>"+t.getNombreTabla()+"(";
 		
 		// Para cada atributo...
 		Vector<String[]> atributos = t.getAtributos();
@@ -94,16 +94,15 @@ public class ConectorMySQL extends ConectorDBMS {
 			
 			//metemos el dominio
 			String dominio = equivalenciaTipoMySQL(atributos.elementAt(i)[1]);
-			codigo+=" "+HTMLUtils.toRedColor(dominio);
+			codigo+=" <strong>"+dominio+"</strong>";
 			
 			// Indicamos si es NOT NULL
 			if (atributos.elementAt(i)[4].equalsIgnoreCase("1"))
-				codigo+= HTMLUtils.toRedColor(" NOT NULL");
+				codigo+= "<strong> NOT NULL</strong>";
 			
 		}
 		//cerramos la creacion de la tabla
-		//" + HTMLUtils.toBlueColor(" ENGINE = InnoDB") + "
-		codigo+=");"+HTMLUtils.newLine()+HTMLUtils.newLine();
+		codigo+=");</p>";
 		return codigo;
 	}
 
@@ -152,20 +151,19 @@ public class ConectorMySQL extends ConectorDBMS {
 		//si tiene claves primarias, las añadimos.
 		Vector<String[]> primaries = t.getPrimaries();
 		if (!primaries.isEmpty()){
-			codigo+=HTMLUtils.toRedColor("ALTER TABLE ")+t.getNombreTabla()+HTMLUtils.toBlueColor(" ADD PRIMARY KEY ")+"(";
+			codigo+="<p><strong>ALTER TABLE </strong>"+t.getNombreTabla()+"<strong class=blue> ADD PRIMARY KEY </strong>(";
 			for (int i=0;i<primaries.size();i++){
 				if (i>0)codigo+=", ";
 				codigo+=primaries.elementAt(i)[0];
 			}
-			codigo+=");"+HTMLUtils.newLine();
+			codigo+=");</p>";
 		}
 		//si tiene claves foraneas:
 		Vector<String[]> foreigns = t.getForeigns();
 		if(!foreigns.isEmpty()){
 			for (int j=0;j<foreigns.size();j++){
-				codigo+=HTMLUtils.toRedColor("ALTER TABLE ")+t.getNombreTabla()+HTMLUtils.toBlueColor(" ADD FOREIGN KEY ")+
-				"("+foreigns.elementAt(j)[0]+") " + HTMLUtils.toBlueColor(" REFERENCES ")+foreigns.elementAt(j)[2]+";"+
-				HTMLUtils.newLine();
+				codigo+="<p><strong>ALTER TABLE </strong>"+t.getNombreTabla()+"<strong class=blue> ADD FOREIGN KEY </strong>"+
+				"("+foreigns.elementAt(j)[0]+") <strong class=blue> REFERENCES </strong>"+foreigns.elementAt(j)[2]+";</p>";
 			}
 				
 		}
@@ -174,8 +172,8 @@ public class ConectorMySQL extends ConectorDBMS {
 		Vector<String> uniques = t.getUniques();
 		if(!uniques.isEmpty()){
 			for (int j=0;j<uniques.size();j++){
-				codigo+=HTMLUtils.toRedColor("ALTER TABLE ")+t.getNombreTabla()+HTMLUtils.toBlueColor(" ADD UNIQUE KEY ")+
-				"("+uniques.elementAt(j)+");" + HTMLUtils.newLine();
+				codigo+="<p><strong>ALTER TABLE </strong>"+t.getNombreTabla()+"<strong class=blue> ADD UNIQUE KEY </strong>"+
+				"("+uniques.elementAt(j)+");</p>";
 			}
 				
 		}
@@ -213,16 +211,16 @@ public class ConectorMySQL extends ConectorDBMS {
 	@Override
 	public String obtenerCodigoEnumeradoHTML(Enumerado e) {
 		// Eliminar la tabla (si existía)
-		String codigo=HTMLUtils.toRedColor("DROP TABLE IF EXISTS ")+e.getNombre()+";"+HTMLUtils.newLine();
+		String codigo="<p><strong>DROP TABLE IF EXISTS </strong>"+e.getNombre()+";</p>";
 		
 		// Crear la tabla
-		codigo+=HTMLUtils.toRedColor("CREATE TABLE ")+e.getNombre()+"(";
-		codigo += "value_list " + HTMLUtils.toRedColor("VARCHAR(" + e.getLongitud() + ")");
-		codigo+=")" + HTMLUtils.toBlueColor(" ENGINE = InnoDB") + ";"+HTMLUtils.newLine();
+		codigo+="<p><strong>CREATE TABLE </strong>"+e.getNombre()+"(";
+		codigo += "value_list " + "<strong>VARCHAR(" + e.getLongitud() + ")</strong>";
+		codigo+=")<strong class=blue> ENGINE = InnoDB</strong>;</p>";
 
 		// Establecer la clave primaria
-		codigo+=HTMLUtils.toRedColor("ALTER TABLE ")+e.getNombre()+
-				HTMLUtils.toRedColor(" ADD PRIMARY KEY ")+"(value_list);"+HTMLUtils.newLine();
+		codigo+="<p><strong>ALTER TABLE </strong>"+e.getNombre()+
+				"<strong> ADD PRIMARY KEY </strong>"+"(value_list);</p>";
 		
 		// Insertar los valores
 		for (int i=0; i<e.getNumeroValores(); i++){
@@ -231,13 +229,12 @@ public class ConectorMySQL extends ConectorDBMS {
 				valor = valor.substring(1, valor.length() - 1);
 			}
 			
-			codigo += HTMLUtils.toRedColor("INSERT INTO ") + e.getNombre() + 
-						HTMLUtils.toRedColor(" VALUES ") + "(" + 
-						HTMLUtils.toGreenColor("'" + valor + "'") + ");" + 
-						HTMLUtils.newLine();
+			codigo += "<p><strong>INSERT INTO </strong>" + e.getNombre() + 
+						"<strong> VALUES (" + 
+						HTMLUtils.toGreenColor("'" + valor + "'") + ");</p>";
 		}
 		
-		codigo += HTMLUtils.newLine();
+		codigo += "</p>";
 		return codigo;
 	}
 	

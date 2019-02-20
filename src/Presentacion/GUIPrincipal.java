@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -50,7 +49,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
-import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.TableModelEvent;
@@ -68,6 +66,7 @@ import LogicaNegocio.Transfers.TransferDominio;
 import LogicaNegocio.Transfers.TransferEntidad;
 import LogicaNegocio.Transfers.TransferRelacion;
 import Presentacion.GUIPanels.TablaVolumenes;
+import Presentacion.GUIPanels.reportPanel;
 import Presentacion.Grafo.PanelGrafo;
 import Presentacion.Grafo.PanelThumbnail;
 import Presentacion.Lenguajes.Lenguaje;
@@ -87,6 +86,7 @@ import Utilidades.ImagePath;
  * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
  * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 
 	private static final long serialVersionUID = 1L;
@@ -107,7 +107,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private TablaVolumenes tablaVolumenes;
 	private JPanel panelTablas;
 	private JMenu menuSistema;
-	private JScrollPane panelScrollSucesos;
 	private JButton botonLimpiarPantalla;
 	private PanelThumbnail panelGrafo;
 	private JTree arbol;
@@ -118,7 +117,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private PanelGrafo panelDiseno;
 	private JScrollPane panelArbolDom;
 	private JPanel panelDom;
-	private JTextPane areaTextoSucesos;
 	private JPanel panelSucesos;
 	private JMenuItem submenuContenidos;
 	private JMenuItem submenuAcercaDe;
@@ -131,7 +129,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private Vector<JCheckBoxMenuItem> elementosMenuSGBDActual;
 	private JMenu menuLenguajes;
 	private Vector<JCheckBoxMenuItem> elementosMenuLenguajes;
-	@SuppressWarnings("rawtypes")
 	private JComboBox cboSeleccionDBMS;
 	private JMenuItem submenuImprimir;
 	private JButton botonExportarArchivo;
@@ -139,7 +136,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private JButton botonModeloRelacional;
 	private JButton botonValidar;
 	private JButton botonEjecutarEnDBMS;
-	private JPanel splitDiagrama;
 	private JSplitPane split1;
 	private JPanel panelGeneracion;
 	private JPanel panelDiagrama;
@@ -250,257 +246,20 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
         }
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+
 	private void initComponents() {
-		try {
-			
-				this.setTitle(Lenguaje.getMensaje(Lenguaje.DBCASE));
-				this.setSize(800, 600);
-				this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-				initMenu();
-				
-				
-				JSplitPane diagramaCode = new JSplitPane();
-				//TODO
-				diagramaCode.setResizeWeight(0.8);
-				getContentPane().add(diagramaCode);
-				
-				//Tabs principales
-				panelDiagrama = new JPanel();
-				diagramaCode.add(panelDiagrama, JSplitPane.LEFT);
-				BorderLayout panelDiagramaLayout = new BorderLayout();
-				panelDiagrama.setLayout(panelDiagramaLayout);
-				
-				split1 = new JSplitPane();
-				panelDiagrama.add(split1, BorderLayout.CENTER);
-				split1.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-				split1.setOneTouchExpandable(false);
-				split1.setResizeWeight(0.87);
-					
-				JSplitPane infoSplit = new JSplitPane();
-				JTabbedPane tabPanelDcha = new JTabbedPane();
-				JSplitPane splitTabMapa = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-				splitTabMapa.setResizeWeight(0.155);
-				splitTabMapa.add(tabPanelDcha, JSplitPane.RIGHT);
-				tabPanelDcha.setFocusable(false);
-				infoSplit.add(splitTabMapa,JSplitPane.RIGHT);
-				infoSplit.setResizeWeight(0.82);
-				infoSplit.setDividerSize(0);
-				infoSplit.setBorder(null);
-				infoSplit.setEnabled(false);
-				
-				split1.add(infoSplit, JSplitPane.LEFT);
-				split1.add(splitTabMapa,JSplitPane.RIGHT);
-			
-				// Actualizacion de listas y creacion del grafo
-				controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeEntidades, null);
-				controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeAtributos, null);
-				controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeRelaciones, null);
-				panelDiseno = new PanelGrafo(listaEntidades,listaAtributos,listaRelaciones,theme);
-				panelDiseno.setControlador(this.getControlador());
-				panelDiseno.setLayout(new OverlayLayout(panelDiseno));
-	
-				
-				//Panel de la izquierda
-				split3 = new JSplitPane();
-				split3.setBorder(null);
-				split3.setDividerSize(0);
-				split3.setEnabled(false);
-				split3.setOrientation(JSplitPane.VERTICAL_SPLIT);
-				split3.setResizeWeight(0.3);
-				split3.setDividerLocation(150);//100
-				JPanel ElementosArrastre = new JPanel();
-				ElementosArrastre.setBackground(theme.background());
-				ElementosArrastre.setMaximumSize(new Dimension(5,100));
-				ElementosArrastre.setBorder(BorderFactory.createLineBorder(Color.lightGray));
-				split3.add(ElementosArrastre, JSplitPane.BOTTOM);
-
-				panelInfo = new JPanel();
-				BorderLayout panelInfoLayout = new BorderLayout();
-				panelInfo.setLayout(panelInfoLayout);
-				panelInfo.addMouseListener(mls);
-				tabPanelDcha.addTab("Elementos", null, panelInfo ,null);
-				
-				panelArbol = new JScrollPane();
-				panelArbol.setBackground(theme.background());
-				panelInfo.add(panelArbol, BorderLayout.CENTER);
-				panelArbol.setBorder(BorderFactory.createEmptyBorder(4, 4, 0, 0));
-				panelArbol.setVisible(false);
-
-				panelDom = new JPanel();
-				panelDom.setLayout(new BorderLayout());
-				panelDom.setBackground(theme.background());
-				tabPanelDcha.addTab("Dominios", null, panelDom ,null);
-				
-				panelArbolDom = new JScrollPane();
-				panelArbolDom.setBackground(theme.background());
-				panelDom.add(panelArbolDom, BorderLayout.CENTER);
-				panelArbolDom.setBorder(BorderFactory.createEmptyBorder(4, 4, 0, 0));
-				panelArbolDom.addMouseListener(ml);
-				panelArbolDom.setVisible(false);
-				JButton nuevoDom = new JButton(Lenguaje.getMensaje(Lenguaje.ADD_DOMAIN));
-				JPanel panelBoton = new JPanel();
-				nuevoDom.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_CrearDominio, 0);
-					}
-				});		
-				nuevoDom.setFocusable(false);
-				panelBoton.add(nuevoDom);
-				panelDom.add(panelBoton, BorderLayout.NORTH);
-				this.actualizaArbolDominio(null);
-				
-				panelTablas = new JPanel();
-				panelTablas.setLayout(new BorderLayout());
-				panelTablas.setBackground(theme.background());
-				tablaVolumenes = new TablaVolumenes();
-				tablaVolumenes.getModel().addTableModelListener(new TableModelListener() {
-					@Override
-					public void tableChanged(TableModelEvent e) {
-						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_ActualizarDatosEnTablaDeVolumenes, e);
-				}});
-				tablaVolumenes.setBackground(theme.background());
-				scrollPanelTablas = new JScrollPane(tablaVolumenes);
-				scrollPanelTablas.setBackground(theme.background());
-				panelTablas.add(scrollPanelTablas);
-				tabPanelDcha.addTab("Tablas", null, panelTablas ,null);
-				panelGrafo = new PanelThumbnail(panelDiseno, theme);
-				splitTabMapa.add(panelGrafo, JSplitPane.LEFT);
-				infoSplit.add(panelDiseno, JSplitPane.LEFT);
-						
-				panelGeneracion = new JPanel();
-				BorderLayout panelGeneracionLayout = new BorderLayout();
-				panelGeneracion.setLayout(panelGeneracionLayout);
-				diagramaCode.add(panelGeneracion, JSplitPane.RIGHT);
-			
-				JSplitPane codesSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-				
-				codesSplit.setResizeWeight(0.57);
-				codesSplit.setDividerSize(10);
-				codesSplit.setBorder(null);
-				codesSplit.setEnabled(true);
-				codesSplit.setBackground(Color.black);
-				panelGeneracion.add(codesSplit, BorderLayout.CENTER);
-				
-				JPanel modeloPanel = new JPanel();
-				modeloPanel.setBackground(theme.background());
-				modeloPanel.setLayout(new BorderLayout());
-				
-				JPanel textPanel = new JPanel();
-				textPanel.setLayout(new BoxLayout(textPanel,BoxLayout.X_AXIS));
-				JLabel text = new JLabel("<html><span style='font-size:30px'>"+Lenguaje.getMensaje(Lenguaje.LOGIC_MODEL)+"</span></html>");
-				text.setPreferredSize(new Dimension(150, 100));
-				JButton generaModelo = new JButton("Generar");
-				generaModelo.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent evt) {
-						acumulador = "";
-						botonModeloRelacionalActionPerformed(evt);
-					}
-				});
-				textPanel.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 50));
-				textPanel.add(text);
-				textPanel.add(generaModelo);
-				modeloPanel.add(textPanel, BorderLayout.NORTH);
-				
-				JPanel panelBotones = new JPanel();
-				panelBotones.setLayout(new FlowLayout());
-				JButton exportarModelo = new JButton("Guardar Como");
-				exportarModelo.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent evt) {
-						botonExportarArchivoActionPerformed(evt,false);
-					}
-				});
-				panelBotones.add(exportarModelo);
-				modeloPanel.add(panelBotones, BorderLayout.SOUTH);
-				
-				modeloText = new JTextPane();
-				modeloText.setContentType("text/html");
-				//modeloText.setLineWrap(true);
-				modeloText.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
-				modeloPanel.add(new JScrollPane(modeloText), BorderLayout.CENTER);
-				
-				/***********************/
-				
-				JPanel codePanel = new JPanel();
-				codePanel.setBackground(theme.background());
-				codePanel.setLayout(new BorderLayout());
-				
-				cboSeleccionDBMS = new JComboBox();
-				for (int i=0; i < listaConexiones.size(); i++)
-					cboSeleccionDBMS.insertItemAt(listaConexiones.get(i).getRuta(),
-							listaConexiones.get(i).getTipoConexion());
-				
-				cboSeleccionDBMS.setSelectedIndex(0);
-				cboSeleccionDBMS.addActionListener(new ActionListener(){
-					public void actionPerformed(ActionEvent e) {
-						JComboBox cbo = (JComboBox) e.getSource();
-						cambiarConexion((String)cbo.getSelectedItem());// Cambiar la conexionActual
-					}
-				});
-				cboSeleccionDBMS.setMaximumSize(new Dimension(500,40));
-				cboSeleccionDBMS.setAlignmentX(Component.RIGHT_ALIGNMENT);
-				
-				JPanel textPanel2 = new JPanel();
-				textPanel2.setLayout(new BoxLayout(textPanel2,BoxLayout.X_AXIS));
-				JLabel text2 = new JLabel("<html><span style='font-size:30px'>"+Lenguaje.getMensaje(Lenguaje.PHYS_MODEL)+"</span></html>");
-				text2.setPreferredSize(new Dimension(150, 100));
-				JButton generaCodigo = new JButton("Generar");
-				generaCodigo.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent evt) {
-						acumulador = "";
-						botonScriptSQLActionPerformed(evt);
-					}
-				});
-				JPanel accionesCodigo = new JPanel();
-				generaCodigo.setAlignmentX(Component.RIGHT_ALIGNMENT);
-				accionesCodigo.setLayout(new BoxLayout(accionesCodigo,BoxLayout.Y_AXIS));
-				textPanel2.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 50));
-				textPanel2.add(text2);
-				accionesCodigo.add(cboSeleccionDBMS);
-				accionesCodigo.add(generaCodigo);
-				textPanel2.add(accionesCodigo);
-				codePanel.add(textPanel2, BorderLayout.NORTH);
-				
-				codesSplit.add(modeloPanel,JSplitPane.TOP);
-				codesSplit.add(codePanel,JSplitPane.BOTTOM);
-				
-				JPanel panelExportar = new JPanel();
-				panelExportar.setLayout(new FlowLayout());
-				JButton exportarCodigo = new JButton("Guardar Como");
-				exportarCodigo.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent evt) {
-						botonExportarArchivoActionPerformed(evt,true);
-					}
-				});
-				JButton ejecutarCodigo = new JButton("Ejecutar");
-				ejecutarCodigo.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent evt) {
-						botonEjecutarEnDBMSActionPerformed(evt);
-					}
-				});
-				panelExportar.add(exportarCodigo);
-				panelExportar.add(ejecutarCodigo);
-				codePanel.add(panelExportar, BorderLayout.SOUTH);
-				
-				codigoText = new JTextPane();
-				codigoText.setContentType("text/html");
-				codigoText.setBorder(null);
-				codigoText.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
-
-				codePanel.add(new JScrollPane(codigoText), BorderLayout.CENTER);
-				
-				this.setExtendedState(Frame.MAXIMIZED_BOTH);
-				this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
-				this.addWindowListener(this);
-		        this.addKeyListener(this);
-				
-			
-		} catch(Exception e) {e.printStackTrace();}
-		// Construccion del JPopupMenu
+		try{
+			this.setTitle(Lenguaje.getMensaje(Lenguaje.DBCASE));
+			this.setSize(800, 600);
+			this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+			initMenu();
+			initDiagrama();
+			initCodes();
+		}catch(Exception e) {e.printStackTrace();}
 		popup = new JPopupMenu();
-
-	}//InitComponents
+	}
+	
+	
 	private void initMenu() {
 		{
 			barraDeMenus = new JMenuBar();
@@ -810,7 +569,226 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		}
 	}//initMenu
 	
+	private void initDiagrama() {
+		panelDiagrama = new JPanel();
+		BorderLayout panelDiagramaLayout = new BorderLayout();
+		panelDiagrama.setLayout(panelDiagramaLayout);
+		
+		split1 = new JSplitPane();
+		panelDiagrama.add(split1, BorderLayout.CENTER);
+		split1.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+		split1.setOneTouchExpandable(false);
+		split1.setResizeWeight(0.87);
+			
+		JSplitPane infoSplit = new JSplitPane();
+		JTabbedPane tabPanelDcha = new JTabbedPane();
+		JSplitPane splitTabMapa = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		splitTabMapa.setResizeWeight(0.155);
+		splitTabMapa.add(tabPanelDcha, JSplitPane.RIGHT);
+		tabPanelDcha.setFocusable(false);
+		infoSplit.add(splitTabMapa,JSplitPane.RIGHT);
+		infoSplit.setResizeWeight(0.82);
+		infoSplit.setDividerSize(0);
+		infoSplit.setBorder(null);
+		infoSplit.setEnabled(false);
+		
+		split1.add(infoSplit, JSplitPane.LEFT);
+		split1.add(splitTabMapa,JSplitPane.RIGHT);
 	
+		// Actualizacion de listas y creacion del grafo
+		controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeEntidades, null);
+		controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeAtributos, null);
+		controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeRelaciones, null);
+		panelDiseno = new PanelGrafo(listaEntidades,listaAtributos,listaRelaciones,theme);
+		panelDiseno.setControlador(this.getControlador());
+		panelDiseno.setLayout(new OverlayLayout(panelDiseno));
+
+		
+		//Panel de la izquierda
+		split3 = new JSplitPane();
+		split3.setBorder(null);
+		split3.setDividerSize(0);
+		split3.setEnabled(false);
+		split3.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		split3.setResizeWeight(0.3);
+		split3.setDividerLocation(150);//100
+		JPanel ElementosArrastre = new JPanel();
+		ElementosArrastre.setBackground(theme.background());
+		ElementosArrastre.setMaximumSize(new Dimension(5,100));
+		ElementosArrastre.setBorder(BorderFactory.createLineBorder(Color.lightGray));
+		split3.add(ElementosArrastre, JSplitPane.BOTTOM);
+
+		panelInfo = new JPanel();
+		BorderLayout panelInfoLayout = new BorderLayout();
+		panelInfo.setLayout(panelInfoLayout);
+		panelInfo.addMouseListener(mls);
+		tabPanelDcha.addTab("Elementos", null, panelInfo ,null);
+		
+		panelArbol = new JScrollPane();
+		panelArbol.setBackground(theme.background());
+		panelInfo.add(panelArbol, BorderLayout.CENTER);
+		panelArbol.setBorder(BorderFactory.createEmptyBorder(4, 4, 0, 0));
+		panelArbol.setVisible(false);
+
+		panelDom = new JPanel();
+		panelDom.setLayout(new BorderLayout());
+		panelDom.setBackground(theme.background());
+		tabPanelDcha.addTab("Dominios", null, panelDom ,null);
+		
+		panelArbolDom = new JScrollPane();
+		panelArbolDom.setBackground(theme.background());
+		panelDom.add(panelArbolDom, BorderLayout.CENTER);
+		panelArbolDom.setBorder(BorderFactory.createEmptyBorder(4, 4, 0, 0));
+		panelArbolDom.addMouseListener(ml);
+		panelArbolDom.setVisible(false);
+		JButton nuevoDom = new JButton(Lenguaje.getMensaje(Lenguaje.ADD_DOMAIN));
+		JPanel panelBoton = new JPanel();
+		nuevoDom.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_CrearDominio, 0);
+			}
+		});		
+		nuevoDom.setFocusable(false);
+		panelBoton.add(nuevoDom);
+		panelDom.add(panelBoton, BorderLayout.NORTH);
+		this.actualizaArbolDominio(null);
+		
+		panelTablas = new JPanel();
+		panelTablas.setLayout(new BorderLayout());
+		panelTablas.setBackground(theme.background());
+		tablaVolumenes = new TablaVolumenes();
+		tablaVolumenes.getModel().addTableModelListener(new TableModelListener() {
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_ActualizarDatosEnTablaDeVolumenes, e);
+		}});
+		tablaVolumenes.setBackground(theme.background());
+		scrollPanelTablas = new JScrollPane(tablaVolumenes);
+		scrollPanelTablas.setBackground(theme.background());
+		panelTablas.add(scrollPanelTablas);
+		tabPanelDcha.addTab("Tablas", null, panelTablas ,null);
+		panelGrafo = new PanelThumbnail(panelDiseno, theme);
+		splitTabMapa.add(panelGrafo, JSplitPane.LEFT);
+		infoSplit.add(panelDiseno, JSplitPane.LEFT);
+	}
+	
+	
+	private void initCodes() {
+		JSplitPane diagramaCode = new JSplitPane();
+		diagramaCode.setResizeWeight(0.8);
+		getContentPane().add(diagramaCode);
+		
+		diagramaCode.add(panelDiagrama, JSplitPane.LEFT);
+		panelGeneracion = new JPanel();
+		BorderLayout panelGeneracionLayout = new BorderLayout();
+		panelGeneracion.setLayout(panelGeneracionLayout);
+		diagramaCode.add(panelGeneracion, JSplitPane.RIGHT);
+		JSplitPane codesSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		codesSplit.setResizeWeight(0.57);
+		codesSplit.setDividerSize(10);
+		codesSplit.setBorder(null);
+		codesSplit.setEnabled(true);
+		codesSplit.setBackground(Color.black);
+		panelGeneracion.add(codesSplit, BorderLayout.CENTER);
+		JPanel modeloPanel = new JPanel();
+		modeloPanel.setBackground(theme.background());
+		modeloPanel.setLayout(new BorderLayout());
+		JPanel textPanel = new JPanel();
+		textPanel.setLayout(new BoxLayout(textPanel,BoxLayout.X_AXIS));
+		JLabel text = new JLabel("<html><span style='font-size:20px'>"+Lenguaje.getMensaje(Lenguaje.LOGIC_MODEL)+"</span></html>");
+		text.setPreferredSize(new Dimension(150, 100));
+		JButton generaModelo = new JButton("Generar");
+		generaModelo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				acumulador = "";
+				botonModeloRelacionalActionPerformed(evt);
+			}
+		});
+		JButton exportarModelo = new JButton("Guardar Como");
+		exportarModelo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				botonExportarArchivoActionPerformed(evt,false);
+			}
+		});
+		textPanel.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 50));
+		textPanel.add(text);
+		textPanel.add(generaModelo);
+		textPanel.add(exportarModelo);
+		modeloPanel.add(textPanel, BorderLayout.NORTH);
+
+		
+		modeloText = new reportPanel(theme);
+		modeloPanel.add(new JScrollPane(modeloText), BorderLayout.CENTER);
+		/***********************/
+		
+		JPanel codePanel = new JPanel();
+		codePanel.setBackground(theme.background());
+		codePanel.setLayout(new BorderLayout());
+		
+		cboSeleccionDBMS = new JComboBox();
+		for (int i=0; i < listaConexiones.size(); i++)
+			cboSeleccionDBMS.insertItemAt(listaConexiones.get(i).getRuta(),
+					listaConexiones.get(i).getTipoConexion());
+		
+		cboSeleccionDBMS.setSelectedIndex(0);
+		cboSeleccionDBMS.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				JComboBox cbo = (JComboBox) e.getSource();
+				cambiarConexion((String)cbo.getSelectedItem());// Cambiar la conexionActual
+			}
+		});
+		cboSeleccionDBMS.setMaximumSize(new Dimension(500,40));
+		
+		JPanel textPanel2 = new JPanel();
+		textPanel2.setLayout(new BoxLayout(textPanel2,BoxLayout.X_AXIS));
+		JLabel text2 = new JLabel("<html><span style='font-size:20px'>"+Lenguaje.getMensaje(Lenguaje.PHYS_MODEL)+"</span></html>");
+		text2.setPreferredSize(new Dimension(150, 100));
+		JButton generaCodigo = new JButton("Generar");
+		generaCodigo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				acumulador = "";
+				botonScriptSQLActionPerformed(evt);
+			}
+		});
+		JButton exportarCodigo = new JButton("Guardar Como");
+		exportarCodigo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				botonExportarArchivoActionPerformed(evt,true);
+			}
+		});
+		JButton ejecutarCodigo = new JButton("Ejecutar");
+		ejecutarCodigo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				botonEjecutarEnDBMSActionPerformed(evt);
+			}
+		});
+		JPanel accionesCodigo = new JPanel();
+		accionesCodigo.setLayout(new BoxLayout(accionesCodigo,BoxLayout.Y_AXIS));
+		textPanel2.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 50));
+		textPanel2.add(text2);
+		accionesCodigo.add(cboSeleccionDBMS);
+		JPanel botonesCodigo = new JPanel();
+		botonesCodigo.setLayout(new BoxLayout(botonesCodigo,BoxLayout.X_AXIS));
+		accionesCodigo.add(botonesCodigo);
+		botonesCodigo.add(generaCodigo);
+		botonesCodigo.add(exportarCodigo);
+		botonesCodigo.add(ejecutarCodigo);
+		textPanel2.add(accionesCodigo);
+		codePanel.add(textPanel2, BorderLayout.NORTH);
+		
+		codesSplit.add(modeloPanel,JSplitPane.TOP);
+		codesSplit.add(codePanel,JSplitPane.BOTTOM);
+				
+		codigoText = new reportPanel(theme);
+
+		codePanel.add(new JScrollPane(codigoText), BorderLayout.CENTER);
+		
+		this.setExtendedState(Frame.MAXIMIZED_BOTH);
+		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
+		this.addWindowListener(this);
+        this.addKeyListener(this);
+	}
 	
 	/*
 	 * Oyentes de la barra de menus
@@ -945,7 +923,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	/*
 	 * Mensajes que le manda el controlador a la GUIPrincipal
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void mensajesDesde_Controlador(TC mensaje, Object datos){
 		switch(mensaje){
 		case Controlador_InsertarEntidad:{
@@ -1393,8 +1370,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		scriptGeneradoCorrectamente = valor;
 	}
 
-
-	@SuppressWarnings("rawtypes")
 	public Vector getListaConexiones() {
 		return listaConexiones;
 	}
@@ -1403,7 +1378,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		this.listaConexiones = listaConexiones;
 	}
 
-	@SuppressWarnings("rawtypes")
 	public Vector getListaEntidades() {
 		return listaEntidades;
 	}
@@ -1412,7 +1386,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		this.listaEntidades = listaEntidades;
 	}
 	
-	@SuppressWarnings("rawtypes")
 	public Vector getListaAtributos() {
 		return listaAtributos;
 	}
@@ -1421,7 +1394,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		this.listaAtributos = listaAtributos;
 	}
 
-	@SuppressWarnings("rawtypes")
 	public Vector getListaRelaciones() {
 		return listaRelaciones;
 	}
@@ -1430,7 +1402,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		this.listaRelaciones = listaRelaciones;
 	}
 
-	@SuppressWarnings("rawtypes")
 	public Vector getListaDominios() {
 		return listaDominios;
 	}
@@ -1441,16 +1412,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	
 	public void setListaDominios(Vector<TransferDominio> listaDominios) {
 		this.listaDominios = listaDominios;
-	}
-
-	/*
-	 * Añadir texto a las areas de texto
-	 */
-
-	public void anadeMensajeAreaDeSucesos(String mensaje){
-		String texto = this.areaTextoSucesos.getText();
-		if(!texto.isEmpty()) texto+='\n';
-		this.areaTextoSucesos.setText(texto + mensaje);
 	}
 	
 	public void escribeEnModelo(String mensaje){
@@ -1491,7 +1452,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		this.repaint();
 	}
 	
-	@SuppressWarnings("rawtypes")
 	private JTree generaArbolDominio(Vector<TransferDominio> listaDominios, String expandir){
 		
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.DOM_TREE_CREATED_DOMS));
