@@ -406,6 +406,7 @@ public class Controlador {
 			theGUIPrincipal.enableGuardar(true);
 			theGUIPrincipal.enableGuardarComo(true);
 			theGUIPrincipal.visiblePrincipal(true);
+			theGUIPrincipal.loadInfo();
 			try{
 				theGUIPrincipal.setSalvado(guardado);
 			}catch(Exception e){}

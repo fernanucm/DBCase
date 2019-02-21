@@ -113,7 +113,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private JTree arbolDom;
 	private JScrollPane panelArbol;
 	private JPanel panelInfo;
-	private JSplitPane split3;
 	private PanelGrafo panelDiseno;
 	private JScrollPane panelArbolDom;
 	private JPanel panelDom;
@@ -464,7 +463,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 			{
 				menuVista = new JMenu();
 				barraDeMenus.add(menuVista);
-				menuVista.setText("View");
+				menuVista.setText(Lenguaje.getMensaje(Lenguaje.VIEW));
 				menuVista.setMnemonic(Lenguaje.getMensaje(Lenguaje.HELP).charAt(0));
 				{		
 					
@@ -479,6 +478,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						item.setText(s);
 						item.setFont(new java.awt.Font("Avenir", 0, 16));
 						item.setActionCommand(s);
+						if(s.equals(theme.getThemeName()))item.setSelected(true);
 						item.addActionListener(new ActionListener() {
 
 							@Override
@@ -507,7 +507,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					code.setText(Lenguaje.getMensaje(Lenguaje.PHYS_MODEL));
 					code.setSelected(false);
 					code.setFont(new java.awt.Font("Avenir", 0, 16));
-					themeMenu.setText("Tema");
+					themeMenu.setText(Lenguaje.getMensaje(Lenguaje.THEME));
 					
 					menuPanelSucesos.setText(Lenguaje.getMensaje(Lenguaje.SHOW_EVENTS_PANEL));
 					menuPanelSucesos.setMnemonic(Lenguaje.getMensaje(Lenguaje.SHOW_EVENTS_PANEL).charAt(0));
@@ -599,46 +599,31 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeEntidades, null);
 		controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeAtributos, null);
 		controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeRelaciones, null);
-		panelDiseno = new PanelGrafo(listaEntidades,listaAtributos,listaRelaciones,theme);
+		panelDiseno = new PanelGrafo(listaEntidades,listaAtributos,listaRelaciones);
 		panelDiseno.setControlador(this.getControlador());
 		panelDiseno.setLayout(new OverlayLayout(panelDiseno));
-
-		
-		//Panel de la izquierda
-		split3 = new JSplitPane();
-		split3.setBorder(null);
-		split3.setDividerSize(0);
-		split3.setEnabled(false);
-		split3.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		split3.setResizeWeight(0.3);
-		split3.setDividerLocation(150);//100
-		JPanel ElementosArrastre = new JPanel();
-		ElementosArrastre.setBackground(theme.background());
-		ElementosArrastre.setMaximumSize(new Dimension(5,100));
-		ElementosArrastre.setBorder(BorderFactory.createLineBorder(Color.lightGray));
-		split3.add(ElementosArrastre, JSplitPane.BOTTOM);
 
 		panelInfo = new JPanel();
 		BorderLayout panelInfoLayout = new BorderLayout();
 		panelInfo.setLayout(panelInfoLayout);
 		panelInfo.addMouseListener(mls);
-		tabPanelDcha.addTab("Elementos", null, panelInfo ,null);
+		tabPanelDcha.addTab(Lenguaje.getMensaje(Lenguaje.ELEMENTS), null, panelInfo ,null);
 		
 		panelArbol = new JScrollPane();
 		panelArbol.setBackground(theme.background());
 		panelInfo.add(panelArbol, BorderLayout.CENTER);
-		panelArbol.setBorder(BorderFactory.createEmptyBorder(4, 4, 0, 0));
+		panelArbol.setBorder(null);
 		panelArbol.setVisible(false);
 
 		panelDom = new JPanel();
 		panelDom.setLayout(new BorderLayout());
 		panelDom.setBackground(theme.background());
-		tabPanelDcha.addTab("Dominios", null, panelDom ,null);
+		tabPanelDcha.addTab(Lenguaje.getMensaje(Lenguaje.DOM_PANEL), null, panelDom ,null);
 		
 		panelArbolDom = new JScrollPane();
 		panelArbolDom.setBackground(theme.background());
 		panelDom.add(panelArbolDom, BorderLayout.CENTER);
-		panelArbolDom.setBorder(BorderFactory.createEmptyBorder(4, 4, 0, 0));
+		panelArbolDom.setBorder(null);
 		panelArbolDom.addMouseListener(ml);
 		panelArbolDom.setVisible(false);
 		JButton nuevoDom = new JButton(Lenguaje.getMensaje(Lenguaje.ADD_DOMAIN));
@@ -667,8 +652,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		scrollPanelTablas = new JScrollPane(tablaVolumenes);
 		scrollPanelTablas.setBackground(theme.background());
 		panelTablas.add(scrollPanelTablas);
-		tabPanelDcha.addTab("Tablas", null, panelTablas ,null);
-		panelGrafo = new PanelThumbnail(panelDiseno, theme);
+		tabPanelDcha.addTab(Lenguaje.getMensaje(Lenguaje.TABLES_SECTION), null, panelTablas ,null);
+		panelGrafo = new PanelThumbnail(panelDiseno);
 		splitTabMapa.add(panelGrafo, JSplitPane.LEFT);
 		infoSplit.add(panelDiseno, JSplitPane.LEFT);
 	}
@@ -685,7 +670,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		panelGeneracion.setLayout(panelGeneracionLayout);
 		diagramaCode.add(panelGeneracion, JSplitPane.RIGHT);
 		JSplitPane codesSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		codesSplit.setResizeWeight(0.57);
+		codesSplit.setResizeWeight(0.5);
 		codesSplit.setDividerSize(10);
 		codesSplit.setBorder(null);
 		codesSplit.setEnabled(true);
@@ -697,21 +682,21 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		JPanel textPanel = new JPanel();
 		textPanel.setLayout(new BoxLayout(textPanel,BoxLayout.X_AXIS));
 		JLabel text = new JLabel("<html><span style='font-size:20px'>"+Lenguaje.getMensaje(Lenguaje.LOGIC_MODEL)+"</span></html>");
-		text.setPreferredSize(new Dimension(150, 100));
-		JButton generaModelo = new JButton("Generar");
+		JButton generaModelo = new JButton(Lenguaje.getMensaje(Lenguaje.GENERATE));
+		generaModelo.setToolTipText("Genera el modelo relacional a partir del diagrama entidad relacion.");
 		generaModelo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				acumulador = "";
 				botonModeloRelacionalActionPerformed(evt);
 			}
 		});
-		JButton exportarModelo = new JButton("Guardar Como");
+		JButton exportarModelo = new JButton(Lenguaje.getMensaje(Lenguaje.SAVE_AS));
 		exportarModelo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				botonExportarArchivoActionPerformed(evt,false);
 			}
 		});
-		textPanel.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 50));
+		textPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 50));
 		textPanel.add(text);
 		textPanel.add(generaModelo);
 		textPanel.add(exportarModelo);
@@ -743,21 +728,20 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		JPanel textPanel2 = new JPanel();
 		textPanel2.setLayout(new BoxLayout(textPanel2,BoxLayout.X_AXIS));
 		JLabel text2 = new JLabel("<html><span style='font-size:20px'>"+Lenguaje.getMensaje(Lenguaje.PHYS_MODEL)+"</span></html>");
-		text2.setPreferredSize(new Dimension(150, 100));
-		JButton generaCodigo = new JButton("Generar");
+		JButton generaCodigo = new JButton(Lenguaje.getMensaje(Lenguaje.GENERATE));
 		generaCodigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				acumulador = "";
 				botonScriptSQLActionPerformed(evt);
 			}
 		});
-		JButton exportarCodigo = new JButton("Guardar Como");
+		JButton exportarCodigo = new JButton(Lenguaje.getMensaje(Lenguaje.SAVE_AS));
 		exportarCodigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				botonExportarArchivoActionPerformed(evt,true);
 			}
 		});
-		JButton ejecutarCodigo = new JButton("Ejecutar");
+		JButton ejecutarCodigo = new JButton(Lenguaje.getMensaje(Lenguaje.EXECUTE));
 		ejecutarCodigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				botonEjecutarEnDBMSActionPerformed(evt);
@@ -765,7 +749,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		});
 		JPanel accionesCodigo = new JPanel();
 		accionesCodigo.setLayout(new BoxLayout(accionesCodigo,BoxLayout.Y_AXIS));
-		textPanel2.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 50));
+		textPanel2.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 50));
 		textPanel2.add(text2);
 		accionesCodigo.add(cboSeleccionDBMS);
 		JPanel botonesCodigo = new JPanel();
@@ -2383,6 +2367,12 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	public boolean getSalvado(){
 		return (this.salvado.getForeground() == Color.GREEN);
 	}
+
+	public void loadInfo() {
+		controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_MostrarDatosEnPanelDeInformacion, getPanelDiseno().generaArbolInformacion());
+		controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_MostrarDatosEnTablaDeVolumenes, getPanelDiseno().generaTablaVolumenes());
+	}
+
 }
 	
 

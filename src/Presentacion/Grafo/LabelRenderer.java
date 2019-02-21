@@ -16,22 +16,19 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Paint;
-import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.commons.collections15.Transformer;
-
 import LogicaNegocio.Transfers.Transfer;
+import Presentacion.Theme.Theme;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.util.Context;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.visualization.Layer;
 import edu.uci.ics.jung.visualization.RenderContext;
 import edu.uci.ics.jung.visualization.VertexLabelRenderer;
-import edu.uci.ics.jung.visualization.renderers.Renderer.Edge;
 import edu.uci.ics.jung.visualization.transform.shape.GraphicsDecorator;
 
 /**
@@ -45,13 +42,11 @@ import edu.uci.ics.jung.visualization.transform.shape.GraphicsDecorator;
  * @param <V>
  * @param <E>
  */
-public class LabelRenderer<V,E> 
-implements edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel<V,E>, Transformer<V,Shape>{
+public class LabelRenderer<V,E> implements edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel<V,E>, Transformer<V,Shape>{
 
 	protected Map<V,Shape> shapes = new HashMap<V,Shape>();
 
-	public Component prepareRenderer(RenderContext<V,E> rc, VertexLabelRenderer graphLabelRenderer, Object value, 
-			boolean isSelected, V vertex) {
+	public Component prepareRenderer(RenderContext<V,E> rc, VertexLabelRenderer graphLabelRenderer, Object value, boolean isSelected, V vertex) {
 		return rc.getVertexLabelRenderer().<V>getVertexLabelRendererComponent(rc.getScreenDevice(), value, 
 				rc.getVertexFontTransformer().transform(vertex), isSelected, vertex);
 	}
@@ -66,6 +61,7 @@ implements edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel<V,E>, T
 	 */
 	public void labelVertex(RenderContext<V,E> rc, Layout<V,E> layout, V v, String label) {
 		
+		Theme theme = Theme.getInstancia();
 		/*Cambia la fuente de los elementos*/
 		rc.setVertexFontTransformer(new Transformer<V,Font>(){
 			@Override public Font transform(V arg0) {return new java.awt.Font("Avenir", 0, 16);}
@@ -73,7 +69,7 @@ implements edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel<V,E>, T
 		
 		/*Cambia el color de las uniones entre elementos*/
 		rc.setEdgeDrawPaintTransformer(new Transformer<E, Paint>() {
-			@Override public Paint transform(E arg0){return Color.black;}
+			@Override public Paint transform(E arg0){return theme.lines();}
 		});
 		
 		/*Cambia el color del borde de los elementos*/

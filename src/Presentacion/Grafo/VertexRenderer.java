@@ -39,11 +39,11 @@ public class VertexRenderer<V,E> implements Renderer.Vertex<V,E> {
 	private Theme theme;
 	
 
-    public VertexRenderer(Color colorOne, Color colorTwo, boolean cyclic, Theme theme) {
+    public VertexRenderer(Color colorOne, Color colorTwo, boolean cyclic) {
 		this.colorOne = colorOne;
 		this.colorTwo = colorTwo;
 		this.cyclic = cyclic; 
-		this.theme = theme;
+		this.theme = Theme.getInstancia();
 	}
 
     public void paintVertex(RenderContext<V,E> rc, Layout<V,E> layout, V v) {
@@ -158,7 +158,7 @@ public class VertexRenderer<V,E> implements Renderer.Vertex<V,E> {
         if(stroke != null) {
             g.setStroke(stroke);
         }
-        //Color de los bordes de los elementos
+        //Color de los bordes de los elementos seleccionados
         g.setColor(this.theme.lines());
         g.draw(shape);
         g.setPaint(oldPaint);

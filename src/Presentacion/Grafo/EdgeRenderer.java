@@ -50,10 +50,12 @@ import edu.uci.ics.jung.visualization.transform.shape.GraphicsDecorator;
 
 
 public class EdgeRenderer<V,E> implements Renderer.Edge<V, E> {
-	public EdgeRenderer(Theme theme) {
-		this.theme = theme;
-	}
 	private Theme theme;
+	
+	public EdgeRenderer() {
+		this.theme = Theme.getInstancia();
+	}
+	
 
 	public void paintEdge(RenderContext<V,E> rc, Layout<V, E> layout, E e) {
 		GraphicsDecorator g2d = rc.getGraphicsContext();

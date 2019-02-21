@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
@@ -97,9 +98,9 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 	protected Map<Integer, Transfer> tablas;
 		
 	@SuppressWarnings("unchecked")
-	public PanelGrafo(Vector<TransferEntidad> entidades, Vector<TransferAtributo> atributos,
-			Vector<TransferRelacion> relaciones, Theme theme){
+	public PanelGrafo(Vector<TransferEntidad> entidades, Vector<TransferAtributo> atributos, Vector<TransferRelacion> relaciones){
 		this.setLayout(new GridLayout(1,1));
+		Theme theme = Theme.getInstancia();
 		//Para que los grafos admitan paralelas el tipo de grafo debe ser este:
 		graph = new UndirectedSparseMultigraph<Transfer, Object>();
 		// Inicializa el layout, el visualizador y el renderer
@@ -211,12 +212,12 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		vv.getRenderContext().setVertexLabelTransformer(new Transformer<Transfer, String>(){
 			public String transform(Transfer input) {
 				if (input instanceof TransferEntidad) {
-					return "<html><center>"+input+"<p>";
+					return "<html><center><font color="+theme.labelFontColorDark().hexValue()+">"+input+"<p></font>";
 				}
 				if (input instanceof TransferAtributo) {
 					TransferAtributo atributo = (TransferAtributo) input;
 					String texto = new String();
-					texto += "<html><center>";
+					texto += "<html><center><center><font color="+theme.labelFontColorDark().hexValue()+">";
 					if (atributo.isClavePrimaria()){
 						texto += "<U>";
 					}
@@ -224,11 +225,11 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 					if (atributo.isClavePrimaria()){
 						texto += "</U>";
 					}
-					texto += "<p>";
+					texto += "<p></font>";
 					return texto;
 				}
 				if (input instanceof TransferRelacion) {
-					return "<html><center><font color=\"white\">"+input+"<p></font>";
+					return "<html><center><font color="+theme.labelFontColorLight().hexValue()+">"+input+"<p></font>";
 				}
 				return "<html><center>"+input+"<p>";
 			}
@@ -238,7 +239,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 
 		vv.getRenderContext().setVertexShapeTransformer(vlasr);
 		//Color de la letra al pinchar
-		vv.getRenderContext().setVertexLabelRenderer(new DefaultVertexLabelRenderer(Color.black));
+		vv.getRenderContext().setVertexLabelRenderer(new DefaultVertexLabelRenderer(Color.white));
 		//Ancho de las aristas
 		vv.getRenderContext().setEdgeStrokeTransformer(new ConstantTransformer<Stroke>(new BasicStroke(2f)));
 		//Hace las lineas rectas
@@ -262,6 +263,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 					else strfRango = String.valueOf(dato.getFinalRango());
 					strRol = dato.getRol();
 					numerito = (strPRango.equals("1"))?"1":(strPRango.equals("n"))?"N":strPRango + "  . .  "+ strfRango;
+					//Color de las cardinalidades
 					color = "rgb(" + theme.lines().getRed() + "," + theme.lines().getGreen() + "," + theme.lines().getBlue() + ")";
 					return "<html><center><font size=\"5\" face=\"avenir\" color=\"" + color +"\">"+ numerito + "   "+ strRol+"<p>";
 				}
@@ -270,7 +272,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		});
 		
 		//Color elementos
-		vv.getRenderer().setVertexRenderer(new VertexRenderer<Transfer,Object>(theme.entity(),theme.entity(), true, theme));
+		vv.getRenderer().setVertexRenderer(new VertexRenderer<Transfer,Object>(theme.entity(),theme.entity(), true));
 		//Etiquetas de los vertices
 		vv.getRenderer().setVertexLabelRenderer(vlasr);
 		
@@ -282,14 +284,22 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				return new BasicStroke(0f);
 		}});
 		
-		vv.getRenderer().setEdgeRenderer(new EdgeRenderer<Transfer,Object>(theme));
+		vv.getRenderer().setEdgeRenderer(new EdgeRenderer<Transfer,Object>());
 		// add a listener for ToolTips
 		vv.setVertexToolTipTransformer(new ToStringLabeller<Transfer>());
 
-		final DefaultModalGraphMouse graphMouse = new DefaultModalGraphMouse();		
+		final DefaultModalGraphMouse graphMouse = new DefaultModalGraphMouse() {
+			//Esta historia invierte el zoom de la rueda del raton
+			@Override
+	        public void mouseWheelMoved(final MouseWheelEvent e) {
+				int rot = e.getWheelRotation();
+				rot*= -1;
+				super.mouseWheelMoved(new MouseWheelEvent(e.getComponent(), e.getID(), e.getWhen(), e.getModifiersEx(), e.getX(), e.getY(), e.getClickCount(),
+						e.isPopupTrigger(), e.getScrollType(), e.getScrollAmount(), rot));				
+	        }
+		};		
 
 		final PopUpMenu clickDerecho = new PopUpMenu();
-
 		
 		// El evento se dispara al terminar de mover un nodo
 		graphMouse.add(new PickingGraphMousePlugin<Transfer, Double>(){
@@ -615,7 +625,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		return multis;
 	}
 	
-	private String[][] generaTablaVolumenes(){
+	public String[][] generaTablaVolumenes(){
 		int filas=tablas.size();
 		int columnas =3;
 		String valor;
@@ -629,7 +639,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		    }    
 		return tabla;
 	}
-	private JTree generaArbolInformacion() {
+	public JTree generaArbolInformacion() {
 		JTree arbolInformacion;
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode();
 		
@@ -689,262 +699,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		return arbolInformacion;
 	}
 
-	private JTree generaArbolRelacion (TransferRelacion tr){
-		DefaultMutableTreeNode root = null;
-		// Si es una relacion IsA
-		if (tr.getTipo().equals("IsA")){
-			root = new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.ISA_RELATION)+" ("+tr.getIdRelacion()+")");
-			Vector lista = tr.getListaEntidadesYAridades();
-			// Si la relación IsA no tiene definido un padre
-			if (lista.isEmpty()) root.add(new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.NO_ENTITY_INVOLVED)));
-			// Si tiene padre
-			if (lista.size()>0){
-				DefaultMutableTreeNode nodoPadre = new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.PARENT_ENTITY));
-				root.add(nodoPadre);
-				Integer idPadre = Integer.parseInt(String.valueOf((((EntidadYAridad) lista.get(0)).getEntidad())));
-				TransferEntidad ent = this.entidades.get(idPadre);
-				nodoPadre.add(new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.ENTITY)+" \""+ent.getNombre()+"\""));
-				// Si solamente tiene padre
-				if (lista.size()==1) root.add(new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.NO_CHILDS_ENTITIES)));
-			}
-			// Si tiene hijas
-			if (lista.size()>1){
-				DefaultMutableTreeNode nodoHijas = new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.CHILDREN_ENTITIES));
-				root.add(nodoHijas);
-				for(int cont=1; cont<lista.size(); cont++){
-					Integer idHija = Integer.parseInt(String.valueOf((((EntidadYAridad) lista.get(cont)).getEntidad())));
-					TransferEntidad ent = this.entidades.get(idHija);
-					nodoHijas.add(new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.ENTITY)+" \""+ent.getNombre()+"\""));
-				}
-			}
-		}
-		// Si es una relacion normal
-		else{
-			root = new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.RELATION)+" \""+tr.getNombre()+"\"");
-			Vector lista = tr.getListaEntidadesYAridades();
-			// Si no intervienen entidades
-		   if(lista.isEmpty()) root.add(new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.NO_ENTITY_INVOLVED)));
-			// Si intervienen entidades
-			else{
-				DefaultMutableTreeNode nodoEntidades = new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.ENTITIES));
-				root.add(nodoEntidades);
-				for(int cont=0; cont<lista.size(); cont++){
-					EntidadYAridad eya = (EntidadYAridad) lista.get(cont);
-					Integer idEnt = Integer.parseInt(String.valueOf((eya.getEntidad())));
-					TransferEntidad ent = this.entidades.get(idEnt);
-					DefaultMutableTreeNode nodoEnt = new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.ENTITY)+" \""+ent.getNombre()+"\"");
-					nodoEntidades.add(nodoEnt);
-					String finalRango = ""; 
-					if(eya.getFinalRango()== Integer.MAX_VALUE) finalRango = "n";
-					else finalRango = String.valueOf(eya.getFinalRango());
-					String card = Lenguaje.getMensaje(Lenguaje.ENTITY)+" ("+eya.getPrincipioRango()+","+finalRango+")" + " " +eya.getRol();
-					nodoEnt.add(new DefaultMutableTreeNode(card));
-				}
-			}
-			// Si tiene atributos
-			lista = tr.getListaAtributos();
-			if(!lista.isEmpty()){
-				DefaultMutableTreeNode nodoAtributos = new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.ATTRIBUTES));
-				root.add(nodoAtributos);
-				for (int cont=0; cont<lista.size(); cont++){
-					Integer id_atributo =  Integer.parseInt((String)lista.get(cont));
-					TransferAtributo atrib = this.atributos.get(id_atributo);
-					String cad = atrib.getNombre()+" ";
-					if (atrib.getCompuesto()) cad += "("+Lenguaje.getMensaje(Lenguaje.COMPOSED)+")";
-					else cad += "["+atrib.getDominio()+"]";
-					DefaultMutableTreeNode nodo_nombreAtributo = new DefaultMutableTreeNode(cad);
-					nodoAtributos.add(nodo_nombreAtributo);		
-				}
-			}
-			if (tr.getListaRestricciones().size()>0){
-				DefaultMutableTreeNode nodoRestricciones=new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.RESTRICTIONS));
-				root.add(nodoRestricciones);
-				for (int i=0; i<tr.getListaRestricciones().size();i++){
-					DefaultMutableTreeNode nodoRestriccion = new DefaultMutableTreeNode(tr.getListaRestricciones().get(i));
-					nodoRestricciones.add(nodoRestriccion);
-				}
-				
-			}
-			if (tr.getListaUniques().size()>0){
-				DefaultMutableTreeNode nodoUniques=new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.UNIQUE));
-				root.add(nodoUniques);
-				for (int i=0; i<tr.getListaUniques().size();i++){
-					DefaultMutableTreeNode nodoUnique= new DefaultMutableTreeNode(tr.getListaUniques().get(i));
-					nodoUniques.add(nodoUnique);
-				}
-			}
-		}
-		// Creamos el arbol
-		JTree arbol = new JTree(root);
-		arbol.setShowsRootHandles(true);
-		arbol.setToggleClickCount(1);
-		// Expandimos todas las ramas
-		for(int cont=0; cont<arbol.getRowCount(); cont++) arbol.expandRow(cont);
-		return arbol;
-
-	}
-	
-	private JTree generaArbolAtributo(TransferAtributo ta){
-		// Entidad, relacion o atributo al que pertenece.
-		int id =ta.getIdAtributo();
-		int pertenece=-1;//pertenence =0 entidad, 2 relacion, 3 atributo
-		
-		String entidad="";
-		Collection<TransferEntidad> entities = this.entidades.values();
-		for (Iterator<TransferEntidad> it = entities.iterator(); it.hasNext();){
-			TransferEntidad te = it.next();
-			for (int j=0; j<te.getListaAtributos().size(); j++){
-				if (id == Integer.parseInt((String)te.getListaAtributos().get(j))     ){
-					entidad= te.getNombre();
-					pertenece=0;
-				}
-			}
-		}
-		int atributo=-1;
-		Collection<TransferAtributo> attributes = this.atributos.values();
-		for (Iterator<TransferAtributo> it = attributes.iterator(); it.hasNext();){
-			TransferAtributo tat = it.next();
-			for (int j=0; j<tat.getListaComponentes().size(); j++){
-				if (id == Integer.parseInt((String)tat.getListaComponentes().get(j))     ){
-					atributo= tat.getIdAtributo();
-					pertenece=2;
-				}
-			}
-		}
-		String relacion="";
-		Collection<TransferRelacion> relations = this.relaciones.values();
-		for (Iterator<TransferRelacion> it = relations.iterator(); it.hasNext();){
-			TransferRelacion tr = it.next();
-			for (int j=0; j<tr.getListaAtributos().size(); j++){
-				if (id == Integer.parseInt((String)tr.getListaAtributos().get(j))     ){
-					relacion= tr.getNombre();
-					pertenece=1;
-				}
-			}
-		}
-		
-		DefaultMutableTreeNode root;
-		if(pertenece==0){
-			// Nombre del atributo
-			root = new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.ATTRIBUTE)+" \""+ta.getNombre()+"\""+
-					" (ent: "+'"'+entidad+'"'+")");
-		}
-		else if(pertenece==1){
-			// Nombre del atributo
-			root = new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.ATTRIBUTE)+" \""+ta.getNombre()+"\""+
-					" (rel: "+'"'+relacion+'"'+")");
-		}else{
-			// Nombre del atributo
-			root = new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.ATTRIBUTE)+" \""+ta.getNombre()+"\""+
-					" (attr: "+atributo+")");
-		}
-		
-		
-		// Si es un aributo multivalorado
-		if (ta.isMultivalorado()) root.add(new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.IS_MULTIVALUATED)));
-		// Si es un aributo not null
-		if (ta.getNotnull()) root.add(new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.IS_NOT_NULL)));
-		// Si es un aributo unique
-		if (ta.getUnique()) root.add(new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.IS_UNIQUE)));
-		// Si no es un atributo compuesto
-		if(!ta.getCompuesto()) root.add(new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.DOMAIN)+" ["+ta.getDominio()+"]"));
-		// Si es compuesto
-		else{
-			root.add(new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.IS_COMPOSED)));
-			if (ta.getListaComponentes().isEmpty())
-				root.add(new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.NO_COMPONENTS)));
-			else{
-				DefaultMutableTreeNode nodoComponentes =  new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.COMPONENTS));
-				root.add(nodoComponentes);
-				Vector lista = ta.getListaComponentes();
-				for (int cont=0; cont<lista.size(); cont++){
-					Integer id_atributo =  Integer.parseInt((String)lista.get(cont));
-					TransferAtributo comp = this.atributos.get(id_atributo);
-					String cad = comp.getNombre()+" ";
-					if (comp.getCompuesto()) cad += "("+Lenguaje.getMensaje(Lenguaje.COMPOSED)+")";
-					else cad += "["+comp.getDominio()+"]";
-					DefaultMutableTreeNode nodo_nombreAtributo = new DefaultMutableTreeNode(cad);
-					nodoComponentes.add(nodo_nombreAtributo);		
-				}
-			}
-		}																	
-		if (ta.getListaRestricciones().size()>0){
-			DefaultMutableTreeNode nodoRestricciones=new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.RESTRICTIONS));
-			root.add(nodoRestricciones);
-			for (int i=0; i<ta.getListaRestricciones().size();i++){
-				DefaultMutableTreeNode nodoRestriccion = new DefaultMutableTreeNode(ta.getListaRestricciones().get(i));
-				nodoRestricciones.add(nodoRestriccion);
-			}
-		}
-		// Creamos el arbol
-		JTree arbol = new JTree(root);
-		arbol.setShowsRootHandles(true);
-		arbol.setToggleClickCount(1);
-		// Expandimos todas las ramas
-		for(int cont=0; cont<arbol.getRowCount(); cont++) arbol.expandRow(cont);
-		return arbol;
-	}
-	
-	private JTree generaArbolEntidad(TransferEntidad te){
-		// Nombre de la entidad
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.ENTITY)+" \""+te.getNombre()+"\"");
-		// Si es una entidad debil
-		if(te.isDebil()) root.add(new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.IS_WEAK_ENT)));
-		// Atributos
-		if (te.getListaAtributos().size()>0){
-			DefaultMutableTreeNode nodo_atributos = new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.ATTRIBUTES));
-			root.add(nodo_atributos);
-			Vector lista = te.getListaAtributos();
-			for (int cont=0; cont<lista.size(); cont++ ){
-				Integer id_atributo =  Integer.parseInt((String)lista.get(cont));
-				TransferAtributo ta = this.atributos.get(id_atributo);
-				String cad = ta.getNombre()+" ";
-				if (ta.getCompuesto()) cad += "("+Lenguaje.getMensaje(Lenguaje.COMPOSED)+")";
-				else cad += "["+ta.getDominio()+"]";
-				DefaultMutableTreeNode nodo_nombreAtributo = new DefaultMutableTreeNode(cad);
-				nodo_atributos.add(nodo_nombreAtributo);
-			}
-		}
-		// Claves primarias
-		if (te.getListaClavesPrimarias().size()>0){
-			DefaultMutableTreeNode nodo_claves = new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.PRIMARY_KEYS));
-			root.add(nodo_claves);
-			Vector lista = te.getListaClavesPrimarias();
-			for (int cont=0; cont<lista.size(); cont++ ){
-				Integer id_atributo =  Integer.parseInt((String)lista.get(cont));
-				TransferAtributo ta = this.atributos.get(id_atributo);
-				String cad = ta.getNombre()+" ";
-				if (ta.getCompuesto()) cad += "("+Lenguaje.getMensaje(Lenguaje.COMPOSED)+")";
-				else cad += "["+ta.getDominio()+"]";
-				DefaultMutableTreeNode nodo_nombreAtributo = new DefaultMutableTreeNode(cad);
-				nodo_claves.add(nodo_nombreAtributo);
-			}
-		}
-		if (te.getListaRestricciones().size()>0){
-			DefaultMutableTreeNode nodoRestricciones=new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.RESTRICTIONS));
-			root.add(nodoRestricciones);
-			for (int i=0; i<te.getListaRestricciones().size();i++){
-				DefaultMutableTreeNode nodoRestriccion = new DefaultMutableTreeNode(te.getListaRestricciones().get(i));
-				nodoRestricciones.add(nodoRestriccion);
-			}
-		}
-		if (te.getListaUniques().size()>0){
-			DefaultMutableTreeNode nodoUniques=new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.UNIQUE));
-			root.add(nodoUniques);
-			for (int i=0; i<te.getListaUniques().size();i++){
-				DefaultMutableTreeNode nodoUnique= new DefaultMutableTreeNode(te.getListaUniques().get(i));
-				nodoUniques.add(nodoUnique);
-			}
-		}
-		JTree arbol = new JTree(root);
-		arbol.setShowsRootHandles(true);
-		arbol.setToggleClickCount(1);
-		// Expandimos todas las ramas
-		for(int cont=0; cont<arbol.getRowCount(); cont++) arbol.expandRow(cont);
-		return arbol;
-	}
-
-	
 	/**
 	 * Este método modificará el transfer que se envíe en el grafo.
 	 * Es necesario para actualizar contenidos por parte del Controlador.

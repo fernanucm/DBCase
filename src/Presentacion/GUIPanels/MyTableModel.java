@@ -3,9 +3,12 @@ package Presentacion.GUIPanels;
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
+import Presentacion.Lenguajes.Lenguaje;
+
 @SuppressWarnings("serial")
 public class MyTableModel extends AbstractTableModel{
-	private String[] columnas = {"Tabla", "Volumen", "Frecuencia"};
+	private String[] columnas = 
+		{Lenguaje.getMensaje(Lenguaje.TABLE), Lenguaje.getMensaje(Lenguaje.VOLUME), Lenguaje.getMensaje(Lenguaje.FREQ)};
 	private ArrayList<ArrayList<String>> data;
 	public MyTableModel(){
 		super();

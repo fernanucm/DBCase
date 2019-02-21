@@ -505,6 +505,13 @@ public class Lenguaje {
 		public static final int CONC_MODEL =4306;
 		public static final int LOGIC_MODEL =4307;
 		public static final int PHYS_MODEL =4308;
+		public static final int THEME =4309;
+		public static final int GENERATE =4310;
+		public static final int ELEMENTS =4311;
+		public static final int VIEW = 4312;
+		public static final int TABLE = 4313;
+		public static final int VOLUME = 4314;
+		public static final int FREQ = 4315;
 	
 		
 	// Mensaje por defecto
@@ -1124,7 +1131,13 @@ public class Lenguaje {
 		case ADD_UNIQUE: texto = _textos.get("addUnique"); break;
 		case UNIQUE_ERROR: texto = _textos.get("uniqueError"); break;
 		case ERROR_TABLE: texto = _textos.get("errorTable"); break;
-		
+		case THEME: texto = _textos.get("theme"); break;
+		case GENERATE: texto = _textos.get("generate"); break;
+		case ELEMENTS: texto = _textos.get("elements"); break;
+		case VIEW: texto = _textos.get("view"); break;
+		case TABLE: texto = _textos.get("table"); break;
+		case VOLUME: texto = _textos.get("volume"); break;
+		case FREQ: texto = _textos.get("freq"); break;
 		default: texto = Lenguaje.notExistingMessage;
 		
 		}

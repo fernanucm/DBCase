@@ -1,6 +1,5 @@
 package Presentacion.Theme;
 
-import java.awt.Color;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -13,15 +12,23 @@ import org.json.simple.parser.JSONParser;
 
 public class Theme {
 
+	private static Theme INSTANCE;
 	private static ArrayList<String> themes;
 	private static String current;
-	private static HashMap<String,Color> colors;
+	private static HashMap<String,myColor> colors;
 	private static final String DEFAULT = "light";
 	
 	public Theme(){}
 	
+	public static Theme getInstancia() {
+		if(INSTANCE==null) {
+			INSTANCE = new Theme();
+		}
+		return INSTANCE;
+	}
+	
 	public static void loadThemes(){
-		colors = new HashMap<String,Color>();
+		colors = new HashMap<String,myColor>();
 		themes = new ArrayList<String>();
 		listFilesForFolder(new File("./themes/"));
 	}
@@ -45,7 +52,7 @@ public class Theme {
 			Set<String> key = jsoncolors.keySet();
         	for(String s : key) {
         		JSONArray color = (JSONArray) jsoncolors.get(s);
-        		colors.put(s, new Color(Integer.parseInt(color.get(0).toString()), Integer.parseInt(color.get(1).toString()), Integer.parseInt(color.get(2).toString())));
+        		colors.put(s, new myColor(Integer.parseInt(color.get(0).toString()), Integer.parseInt(color.get(1).toString()), Integer.parseInt(color.get(2).toString())));
         	}
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,34 +76,46 @@ public class Theme {
 	/*
 	 * Getters de los colores
 	 * */
-	public Color main() {
+	public myColor main() {
 		return colors.get("main");
 	}
-	public Color background() {
+	public myColor background() {
 		return colors.get("background");
 	}
-	public Color entity() {
+	public myColor entity() {
 		return colors.get("entity");
 	}
-	public Color atribute() {
+	public myColor atribute() {
 		return colors.get("atribute");
 	}
-	public Color relation() {
+	public myColor relation() {
 		return colors.get("relation");
 	}
-	public Color fontColor() {
+	public myColor fontColor() {
 		return colors.get("fontColor");
 	}
-	public Color lines() {
+	public myColor lines() {
 		return colors.get("lines");
 	}
-	public Color control() {
+	public myColor control() {
 		return colors.get("control");
 	}
-	public Color codeBackground() {
+	public myColor codeBackground() {
 		return colors.get("codeBackground");
 	}
-	public Color SelectionBackground() {
+	public myColor SelectionBackground() {
 		return colors.get("SelectionBackground");
-	}	
+	}
+	public myColor labelFontColorDark() {
+		return colors.get("labelFontColorDark");
+	}
+	public myColor labelFontColorLight() {
+		return colors.get("labelFontColorLight");
+	}
+	public myColor header() {
+		return colors.get("header");
+	}
+	public myColor blueFont() {
+		return colors.get("blueFont");
+	}
 }
