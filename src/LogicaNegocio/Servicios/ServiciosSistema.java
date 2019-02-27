@@ -643,7 +643,7 @@ public class ServiciosSistema {
 	}
 
 	//metodo principal
-	public void validaBaseDeDatos(){
+	public void validaBaseDeDatos(boolean modelo){
 		mensaje = "<p><strong>"+Lenguaje.getMensaje(Lenguaje.RATIFY_ERROR)+"</strong></p>";
 		boolean fenomeno=true;
 		//un fallo en la validacion detiene el proceso
@@ -654,7 +654,9 @@ public class ServiciosSistema {
 		fenomeno &= this.validaRelaciones();
 		modeloValidado = fenomeno;
 		// Mostrar el texto
-		if (!fenomeno) controlador.mensajeDesde_SS(TC.SS_Validacion,mensaje);
+		if (!fenomeno) 
+			if(modelo)controlador.mensajeDesde_SS(TC.SS_ValidacionM,mensaje);
+			else controlador.mensajeDesde_SS(TC.SS_ValidacionC,mensaje);
 	}
 
 
@@ -1104,7 +1106,7 @@ public class ServiciosSistema {
 
 	public void generaScriptSQL(TransferConexion conexion){
 		//TODO
-		validaBaseDeDatos();
+		validaBaseDeDatos(false);
 		if (!modeloValidado)return;
 		
 		
@@ -1137,7 +1139,6 @@ public class ServiciosSistema {
 		text = text.replaceAll("</p>", "\n");
 		text = text.replaceAll("\\<.*?>","");
 		text = text.replaceAll("&rarr;","\u2192");
-		//TODO
 		// Si no se ha generado antes el script lanzamos un error
 		if (text.isEmpty()){
 			JOptionPane.showMessageDialog(null,
@@ -1431,7 +1432,7 @@ public class ServiciosSistema {
 		for (int i=0; i < entidades.size(); i++){
 			Vector<String> rests = entidades.get(i).getListaRestricciones();
 			for (int j=0; j < rests.size(); j++){
-				sqlHTML += rests.get(j) + ";" + HTMLUtils.newLine();
+				sqlHTML +=  "<p>"+rests.get(j).replace("<", "&lt;") + ";</p>";
 				sql += rests.get(j) + "; \n";
 			}
 		}
@@ -1443,7 +1444,7 @@ public class ServiciosSistema {
 		for (int i=0; i < relaciones.size(); i++){
 			Vector<String> rests = relaciones.get(i).getListaRestricciones();
 			for (int j=0; j < rests.size(); j++){
-				sqlHTML += rests.get(j) + ";" + HTMLUtils.newLine();
+				sqlHTML += "<p>"+rests.get(j).replace("<", "&lt;") + ";</p>";
 				sql += rests.get(j) + "; \n";
 			}
 		}
@@ -1455,7 +1456,7 @@ public class ServiciosSistema {
 		for (int i=0; i < atributos.size(); i++){
 			Vector<String> rests = atributos.get(i).getListaRestricciones();
 			for (int j=0; j < rests.size(); j++){
-				sqlHTML += rests.get(j) + ";" + HTMLUtils.newLine();
+				sqlHTML += "<p>"+rests.get(j).replace("<", "&lt;")+";</p>";
 				sql += rests.get(j) + "; \n";
 			}
 		}
@@ -1530,7 +1531,7 @@ public class ServiciosSistema {
 			Vector<String[]> foreigns = t.getForeigns();
 			if(!foreigns.isEmpty()){
 				for (int j=0;j<foreigns.size();j++){
-					mr+="<p>" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[0]+"_"+foreigns.elementAt(j)[3]+") "
+					mr+="<p>" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[3]+"_"+foreigns.elementAt(j)[0]+") "
 							+ "&rarr; " + foreigns.elementAt(j)[2]+"</p>";
 				}
 					
@@ -1555,7 +1556,7 @@ public class ServiciosSistema {
 	@SuppressWarnings("rawtypes")
 	public void generaModeloRelacional(){
 		//TODO
-		validaBaseDeDatos();
+		validaBaseDeDatos(true);
 		if (!modeloValidado)return;
 		
 		generaTablasEntidades();

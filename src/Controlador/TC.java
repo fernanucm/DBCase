@@ -410,7 +410,8 @@ public enum TC {
 	//---------------------------------------------------------------------------------
 	// Mensajes desde los Servicios de Relaciones al Controlador
 	//---------------------------------------------------------------------------------
-	SS_Validacion,
+	SS_ValidacionM,
+	SS_ValidacionC,
 	SS_GeneracionScriptSQL,
 	SS_GeneracionArchivoScriptSQL,
 	SS_GeneracionModeloRelacional,

@@ -110,21 +110,13 @@ public class TransferRelacion extends Transfer {
 	@Override
 	public Shape toShape() {
 		// Si es IsA retorna el triángulo
-		if (getTipo().equals(new String("IsA"))) {
+		if (getTipo().equals(new String("IsA"))) 
 			return this.toShapeIsA();
-		}
-		// Si el tamaño del nombre es pequeño dibuja elipse standard
-		if (this.nombre.length() < 8) {
-			Polygon p = new Polygon();
-			p.addPoint(-50, 0);
-			p.addPoint(0, -30);
-			p.addPoint(50, 0);
-			p.addPoint(0, 30);
-			return p;
-		}
+		
+		
 		// Si es grande ajusta el tamaño al nombre
-		int anchura = this.nombre.length() * 11 / 2;
-		int altura = this.nombre.length() * 5 / 2;
+		int anchura = Math.max(this.nombre.length() * 11 / 2,50);
+		int altura = Math.max(this.nombre.length() * 5 / 2,30);
 		Polygon p = new Polygon();
 		p.addPoint(-anchura, 0);
 		p.addPoint(0, -altura);

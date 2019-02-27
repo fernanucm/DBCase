@@ -1651,7 +1651,7 @@ public class Controlador {
 		 * Validacion del diseno
 		 */
 		case GUI_Principal_Click_BotonValidar:{
-			this.getTheServiciosSistema().validaBaseDeDatos();
+			this.getTheServiciosSistema().validaBaseDeDatos(true);
 			break;
 		}
 		/*
@@ -3407,9 +3407,14 @@ public class Controlador {
 	@SuppressWarnings("incomplete-switch")
 	public void mensajeDesde_SS(TC mensaje, Object datos){
 		switch(mensaje){
-		case SS_Validacion:{
+		case SS_ValidacionM:{
 			String info = (String) datos;
 			this.getTheGUIPrincipal().escribeEnModelo(info);
+			break;
+		}
+		case SS_ValidacionC:{
+			String info = (String) datos;
+			this.getTheGUIPrincipal().escribeEnCodigo(info);
 			break;
 		}
 		case SS_GeneracionScriptSQL:{

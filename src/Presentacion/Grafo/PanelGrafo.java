@@ -96,7 +96,11 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 	protected Map<Integer,TransferRelacion> relaciones;
 	//guarda los elementos que formaran tablas
 	protected Map<Integer, Transfer> tablas;
-		
+	
+	private boolean esEquis(String n) {
+		return !n.equals("1") && !n.equals("N");
+	}
+	
 	@SuppressWarnings("unchecked")
 	public PanelGrafo(Vector<TransferEntidad> entidades, Vector<TransferAtributo> atributos, Vector<TransferRelacion> relaciones){
 		this.setLayout(new GridLayout(1,1));
@@ -249,20 +253,22 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 			public String transform(Object input) {
 				if (input instanceof EntidadYAridad){
 					EntidadYAridad dato = (EntidadYAridad)input;
-					String strPRango, strfRango, strRol, color, numerito;
+					String iniRango, finRango, strRol, color, numerito;
 					
-					if (dato.getPrincipioRango() == 0 && // Si es IsA no escribe 
-						dato.getFinalRango() == 0){
-						return null;
-					}
-					if (dato.getPrincipioRango() == Integer.MAX_VALUE)
-						strPRango = "n";
-					else strPRango = String.valueOf(dato.getPrincipioRango());
-					if (dato.getFinalRango() == Integer.MAX_VALUE)
-						strfRango = "n";
-					else strfRango = String.valueOf(dato.getFinalRango());
+					// Si es IsA no escribe 
+					if (dato.getPrincipioRango() == 0 && dato.getFinalRango() == 0)return null;
+					
+					if (dato.getPrincipioRango() == Integer.MAX_VALUE)iniRango = "N";
+					else iniRango = String.valueOf(dato.getPrincipioRango());
+					
+					if (dato.getFinalRango() == Integer.MAX_VALUE)finRango = "N";
+					else finRango = String.valueOf(dato.getFinalRango());
+					
 					strRol = dato.getRol();
-					numerito = (strPRango.equals("1"))?"1":(strPRango.equals("n"))?"N":strPRango + "  . .  "+ strfRango;
+					
+					if(esEquis(iniRango) || esEquis(finRango)) numerito = iniRango + "  . .  "+ finRango;
+					else numerito = iniRango;
+					
 					//Color de las cardinalidades
 					color = "rgb(" + theme.lines().getRed() + "," + theme.lines().getGreen() + "," + theme.lines().getBlue() + ")";
 					return "<html><center><font size=\"5\" face=\"avenir\" color=\"" + color +"\">"+ numerito + "   "+ strRol+"<p>";
@@ -270,6 +276,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				else return null; // Si no es una relación no escribe la aridad
 			}
 		});
+		
 		
 		//Color elementos
 		vv.getRenderer().setVertexRenderer(new VertexRenderer<Transfer,Object>(theme.entity(),theme.entity(), true));

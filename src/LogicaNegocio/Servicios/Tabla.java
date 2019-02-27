@@ -299,9 +299,9 @@ public class Tabla {
 		if(!primaries.isEmpty())
 			for (i=0;i<primaries.size();i++){
 				String repe="";
-				if (this.estaRepe(primaries.elementAt(i)[0], atributos)) repe +="_"+primaries.elementAt(i)[2];
+				if (this.estaRepe(primaries.elementAt(i)[0], atributos)) repe +=primaries.elementAt(i)[2]+"_";
 				if (i>0) mr+=", ";
-				mr+="<u>"+this.ponGuionesBajos(primaries.elementAt(i)[0]+repe)+"</u>";
+				mr+="<u>"+this.ponGuionesBajos(repe+primaries.elementAt(i)[0])+"</u>";
 			}
 
 		for (int j=0;j<definitivo.size();j++){

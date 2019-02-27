@@ -464,7 +464,6 @@ public class ServiciosAtributos {
 	public void anadirRestriccion(Vector v){
 		TransferAtributo ta = (TransferAtributo) v.get(0);
 		String restriccion = (String) v.get(1);
-		
 		// Si nombre es vacio -> ERROR
 		if (restriccion.isEmpty()){
 			//controlador.mensajeDesde_SE(TC.SE_RenombrarAtributo_ERROR_NombreDeAtributoEsVacio, v);

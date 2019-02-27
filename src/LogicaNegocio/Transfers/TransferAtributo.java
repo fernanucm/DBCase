@@ -65,7 +65,6 @@ public class TransferAtributo extends Transfer{
 	public Point2D getPosicion() {
 		return posicion;
 	}
-	
 	public void setPosicion(Point2D posicion) {
 		this.posicion = posicion;
 	}
