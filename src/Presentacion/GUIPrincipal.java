@@ -44,7 +44,6 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
 import javax.swing.JTree;
-import javax.swing.OverlayLayout;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -71,9 +70,13 @@ import Presentacion.Grafo.PanelGrafo;
 import Presentacion.Grafo.PanelThumbnail;
 import Presentacion.Lenguajes.Lenguaje;
 import Presentacion.Theme.Theme;
+import Presentacion.icons.attributeIcon;
+import Presentacion.icons.entityIcon;
+import Presentacion.icons.relationIcon;
 import Utilidades.AccionMenu;
 import Utilidades.ApplicationLauncher;
 import Utilidades.ImagePath;
+
 /**
  * This code was edited or generated using CloudGarden's Jigloo
  * SWT/Swing GUI Builder, which is free for non-commercial
@@ -135,7 +138,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private JButton botonModeloRelacional;
 	private JButton botonValidar;
 	private JButton botonEjecutarEnDBMS;
-	private JSplitPane split1;
+	private JSplitPane splitDisenoInfo;
 	private JPanel panelGeneracion;
 	private JPanel panelDiagrama;
 	private JMenuItem submenuSalir;
@@ -574,26 +577,19 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		BorderLayout panelDiagramaLayout = new BorderLayout();
 		panelDiagrama.setLayout(panelDiagramaLayout);
 		
-		split1 = new JSplitPane();
-		panelDiagrama.add(split1, BorderLayout.CENTER);
-		split1.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-		split1.setOneTouchExpandable(false);
-		split1.setResizeWeight(0.87);
-			
-		JSplitPane infoSplit = new JSplitPane();
+		splitDisenoInfo = new JSplitPane();
+		panelDiagrama.add(splitDisenoInfo, BorderLayout.CENTER);
+		splitDisenoInfo.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+		splitDisenoInfo.setOneTouchExpandable(false);
+		splitDisenoInfo.setResizeWeight(0.7);
+		
 		JTabbedPane tabPanelDcha = new JTabbedPane();
 		JSplitPane splitTabMapa = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		splitTabMapa.setResizeWeight(0.155);
 		splitTabMapa.add(tabPanelDcha, JSplitPane.RIGHT);
 		tabPanelDcha.setFocusable(false);
-		infoSplit.add(splitTabMapa,JSplitPane.RIGHT);
-		infoSplit.setResizeWeight(0.82);
-		infoSplit.setDividerSize(0);
-		infoSplit.setBorder(null);
-		infoSplit.setEnabled(false);
 		
-		split1.add(infoSplit, JSplitPane.LEFT);
-		split1.add(splitTabMapa,JSplitPane.RIGHT);
+		
 	
 		// Actualizacion de listas y creacion del grafo
 		controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeEntidades, null);
@@ -601,7 +597,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeRelaciones, null);
 		panelDiseno = new PanelGrafo(listaEntidades,listaAtributos,listaRelaciones);
 		panelDiseno.setControlador(this.getControlador());
-		panelDiseno.setLayout(new OverlayLayout(panelDiseno));
+		//panelDiseno.setLayout(new BorderLayout());
+		
 
 		panelInfo = new JPanel();
 		BorderLayout panelInfoLayout = new BorderLayout();
@@ -655,7 +652,67 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		tabPanelDcha.addTab(Lenguaje.getMensaje(Lenguaje.TABLES_SECTION), null, panelTablas ,null);
 		panelGrafo = new PanelThumbnail(panelDiseno);
 		splitTabMapa.add(panelGrafo, JSplitPane.LEFT);
-		infoSplit.add(panelDiseno, JSplitPane.LEFT);
+		JPanel diagrama = new JPanel();
+		diagrama.setLayout(new BorderLayout());
+		diagrama.add(panelDiseno);
+		
+		JPanel tituloDiseno = new JPanel();
+		tituloDiseno.setLayout(new BoxLayout(tituloDiseno,BoxLayout.X_AXIS));
+		tituloDiseno.setBorder(BorderFactory.createEmptyBorder(10, 50, 30, 50));
+		tituloDiseno.setPreferredSize(new Dimension(150,100));
+		JLabel title = new JLabel("<html><span style='font-size:20px'>"+Lenguaje.getMensaje(Lenguaje.ER_MODEL)+"</span></html>");
+		tituloDiseno.add(title);
+		JPanel botonesAnadir = new JPanel();
+		JLabel anadirEntidad = new JLabel(new entityIcon());
+		JLabel anadirRelacion = new JLabel(new relationIcon());
+		JLabel anadirAttribute = new JLabel(new attributeIcon());
+		botonesAnadir.add(anadirEntidad);
+		botonesAnadir.add(anadirRelacion);
+		botonesAnadir.add(anadirAttribute);
+		tituloDiseno.add(botonesAnadir);
+		diagrama.add(tituloDiseno, BorderLayout.NORTH);
+		splitDisenoInfo.add(diagrama, JSplitPane.LEFT);
+		splitDisenoInfo.add(splitTabMapa,JSplitPane.RIGHT);
+		
+		anadirEntidad.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("Entidad");
+            }
+
+        });
+		anadirEntidad.addMouseMotionListener(new MouseAdapter() {
+			@Override
+            public void mouseDragged(MouseEvent evt){
+                System.out.println("arrastro entidad");
+            }
+		});
+		anadirRelacion.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("Relacion");
+            }
+
+        });
+		anadirRelacion.addMouseMotionListener(new MouseAdapter() {
+			@Override
+            public void mouseDragged(MouseEvent evt){
+                System.out.println("arrastro relacion");
+            }
+		});
+		anadirAttribute.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("Atributo");
+            }
+
+        });
+		anadirAttribute.addMouseMotionListener(new MouseAdapter() {
+			@Override
+            public void mouseDragged(MouseEvent evt){
+                System.out.println("arrastro atributo");
+            }
+		});
 	}
 	
 	
@@ -818,12 +875,12 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		mostrarPanelSucesos= !mostrarPanelSucesos;
 		if(!mostrarPanelSucesos){
 			panelSucesos.setVisible(false);
-			split1.setOneTouchExpandable(false);
+			splitDisenoInfo.setOneTouchExpandable(false);
 		}else{
 			panelSucesos.setVisible(true);
-			split1.setOneTouchExpandable(true);
-			split1.setResizeWeight(0.8);
-			split1.resetToPreferredSizes();
+			splitDisenoInfo.setOneTouchExpandable(true);
+			splitDisenoInfo.setResizeWeight(0.8);
+			splitDisenoInfo.resetToPreferredSizes();
 		}
 		//this.panelSucesos.setVisible(!panelSucesos.isVisible());
 		//this.menuPanelSucesos.setSelected().setSelected(!menuPanelSucesos.isSelected());
