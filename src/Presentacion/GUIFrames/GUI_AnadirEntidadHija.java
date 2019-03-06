@@ -39,6 +39,7 @@ import Utilidades.ImagePath;
  * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
  * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
  */
+@SuppressWarnings({"rawtypes" ,"unchecked"})
 public class GUI_AnadirEntidadHija extends javax.swing.JDialog  implements KeyListener, MouseListener {
 
 	private static final long serialVersionUID = 1L;
@@ -180,8 +181,6 @@ public class GUI_AnadirEntidadHija extends javax.swing.JDialog  implements KeyLi
 		this.setVisible(false);
 	}
 
-
-	@SuppressWarnings("unchecked")
 	private String[] generaItems(){
 		// Filtramos la lista de entidades quitando la entidad padre y las entidades hermanas
 		Vector<EntidadYAridad> vectorTupla = this.getRelacion().getListaEntidadesYAridades();

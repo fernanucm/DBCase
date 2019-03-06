@@ -16,6 +16,7 @@ public Recta(Punto P, Punto Q) throws Exception{
 	this(P,new Vector2D(P,Q));
 }
 
+@SuppressWarnings("serial")
 public Recta(Punto P, Vector2D v) throws Exception{
 	if(v.equals(Vector2D.O_))throw new Exception(){};
 	this.punto=P;

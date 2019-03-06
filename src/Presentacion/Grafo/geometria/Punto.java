@@ -8,11 +8,10 @@ package Presentacion.Grafo.geometria;
  * @author: Ricardo de los Santos Villodres l&t;rdv00155@averroes.cica.es>
  * <br>Maite Ruiz Garcia l&t;mrg00156@averroes.cica.es>
  */
+@SuppressWarnings("serial")
 public class Punto extends java.awt.geom.Point2D.Double {
 	public final static Punto O_=new Punto(0.0,0.0);
-	private java.awt.Color color;
-	private double valor = 1;
-/**
+	/**
  * <Punto constructor comment.>
  */
 public Punto() {

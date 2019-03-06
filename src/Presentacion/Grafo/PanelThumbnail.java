@@ -2,14 +2,9 @@ package Presentacion.Grafo;
 
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.Paint;
 import java.awt.Point;
 import javax.swing.JPanel;
-
-import org.apache.commons.collections15.Transformer;
-
 import LogicaNegocio.Transfers.Transfer;
-import Presentacion.Theme.Theme;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.CrossoverScalingControl;
 import edu.uci.ics.jung.visualization.control.SatelliteVisualizationViewer;
@@ -37,8 +32,8 @@ public class PanelThumbnail extends JPanel{
 		Inicializar();
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void Inicializar(){
-		Theme theme = Theme.getInstancia();
 		this.setLayout(new GridLayout(1,1));
 		vv = new SatelliteVisualizationViewer<Transfer, Object>(panelDiagrama.vv);
 		LabelRenderer<Transfer,Double> vlasr = new LabelRenderer<Transfer, Double>();

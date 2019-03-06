@@ -35,11 +35,11 @@ import Utilidades.ImagePath;
 * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
+@SuppressWarnings("rawtypes")
 public class GUI_InsertarRelacion extends javax.swing.JDialog  implements KeyListener, MouseListener{
 
 	private static final long serialVersionUID = 1L;
 	private Point2D posicionRelacion;
-	private Vector<TransferEntidad> listaEntidades;
 	private Controlador controlador;
 	// Variables declaration - do not modify
 	private JTextPane explicacion;
@@ -148,7 +148,6 @@ public class GUI_InsertarRelacion extends javax.swing.JDialog  implements KeyLis
 	 * Oyentes de los botones
 	 */
 
-	@SuppressWarnings("unchecked")
 	private void botonInsertarActionPerformed(java.awt.event.ActionEvent evt) {                                            
 		// Generamos el transfer que mandaremos al controlador
 		TransferRelacion tr = new TransferRelacion();
@@ -245,7 +244,6 @@ public class GUI_InsertarRelacion extends javax.swing.JDialog  implements KeyLis
 	}
 	
 	public void setListaEntidades(Vector<TransferEntidad> listaEntidades) {
-		this.listaEntidades = listaEntidades;
 	}
 
 	 /*

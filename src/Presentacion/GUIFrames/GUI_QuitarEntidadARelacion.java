@@ -38,6 +38,7 @@ import Utilidades.ImagePath;
 * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
+@SuppressWarnings("rawtypes")
 public class GUI_QuitarEntidadARelacion extends javax.swing.JDialog  implements KeyListener, MouseListener {
 
 	private static final long serialVersionUID = 1L;
@@ -87,6 +88,7 @@ public class GUI_QuitarEntidadARelacion extends javax.swing.JDialog  implements 
 	 * Activar y desactivar el dialogo
 	 */
 
+	@SuppressWarnings("unchecked")
 	public void setActiva(){
 		// Si no tiene entidades
 		if(this.getRelacion().getListaEntidadesYAridades().isEmpty())
@@ -160,7 +162,6 @@ public class GUI_QuitarEntidadARelacion extends javax.swing.JDialog  implements 
 	}
 	
 	//Genera los roles asociados a la entidad que esté seleccionada
-	@SuppressWarnings("unchecked")
 	private Vector<String> generaItemsRoles(){
 		Vector<String> v = new Vector<String>();
 		int itemSeleccionado = this.comboEntidades.getSelectedIndex();
@@ -204,6 +205,7 @@ public class GUI_QuitarEntidadARelacion extends javax.swing.JDialog  implements 
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void comboEntidadesItemStateChanged(java.awt.event.ItemEvent evt) {
 		Vector<String> itemsRoles = generaItemsRoles();
 		comboRoles.setModel(new javax.swing.DefaultComboBoxModel(itemsRoles));
@@ -400,7 +402,6 @@ public class GUI_QuitarEntidadARelacion extends javax.swing.JDialog  implements 
 	/*Dada la posición seleccionada en el comboBox devuelve el índice correspondiente a dicho 
 	 * elementeo en la lista de Entidades. Es necesario porque al ordenar alfabeticamente se perdió 
 	 * la correspondencia.*/
-	@SuppressWarnings("unchecked")
 	private int indiceAsociado (int selec){
 		boolean encontrado= false;
 		int i=0;

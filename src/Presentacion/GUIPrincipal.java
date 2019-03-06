@@ -42,6 +42,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
@@ -65,14 +66,12 @@ import LogicaNegocio.Transfers.TransferDominio;
 import LogicaNegocio.Transfers.TransferEntidad;
 import LogicaNegocio.Transfers.TransferRelacion;
 import Presentacion.GUIPanels.TablaVolumenes;
+import Presentacion.GUIPanels.addTransfersPanel;
 import Presentacion.GUIPanels.reportPanel;
 import Presentacion.Grafo.PanelGrafo;
 import Presentacion.Grafo.PanelThumbnail;
 import Presentacion.Lenguajes.Lenguaje;
 import Presentacion.Theme.Theme;
-import Presentacion.icons.attributeIcon;
-import Presentacion.icons.entityIcon;
-import Presentacion.icons.relationIcon;
 import Utilidades.AccionMenu;
 import Utilidades.ApplicationLauncher;
 import Utilidades.ImagePath;
@@ -581,7 +580,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		panelDiagrama.add(splitDisenoInfo, BorderLayout.CENTER);
 		splitDisenoInfo.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 		splitDisenoInfo.setOneTouchExpandable(false);
-		splitDisenoInfo.setResizeWeight(0.7);
+		splitDisenoInfo.setResizeWeight(0.85);
 		
 		JTabbedPane tabPanelDcha = new JTabbedPane();
 		JSplitPane splitTabMapa = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
@@ -657,62 +656,20 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		diagrama.add(panelDiseno);
 		
 		JPanel tituloDiseno = new JPanel();
-		tituloDiseno.setLayout(new BoxLayout(tituloDiseno,BoxLayout.X_AXIS));
-		tituloDiseno.setBorder(BorderFactory.createEmptyBorder(10, 50, 30, 50));
-		tituloDiseno.setPreferredSize(new Dimension(150,100));
-		JLabel title = new JLabel("<html><span style='font-size:20px'>"+Lenguaje.getMensaje(Lenguaje.ER_MODEL)+"</span></html>");
-		tituloDiseno.add(title);
-		JPanel botonesAnadir = new JPanel();
-		JLabel anadirEntidad = new JLabel(new entityIcon());
-		JLabel anadirRelacion = new JLabel(new relationIcon());
-		JLabel anadirAttribute = new JLabel(new attributeIcon());
-		botonesAnadir.add(anadirEntidad);
-		botonesAnadir.add(anadirRelacion);
-		botonesAnadir.add(anadirAttribute);
-		tituloDiseno.add(botonesAnadir);
+		tituloDiseno.setLayout(new BorderLayout());
+		JLabel title = new JLabel("<html><span style='font-size:20px'>"+Lenguaje.getMensaje(Lenguaje.CONC_MODEL)+"</span></html>");
+		title.setHorizontalAlignment(JTextField.CENTER);
+		title.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
+		tituloDiseno.add(title, BorderLayout.CENTER);
+		JPanel botonesAnadir = new addTransfersPanel(controlador);
+		
+		splitDisenoInfo.setBorder(null);
+		diagrama.add(botonesAnadir, BorderLayout.WEST);
 		diagrama.add(tituloDiseno, BorderLayout.NORTH);
 		splitDisenoInfo.add(diagrama, JSplitPane.LEFT);
 		splitDisenoInfo.add(splitTabMapa,JSplitPane.RIGHT);
 		
-		anadirEntidad.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("Entidad");
-            }
-
-        });
-		anadirEntidad.addMouseMotionListener(new MouseAdapter() {
-			@Override
-            public void mouseDragged(MouseEvent evt){
-                System.out.println("arrastro entidad");
-            }
-		});
-		anadirRelacion.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("Relacion");
-            }
-
-        });
-		anadirRelacion.addMouseMotionListener(new MouseAdapter() {
-			@Override
-            public void mouseDragged(MouseEvent evt){
-                System.out.println("arrastro relacion");
-            }
-		});
-		anadirAttribute.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("Atributo");
-            }
-
-        });
-		anadirAttribute.addMouseMotionListener(new MouseAdapter() {
-			@Override
-            public void mouseDragged(MouseEvent evt){
-                System.out.println("arrastro atributo");
-            }
-		});
+		
 	}
 	
 	

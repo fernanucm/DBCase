@@ -8,14 +8,10 @@ import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Vector;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
-import org.jsoup.Jsoup;
-
 import Controlador.Controlador;
 import Controlador.TC;
 import LogicaNegocio.Transfers.TransferAtributo;

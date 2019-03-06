@@ -38,6 +38,7 @@ import Utilidades.ImagePath;
 * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
+@SuppressWarnings({"rawtypes" ,"unchecked"})
 public class GUI_EstablecerEntidadPadre extends javax.swing.JDialog  implements KeyListener, MouseListener {
 
 	private static final long serialVersionUID = 1L;

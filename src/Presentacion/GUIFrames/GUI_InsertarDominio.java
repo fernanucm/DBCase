@@ -35,6 +35,7 @@ import Utilidades.TipoDominio;
  * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
  * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
  */
+@SuppressWarnings({"rawtypes" ,"unchecked"})
 public class GUI_InsertarDominio extends javax.swing.JDialog  implements KeyListener, MouseListener {
 	private static final long serialVersionUID = 1L;
 	private Controlador controlador;
@@ -268,7 +269,6 @@ public class GUI_InsertarDominio extends javax.swing.JDialog  implements KeyList
 		setBounds((screenSize.width-altoInt)/2, (screenSize.height-anchoInt)/2, altoInt, anchoInt);
 	}
 	
-	@SuppressWarnings("unchecked")
 //TODO Nota: deberiamos controlar repeticiones y más casos raros
 	private Vector listaValores(){
 		Vector v = new Vector();

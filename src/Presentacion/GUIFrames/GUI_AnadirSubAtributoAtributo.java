@@ -39,6 +39,7 @@ import Utilidades.TipoDominio;
 * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
+@SuppressWarnings({"rawtypes" ,"unchecked"})
 public class GUI_AnadirSubAtributoAtributo extends javax.swing.JDialog implements KeyListener, MouseListener {
 
 	private static final long serialVersionUID = 1L;
@@ -131,8 +132,6 @@ public class GUI_AnadirSubAtributoAtributo extends javax.swing.JDialog implement
 	/*
 	 * Oyentes de los botones
 	 */
-
-	@SuppressWarnings("unchecked")
 	private void botonAnadirActionPerformed(java.awt.event.ActionEvent evt) {
 		TransferAtributo ta = new TransferAtributo();
 		ta.setNombre(this.cajaNombre.getText());

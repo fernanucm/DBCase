@@ -7,6 +7,7 @@ package Presentacion.Grafo.geometria;
  * @author: Ricardo de los Santos Villodres l&t;rdv00155@averroes.cica.es>
  * <br>Maite Ruiz Garcia l&t;mrg00156@averroes.cica.es>
  */
+@SuppressWarnings("serial")
 public class Vector2D extends java.awt.geom.Point2D.Double {
 	/**
 Vector cero de R^2.

@@ -21,6 +21,7 @@ import edu.uci.ics.jung.graph.util.Pair;
  * @author Tom Nelson
  *
  */
+@SuppressWarnings("hiding")
 public class MiParallelEdgeIndexFunction<Transfer, Object> implements EdgeIndexFunction<Transfer, Object> {
 	
     protected Map<Object, Integer> edge_index = new HashMap<Object, Integer>();

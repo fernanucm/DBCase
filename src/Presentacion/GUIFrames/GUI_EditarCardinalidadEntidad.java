@@ -41,6 +41,7 @@ import Utilidades.ImagePath;
 * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
+@SuppressWarnings({"rawtypes" ,"unchecked"})
 public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implements KeyListener, MouseListener{
 
 
@@ -59,7 +60,6 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 	private JTextPane jTextRol;
 	private JTextPane explicacion2;
 	private JTextPane explicacion;
-	private JLabel labelIcono;
 	private JButton botonEditar;
 	private JButton botonCancelar;
 	private TransferRelacion relacion;
@@ -67,12 +67,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 	private JRadioButton buttonNaN;
 	private JRadioButton button1aN;
 	private JRadioButton button1a1;
-	private boolean entidadDebil =false;
-	private boolean soloUnaEntidad = false;
-	//End of variables declaration
 	
-
-
 	public GUI_EditarCardinalidadEntidad() {
 		initComponents();
 	}
@@ -180,7 +175,6 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 	     }
 	 };
 	
-	@SuppressWarnings("unchecked")
 	private Vector<String> generaInicioFin(int vez){
 		int inicio = 0;
 		int fin = 0;
@@ -225,8 +219,6 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 		return v;
 	}
 
-
-	@SuppressWarnings("unchecked")
 	private String[] generaItemsEntidades(){
 		// Filtramos la lista de entidades quitando las entidades que no intervienen
 		Vector<EntidadYAridad> vectorTupla = this.getRelacion().getListaEntidadesYAridades();
@@ -256,13 +248,12 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 		return items;
 	}
 	
-	@SuppressWarnings("unchecked")
 	private Vector<String> generaItemsRoles(){
 		Vector<String> v = new Vector<String>();
 		int itemSeleccionado = this.comboEntidades.getSelectedIndex();
 		TransferEntidad te = this.listaEntidades.get(itemSeleccionado);
 		int idEntidad = te.getIdEntidad();
-		entidadDebil=te.isDebil();
+		te.isDebil();
 		Vector veya = this.relacion.getListaEntidadesYAridades();
 		int cont = 0;
 		int numApariciones=0;
@@ -274,8 +265,8 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 			}
 			cont++;
 		}
-		if(numApariciones==1)
-			soloUnaEntidad = true;
+		if(numApariciones==1) {
+		}
 		return v;
 	}
 
@@ -450,15 +441,6 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 			botonEditar.setMnemonic(Lenguaje.getMensaje(Lenguaje.EDIT).charAt(0));
 		}
 		return botonEditar;
-	}
-	
-	private JLabel getLabelIcono() {
-		if(labelIcono == null) {
-			labelIcono = new JLabel();
-			labelIcono.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.RATON)));
-			labelIcono.setBounds(12, 52, 100, 87);
-		}
-		return labelIcono;
 	}
 	
 	private JComboBox getComboEntidades() {

@@ -185,7 +185,25 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 			}
 		}
 
-		vv = new VisualizationViewer<Transfer, Object>(layout);
+		vv = new VisualizationViewer<Transfer, Object>(layout){
+			@Override
+			public void paintComponent(Graphics g) {
+				
+	            Graphics2D g2 = (Graphics2D) g;
+	            //g2.drawImage(this.offscreen, null, 0, 0);
+	            g2.setPaint(Color.GRAY);
+	            for (int i = 1; i < 500; i++) {
+	               int x = i * 4;
+	               g2.drawLine(x, 0, x, getSize().height);
+	            }
+	            for (int i = 1; i < 500; i++) {
+	               int y = i * 4;
+	               g2.drawLine(0, y, getSize().width, y);
+	            }
+	            super.renderGraph(g2);
+	            
+		    }
+		};
 		// this class will provide both label drawing and vertex shapes
 		LabelRenderer<Transfer,Object> vlasr = new LabelRenderer<Transfer, Object>();
 		vv.setDoubleBuffered(true); // Incrementa rendimiento
@@ -204,10 +222,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		rc.getParallelEdgeIndexFunction();
 		
 		EdgeIndexFunction<Transfer, Object> mp = MiParallelEdgeIndexFunction.getInstance(); 
-		//PredicatedParallelEdgeIndexFunction<Transfer,Object> otrop = rc.getParallelEdgeIndexFunction();
-		//otrop.get
-		
-		
+
 		rc.setParallelEdgeIndexFunction( mp );  
 		//rc.setEdgeLabelRenderer((EdgeLabelRenderer) new MiBasicEdgeLabelRenderer());
 		
@@ -256,7 +271,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 					String iniRango, finRango, strRol, color, numerito;
 					
 					// Si es IsA no escribe 
-					if (dato.getPrincipioRango() == 0 && dato.getFinalRango() == 0)return null;
+					if (dato.getPrincipioRango() == 0 && dato.getFinalRango() == 0) return null;
 					
 					if (dato.getPrincipioRango() == Integer.MAX_VALUE)iniRango = "N";
 					else iniRango = String.valueOf(dato.getPrincipioRango());
@@ -277,7 +292,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 			}
 		});
 		
-		
 		//Color elementos
 		vv.getRenderer().setVertexRenderer(new VertexRenderer<Transfer,Object>(theme.entity(),theme.entity(), true));
 		//Etiquetas de los vertices
@@ -287,7 +301,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		vv.getRenderContext().setVertexStrokeTransformer(new Transformer<Transfer,Stroke>(){
 			@Override
 			public Stroke transform(Transfer arg0) {
-			
 				return new BasicStroke(0f);
 		}});
 		

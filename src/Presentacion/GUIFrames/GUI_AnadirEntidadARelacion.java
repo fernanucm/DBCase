@@ -38,6 +38,7 @@ import Utilidades.ImagePath;
 * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
+@SuppressWarnings({"rawtypes" ,"unchecked"})
 public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements KeyListener, MouseListener{
 
 	private static final long serialVersionUID = 1L;
@@ -158,7 +159,6 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 	
 	/*Devuelve el nombre de la primera entidad que haya en el sistema y no esté participando
 	 * en la relación.*/
-	@SuppressWarnings("unchecked")
 	private String primerItem(){
 		// Filtramos la lista de entidades quitando las entidades que no intervienen
 		Vector<EntidadYAridad> vectorTupla = this.getRelacion().getListaEntidadesYAridades();
@@ -193,7 +193,6 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 	/*Dada la posición seleccionada en el comboBox devuelve el índice correspondiente a dicho 
 	 * elementeo en la lista de Entidades.  Es necesario porque al ordenar alfabeticamente se perdió 
 	 * la correspondencia.*/
-	@SuppressWarnings("unchecked")
 	private int indiceAsociado (int selec){
 		boolean encontrado= false;
 		int i=0;
@@ -216,8 +215,6 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 	/*
 	 * Oyentes de los botones
 	 */
-
-	@SuppressWarnings("unchecked")
 	private void botonAnadirActionPerformed(java.awt.event.ActionEvent evt) {
 		// Mandaremos el siguiente vector al controlador
 		Vector v = new Vector();

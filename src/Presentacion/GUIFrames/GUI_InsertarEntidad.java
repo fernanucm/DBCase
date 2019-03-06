@@ -9,17 +9,14 @@ import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
 import java.util.Vector;
 import javax.swing.BorderFactory;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
-
 import Controlador.Controlador;
 import Controlador.TC;
 import LogicaNegocio.Transfers.TransferEntidad;
@@ -39,6 +36,7 @@ import Utilidades.ImagePath;
  * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
  * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
  */
+@SuppressWarnings({"rawtypes" ,"unchecked"})
 public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyListener, MouseListener{
 	private static final long serialVersionUID = 1L;
 	private Controlador controlador;
@@ -48,10 +46,10 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 	private JTextField cajaNombre;
 	private JCheckBox CasillaEsDebil;
 	private JTextPane explicacion;
-	private JLabel labelIcono;
 	private JButton botonInsertar;
 	private JTextField jTextRelacion;
 	private JTextPane nombreRelacion;
+	
 	private JComboBox comboEntidadesFuertes;
 	private JTextPane selecFuerte;
 	private Vector<TransferEntidad> listaEntidades;
@@ -156,6 +154,7 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 			/*Si la entidad es debil, entonces hay que activar la parte de la ventana que permite seleccionar la entidad
 			 * fuerte, y dar un nombre a la relación que unira la entidad fuerte y la débil.*/
 			CasillaEsDebil.addMouseListener(new MouseListener(){
+				
 				public void mouseClicked(MouseEvent arg0) {
 					//Entidad débil
 					if(CasillaEsDebil.isSelected()){
@@ -267,7 +266,6 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 	/*
 	 * Oyentes de los botones
 	 */
-	@SuppressWarnings("unchecked")
 	private void botonInsertarActionPerformed(java.awt.event.ActionEvent evt) {  
 		//Si es una entidad normal, sólo hay que crear dicha entidad
 		if (!this.CasillaEsDebil.isSelected()){
@@ -309,7 +307,6 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 		}
 	} 
 	
-	@SuppressWarnings("unchecked")
 	public void comprobadaEntidad(boolean factibleEntidad){
 		this.factibleEntidad=factibleEntidad;
 		//Si la entidad va a poder añadirse compruebo si la relación también va a poder añadirse
@@ -328,7 +325,6 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 		}					
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void comprobadaRelacion(boolean factibleRelacion){
 		/*Si la entidad va a poder añadirse compruebo si la relación también va a poder añadirse
 		 *  y la relacion también entonces es cuando creamos la entidad, y la relación*/

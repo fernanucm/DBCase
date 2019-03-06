@@ -10,6 +10,7 @@ import Presentacion.Grafo.geometria.Punto;
 import Presentacion.Grafo.geometria.Recta;
 
 
+@SuppressWarnings("serial")
 public class Arrow extends JPanel implements ChangeListener {
     Path2D.Double arrow = createArrow();
     //Coordenadas x e y desde donde se dibuja la flecha
@@ -335,13 +336,6 @@ public class Arrow extends JPanel implements ChangeListener {
     	dist =Math.sqrt(Math.pow((x1-x2),2.0)+ Math.pow((y1-y2),2.0));
     	return dist;
     }
-        
-    private double minimo(double a,double b){
-		if (a>=b)
-    		return b;
-    	else
-    		return a;
-	}
     
     private Path2D.Double createArrow() {
         this.length = 70;//Longitud de la flecha

@@ -37,6 +37,7 @@ import Utilidades.TipoDominio;
  * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
  * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
  */
+@SuppressWarnings("rawtypes")
 public class GUI_ModificarDominio extends javax.swing.JDialog implements KeyListener, MouseListener {
 
 	private static final long serialVersionUID = 1L;
@@ -46,6 +47,7 @@ public class GUI_ModificarDominio extends javax.swing.JDialog implements KeyList
 	private JTextField cajaValores;
 	private JTextPane explicacion;
 	private JTextPane textoTipo;
+	
 	private JComboBox comboDominios;
 	private JLabel labelIcono;
 	private JButton botonEditar;
@@ -104,7 +106,7 @@ public class GUI_ModificarDominio extends javax.swing.JDialog implements KeyList
 	 * Oyentes de los botones
 	 */
 
-	@SuppressWarnings("unchecked")
+
 	private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {
 		// Obtenemos los nuevos valores
 		Vector nuevosValores = this.listaValores();
@@ -325,6 +327,7 @@ public class GUI_ModificarDominio extends javax.swing.JDialog implements KeyList
 		setBounds((screenSize.width-altoInt)/2, (screenSize.height-anchoInt)/2, altoInt, anchoInt);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void actualizaComboDominios() {
 		Object[] items = Utilidades.TipoDominio.values();
 		Object[] items2 = new Object[items.length-1];

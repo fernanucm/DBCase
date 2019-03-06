@@ -12,20 +12,15 @@ package Presentacion.Grafo;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collection;
-
-import javax.swing.JComponent;
-
 import LogicaNegocio.Transfers.TransferAtributo;
 import LogicaNegocio.Transfers.TransferEntidad;
 import LogicaNegocio.Transfers.TransferRelacion;
-
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.util.Context;
 import edu.uci.ics.jung.graph.Graph;
@@ -103,7 +98,6 @@ public class MiBasicEdgeLabelRenderer<V,E>
         int numApariciones= 0;//Numero de veces que aparece la arista a dibujar en el grafo
         String nom1="";
         String nom2="";
-        boolean diagonal=false;
         int tipo1=0, tipo2=0;
         
         for (E o : aris){
@@ -151,23 +145,13 @@ public class MiBasicEdgeLabelRenderer<V,E>
        	float yRela = (float) p1.getY();//Coordenada y de la Relacion
        	float xEnti = (float) p2.getX();//Coordenada x de la entidad	        	        
        	float yEnti= (float) p2.getY();//Coordenada y de la entidad
-        boolean isLoop = v1.equals(v2);
-        Shape s2 = rc.getVertexShapeTransformer().transform(v2);  
-        boolean edgeHit = true;
-        boolean arrowHit = true;
-        Rectangle deviceRectangle = null;
-        JComponent vv = rc.getScreenDevice();
-        if(vv != null) {
-        	Dimension dim = vv.getSize();
-            deviceRectangle = new Rectangle(0,0,dim.width,dim.height);
-        }
         //parte de código nueva para las líneas de los roles
         float xCentro;
        	float yCentro;
        	float xNoCentro;
        	float yNoCentro;	       	
        	
-       	int alto = 0,anchoNoCentro=0, altoNoCentro=0;
+       	int anchoNoCentro=0, altoNoCentro=0;
         //Calculo el ancho mínimo entre la relación y la entidad.
         int ancho = minimo (nom1.length(),nom2.length());
         //Hay que saber si el ancho mínimo es de la entidad o de la relación
@@ -224,12 +208,10 @@ public class MiBasicEdgeLabelRenderer<V,E>
         //Si el ancho  es menor que 8 la figura tiene un tamaño fijo
         if(ancho < 8){
         	ancho = 45;
-        	alto = 20;
         }
         //Si no el ancho es proporcional a la longitud del nombre
         else{
         	ancho = (ancho *5) +5;
-        	alto = 25;
         }
         //Si el ancho de la otra figura es menor que 8 la figura tiene un tamaño fijo
         if(anchoNoCentro < 8){
@@ -243,14 +225,10 @@ public class MiBasicEdgeLabelRenderer<V,E>
         }
         
         
-        //TODO SEGUNDO AÑADIDO
-        //Dependiendo de la situación relativa entre la entidad y la relación se colocarán más cerca o más lejos las etiquetas
-	       AffineTransform xform = null;
-	       int offset=0;
+        int offset=0;
 	        //Si no hay que ajustar las líneas de los roles para que se vean correctamente
 	        if (numApariciones > 1){
 	        	double incrementoX = 0;
-	        	double incrementoY = 0;
 	        	int epsilon = ancho /4;
 	        	/*La separación entre las líneas de los roles es proporcional al número de veces que participe la entidad en la relación
 	        	 * y la posición relativa entre la entidad y la relacion*/
@@ -267,8 +245,7 @@ public class MiBasicEdgeLabelRenderer<V,E>
 	        		else{
 	        			incrementoX = (ancho*2)/(numApariciones+1);
 	        			offset = (int) (rc.getParallelEdgeIndexFunction().getIndex(graph, e)*(incrementoX))+10;
-	        		} 
-	        		diagonal=false;
+	        		}
 	        	}
 	        	else if((((yNoCentro+altoNoCentro)>=(yCentro-epsilon))&&((yNoCentro-altoNoCentro)<=(yCentro+epsilon))) ||
 	        			((yNoCentro>=(yCentro-epsilon))&&(yNoCentro<=(yCentro+epsilon)))){
@@ -283,13 +260,11 @@ public class MiBasicEdgeLabelRenderer<V,E>
 	        		else{
 	        			incrementoX = (ancho*2)/(numApariciones+1);
 	        			offset = (int) (rc.getParallelEdgeIndexFunction().getIndex(graph, e)*(incrementoX))+5;
-	        		}
-	        		diagonal= false;	        		
+	        		}	        		
 	        	}
 	        	//Diagonal inferior izquierda
 	        	else if(((yNoCentro-altoNoCentro)>(yCentro+epsilon)) && ((xNoCentro-anchoNoCentro)<(xCentro-epsilon))){
 	        		incrementoX = ancho/(numApariciones+1);
-	        		incrementoY = alto /(numApariciones+1);
 	        		if(rc.getParallelEdgeIndexFunction().getIndex(graph, e)==0)
 	        			offset = 30;
 	        		else if(rc.getParallelEdgeIndexFunction().getIndex(graph, e)==1)
@@ -300,12 +275,10 @@ public class MiBasicEdgeLabelRenderer<V,E>
 	        			incrementoX = (ancho*2)/(numApariciones+1);
 	        			offset = (int) (rc.getParallelEdgeIndexFunction().getIndex(graph, e)*(incrementoX))+5;
 	        		}
-	        		diagonal=true;
 	        	}
 	        	//Diagonal superior izquierda
 	        	else if(((yNoCentro+altoNoCentro)<(yCentro-epsilon))&&(xNoCentro-anchoNoCentro)<=(xCentro+epsilon)){
 	        		incrementoX = ancho/(numApariciones+1);
-	        		incrementoY = alto /(numApariciones+1);
 	        		if(rc.getParallelEdgeIndexFunction().getIndex(graph, e)==0)
 	        			offset = 28;
 	        		else if(rc.getParallelEdgeIndexFunction().getIndex(graph, e)==1)
@@ -315,13 +288,11 @@ public class MiBasicEdgeLabelRenderer<V,E>
 	        		else{
 	        			incrementoX = (ancho*2)/(numApariciones+1);
 	        			offset = (int) (rc.getParallelEdgeIndexFunction().getIndex(graph, e)*(incrementoX))+5;
-	        		}	
-	        		diagonal=true;
+	        		}
 	        	}
 	        	//Diagonal superior derecha
 	        	else if(((xNoCentro-anchoNoCentro)>(xCentro+epsilon))&& (yNoCentro+altoNoCentro)<(yCentro-epsilon)){
 	        		incrementoX = ancho/(numApariciones+1);
-	        		incrementoY = alto /(numApariciones+1);
 	        		if(rc.getParallelEdgeIndexFunction().getIndex(graph, e)==0)
 	        			offset = 30;
 	        		else if(rc.getParallelEdgeIndexFunction().getIndex(graph, e)==1)
@@ -332,12 +303,10 @@ public class MiBasicEdgeLabelRenderer<V,E>
 	        			incrementoX = (ancho*2)/(numApariciones+1);
 	        			offset = (int) (rc.getParallelEdgeIndexFunction().getIndex(graph, e)*(incrementoX))+5;
 	        		}
-	        		diagonal=true;
 	        	}
 	        	//Diagonal inferior derecha
 	        	else if(((xNoCentro-anchoNoCentro)>(xCentro+epsilon)&&((yNoCentro-altoNoCentro)>yCentro+epsilon))){
 	        		incrementoX = ancho/(numApariciones+1);
-	        		incrementoY = alto /(numApariciones+1);
 	        		if(rc.getParallelEdgeIndexFunction().getIndex(graph, e)==0)
 	        			offset = -15;
 	        		else if(rc.getParallelEdgeIndexFunction().getIndex(graph, e)==1)
@@ -347,19 +316,16 @@ public class MiBasicEdgeLabelRenderer<V,E>
 	        		else{
 	        			incrementoX = (ancho*2)/(numApariciones+1);
 	        			offset = (int) (rc.getParallelEdgeIndexFunction().getIndex(graph, e)*(incrementoX))+5;
-	        		}		
-	        		diagonal=true;
+	        		}
 	        	}
-	        	else{
-	        		xform = AffineTransform.getTranslateInstance(xCentro, yCentro); 
+	        	else{ 
 	        		
 	        	}
 	        	
 	        }//Else de si tienen + de una aparicion
 	        
 	        //Si la entidad sólo participa una vez en la relación no hay que hacer más cálculos
-	        else{
-	        	xform = AffineTransform.getTranslateInstance(xCentro, yCentro); 
+	        else{ 
 	        }
         //FIN TODO SEGUNGO AÑADIDO
  

@@ -39,6 +39,7 @@ import Utilidades.ImagePath;
  * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
  * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
  */
+@SuppressWarnings("rawtypes")
 public class GUI_QuitarEntidadHija extends javax.swing.JDialog  implements KeyListener, MouseListener {
 
 	private static final long serialVersionUID = 1L;
@@ -136,6 +137,7 @@ public class GUI_QuitarEntidadHija extends javax.swing.JDialog  implements KeyLi
 	 * Activar y desactivar el dialogo
 	 */
 
+	@SuppressWarnings("unchecked")
 	public void setActiva(){
 		// Si no tiene entidades hijas lanzamos un error
 		if(this.getRelacion().getListaEntidadesYAridades().size()<=1)
@@ -295,6 +297,7 @@ public class GUI_QuitarEntidadHija extends javax.swing.JDialog  implements KeyLi
 		return botonQuitar;
 	}
 
+	@SuppressWarnings("unchecked")
 	private JComboBox getComboEntidades() {
 		if(comboEntidades == null) {
 			ComboBoxModel comboEntidadesModel = 
