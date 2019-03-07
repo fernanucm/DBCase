@@ -1,5 +1,6 @@
 package LogicaNegocio.Servicios;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Vector;
@@ -8,6 +9,7 @@ import LogicaNegocio.Transfers.TransferConexion;
 import Utilidades.ConectorDBMS.ConectorDBMS;
 import Utilidades.ConectorDBMS.FactoriaConectores;
 //la clase tabla, almacenara las tablas a traducir del disenio al script.
+@SuppressWarnings({"rawtypes","unchecked"})
 public class Tabla {
 
 	/* Se almacena cada atributo y su dominio en una pareja String[].
@@ -38,15 +40,17 @@ public class Tabla {
 	 * foreigns[i][2] = tabla de referencia
 	 */
 	private Vector<String[]> foreigns;
-	
+	private ArrayList<String>  constraints;
 	private Vector<String> uniques;
 	
-	public Tabla(String nombre){
+	public Tabla(String nombre, Vector restr){
 		nombreTabla=nombre;
 		atributos=new Vector<String[]>();
 		primaries=new Vector<String[]>();
 		foreigns=new Vector<String[]>();
 		uniques = new Vector<String>();
+		constraints = new ArrayList<String>();
+		setConstraints(restr);
 	}
 	
 	
@@ -75,14 +79,22 @@ public class Tabla {
 	public void setUniques(Vector<String> uniques) {
 		this.uniques = uniques;
 	}
-	
+	public Vector<String> getConstraints() {
+		return new Vector<String>(constraints);
+	}
+	public void setConstraints(Vector<String> restr) {
+		constraints.addAll(restr);
+	}
 	public void aniadeAtributo(String nombre, String dominio,String tablaReferencia,
 														Hashtable<Integer,Enumerado> dominios,
+														Vector<String> restric,
 														boolean unique, boolean notNull){
 		String [] trio=new String[5];
 		trio[0]=nombre;
 		trio[1]=dominio;
 		trio[2]=tablaReferencia;
+		for(int i=0;i<restric.size();i++) 
+			if (!constraints.contains(restric.get(i))) constraints.add(restric.get(i));
 		
 		if (unique) trio[3] = "1";
 		else trio[3] = "0";
@@ -107,15 +119,16 @@ public class Tabla {
 			aniadeClaveForanea(trio[0], trio[1], trio[2]);
 	}
 	
-	public void aniadeListaAtributos(Vector<String[]> listado, Hashtable<Integer,Enumerado> dominios){
+	public void aniadeListaAtributos(Vector<String[]> listado, Vector<String> rest, Hashtable<Integer,Enumerado> dominios){
 		for (int i=0;i<listado.size();i++){
 			String[] trio = listado.elementAt(i);
 			if (trio.length < 4){
 				aniadeAtributo(trio[0], trio[1], trio[2], dominios,
-						false,
+						rest, false,
 						false);
 			}else{
 				aniadeAtributo(trio[0], trio[1], trio[2], dominios,
+								rest,
 								trio[3].equalsIgnoreCase("1"),
 								trio[4].equalsIgnoreCase("1"));
 			}
@@ -174,7 +187,7 @@ public class Tabla {
 	
 	public Tabla creaClonSinAmbiguedadNiEspacios(){
 		// Crea la tabla con el mismo nombre
-		Tabla t = new Tabla(ponGuionesBajos(this.nombreTabla));
+		Tabla t = new Tabla(ponGuionesBajos(this.nombreTabla), this.getConstraints());
 		
 		// Aniade todos los atributos
 		for (int i=0;i<atributos.size();i++){
@@ -277,6 +290,18 @@ public class Tabla {
 		return traductor.obtenerCodigoCreacionTablaHTML(t);
 	}
 	
+	public String codigoEstandarRestriccionesDeTabla(TransferConexion conexion){
+		Tabla t = creaClonSinAmbiguedadNiEspacios();
+		ConectorDBMS traductor = FactoriaConectores.obtenerConector(conexion.getTipoConexion());
+		return traductor.obtenerCodigoRestriccionTabla(t);
+	}
+	
+	public String codigoHTMLRestriccionesDeTabla(TransferConexion conexion){
+		Tabla t = creaClonSinAmbiguedadNiEspacios();
+		ConectorDBMS traductor = FactoriaConectores.obtenerConector(conexion.getTipoConexion());
+		return traductor.obtenerCodigoRestriccionTablaHTML(t);
+	}
+	
 	public String codigoEstandarClavesDeTabla(TransferConexion conexion){
 		Tabla t = creaClonSinAmbiguedadNiEspacios();
 		ConectorDBMS traductor = FactoriaConectores.obtenerConector(conexion.getTipoConexion());
@@ -322,9 +347,6 @@ public class Tabla {
 	public void setNombreTabla(String nombreTabla) {
 		this.nombreTabla = nombreTabla;
 	}
-	
-	
-	
 	
 	//metodos auxiliares:
 	private String ponGuionesBajos(String cadena){

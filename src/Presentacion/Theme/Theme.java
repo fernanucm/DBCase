@@ -118,4 +118,7 @@ public class Theme {
 	public myColor blueFont() {
 		return colors.get("blueFont");
 	}
+	public myColor toolBar() {
+		return colors.get("toolBar");
+	}
 }

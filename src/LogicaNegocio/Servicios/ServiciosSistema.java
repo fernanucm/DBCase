@@ -31,6 +31,7 @@ import Utilidades.TipoDominio;
 import Utilidades.ConectorDBMS.ConectorDBMS;
 import Utilidades.ConectorDBMS.FactoriaConectores;
 
+@SuppressWarnings({"unchecked","rawtypes"})
 public class ServiciosSistema {
 	private Controlador controlador; 
 
@@ -221,8 +222,7 @@ public class ServiciosSistema {
 		return valido;
 	}
 
-//	metodos privados de validacion de entidades.	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+//	metodos privados de validacion de entidades
 	private boolean validaKey(TransferEntidad te){
 		DAOAtributos daoAtributos= new DAOAtributos(this.controlador.getPath());
 		//valida si la entidad tiene clave y si esta dentro de sus atributos.
@@ -330,7 +330,6 @@ public class ServiciosSistema {
 		return valido;
 	}
 
-	@SuppressWarnings("rawtypes")
 	private boolean compruebaClaveCompuesto(Vector clavesEntidad,TransferAtributo ta) {
 		DAOAtributos daoAtributos= new DAOAtributos(this.controlador.getPath());
 		int i=0;
@@ -387,7 +386,7 @@ public class ServiciosSistema {
 					Lenguaje.getMensaje(Lenguaje.ATTRIB_NAMES)+" "+te.getNombre()+Lenguaje.getMensaje(Lenguaje.ARE_CORRECT)+HTMLUtils.newLine();
 		return valido;
 	}
-	@SuppressWarnings("unchecked")
+	
 	private void validaFidelidadEntidadEnIsA(TransferEntidad te){
 		DAORelaciones daoRelaciones= new DAORelaciones(this.controlador.getPath());
 		Vector <TransferRelacion> relaciones =daoRelaciones.ListaDeRelaciones();
@@ -434,9 +433,7 @@ public class ServiciosSistema {
 		return valido;		
 	}
 
-//	metodos privados de validacion de relaciones.
-
-	@SuppressWarnings("unchecked")
+	//metodos privados de validacion de relaciones.
 	private boolean validaComponentesRelacionIsA(TransferRelacion tr){
 		boolean valida=true;
 		if(dameNumEntidadesDebiles(tr)>0){
@@ -467,7 +464,6 @@ public class ServiciosSistema {
 		return valida;
 	}
 
-	@SuppressWarnings("unchecked")
 	private boolean validaComponentesRelacionNormal(TransferRelacion tr){
 		boolean valida=true;
 		mensaje += HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.THE_RELATION)+" "+tr.getNombre()+
@@ -499,7 +495,6 @@ public class ServiciosSistema {
 		return valida;
 	}
 
-	@SuppressWarnings("unchecked")
 	private boolean validaComponentesRelacionDebil(TransferRelacion tr){
 		boolean valida=true;
 		mensaje += HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.THE_RELATION)+" "+tr.getNombre()+
@@ -547,7 +542,6 @@ public class ServiciosSistema {
 		return valida;
 	}
 	
-	@SuppressWarnings("unchecked")
 	private boolean validaDominios(){
 		DAODominios daoDominios= new DAODominios(this.controlador.getPath());
 		Vector <TransferDominio> dominios = daoDominios.ListaDeDominios();
@@ -665,7 +659,6 @@ public class ServiciosSistema {
 		return dominio.substring(0,c);
 	}
 
-	@SuppressWarnings("rawtypes")
 	private boolean estaEnVectorDeEnteros(Vector sinParam, int valor){
 		int i=0;
 		boolean encontrado=false;
@@ -678,7 +671,6 @@ public class ServiciosSistema {
 		return encontrado;
 	}
 
-	@SuppressWarnings("rawtypes")
 	private boolean vectorEnterosContenidoEnVector(Vector subVector, Vector vector){
 		// comprueba si un vector de enteros esta dentro de otro si estos no estan parametrizados (no funciona contains)
 		boolean esta=false;
@@ -692,8 +684,6 @@ public class ServiciosSistema {
 		return contiene;
 	}
 
-	//private int entidadPerteneceAisA(TransferEntidad te){
-	@SuppressWarnings("unchecked")
 	private Vector<int[]> entidadPerteneceAisA(TransferEntidad te){
 		DAORelaciones daoRelaciones= new DAORelaciones(this.controlador.getPath());
 		Vector <TransferRelacion> relaciones =daoRelaciones.ListaDeRelaciones();
@@ -751,7 +741,6 @@ public class ServiciosSistema {
 		return resultados;
 	}
 
-	@SuppressWarnings("unchecked")
 	private int dameNumEntidadesDebiles (TransferRelacion tr){
 		DAOEntidades daoEntidades= new DAOEntidades(this.controlador.getPath());
 		TransferEntidad aux = new TransferEntidad();
@@ -765,7 +754,6 @@ public class ServiciosSistema {
 		return cont;
 	}
 
-	@SuppressWarnings("unchecked")
 	private boolean misDebilesEstanEnDebiles(TransferRelacion rel){
 		DAORelaciones daoRelaciones = new DAORelaciones(this.getControlador().getPath());
 		DAOEntidades daoEntidades = new DAOEntidades(this.getControlador().getPath());
@@ -804,8 +792,7 @@ public class ServiciosSistema {
 
 
 
-//	metodos de recorrido de los daos para la creacion de las tablas.
-	@SuppressWarnings("unchecked")
+	//metodos de recorrido de los daos para la creacion de las tablas.
 	private void generaTablasEntidades(){
 		DAOEntidades daoEntidades= new DAOEntidades(controlador.getPath());
 		Vector<TransferEntidad> entidades= daoEntidades.ListaDeEntidades();
@@ -814,17 +801,18 @@ public class ServiciosSistema {
 		for (int i=0;i<entidades.size();i++){
 			Vector<TransferAtributo>multivalorados=new Vector<TransferAtributo>();
 			TransferEntidad te=entidades.elementAt(i);
-			Tabla tabla = new Tabla(te.getNombre());
+			Tabla tabla = new Tabla(te.getNombre(),te.getListaRestricciones());
 			Vector<TransferAtributo> atribs=this.dameAtributosEnTransfer(te.getListaAtributos());
 			
 			//recorremos los atributos aniadiendolos a la tabla
 			for (int j=0;j<atribs.size();j++){
 				TransferAtributo ta=atribs.elementAt(j);
-				if (ta.getCompuesto()) tabla.aniadeListaAtributos(this.atributoCompuesto(ta,
-															te.getNombre(),""),tiposEnumerados);
+				if (ta.getCompuesto()) 
+					tabla.aniadeListaAtributos(this.atributoCompuesto(ta,
+															te.getNombre(),""),te.getListaRestricciones(),tiposEnumerados);
 				else if (ta.isMultivalorado()) multivalorados.add(ta);
 				else tabla.aniadeAtributo(ta.getNombre(), ta.getDominio(),te.getNombre(),
-												tiposEnumerados, ta.getUnique(), ta.getNotnull());
+												tiposEnumerados,te.getListaRestricciones(), ta.getUnique(), ta.getNotnull());
 			}
 			
 			// Aniadimos las claves a la relaciÃ³n
@@ -860,11 +848,9 @@ public class ServiciosSistema {
 
 	}
 	
-	@SuppressWarnings("unchecked")
 	private void generaTablasRelaciones() {
 		DAORelaciones daoRelaciones = new DAORelaciones(controlador.getPath());
 		Vector<TransferRelacion> relaciones = daoRelaciones.ListaDeRelaciones();
-
 		// recorremos las relaciones creando sus tablas, en funcion de su tipo.
 		for (int i = 0; i < relaciones.size(); i++) {
 			TransferRelacion tr = relaciones.elementAt(i);
@@ -875,7 +861,7 @@ public class ServiciosSistema {
 
 			if (tr.getTipo().equalsIgnoreCase("Normal")) {
 				// creamos la tabla
-				Tabla tabla = new Tabla(tr.getNombre());
+				Tabla tabla = new Tabla(tr.getNombre(), tr.getListaRestricciones());
 
 				// aniadimos los atributos propios.
 				Vector<TransferAtributo> ats = this.dameAtributosEnTransfer(tr
@@ -884,12 +870,12 @@ public class ServiciosSistema {
 					TransferAtributo ta = ats.elementAt(a);
 					if (ta.getCompuesto())
 						tabla.aniadeListaAtributos(this.atributoCompuesto(ta, tr
-								.getNombre(), ""), tiposEnumerados);
+								.getNombre(), ""), ta.getListaRestricciones(), tiposEnumerados);
 					else if (ta.isMultivalorado())
 						multivalorados.add(ta);
 					else
 						tabla.aniadeAtributo(ta.getNombre(), ta.getDominio(), tr
-								.getNombre(), tiposEnumerados, ta.getUnique(), ta.getNotnull());
+								.getNombre(), tiposEnumerados, ta.getListaRestricciones(), ta.getUnique(), ta.getNotnull());
 				}
 
 				// TRATAMIENTO DE ENTIDADES
@@ -937,8 +923,7 @@ public class ServiciosSistema {
 						referenciadas[q] = previasPrimarias.get(q)[0];
 					}
 					
-					tabla.aniadeListaAtributos(primarias,
-							tiposEnumerados);
+					tabla.aniadeListaAtributos(primarias, tr.getListaRestricciones(), tiposEnumerados);
 					tabla.aniadeListaClavesForaneas(primarias, ent.getNombreTabla(), referenciadas);
 					
 					// Si es 0..n poner como clave
@@ -991,7 +976,7 @@ public class ServiciosSistema {
 					// buscandolas en el sistema.
 					tablasEntidades.get(hija.getEntidad()).aniadeListaAtributos(
 							tablasEntidades.get(padre.getEntidad())
-									.getPrimaries(), tiposEnumerados);
+									.getPrimaries(), tr.getListaRestricciones(), tiposEnumerados);
 					
 					tablasEntidades.get(hija.getEntidad())
 							.aniadeListaClavesPrimarias(
@@ -1047,7 +1032,7 @@ public class ServiciosSistema {
 						TransferEntidad debil = debiles.elementAt(d);
 						Tabla tDebil = tablasEntidades
 								.get(debil.getIdEntidad());
-						tDebil.aniadeListaAtributos(tFuerte.getPrimaries(),
+						tDebil.aniadeListaAtributos(tFuerte.getPrimaries(),fuerte.getListaRestricciones(),
 								tiposEnumerados);
 						
 						Vector<String[]> clavesFuerte = tFuerte.getPrimaries();
@@ -1066,7 +1051,6 @@ public class ServiciosSistema {
 
 	}
 	
-	@SuppressWarnings("unchecked")
 	private void generaTiposEnumerados(){
 		DAODominios daoDominios= new DAODominios(controlador.getPath());
 		Vector<TransferDominio> dominios = daoDominios.ListaDeDominios();
@@ -1117,14 +1101,14 @@ public class ServiciosSistema {
 		sqlHTML="";
 	
 		// Creamos las tablas
-		this.generaTiposEnumerados();
-		this.generaTablasEntidades();
-		this.generaTablasRelaciones();
+		generaTiposEnumerados();
+		generaTablasEntidades();
+		generaTablasRelaciones();
 		//sacamos el codigo de cada una de ellas recorriendo las hashtables e imprimiendo.
 		creaTablas(conexion);
 		creaEnums(conexion);
 		ponClaves(conexion);	
-		ponRestricciones();
+		ponRestricciones(conexion);
 		controlador.mensajeDesde_SS(TC.SS_GeneracionScriptSQL,sqlHTML);
 	}
 
@@ -1215,7 +1199,7 @@ public class ServiciosSistema {
 		}
 		
 		// Ejecutar en DBMS
-		System.out.println("Datos de conexiÃ³n a la base de datos");
+		System.out.println("Datos de conexion a la base de datos");
 		System.out.println("------------------------------------");
 		System.out.println("DBMS: " + tc.getRuta() + "(" + tc.getTipoConexion() + ")");
 		System.out.println("Usuario: " + tc.getUsuario());
@@ -1227,7 +1211,7 @@ public class ServiciosSistema {
 			conector.abrirConexion(tc.getRuta(), tc.getUsuario(), tc.getPassword());
 		} catch (SQLException e) {
 			// Avisar por consola
-			System.out.println("ERROR: No se pudo abrir una conexiÃ³n con la base de datos");
+			System.out.println("ERROR: No se pudo abrir una conexion con la base de datos");
 			System.out.println("MOTIVO");
 			System.out.println(e.getMessage());
 			
@@ -1243,9 +1227,6 @@ public class ServiciosSistema {
 			// Terminar
 			return;
 		}
-//		System.out.println("Conectado correctamente.");
-		
-//		System.out.println("Ejecutando script...");
 		String ordenActual = null;
 		try {
 			// Crear la base de datos
@@ -1270,14 +1251,7 @@ public class ServiciosSistema {
 					conector.ejecutarOrden(ordenActual);	
 				}
 			}
-		} catch (SQLException e) {
-//			// Avisar por consola
-//			System.out.println("ERROR: No se pudo ejecutar el script");
-//			System.out.println("SENTENCIA");
-//			System.out.println(ordenActual);
-//			System.out.println("MOTIVO");
-//			System.out.println(e.getMessage());
-			
+		} catch (SQLException e) {			
 			// Avisar por GUI
 			JOptionPane.showMessageDialog(null,
 					Lenguaje.getMensaje(Lenguaje.ERROR)+".\n" +
@@ -1314,7 +1288,7 @@ public class ServiciosSistema {
 			// Terminar
 			return;
 		}
-		System.out.println("ConexiÃ³n cerrada correctamente");
+		System.out.println("Conexion cerrada correctamente");
 		
 		JOptionPane.showMessageDialog(null,
 				Lenguaje.getMensaje(Lenguaje.INFO)+"\n" +
@@ -1324,8 +1298,8 @@ public class ServiciosSistema {
 				new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
 	}
 	
-	@SuppressWarnings("rawtypes")
 	private void creaTablas(TransferConexion conexion){
+		reset();
 		sqlHTML+="<h1>"+Lenguaje.getMensaje(Lenguaje.TABLES_SECTION)+"</h1>";
 		sql+="\n-- "+Lenguaje.getMensaje(Lenguaje.TABLES_SECTION)+"\n";
 
@@ -1369,7 +1343,6 @@ public class ServiciosSistema {
 		sqlHTML+="<p></p>";
 	}
 	
-	@SuppressWarnings("unchecked")
 	private boolean esPadreEnIsa(Tabla tabla){
 		boolean encontrado = false;
 		
@@ -1391,15 +1364,13 @@ public class ServiciosSistema {
 				te.setIdEntidad(idPadre);
 				te = daoEntidades.consultarEntidad(te);
 				
-				Tabla t = new Tabla(te.getNombre());
+				Tabla t = new Tabla(te.getNombre(), te.getListaRestricciones());
 				t = t.creaClonSinAmbiguedadNiEspacios();
 				
 				encontrado = t.getNombreTabla().equalsIgnoreCase(tabla.getNombreTabla());
 			}
-			
 			i++;
 		}
-		
 		return encontrado;
 	}
 	
@@ -1416,25 +1387,25 @@ public class ServiciosSistema {
 		sqlHTML+="<p></p>";
 	}
 	
-	@SuppressWarnings("unchecked")
-	private void ponRestricciones(){
+	private void ponRestricciones(TransferConexion conexion){
 		sqlHTML+="<h1>"+Lenguaje.getMensaje(Lenguaje.CONSTRAINTS_SECTION)+"</h1>";
 		sql+="\n-- "+Lenguaje.getMensaje(Lenguaje.CONSTRAINTS_SECTION)+"\n";
 		
-		// Escribir restricciones de entidad
-		DAOEntidades daoEntidades = new DAOEntidades(controlador.getPath());
-		Vector<TransferEntidad> entidades = daoEntidades.ListaDeEntidades();
-		
-		for (int i=0; i < entidades.size(); i++){
-			Vector<String> rests = entidades.get(i).getListaRestricciones();
-			for (int j=0; j < rests.size(); j++){
-				sqlHTML +=  "<p>"+rests.get(j).replace("<", "&lt;") + ";</p>";
-				sql += rests.get(j) + "; \n";
-			}
+		Iterator tablasE=tablasEntidades.values().iterator();
+		while (tablasE.hasNext()){
+			Tabla t =(Tabla)tablasE.next();
+			sqlHTML += t.codigoHTMLRestriccionesDeTabla(conexion);
+			sql += t.codigoEstandarRestriccionesDeTabla(conexion);	
 		}
 		
 		// Escribir restricciones de relaciÃ³n
-		DAORelaciones daoRelaciones = new DAORelaciones(controlador.getPath());
+		Iterator tablasR=tablasRelaciones.values().iterator();
+		while (tablasR.hasNext()){
+			Tabla t =(Tabla)tablasR.next();
+			sqlHTML += t.codigoHTMLRestriccionesDeTabla(conexion);
+			sql += t.codigoEstandarRestriccionesDeTabla(conexion);	
+		}
+		/*DAORelaciones daoRelaciones = new DAORelaciones(controlador.getPath());
 		Vector<TransferRelacion> relaciones = daoRelaciones.ListaDeRelaciones();
 		
 		for (int i=0; i < relaciones.size(); i++){
@@ -1443,9 +1414,15 @@ public class ServiciosSistema {
 				sqlHTML += "<p>"+rests.get(j).replace("<", "&lt;") + ";</p>";
 				sql += rests.get(j) + "; \n";
 			}
-		}
+		}*/
 		
 		// Escribir restricciones de atributo
+		Iterator tablasA=tablasMultivalorados.iterator();
+		while (tablasA.hasNext()){
+			Tabla t =(Tabla)tablasA.next();
+			sqlHTML += t.codigoHTMLRestriccionesDeTabla(conexion);
+			sql += t.codigoEstandarRestriccionesDeTabla(conexion);	
+		}/*
 		DAOAtributos daoAtributos = new DAOAtributos(controlador.getPath());
 		Vector<TransferAtributo> atributos = daoAtributos.ListaDeAtributos();
 		
@@ -1455,21 +1432,14 @@ public class ServiciosSistema {
 				sqlHTML += "<p>"+rests.get(j).replace("<", "&lt;")+";</p>";
 				sql += rests.get(j) + "; \n";
 			}
-		}
+		}*/
 		sqlHTML+="<p></p>";
 	}
 	
-	@SuppressWarnings("rawtypes")
 	private void ponClaves(TransferConexion conexion){
 		sqlHTML+="<h1>"+Lenguaje.getMensaje(Lenguaje.KEYS_SECTION)+"</h1>";
 		sql+="\n-- "+Lenguaje.getMensaje(Lenguaje.KEYS_SECTION)+"\n";
 
-//		Iterator tablasE=tablasEntidades.values().iterator();
-//		while (tablasE.hasNext()){
-//			Tabla t =(Tabla)tablasE.next();
-//			sqlHTML+=t.codigoHTMLClavesDeTabla(conexion);
-//			sql+=t.codigoEstandarClavesDeTabla(conexion);
-//		}
 		
 		String restEntidad = "";
 		String restEntidadHTML = "";
@@ -1549,7 +1519,6 @@ public class ServiciosSistema {
 		return mr;
 	}
 	
-	@SuppressWarnings("rawtypes")
 	public void generaModeloRelacional(){
 		//TODO
 		validaBaseDeDatos(true);
@@ -1593,7 +1562,6 @@ public class ServiciosSistema {
 	 * @param nombreEntidad el nombre de la entidad de la que proviene.
 	 * @param procedencia es la cadena de nombres de los atributos padre. 
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private Vector<String[]> atributoCompuesto(TransferAtributo ta,String nombreEntidad,String procedencia) {		
 		Vector<TransferAtributo> subs=this.dameAtributosEnTransfer(ta.getListaComponentes());	
 		Vector <String[]> lista = new Vector<String[]>();
@@ -1625,22 +1593,22 @@ public class ServiciosSistema {
 	 * @param idEntidad El identificador de la entidad a la que pertenece.
 	 */
 	private void atributoMultivalorado(TransferAtributo ta, int idEntidad){
+		System.out.println("pasa");
 		// sacamos la tabla de la entidad propietaria del atributo.
 		Tabla tablaEntidad = tablasEntidades.get(idEntidad);
 		
 		//creamos la tabla.
-		Tabla tablaMulti = new Tabla(tablaEntidad.getNombreTabla() + 
-										"_" + ta.getNombre());
+		Tabla tablaMulti = new Tabla(tablaEntidad.getNombreTabla() + "_" + ta.getNombre(), ta.getListaRestricciones());
 
 		// aniadimos el campo del atributo, incluso teniendo en cuenta que sea
 		// compuesto.
 		if (ta.getCompuesto())
 			tablaMulti.aniadeListaAtributos(this.atributoCompuesto(ta,
-					tablaEntidad.getNombreTabla(), ""), tiposEnumerados);
+					tablaEntidad.getNombreTabla(), ""),ta.getListaRestricciones(), tiposEnumerados);
 		else
 			tablaMulti.aniadeAtributo(ta.getNombre(), ta.getDominio(),
-					tablaEntidad.getNombreTabla(), tiposEnumerados, ta.getUnique(), ta.getNotnull());
-		tablaMulti.aniadeListaAtributos(tablaEntidad.getPrimaries(), tiposEnumerados);
+					tablaEntidad.getNombreTabla(), tiposEnumerados, ta.getListaRestricciones(),ta.getUnique(), ta.getNotnull());
+		tablaMulti.aniadeListaAtributos(tablaEntidad.getPrimaries(), ta.getListaRestricciones(),tiposEnumerados);
 		
 		Vector<String[]> clavesEntidad = tablaEntidad.getPrimaries();
 		String[] referenciadas = new String[clavesEntidad.size()];
@@ -1659,7 +1627,6 @@ public class ServiciosSistema {
 	}
 
 
-	@SuppressWarnings("rawtypes")
 	private  Vector<TransferAtributo> dameAtributosEnTransfer(Vector sinParam){
 		DAOAtributos daoAtributos= new DAOAtributos(this.controlador.getPath());
 		Vector<TransferAtributo> claves= new Vector<TransferAtributo>(); 
@@ -1674,7 +1641,7 @@ public class ServiciosSistema {
 	
 	public void compruebaConexion(TransferConexion tc){
 		// Ejecutar en DBMS
-		System.out.println("Datos de conexiÃ³n a la base de datos");
+		System.out.println("Datos de conexion a la base de datos");
 		System.out.println("------------------------------------");
 		System.out.println("DBMS: " + tc.getRuta() + "(" + tc.getTipoConexion() + ")");
 		System.out.println("Usuario: " + tc.getUsuario());

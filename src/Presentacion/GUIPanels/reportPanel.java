@@ -1,7 +1,7 @@
 package Presentacion.GUIPanels;
 
+import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
-import javax.swing.text.DefaultCaret;
 
 import Presentacion.Theme.Theme;
 /*
@@ -12,11 +12,10 @@ import Presentacion.Theme.Theme;
 @SuppressWarnings("serial")
 public class reportPanel extends JTextPane{
 
+	private JScrollPane scroll;
 	public reportPanel(Theme theme) {
 		setContentType("text/html");
 		setBorder(null);
-		DefaultCaret caret = (DefaultCaret)this.getCaret();
-		caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE);
 		//css
 		setText("<style>"
 				+ ".blue{color:"+theme.blueFont().hexValue()+";}"
@@ -26,6 +25,12 @@ public class reportPanel extends JTextPane{
 				+ "div{padding:15px}"
 				+ "p{font-family:monospaced;padding-left:30px}"
 				+ "</style><p></p>");
+		scroll = new JScrollPane(this);
 	}
-	
+	public JScrollPane getPanel() {
+		return scroll;
+	}
+	public void goToTop() {
+		this.setCaretPosition(0);
+	}
 }

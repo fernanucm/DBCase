@@ -1,6 +1,7 @@
 package Utilidades.ConectorDBMS;
 
 import java.sql.SQLException;
+import java.util.Vector;
 
 import LogicaNegocio.Servicios.Enumerado;
 import LogicaNegocio.Servicios.Tabla;
@@ -90,4 +91,38 @@ public abstract class ConectorDBMS {
 	 * @return El código SQL válido para el conector, en formato HTML
 	 */
 	public abstract String obtenerCodigoEnumeradoHTML(Enumerado e);
+	
+	/**
+	 * Genera el código necesario para añadir restricciones a una tabla
+	 * @param t Tabla a traducir. No posee valores ambíguos.
+	 * @param restriccion restriccion introducida por el usuario.
+	 * @return El código SQL válido para el conector.
+	 */
+	public  String obtenerCodigoRestriccionTabla(Tabla t) {
+		Vector<String> r = t.getConstraints();
+		String salida = "";
+		for (int j=0; j < r.size(); j++)
+			salida+= "ALTER TABLE " + t.getNombreTabla()  
+					+ " ADD CONSTRAINT nombre1"
+					+ " CHECK "
+					+ "("+r.get(j)+")\n";
+		return salida;
+	}
+	
+	/**
+	 * Genera el código necesario para añadir restricciones a una tabla con formato HTML
+	 * @param t Tabla a traducir. No posee valores ambíguos.
+	 * @param restriccion restriccion introducida por el usuario.
+	 * @return El código SQL válido para el conector, con formato HTML
+	 */
+	public String obtenerCodigoRestriccionTablaHTML(Tabla t) {
+		Vector<String> r = t.getConstraints();
+		String salida = "";
+		for (int j=0; j < r.size(); j++)
+			salida+= "<p><strong>ALTER TABLE</strong> " + t.getNombreTabla()  
+					+ " <strong>ADD CONSTRAINT</strong> nombre1 "
+					+ "<strong>CHECK</strong>"
+					+ " ("+r.get(j).replace("<", "&lt;")+")</p>";
+		return salida;
+	}
 }

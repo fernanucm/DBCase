@@ -43,7 +43,6 @@ import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -154,8 +153,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private Theme theme;
 	private JMenu themeMenu;
 	private JScrollPane scrollPanelTablas;
-	protected JTextPane codigoText;
-	protected JTextPane modeloText;
+	protected reportPanel codigoText;
+	protected reportPanel modeloText;
 	
 	public GUIPrincipal(Theme theme){
 		this.theme = theme;
@@ -677,7 +676,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		JSplitPane diagramaCode = new JSplitPane();
 		diagramaCode.setResizeWeight(0.8);
 		getContentPane().add(diagramaCode);
-		
+		modeloText = new reportPanel(theme);
 		diagramaCode.add(panelDiagrama, JSplitPane.LEFT);
 		panelGeneracion = new JPanel();
 		BorderLayout panelGeneracionLayout = new BorderLayout();
@@ -717,8 +716,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		modeloPanel.add(textPanel, BorderLayout.NORTH);
 
 		
-		modeloText = new reportPanel(theme);
-		modeloPanel.add(new JScrollPane(modeloText), BorderLayout.CENTER);
+		
+		modeloPanel.add(modeloText.getPanel(), BorderLayout.CENTER);
 		/***********************/
 		
 		JPanel codePanel = new JPanel();
@@ -780,7 +779,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				
 		codigoText = new reportPanel(theme);
 
-		codePanel.add(new JScrollPane(codigoText), BorderLayout.CENTER);
+		codePanel.add(codigoText.getPanel(), BorderLayout.CENTER);
 		
 		this.setExtendedState(Frame.MAXIMIZED_BOTH);
 		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
@@ -852,6 +851,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		Thread hilo = new Thread(new Runnable(){
 			public void run() {
 				controlador.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_BotonGenerarModeloRelacional, null);
+				modeloText.goToTop();
 			}
 		});
 		hilo.start();
@@ -865,6 +865,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				
 				// Restaurar el sistema
 				conexionActual.setDatabase("");
+				codigoText.goToTop();
 			}
 		});
 		hilo.start();

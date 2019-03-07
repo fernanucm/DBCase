@@ -1,21 +1,19 @@
 package Presentacion.GUIPanels;
 
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
-
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import Controlador.Controlador;
 import Controlador.TC;
 import Presentacion.Lenguajes.Lenguaje;
+import Presentacion.Theme.Theme;
 import Presentacion.icons.attributeIcon;
 import Presentacion.icons.entityIcon;
 import Presentacion.icons.isaIcon;
@@ -26,6 +24,7 @@ public class addTransfersPanel extends JPanel{
 	private Controlador controlador;
 	public addTransfersPanel(Controlador c){
 		super();
+		Theme theme = Theme.getInstancia();
 		this.controlador = c;
 		JLabel anadirEntidad = new JLabel(new entityIcon());
 		anadirEntidad.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -57,7 +56,7 @@ public class addTransfersPanel extends JPanel{
 		this.add(Box.createRigidArea(new Dimension(0,30)));
 		this.add(anadirAttribute);
 		this.add(Box.createVerticalGlue());
-		this.setBackground(new Color(240, 240, 240));
+		this.setBackground(theme.toolBar());
 		this.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 15));
 		
 		anadirEntidad.addMouseListener(new MouseAdapter() {
