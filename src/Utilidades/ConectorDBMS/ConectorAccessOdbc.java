@@ -152,8 +152,8 @@ String codigo="";
 		Vector<String[]> primaries = t.getPrimaries();
 		if (!primaries.isEmpty()){
 			codigo+= "<p><strong>ALTER TABLE </strong>" + t.getNombreTabla() +
-			"<strong class=blue> ADD CONSTRAINT </strong>" + t.getNombreTabla() + "_pk" +
-			"<strong class=blue> PRIMARY KEY </strong>"+"(";
+			"<strong> ADD CONSTRAINT </strong>" + t.getNombreTabla() + "_pk" +
+			"<strong> PRIMARY KEY </strong>"+"(";
 			for (int i=0;i<primaries.size();i++){
 				if (i>0)codigo+=", ";
 				codigo+=primaries.elementAt(i)[0];
@@ -170,10 +170,10 @@ String codigo="";
 					atributo = atributo.substring(0, atributo.indexOf("("));
 				}
 				codigo+= "<p><strong>ALTER TABLE </strong>" + t.getNombreTabla() +
-						"<strong class=blue> ADD CONSTRAINT </strong>" + 
+						"<strong> ADD CONSTRAINT </strong>" + 
 										t.getNombreTabla() + "_" +atributo +
-						"<strong class=blue> FOREIGN KEY </strong>"+
-				"("+foreigns.elementAt(j)[0]+") " + "<strong class=blue> REFERENCES </strong>"+foreigns.elementAt(j)[2]+";"+
+						"<strong> FOREIGN KEY </strong>"+
+				"("+foreigns.elementAt(j)[0]+") " + "<strong> REFERENCES </strong>"+foreigns.elementAt(j)[2]+";"+
 				"</p>";
 			}		
 		}
@@ -183,8 +183,8 @@ String codigo="";
 		if(!uniques.isEmpty()){
 			for (int j=0;j<uniques.size();j++){
 				codigo+="<p><strong>ALTER TABLE </strong>"+t.getNombreTabla()+
-				"<strong class=blue> ADD CONSTRAINT </strong>"+t.getNombreTabla() + "_unique_" + j + 
-				"<strong class=blue> UNIQUE</strong>" + 
+				"<strong> ADD CONSTRAINT </strong>"+t.getNombreTabla() + "_unique_" + j + 
+				"<strong> UNIQUE</strong>" + 
 				"("+uniques.elementAt(j)+");" + "</p>";
 			}	
 		}

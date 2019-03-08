@@ -862,7 +862,6 @@ public class ServiciosSistema {
 			if (tr.getTipo().equalsIgnoreCase("Normal")) {
 				// creamos la tabla
 				Tabla tabla = new Tabla(tr.getNombre(), tr.getListaRestricciones());
-
 				// aniadimos los atributos propios.
 				Vector<TransferAtributo> ats = this.dameAtributosEnTransfer(tr
 						.getListaAtributos());
@@ -1299,7 +1298,6 @@ public class ServiciosSistema {
 	}
 	
 	private void creaTablas(TransferConexion conexion){
-		reset();
 		sqlHTML+="<h1>"+Lenguaje.getMensaje(Lenguaje.TABLES_SECTION)+"</h1>";
 		sql+="\n-- "+Lenguaje.getMensaje(Lenguaje.TABLES_SECTION)+"\n";
 
@@ -1521,6 +1519,7 @@ public class ServiciosSistema {
 	
 	public void generaModeloRelacional(){
 		//TODO
+		reset();
 		validaBaseDeDatos(true);
 		if (!modeloValidado)return;
 		
@@ -1593,7 +1592,6 @@ public class ServiciosSistema {
 	 * @param idEntidad El identificador de la entidad a la que pertenece.
 	 */
 	private void atributoMultivalorado(TransferAtributo ta, int idEntidad){
-		System.out.println("pasa");
 		// sacamos la tabla de la entidad propietaria del atributo.
 		Tabla tablaEntidad = tablasEntidades.get(idEntidad);
 		
@@ -1615,6 +1613,7 @@ public class ServiciosSistema {
 		for (int q=0; q<clavesEntidad.size(); q++){
 			referenciadas[q] = clavesEntidad.get(q)[0];
 		}
+		
 		tablaMulti.aniadeListaClavesForaneas(tablaEntidad.getPrimaries(),
 				tablaEntidad.getNombreTabla(), referenciadas);
 		tablasMultivalorados.add(tablaMulti);

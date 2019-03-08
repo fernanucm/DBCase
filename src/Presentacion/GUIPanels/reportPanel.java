@@ -18,8 +18,7 @@ public class reportPanel extends JTextPane{
 		setBorder(null);
 		//css
 		setText("<style>"
-				+ ".blue{color:"+theme.blueFont().hexValue()+";}"
-				+ "strong{color:"+theme.relation().hexValue()+";}"
+				+ "strong{color:"+theme.header().hexValue()+";}"
 				+ "body{background-color:"+theme.background().hexValue()+";margin:0}"
 				+ "h1{padding:10;padding-left:30px;background-color:"+theme.header().hexValue()+";color:white;font-size:20px}"
 				+ "div{padding:15px}"

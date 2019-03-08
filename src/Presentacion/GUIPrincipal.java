@@ -232,9 +232,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		UIManager.put("nimbusBlueGrey", theme.background());
 		UIManager.put("nimbusBorder", theme.background());
 		UIManager.put("nimbusSelection", theme.SelectionBackground());
-		UIManager.put("scrollbar", theme.background());
-		
-		UIManager.put("TabbedPane.disabled", Color.red);
 		
 		UIManager.put("Tree.collapsedIcon", false);
 		UIManager.put("Tree.expandedIcon", false);

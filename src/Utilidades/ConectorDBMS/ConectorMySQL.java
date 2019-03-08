@@ -151,7 +151,7 @@ public class ConectorMySQL extends ConectorDBMS {
 		//si tiene claves primarias, las añadimos.
 		Vector<String[]> primaries = t.getPrimaries();
 		if (!primaries.isEmpty()){
-			codigo+="<p><strong>ALTER TABLE </strong>"+t.getNombreTabla()+"<strong class=blue> ADD PRIMARY KEY </strong>(";
+			codigo+="<p><strong>ALTER TABLE </strong>"+t.getNombreTabla()+"<strong> ADD PRIMARY KEY </strong>(";
 			for (int i=0;i<primaries.size();i++){
 				if (i>0)codigo+=", ";
 				codigo+=primaries.elementAt(i)[0];
@@ -162,8 +162,8 @@ public class ConectorMySQL extends ConectorDBMS {
 		Vector<String[]> foreigns = t.getForeigns();
 		if(!foreigns.isEmpty()){
 			for (int j=0;j<foreigns.size();j++){
-				codigo+="<p><strong>ALTER TABLE </strong>"+t.getNombreTabla()+"<strong class=blue> ADD FOREIGN KEY </strong>"+
-				"("+foreigns.elementAt(j)[0]+") <strong class=blue> REFERENCES </strong>"+foreigns.elementAt(j)[2]+";</p>";
+				codigo+="<p><strong>ALTER TABLE </strong>"+t.getNombreTabla()+"<strong> ADD FOREIGN KEY </strong>"+
+				"("+foreigns.elementAt(j)[0]+") <strong> REFERENCES </strong>"+foreigns.elementAt(j)[2]+";</p>";
 			}
 				
 		}
@@ -172,7 +172,7 @@ public class ConectorMySQL extends ConectorDBMS {
 		Vector<String> uniques = t.getUniques();
 		if(!uniques.isEmpty()){
 			for (int j=0;j<uniques.size();j++){
-				codigo+="<p><strong>ALTER TABLE </strong>"+t.getNombreTabla()+"<strong class=blue> ADD UNIQUE KEY </strong>"+
+				codigo+="<p><strong>ALTER TABLE </strong>"+t.getNombreTabla()+"<strong> ADD UNIQUE KEY </strong>"+
 				"("+uniques.elementAt(j)+");</p>";
 			}
 				
@@ -216,7 +216,7 @@ public class ConectorMySQL extends ConectorDBMS {
 		// Crear la tabla
 		codigo+="<p><strong>CREATE TABLE </strong>"+e.getNombre()+"(";
 		codigo += "value_list " + "<strong>VARCHAR(" + e.getLongitud() + ")</strong>";
-		codigo+=")<strong class=blue> ENGINE = InnoDB</strong>;</p>";
+		codigo+=")<strong> ENGINE = InnoDB</strong>;</p>";
 
 		// Establecer la clave primaria
 		codigo+="<p><strong>ALTER TABLE </strong>"+e.getNombre()+
