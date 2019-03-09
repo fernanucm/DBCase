@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -42,6 +43,7 @@ public class ServiciosSistema {
 	private String mr="";
 	private TransferConexion conexionScriptGenerado = null;
 	private String mensaje;
+	private ArrayList<restriccionPerdida> restriccionesPerdidas;
 
 	//aqui se almacenaran las tablas ya creadas, organizadas por el id de la entidad /relacion (clave) y con el objeto tabla como valor.
 	private Hashtable<Integer,Tabla> tablasEntidades=new Hashtable<Integer,Tabla>();
@@ -849,6 +851,7 @@ public class ServiciosSistema {
 	}
 	
 	private void generaTablasRelaciones() {
+		restriccionesPerdidas = new ArrayList<restriccionPerdida>();
 		DAORelaciones daoRelaciones = new DAORelaciones(controlador.getPath());
 		Vector<TransferRelacion> relaciones = daoRelaciones.ListaDeRelaciones();
 		// recorremos las relaciones creando sus tablas, en funcion de su tipo.
@@ -883,11 +886,8 @@ public class ServiciosSistema {
 				int k = 0;
 				while (soloHayUnos && k<veya.size()){
 					EntidadYAridad eya = veya.get(k);
-					if (eya.getFinalRango() <= 1){
-						k++;
-					}else{
-						soloHayUnos = false;
-					}
+					if (eya.getFinalRango() <= 1) k++;
+					else soloHayUnos = false;
 				}
 				
 				// Para cada entidad...
@@ -898,11 +898,13 @@ public class ServiciosSistema {
 					Tabla ent = tablasEntidades.get(eya.getEntidad());
 					
 					Vector<String[]> previasPrimarias;
-					if (ent.getPrimaries().isEmpty()){
-						previasPrimarias = ent.getAtributos();
-					}else{
-						previasPrimarias = ent.getPrimaries();
-					}
+					if (ent.getPrimaries().isEmpty()) previasPrimarias = ent.getAtributos();
+					else previasPrimarias = ent.getPrimaries();
+					
+					//crea las restricciones perdidas (cuando rangoIni > 1 o rangoFin < N)
+					if(eya.getPrincipioRango() < Integer.MAX_VALUE && eya.getFinalRango() > 1 
+							&& (eya.getPrincipioRango() > 1 || eya.getFinalRango() < Integer.MAX_VALUE))
+						restriccionesPerdidas.add(new restriccionPerdida(tr.getNombre(),ent.getNombreTabla(), eya.getPrincipioRango(), eya.getFinalRango()));
 					
 					// ...pero antes renombrarla con el rol
 					Vector<String[]> primarias = new Vector<String[]>();
@@ -1473,6 +1475,12 @@ public class ServiciosSistema {
 		sqlHTML+="<p></p>";
 	}
 	
+	public String restriccionesPerdidas() {
+		String mr ="";
+		for(restriccionPerdida re : restriccionesPerdidas) mr += re;
+		return mr;
+	}
+	
 	public String restriccionesIR() {
 		String mr= "";
 		
@@ -1549,6 +1557,7 @@ public class ServiciosSistema {
 			mr += "<br><h1>"+"Restricciones de Integridad Referencial"+"</h1>";
 			mr += restriccionesIR();
 			mr += "<br><h1>"+"Restricciones perdidas"+"</h1>";
+			mr += restriccionesPerdidas();
 			mr += "<p></p>";
 		}//else -> diagrama no vacio
 		controlador.mensajeDesde_SS(TC.SS_GeneracionModeloRelacional,mr);
