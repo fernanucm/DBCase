@@ -326,8 +326,7 @@ public class DAORelaciones{
 			if (aux.getNodeName()==tipoLista){
 				String elem = dameValorDelElemento(aux);
 				if (tipoLista=="EntityAndArity"){
-					String rol= "";
-					EntidadYAridad e = new EntidadYAridad(0,0,0,rol);
+					EntidadYAridad e = new EntidadYAridad();
 					//Comprobar esto:
 					lista.addElement(e.sacaValoresDeString(elem));
 				}else lista.addElement(elem);
@@ -339,7 +338,7 @@ public class DAORelaciones{
 	
 	}
 	private String dameValorDelElemento(Node elemento) {
-		return elemento.getFirstChild().getNodeValue().toString();		
+		return elemento.getFirstChild().getNodeValue().toString();
 	}
 
 	private void ponValorAElemento(Node elemento, String clavePrimaria) {

@@ -66,6 +66,7 @@ import LogicaNegocio.Transfers.TransferEntidad;
 import LogicaNegocio.Transfers.TransferRelacion;
 import Presentacion.GUIPanels.TablaVolumenes;
 import Presentacion.GUIPanels.addTransfersPanel;
+import Presentacion.GUIPanels.customTreeCellRenderer;
 import Presentacion.GUIPanels.reportPanel;
 import Presentacion.Grafo.PanelGrafo;
 import Presentacion.Grafo.PanelThumbnail;
@@ -1287,7 +1288,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		    renderer.setOpenIcon(null);
 		    renderer.setClosedIcon(null);
 		    renderer.setLeafIcon(null);
-		    arbol.setCellRenderer(renderer);
+		    arbol.setCellRenderer(new customTreeCellRenderer());
 			this.arbol.setFont(new java.awt.Font("Avenir", 0, 15));
 			this.arbol.setBackground(theme.background());
 			this.panelArbol.setViewportView(arbol);

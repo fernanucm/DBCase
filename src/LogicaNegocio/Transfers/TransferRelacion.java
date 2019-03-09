@@ -21,9 +21,7 @@ public class TransferRelacion extends Transfer {
 	private int volumen;
 	private int frecuencia;
 
-	public TransferRelacion() {
-
-	}
+	public TransferRelacion() {}
 
 	public TransferRelacion clonar() {
 		TransferRelacion clon_tr = new TransferRelacion();

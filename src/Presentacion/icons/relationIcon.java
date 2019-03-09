@@ -10,20 +10,29 @@ import Presentacion.Theme.Theme;
 
 public class relationIcon extends icon{
  
-    @Override
+	public relationIcon() {
+		super();
+	}
+    public relationIcon(String tipo) {
+		super(tipo);
+	}
+
+	@Override
     public void paintIcon(Component c, Graphics g, int x, int y) {
     	Graphics2D g2d = (Graphics2D) g;
     	Theme theme = Theme.getInstancia();
     	g2d.setColor(theme.relation());
     	Polygon s = new Polygon();
-        s.addPoint(0, (int) (getIconHeight()*.4));
-        s.addPoint((int) (getIconWidth()*.5), 0);
-        s.addPoint(getIconWidth(), (int) (getIconHeight()*.4));
-        s.addPoint((int) (getIconWidth()*.5), (int)(getIconHeight()*.8));
+        s.addPoint((int) (getIconWidth()*.1), (int) (getIconHeight()*.6));
+        s.addPoint((int) (getIconWidth()*.5), (int) (getIconHeight()*.2));
+        s.addPoint((int) (getIconWidth()*.9), (int) (getIconHeight()*.6));
+        s.addPoint((int) (getIconWidth()*.5), getIconHeight());
         g.fillPolygon(s);
         g2d.setColor(theme.lines());
         g.drawPolygon(s);
-        g2d.draw(new Line2D.Double(getIconWidth()*.45,getIconHeight()*.4,getIconWidth()*.55,getIconHeight()*.4));
-        g2d.draw(new Line2D.Double(getIconWidth()*.5,getIconHeight()*.3,getIconWidth()*.5,getIconHeight()*.5));
+        if(pintarMas()) {
+        	g2d.draw(new Line2D.Double(getIconWidth()*.45,getIconHeight()*.6,getIconWidth()*.55,getIconHeight()*.6));
+	        g2d.draw(new Line2D.Double(getIconWidth()*.5,getIconHeight()*.5,getIconWidth()*.5,getIconHeight()*.7));
+        }
     }
 }

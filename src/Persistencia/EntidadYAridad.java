@@ -19,11 +19,9 @@ public class EntidadYAridad {
 		return clon_eya;
 	}
 
-	public EntidadYAridad() {
+	public EntidadYAridad() {}
 
-	}
-
-	public EntidadYAridad(int entidad, int principioRango, int finalRango,String rol) {
+	public EntidadYAridad(int entidad, int principioRango, int finalRango, String rol) {
 		super();
 		this.entidad = entidad;
 		pRango = principioRango;

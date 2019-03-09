@@ -46,6 +46,7 @@ import LogicaNegocio.Transfers.TransferAtributo;
 import LogicaNegocio.Transfers.TransferEntidad;
 import LogicaNegocio.Transfers.TransferRelacion;
 import Persistencia.EntidadYAridad;
+import Persistencia.NodoEntidad;
 import Presentacion.Lenguajes.Lenguaje;
 import Presentacion.Theme.Theme;
 import Utilidades.ImagePath;
@@ -662,51 +663,34 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 	public JTree generaArbolInformacion() {
 		JTree arbolInformacion;
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode();
-		
 		DefaultMutableTreeNode arbolEntidades = new DefaultMutableTreeNode("Entidades");
 		for(int i=1;i<this.entidades.size()+1;i++) {
 			TransferEntidad ent = this.entidades.get(i);
-			DefaultMutableTreeNode nodoEntidad = new DefaultMutableTreeNode("* "+ent.toString());
+			DefaultMutableTreeNode nodoEntidad = new DefaultMutableTreeNode(ent);
 			Vector lista = (ent.getListaAtributos());
-			for(int j=0; j<lista.size();j++) {
-				nodoEntidad.add(new DefaultMutableTreeNode(
-						"# " + this.atributos.get(Integer.parseInt((String)lista.get(j))).getNombre()
-						+ " ["+this.atributos.get(Integer.parseInt((String)lista.get(j))).getDominio()+"]"
-						));
-			}
+			for(int j=0; j<lista.size();j++) 
+				nodoEntidad.add(new DefaultMutableTreeNode(this.atributos.get(Integer.parseInt((String)lista.get(j)))));
+			
 			arbolEntidades.add(nodoEntidad);
 		}
 		
 		DefaultMutableTreeNode arbolRelaciones = new DefaultMutableTreeNode("Relaciones");
 		for(int i=1;i<this.relaciones.size()+1;i++) {
 			TransferRelacion rel = this.relaciones.get(i);
-			DefaultMutableTreeNode nodoRelacion = new DefaultMutableTreeNode("> "+rel.toString());
-			
-			DefaultMutableTreeNode entidadesDeRel = new DefaultMutableTreeNode("Entidades");
+			DefaultMutableTreeNode nodoRelacion = new DefaultMutableTreeNode(rel);
+			String tipo="";
 			Vector listaEnt = (rel.getListaEntidadesYAridades());
 			if(!listaEnt.isEmpty()) {
 				for(int j=0; j<listaEnt.size();j++) {
-					int prango = ((EntidadYAridad) listaEnt.get(j)).getPrincipioRango();
-					int frango = ((EntidadYAridad) listaEnt.get(j)).getFinalRango();
-					String rango = " ( ";
-					rango += (prango == 2147483647)?"n":prango;
-					rango+=" , ";
-					rango += (frango == 2147483647)?"n":frango;
-					rango+=" ) ";
-					entidadesDeRel.add(new DefaultMutableTreeNode("* "+this.entidades.get(((EntidadYAridad) listaEnt.get(j)).getEntidad()).getNombre()+rango));
+					tipo = rel.getTipo().equals("IsA")?j==0?"padre":"hija":"normal";
+					NodoEntidad ne = new NodoEntidad(this.entidades.get(((EntidadYAridad) listaEnt.get(j)).getEntidad()).getNombre(), ((EntidadYAridad) listaEnt.get(j)), tipo);
+					nodoRelacion.add(new DefaultMutableTreeNode(ne));
 				}
-				nodoRelacion.add(entidadesDeRel);
 			}
-			DefaultMutableTreeNode atributosDeRel = new DefaultMutableTreeNode("Atributos");
 			Vector listaAtr = (rel.getListaAtributos());
 			if(!listaAtr.isEmpty()) {
-				for(int j=0; j<listaAtr.size();j++) {
-					atributosDeRel.add(new DefaultMutableTreeNode(
-							"# " + this.atributos.get(Integer.parseInt((String)listaAtr.get(j))).getNombre()
-							+ " ["+this.atributos.get(Integer.parseInt((String)listaAtr.get(j))).getDominio()+"]"
-							));
-				}
-				nodoRelacion.add(atributosDeRel);
+				for(int j=0; j<listaAtr.size();j++) 
+					nodoRelacion.add(new DefaultMutableTreeNode(this.atributos.get(Integer.parseInt((String)listaAtr.get(j)))));
 			}
 			arbolRelaciones.add(nodoRelacion);
 		}
