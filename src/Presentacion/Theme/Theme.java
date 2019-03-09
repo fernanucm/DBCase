@@ -112,8 +112,8 @@ public class Theme {
 	public myColor labelFontColorLight() {
 		return colors.get("labelFontColorLight");
 	}
-	public myColor header() {
-		return colors.get("header");
+	public myColor paragraph() {
+		return colors.get("paragraph");
 	}
 	public myColor blueFont() {
 		return colors.get("blueFont");

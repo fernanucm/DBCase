@@ -62,7 +62,7 @@ public class addTransfersPanel extends JPanel{
 		anadirEntidad.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	Point2D p = new Point2D.Double(200,50);
+            	Point2D p = new Point2D.Double(100,100);
 				System.out.println("Insertar Entidad en: " + p.getX() +","+ p.getY());
 				controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_InsertarEntidad,p);
             }
@@ -70,7 +70,7 @@ public class addTransfersPanel extends JPanel{
 		anadirRelacion.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	Point2D p = new Point2D.Double(200,50);
+            	Point2D p = new Point2D.Double(100,100);
 				System.out.println("Insertar Relacion en: " + p.getX() +","+ p.getY());
 				controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_InsertarRelacionNormal,p);
             }
@@ -79,7 +79,7 @@ public class addTransfersPanel extends JPanel{
 		anadirIsa.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	Point2D p = new Point2D.Double(200,50);
+            	Point2D p = new Point2D.Double(100,100);
 				System.out.println("Insertar ISA en: " + p.getX() +","+ p.getY());
 				controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_InsertarRelacionIsA,p);
             }

@@ -18,11 +18,11 @@ public class reportPanel extends JTextPane{
 		setBorder(null);
 		//css
 		setText("<style>"
-				+ "strong{color:"+theme.header().hexValue()+";}"
+				+ "strong{color:"+theme.blueFont().hexValue()+";}"
 				+ "body{background-color:"+theme.background().hexValue()+";margin:0}"
-				+ "h1{padding:10;padding-left:30px;background-color:"+theme.header().hexValue()+";color:white;font-size:20px}"
-				+ "div{padding:15px}"
-				+ "p{font-family:monospaced;padding-left:30px}"
+				+ "h2{padding-left:15px;font-size:18px}"
+				+ ".card{border:1px solid "+theme.toolBar().hexValue()+";padding:5px;background:"+theme.control().hexValue()+";margin:15px 30px 15px 30px;}"
+				+ "p{font-family:monospaced;padding-left:30px;color:"+theme.paragraph().hexValue()+"}"
 				+ "</style><p></p>");
 		scroll = new JScrollPane(this);
 	}

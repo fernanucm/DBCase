@@ -1115,8 +1115,8 @@ public class ServiciosSistema {
 
 	public void generaFicheroSQL(boolean texto){
 		String text = (texto)?sql:mr;
-		text = text.replaceAll("<h1>","\n");
-		text = text.replaceAll("</h1>", "\n-----------------\n");
+		text = text.replaceAll("<h2>","\n");
+		text = text.replaceAll("</h2>", "\n-----------------\n");
 		text = text.replaceAll("</p>", "\n");
 		text = text.replaceAll("\\<.*?>","");
 		text = text.replaceAll("&rarr;","\u2192");
@@ -1300,7 +1300,7 @@ public class ServiciosSistema {
 	}
 	
 	private void creaTablas(TransferConexion conexion){
-		sqlHTML+="<h1>"+Lenguaje.getMensaje(Lenguaje.TABLES_SECTION)+"</h1>";
+		sqlHTML+="<div class='card'><h2>"+Lenguaje.getMensaje(Lenguaje.TABLES_SECTION)+"</h2>";
 		sql+="\n-- "+Lenguaje.getMensaje(Lenguaje.TABLES_SECTION)+"\n";
 
 		Iterator tablasM=tablasMultivalorados.iterator();
@@ -1340,7 +1340,7 @@ public class ServiciosSistema {
 		
 		sql += tablasEntidad;
 		sqlHTML += tablasEntidadHTML;
-		sqlHTML+="<p></p>";
+		sqlHTML+="<p></p></div>";
 	}
 	
 	private boolean esPadreEnIsa(Tabla tabla){
@@ -1375,7 +1375,7 @@ public class ServiciosSistema {
 	}
 	
 	private void creaEnums(TransferConexion conexion){
-		sqlHTML+="<h1>"+Lenguaje.getMensaje(Lenguaje.TYPES_SECTION)+"</h1>";
+		sqlHTML+="<div class='card'><h2>"+Lenguaje.getMensaje(Lenguaje.TYPES_SECTION)+"</h2>";
 		sql+="\n-- "+Lenguaje.getMensaje(Lenguaje.TYPES_SECTION)+"\n";
 		
 		Iterator<Enumerado> tablasD=tiposEnumerados.values().iterator();
@@ -1384,11 +1384,11 @@ public class ServiciosSistema {
 			sqlHTML+=e.codigoHTMLCreacionDeEnum(conexion);
 			sql+=e.codigoEstandarCreacionDeEnum(conexion);
 		}
-		sqlHTML+="<p></p>";
+		sqlHTML+="<p></p></div>";
 	}
 	
 	private void ponRestricciones(TransferConexion conexion){
-		sqlHTML+="<h1>"+Lenguaje.getMensaje(Lenguaje.CONSTRAINTS_SECTION)+"</h1>";
+		sqlHTML+="<div class='card'><h2>"+Lenguaje.getMensaje(Lenguaje.CONSTRAINTS_SECTION)+"</h2>";
 		sql+="\n-- "+Lenguaje.getMensaje(Lenguaje.CONSTRAINTS_SECTION)+"\n";
 		
 		Iterator tablasE=tablasEntidades.values().iterator();
@@ -1398,23 +1398,13 @@ public class ServiciosSistema {
 			sql += t.codigoEstandarRestriccionesDeTabla(conexion);	
 		}
 		
-		// Escribir restricciones de relaciÃ³n
+		// Escribir restricciones de relacion
 		Iterator tablasR=tablasRelaciones.values().iterator();
 		while (tablasR.hasNext()){
 			Tabla t =(Tabla)tablasR.next();
 			sqlHTML += t.codigoHTMLRestriccionesDeTabla(conexion);
 			sql += t.codigoEstandarRestriccionesDeTabla(conexion);	
 		}
-		/*DAORelaciones daoRelaciones = new DAORelaciones(controlador.getPath());
-		Vector<TransferRelacion> relaciones = daoRelaciones.ListaDeRelaciones();
-		
-		for (int i=0; i < relaciones.size(); i++){
-			Vector<String> rests = relaciones.get(i).getListaRestricciones();
-			for (int j=0; j < rests.size(); j++){
-				sqlHTML += "<p>"+rests.get(j).replace("<", "&lt;") + ";</p>";
-				sql += rests.get(j) + "; \n";
-			}
-		}*/
 		
 		// Escribir restricciones de atributo
 		Iterator tablasA=tablasMultivalorados.iterator();
@@ -1422,22 +1412,12 @@ public class ServiciosSistema {
 			Tabla t =(Tabla)tablasA.next();
 			sqlHTML += t.codigoHTMLRestriccionesDeTabla(conexion);
 			sql += t.codigoEstandarRestriccionesDeTabla(conexion);	
-		}/*
-		DAOAtributos daoAtributos = new DAOAtributos(controlador.getPath());
-		Vector<TransferAtributo> atributos = daoAtributos.ListaDeAtributos();
-		
-		for (int i=0; i < atributos.size(); i++){
-			Vector<String> rests = atributos.get(i).getListaRestricciones();
-			for (int j=0; j < rests.size(); j++){
-				sqlHTML += "<p>"+rests.get(j).replace("<", "&lt;")+";</p>";
-				sql += rests.get(j) + "; \n";
-			}
-		}*/
-		sqlHTML+="<p></p>";
+		}
+		sqlHTML+="<p></p></div>";
 	}
 	
 	private void ponClaves(TransferConexion conexion){
-		sqlHTML+="<h1>"+Lenguaje.getMensaje(Lenguaje.KEYS_SECTION)+"</h1>";
+		sqlHTML+="<div class='card'><h2>"+Lenguaje.getMensaje(Lenguaje.KEYS_SECTION)+"</h2>";
 		sql+="\n-- "+Lenguaje.getMensaje(Lenguaje.KEYS_SECTION)+"\n";
 
 		
@@ -1472,7 +1452,7 @@ public class ServiciosSistema {
 			sqlHTML+=t.codigoHTMLClavesDeTabla(conexion);
 			sql+=t.codigoEstandarClavesDeTabla(conexion);
 		}
-		sqlHTML+="<p></p>";
+		sqlHTML+="<p></p></div>";
 	}
 	
 	public String restriccionesPerdidas() {
@@ -1534,9 +1514,9 @@ public class ServiciosSistema {
 		generaTablasEntidades();
 		generaTablasRelaciones();
 		if(tablasEntidades.values().isEmpty() && tablasRelaciones.values().isEmpty()) 
-			mr = "<h1>"+"El diagrama está vacio"+"</h1>";
+			mr = "<div class='card'><h2>"+"El diagrama está vacio"+"</h2></div>";
 		else {
-			mr = "<h1>"+"Relaciones"+"</h1>";
+			mr = "<div class='card'><h2>"+"Relaciones"+"</h2>";
 			Iterator tablasE=tablasEntidades.values().iterator();
 			while (tablasE.hasNext()){
 				Tabla t =(Tabla)tablasE.next();
@@ -1554,11 +1534,11 @@ public class ServiciosSistema {
 				Tabla t =(Tabla)tablasM.next();
 				mr+=t.modeloRelacionalDeTabla();
 			}
-			mr += "<br><h1>"+"Restricciones de Integridad Referencial"+"</h1>";
+			mr += "<p></p></div><div class='card'><h2>"+"Restricciones de Integridad Referencial"+"</h2>";
 			mr += restriccionesIR();
-			mr += "<br><h1>"+"Restricciones perdidas"+"</h1>";
+			mr += "<p></p></div><div class='card'><h2>"+"Restricciones perdidas"+"</h2>";
 			mr += restriccionesPerdidas();
-			mr += "<p></p>";
+			mr += "<p></p></div>";
 		}//else -> diagrama no vacio
 		controlador.mensajeDesde_SS(TC.SS_GeneracionModeloRelacional,mr);
 	}
