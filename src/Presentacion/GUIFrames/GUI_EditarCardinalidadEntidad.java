@@ -438,7 +438,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonEditar.setMnemonic(Lenguaje.getMensaje(Lenguaje.EDIT).charAt(0));
+			botonEditar.setMnemonic(Lenguaje.getMensaje(Lenguaje.ACCEPT).charAt(0));
 		}
 		return botonEditar;
 	}

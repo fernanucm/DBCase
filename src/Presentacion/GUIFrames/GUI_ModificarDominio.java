@@ -219,7 +219,7 @@ public class GUI_ModificarDominio extends javax.swing.JDialog implements KeyList
 	private JButton getBotonEditar() {
 		if(botonEditar == null) {
 			botonEditar = new JButton();
-			botonEditar.setText(Lenguaje.getMensaje(Lenguaje.EDIT));
+			botonEditar.setText(Lenguaje.getMensaje(Lenguaje.ACCEPT));
 			botonEditar.setBounds(189, 152, 80, 25);
 			botonEditar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -235,7 +235,7 @@ public class GUI_ModificarDominio extends javax.swing.JDialog implements KeyList
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonEditar.setMnemonic(Lenguaje.getMensaje(Lenguaje.EDIT).charAt(0));
+			botonEditar.setMnemonic(Lenguaje.getMensaje(Lenguaje.ACCEPT).charAt(0));
 		}
 		return botonEditar;
 	}

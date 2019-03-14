@@ -55,7 +55,7 @@ wishSave=¿Desea guardar el proyecto?
 name=Nombre
 type=Tipo
 values=Valores separados por comas
-accept=Aceptar
+accept=Ok
 
 #
 # "Selecting workspace" window

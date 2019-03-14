@@ -49,7 +49,7 @@ saveAs=Save as
 name=Name
 type=Type
 values=Values separated by commas
-accept=Accept
+accept=Ok
 
 #
 # "Selecting workspace" window
@@ -432,9 +432,9 @@ help=Help
 contents=Contents
 about=About DBCASE
 erModel=Entity-Relationship Model
-concModel=Conceptual Data Model
-logicModel=Logical Data Model
-physicModel=Physical Data Model
+concModel=Conceptual Scheme
+logicModel=Logical Scheme
+physicModel=Physical Scheme
 infPanel=Information Panel
 domPanel=Domains
 graphPanel=Graph Panel

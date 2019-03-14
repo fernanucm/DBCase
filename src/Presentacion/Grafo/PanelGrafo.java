@@ -269,7 +269,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 			public String transform(Object input) {
 				if (input instanceof EntidadYAridad){
 					EntidadYAridad dato = (EntidadYAridad)input;
-					String iniRango, finRango, strRol, color, numerito;
+					String iniRango, finRango, strRol, numerito;
 					
 					// Si es IsA no escribe 
 					if (dato.getPrincipioRango() == 0 && dato.getFinalRango() == 0) return null;
@@ -283,11 +283,10 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 					strRol = dato.getRol();
 					
 					if(esEquis(iniRango) || esEquis(finRango)) numerito = iniRango + "  . .  "+ finRango;
-					else numerito = iniRango;
+					else numerito = finRango;
 					
 					//Color de las cardinalidades
-					color = "rgb(" + theme.lines().getRed() + "," + theme.lines().getGreen() + "," + theme.lines().getBlue() + ")";
-					return "<html><center><font size=\"5\" face=\"avenir\" color=\"" + color +"\">"+ numerito + "   "+ strRol+"<p>";
+					return "<html><center><font size=\"5\" face=\"avenir\" color=\"" + theme.lines().hexValue() +"\">"+ numerito + "   "+ strRol+"<p>";
 				}
 				else return null; // Si no es una relación no escribe la aridad
 			}

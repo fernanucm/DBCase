@@ -184,7 +184,7 @@ public class GUI_SeleccionarConexion extends javax.swing.JDialog  implements Key
 		{
 			botonEditar = new JButton();
 			getContentPane().add(botonEditar);
-			botonEditar.setText(Lenguaje.getMensaje(Lenguaje.EDIT));
+			botonEditar.setText(Lenguaje.getMensaje(Lenguaje.ACCEPT));
 			botonEditar.setBounds(283, 180, 80, 25);
 			
 			botonEditar.addActionListener(new ActionListener() {
@@ -202,7 +202,7 @@ public class GUI_SeleccionarConexion extends javax.swing.JDialog  implements Key
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonEditar.setMnemonic(Lenguaje.getMensaje(Lenguaje.EDIT).charAt(0));
+			botonEditar.setMnemonic(Lenguaje.getMensaje(Lenguaje.ACCEPT).charAt(0));
 		}
 
 		this.addKeyListener(this);

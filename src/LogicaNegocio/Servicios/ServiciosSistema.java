@@ -1319,12 +1319,6 @@ public class ServiciosSistema {
 		
 		String tablasEntidad = "";
 		String tablasEntidadHTML = "";
-//		Iterator tablasE=tablasEntidades.values().iterator();
-//		while (tablasE.hasNext()){
-//			Tabla t =(Tabla)tablasE.next();
-//			sqlHTML+=t.codigoHTMLCreacionDeTabla(conexion);
-//			sql+=t.codigoEstandarCreacionDeTabla(conexion);
-//		}
 		
 		Iterator tablasE=tablasEntidades.values().iterator();
 		while (tablasE.hasNext()){
@@ -1470,7 +1464,7 @@ public class ServiciosSistema {
 			Vector<String[]> foreigns = t.getForeigns();
 			if(!foreigns.isEmpty()){
 				for (int j=0;j<foreigns.size();j++){
-					mr+="<p>" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[0]+"_"+foreigns.elementAt(j)[3]+") "
+					mr+="<p>" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[3]+"_"+foreigns.elementAt(j)[0]+") "
 							+ "&rarr; " + foreigns.elementAt(j)[2]+"</p>";
 				}
 					
@@ -1496,7 +1490,7 @@ public class ServiciosSistema {
 			Vector<String[]> foreigns = t.getForeigns();
 			if(!foreigns.isEmpty()){
 				for (int j=0;j<foreigns.size();j++){
-					mr+="<p>" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[0]+"_"+foreigns.elementAt(j)[3]+") "
+					mr+="<p>" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[3]+"_"+foreigns.elementAt(j)[0]+") "
 							+ "&rarr; " + foreigns.elementAt(j)[2]+"</p>";
 				}
 					

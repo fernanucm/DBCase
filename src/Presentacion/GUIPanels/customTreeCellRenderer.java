@@ -60,7 +60,7 @@ public class customTreeCellRenderer extends DefaultTreeCellRenderer {
     		  text = String.format(SPAN_FORMAT, sel?theme.labelFontColorLight().hexValue():theme.fontColor().hexValue(), userObject);
     		  setIcon(new entityIcon("mini"));
     	  }
-    	  else {text = String.format(SPAN_FORMAT, sel?theme.labelFontColorLight().hexValue():theme.fontColor().hexValue(), userObject)+
+    	  else {text = String.format(SPAN_FORMAT, sel?theme.labelFontColorLight().hexValue():theme.fontColor().hexValue(), userObject+": ")+
     			  String.format(SUBSPAN_FORMAT, sel?theme.labelFontColorLight().hexValue():theme.fontColor().hexValue(), ((NodoEntidad) userObject).getRango());
     	  		setIcon(new entityIcon("mini"));
     	  }

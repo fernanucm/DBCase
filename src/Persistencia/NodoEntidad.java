@@ -20,11 +20,10 @@ public class NodoEntidad {
 	public String getRango() {
 		int prango = this.entidadYAridad.getPrincipioRango();
 		int frango = this.entidadYAridad.getFinalRango();
-		String rango = " ( ";
+		String rango = "";
 		rango += (prango == 2147483647)?"N":prango;
 		rango +=" - ";
 		rango += (frango == 2147483647)?"N":frango;
-		rango +=" )";
 		return rango;
 	}
 	public boolean esNormal() {
