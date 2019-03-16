@@ -268,12 +268,12 @@ imposibleToInsertEntity=No se puede añadir ninguna entidad a la relación.
 noEntities=No existen entidades que añadir.
 selectEntity=Entidad:
 writeNumbersRelation=Cardinalidad:
-the=De
-to=a
+the=min
+to=max
 writeRoll=Rol:
-label1a1=De 1 a 1
-label1aN=De 1 a N
-labelNaN=De N a N
+label1a1=Max 1
+label1aN=Unused
+labelNaN=Max N
 
 #"GUI_AnadirEntiadHija" window
 insertNewDaughter=DBCase: Añadir una entidad hija

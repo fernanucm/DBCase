@@ -64,9 +64,8 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 	private JButton botonCancelar;
 	private TransferRelacion relacion;
 	private String rolViejo;
-	private JRadioButton buttonNaN;
-	private JRadioButton button1aN;
-	private JRadioButton button1a1;
+	private JRadioButton buttonMaxN;
+	private JRadioButton buttonMax1;
 	
 	public GUI_EditarCardinalidadEntidad() {
 		initComponents();
@@ -82,7 +81,6 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
         getContentPane().setLayout(null);
         getContentPane().add(getBotonCancelar());
         getContentPane().add(getBotonEditar());
-        //getContentPane().add(getLabelIcono());
         getContentPane().add(getComboEntidades());
         getContentPane().add(getExplicacion());
         getContentPane().add(getExplicacion2());
@@ -93,7 +91,6 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
         getContentPane().add(getcajaRol());
         getContentPane().add(getJTextPane1());
         getContentPane().add(getComboRoles());
-        getContentPane().add(getButton1aN());
         getContentPane().add(getButton1a1());
         getContentPane().add(getButtonMinMax());
         getContentPane().add(getButtonNaN());
@@ -129,19 +126,13 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 			this.cajaInicio.setEnabled(false);
 			this.cajaFinal.setEditable(false);
 			this.cajaFinal.setEditable(false);
-			this.button1a1.setEnabled(true);
-			this.button1a1.setSelected(false);
-			this.button1aN.setEnabled(true);
-			this.button1aN.setSelected(false);
-			this.buttonNaN.setEnabled(true);
-			this.buttonNaN.setSelected(true);
+			this.buttonMax1.setEnabled(true);
+			this.buttonMaxN.setEnabled(true);
 			this.buttonMinMax.setEnabled(true);
-			this.buttonMinMax.setSelected(false);			
 			// Generamos los items (ya filtrados)
 			String[] itemsEntidades = this.generaItemsEntidades();
 			comboEntidades.setModel(new javax.swing.DefaultComboBoxModel(itemsEntidades));
 			comboEntidades.setSelectedIndex(0);
-			
 			comboEntidades.grabFocus();
 			// Inicio y fin de la entidad seleccionada
 			int vez = 1;//Flag para distingir la inicialización de la ventana
@@ -165,6 +156,11 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 			}			
 			SwingUtilities.invokeLater(doFocus);
 			this.centraEnPantalla();
+			if(v.get(0).equals("0"))
+				if(v.get(1).equals("1")) this.buttonMax1.setSelected(true);
+				else if(v.get(1).equals("N")) this.buttonMaxN.setSelected(true);
+				else this.buttonMinMax.setSelected(true);
+			else this.buttonMinMax.setSelected(true);
 			this.setVisible(true);	
 		}
 	}
@@ -213,8 +209,8 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 			cont++;
 		}
 		Vector<String> v = new Vector<String>();
-		if(inicio == Integer.MAX_VALUE) v.add("n"); else v.add(String.valueOf(inicio));
-		if(fin == Integer.MAX_VALUE) v.add("n"); else v.add(String.valueOf(fin));
+		if(inicio == Integer.MAX_VALUE) v.add("N"); else v.add(String.valueOf(inicio));
+		if(fin == Integer.MAX_VALUE) v.add("N"); else v.add(String.valueOf(fin));
 		v.add(String.valueOf(rol));
 		return v;
 	}
@@ -256,16 +252,12 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 		te.isDebil();
 		Vector veya = this.relacion.getListaEntidadesYAridades();
 		int cont = 0;
-		int numApariciones=0;
 		while(cont<veya.size()){
 			EntidadYAridad eya = (EntidadYAridad) veya.get(cont);
 			if(eya.getEntidad()==idEntidad){
 				v.add(eya.getRol());
-				numApariciones++;
 			}
 			cont++;
-		}
-		if(numApariciones==1) {
 		}
 		return v;
 	}
@@ -285,16 +277,12 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 		v.add(this.getRelacion());
 		v.add(this.listaEntidades.get(this.comboEntidades.getSelectedIndex()));
 //		En función de que boton de la cardinalidad haya seleccionado se guardará una u otra:
-		if (this.button1a1.isSelected()){
-			v.add(String.valueOf(1));
+		if (this.buttonMax1.isSelected()){
+			v.add(String.valueOf(0));
 			v.add(String.valueOf(1));
 		}
-		else if (this.button1aN.isSelected()){
-			v.add(String.valueOf(1));
-			v.add("n");
-		}
-		else if (this.buttonNaN.isSelected()){
-			v.add("n");
+		else if (this.buttonMaxN.isSelected()){
+			v.add(String.valueOf(0));
 			v.add("n");
 		}		
 		else{
@@ -339,21 +327,13 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 			}
 		}
 	} 
-	public void keyReleased(KeyEvent arg0) {}
-
-	public void keyTyped(KeyEvent arg0) {}
-
-	public void mouseEntered( MouseEvent e ) {} 
+	
 	
 	public void mouseClicked(MouseEvent arg0) {
 		this.requestFocus();
 	}
 
-	public void mouseExited(MouseEvent arg0) {}
 
-	public void mousePressed(MouseEvent arg0) {}
-
-	public void mouseReleased(MouseEvent arg0) {}
 	
 	//Oyente para todos los elementos
 	private KeyListener general = new KeyListener() {
@@ -484,7 +464,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 	private JTextField getCajaFinal() {
 		if(cajaFinal == null) {
 			cajaFinal = new JTextField();
-			cajaFinal.setBounds(174, 235, 56, 25);
+			cajaFinal.setBounds(174, 230, 40, 25);
 			cajaFinal.addKeyListener(general);
 		}
 		return cajaFinal;
@@ -494,7 +474,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 		if(jLabel1 == null) {
 			jLabel1 = new JLabel();
 			jLabel1.setText(Lenguaje.getMensaje(Lenguaje.TO));
-			jLabel1.setBounds(150, 235, 56, 25);
+			jLabel1.setBounds(140, 230, 60, 25);
 		}
 		return jLabel1;
 	}
@@ -502,7 +482,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 	private JTextField getCajaInicio() {
 		if(cajaInicio == null) {
 			cajaInicio = new JTextField();
-			cajaInicio.setBounds(86, 235, 56, 25);
+			cajaInicio.setBounds(86, 230, 40, 25);
 			cajaInicio.addKeyListener(general);
 		}
 		return cajaInicio;
@@ -598,9 +578,8 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 	/*Al seleccionar la cardinalidad 1 a 1 deshabilito el resto de botones  y los habilito 
 	 * al desseleccionar*/
 	private void button1a1ItemStateChanged(java.awt.event.ItemEvent evt) {
-		if(this.button1a1.isSelected()){
-			this.button1aN.setSelected(false);
-			this.buttonNaN.setSelected(false);
+		if(this.buttonMax1.isSelected()){
+			this.buttonMaxN.setSelected(false);
 			this.buttonMinMax.setSelected(false);
 			this.cajaFinal.setEditable(false);
 			this.cajaFinal.setText("");
@@ -609,44 +588,19 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 			this.jLabel1.setEnabled(false);
 		}
 		else{
-			if(!this.button1a1.isSelected()){
-				this.button1aN.setEnabled(true);
-				this.buttonNaN.setEnabled(true);
+			if(!this.buttonMax1.isSelected()){
+				this.buttonMaxN.setEnabled(true);
 				this.buttonMinMax.setEnabled(true);
 				this.jLabel1.setEnabled(true);
 			}
 		}
 	}
-	
-	/*Al seleccionar la cardinalidad 1 a N deshabilito el resto de botones  y los habilito 
-	 * al desseleccionar*/
-	private void button1aNItemStateChanged(java.awt.event.ItemEvent evt) {
-		if(this.button1aN.isSelected()){
-			this.button1a1.setSelected(false);
-			this.buttonNaN.setSelected(false);
-			this.buttonMinMax.setSelected(false);
-			this.cajaFinal.setText("");
-			this.cajaInicio.setText("");
-			this.cajaFinal.setEditable(false);
-			this.cajaInicio.setEditable(false);
-			this.jLabel1.setEnabled(false);
-		}
-		else{
-			if(!this.button1aN.isSelected()){
-				this.button1a1.setEnabled(true);
-				this.buttonNaN.setEnabled(true);
-				this.buttonMinMax.setEnabled(true);
-				this.jLabel1.setEnabled(true);
-			}
-		}
-	}
-	
+		
 	/*Al seleccionar la cardinalidad N a N deshabilito el resto de botones  y los habilito 
 	 * al desseleccionar*/
 	private void buttonNaNItemStateChanged(java.awt.event.ItemEvent evt) {
-		if(this.buttonNaN.isSelected()){
-			this.button1a1.setSelected(false);
-			this.button1aN.setSelected(false);
+		if(this.buttonMaxN.isSelected()){
+			this.buttonMax1.setSelected(false);
 			this.buttonMinMax.setSelected(false);
 			this.cajaFinal.setEditable(false);
 			this.cajaFinal.setText("");
@@ -655,9 +609,8 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 			this.jLabel1.setEnabled(false);
 		}
 		else{
-			if(!this.buttonNaN.isSelected()){
-				this.button1a1.setEnabled(true);
-				this.button1aN.setEnabled(true);
+			if(!this.buttonMaxN.isSelected()){
+				this.buttonMax1.setEnabled(true);
 				this.buttonMinMax.setEnabled(true);
 				this.jLabel1.setEnabled(true);
 			}
@@ -672,9 +625,8 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 			Vector<String> v = this.generaInicioFin(13);
 			this.cajaInicio.setText(v.get(0));
 			this.cajaFinal.setText(v.get(1));
-			this.button1a1.setSelected(false);
-			this.button1aN.setSelected(false);
-			this.buttonNaN.setSelected(false);
+			this.buttonMax1.setSelected(false);
+			this.buttonMaxN.setSelected(false);
 			this.cajaFinal.setEnabled(true);
 			this.cajaInicio.setEnabled(true);
 			this.cajaFinal.setEditable(true);
@@ -691,75 +643,53 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 	}
 	
 	private JRadioButton getButton1a1() {
-		if(button1a1 == null) {
-			button1a1 = new JRadioButton();
-			button1a1.setOpaque(false);
-			button1a1.setEnabled(false);
-			button1a1.setText(Lenguaje.getMensaje(Lenguaje.LABEL1A1));
-			button1a1.setBounds(25, 159, 127, 30);
-			button1a1.addItemListener(new java.awt.event.ItemListener() {
+		if(buttonMax1 == null) {
+			buttonMax1 = new JRadioButton();
+			buttonMax1.setOpaque(false);
+			buttonMax1.setEnabled(false);
+			buttonMax1.setText(Lenguaje.getMensaje(Lenguaje.LABEL1A1));
+			buttonMax1.setBounds(25, 159, 127, 30);
+			buttonMax1.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent evt) {
 					button1a1ItemStateChanged(evt);
 				}
 			});
-			button1a1.addKeyListener(new KeyListener() {
+			buttonMax1.addKeyListener(new KeyListener() {
 				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){button1a1.setSelected(
-												!button1a1.isSelected());}
+					if(e.getKeyCode()==10){buttonMax1.setSelected(
+												!buttonMax1.isSelected());}
 				}
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
 		}
-		return button1a1;
+		return buttonMax1;
 	}
 	
-	private JRadioButton getButton1aN() {
-		if(button1aN == null) {
-			button1aN = new JRadioButton();
-			button1aN.setOpaque(false);
-			button1aN.setText(Lenguaje.getMensaje(Lenguaje.LABEL1AN));
-			button1aN.setEnabled(false);
-			button1aN.setBounds(25, 183, 127, 30);
-			button1aN.addItemListener(new java.awt.event.ItemListener() {
-				public void itemStateChanged(java.awt.event.ItemEvent evt) {
-					button1aNItemStateChanged(evt);
-				}
-			});
-			button1aN.addKeyListener(new KeyListener() {
-				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){button1aN.setSelected(
-												!button1aN.isSelected());}
-				}
-				public void keyReleased(KeyEvent e) {}
-				public void keyTyped(KeyEvent e) {}
-			});
-		}
-		return button1aN;
-	}
+	
 	
 	private JRadioButton getButtonNaN() {
-		if(buttonNaN == null) {
-			buttonNaN = new JRadioButton();
-			buttonNaN.setOpaque(false);
-			buttonNaN.setSelected(true);
-			buttonNaN.setText(Lenguaje.getMensaje(Lenguaje.LABELNAN));
-			buttonNaN.setBounds(25, 208, 127, 30);
-			buttonNaN.addItemListener(new java.awt.event.ItemListener() {
+		if(buttonMaxN == null) {
+			buttonMaxN = new JRadioButton();
+			buttonMaxN.setOpaque(false);
+			buttonMaxN.setSelected(true);
+			buttonMaxN.setText(Lenguaje.getMensaje(Lenguaje.LABELNAN));
+			buttonMaxN.setBounds(25, 195, 127, 30);
+			buttonMaxN.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent evt) {
 					buttonNaNItemStateChanged(evt);
 				}
 			});
-			buttonNaN.addKeyListener(new KeyListener() {
+			buttonMaxN.addKeyListener(new KeyListener() {
 				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){buttonNaN.setSelected(
-												!buttonNaN.isSelected());}
+					if(e.getKeyCode()==10){buttonMaxN.setSelected(
+												!buttonMaxN.isSelected());}
 				}
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
 		}
-		return buttonNaN;
+		return buttonMaxN;
 	}
 	
 	private JRadioButton getButtonMinMax() {
@@ -768,7 +698,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 			buttonMinMax.setOpaque(false);
 			buttonMinMax.setEnabled(false);
 			buttonMinMax.setText(Lenguaje.getMensaje(Lenguaje.THE));
-			buttonMinMax.setBounds(25, 235, 70, 25);
+			buttonMinMax.setBounds(25, 230, 70, 25);
 			buttonMinMax.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent evt) {
 					buttonMinMaxItemStateChanged(evt);
@@ -785,4 +715,22 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 		}
 		return buttonMinMax;
 	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+
+	@Override
+	public void mouseExited(MouseEvent e) {}
+
+	@Override
+	public void keyTyped(KeyEvent e) {}
+
+	@Override
+	public void keyReleased(KeyEvent e) {}
 }

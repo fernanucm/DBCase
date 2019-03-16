@@ -259,12 +259,12 @@ imposibleToInsertEntity=You cannot add any entoty to the relation.
 noEntities=There is not any entity to add.
 selectEntity=Entity:
 writeNumbersRelation=Cardinality:
-the=From
-to=To
+the=min
+to=max
 writeRoll=Role name:
-label1a1=From 1 to 1
-label1aN=From 1 to N
-labelNaN=From N to N
+label1a1=Max 1
+label1aN=Unused
+labelNaN=Max N
 
 #"GUI_AnadirEntiadHija" window
 insertNewDaughter=DBCase: Add child entity

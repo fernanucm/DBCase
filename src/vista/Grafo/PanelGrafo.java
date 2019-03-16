@@ -84,14 +84,9 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 
 
 	Graph<Transfer,Object> graph;
-
 	VisualizationViewer<Transfer,Object> vv;
-
 	GrafoLayout<Transfer,Object> layout;
-
 	private Controlador controlador;
-
-	
 	// Mapas para el acceso correcto a los nodos
 	protected Map<Integer,TransferEntidad> entidades;
 	protected Map<Integer,TransferAtributo> atributos;
@@ -265,27 +260,31 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		vv.getRenderContext().setEdgeStrokeTransformer(new ConstantTransformer<Stroke>(new BasicStroke(2f)));
 		//Hace las lineas rectas
 		vv.getRenderContext().setEdgeShapeTransformer(new EdgeShape.Line());
-		//Escribe datos sobre las líneas
+		//Escribe datos sobre las lineas
 		vv.getRenderContext().setEdgeLabelTransformer(new Transformer<Object, String>(){
 			public String transform(Object input) {
 				if (input instanceof EntidadYAridad){
 					EntidadYAridad dato = (EntidadYAridad)input;
-					String iniRango, finRango, strRol, numerito;
-					
-					// Si es IsA no escribe 
-					if (dato.getPrincipioRango() == 0 && dato.getFinalRango() == 0) return null;
-					
-					if (dato.getPrincipioRango() == Integer.MAX_VALUE)iniRango = "N";
-					else iniRango = String.valueOf(dato.getPrincipioRango());
+					String iniRango, finRango, strRol, numerito="";
 					
 					if (dato.getFinalRango() == Integer.MAX_VALUE)finRango = "N";
 					else finRango = String.valueOf(dato.getFinalRango());
 					
+					if (dato.getPrincipioRango() == 0) {
+						if(!esEquis(finRango)) numerito = finRango;//Es Max = 1 o Max = N
+						else if(dato.getFinalRango() == 0) return null;//es IsA
+						else {//Es rango min max
+							if (dato.getPrincipioRango() == Integer.MAX_VALUE)iniRango = "N";
+							else iniRango = String.valueOf(dato.getPrincipioRango());
+							numerito = iniRango + "  . .  "+ finRango;
+						}
+					}
+					else {//Es rango min max
+						if (dato.getPrincipioRango() == Integer.MAX_VALUE)iniRango = "N";
+						else iniRango = String.valueOf(dato.getPrincipioRango());
+						numerito = iniRango + "  . .  "+ finRango;
+					}
 					strRol = dato.getRol();
-					
-					if(esEquis(iniRango) || esEquis(finRango)) numerito = iniRango + "  . .  "+ finRango;
-					else numerito = finRango;
-					
 					//Color de las cardinalidades
 					return "<html><center><font size=\"5\" face=\"avenir\" color=\"" + theme.lines().hexValue() +"\">"+ numerito + "   "+ strRol+"<p>";
 				}
