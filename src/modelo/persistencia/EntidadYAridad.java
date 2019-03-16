@@ -1,6 +1,6 @@
 package modelo.persistencia;
 
-import vista.Lenguajes.Lenguaje;
+import vista.lenguaje.Lenguaje;
 
 public class EntidadYAridad {
 	

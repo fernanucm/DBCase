@@ -25,7 +25,7 @@ import controlador.TC;
 import modelo.tools.ImagePath;
 import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferRelacion;
-import vista.Lenguajes.Lenguaje;
+import vista.lenguaje.Lenguaje;
 
 
 /**

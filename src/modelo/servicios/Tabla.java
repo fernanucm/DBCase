@@ -113,32 +113,22 @@ public class Tabla {
 				trio[2] = e.getNombre() + "(value_list)";
 			}
 		}
-		
 		atributos.add(trio);
-		if (encontrado) 
-			aniadeClaveForanea(trio[0], trio[1], trio[2]);
+		if (encontrado) aniadeClaveForanea(trio[0], trio[1], trio[2]);
 	}
 	
 	public void aniadeListaAtributos(Vector<String[]> listado, Vector<String> rest, Hashtable<Integer,Enumerado> dominios){
 		for (int i=0;i<listado.size();i++){
 			String[] trio = listado.elementAt(i);
-			if (trio.length < 4){
-				aniadeAtributo(trio[0], trio[1], trio[2], dominios,
-						rest, false,
-						false);
-			}else{
-				aniadeAtributo(trio[0], trio[1], trio[2], dominios,
-								rest,
-								trio[3].equalsIgnoreCase("1"),
-								trio[4].equalsIgnoreCase("1"));
-			}
+			if (trio.length < 4) aniadeAtributo(trio[0], trio[1], trio[2], dominios, rest, false, false);
+			else aniadeAtributo(trio[0], trio[1], trio[2], dominios,rest,
+									trio[3].equalsIgnoreCase("1"),
+									trio[4].equalsIgnoreCase("1"));
 		}
 	}
 	
 	public void aniadeListaClavesPrimarias(Vector<String[]> listado){
-		for (int i=0;i<listado.size();i++){
-			primaries.add(listado.elementAt(i));
-		}
+		for (int i=0;i<listado.size();i++) primaries.add(listado.elementAt(i));
 	}
 	
 	public void aniadeListaClavesForaneas(Vector<String[]> listado,String nombreEntidad, String[] atributosReferenciados){
@@ -186,60 +176,53 @@ public class Tabla {
 	}
 	
 	public Tabla creaClonSinAmbiguedadNiEspacios(){
-		// Crea la tabla con el mismo nombre
+		//Crea la tabla con el mismo nombre
 		Tabla t = new Tabla(ponGuionesBajos(this.nombreTabla), this.getConstraints());
 		
-		// Aniade todos los atributos
+		//Anade todos los atributos
 		for (int i=0;i<atributos.size();i++){
 			String repe="";
 			if (this.estaRepe(atributos.elementAt(i)[0], atributos)) 
-				repe +="_"+atributos.elementAt(i)[2];
-			t.aniadeAtributo(ponGuionesBajos(atributos.elementAt(i)[0]+repe), 
+				repe +=atributos.elementAt(i)[2]+"_";
+			t.aniadeAtributo(ponGuionesBajos(repe+atributos.elementAt(i)[0]), 
 							atributos.elementAt(i)[1], 
 							ponGuionesBajos(atributos.elementAt(i)[2]),
 							atributos.elementAt(i)[3].equalsIgnoreCase("1"),
 							atributos.elementAt(i)[4].equalsIgnoreCase("1"));
 		}
 		
-		// Aniade las claves primarias
+		//Anade las claves primarias
 		if (!primaries.isEmpty()){
 			for (int i=0;i<primaries.size();i++){
 				String repe ="";
 				if (this.estaRepe(primaries.elementAt(i)[0], atributos)) {
 					String ref = primaries.elementAt(i)[2];
-					if (ref.indexOf("(") >= 0){
-						repe +="_"+ref.substring(0, ref.indexOf("("));
-					}else{
-						repe +="_"+ref;
-					}
+					if (ref.indexOf("(") >= 0)
+						repe +=ref.substring(0, ref.indexOf("("))+"_";
+					else repe +=ref+"_";
 				}
-				
-				t.aniadeClavePrimaria(ponGuionesBajos(primaries.elementAt(i)[0]+repe), 
+				t.aniadeClavePrimaria(ponGuionesBajos(repe+primaries.elementAt(i)[0]), 
 									primaries.elementAt(i)[1], 
 									ponGuionesBajos(primaries.elementAt(i)[2]));
 			}
 		}
 		
-		// Aniade las claves foráneas
+		//Anade las claves foráneas
 		if (!foreigns.isEmpty()){
 			for (int i=0;i<foreigns.size();i++){
 				String repe="";
 				if (this.estaRepe(foreigns.elementAt(i)[0], atributos)) {
 					String ref = foreigns.elementAt(i)[2];
-					if (ref.indexOf("(") >= 0){
-						repe +="_"+ref.substring(0, ref.indexOf("("));
-					}else{
-						repe +="_"+ref;
-					}
+					if (ref.indexOf("(") >= 0) repe +=ref.substring(0, ref.indexOf("("));
+					else repe +=ref;
 				}
-				
-				t.aniadeClaveForanea(ponGuionesBajos(foreigns.elementAt(i)[0]+repe), 
+				t.aniadeClaveForanea(ponGuionesBajos(repe+foreigns.elementAt(i)[0]), 
 									foreigns.elementAt(i)[1], 
 									ponGuionesBajos(foreigns.elementAt(i)[2]));
 			}
 		}
 		
-		// Aniade las unique
+		// Anade las unique
 		if (!uniques.isEmpty()) {
 			for (int i = 0; i < uniques.size(); i++) {
 				// Extraer tabla a la que referencian
@@ -259,16 +242,11 @@ public class Tabla {
 				String resul = "";
 				for (int m = 0; m<unis.length; m++){
 					// Comprobar si se ha renombrado
-					if (this.estaRepe(unis[m], atributos)) {
-						unis[m] += "_" + tabla;
-					}
+					if (this.estaRepe(unis[m], atributos)) unis[m] += "_" + tabla;
 					
-					// Aniadir a la lista de uniques
-					if (m == 0) {
-						resul += ponGuionesBajos(unis[m].trim());
-					}else{
-						resul += ", " + ponGuionesBajos(unis[m].trim());
-					}
+					// Anadir a la lista de uniques
+					if (m == 0) resul += ponGuionesBajos(unis[m].trim());
+					else resul += ", " + ponGuionesBajos(unis[m].trim());
 				}
 				
 				t.getUniques().add(resul);
@@ -277,43 +255,6 @@ public class Tabla {
 		
 		return t;
 	}
-	
-	public String codigoEstandarCreacionDeTabla(TransferConexion conexion){
-		Tabla t = creaClonSinAmbiguedadNiEspacios();
-		ConectorDBMS traductor = FactoriaConectores.obtenerConector(conexion.getTipoConexion());
-		return traductor.obtenerCodigoCreacionTabla(t);
-	}
-	
-	public String codigoHTMLCreacionDeTabla(TransferConexion conexion){
-		Tabla t = creaClonSinAmbiguedadNiEspacios();
-		ConectorDBMS traductor = FactoriaConectores.obtenerConector(conexion.getTipoConexion());
-		return traductor.obtenerCodigoCreacionTablaHTML(t);
-	}
-	
-	public String codigoEstandarRestriccionesDeTabla(TransferConexion conexion){
-		Tabla t = creaClonSinAmbiguedadNiEspacios();
-		ConectorDBMS traductor = FactoriaConectores.obtenerConector(conexion.getTipoConexion());
-		return traductor.obtenerCodigoRestriccionTabla(t);
-	}
-	
-	public String codigoHTMLRestriccionesDeTabla(TransferConexion conexion){
-		Tabla t = creaClonSinAmbiguedadNiEspacios();
-		ConectorDBMS traductor = FactoriaConectores.obtenerConector(conexion.getTipoConexion());
-		return traductor.obtenerCodigoRestriccionTablaHTML(t);
-	}
-	
-	public String codigoEstandarClavesDeTabla(TransferConexion conexion){
-		Tabla t = creaClonSinAmbiguedadNiEspacios();
-		ConectorDBMS traductor = FactoriaConectores.obtenerConector(conexion.getTipoConexion());
-		return traductor.obtenerCodigoClavesTabla(t);
-	}
-	
-	public String codigoHTMLClavesDeTabla(TransferConexion conexion){
-		Tabla t = creaClonSinAmbiguedadNiEspacios();
-		ConectorDBMS traductor = FactoriaConectores.obtenerConector(conexion.getTipoConexion());
-		return traductor.obtenerCodigoClavesTablaHTML(t);
-	}
-
 	public String modeloRelacionalDeTabla(){
 		String mr="<p>"+this.ponGuionesBajos(nombreTabla)+" (";
 		Vector<String[]>definitivo= new Vector<String[]>();
@@ -328,12 +269,11 @@ public class Tabla {
 				if (i>0) mr+=", ";
 				mr+="<u>"+this.ponGuionesBajos(repe+primaries.elementAt(i)[0])+"</u>";
 			}
-
 		for (int j=0;j<definitivo.size();j++){
 			if (i>0||k>0) mr+=", ";
 			String repe="";
-			if (this.estaRepe(definitivo.elementAt(j)[0], atributos)) repe +="_"+definitivo.elementAt(j)[2];
-			mr+=this.ponGuionesBajos(definitivo.elementAt(j)[0]+repe);
+			if (this.estaRepe(definitivo.elementAt(j)[0], atributos)) repe +=definitivo.elementAt(j)[2]+"_";
+			mr+=this.ponGuionesBajos(repe+definitivo.elementAt(j)[0]);
 		}	
 		mr+=")</p>";
 		return mr;
@@ -372,12 +312,9 @@ public class Tabla {
 		
 		while (i<vector.size()&& cont<2){
 			String [] trio = vector.elementAt(i);
-			if (trio[0].equalsIgnoreCase(elem)){
-				cont++;
-			}
+			if (trio[0].equalsIgnoreCase(elem)) cont++;
 			i++;
 		}
-		
 		return (cont>1);
 	}
 	
@@ -388,24 +325,55 @@ public class Tabla {
 	 * @return Devuelve el vector v1 sin los valores de v2
 	 */
 	private Vector<String[]> filtra(Vector<String[]> v1,Vector<String[]> v2 ){
-		Vector<String[]> aux= new Vector<String[]>();
-		
-		
+		Vector<String[]> aux= new Vector<String[]>();		
 		for (int i =0;i<v1.size();i++){
 			String[] par1 = v1.elementAt(i);
 			int j=0;
 			boolean esta=false;
 			while(j<v2.size()&&!esta){
 				String[] par2=v2.elementAt(j);
-				if (par1[0].equals(par2[0]) && par1[1].equals(par2[1]) && par1[2].equals(par2[2])){
-					esta=true;
-				}
+				if (par1[0].equals(par2[0]) && par1[1].equals(par2[1]) && par1[2].equals(par2[2])) esta=true;
 				j++;
 			}
-			if (!esta)aux.add(par1);
+			if (!esta) aux.add(par1);
 		}
-		
 		return aux;
 	}
 	
+	public String codigoEstandarCreacionDeTabla(TransferConexion conexion){
+		Tabla t = creaClonSinAmbiguedadNiEspacios();
+		ConectorDBMS traductor = FactoriaConectores.obtenerConector(conexion.getTipoConexion());
+		return traductor.obtenerCodigoCreacionTabla(t);
+	}
+	
+	public String codigoHTMLCreacionDeTabla(TransferConexion conexion){
+		Tabla t = creaClonSinAmbiguedadNiEspacios();
+		ConectorDBMS traductor = FactoriaConectores.obtenerConector(conexion.getTipoConexion());
+		return traductor.obtenerCodigoCreacionTablaHTML(t);
+	}
+	
+	public String codigoEstandarRestriccionesDeTabla(TransferConexion conexion){
+		Tabla t = creaClonSinAmbiguedadNiEspacios();
+		ConectorDBMS traductor = FactoriaConectores.obtenerConector(conexion.getTipoConexion());
+		return traductor.obtenerCodigoRestriccionTabla(t);
+	}
+	
+	public String codigoHTMLRestriccionesDeTabla(TransferConexion conexion){
+		Tabla t = creaClonSinAmbiguedadNiEspacios();
+		ConectorDBMS traductor = FactoriaConectores.obtenerConector(conexion.getTipoConexion());
+		return traductor.obtenerCodigoRestriccionTablaHTML(t);
+	}
+	
+	public String codigoEstandarClavesDeTabla(TransferConexion conexion){
+		Tabla t = creaClonSinAmbiguedadNiEspacios();
+		ConectorDBMS traductor = FactoriaConectores.obtenerConector(conexion.getTipoConexion());
+		return traductor.obtenerCodigoClavesTabla(t);
+	}
+	
+	public String codigoHTMLClavesDeTabla(TransferConexion conexion){
+		Tabla t = creaClonSinAmbiguedadNiEspacios();
+		ConectorDBMS traductor = FactoriaConectores.obtenerConector(conexion.getTipoConexion());
+		return traductor.obtenerCodigoClavesTablaHTML(t);
+	}
+
 }

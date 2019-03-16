@@ -9,7 +9,7 @@ import java.util.Vector;
 import modelo.servicios.Enumerado;
 import modelo.servicios.Tabla;
 import modelo.tools.HTMLUtils;
-import vista.Lenguajes.Lenguaje;
+import vista.lenguaje.Lenguaje;
 
 /**
  * Conecta la aplicación a una base de datos de Microsoft Access

@@ -21,6 +21,7 @@ public class reportPanel extends JTextPane{
 				+ "strong{color:"+theme.blueFont().hexValue()+";}"
 				+ "body{background-color:"+theme.background().hexValue()+";margin:0}"
 				+ "h2{padding-left:15px;font-size:18px}"
+				+ "h3{padding-left:15px;font-size:14px}"
 				+ ".card{border:1px solid "+theme.toolBar().hexValue()+";padding:5px;background:"+theme.control().hexValue()+";margin:15px 30px 15px 30px;}"
 				+ "p{font-family:monospaced;padding-left:30px;color:"+theme.paragraph().hexValue()+"}"
 				+ "</style><p></p>");

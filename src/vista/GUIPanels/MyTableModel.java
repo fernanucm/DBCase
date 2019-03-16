@@ -3,7 +3,7 @@ package vista.GUIPanels;
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
-import vista.Lenguajes.Lenguaje;
+import vista.lenguaje.Lenguaje;
 
 @SuppressWarnings("serial")
 public class MyTableModel extends AbstractTableModel{

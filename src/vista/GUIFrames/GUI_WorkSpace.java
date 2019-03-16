@@ -23,7 +23,7 @@ import org.w3c.dom.NodeList;
 import controlador.Controlador;
 import controlador.TC;
 import modelo.tools.ImagePath;
-import vista.Lenguajes.Lenguaje;
+import vista.lenguaje.Lenguaje;
 
 
 

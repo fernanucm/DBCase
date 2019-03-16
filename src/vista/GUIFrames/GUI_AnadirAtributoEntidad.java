@@ -25,7 +25,7 @@ import modelo.tools.TipoDominio;
 import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferDominio;
 import modelo.transfers.TransferEntidad;
-import vista.Lenguajes.Lenguaje;
+import vista.lenguaje.Lenguaje;
 
 /**
 * This code was edited or generated using CloudGarden's Jigloo

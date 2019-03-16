@@ -74,8 +74,8 @@ import vista.GUIPanels.customTreeCellRenderer;
 import vista.GUIPanels.reportPanel;
 import vista.Grafo.PanelGrafo;
 import vista.Grafo.PanelThumbnail;
-import vista.Lenguajes.Lenguaje;
 import vista.Theme.Theme;
+import vista.lenguaje.Lenguaje;
 
 /**
  * This code was edited or generated using CloudGarden's Jigloo

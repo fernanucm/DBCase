@@ -12,7 +12,7 @@ import controlador.TC;
 import modelo.persistencia.DAODominios;
 import modelo.tools.TipoDominio;
 import modelo.transfers.TransferDominio;
-import vista.Lenguajes.Lenguaje;
+import vista.lenguaje.Lenguaje;
 
 public class ServiciosDominios {
 

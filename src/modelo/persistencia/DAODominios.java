@@ -15,13 +15,12 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import vista.Lenguajes.Lenguaje;
-
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 import modelo.tools.TipoDominio;
 import modelo.transfers.TransferDominio;
+import vista.lenguaje.Lenguaje;
 @SuppressWarnings("rawtypes")
 public class DAODominios {
 

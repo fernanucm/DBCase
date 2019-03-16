@@ -18,7 +18,7 @@ import modelo.servicios.ServiciosAtributos;
 import modelo.servicios.ServiciosDominios;
 import modelo.servicios.ServiciosEntidades;
 import modelo.servicios.ServiciosRelaciones;
-import modelo.servicios.ServiciosSistema;
+import modelo.servicios.GeneradorEsquema;
 import modelo.tools.ImagePath;
 import modelo.tools.PanelOpciones;
 import modelo.tools.PanelOpcionesPequeno;
@@ -56,8 +56,8 @@ import vista.GUIFrames.GUI_SeleccionarConexion;
 import vista.GUIFrames.GUI_TablaUniqueEntidad;
 import vista.GUIFrames.GUI_TablaUniqueRelacion;
 import vista.GUIFrames.GUI_WorkSpace;
-import vista.Lenguajes.Lenguaje;
 import vista.Theme.Theme;
+import vista.lenguaje.Lenguaje;
 
 
 public class Controlador {
@@ -101,7 +101,7 @@ public class Controlador {
 	private ServiciosAtributos theServiciosAtributos;
 	private ServiciosRelaciones theServiciosRelaciones;
 	private ServiciosDominios theServiciosDominios;
-	private ServiciosSistema theServiciosSistema;
+	private GeneradorEsquema theServiciosSistema;
 	// Otros
 	private String path;
 	private Vector<TransferAtributo> listaAtributos;
@@ -123,7 +123,7 @@ public class Controlador {
 		theServiciosRelaciones.setControlador(this);
 		theServiciosDominios = new ServiciosDominios();
 		theServiciosDominios.setControlador(this);
-		theServiciosSistema = new ServiciosSistema();
+		theServiciosSistema = new GeneradorEsquema();
 		theServiciosSistema.reset();
 		theServiciosSistema.setControlador(this);
 
@@ -3745,11 +3745,11 @@ public class Controlador {
 		this.theGUIEditarCardinalidadEntidad = theGUIEditarCardinalidadEntidad;
 	}
 	
-	public ServiciosSistema getTheServiciosSistema() {
+	public GeneradorEsquema getTheServiciosSistema() {
 		return theServiciosSistema;
 	}
 
-	public void setTheServiciosSistema(ServiciosSistema theServiciosSistema) {
+	public void setTheServiciosSistema(GeneradorEsquema theServiciosSistema) {
 		this.theServiciosSistema = theServiciosSistema;
 	}
 

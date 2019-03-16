@@ -13,12 +13,12 @@ import javax.swing.JPanel;
 
 import controlador.Controlador;
 import controlador.TC;
-import vista.Lenguajes.Lenguaje;
 import vista.Theme.Theme;
 import vista.icons.attributeIcon;
 import vista.icons.entityIcon;
 import vista.icons.isaIcon;
 import vista.icons.relationIcon;
+import vista.lenguaje.Lenguaje;
 
 @SuppressWarnings("serial")
 public class addTransfersPanel extends JPanel{

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -13,7 +12,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import controlador.Controlador;
 import controlador.TC;
 import modelo.conectorDBMS.ConectorDBMS;
@@ -31,12 +29,11 @@ import modelo.transfers.TransferConexion;
 import modelo.transfers.TransferDominio;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
-import vista.Lenguajes.Lenguaje;
+import vista.lenguaje.Lenguaje;
 
 @SuppressWarnings({"unchecked","rawtypes"})
-public class ServiciosSistema {
-	private Controlador controlador; 
-
+public class GeneradorEsquema {
+	private Controlador controlador;
 	//atributos para la generacion de los modelos
 	private boolean modeloValidado;
 	private String sql="";
@@ -44,7 +41,7 @@ public class ServiciosSistema {
 	private String mr="";
 	private TransferConexion conexionScriptGenerado = null;
 	private String mensaje;
-	private ArrayList<restriccionPerdida> restriccionesPerdidas;
+	private RestriccionesPerdidas restriccionesPerdidas = new RestriccionesPerdidas();
 
 	//aqui se almacenaran las tablas ya creadas, organizadas por el id de la entidad /relacion (clave) y con el objeto tabla como valor.
 	private Hashtable<Integer,Tabla> tablasEntidades=new Hashtable<Integer,Tabla>();
@@ -58,7 +55,6 @@ public class ServiciosSistema {
 		 * - Cada atributo pertenece a una sola entidad
 		 * - Cada atributo tiene un dominio definido
 		 * - Los atributos multivalorados no son clave
-		 * - 
 		 */
 		DAOAtributos daoAtributos= new DAOAtributos(this.controlador.getPath());
 		Vector <TransferAtributo> atributos =daoAtributos.ListaDeAtributos();
@@ -116,6 +112,7 @@ public class ServiciosSistema {
 
 		return  valido;
 	}
+	
 	private boolean validaFidelidadAtributo(TransferAtributo ta){
 		// comprueba si el atributo pertenece solo a una entidad.
 		DAOAtributos daoAtributos= new DAOAtributos(this.controlador.getPath());
@@ -186,6 +183,7 @@ public class ServiciosSistema {
 
 		return valido; 
 	}
+	
 	private boolean validaCompuesto(TransferAtributo ta){
 		boolean valido = true;
 		mensaje += HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.RATIFYING_CHILDREN))+HTMLUtils.newLine();
@@ -203,8 +201,7 @@ public class ServiciosSistema {
 		return valido;
 	}
 
-
-//	validacion de entidades
+	//validacion de entidades
 	private boolean validaEntidades(){
 		DAOEntidades daoEntidades= new DAOEntidades(this.controlador.getPath());
 		Vector <TransferEntidad> entidades =daoEntidades.ListaDeEntidades();
@@ -225,7 +222,7 @@ public class ServiciosSistema {
 		return valido;
 	}
 
-//	metodos privados de validacion de entidades
+	//metodos privados de validacion de entidades
 	private boolean validaKey(TransferEntidad te){
 		DAOAtributos daoAtributos= new DAOAtributos(this.controlador.getPath());
 		//valida si la entidad tiene clave y si esta dentro de sus atributos.
@@ -353,6 +350,7 @@ public class ServiciosSistema {
 			return todosBien;
 		}	
 	}
+	
 	private boolean validaNombresAtributosEntidad(TransferEntidad te){
 		//comprueba que una entidad tenga atributos con nombres distintos.
 		mensaje += HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.RATIFYING_ATTRIB_NAMES))+HTMLUtils.newLine();
@@ -412,8 +410,7 @@ public class ServiciosSistema {
 
 	}
 
-
-//	validacion de relaciones
+	//validacion de relaciones
 	private boolean validaRelaciones(){
 		DAORelaciones daoRelaciones= new DAORelaciones(this.controlador.getPath());
 		Vector <TransferRelacion> relaciones =daoRelaciones.ListaDeRelaciones();
@@ -652,11 +649,7 @@ public class ServiciosSistema {
 			else controlador.mensajeDesde_SS(TC.SS_ValidacionC,mensaje);
 	}
 
-
-
-
-//	metodos auxiliares
-
+	//metodos auxiliares
 	private String quitaParenDominio(String dominio){
 		int c=dominio.indexOf("(");
 		return dominio.substring(0,c);
@@ -715,32 +708,20 @@ public class ServiciosSistema {
 			parejaResultados[0]=tr.getIdRelacion();
 			while (j<veya.size()){
 				EntidadYAridad eya = veya.elementAt(j);
-				//if(eya.getEntidad()==te.getIdEntidad()){
 				if(eya.getEntidad()==te.getIdEntidad()&& tr.getTipo().equals("IsA")){
-					//	encontrada=true;
 					if(j==0){
 						parejaResultados[1]=0;
 						resultados.add(parejaResultados);
-						//	queSoy=0;
-					}
-					else{
+					}else{
 						parejaResultados[1]=1;
 						resultados.add(parejaResultados);
-						//	queSoy=1;
 					}
 				}
 				j++;
 			}
-			//if (encontrada && tr.getTipo().equals("IsA")) {
-			//perteneceAisA = true;
-
-			//	}
 			j=0;
 			i++;
 		}
-		//if (!perteneceAisA) queSoy=-1;
-
-		//return queSoy;
 		return resultados;
 	}
 
@@ -792,9 +773,6 @@ public class ServiciosSistema {
 		return enDebil;	
 	}
 
-
-
-
 	//metodos de recorrido de los daos para la creacion de las tablas.
 	private void generaTablasEntidades(){
 		DAOEntidades daoEntidades= new DAOEntidades(controlador.getPath());
@@ -806,7 +784,8 @@ public class ServiciosSistema {
 			TransferEntidad te=entidades.elementAt(i);
 			Tabla tabla = new Tabla(te.getNombre(),te.getListaRestricciones());
 			Vector<TransferAtributo> atribs=this.dameAtributosEnTransfer(te.getListaAtributos());
-			
+			for(String rest : (Vector<String>)te.getListaRestricciones())
+				restriccionesPerdidas.add(new restriccionPerdida(te.getNombre(), rest, restriccionPerdida.TABLA));
 			//recorremos los atributos aniadiendolos a la tabla
 			for (int j=0;j<atribs.size();j++){
 				TransferAtributo ta=atribs.elementAt(j);
@@ -814,12 +793,14 @@ public class ServiciosSistema {
 					tabla.aniadeListaAtributos(this.atributoCompuesto(ta,
 															te.getNombre(),""),te.getListaRestricciones(),tiposEnumerados);
 				else if (ta.isMultivalorado()) multivalorados.add(ta);
-				else tabla.aniadeAtributo(ta.getNombre(), ta.getDominio(),te.getNombre(),
-												tiposEnumerados,te.getListaRestricciones(), ta.getUnique(), ta.getNotnull());
+				else { tabla.aniadeAtributo(ta.getNombre(), ta.getDominio(),te.getNombre(),
+												tiposEnumerados,ta.getListaRestricciones(), ta.getUnique(), ta.getNotnull());
+						for(String rest : (Vector<String>)ta.getListaRestricciones())
+							restriccionesPerdidas.add(new restriccionPerdida(te.getNombre(), rest, restriccionPerdida.TABLA));
+				}
 			}
 			
-			// Aniadimos las claves a la relaciÃ³n
-			
+			// Anadimos las claves a la relacion
 			
 			//aniadimos las claves primarias o logeneraTablasEntidadess discriminantes si la entidad es debil.
 			Vector<TransferAtributo> claves=this.dameAtributosEnTransfer(te.getListaClavesPrimarias());
@@ -844,15 +825,14 @@ public class ServiciosSistema {
 			
 			// Establecimiento de uniques
 			Vector<String> listaUniques = te.getListaUniques();
-			for (int m = 0; m < listaUniques.size(); m++){
+			for (int m = 0; m < listaUniques.size(); m++)
 				tabla.getUniques().add(listaUniques.get(m));
-			}
+			
 		}
 
 	}
 	
 	private void generaTablasRelaciones() {
-		restriccionesPerdidas = new ArrayList<restriccionPerdida>();
 		DAORelaciones daoRelaciones = new DAORelaciones(controlador.getPath());
 		Vector<TransferRelacion> relaciones = daoRelaciones.ListaDeRelaciones();
 		// recorremos las relaciones creando sus tablas, en funcion de su tipo.
@@ -862,7 +842,8 @@ public class ServiciosSistema {
 			// si es una relacion normal, aniadiremos los atributos propios y las
 			// claves de las entidades implicadas.
 			Vector<EntidadYAridad> veya = tr.getListaEntidadesYAridades();
-
+			for(String rest : (Vector<String>)tr.getListaRestricciones())
+				restriccionesPerdidas.add(new restriccionPerdida(tr.getNombre(), rest, restriccionPerdida.TABLA));
 			if (tr.getTipo().equalsIgnoreCase("Normal")) {
 				// creamos la tabla
 				Tabla tabla = new Tabla(tr.getNombre(), tr.getListaRestricciones());
@@ -874,15 +855,16 @@ public class ServiciosSistema {
 					if (ta.getCompuesto())
 						tabla.aniadeListaAtributos(this.atributoCompuesto(ta, tr
 								.getNombre(), ""), ta.getListaRestricciones(), tiposEnumerados);
-					else if (ta.isMultivalorado())
-						multivalorados.add(ta);
-					else
-						tabla.aniadeAtributo(ta.getNombre(), ta.getDominio(), tr
+					else if (ta.isMultivalorado()) multivalorados.add(ta);
+					else { tabla.aniadeAtributo(ta.getNombre(), ta.getDominio(), tr
 								.getNombre(), tiposEnumerados, ta.getListaRestricciones(), ta.getUnique(), ta.getNotnull());
+					for(String rest : (Vector<String>)ta.getListaRestricciones())
+						restriccionesPerdidas.add(new restriccionPerdida(tr.getNombre(), rest, restriccionPerdida.TABLA));
+					}
 				}
 
 				// TRATAMIENTO DE ENTIDADES
-				// Comprobar si todas las entidades estÃ¡n con relaciÃ³n 0..1 o 1..1
+				// Comprobar si todas las entidades estan con relacion 0..1 o 1..1
 				boolean soloHayUnos = true;
 				int k = 0;
 				while (soloHayUnos && k<veya.size()){
@@ -891,58 +873,55 @@ public class ServiciosSistema {
 					else soloHayUnos = false;
 				}
 				
-				// Para cada entidad...
+				//Para cada entidad...
 				boolean esLaPrimeraDel1a1 = true;
 				for (int m = 0; m < veya.size(); m++){
 					// Aniadir su clave primaria a la relaciÃ³n (es clave forÃ¡nea)
 					EntidadYAridad eya = veya.elementAt(m);
 					Tabla ent = tablasEntidades.get(eya.getEntidad());
-					
 					Vector<String[]> previasPrimarias;
 					if (ent.getPrimaries().isEmpty()) previasPrimarias = ent.getAtributos();
 					else previasPrimarias = ent.getPrimaries();
 					
 					//crea las restricciones perdidas (cuando rangoIni > 1 o rangoFin < N)
-					if(eya.getPrincipioRango() < Integer.MAX_VALUE && eya.getFinalRango() > 1 
-							&& (eya.getPrincipioRango() > 1 || eya.getFinalRango() < Integer.MAX_VALUE))
-						restriccionesPerdidas.add(new restriccionPerdida(tr.getNombre(),ent.getNombreTabla(), eya.getPrincipioRango(), eya.getFinalRango()));
+					if(eya.getPrincipioRango() > 0)
+						restriccionesPerdidas.add(
+								new restriccionPerdida(tr.getNombre(),ent.getNombreTabla(), 
+										eya.getPrincipioRango(), eya.getFinalRango(), restriccionPerdida.TOTAL));
 					
-					// ...pero antes renombrarla con el rol
+					//...pero antes renombrarla con el rol
 					Vector<String[]> primarias = new Vector<String[]>();
 					String[] referenciadas = new String[previasPrimarias.size()];
+					
 					for (int q=0; q<previasPrimarias.size(); q++){
 						String[] clave = new String[3];
-						if (!eya.getRol().equals("")){
+						if (!eya.getRol().equals(""))
 							clave[0] = eya.getRol() + "_" + previasPrimarias.get(q)[0];
-						}else{
-							clave[0] = previasPrimarias.get(q)[0];
-						}
+						else clave[0] = previasPrimarias.get(q)[0];
 						clave[1] = previasPrimarias.get(q)[1];
 						clave[2] = previasPrimarias.get(q)[2];
-						
 						primarias.add(clave);
-						
 						referenciadas[q] = previasPrimarias.get(q)[0];
 					}
+					
 					
 					tabla.aniadeListaAtributos(primarias, tr.getListaRestricciones(), tiposEnumerados);
 					tabla.aniadeListaClavesForaneas(primarias, ent.getNombreTabla(), referenciadas);
 					
 					// Si es 0..n poner como clave
-					if (eya.getFinalRango() != 1)
-						tabla.aniadeListaClavesPrimarias(primarias);
+					if (eya.getFinalRango() != 1) tabla.aniadeListaClavesPrimarias(primarias);
 					else{
 						if (soloHayUnos && esLaPrimeraDel1a1){
 							tabla.aniadeListaClavesPrimarias(primarias);
 							esLaPrimeraDel1a1 = false;
 						}else if (soloHayUnos){
+							for(String[] clave : (Vector<String[]>)ent.getPrimaries())
+								restriccionesPerdidas.add(
+										new restriccionPerdida(ent.getNombreTabla()+"_"+clave[0], tr.getNombre(), restriccionPerdida.CANDIDATA));
 							String uniques = "";
 							for (int q = 0; q < primarias.size(); q++){
-								if (q == 0){
-									uniques += primarias.get(q)[0];
-								}else{
-									uniques += ", " + primarias.get(q)[0];
-								}
+								if (q == 0) uniques += primarias.get(q)[0];
+								else uniques += ", " + primarias.get(q)[0];
 							}
 							uniques += "#" + ent.getNombreTabla();
 							
@@ -1045,12 +1024,9 @@ public class ServiciosSistema {
 						tDebil.aniadeListaClavesForaneas(tFuerte.getPrimaries(),
 								tFuerte.getNombreTabla(), referenciadas);
 					}
-
 				}
 			}
-
 		}
-
 	}
 	
 	private void generaTiposEnumerados(){
@@ -1451,9 +1427,7 @@ public class ServiciosSistema {
 	}
 	
 	public String restriccionesPerdidas() {
-		String mr ="";
-		for(restriccionPerdida re : restriccionesPerdidas) mr += re;
-		return mr;
+		return restriccionesPerdidas.toString();
 	}
 	
 	public String restriccionesIR() {
@@ -1468,7 +1442,6 @@ public class ServiciosSistema {
 					mr+="<p>" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[3]+"_"+foreigns.elementAt(j)[0]+") "
 							+ "&rarr; " + foreigns.elementAt(j)[2]+"</p>";
 				}
-					
 			}
 		}
 		
@@ -1481,7 +1454,6 @@ public class ServiciosSistema {
 					mr+="<p>" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[3]+"_"+foreigns.elementAt(j)[0]+") "
 							+ "&rarr; " + foreigns.elementAt(j)[2]+"</p>";
 				}
-					
 			}
 		}
 		
@@ -1494,7 +1466,6 @@ public class ServiciosSistema {
 					mr+="<p>" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[3]+"_"+foreigns.elementAt(j)[0]+") "
 							+ "&rarr; " + foreigns.elementAt(j)[2]+"</p>";
 				}
-					
 			}
 		}
 		return mr;
@@ -1505,26 +1476,26 @@ public class ServiciosSistema {
 		reset();
 		validaBaseDeDatos(true);
 		if (!modeloValidado)return;
-		
+		restriccionesPerdidas = new RestriccionesPerdidas();
 		generaTablasEntidades();
 		generaTablasRelaciones();
 		if(tablasEntidades.values().isEmpty() && tablasRelaciones.values().isEmpty()) 
 			mr = "<div class='card'><h2>"+"El diagrama está vacio"+"</h2></div>";
 		else {
 			mr = "<div class='card'><h2>"+"Relaciones"+"</h2>";
-			Iterator tablasE=tablasEntidades.values().iterator();
+			Iterator tablasE = tablasEntidades.values().iterator();
 			while (tablasE.hasNext()){
 				Tabla t =(Tabla)tablasE.next();
 				mr+=t.modeloRelacionalDeTabla();
 			}
 			
-			Iterator tablasR=tablasRelaciones.values().iterator();
+			Iterator tablasR = tablasRelaciones.values().iterator();
 			while (tablasR.hasNext()){
 				Tabla t =(Tabla)tablasR.next();
 				mr+=t.modeloRelacionalDeTabla();
 			}
 			
-			Iterator tablasM=tablasMultivalorados.iterator();
+			Iterator tablasM = tablasMultivalorados.iterator();
 			while (tablasM.hasNext()){
 				Tabla t =(Tabla)tablasM.next();
 				mr+=t.modeloRelacionalDeTabla();
@@ -1601,14 +1572,13 @@ public class ServiciosSistema {
 		tablaMulti.aniadeListaClavesForaneas(tablaEntidad.getPrimaries(),
 				tablaEntidad.getNombreTabla(), referenciadas);
 		tablasMultivalorados.add(tablaMulti);
+		for(String rest : (Vector<String>)ta.getListaRestricciones())
+			restriccionesPerdidas.add(new restriccionPerdida(tablaMulti.getNombreTabla(), rest, restriccionPerdida.TABLA));
 	}
-
-
 
 	private int objectToInt(Object ob){
 		return Integer.parseInt((String)ob);
 	}
-
 
 	private  Vector<TransferAtributo> dameAtributosEnTransfer(Vector sinParam){
 		DAOAtributos daoAtributos= new DAOAtributos(this.controlador.getPath());

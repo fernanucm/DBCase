@@ -1,4 +1,4 @@
-package vista.Lenguajes;
+package vista.lenguaje;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -23,7 +23,7 @@ import java.util.Vector;
  */
 public class Lenguaje {
 	// --- --- --- RUTAS DE LOS FICHEROS --- --- ---
-	private static final String CARPETA = "/vista/languages/";
+	private static final String CARPETA = "/vista/lenguaje/";
 	private static final String INDICE = "index.txt";
 	private static final String DEFAULT = "default.lng";
 	

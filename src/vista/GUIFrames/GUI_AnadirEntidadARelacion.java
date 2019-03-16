@@ -24,7 +24,7 @@ import modelo.persistencia.EntidadYAridad;
 import modelo.tools.ImagePath;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
-import vista.Lenguajes.Lenguaje;
+import vista.lenguaje.Lenguaje;
 
 /**
 * This code was edited or generated using CloudGarden's Jigloo

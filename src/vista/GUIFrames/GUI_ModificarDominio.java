@@ -23,7 +23,7 @@ import controlador.TC;
 import modelo.tools.ImagePath;
 import modelo.tools.TipoDominio;
 import modelo.transfers.TransferDominio;
-import vista.Lenguajes.Lenguaje;
+import vista.lenguaje.Lenguaje;
 
 /**
  * This code was edited or generated using CloudGarden's Jigloo

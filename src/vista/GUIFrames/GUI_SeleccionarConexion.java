@@ -25,7 +25,7 @@ import controlador.TC;
 import modelo.conectorDBMS.FactoriaConectores;
 import modelo.tools.ImagePath;
 import modelo.transfers.TransferConexion;
-import vista.Lenguajes.Lenguaje;
+import vista.lenguaje.Lenguaje;
 
 
 /**

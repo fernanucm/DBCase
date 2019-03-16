@@ -64,8 +64,8 @@ import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
 import vista.GUIPanels.MyTableModel;
-import vista.Lenguajes.Lenguaje;
 import vista.Theme.Theme;
+import vista.lenguaje.Lenguaje;
 
 /**
 * This code was edited or generated using CloudGarden's Jigloo

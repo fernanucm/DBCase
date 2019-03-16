@@ -13,7 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import modelo.tools.ImagePath;
-import vista.Lenguajes.Lenguaje;
+import vista.lenguaje.Lenguaje;
 
 public class ConectorAccessMdb extends ConectorAccessOdbc {
 
