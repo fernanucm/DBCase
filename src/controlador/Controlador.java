@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -29,6 +30,7 @@ import modelo.transfers.TransferDominio;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
 import vista.GUIPrincipal;
+import vista.GUIFrames.GUI_AnadirAtributo;
 import vista.GUIFrames.GUI_AnadirAtributoEntidad;
 import vista.GUIFrames.GUI_AnadirAtributoRelacion;
 import vista.GUIFrames.GUI_AnadirEntidadARelacion;
@@ -88,6 +90,7 @@ public class Controlador {
 	// Relaciones Normales
 	private GUI_RenombrarRelacion theGUIRenombrarRelacion;
 	private GUI_AnadirAtributoRelacion theGUIAnadirAtributoRelacion;
+	private GUI_AnadirAtributo theGUIAnadirAtributo;
 	private GUI_AnadirEntidadARelacion theGUIAnadirEntidadARelacion;
 	private GUI_QuitarEntidadARelacion theGUIQuitarEntidadARelacion;
 	private GUI_EditarCardinalidadEntidad theGUIEditarCardinalidadEntidad;
@@ -147,8 +150,9 @@ public class Controlador {
 		theGUIAnadirAtributoEntidad.setControlador(this);
 		theGUIAnadirRestriccionAEntidad = new GUI_InsertarRestriccionAEntidad();
 		theGUIAnadirRestriccionAEntidad.setControlador(this);
-	/*	theGUITablaUniqueEntidad = new GUI_TablaUniqueEntidad();
-		theGUITablaUniqueEntidad.setControlador(this);*/
+		
+		theGUIAnadirAtributo = new GUI_AnadirAtributo();
+		theGUIAnadirAtributo.setControlador(this);
 
 		// Atributos
 		theGUIRenombrarAtributo = new GUI_RenombrarAtributo();
@@ -447,6 +451,29 @@ public class Controlador {
 			Point2D punto = (Point2D) datos;
 			this.getTheGUIInsertarEntidad().setPosicionEntidad(punto);
 			this.getTheGUIInsertarEntidad().setActiva();
+			break;
+		}
+		case PanelDiseno_Click_InsertarAtributo:{
+			Vector<Transfer> listaTransfers = (Vector<Transfer>) datos;
+			//removemos IsA
+			Iterator<Transfer> itr = listaTransfers.iterator();
+			while(itr.hasNext()) {
+				Transfer t = itr.next();
+				if(t instanceof TransferRelacion) 
+					if(((TransferRelacion) t).getTipo().equals("IsA"))
+						itr.remove();
+			}
+			if(listaTransfers.isEmpty())
+				JOptionPane.showMessageDialog(null,
+					"ERROR.\nAdd an entity or a relation first\n",
+					Lenguaje.getMensaje(Lenguaje.ADD_ENTITY_RELATION),
+					JOptionPane.PLAIN_MESSAGE,
+					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR))
+				);
+			else {
+				this.getTheGUIAnadirAtributo().setListaTransfers(listaTransfers);
+				this.getTheGUIAnadirAtributo().setActiva();
+			}
 			break;
 		}
 		case PanelDiseno_Click_RenombrarEntidad:{
@@ -1231,6 +1258,7 @@ public class Controlador {
 		} // switch 
 	}
 
+
 	// Mensajes que manda la GUIPrincipal al Controlador
 	@SuppressWarnings("static-access")
 	public void mensajeDesde_GUIPrincipal(TC mensaje, Object datos){
@@ -1721,6 +1749,7 @@ public class Controlador {
 			//Vamos a intentar situar el atributo 
 			int numAtributos=((TransferEntidad)vectorTransfers.get(0)).getListaAtributos().size();
 			Point2D p =((TransferAtributo)vectorTransfers.get(1)).getPosicion();
+			//System.out.println(p);
 			p.setLocation(p.getX(), p.getY()-80+numAtributos*40);
 			((TransferAtributo)vectorTransfers.get(1)).setPosicion(p);
 			//
@@ -2374,6 +2403,7 @@ public class Controlador {
 		case SD_ListarDominios_HECHO: {
 			this.getTheGUIPrincipal().setListaDominios((Vector) datos);
 			this.getTheGUIAnadirAtributoEntidad().setListaDominios((Vector) datos);
+			this.getTheGUIAnadirAtributo().setListaDominios((Vector) datos);
 			this.getTheGUIEditarDominioAtributo().setListaDominios((Vector) datos);
 			this.getTheGUIAnadirAtributoRelacion().setListaDominios((Vector) datos);
 			this.getTheGUIAnadirSubAtributoAtributo().setListaDominios((Vector) datos);
@@ -3535,6 +3565,10 @@ public class Controlador {
 		return theGUIAnadirAtributoRelacion;
 	}
 
+	public GUI_AnadirAtributo getTheGUIAnadirAtributo() {
+		return theGUIAnadirAtributo;
+	}
+	
 	public void setTheGUIAnadirAtributoRelacion(
 			GUI_AnadirAtributoRelacion theGUIAnadirAtributoRelacion) {
 		this.theGUIAnadirAtributoRelacion = theGUIAnadirAtributoRelacion;

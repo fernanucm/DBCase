@@ -112,6 +112,7 @@ public enum TC {
 	//---------------------------------------------------------------------------------
 	// Fuera
 	PanelDiseno_Click_InsertarEntidad,
+	PanelDiseno_Click_InsertarAtributo,
 	PanelDiseno_Click_InsertarRelacionNormal,
 	PanelDiseno_Click_InsertarRelacionIsA,
 	PanelDiseno_Click_CrearDominio,

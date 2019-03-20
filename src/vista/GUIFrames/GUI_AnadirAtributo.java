@@ -7,6 +7,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
+import java.util.Iterator;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
@@ -22,9 +23,11 @@ import controlador.Controlador;
 import controlador.TC;
 import modelo.tools.ImagePath;
 import modelo.tools.TipoDominio;
+import modelo.transfers.Transfer;
 import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferDominio;
 import modelo.transfers.TransferEntidad;
+import modelo.transfers.TransferRelacion;
 import vista.lenguaje.Lenguaje;
 
 /**
@@ -40,12 +43,11 @@ import vista.lenguaje.Lenguaje;
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
 @SuppressWarnings({"rawtypes" ,"unchecked"})
-public class GUI_AnadirAtributoEntidad extends javax.swing.JDialog implements KeyListener, MouseListener{
+public class GUI_AnadirAtributo extends javax.swing.JDialog implements KeyListener, MouseListener{
 
 	private static final long serialVersionUID = 1L;
-	private TransferEntidad entidad;
 	private Controlador controlador;
-	// Variables declaration - do not modify
+	//Variables declaration - do not modify
 	private JTextField cajaNombre;
 	private JCheckBox opcionClavePrimaria;
 	private JCheckBox opcionMultivalorado;
@@ -53,18 +55,19 @@ public class GUI_AnadirAtributoEntidad extends javax.swing.JDialog implements Ke
 	private JCheckBox opcionNotnull;
 	private JCheckBox opcionUnique;
 	private JComboBox comboDominios;
-	private JButton botonCancelar;
+	private JComboBox comboTransfers;
 	private JButton botonAnadir;
 	private JLabel labelTamano;
 	private JTextField cajaTamano;
 	private JTextPane jTextPane2;
-	private JLabel labelIcono;
 	private JTextPane explicacion;
+	private JTextPane eligeTransfer;
 	private Vector<TransferDominio> listaDominios;
+	private Vector<Transfer> listaTransfers;
 	// End of variables declaration
 
 
-	public GUI_AnadirAtributoEntidad() {
+	public GUI_AnadirAtributo() {
 		this.initComponents();
 	}
 
@@ -75,9 +78,10 @@ public class GUI_AnadirAtributoEntidad extends javax.swing.JDialog implements Ke
 		setResizable(false);
 		setModal(true);
 		getContentPane().setLayout(null);
+		getContentPane().add(getEligeTransfer());
+		getContentPane().add(getComboTransfers());
 		getContentPane().add(getExplicacion());
 		getContentPane().add(getCajaNombre());
-		getContentPane().add(getLabelIcono());
 		getContentPane().add(getOpcionClavePrimaria());
 		getContentPane().add(getOpcionCompuesto());
 		getContentPane().add(getOpcionNotnull());
@@ -88,8 +92,7 @@ public class GUI_AnadirAtributoEntidad extends javax.swing.JDialog implements Ke
 		getContentPane().add(getCajaTamano());
 		getContentPane().add(getLabelTamano());
 		getContentPane().add(getBotonAnadir());
-		getContentPane().add(getBotonCancelar());
-		this.setSize(402, 385);
+		this.setSize(300, 400);
 		this.addMouseListener(this);
 		this.addKeyListener(this);
 	}
@@ -101,19 +104,18 @@ public class GUI_AnadirAtributoEntidad extends javax.swing.JDialog implements Ke
 	private void opcionCompuestoItemStateChanged(java.awt.event.ItemEvent evt) {
 		if(this.opcionCompuesto.isSelected()){
 			this.comboDominios.setEnabled(false);
+			this.comboTransfers.setEnabled(false);
 			this.opcionNotnull.setSelected(false);
 			this.opcionNotnull.setEnabled(false);
 			this.opcionUnique.setSelected(false);
 			this.opcionUnique.setEnabled(false);
 			this.cajaTamano.setEditable(false);
 			this.cajaTamano.setEnabled(false);
-			//this.comboDominios.setSelectedItem("");
-			//this.cajaTamano.setText("");
 		}
 		else{
 			if(!this.opcionClavePrimaria.isSelected()){
 				this.comboDominios.setEnabled(true);
-				//this.comboDominios.setSelectedItem("");
+				this.comboTransfers.setEnabled(true);
 				this.opcionNotnull.setEnabled(true);
 				this.opcionUnique.setEnabled(true);
 			}
@@ -161,16 +163,9 @@ public class GUI_AnadirAtributoEntidad extends javax.swing.JDialog implements Ke
 		ta.setNombre(this.cajaNombre.getText());
 		String tamano = "";
 		
-		double x = this.getEntidad().getPosicion().getX() + 100;
-		double y = this.getEntidad().getPosicion().getY();
-		ta.setPosicion(new Point2D.Double(x,y));
 		ta.setListaComponentes(new Vector());
-		if(this.opcionClavePrimaria.isSelected()){
-			ta.setClavePrimaria(true);
-		}
-		else{
-			ta.setClavePrimaria(false);
-		}
+		if(this.opcionClavePrimaria.isSelected()) ta.setClavePrimaria(true);
+		else ta.setClavePrimaria(false);
 		
 		// Si esta seleccionada la opcion compuesto el dominio del atributo lo
 		// ponemos a null
@@ -211,9 +206,7 @@ public class GUI_AnadirAtributoEntidad extends javax.swing.JDialog implements Ke
 				else{
 					tamano = this.cajaTamano.getText();
 					// Si no se ha especificado tamano ponemos un 1 por defecto
-					if (tamano.isEmpty()){
-						tamano = "10";
-					}
+					if (tamano.isEmpty()) tamano = "10";
 					// Formamos la cadena del dominio
 					ta.setDominio(dominio.toString()+"("+tamano+")");
 				}
@@ -226,78 +219,42 @@ public class GUI_AnadirAtributoEntidad extends javax.swing.JDialog implements Ke
 			}
 		}
 		ta.setListaRestricciones(new Vector());
-		
+		double x = this.listaTransfers.get(comboTransfers.getSelectedIndex()).getPosicion().getX() + 100;
+		double y = this.listaTransfers.get(comboTransfers.getSelectedIndex()).getPosicion().getY();
+		ta.setPosicion(new Point2D.Double(x,y));
 		// Mandamos la entidad, el nuevo atributo y si hay tamano tambien
 		Vector<Object> v = new Vector<Object>();
-		v.add(this.getEntidad());
+		v.add(listaTransfers.get(comboTransfers.getSelectedIndex()));
 		v.add(ta);
-		if (!tamano.isEmpty())
-			v.add(tamano);
-		controlador.mensajeDesde_GUI(TC.GUIAnadirAtributoEntidad_Click_BotonAnadir, v);
-		//if(ta.isClavePrimaria()){
-		if (this.opcionClavePrimaria.isSelected()){
-			Vector<Object> v1= new Vector<Object>();
-			//
-			TransferAtributo clon_atributo2 = ta.clonar();
-			clon_atributo2.setClavePrimaria(false);
-			v1.add(clon_atributo2);
-		    v1.add(entidad);
-			controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarClavePrimariaAtributo,v1);
+		if (!tamano.isEmpty()) v.add(tamano);
+		if(listaTransfers.get(comboTransfers.getSelectedIndex()) instanceof TransferRelacion) 
+			controlador.mensajeDesde_GUI(TC.GUIAnadirAtributoRelacion_Click_BotonAnadir, v);
+		else if(listaTransfers.get(comboTransfers.getSelectedIndex()) instanceof TransferEntidad) {
+			controlador.mensajeDesde_GUI(TC.GUIAnadirAtributoEntidad_Click_BotonAnadir, v);
+			if (this.opcionClavePrimaria.isSelected()){
+				Vector<Object> v1= new Vector<Object>();
+				TransferAtributo clon_atributo2 = ta.clonar();
+				clon_atributo2.setClavePrimaria(false);
+				v1.add(clon_atributo2);
+			    v1.add(listaTransfers.get(comboTransfers.getSelectedIndex()));
+				controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarClavePrimariaAtributo,v1);
+			}
 		}
-		//actualizamos la tabla de Uniques de la entidad
 		if (this.opcionUnique.isSelected()){
 			TransferAtributo clon_atributo = ta.clonar();
 			controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarUniqueAtributo,clon_atributo);
 		}
-	}
-
-	private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {
 		this.setVisible(false);
 	}
-	
-	public void keyPressed( KeyEvent e ) {
-		switch (e.getKeyCode()){
-			case 27: {
-				this.setInactiva();
-				break;
-			}
-			case 10:{
-				this.botonAnadirActionPerformed(null);
-				break;
-			}
-		}
-	} 
-	public void keyReleased(KeyEvent arg0) {}
-
-	public void keyTyped(KeyEvent arg0) {}
-
-	public void mouseEntered( MouseEvent e ) {} 
-	
-	public void mouseClicked(MouseEvent arg0) {
-		this.requestFocus();
-	}
-	public void mouseExited(MouseEvent arg0) {}
-
-	public void mousePressed(MouseEvent arg0) {}
-
-	public void mouseReleased(MouseEvent arg0) {}
-	
-	//Oyente para todos los elementos
-	private KeyListener general = new KeyListener() {
-		public void keyPressed(KeyEvent e) {
-			if(e.getKeyCode()==10){botonAnadirActionPerformed(null);}
-			else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-			
-		}
-		public void keyReleased(KeyEvent e) {}
-		public void keyTyped(KeyEvent e) {}
-	};
-	
+		
 	/*
 	 * Activar y desactivar el dialogo
 	 */
-
 	public void setActiva(){
+		int index = 0, i=0, j=0;
+		String[] transfers = new String[this.listaTransfers.size()];
+		TipoDominio[] basicos = modelo.tools.TipoDominio.values();
+		Object[] nuevos = new Object[this.listaDominios.size()];
 		this.centraEnPantalla();
 		this.opcionClavePrimaria.setSelected(false);
 		this.opcionCompuesto.setSelected(false);
@@ -305,39 +262,37 @@ public class GUI_AnadirAtributoEntidad extends javax.swing.JDialog implements Ke
 		this.opcionUnique.setSelected(false);
 		this.opcionMultivalorado.setSelected(false);
 		this.comboDominios.setEnabled(true);
+		this.comboTransfers.setEnabled(true);
 		this.cajaTamano.setText("");
 		this.cajaNombre.setText("");
 		controlador.mensajeDesde_GUI(TC.GUIAnadirAtributoEntidad_ActualizameLaListaDeDominios, null);
 		
-		TipoDominio[] basicos = modelo.tools.TipoDominio.values();
-		Object[] nuevos = new Object[this.listaDominios.size()];
+		//Genera Transfers
+		for(Transfer t : this.listaTransfers) transfers[index++] = t.getNombre();
+		this.comboTransfers.setModel(new javax.swing.DefaultComboBoxModel(transfers));
+		
+		//Genera Dominios
 		this.generaItems(nuevos);
 		String[] items = new String[this.listaDominios.size()+basicos.length];
-		int i;
-		for(i=0; i<basicos.length;i++){
-			items[i]=basicos[i].toString();
-		}
-		int j=0;
+		
+		for(; i<basicos.length;i++) items[i]=basicos[i].toString();
 		while(i<this.listaDominios.size()+basicos.length){
 			items[i]=nuevos[j].toString();
 			i++;
 			j++;
 		}
 		quicksort(items);
-		
 		this.comboDominios.setModel(new javax.swing.DefaultComboBoxModel(items));
 		this.comboDominios.setSelectedItem("VARCHAR");
 		if (this.activarTamano()){
 			this.cajaTamano.setEditable(true);
 			this.cajaTamano.setText("10");
 		}
-		else{
-			this.cajaTamano.setEditable(false);
-		}
+		else this.cajaTamano.setEditable(false);
+		
 		this.centraEnPantalla();
 		SwingUtilities.invokeLater(doFocus);
 		this.setVisible(true);
-		
 	}
 	
 	private Runnable doFocus = new Runnable() {
@@ -354,15 +309,6 @@ public class GUI_AnadirAtributoEntidad extends javax.swing.JDialog implements Ke
 	/*
 	 * Getters y Setters
 	 */
-
-	public TransferEntidad getEntidad() {
-		return entidad;
-	}
-
-	public void setEntidad(TransferEntidad entidad) {
-		this.entidad = entidad;
-	}
-
 	public Controlador getControlador() {
 		return controlador;
 	}
@@ -374,66 +320,50 @@ public class GUI_AnadirAtributoEntidad extends javax.swing.JDialog implements Ke
 	/*
 	 * Interfaz
 	 */
-
+	private JTextPane getEligeTransfer() {
+		if(eligeTransfer == null) {
+			eligeTransfer = new JTextPane();
+			eligeTransfer.setText(Lenguaje.getMensaje(Lenguaje.ELEMENTS));
+			eligeTransfer.setBounds(25, 20, 232, 20);
+			eligeTransfer.setEditable(false);
+			eligeTransfer.setOpaque(false);
+			eligeTransfer.setFocusable(false);
+		}
+		return eligeTransfer;
+	}
+	private JComboBox getComboTransfers() {
+		if(comboTransfers == null) {
+			comboTransfers = new JComboBox();
+			comboTransfers.setBounds(25, 40, 231, 21);
+			comboTransfers.addKeyListener(general);
+		}
+		return comboTransfers;
+	}
 	private JTextPane getExplicacion() {
 		if(explicacion == null) {
 			explicacion = new JTextPane();
 			explicacion.setText(Lenguaje.getMensaje(Lenguaje.NAME));
-			explicacion.setBounds(130, 25, 232, 20);
+			explicacion.setBounds(25, 65, 232, 20);
 			explicacion.setEditable(false);
 			explicacion.setOpaque(false);
 			explicacion.setFocusable(false);
 		}
 		return explicacion;
 	}
-	
 	private JTextField getCajaNombre() {
 		if(cajaNombre == null) {
 			cajaNombre = new JTextField();
-			cajaNombre.setBounds(130, 48, 232, 21);
+			cajaNombre.setBounds(25, 85, 232, 27);
 		}
 		cajaNombre.addKeyListener(general);
 		return cajaNombre;
-	}
-	
-	private JLabel getLabelIcono() {
-		if(labelIcono == null) {
-			labelIcono = new JLabel();
-			labelIcono.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.TECLADO)));
-			labelIcono.setBounds(12, 12, 100, 100);
-		}
-		return labelIcono;
-	}
-	
-	private JCheckBox getOpcionCompuesto() {
-		if(opcionCompuesto == null) {
-			opcionCompuesto = new JCheckBox();
-			opcionCompuesto.setText(Lenguaje.getMensaje(Lenguaje.COMPOSITE_ATTRIBUTE));
-			opcionCompuesto.setBounds(142, 104, 220, 18);
-			opcionCompuesto.setOpaque(false);
-			opcionCompuesto.setBorderPaintedFlat(true);
-			opcionCompuesto.addItemListener(new java.awt.event.ItemListener() {
-				public void itemStateChanged(java.awt.event.ItemEvent evt) {
-					opcionCompuestoItemStateChanged(evt);
-				}
-			});
-			opcionCompuesto.addKeyListener(new KeyListener() {
-				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){opcionCompuesto.setSelected(
-												!opcionCompuesto.isSelected());}
-				}
-				public void keyReleased(KeyEvent e) {}
-				public void keyTyped(KeyEvent e) {}
-			});
-		}
-		return opcionCompuesto;
 	}
 	
 	private JCheckBox getOpcionClavePrimaria() {
 		if(opcionClavePrimaria == null) {
 			opcionClavePrimaria = new JCheckBox();
 			opcionClavePrimaria.setText(Lenguaje.getMensaje(Lenguaje.PRIMARY_KEY_ATTRIBUTE));
-			opcionClavePrimaria.setBounds(142, 85, 220, 18);
+			opcionClavePrimaria.setBounds(25, 115, 220, 18);
 			opcionClavePrimaria.setOpaque(false);
 			opcionClavePrimaria.setBorderPaintedFlat(true);
 			opcionClavePrimaria.addItemListener(new java.awt.event.ItemListener() {
@@ -452,12 +382,34 @@ public class GUI_AnadirAtributoEntidad extends javax.swing.JDialog implements Ke
 		}
 		return opcionClavePrimaria;
 	}
+	private JCheckBox getOpcionCompuesto() {
+		if(opcionCompuesto == null) {
+			opcionCompuesto = new JCheckBox();
+			opcionCompuesto.setText(Lenguaje.getMensaje(Lenguaje.COMPOSITE_ATTRIBUTE));
+			opcionCompuesto.setBounds(25, 134, 220, 18);
+			opcionCompuesto.setOpaque(false);
+			opcionCompuesto.setBorderPaintedFlat(true);
+			opcionCompuesto.addItemListener(new java.awt.event.ItemListener() {
+				public void itemStateChanged(java.awt.event.ItemEvent evt) {
+					opcionCompuestoItemStateChanged(evt);
+				}
+			});
+			opcionCompuesto.addKeyListener(new KeyListener() {
+				public void keyPressed(KeyEvent e) {
+					if(e.getKeyCode()==10)opcionCompuesto.setSelected(!opcionCompuesto.isSelected());
+				}
+				public void keyReleased(KeyEvent e) {}
+				public void keyTyped(KeyEvent e) {}
+			});
+		}
+		return opcionCompuesto;
+	}
 	
 	private JCheckBox getOpcionNotnull() {
 		if(opcionNotnull == null) {
 			opcionNotnull = new JCheckBox();
 			opcionNotnull.setText(Lenguaje.getMensaje(Lenguaje.NOT_NULL_ATTRIBUTE));
-			opcionNotnull.setBounds(142, 123, 220, 18);
+			opcionNotnull.setBounds(25, 153, 220, 18);
 			opcionNotnull.setOpaque(false);
 			opcionNotnull.setBorderPaintedFlat(true);
 			opcionNotnull.addKeyListener(new KeyListener() {
@@ -476,7 +428,7 @@ public class GUI_AnadirAtributoEntidad extends javax.swing.JDialog implements Ke
 		if(opcionUnique == null) {
 			opcionUnique = new JCheckBox();
 			opcionUnique.setText(Lenguaje.getMensaje(Lenguaje.UNIQUE_ATTRIBUTE));
-			opcionUnique.setBounds(142, 142, 220, 18);
+			opcionUnique.setBounds(25, 172, 220, 18);
 			opcionUnique.setOpaque(false);
 			opcionUnique.setBorderPaintedFlat(true);
 			opcionUnique.addKeyListener(new KeyListener() {
@@ -495,7 +447,7 @@ public class GUI_AnadirAtributoEntidad extends javax.swing.JDialog implements Ke
 		if(opcionMultivalorado == null) {
 			opcionMultivalorado = new JCheckBox();
 			opcionMultivalorado.setText(Lenguaje.getMensaje(Lenguaje.VALUE_ATTRIBUTE));
-			opcionMultivalorado.setBounds(142, 161, 221, 18);
+			opcionMultivalorado.setBounds(25, 191, 221, 18);
 			opcionMultivalorado.setOpaque(false);
 			opcionMultivalorado.setBorderPaintedFlat(true);
 		}
@@ -516,7 +468,7 @@ public class GUI_AnadirAtributoEntidad extends javax.swing.JDialog implements Ke
 			jTextPane2.setText(Lenguaje.getMensaje(Lenguaje.DOMAIN_ATTRIBUTE));
 			jTextPane2.setEditable(false);
 			jTextPane2.setOpaque(false);
-			jTextPane2.setBounds(129, 188, 231, 20);
+			jTextPane2.setBounds(25, 208, 231, 20);
 			jTextPane2.setFocusable(false);
 		}
 		return jTextPane2;
@@ -525,7 +477,7 @@ public class GUI_AnadirAtributoEntidad extends javax.swing.JDialog implements Ke
 	private JComboBox getComboDominios() {
 		if(comboDominios == null) {
 			comboDominios = new JComboBox();
-			comboDominios.setBounds(129, 220, 231, 21);
+			comboDominios.setBounds(25, 230, 231, 27);
 			comboDominios.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent evt) {
 					comboDominiosItemStateChanged(evt);
@@ -534,31 +486,30 @@ public class GUI_AnadirAtributoEntidad extends javax.swing.JDialog implements Ke
 			comboDominios.addKeyListener(general);
 		}
 		return comboDominios;
+	}	
+	private JLabel getLabelTamano() {
+		if(labelTamano == null) {
+			labelTamano = new JLabel();
+			labelTamano.setText(Lenguaje.getMensaje(Lenguaje.SIZE_ATTRIBUTE));
+			labelTamano.setBounds(25, 263, 67, 14);
+		}
+		return labelTamano;
 	}
 	
 	private JTextField getCajaTamano() {
 		if(cajaTamano == null) {
 			cajaTamano = new JTextField();
-			cajaTamano.setBounds(194, 253, 166, 21);
+			cajaTamano.setBounds(25, 283, 166, 27);
 		}
 		cajaTamano.addKeyListener(general);
 		return cajaTamano;
-	}
-	
-	private JLabel getLabelTamano() {
-		if(labelTamano == null) {
-			labelTamano = new JLabel();
-			labelTamano.setText(Lenguaje.getMensaje(Lenguaje.SIZE_ATTRIBUTE));
-			labelTamano.setBounds(142, 253, 67, 14);
-		}
-		return labelTamano;
 	}
 	
 	private JButton getBotonAnadir() {
 		if(botonAnadir == null) {
 			botonAnadir = new JButton();
 			botonAnadir.setText(Lenguaje.getMensaje(Lenguaje.INSERT));
-			botonAnadir.setBounds(196, 302, 80, 25);
+			botonAnadir.setBounds(180, 320, 80, 25);
 			botonAnadir.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					botonAnadirActionPerformed(evt);
@@ -566,43 +517,15 @@ public class GUI_AnadirAtributoEntidad extends javax.swing.JDialog implements Ke
 			});
 			botonAnadir.addKeyListener(new KeyListener() {
 				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){botonAnadirActionPerformed(null);}
-					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==39){botonCancelar.grabFocus();}
+					if(e.getKeyCode()==10)botonAnadirActionPerformed(null);
 				}
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
 			char s= Lenguaje.getMensaje(Lenguaje.INSERT).charAt(0);
 			botonAnadir.setMnemonic(s);
-
-
 		}
 		return botonAnadir;
-	}
-	
-	private JButton getBotonCancelar() {
-		if(botonCancelar == null) {
-			botonCancelar = new JButton();
-			botonCancelar.setText(Lenguaje.getMensaje(Lenguaje.CANCEL));
-			botonCancelar.setBounds(281, 302, 80, 25);
-			botonCancelar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent evt) {
-					botonCancelarActionPerformed(evt);
-				}
-			});
-			botonCancelar.addKeyListener(new KeyListener() {
-				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==37){botonAnadir.grabFocus();}
-				}
-				public void keyReleased(KeyEvent e) {}
-				public void keyTyped(KeyEvent e) {}
-			});
-			botonCancelar.setMnemonic(Lenguaje.getMensaje(Lenguaje.CANCEL).charAt(0));
-		}
-		return botonCancelar;
 	}
 	
 	/*
@@ -623,10 +546,7 @@ public class GUI_AnadirAtributoEntidad extends javax.swing.JDialog implements Ke
 	}
 	
 	private Object[] generaItems(Object[] items){
-		
-		// Generamos los items
 		int cont = 0;
-		//String[] items = new String[this.listaDominios.size()];
 		while (cont<this.listaDominios.size()){
 			TransferDominio td = this.listaDominios.get(cont);
 			items[cont] = td.getNombre();
@@ -634,14 +554,7 @@ public class GUI_AnadirAtributoEntidad extends javax.swing.JDialog implements Ke
 		}
 		return items;
 	}
-	
-	public Vector<TransferDominio> getListaDominios() {
-		return listaDominios;
-	}
 
-	public void setListaDominios(Vector<TransferDominio> listaDominios) {
-		this.listaDominios = listaDominios;
-	}
 	
 	/**
 	 * Metodos privados
@@ -691,9 +604,65 @@ public class GUI_AnadirAtributoEntidad extends javax.swing.JDialog implements Ke
         exch(a, i, right);                  
         return i;
     }
+    
     private static void exch(String[] a, int i, int j) {
         String swap = a[i];
         a[i]=a[j];
         a[j]=swap;
     }
+    public Vector<TransferDominio> getListaDominios() {
+		return listaDominios;
+	}
+
+	public void setListaDominios(Vector<TransferDominio> listaDominios) {
+		this.listaDominios = listaDominios;
+	}
+	public Vector<Transfer> getListaTransfers() {
+		return listaTransfers;
+	}
+
+	public void setListaTransfers(Vector<Transfer> lista) {
+		this.listaTransfers = lista;
+		//removemos las IsAs
+		Iterator<Transfer> itr = listaTransfers.iterator();
+		while(itr.hasNext()) {
+			Transfer t = itr.next();
+			if(t instanceof TransferRelacion) 
+				if(((TransferRelacion) t).getTipo().equals("IsA"))
+					itr.remove();
+		}
+	}
+	public void keyPressed( KeyEvent e ) {
+		switch (e.getKeyCode()){
+		case 27: 
+			this.setInactiva();
+			break;
+		case 10:
+			this.botonAnadirActionPerformed(null);
+			break;
+		}
+	} 
+	public void keyReleased(KeyEvent arg0) {}
+
+	public void keyTyped(KeyEvent arg0) {}
+
+	public void mouseEntered( MouseEvent e ) {} 
+	
+	public void mouseClicked(MouseEvent arg0) {
+		this.requestFocus();
+	}
+	public void mouseExited(MouseEvent arg0) {}
+
+	public void mousePressed(MouseEvent arg0) {}
+
+	public void mouseReleased(MouseEvent arg0) {}
+	
+	//Oyente para todos los elementos
+	private KeyListener general = new KeyListener() {
+		public void keyPressed(KeyEvent e) {
+			if(e.getKeyCode()==10)botonAnadirActionPerformed(null);	
+		}
+		public void keyReleased(KeyEvent e) {}
+		public void keyTyped(KeyEvent e) {}
+	};
 }

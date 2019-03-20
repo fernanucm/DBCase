@@ -1067,7 +1067,6 @@ public class GeneradorEsquema {
 		validaBaseDeDatos(false);
 		if (!modeloValidado)return;
 		
-		
 		// Eliminar tablas anteriores, pero recordar que el modelo sÃ­ ha sido validado
 		reset();
 		modeloValidado = true;

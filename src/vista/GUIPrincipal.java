@@ -659,7 +659,10 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		title.setHorizontalAlignment(JTextField.CENTER);
 		title.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
 		tituloDiseno.add(title, BorderLayout.CENTER);
-		JPanel botonesAnadir = new addTransfersPanel(controlador);
+		Vector<Transfer> listaTransfers = new Vector<Transfer>();
+		listaTransfers.addAll(listaEntidades);
+		listaTransfers.addAll(listaRelaciones);
+		JPanel botonesAnadir = new addTransfersPanel(controlador, listaTransfers);
 		
 		splitDisenoInfo.setBorder(null);
 		diagrama.add(botonesAnadir, BorderLayout.WEST);
