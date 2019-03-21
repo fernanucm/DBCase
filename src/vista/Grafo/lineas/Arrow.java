@@ -1,4 +1,4 @@
-package vista.Grafo;
+package vista.Grafo.lineas;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -8,6 +8,7 @@ import javax.swing.event.*;
 
 import vista.Grafo.geometria.Punto;
 import vista.Grafo.geometria.Recta;
+import vista.Theme.Theme;
 
 
 @SuppressWarnings("serial")
@@ -23,8 +24,7 @@ public class Arrow extends JPanel implements ChangeListener {
     private double length;
     private double theta = 0;
     private Punto corte;
-    
-    
+    private Theme theme = Theme.getInstancia();
     
     public void stateChanged(ChangeEvent e) {
         int value = ((JSlider)e.getSource()).getValue();
@@ -58,10 +58,8 @@ public class Arrow extends JPanel implements ChangeListener {
         at.rotate(theta);
         at.scale(2.0, 2.0);
         Shape shape = at.createTransformedShape(arrow);
-        g2.setPaint(Color.black);
-        if (arrow!= null){
-        	g2.draw(shape);
-        }
+        g2.setPaint(theme.lines());
+        if (arrow!= null)g2.draw(shape);
     }
     
     private Punto calcularInterseccion(float yEnti,float yIsA,float xEnti,float xIsA,boolean esPadre,int anchoRect){
