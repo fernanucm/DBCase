@@ -12,7 +12,7 @@ import vista.Theme.Theme;
 
 
 @SuppressWarnings("serial")
-public class Arrow extends JPanel implements ChangeListener {
+public class Flecha extends JPanel implements ChangeListener {
     Path2D.Double arrow = createArrow();
     //Coordenadas x e y desde donde se dibuja la flecha
     private float cx;

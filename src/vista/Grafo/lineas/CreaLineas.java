@@ -1,4 +1,4 @@
-package vista.Grafo;
+package vista.Grafo.lineas;
 
 
 /*
@@ -28,16 +28,13 @@ import modelo.persistencia.EntidadYAridad;
 import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
-import vista.Grafo.lineas.Arrow;
-import vista.Grafo.lineas.DobleLinea;
-import vista.Grafo.lineas.LineaRecta;
 import vista.Theme.Theme;
 
 
-public class EdgeRenderer<V,E> implements Renderer.Edge<V, E> {
+public class CreaLineas<V,E> implements Renderer.Edge<V, E> {
 	private Theme theme;
 	
-	public EdgeRenderer() {
+	public CreaLineas() {
 		this.theme = Theme.getInstancia();
 	}
 	
@@ -169,14 +166,14 @@ protected void drawSimpleEdge(RenderContext<V,E> rc, Layout<V,E> layout, E e,Str
         		TransferEntidad enti =(TransferEntidad)endpoints.getSecond();
         		//Flecha del padre a la relación IsA
         		if(enti.getIdEntidad()==idPadre){
-        			Arrow miFlecha= new Arrow();
+        			Flecha miFlecha= new Flecha();
         			miFlecha.createArrow(yEnti,yIsA,xEnti,xIsA,true,anchoRect);
         			miFlecha.paintComponent(graf2d,xIsA,yIsA,xEnti,yEnti,true,anchoRect);
         		}
         		//Flecha de la relación IsA al hijo
         		else{
         			anchoRect = enti.getNombre().length();
-        			Arrow miFlecha= new Arrow();
+        			Flecha miFlecha= new Flecha();
         			miFlecha.createArrow(yEnti,yIsA,xEnti,xIsA,false,anchoRect);
         			miFlecha.paintComponent(graf2d,xIsA,yIsA,xEnti,yEnti,false,anchoRect);
         		}
@@ -191,14 +188,14 @@ protected void drawSimpleEdge(RenderContext<V,E> rc, Layout<V,E> layout, E e,Str
     		TransferEntidad enti =(TransferEntidad)endpoints.getFirst();
     		//Flecha del padre a la relación IsA
     		if(enti.getIdEntidad()==idPadre){
-    			Arrow miFlecha= new Arrow();
+    			Flecha miFlecha= new Flecha();
     			miFlecha.createArrow(yEnti,yIsA,xEnti,xIsA,true,anchoRect);
     			miFlecha.paintComponent(graf2d,xIsA,yIsA,xEnti,yEnti,true,anchoRect);
     		}
     		//Flecha de la relación IsA al hijo
     		else{
     			anchoRect = enti.getNombre().length();
-    			Arrow miFlecha= new Arrow();
+    			Flecha miFlecha= new Flecha();
     			miFlecha.createArrow(yIsA,yEnti,xIsA,xEnti,false,anchoRect);
     			miFlecha.paintComponent(graf2d,xIsA,yIsA,xEnti,yEnti,false,anchoRect);
     		}
@@ -215,7 +212,7 @@ protected void drawSimpleEdge(RenderContext<V,E> rc, Layout<V,E> layout, E e,Str
         		}
     		//cardinalidad 0 .. 1
     		if(ent.getPrincipioRango()==0 && ent.getFinalRango()==1){
-    			Arrow miFlecha= new Arrow();
+    			Flecha miFlecha= new Flecha();
     			miFlecha.createArrow(yEnti,yIsA,xEnti,xIsA,false,anchoRect);
     			miFlecha.paintComponent(graf2d,xIsA,yIsA,xEnti,yEnti,false,anchoRect);
     		}

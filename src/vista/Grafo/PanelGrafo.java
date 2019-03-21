@@ -64,6 +64,8 @@ import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
 import vista.GUIPanels.MyTableModel;
+import vista.Grafo.lineas.CreaLineas;
+import vista.Grafo.lineas.EtiquetaSobreLinea;
 import vista.Theme.Theme;
 import vista.lenguaje.Lenguaje;
 
@@ -211,7 +213,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		vv.setBackground(theme.background());
 		
 		//Renderiza las lineas que unen los elementos
-		vv.getRenderer().setEdgeLabelRenderer(new MiBasicEdgeLabelRenderer<Transfer, Object>());
+		vv.getRenderer().setEdgeLabelRenderer(new EtiquetaSobreLinea<Transfer, Object>());
 
 		RenderContext<Transfer, Object> rc = vv.getRenderContext();
 		rc.getEdgeLabelRenderer();
@@ -304,7 +306,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				return new BasicStroke(0f);
 		}});
 		
-		vv.getRenderer().setEdgeRenderer(new EdgeRenderer<Transfer,Object>());
+		vv.getRenderer().setEdgeRenderer(new CreaLineas<Transfer,Object>());
 		// add a listener for ToolTips
 		vv.setVertexToolTipTransformer(new ToStringLabeller<Transfer>());
 
