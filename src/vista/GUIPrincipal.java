@@ -929,6 +929,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		case Controlador_InsertarEntidad:{
 			TransferEntidad te = (TransferEntidad) datos;
 			panelDiseno.anadirNodo(te);
+			loadInfo();
 			break;
 		}
 		case Controlador_RenombrarEntidad:{
@@ -953,6 +954,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				panelDiseno.ModificaValorInterno(tr);
 				cont++;
 			}
+			loadInfo();
 			break;
 		}
 		case Controlador_AnadirRestriccionEntidad:{
@@ -1048,6 +1050,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					" y que se ha modificado el elemento "+t_elemMod.toString());
 			panelDiseno.eliminaNodo(ta);
 			panelDiseno.ModificaValorInterno(t_elemMod);
+			loadInfo();
 			break;
 		}
 		case Controlador_AnadirAtributoAEntidad:{
@@ -1159,6 +1162,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		case Controlador_EliminarRelacion:{
 			TransferRelacion tr = (TransferRelacion) datos;
 			panelDiseno.ModificaValorInterno(tr);
+			loadInfo();
 			break;	
 		}
 		case Controlador_EditarClavePrimariaAtributo:{
@@ -1210,12 +1214,14 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 			TransferRelacion tr = (TransferRelacion) datos;
 			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha eliminado la relacion IsA con id="+tr.getIdRelacion()+".");
 			panelDiseno.eliminaNodo(tr);
+			loadInfo();
 			break;
 		}
 		case Controlador_EliminarRelacionNormal:{
 			TransferRelacion tr = (TransferRelacion) datos;
 			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha eliminado la relacion "+tr.getNombre()+".");
 			panelDiseno.eliminaNodo(tr);
+			loadInfo();
 			break;
 		}
 		case Controlador_InsertarRelacionIsA:{
@@ -1348,10 +1354,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha modificado el dominio "+ td.getNombre() +".");
 			break;	
 		}
-		default:
-			break;
-		
-		} // mensajesDesde_Controlador	
+		default: break;
+		} // mensajesDesde_Controlador
 	}
 
 

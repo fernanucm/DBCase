@@ -19,6 +19,7 @@ import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -81,9 +82,8 @@ import vista.lenguaje.Lenguaje;
 * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
-@SuppressWarnings({ "rawtypes", "serial" })
+@SuppressWarnings({ "rawtypes", "serial" , "unchecked"})
 public class PanelGrafo extends JPanel implements Printable, KeyListener{
-
 
 	Graph<Transfer,Object> graph;
 	VisualizationViewer<Transfer,Object> vv;
@@ -94,13 +94,12 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 	protected Map<Integer,TransferAtributo> atributos;
 	protected Map<Integer,TransferRelacion> relaciones;
 	//guarda los elementos que formaran tablas
-	protected Map<Integer, Transfer> tablas;
+	protected ArrayList<Transfer> tablas;
 	
 	private boolean esEquis(String n) {
 		return !n.equals("1") && !n.equals("N");
 	}
 	
-	@SuppressWarnings("unchecked")
 	public PanelGrafo(Vector<TransferEntidad> entidades, Vector<TransferAtributo> atributos, Vector<TransferRelacion> relaciones){
 		this.setLayout(new GridLayout(1,1));
 		Theme theme = Theme.getInstancia();
@@ -541,16 +540,12 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 	
 	public void keyPressed( KeyEvent e ){
 		switch (e.getKeyCode()){
-			case 127: {
-				suprimir();
-				break;
-			}case 83://CTRL S
-				if (e.isControlDown()){
-					System.out.println("control s");
+			case 127: suprimir();
+			break;
+			case 83://CTRL S
+				if (e.isControlDown())
 					this.controlador.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_Submenu_Guardar, null);
-				}
-					
-				break;
+			break;
 		}	
 	}
 	
@@ -626,73 +621,69 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		
 	}
 	private void creaArrayTablas() {
-		tablas = new HashMap<Integer, Transfer>(entidades);
-		HashMap<Integer, TransferAtributo> multis = (HashMap<Integer, TransferAtributo>) listaMultivalorados();
-		for(int i=1;i<relaciones.size()+1;i++) tablas.put(entidades.size()+i, relaciones.get(i));
-		for(int i=1;i<multis.size()+1;i++) tablas.put(entidades.size()+relaciones.size()+i, multis.get(i));
+		tablas = new ArrayList<Transfer>();
+		tablas.addAll(entidades.values());
+		for(HashMap.Entry<Integer, TransferRelacion> rel : this.relaciones.entrySet())
+			if(!rel.getValue().isIsA())tablas.add(rel.getValue());
+		tablas.addAll(listaMultivalorados().values());
 	}
 	public void refreshTables(TableModelEvent datos) {
 		MyTableModel tabla = (MyTableModel) datos.getSource();
-		for (int row = 0; row < tabla.getRowCount(); row ++)
+		int row = 0;
+		for(Transfer t : this.tablas) 
 		    for (int col = 0; col < tabla.getColumnCount(); col++) {
-		    	if(col==1) tablas.get(row+1).setVolumen(Integer.parseInt(tabla.getValueAt(row, col)));
-		    	if(col==2) tablas.get(row+1).setFrecuencia(Integer.parseInt(tabla.getValueAt(row, col)));
-		    }
+		    	if(col==1) t.setVolumen(Integer.parseInt(tabla.getValueAt(row, col)));
+		    	if(col==2) t.setFrecuencia(Integer.parseInt(tabla.getValueAt(row, col)));
+		    }row++;
 	}
-	
 	private HashMap<Integer, TransferAtributo> listaMultivalorados(){
 		HashMap<Integer, TransferAtributo> multis = new HashMap<Integer, TransferAtributo>();
-		for(int i=1, pos=1;i<atributos.size()+1;i++)
-			if(atributos.get(i).isMultivalorado()) multis.put(pos++, atributos.get(i));
+		int p=1;
+		for(HashMap.Entry<Integer, TransferAtributo> a : atributos.entrySet())
+			if(a.getValue().isMultivalorado()) multis.put(p++, a.getValue());
 		return multis;
 	}
 	
 	public String[][] generaTablaVolumenes(){
-		int filas=tablas.size();
-		int columnas =3;
+		int filas=tablas.size(), columnas =3, row = 0;
 		String valor;
 		String[][] tabla = new String[filas][3];
-		for (int row = 0; row < filas; row ++)
-		    for (int col = 0; col < columnas; col++){
-		    	if(col==0) valor = tablas.get(row+1).getNombre();
-		    	else if(col==1) valor = String.valueOf(tablas.get(row+1).getVolumen());
-		    	else valor = String.valueOf(tablas.get(row+1).getFrecuencia());
+		System.out.println(tablas);
+		for(Transfer t : this.tablas) 
+			for (int col = 0; col < columnas; col++){
+		    	if(col==0) valor = t.getNombre();
+		    	else if(col==1) valor = String.valueOf(t.getVolumen());
+		    	else valor = String.valueOf(t.getFrecuencia());
 		    	tabla[row][col] = valor;
-		    }    
+		    }row++;
 		return tabla;
 	}
 	public JTree generaArbolInformacion() {
 		JTree arbolInformacion;
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode();
 		DefaultMutableTreeNode arbolEntidades = new DefaultMutableTreeNode("Entidades");
-		for(int i=1;i<this.entidades.size()+1;i++) {
-			TransferEntidad ent = this.entidades.get(i);
-			DefaultMutableTreeNode nodoEntidad = new DefaultMutableTreeNode(ent);
-			Vector lista = (ent.getListaAtributos());
+		DefaultMutableTreeNode arbolRelaciones = new DefaultMutableTreeNode("Relaciones");
+		for(HashMap.Entry<Integer, TransferEntidad> ent : this.entidades.entrySet()) {
+			DefaultMutableTreeNode nodoEntidad = new DefaultMutableTreeNode(ent.getValue());
+			Vector lista = (ent.getValue().getListaAtributos());
 			for(int j=0; j<lista.size();j++) 
 				nodoEntidad.add(new DefaultMutableTreeNode(this.atributos.get(Integer.parseInt((String)lista.get(j)))));
-			
 			arbolEntidades.add(nodoEntidad);
 		}
-		
-		DefaultMutableTreeNode arbolRelaciones = new DefaultMutableTreeNode("Relaciones");
-		for(int i=1;i<this.relaciones.size()+1;i++) {
-			TransferRelacion rel = this.relaciones.get(i);
-			DefaultMutableTreeNode nodoRelacion = new DefaultMutableTreeNode(rel);
+		for(HashMap.Entry<Integer, TransferRelacion> rel : this.relaciones.entrySet()) {
+			DefaultMutableTreeNode nodoRelacion = new DefaultMutableTreeNode(rel.getValue());
 			String tipo="";
-			Vector listaEnt = (rel.getListaEntidadesYAridades());
-			if(!listaEnt.isEmpty()) {
+			Vector listaEnt = (rel.getValue().getListaEntidadesYAridades());
+			if(!listaEnt.isEmpty()) 
 				for(int j=0; j<listaEnt.size();j++) {
-					tipo = rel.getTipo().equals("IsA")?j==0?"padre":"hija":"normal";
+					tipo = rel.getValue().getTipo().equals("IsA")?j==0?"padre":"hija":"normal";
 					NodoEntidad ne = new NodoEntidad(this.entidades.get(((EntidadYAridad) listaEnt.get(j)).getEntidad()).getNombre(), ((EntidadYAridad) listaEnt.get(j)), tipo);
 					nodoRelacion.add(new DefaultMutableTreeNode(ne));
-				}
 			}
-			Vector listaAtr = (rel.getListaAtributos());
-			if(!listaAtr.isEmpty()) {
+			Vector listaAtr = (rel.getValue().getListaAtributos());
+			if(!listaAtr.isEmpty()) 
 				for(int j=0; j<listaAtr.size();j++) 
 					nodoRelacion.add(new DefaultMutableTreeNode(this.atributos.get(Integer.parseInt((String)listaAtr.get(j)))));
-			}
 			arbolRelaciones.add(nodoRelacion);
 		}
 		root.add(arbolEntidades);
@@ -703,14 +694,12 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		arbolInformacion.setToggleClickCount(2);
 		return arbolInformacion;
 	}
-
 	/**
 	 * Este método modificará el transfer que se envíe en el grafo.
 	 * Es necesario para actualizar contenidos por parte del Controlador.
 	 * 
 	 * @param object Dato que actualizará en el grafo
 	 */
-	@SuppressWarnings("unchecked")
 	public Transfer ModificaValorInterno(Transfer object){
 		// Si es entidad se actualiza
 		if (object instanceof TransferEntidad) {
@@ -790,7 +779,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 	 * 
 	 * @param object Dato que actualizará en el grafo
 	 */
-	@SuppressWarnings("unchecked")
 	public Transfer ModificaValorInterno1a1(Vector v){
 		// Si es relacion se actualiza
 			TransferRelacion antigua = relaciones.get(v.get(0));
@@ -855,20 +843,23 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 			entidad = entidades.get(entidad.getIdEntidad());
 			graph.removeVertex(entidad);
 			entidades.remove(entidad.getIdEntidad());
+			tablas.remove(entidad);
 		}
 		if (arg0 instanceof TransferAtributo) {
 			TransferAtributo atributo = (TransferAtributo) arg0;
 			atributo = atributos.get(atributo.getIdAtributo());
 			graph.removeVertex(atributo);
 			atributos.remove(atributo.getIdAtributo());
+			if(atributo.isMultivalorado()) tablas.remove(atributo);
 		}
 		if (arg0 instanceof TransferRelacion) {
 			TransferRelacion relacion = (TransferRelacion) arg0;
+			System.out.println(relacion.getNombre());
 			relacion = relaciones.get(relacion.getIdRelacion());
 			graph.removeVertex(relacion);
 			relaciones.remove(relacion.getIdRelacion());
+			tablas.remove(relacion);
 		}
-		
 		vv.repaint();
 	}
 
@@ -1054,11 +1045,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				// Eliminar una entidad 
 				//Si sólo está seleccionada la entidad..
 				PickedState<Transfer> p = vv.getPickedVertexState();
-				int seleccionados=0;
-				for (@SuppressWarnings("unused") Transfer t : p.getPicked()){
-					seleccionados++;
-				}
-				if (seleccionados<2){
+				if (p.getPicked().size()<2){
 					JMenuItem j4 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.DELETE_ENT));
 					j4.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {

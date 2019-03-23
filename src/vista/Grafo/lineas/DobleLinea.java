@@ -15,7 +15,7 @@ import edu.uci.ics.jung.visualization.transform.shape.GraphicsDecorator;
 
 public class DobleLinea<V,E> {
 	//separacion entre las rectas
-	private float separac = (float) 2.5;
+	private float separac = (float) 2.8;
 	
 	public DobleLinea(RenderContext<V,E> rc, E e,String nombre1, Graph<V,E> graph, boolean diagonal,
 			String nombre2, float thetaRadians,  

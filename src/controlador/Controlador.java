@@ -460,7 +460,7 @@ public class Controlador {
 			while(itr.hasNext()) {
 				Transfer t = itr.next();
 				if(t instanceof TransferRelacion) 
-					if(((TransferRelacion) t).getTipo().equals("IsA"))
+					if(((TransferRelacion) t).isIsA())
 						itr.remove();
 			}
 			if(listaTransfers.isEmpty())

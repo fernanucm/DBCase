@@ -22,7 +22,9 @@ public class TransferRelacion extends Transfer {
 	private int frecuencia;
 
 	public TransferRelacion() {}
-
+	public boolean isIsA() {
+		return getTipo().equals("IsA");
+	}
 	public TransferRelacion clonar() {
 		TransferRelacion clon_tr = new TransferRelacion();
 		clon_tr.setIdRelacion(this.getIdRelacion());
@@ -32,7 +34,7 @@ public class TransferRelacion extends Transfer {
 		clon_tr.setListaEntidadesYAridades((Vector) this
 				.getListaEntidadesYAridades().clone());
 		clon_tr.setListaAtributos((Vector) this.getListaAtributos().clone());
-		if (!clon_tr.getTipo().equals("IsA")){
+		if (!clon_tr.isIsA()){
 			clon_tr.setListaRestricciones((Vector) this.getListaRestricciones().clone());
 			clon_tr.setListaUniques((Vector) this.getListaUniques().clone());
 		}

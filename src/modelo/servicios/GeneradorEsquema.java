@@ -397,7 +397,7 @@ public class GeneradorEsquema {
 
 		while (i<relaciones.size()){
 			TransferRelacion tr=(TransferRelacion)relaciones.elementAt(i);
-			if (tr.getTipo().equals("IsA")){
+			if (tr.isIsA()){
 				Vector<EntidadYAridad> veya =tr.getListaEntidadesYAridades();
 				if (!veya.isEmpty()&& veya.elementAt(0).getEntidad()==te.getIdEntidad()) papi++;
 			}
@@ -420,7 +420,7 @@ public class GeneradorEsquema {
 		while (i<relaciones.size()){
 			t=relaciones.elementAt(i);
 			mensaje += HTMLUtils.toBold(Lenguaje.getMensaje(Lenguaje.RATIFYING))+HTMLUtils.toItalic(t.getNombre())+HTMLUtils.newLine();
-			if(t.getTipo().equals("IsA"))
+			if(t.isIsA())
 				valido= validaComponentesRelacionIsA(t);
 			else if (t.getTipo().equals("Normal")) 
 				valido=validaComponentesRelacionNormal(t);
@@ -708,7 +708,7 @@ public class GeneradorEsquema {
 			parejaResultados[0]=tr.getIdRelacion();
 			while (j<veya.size()){
 				EntidadYAridad eya = veya.elementAt(j);
-				if(eya.getEntidad()==te.getIdEntidad()&& tr.getTipo().equals("IsA")){
+				if(eya.getEntidad()==te.getIdEntidad()&& tr.isIsA()){
 					if(j==0){
 						parejaResultados[1]=0;
 						resultados.add(parejaResultados);
@@ -943,7 +943,7 @@ public class GeneradorEsquema {
 			else
 			// si es del tipo IsA, actualizamos aniadiendo la clave del padre a
 			// las tablas hijas.
-			if (tr.getTipo().equals("IsA")) {
+			if (tr.isIsA()) {
 
 				/*
 				 * recorremos todas las entidades asociadas a la relacion.
@@ -1324,7 +1324,7 @@ public class GeneradorEsquema {
 		while (i < relaciones.size() && !encontrado) {
 			TransferRelacion tr = relaciones.elementAt(i);
 			
-			if (tr.getTipo().equals("IsA")) {
+			if (tr.isIsA()) {
 				// Obtener ID del padre
 				Vector<EntidadYAridad> veya = tr.getListaEntidadesYAridades();
 				int  idPadre = veya.firstElement().getEntidad();

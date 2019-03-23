@@ -85,7 +85,7 @@ public class DAORelaciones{
 			cp.appendChild(doc.createTextNode(tc.getListaAtributos().elementAt(cont).toString()));
 			raizListaAtributos.appendChild(cp);
 		}
-		if (!tc.getTipo().equals("IsA")){
+		if (!tc.isIsA()){
 			// ListaRestricciones
 			Element raizListaRestricciones = doc.createElement("AssertionList");
 			raiz.appendChild(raizListaRestricciones);
@@ -187,7 +187,7 @@ public class DAORelaciones{
 				if (n!=null)listaR.removeChild(n);
 				k++;
 			}
-			if (!tc.getTipo().equals("IsA")){
+			if (!tc.isIsA()){
 				for (int cont = 0; cont <tc.getListaRestricciones().size(); cont++) {
 						Element restriccion = doc.createElement("Assertion");
 						restriccion.appendChild(doc.createTextNode(tc.getListaRestricciones().elementAt(cont).toString()));
