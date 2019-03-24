@@ -10,14 +10,9 @@ public class GrafoLayout<V, E> extends AbstractLayout<V, E>{
 		super(graph);
 	}
 
-	public void initialize() {
-		// TODO Auto-generated method stub
-	}
+	public void initialize() {}
 
-	public void reset() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void reset() {}
 	
 	public boolean anadeVertice(V arg0){
 		Graph<V,E> grafo = getGraph();

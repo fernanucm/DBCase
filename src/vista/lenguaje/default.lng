@@ -63,7 +63,6 @@ notExistFile=The file does not exist.
 # Controlador 
 workspaceChanged=The workspace has been changed successfully.
 workspaceIs=The current workspace is:
-wishExit=DBCASE: Do you want to exit?
 initialError=An error has occurred when creating
 ofXMLfiles= of XML files.
 deleteEntity=DBCASE: Delete Entity

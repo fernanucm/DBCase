@@ -81,7 +81,6 @@ public class Lenguaje {
 	//--- --- --- CONTROLADOR 11XX--- --- ---
 		//public static final int WORKSPACE_CHANGED = 1101;//Se ha cambiado satisfactoriamente el directorio de trabajo.
 		public static final int WORKSPACE_IS = 1102;//El directorio actual de trabajo es:
-		public static final int WISH_EXIT = 1103;//¿Está seguro de salir de DBDT?
 		public static final int INITIAL_ERROR = 1104;//Se ha producido un error en la creacion inicial
 		public static final int OF_XMLFILES = 1105;//de los ficheros XML en el directorio de trabajo:
 		//nombres ventanas
@@ -709,7 +708,6 @@ public class Lenguaje {
 		case ACCEPT: texto = _textos.get("accept"); break;
 		case NEW2:texto = _textos.get("new2");break;
 		
-		
 		case SELECT_WORKSPACE: texto = _textos.get("selectWorkspace"); break;
 		case ERROR_CREATING_FILE: texto = _textos.get("errorCreatingFile"); break;
 		
@@ -717,9 +715,7 @@ public class Lenguaje {
 		case WRONG_FILE: texto = _textos.get("wrongFile"); break;//El fichero seleccionado no es de esta aplicación
 		case NOT_EXIST_FILE: texto = _textos.get("notExistFile"); break;//El fichero no existe
 		
-		
 		case WORKSPACE_IS: texto = _textos.get("workspaceIs"); break;//El directorio actual de trabajo es:
-		case WISH_EXIT: texto = _textos.get("wishExit"); break;//¿Está seguro de salir de DBDT?
 		case INITIAL_ERROR: texto = _textos.get("initialError"); break;//Se ha producido un error en la creacion inicial
 		case OF_XMLFILES: texto = _textos.get("ofXMLfiles"); break;//de los ficheros XML en el directorio de trabajo:
 		case DELETE_ENTITY: texto = _textos.get("deleteEntity"); break;//DBDT: Eliminar entidad
@@ -1141,7 +1137,6 @@ public class Lenguaje {
 		default: texto = Lenguaje.notExistingMessage;
 		
 		}
-		
 		return corrigeCaracteres(texto);
 	}
 	
@@ -1159,10 +1154,6 @@ public class Lenguaje {
 				texto=texto.replaceAll("Â¿","¿");
 				texto=texto.replaceAll("Ã­","í");
 				texto=texto.replaceAll("Â´","´");
-
-//				texto=texto.replaceAll("Ã±", "Í");
-//				texto=texto.replaceAll("Ã±", "Ú");
-//				texto=texto.replaceAll("Ã±", "Á");
 			}
 		}
 	    catch(Exception e){}		

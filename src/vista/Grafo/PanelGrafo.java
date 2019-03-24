@@ -2,7 +2,6 @@
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
@@ -134,7 +133,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		// Aristas entre relaciones y entidades
 		for (Iterator<TransferRelacion> it = relations.iterator(); it.hasNext();){
 			TransferRelacion relation = it.next();
-			if (!relation.getListaAtributos().isEmpty()){
+			if (!relation.getListaAtributos().isEmpty())
 				// Añado sus atributos
 				for (Iterator<String> it2 = relation.getListaAtributos().iterator(); it2.hasNext();){
 					Integer id = Integer.parseInt(it2.next());
@@ -142,118 +141,81 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 							relation,
 							this.atributos.get(id));
 				}
-			}
-			if (!relation.getListaEntidadesYAridades().isEmpty()){
+			if (!relation.getListaEntidadesYAridades().isEmpty())
 				for (Iterator<EntidadYAridad> it3 = relation.getListaEntidadesYAridades().iterator(); it3.hasNext();){
 					EntidadYAridad data = it3.next();
 					graph.addEdge(data, 
 							relation, this.entidades.get(data.getEntidad()));
 				}
-			}
 		}
 		// Aristas entre entidades y atributos
 		for (Iterator<TransferEntidad> it = entities.iterator(); it.hasNext();){
 			TransferEntidad entity = it.next();
-			if (!entity.getListaAtributos().isEmpty()){
+			if (!entity.getListaAtributos().isEmpty())
 				for (Iterator<String> it2 = entity.getListaAtributos().iterator(); it2.hasNext();){
 					Integer id = Integer.parseInt(it2.next());
 					graph.addEdge(new Double(Math.random()), 
 							entity,
 							this.atributos.get(id));
 				}
-			}
 			// Señala la/s claves primarias como tales
-			if (!entity.getListaClavesPrimarias().isEmpty()){
+			if (!entity.getListaClavesPrimarias().isEmpty())
 				for (Iterator<String> it2 = entity.getListaClavesPrimarias().iterator(); it2.hasNext();){
 					Integer id = Integer.parseInt(it2.next());
 					this.atributos.get(id).setClavePrimaria(true);
 				}
-			}
 		}
 		// Aristas entre atributos compuestos y sus valores
 		for (Iterator<TransferAtributo> it = attributes.iterator(); it.hasNext();){
 			TransferAtributo atrib = it.next();
-			if (atrib.getCompuesto()){
+			if (atrib.getCompuesto())
 				for (Iterator<String> it2 = atrib.getListaComponentes().iterator(); it2.hasNext();){
 					Integer id = Integer.parseInt(it2.next());
 					graph.addEdge(new Double(Math.random()), 
 							atrib,
 							this.atributos.get(id));
 				}
-			}
 		}
 
-		vv = new VisualizationViewer<Transfer, Object>(layout){
-			@Override
-			public void paintComponent(Graphics g) {
-				
-	            Graphics2D g2 = (Graphics2D) g;
-	            //g2.drawImage(this.offscreen, null, 0, 0);
-	            g2.setPaint(Color.GRAY);
-	            for (int i = 1; i < 500; i++) {
-	               int x = i * 4;
-	               g2.drawLine(x, 0, x, getSize().height);
-	            }
-	            for (int i = 1; i < 500; i++) {
-	               int y = i * 4;
-	               g2.drawLine(0, y, getSize().width, y);
-	            }
-	            super.renderGraph(g2);
-	            
-		    }
-		};
+		vv = new VisualizationViewer<Transfer, Object>(layout);
+			
 		// this class will provide both label drawing and vertex shapes
 		LabelRenderer<Transfer,Object> vlasr = new LabelRenderer<Transfer, Object>();
-		vv.setDoubleBuffered(true); // Incrementa rendimiento
-		
-		
-		
+		vv.setDoubleBuffered(true); //Incrementa rendimiento
 		//Color del panel grande sobre el que se pinta
 		vv.setBackground(theme.background());
-		
 		//Renderiza las lineas que unen los elementos
 		vv.getRenderer().setEdgeLabelRenderer(new EtiquetaSobreLinea<Transfer, Object>());
 
 		RenderContext<Transfer, Object> rc = vv.getRenderContext();
 		rc.getEdgeLabelRenderer();
-		rc.setLabelOffset(10);
+		// Distancia de las etiquetas a las lineas
+		rc.setLabelOffset(9);
 		rc.getParallelEdgeIndexFunction();
-		
-		EdgeIndexFunction<Transfer, Object> mp = MiParallelEdgeIndexFunction.getInstance(); 
-
-		rc.setParallelEdgeIndexFunction( mp );  
-		//rc.setEdgeLabelRenderer((EdgeLabelRenderer) new MiBasicEdgeLabelRenderer());
-		
+		EdgeIndexFunction<Transfer, Object> mp = MiParallelEdgeIndexFunction.getInstance();
+		rc.setParallelEdgeIndexFunction(mp);
 		
 		// Escribe el texto del elemento
 		vv.getRenderContext().setVertexLabelTransformer(new Transformer<Transfer, String>(){
 			public String transform(Transfer input) {
-				if (input instanceof TransferEntidad) {
+				if (input instanceof TransferEntidad)
 					return "<html><center><font color="+theme.labelFontColorDark().hexValue()+">"+input+"<p></font>";
-				}
 				if (input instanceof TransferAtributo) {
 					TransferAtributo atributo = (TransferAtributo) input;
 					String texto = new String();
 					texto += "<html><center><center><font color="+theme.labelFontColorDark().hexValue()+">";
-					if (atributo.isClavePrimaria()){
-						texto += "<U>";
-					}
+					if (atributo.isClavePrimaria()) texto += "<U>";
 					texto += input;
-					if (atributo.isClavePrimaria()){
-						texto += "</U>";
-					}
+					if (atributo.isClavePrimaria()) texto += "</U>";
 					texto += "<p></font>";
 					return texto;
 				}
-				if (input instanceof TransferRelacion) {
+				if (input instanceof TransferRelacion) 
 					return "<html><center><font color="+theme.labelFontColorLight().hexValue()+">"+input+"<p></font>";
-				}
 				return "<html><center>"+input+"<p>";
 			}
-
 		});
 		
-
 		vv.getRenderContext().setVertexShapeTransformer(vlasr);
 		//Color de la letra al pinchar
 		vv.getRenderContext().setVertexLabelRenderer(new DefaultVertexLabelRenderer(Color.white));
@@ -297,14 +259,12 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		vv.getRenderer().setVertexRenderer(new VertexRenderer<Transfer,Object>(theme.entity(),theme.entity(), true));
 		//Etiquetas de los vertices
 		vv.getRenderer().setVertexLabelRenderer(vlasr);
-		
 		//Ancho del borde de los elementos
 		vv.getRenderContext().setVertexStrokeTransformer(new Transformer<Transfer,Stroke>(){
 			@Override
 			public Stroke transform(Transfer arg0) {
 				return new BasicStroke(0f);
 		}});
-		
 		vv.getRenderer().setEdgeRenderer(new CreaLineas<Transfer,Object>());
 		// add a listener for ToolTips
 		vv.setVertexToolTipTransformer(new ToStringLabeller<Transfer>());
@@ -318,8 +278,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				super.mouseWheelMoved(new MouseWheelEvent(e.getComponent(), e.getID(), e.getWhen(), e.getModifiersEx(), e.getX(), e.getY(), e.getClickCount(),
 						e.isPopupTrigger(), e.getScrollType(), e.getScrollAmount(), rot));				
 	        }
-		};		
-
+		};
 		final PopUpMenu clickDerecho = new PopUpMenu();
 		
 		// El evento se dispara al terminar de mover un nodo
@@ -338,72 +297,17 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 						//Ancho del borde al seleccionar
 						for (Transfer t : ps.getPicked()) 							
 							if(arg0.equals(t)) return new BasicStroke(3f);
-						
 						return new BasicStroke(0f);//Ancho del borde por defecto
 				}});
-				
-				final int bt = e.getButton();		        
+						        
 		        
 				if(e.getModifiers() == modifiers) {
 					if(down != null) {
 						Point2D out = obtenerPuntoExacto(e);
-						if(vertex == null && heyThatsTooClose(down, out, 5) == false) {
+						if(vertex == null && heyThatsTooClose(down, out, 5) == false) 
 							pickContainedVertices(vv2, down, out, true);
-														
-							/////esto sirve para marcar en negrita los nodos que queden dentro del cuadrado de seleccion 
-							Transformer<Transfer, Font> vertexFontAux2 = new Transformer<Transfer,Font>() {
-						          public Font transform(Transfer arg0) {
-						            	if( ps.getPicked().contains(arg0) || (bt == 3)){
-							          		//ps.pick(arg0, false);
-						            		return new Font("Arial", Font.BOLD, 15);
-						            	}
-						            	else{
-						            		//ps.pick(arg0, false);
-						            		return new Font("Helvetica", Font.PLAIN, 12);
-						            	}
-						            }
-								};
-								vv2.getRenderContext().setVertexFontTransformer(vertexFontAux2);
-							/////
-						}
 					
-						if (vertex != null){	
-							//TODO Con esto se cambia la fuente del elemento seleccionado con el botón izq :)
-							Transformer<Transfer, Font> vertexFont = new Transformer<Transfer,Font>() {
-					            public Font transform(Transfer arg0) {
-					            		String aux="";
-					            	for (Transfer t : ps.getPicked()){	
-					            		aux= t.toString();
-					            		aux="[".concat(aux);
-					            		aux=aux.concat("]");
-					            		break;
-					            	}
-					            	boolean encontrado=false;
-					            	int i=0;
-					            	if(ps.getSelectedObjects().length!=0){
-						            	while ((i<ps.getSelectedObjects().length)&&(!encontrado)){
-						            		if(ps.getSelectedObjects()[i].equals(arg0))
-						            			encontrado =true;
-						            		i++;
-						            	}
-						            	if(ps.getPicked().toString().equals(aux)&&(encontrado) || ps.getPicked().contains(arg0) && encontrado){					    
-						            		return new Font("Arial", Font.BOLD, 15);
-						            		
-						            	}
-						            	else{
-						            		return new Font("Helvetica", Font.PLAIN, 12);	
-						            		
-						            	}
-					            	}
-					            	else{
-						            		return new Font("Helvetica", Font.PLAIN, 12);					            	
-						            }
-					            	
-								}
-					        };
-							vv2.getRenderContext().setVertexFontTransformer(vertexFont);
-							//Aquí termina lo de cambiar la fuente del elemento seleccionado con el botón izq!!!
-														
+						if (vertex != null){		
 							for (Transfer t : ps.getPicked()){
 								Point2D actual = layout.getLocation(t);
 								// Ha pulsado en un nodo -> Obtenemos la información primero
@@ -438,16 +342,13 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 							EnviaInformacionNodo(null);
 						}
 					}
-				} else if(e.getModifiers() == this.addToSelectionModifiers) {
-									
+				} else if(e.getModifiers() == this.addToSelectionModifiers)
 					if(down != null) {
 						Point2D out = obtenerPuntoExacto(e);
-
-						if(vertex == null && heyThatsTooClose(down,out,5) == false) {
+						if(vertex == null && heyThatsTooClose(down,out,5) == false)
 							pickContainedVertices(vv2, down, out, false);
-						}
 					}
-				}
+				
 				down = null;
 				vertex = null;
 				edge = null;
@@ -456,6 +357,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				vv2.repaint();
 			}
 			private boolean heyThatsTooClose(Point2D p, Point2D q, double min) {
+				System.out.println(min);
 				return Math.abs(p.getX()-q.getX()) < min &&
 				Math.abs(p.getY()-q.getY()) < min;
 			}
@@ -482,18 +384,11 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 					}
 				}
 			}
-
 		});
-
 		vv.setGraphMouse(graphMouse);
 		vv.addKeyListener(this);
-
-    	//Container content = this; //getRootPane();
-		//GraphZoomScrollPane gzsp = new GraphZoomScrollPane(vv);
 		vv.setDoubleBuffered(true);
 		this.add(vv);
-		//content.add(gzsp);
-		//content.setSize(this.getHeight(),this.getWidth());
 		graphMouse.setMode(ModalGraphMouse.Mode.PICKING);
 	}
 	
@@ -557,17 +452,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		}
 		int respuesta=1;
 		if (seleccionados>1){
-			/*Object[] options = {Lenguaje.getMensaje(Lenguaje.YES),Lenguaje.getMensaje(Lenguaje.NO)};
-			respuesta = JOptionPane.showOptionDialog(
-					null,
-					Lenguaje.getMensaje(Lenguaje.DELETE_ALL_NODES)+"\n"+
-					Lenguaje.getMensaje(Lenguaje.WISH_CONTINUE),
-					Lenguaje.getMensaje(Lenguaje.DBCASE_DELETE),
-					JOptionPane.YES_NO_OPTION,
-					JOptionPane.QUESTION_MESSAGE,
-					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.WARNING)),
-					options,
-					options[1]);*/
 			respuesta = this.controlador.getPanelOpciones().setActiva(
 					Lenguaje.getMensaje(Lenguaje.DELETE_ALL_NODES)+"\n"+
 					Lenguaje.getMensaje(Lenguaje.WISH_CONTINUE),
@@ -581,19 +465,16 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				Vector<Object> v= new Vector<Object>();
 				v.add(t);
 				v.add(respuesta==1);
-				if (t instanceof TransferEntidad) {
+				if (t instanceof TransferEntidad)
 					controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EliminarEntidad, v);
-				}
-				if (t instanceof TransferAtributo) {
+				
+				if (t instanceof TransferAtributo)
 					controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EliminarAtributo, v);
-				}
-				if (t instanceof TransferRelacion) {
-					if( ((TransferRelacion) t).getTipo().equals("IsA")){
+				
+				if (t instanceof TransferRelacion)
+					if(((TransferRelacion) t).getTipo().equals("IsA"))
 						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EliminarRelacionIsA, v);
-					}else{
-						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EliminarRelacionNormal, v);
-					}
-				}
+					else controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EliminarRelacionNormal, v);	
 			}
 		}	
 	}
@@ -609,7 +490,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 	 * 
 	 * @param t Transfer que se ha pulsado
 	 */
-	
 	public void EnviaInformacionNodo(Transfer t){
 		if (t == null){
 			// Envia mensaje al controlador para que vacíe el panel
@@ -618,7 +498,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		}
 		controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_MostrarDatosEnPanelDeInformacion, generaArbolInformacion());
 		controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_MostrarDatosEnTablaDeVolumenes, generaTablaVolumenes());
-		
 	}
 	private void creaArrayTablas() {
 		tablas = new ArrayList<Transfer>();
@@ -630,11 +509,12 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 	public void refreshTables(TableModelEvent datos) {
 		MyTableModel tabla = (MyTableModel) datos.getSource();
 		int row = 0;
-		for(Transfer t : this.tablas) 
+		for(Transfer t : this.tablas) {
 		    for (int col = 0; col < tabla.getColumnCount(); col++) {
 		    	if(col==1) t.setVolumen(Integer.parseInt(tabla.getValueAt(row, col)));
 		    	if(col==2) t.setFrecuencia(Integer.parseInt(tabla.getValueAt(row, col)));
 		    }row++;
+		}
 	}
 	private HashMap<Integer, TransferAtributo> listaMultivalorados(){
 		HashMap<Integer, TransferAtributo> multis = new HashMap<Integer, TransferAtributo>();
@@ -648,16 +528,17 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		int filas=tablas.size(), columnas =3, row = 0;
 		String valor;
 		String[][] tabla = new String[filas][3];
-		System.out.println(tablas);
-		for(Transfer t : this.tablas) 
+		for(Transfer t : this.tablas) { 
 			for (int col = 0; col < columnas; col++){
 		    	if(col==0) valor = t.getNombre();
 		    	else if(col==1) valor = String.valueOf(t.getVolumen());
 		    	else valor = String.valueOf(t.getFrecuencia());
 		    	tabla[row][col] = valor;
 		    }row++;
+		}
 		return tabla;
 	}
+	
 	public JTree generaArbolInformacion() {
 		JTree arbolInformacion;
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode();
@@ -748,7 +629,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 			graph.removeVertex(antigua);
 			graph.addVertex(antigua);
 			layout.setLocation(antigua, antigua.getPosicion());
-			if (!antigua.getListaAtributos().isEmpty()){
+			if (!antigua.getListaAtributos().isEmpty())
 				// Añado sus atributos
 				for (Iterator<String> it2 = antigua.getListaAtributos().iterator(); it2.hasNext();){
 					Integer id = Integer.parseInt(it2.next());
@@ -756,7 +637,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 							antigua,
 							this.atributos.get(id));
 				}
-			}
 			//Añado las aristas del grafo con las aridades.
 			if (!antigua.getListaEntidadesYAridades().isEmpty()){
 				for (Iterator<EntidadYAridad> it3 = antigua.getListaEntidadesYAridades().iterator(); it3.hasNext();){
@@ -768,7 +648,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 			vv.repaint(); // Se redibuja todo el grafo actualizado
 			return antigua;
 		}
-		
 		return null;
 	}
 	
@@ -781,30 +660,29 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 	 */
 	public Transfer ModificaValorInterno1a1(Vector v){
 		// Si es relacion se actualiza
-			TransferRelacion antigua = relaciones.get(v.get(0));
-			antigua.CopiarRelacionUnoUno(v);
-			graph.removeVertex(antigua);
-			graph.addVertex(antigua);
-			layout.setLocation(antigua, antigua.getPosicion());
-			if (!antigua.getListaAtributos().isEmpty()){
-				// Añado sus atributos
-				for (Iterator<String> it2 = antigua.getListaAtributos().iterator(); it2.hasNext();){
-					Integer id = Integer.parseInt(it2.next());
-					graph.addEdge(new Double(Math.random()), 
-							antigua,
-							this.atributos.get(id));
-				}
+		TransferRelacion antigua = relaciones.get(v.get(0));
+		antigua.CopiarRelacionUnoUno(v);
+		graph.removeVertex(antigua);
+		graph.addVertex(antigua);
+		layout.setLocation(antigua, antigua.getPosicion());
+		if (!antigua.getListaAtributos().isEmpty()){
+			// Añado sus atributos
+			for (Iterator<String> it2 = antigua.getListaAtributos().iterator(); it2.hasNext();){
+				Integer id = Integer.parseInt(it2.next());
+				graph.addEdge(new Double(Math.random()), 
+						antigua,
+						this.atributos.get(id));
 			}
-			//Añado las aristas del grafo con las aridades.
-			if (!antigua.getListaEntidadesYAridades().isEmpty()){
-				for (Iterator<EntidadYAridad> it3 = antigua.getListaEntidadesYAridades().iterator(); it3.hasNext();){
-					EntidadYAridad data = it3.next();
-					graph.addEdge(data, 
-							antigua, this.entidades.get(data.getEntidad()));
-				}
+		}
+		//Añado las aristas del grafo con las aridades.
+		if (!antigua.getListaEntidadesYAridades().isEmpty())
+			for (Iterator<EntidadYAridad> it3 = antigua.getListaEntidadesYAridades().iterator(); it3.hasNext();){
+				EntidadYAridad data = it3.next();
+				graph.addEdge(data, 
+						antigua, this.entidades.get(data.getEntidad()));
 			}
-			vv.repaint(); // Se redibuja todo el grafo actualizado
-			return antigua;
+		vv.repaint(); // Se redibuja todo el grafo actualizado
+		return antigua;
 	}
 
 	/**
@@ -854,7 +732,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 		}
 		if (arg0 instanceof TransferRelacion) {
 			TransferRelacion relacion = (TransferRelacion) arg0;
-			System.out.println(relacion.getNombre());
 			relacion = relaciones.get(relacion.getIdRelacion());
 			graph.removeVertex(relacion);
 			relaciones.remove(relacion.getIdRelacion());
@@ -880,8 +757,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
         int width = vv.getWidth();
         int height = vv.getHeight();
 
-        BufferedImage bi = new BufferedImage(width, height,
-                BufferedImage.TYPE_INT_RGB);
+        BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics = bi.createGraphics();
         vv.paint(graphics);
         graphics.dispose();
@@ -916,9 +792,8 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 	
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex)
 			throws PrinterException {
-		if (pageIndex > 0) {
-            return (Printable.NO_SUCH_PAGE);
-        } else {
+		if (pageIndex > 0) return (Printable.NO_SUCH_PAGE);
+        else {
             java.awt.Graphics2D g2d = (java.awt.Graphics2D) graphics;
             g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
             vv.setDoubleBuffered(false);
@@ -929,29 +804,20 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 	}
 	
 	public class PopUpMenu extends JPopupMenu{
-
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = -1855939762977980663L;
 		public Transfer nodo; // Nodo sobre el que se ha pulsado
 		public Point2D punto; // Punto del plano donde se ha pulsado
-
 		/**
 		 * Constructor público
-		 *
 		 */
 		public PopUpMenu(){
 			this.removeAll();
-			/*this.addMouseListener(new MouseAdapter(){
-			});*/
 		}
 
 		public void Reinicializa(Transfer nodo, Point2D punto){
 			this.punto = punto;
 			this.removeAll();
 			if (nodo == null){ // Si se pide null es que ha pinchado en el área libre
-
 				// Insertar una entidad
 				JMenuItem j1 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_ENTITY));
 				
@@ -967,7 +833,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				this.add(new JSeparator());
 				
 				// Insertar una relacion normal
-				
 				JMenuItem j2 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_RELATION));
 				
 				j2.addActionListener(new java.awt.event.ActionListener() {
@@ -1270,12 +1135,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 						}	
 					});
 					this.add(j5);
-				}	
-				//this.add(new JSeparator());
-				
-				
-					
-				
+				}
 				this.add(new JSeparator());
 				//Añadir restricciones			
 				JMenuItem j8 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.RESTRICTIONS));
@@ -1380,9 +1240,8 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 				else{
 					// Anadir una entidad
 					JMenuItem j3 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_ENT));
-					if (((TransferRelacion)nodo).getTipo().equals("Debil")){
+					if (((TransferRelacion)nodo).getTipo().equals("Debil"))
 						j3.setEnabled(false);
-					}
 					else{
 						j3.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
@@ -1399,9 +1258,8 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 					// Quitar una entidad
 					JMenuItem j4 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.REMOVE_ENTITY));
 					//Si es débil
-					if (((TransferRelacion)nodo).getTipo().equals("Debil")){
+					if (((TransferRelacion)nodo).getTipo().equals("Debil"))
 						j4.setEnabled(false);
-					}
 					//Si es normal
 					else{
 					j4.addActionListener(new java.awt.event.ActionListener() {
@@ -1417,7 +1275,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 					this.add(j4);
 
 					// Editar la aridad de una entidad
-					
 					JMenuItem j5 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.EDIT_CARD_ROL));
 					if (((TransferRelacion)nodo).getTipo().equals("Debil"))
 						j5.setEnabled(false);
@@ -1526,8 +1383,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener{
 						}	
 					});
 					this.add(j9);
-							
-				} // else
+				}//else
 			}
 
 		}

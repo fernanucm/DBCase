@@ -44,16 +44,10 @@ public class MiParallelEdgeIndexFunction<Transfer, Object> implements EdgeIndexF
         	Pair<Transfer> endpoints = graph.getEndpoints(e);
         	Transfer u = endpoints.getFirst();
         	Transfer v = endpoints.getSecond();
-        	if(u.equals(v)) {
-        		index = getIndex(graph, e, v);
-        	} else {
-        		index = getIndex(graph, e, u, v);
-        	}
+        	if(u.equals(v)) index = getIndex(graph, e, v);
+        	else index = getIndex(graph, e, u, v);
         }
        int v = index.intValue();
-       /* if( v == 0)
-        	return 2;
-        else return -3;*/
         return v; 
     }
 
@@ -66,13 +60,9 @@ public class MiParallelEdgeIndexFunction<Transfer, Object> implements EdgeIndexF
     		Transfer first = ep.getFirst();
     		Transfer second = ep.getSecond();
     		// remove loops
-    		if(first.equals(second) == true) {
-    			iterator.remove();
-    		}
+    		if(first.equals(second) == true) iterator.remove();
     		// remove edges in opposite direction
-    		if(first.equals(v) == false) {
-    			iterator.remove();
-    		}
+    		if(first.equals(v) == false) iterator.remove();
     	}
     	int count=0;
     	for(Object other : commonEdgeSet) {
@@ -89,17 +79,14 @@ public class MiParallelEdgeIndexFunction<Transfer, Object> implements EdgeIndexF
     	Collection<Object> commonEdgeSet = new HashSet<Object>();
     	for(Object another : graph.getIncidentEdges(v)) {
     		Transfer u = graph.getOpposite(v, another);
-    		if(u.equals(v)) {
-    			commonEdgeSet.add(another);
-    		}
+    		if(u.equals(v)) commonEdgeSet.add(another);
     	}
     	int count=0;
-    	for(Object other : commonEdgeSet) {
+    	for(Object other : commonEdgeSet) 
     		if(e.equals(other) == false) {
     			edge_index.put(other, count);
     			count++;
     		}
-    	}
     	edge_index.put(e, count);
     	return count;
     }
@@ -122,8 +109,7 @@ public class MiParallelEdgeIndexFunction<Transfer, Object> implements EdgeIndexF
      * Clears all edge indices for all edges in all graphs.
      * Does not recalculate the indices.
      */
-    public void reset()
-    {
+    public void reset(){
         edge_index.clear();
     }
 }

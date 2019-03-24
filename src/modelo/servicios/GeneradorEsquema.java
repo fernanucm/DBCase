@@ -1114,6 +1114,11 @@ public class GeneradorEsquema {
 		int resul = jfc.showSaveDialog(null);
 		if (resul == 0){
 			File ruta = jfc.getSelectedFile();
+			String filePath = ruta.getAbsolutePath();
+			if(jfc.getFileFilter().getDescription().equals("Text") && !filePath.endsWith(".txt")) 
+			    ruta = new File(filePath + ".txt");
+			else if(jfc.getFileFilter().getDescription().equals("SQL Files") && !filePath.endsWith(".sql")) 
+			    ruta = new File(filePath + ".sql");
 			try {
 				FileWriter file = new FileWriter(ruta);
 				file.write(text);

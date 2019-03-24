@@ -117,12 +117,6 @@ public class ServiciosRelaciones {
 			}
 		}
 		return true;
-		/*int id = daoRelaciones.anadirRelacion(tr);
-		if (id==-1)	controlador.mensajeDesde_SR(TC.SR_InsertarRelacion_ERROR_DAORelaciones,tr);
-		else{
-			tr.setIdRelacion(id);
-			controlador.mensajeDesde_SR(TC.SR_InsertarRelacion_HECHO, daoRelaciones.consultarRelacion(tr));
-		}*/
 	}
 	
 	/*

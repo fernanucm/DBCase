@@ -71,7 +71,6 @@ errorCreatingFile=Se ha producido un error al crear el fichero
 # Controlador 
 workspaceChanged=Se ha cambiado satisfactoriamente el directorio de trabajo.
 workspaceIs=El directorio actual de trabajo es:
-wishExit=¿Está seguro de salir de DBCase?
 initialError=Se ha producido un error en la creacion inicial
 ofXMLfiles= de los ficheros XML.
 deleteEntity=DBCase: Eliminar entidad

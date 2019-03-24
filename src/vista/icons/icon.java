@@ -6,7 +6,7 @@ public abstract class icon implements Icon{
 	
 	private int size;
 	private boolean pintarMas;
-	private final int DEFAULTSIZE = 70;
+	private final int DEFAULTSIZE = 60;
 	private final int MINISIZE = 30;
 	
 	public icon() {

@@ -66,8 +66,7 @@ public class VertexRenderer<V,E> implements Renderer.Vertex<V,E> {
             // transform the vertex shape with xtransform
             shape = xform.createTransformedShape(shape);
             
-            vertexHit = vertexHit(rc, shape);            
-            //rc.getViewTransformer().transform(shape).intersects(deviceRectangle);
+            vertexHit = vertexHit(rc, shape);
 
             // Si es atributo multivalorado dibujo la segunda elipse
             if (v instanceof TransferAtributo) {
@@ -80,7 +79,6 @@ public class VertexRenderer<V,E> implements Renderer.Vertex<V,E> {
         			paintShapeForVertex(rc, v, outer);
     			}
     		}
-            
             // Si es entidad débil dibujo el segundo rectángulo
             if (v instanceof TransferEntidad){
             	TransferEntidad entidad = (TransferEntidad) v;
@@ -92,7 +90,6 @@ public class VertexRenderer<V,E> implements Renderer.Vertex<V,E> {
         			paintShapeForVertex(rc, v, outer);
             	}
             }
-            
             // Si es relación débil dibujo el segundo rombo
             if (v instanceof TransferRelacion){
             	TransferRelacion relacion = (TransferRelacion) v;
@@ -104,11 +101,7 @@ public class VertexRenderer<V,E> implements Renderer.Vertex<V,E> {
         			paintShapeForVertex(rc, v, outer);
             	}
             }
-            
-            if (vertexHit) {
-            	paintShapeForVertex(rc, v, shape);
-            
-            }
+            if (vertexHit)  paintShapeForVertex(rc, v, shape);            
         }
     }
     

@@ -73,7 +73,7 @@ public class addTransfersPanel extends JPanel{
 		
 		anadirEntidad.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
             	Point2D p = new Point2D.Double(coords[0],coords[1]);
 				controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_InsertarEntidad,p);
 				aumentaCoords();
@@ -81,7 +81,7 @@ public class addTransfersPanel extends JPanel{
         });	
 		anadirRelacion.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
             	Point2D p = new Point2D.Double(coords[0],coords[1]);
 				controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_InsertarRelacionNormal,p);
 				aumentaCoords();
@@ -90,7 +90,7 @@ public class addTransfersPanel extends JPanel{
         });
 		anadirIsa.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
             	Point2D p = new Point2D.Double(coords[0],coords[1]);
 				controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_InsertarRelacionIsA,p);
 				aumentaCoords();
@@ -98,7 +98,7 @@ public class addTransfersPanel extends JPanel{
         });
 		anadirAttribute.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
             	listaTransfers = new Vector<Transfer>();
             	DAORelaciones daoRelaciones = new DAORelaciones(controlador.getPath());
             	listaTransfers.addAll(daoRelaciones.ListaDeRelaciones());

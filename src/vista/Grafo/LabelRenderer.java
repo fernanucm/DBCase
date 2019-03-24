@@ -78,8 +78,6 @@ public class LabelRenderer<V,E> implements edu.uci.ics.jung.visualization.render
 			@Override public Paint transform(V arg0){return Color.black;}
 		});
 		
-
-		
 		Graph<V,E> graph = layout.getGraph();
 		
 		if (rc.getVertexIncludePredicate().evaluate(Context.<Graph<V,E>,V>getInstance(graph,v)) == false) return;
@@ -97,7 +95,6 @@ public class LabelRenderer<V,E> implements edu.uci.ics.jung.visualization.render
 
 		int x = (int)p.getX();
 		int y = (int)p.getY();
-
 		
 		g.draw(component, rc.getRendererPane(), x+h_offset, y+v_offset, d.width, d.height, true);
 		
@@ -118,11 +115,7 @@ public class LabelRenderer<V,E> implements edu.uci.ics.jung.visualization.render
 			}};
 	}
 
-	public void setPosition(edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position position) {
-		// noop
-	}
+	public void setPosition(edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position position) {}
 
-	public void setPositioner(edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Positioner positioner) {
-		//noop
-	}
+	public void setPositioner(edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Positioner positioner) {}
 }

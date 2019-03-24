@@ -61,7 +61,7 @@ import vista.GUIFrames.GUI_WorkSpace;
 import vista.Theme.Theme;
 import vista.lenguaje.Lenguaje;
 
-
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class Controlador {
 	// GUIs
 	private GUIPrincipal theGUIPrincipal;
@@ -438,13 +438,11 @@ public class Controlador {
 					Lenguaje.getMensaje(Lenguaje.OF_XMLFILES)+"\n"+this.getPath(),Lenguaje.getMensaje(Lenguaje.DBCASE),JOptionPane.ERROR_MESSAGE);
 			break;
 		}
-		default:
-			break;
+		default: break;
 		}// Switch
 	}
 
 	// Mensajes que manda el Panel de Diseño al Controlador
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void mensajeDesde_PanelDiseno(TC mensaje, Object datos){
 		switch(mensaje){
 		case PanelDiseno_Click_InsertarEntidad:{
@@ -484,13 +482,9 @@ public class Controlador {
 		}
 		case PanelDiseno_Click_DebilitarEntidad:{
 			TransferEntidad te = (TransferEntidad) datos;
-			if(!te.isDebil() && this.getTheServiciosRelaciones().tieneHermanoDebil(te)){
+			if(!te.isDebil() && this.getTheServiciosRelaciones().tieneHermanoDebil(te))
 				JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ALREADY_WEAK_ENTITY), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			}
-			else{
-				//mensajeDesde_GUIWorkSpace(TC.PanelDiseno_Click_DebilitarRelacion,datos);
-				this.getTheServiciosEntidades().debilitarEntidad(te);
-			}
+			else this.getTheServiciosEntidades().debilitarEntidad(te);
 			break;
 		}
 		case PanelDiseno_Click_EliminarEntidad:{
@@ -614,18 +608,6 @@ public class Controlador {
 				String eliminarSubatributos = "";
 				if (!ta.getListaComponentes().isEmpty())
 					eliminarSubatributos = Lenguaje.getMensaje(Lenguaje.DELETE_ATTRIBUTES_WARNING)+"\n";
-				/*Object[] options = {Lenguaje.getMensaje(Lenguaje.YES),Lenguaje.getMensaje(Lenguaje.NO)};
-				respuesta = JOptionPane.showOptionDialog(
-						null,
-						Lenguaje.getMensaje(Lenguaje.ATTRIBUTE)+" \""+ta.getNombre()+"\""+Lenguaje.getMensaje(Lenguaje.REMOVE_FROM_SYSTEM)+"\n" +
-						eliminarSubatributos +
-						Lenguaje.getMensaje(Lenguaje.WISH_CONTINUE),
-						Lenguaje.getMensaje(Lenguaje.DELETE_ATTRIB),
-						JOptionPane.YES_NO_OPTION,
-						JOptionPane.QUESTION_MESSAGE,
-						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.WARNING)),
-						options,
-						options[1]);*/
 				respuesta = panelOpciones.setActiva(
 						Lenguaje.getMensaje(Lenguaje.ATTRIBUTE)+" \""+ta.getNombre()+"\""+Lenguaje.getMensaje(Lenguaje.REMOVE_FROM_SYSTEM)+"\n" +
 						eliminarSubatributos + Lenguaje.getMensaje(Lenguaje.WISH_CONTINUE),
@@ -1073,9 +1055,8 @@ public class Controlador {
 					tieneAtributos = Lenguaje.getMensaje(Lenguaje.DELETE_ATTRIBUTES_WARNING)+"\n";
 				String tieneEntidad="";
 				//Informar de que también se va a eliminar la entidad débil asociada
-				if(tr.getTipo().equals("Debil")){
+				if(tr.getTipo().equals("Debil"))
 					tieneEntidad = Lenguaje.getMensaje(Lenguaje.WARNING_DELETE_WEAK_ENTITY)+"\n";
-				}
 				respuesta = panelOpciones.setActiva(
 						Lenguaje.getMensaje(Lenguaje.THE_RELATION)+" \""+tr.getNombre()+"\""+
 						Lenguaje.getMensaje(Lenguaje.REMOVE_FROM_SYSTEM)+"\n" +
@@ -1167,18 +1148,6 @@ public class Controlador {
 		}
 		case PanelDiseno_Click_EliminarDominio:{
 			TransferDominio td = (TransferDominio) datos;
-			/*Object[] options = {Lenguaje.getMensaje(Lenguaje.YES),Lenguaje.getMensaje(Lenguaje.NO)};
-			int respuesta = JOptionPane.showOptionDialog(
-					null,
-					Lenguaje.getMensaje(Lenguaje.DOMAIN)+" \""+td.getNombre()+"\""+ Lenguaje.getMensaje(Lenguaje.REMOVE_FROM_SYSTEM)+"\n" +
-					Lenguaje.getMensaje(Lenguaje.MODIFYING_ATTRIBUTES_WARNING4)+"\n" +
-					Lenguaje.getMensaje(Lenguaje.WISH_CONTINUE),
-					Lenguaje.getMensaje(Lenguaje.DELETE_DOMAIN),
-					JOptionPane.YES_NO_OPTION,
-					JOptionPane.QUESTION_MESSAGE,
-					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.WARNING)),
-					options,
-					options[1]);*/
 			int respuesta = panelOpciones.setActiva(
 					Lenguaje.getMensaje(Lenguaje.DOMAIN)+" \""+td.getNombre()+"\""+ Lenguaje.getMensaje(Lenguaje.REMOVE_FROM_SYSTEM)+"\n" +
 					Lenguaje.getMensaje(Lenguaje.MODIFYING_ATTRIBUTES_WARNING4)+"\n" +
@@ -1289,91 +1258,40 @@ public class Controlador {
 		 * Barra de menus
 		 */
 		case GUI_Principal_Click_Submenu_Salir:{
-			/*Object[] options1 = {Lenguaje.getMensaje(Lenguaje.YES),
-					Lenguaje.getMensaje(Lenguaje.NO),
-					Lenguaje.getMensaje(Lenguaje.CANCEL)};*/
 			if (cambios){
-				/*int respuesta = JOptionPane.showOptionDialog(
-						null,
-						Lenguaje.getMensaje(Lenguaje.WISH_SAVE),
-						Lenguaje.getMensaje(Lenguaje.DBCASE),
-						JOptionPane.YES_NO_OPTION,
-						JOptionPane.QUESTION_MESSAGE,
-						null,
-						options1,
-						options1[0]);*/
 				int respuesta = panelOpcionesPeque.setActiva(
 						Lenguaje.getMensaje(Lenguaje.WISH_SAVE),
 						Lenguaje.getMensaje(Lenguaje.DBCASE),
 						true,
 						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
-				switch (respuesta) {
-					case 2: 
-						break;
-					case 1: 
+				if (respuesta==1) {
 						filetemp.delete();
 						System.exit(0);
-						break;
-					case 0:
+				}else if (respuesta==0) {
 						theGUIWorkSpace = new GUI_WorkSpace();
 						theGUIWorkSpace.setControlador(this);
-						boolean guardado = this.getTheGUIWorkSpace().setActiva(2);
-						if (guardado){
+						if (this.getTheGUIWorkSpace().setActiva(2)){
 							filetemp.delete();
 							System.exit(0);
 						}
-						break;
 				}		
 			}else{
-				/*Object[] options = {Lenguaje.getMensaje(Lenguaje.YES),Lenguaje.getMensaje(Lenguaje.NO)};
-				int respuesta = JOptionPane.showOptionDialog(
-						null,
-						Lenguaje.getMensaje(Lenguaje.WISH_EXIT),
-						Lenguaje.getMensaje(Lenguaje.DBCASE),
-						JOptionPane.YES_NO_OPTION,
-						JOptionPane.QUESTION_MESSAGE,
-						null,
-						options,
-						options[0]);*/
-				int respuesta = panelOpcionesPeque.setActiva(
-						Lenguaje.getMensaje(Lenguaje.WISH_EXIT),
-						Lenguaje.getMensaje(Lenguaje.DBCASE),
-						false,
-						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
-				if (respuesta == 0){
-					filetemp.delete();
-					System.exit(0);				
-				}
-				break;
+				filetemp.delete();
+				System.exit(0);
 			}
 			break;
 		}
 		case GUI_Principal_Click_Salir:{
-			/*Object[] options1 = {Lenguaje.getMensaje(Lenguaje.YES),
-					Lenguaje.getMensaje(Lenguaje.NO),
-					Lenguaje.getMensaje(Lenguaje.CANCEL)};*/
 			String ruta;
 			ConfiguradorInicial conf;
 			
 			if (cambios){
-				/*int respuesta = JOptionPane.showOptionDialog(
-						null,
-						Lenguaje.getMensaje(Lenguaje.WISH_SAVE),
-						Lenguaje.getMensaje(Lenguaje.DBCASE),
-						JOptionPane.YES_NO_OPTION,
-						JOptionPane.QUESTION_MESSAGE,
-						null,
-						options1,
-						options1[0]);*/
 				int respuesta = panelOpcionesPeque.setActiva(
 						Lenguaje.getMensaje(Lenguaje.WISH_SAVE),
 						Lenguaje.getMensaje(Lenguaje.DBCASE),
 						true,
 						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
-				switch (respuesta) {
-					case 2: 
-						break;
-					case 1: 
+				if (respuesta==1) {
 						// Guardar configuración actual
 						ruta = "";
 						if (fileguardar != null && fileguardar.exists()){
@@ -1388,12 +1306,10 @@ public class Controlador {
 						conf.guardarFicheroCofiguracion();
 						filetemp.delete();
 						System.exit(0);
-						break;
-					case 0:
+				}else if (respuesta==0) {
 						theGUIWorkSpace = new GUI_WorkSpace();
 						theGUIWorkSpace.setControlador(this);
-						boolean guardado = this.getTheGUIWorkSpace().setActiva(2);
-						if (guardado){
+						if (this.getTheGUIWorkSpace().setActiva(2)){
 							// Guardar configuración actual
 							ruta = "";
 							if (fileguardar != null && fileguardar.exists()){
@@ -1409,55 +1325,35 @@ public class Controlador {
 							filetemp.delete();
 							System.exit(0);
 						}
-						break;
 				}		
 			}else{
 				// Guardar configuración actual
 				ruta = "";
-				if (fileguardar != null && fileguardar.exists()){
+				if (fileguardar != null && fileguardar.exists())
 					ruta = fileguardar.getPath();
-				}
 				conf = new ConfiguradorInicial(
 					Lenguaje.getIdiomaActual(),
 					this.getTheGUIPrincipal().getConexionActual().getRuta(),
 					ruta, theme.getThemeName()
 				);
-		
 				conf.guardarFicheroCofiguracion();
-				
 				filetemp.delete();
 				System.exit(0);
 			}
 			break;
 		}
 		case GUI_Principal_Click_Submenu_Abrir:{
-			/*Object[] options1 = {Lenguaje.getMensaje(Lenguaje.YES),
-					Lenguaje.getMensaje(Lenguaje.NO),
-					Lenguaje.getMensaje(Lenguaje.CANCEL)};*/
 			if (cambios){
-				/*int respuesta = JOptionPane.showOptionDialog(
-						null,
-						Lenguaje.getMensaje(Lenguaje.WISH_SAVE),
-						Lenguaje.getMensaje(Lenguaje.DBCASE),
-						JOptionPane.YES_NO_OPTION,
-						JOptionPane.QUESTION_MESSAGE,
-						null,
-						options1,
-						options1[0]);*/
 				int respuesta = panelOpcionesPeque.setActiva(
 						Lenguaje.getMensaje(Lenguaje.WISH_SAVE),
 						Lenguaje.getMensaje(Lenguaje.DBCASE),
 						true,
 						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
-				switch (respuesta) {
-					case 2: 
-						break;
-					case 1: 
+				if (respuesta==1) {
 						theGUIWorkSpace = new GUI_WorkSpace();
 						theGUIWorkSpace.setControlador(this);
 						this.getTheGUIWorkSpace().setActiva(1);
-						break;
-					case 0:
+				}else if (respuesta==0) {
 						theGUIWorkSpace = new GUI_WorkSpace();
 						theGUIWorkSpace.setControlador(this);
 						boolean guardado = this.getTheGUIWorkSpace().setActiva(2);
@@ -1466,13 +1362,11 @@ public class Controlador {
 							theGUIWorkSpace.setControlador(this);
 							this.getTheGUIWorkSpace().setActiva(1);
 						}
-						break;
 				}		
 			}else{
 				theGUIWorkSpace = new GUI_WorkSpace();
 				theGUIWorkSpace.setControlador(this);
 				this.getTheGUIWorkSpace().setActiva(1);
-				break;
 			}
 			break;
 		}
@@ -1489,96 +1383,57 @@ public class Controlador {
 			break;
 		}
 		case GUI_Principal_Click_Submenu_Nuevo:{
-			/*Object[] options1 = {Lenguaje.getMensaje(Lenguaje.YES),
-					Lenguaje.getMensaje(Lenguaje.NO),
-					Lenguaje.getMensaje(Lenguaje.CANCEL)};*/
 			if (cambios){
-				/*int respuesta = JOptionPane.showOptionDialog(
-						null,
-						Lenguaje.getMensaje(Lenguaje.WISH_SAVE),
-						Lenguaje.getMensaje(Lenguaje.DBCASE),
-						JOptionPane.YES_NO_OPTION,
-						JOptionPane.QUESTION_MESSAGE,
-						null,
-						options1,
-						options1[0]);*/
 				int respuesta = panelOpcionesPeque.setActiva(
 						Lenguaje.getMensaje(Lenguaje.WISH_SAVE),
 						Lenguaje.getMensaje(Lenguaje.DBCASE),
 						true,
 						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
-						
-				switch (respuesta) {
-					case 2: 
-						break;
-					case 1: 
+				if (respuesta==1) {
 						filetemp.delete();
 						this.getTheGUIWorkSpace().nuevoTemp();
 						setCambios(false);
-						break;
-					case 0:
+				}else if (respuesta==0) {
 						theGUIWorkSpace = new GUI_WorkSpace();
 						theGUIWorkSpace.setControlador(this);
-						boolean guardado = this.getTheGUIWorkSpace().setActiva(2);
-						if (guardado){
+						if (this.getTheGUIWorkSpace().setActiva(2)){
 							filetemp.delete();
 							this.getTheGUIWorkSpace().nuevoTemp();
 							setCambios(false);
 						}
-						break;
 				}		
 			}else{
 				filetemp.delete();
 				this.getTheGUIWorkSpace().nuevoTemp();
 				setCambios(false);
-				break;
 			}
 			break;
 		}
 		case GUI_Principal_Click_Submenu_Cerrar:{
-			/*Object[] options1 = {Lenguaje.getMensaje(Lenguaje.YES),
-					Lenguaje.getMensaje(Lenguaje.NO),
-					Lenguaje.getMensaje(Lenguaje.CANCEL)};*/
 			if (cambios){
-				/*int respuesta = JOptionPane.showOptionDialog(
-						null,
-						Lenguaje.getMensaje(Lenguaje.WISH_SAVE),
-						Lenguaje.getMensaje(Lenguaje.DBCASE),
-						JOptionPane.YES_NO_OPTION,
-						JOptionPane.QUESTION_MESSAGE,
-						null,
-						options1,
-						options1[0]);*/
 				int respuesta = panelOpcionesPeque.setActiva(
 						Lenguaje.getMensaje(Lenguaje.WISH_SAVE),
 						Lenguaje.getMensaje(Lenguaje.DBCASE),
 						true,
 						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
-				switch (respuesta) {
-					case 2: 
-						break;
-					case 1: 
+				if (respuesta==1) {
 						setCambios(false);
 						theGUIPrincipal.enableCerrar(false);
 						theGUIPrincipal.enableGuardar(false);
 						theGUIPrincipal.enableGuardarComo(false);
 						theGUIPrincipal.visiblePrincipal(false);
 						filetemp.delete();
-						break;
-					case 0:
+				}else if (respuesta==0) {
 						theGUIWorkSpace = new GUI_WorkSpace();
 						theGUIWorkSpace.setControlador(this);
-						boolean guardado = this.getTheGUIWorkSpace().setActiva(2);
-						if (guardado){
+						if (this.getTheGUIWorkSpace().setActiva(2)){
 							setCambios(false);
 							theGUIPrincipal.enableCerrar(false);
 							theGUIPrincipal.enableGuardar(false);
 							theGUIPrincipal.enableGuardarComo(false);
 							theGUIPrincipal.visiblePrincipal(false);
 							filetemp.delete();
-							
 						}
-						break;
 				}		
 			}else{
 				setCambios(false);
@@ -1587,8 +1442,6 @@ public class Controlador {
 				theGUIPrincipal.enableGuardarComo(false);
 				theGUIPrincipal.visiblePrincipal(false);
 				filetemp.delete();
-				
-				break;
 			}
 			break;
 		}
@@ -1599,11 +1452,6 @@ public class Controlador {
 			
 			// Cambiar lenguaje
 			Lenguaje.cargaLenguaje(lenguaje);
-			
-			// Refrescar todas las ventanas
-			/*for (int i=0; i<ventanasTraducibles.size(); i++){
-				ventanasTraducibles.get(i).refrescarIdioma();
-			}*/
 			
 			/* guardar, "guardado", tempguarda... y todo eso. guardar en un temporal nuevo y luego abrirlo para dejarlo como estuviese*/ 
 			boolean cambios = this.cambios;
@@ -1623,9 +1471,7 @@ public class Controlador {
 					this.getTheGUIWorkSpace().nuevoTemp();
 				}
 			}
-			catch(IOException e){
-				
-			}
+			catch(IOException e){}
 					
 			this.fileguardar=fileguardar;
 			this.cambios= cambios;
@@ -1653,13 +1499,9 @@ public class Controlador {
 					mensajeDesde_GUIWorkSpace(TC.GUI_WorkSpace_Click_Abrir, guardado.getAbsolutePath());
 					guardado.delete();
 				}
-				else{
-					this.getTheGUIWorkSpace().nuevoTemp();
-				}
+				else this.getTheGUIWorkSpace().nuevoTemp();
 			}
-			catch(IOException e){
-				
-			}
+			catch(IOException e){}
 					
 			this.fileguardar=fileguardar;
 			this.cambios= cambios;
@@ -1714,7 +1556,6 @@ public class Controlador {
 	}
 
 	// Mensajes que le mandan las GUIs al controlador
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void mensajeDesde_GUI(TC mensaje, Object datos){
 		switch(mensaje){
 		case GUIInsertarEntidad_Click_BotonInsertar:{
@@ -1749,10 +1590,8 @@ public class Controlador {
 			//Vamos a intentar situar el atributo 
 			int numAtributos=((TransferEntidad)vectorTransfers.get(0)).getListaAtributos().size();
 			Point2D p =((TransferAtributo)vectorTransfers.get(1)).getPosicion();
-			//System.out.println(p);
 			p.setLocation(p.getX(), p.getY()-80+numAtributos*40);
 			((TransferAtributo)vectorTransfers.get(1)).setPosicion(p);
-			//
 			this.getTheServiciosEntidades().anadirAtributo(vectorTransfers);	
 			ActualizaArbol((Transfer)vectorTransfers.get(1));
 			this.getTheServiciosSistema().reset();
@@ -1855,7 +1694,6 @@ public class Controlador {
 			Point2D p =((TransferAtributo)vectorTransfers.get(1)).getPosicion();
 			p.setLocation(p.getX(), p.getY()-60+numAtributos*40);
 			((TransferAtributo)vectorTransfers.get(1)).setPosicion(p);
-			//
 			this.getTheServiciosRelaciones().anadirAtributo(vectorTransfers);
 			ActualizaArbol((Transfer)vectorTransfers.get(1));
 			this.getTheServiciosSistema().reset();
@@ -2010,11 +1848,10 @@ public class Controlador {
 				}
 			}
 			
-			if(relDebil && entDebil && relTieneEntDebil){
+			if(relDebil && entDebil && relTieneEntDebil)
 				JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ALREADY_WEAK_ENTITY), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			}else{
-				this.getTheServiciosRelaciones().anadirEntidadARelacion(v);
-			}
+			else this.getTheServiciosRelaciones().anadirEntidadARelacion(v);
+			
 			ActualizaArbol(tr);
 			this.getTheServiciosSistema().reset();
 			break;
@@ -2072,9 +1909,7 @@ public class Controlador {
 				}
 				cont++;
 			}
-			
 			this.getTheServiciosDominios().renombrarDominio(v);
-			
 			this.getTheServiciosSistema().reset();
 			break;
 		}
@@ -2100,14 +1935,11 @@ public class Controlador {
 			this.getTheServiciosSistema().compruebaConexion(tc);
 			break;
 		}
-		default:
-			break;
-		
+		default: break;
 		} // Switch	
 	}
 
 	// Mensajes que mandan los Servicios de Entidades al Controlador
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void mensajeDesde_SE(TC mensaje, Object datos){
 		switch(mensaje){
 
@@ -2392,14 +2224,11 @@ public class Controlador {
 	}
 
 	// Mensajes que mandan los Servicios de Dominios al Controlador
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void mensajeDesde_SD(TC mensaje, Object datos){
 		switch(mensaje){
-
 		/*
 		 * Listar dominios
 		 */
-		
 		case SD_ListarDominios_HECHO: {
 			this.getTheGUIPrincipal().setListaDominios((Vector) datos);
 			this.getTheGUIAnadirAtributoEntidad().setListaDominios((Vector) datos);
@@ -2551,16 +2380,13 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			v.get(0);
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_VALUE), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			
 			break;
 		}
-		default:
-			break;
+		default: break;
 		} // switch
 	}
 	
 	// Mensajes que mandan los Servicios de Atributos al Controlador
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void mensajeDesde_SA(TC mensaje, Object datos){
 		switch(mensaje){
 
@@ -2575,7 +2401,6 @@ public class Controlador {
 		 */
 		case SA_EliminarAtributo_ERROR_DAOAtributos:{
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-			
 			break;
 		}
 		case SA_EliminarAtributo_HECHO:{
@@ -2617,14 +2442,6 @@ public class Controlador {
 			TransferAtributo ta = (TransferAtributo) v.get(0);
 			String antiguoNombre = (String) v.get(2);
 			
-			/*if(ta.getUnique()){
-				TransferAtributo clon_atributo2 = ta.clonar();
-				clon_atributo2.setNombre(antiguoNombre);
-				this.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarUniqueAtributo,clon_atributo2);
-				
-				TransferAtributo clon_atributo = ta.clonar();
-				this.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarUniqueAtributo,clon_atributo);
-			}*/
 			TransferAtributo clon_atributo = ta.clonar();
 			Vector v1 = new Vector();
 			v1.add(clon_atributo);
@@ -2675,9 +2492,6 @@ public class Controlador {
 			setCambios(true);
 			TransferAtributo ta = (TransferAtributo) datos;
 			ta.getNombre();
-			if(ta.getCompuesto()) {
-			} else {
-			}
 			ActualizaArbol(ta);
 			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_EditarCompuestoAtributo, ta);
@@ -2849,15 +2663,12 @@ public class Controlador {
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_MoverAtributo_HECHO, ta);
 			break;
 		}
-		default:
-			break;
-
+		default: break;
 		} // switch
 	}
 
 	
 	// Mensajes que mandan los Servicios de Relaciones al Controlador
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void mensajeDesde_SR(TC mensaje, Object datos){
 		switch(mensaje){
 
@@ -3427,9 +3238,7 @@ public class Controlador {
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_setUniqueUnitarioRelacion, clon_relacion);
 			break;
 		}
-		default:
-			break;
-
+		default: break;
 	  }
 	}
 
@@ -3512,9 +3321,7 @@ public class Controlador {
 			FileOutputStream out = new FileOutputStream(outFile);
 
 			int c;
-			while( (c = in.read() ) != -1)
-				out.write(c);
- 
+			while( (c = in.read() ) != -1) out.write(c);
 			in.close();
 			out.close();
 		} catch(IOException e) {
@@ -3524,25 +3331,20 @@ public class Controlador {
 
     private void ActualizaArbol(Transfer t){
     	this.getTheGUIPrincipal().getPanelDiseno().EnviaInformacionNodo(t);
-    	
     }
     
 	/**
 	 * Getters y Setters
 	 */
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void setListaAtributos(Vector datos) {
 		this.listaAtributos = datos;
-		
 	}
 	
 	public GUI_AnadirAtributoEntidad getTheGUIAnadirAtributoEntidad() {
 		return theGUIAnadirAtributoEntidad;
 	}
 
-	public void setTheGUIAnadirAtributoEntidad(
-			GUI_AnadirAtributoEntidad theGUIAnadirAtributoEntidad) {
+	public void setTheGUIAnadirAtributoEntidad(GUI_AnadirAtributoEntidad theGUIAnadirAtributoEntidad) {
 		this.theGUIAnadirAtributoEntidad = theGUIAnadirAtributoEntidad;
 	}
 	

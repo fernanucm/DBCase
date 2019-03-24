@@ -1,5 +1,6 @@
 package vista.GUIFrames;
 
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -344,7 +345,9 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 			
 			//Generamos el transfer que mandaremos al controlador para crear la relación
 			TransferRelacion tr = new TransferRelacion();
-			tr.setPosicion((this.getPosicionEntidad()));
+			Point2D p = new Point();
+			p.setLocation(this.getPosicionEntidad().getX(), this.getPosicionEntidad().getY()+150);
+			tr.setPosicion(p);
 			tr.setNombre(this.jTextRelacion.getText());
 			tr.setListaAtributos(new Vector());
 			tr.setListaEntidadesYAridades(new Vector());			
@@ -375,9 +378,8 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 			// Mandamos el mensaje y el vector con los datos
 			this.controlador.mensajeDesde_GUI(TC.GUIAnadirEntidadARelacion_ClickBotonAnadir,w);
 		}
-		if(items.size() == 0){
+		if(items.size() == 0)
 			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.CREATE_STRONG_ENTITY), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
-		}
 	}
 
 	private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {                                              
