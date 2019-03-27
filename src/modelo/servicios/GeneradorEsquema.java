@@ -21,9 +21,7 @@ import modelo.persistencia.DAODominios;
 import modelo.persistencia.DAOEntidades;
 import modelo.persistencia.DAORelaciones;
 import modelo.persistencia.EntidadYAridad;
-import modelo.tools.HTMLUtils;
 import modelo.tools.ImagePath;
-import modelo.tools.TipoDominio;
 import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferConexion;
 import modelo.transfers.TransferDominio;
@@ -33,14 +31,12 @@ import vista.lenguaje.Lenguaje;
 
 @SuppressWarnings({"unchecked","rawtypes"})
 public class GeneradorEsquema {
-	private Controlador controlador;
+	protected Controlador controlador;
 	//atributos para la generacion de los modelos
-	private boolean modeloValidado;
 	private String sql="";
 	private String sqlHTML="";
 	private String mr="";
 	private TransferConexion conexionScriptGenerado = null;
-	private String mensaje;
 	private RestriccionesPerdidas restriccionesPerdidas = new RestriccionesPerdidas();
 
 	//aqui se almacenaran las tablas ya creadas, organizadas por el id de la entidad /relacion (clave) y con el objeto tabla como valor.
@@ -48,614 +44,9 @@ public class GeneradorEsquema {
 	private Hashtable<Integer,Tabla> tablasRelaciones=new Hashtable<Integer,Tabla>();
 	private Vector<Tabla> tablasMultivalorados=new Vector<Tabla>();
 	private Hashtable<Integer,Enumerado> tiposEnumerados = new Hashtable<Integer,Enumerado>();
-
-	//validacion de atributos
-	private boolean validaAtributos(){
-		/* hemos de validar lo siguiente:
-		 * - Cada atributo pertenece a una sola entidad
-		 * - Cada atributo tiene un dominio definido
-		 * - Los atributos multivalorados no son clave
-		 */
-		DAOAtributos daoAtributos= new DAOAtributos(this.controlador.getPath());
-		Vector <TransferAtributo> atributos =daoAtributos.ListaDeAtributos();
-		boolean valido=true;
-		int i=0;
-		TransferAtributo t = new TransferAtributo();
-		while (i<atributos.size()){
-			t=atributos.elementAt(i);													
-			mensaje += HTMLUtils.toBold(Lenguaje.getMensaje(Lenguaje.RATIFYING))+HTMLUtils.toItalic(t.getNombre())+HTMLUtils.newLine();
-			valido=validaFidelidadAtributo(t)&& validaDominioDeAtributo(t);
-			if (t.getCompuesto()) valido=valido && validaCompuesto(t); 
-			i++;
-			mensaje += HTMLUtils.newLine()+HTMLUtils.newLine();
-		}
-		
-		return valido;
-	}
-
-	//metodos privados de validacion de atributos.
-	@SuppressWarnings("unlikely-arg-type")
-	private boolean validaDominioDeAtributo(TransferAtributo ta){
-		//comprueba que tenga dominio
-
-		boolean valido=true;
-		String dom = ta.getDominio();
-		mensaje += HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.RATIFYING_ATTRIB_DOMAIN))+HTMLUtils.newLine();
-		if (ta.getCompuesto()){
-			if(!dom.equals("null")){
-				valido=false;
-				mensaje +=  HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-						Lenguaje.getMensaje(Lenguaje.COMPOSED_ATTRIBUTE)+HTMLUtils.newLine();				
-			}
-			else mensaje += HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
-					Lenguaje.getMensaje(Lenguaje.CORRECT_DOMAIN)+HTMLUtils.newLine(); 
-		}
-		else{
-			if (dom.equals("")||dom.equals("null")){ 
-				valido =false;
-				mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-						Lenguaje.getMensaje(Lenguaje.NO_DOMAIN)+HTMLUtils.newLine();
-			}
-			else{
-				if (dom.contains("(")) dom=quitaParenDominio(dom);
-				int i=0;
-				while(i<TipoDominio.values().length && !TipoDominio.values()[i].equals(dom))i++;
-				if (i>TipoDominio.values().length){
-					mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-							Lenguaje.getMensaje(Lenguaje.UNKNOWN_DOMAIN)+HTMLUtils.newLine();
-					valido=false;
-				}
-				else mensaje += HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
-						Lenguaje.getMensaje(Lenguaje.CORRECT_DOMAIN)+HTMLUtils.newLine();
-			}
-		}
-
-		return  valido;
-	}
+	private ValidadorBD validadorBD;
 	
-	private boolean validaFidelidadAtributo(TransferAtributo ta){
-		// comprueba si el atributo pertenece solo a una entidad.
-		DAOAtributos daoAtributos= new DAOAtributos(this.controlador.getPath());
-		DAOEntidades daoEntidades= new DAOEntidades(this.controlador.getPath());
-		DAORelaciones daoRelaciones= new DAORelaciones(this.controlador.getPath());
-		Vector <TransferAtributo> atributos =daoAtributos.ListaDeAtributos();
-		Vector <TransferEntidad> entidades =daoEntidades.ListaDeEntidades();
-		Vector <TransferRelacion> relaciones =daoRelaciones.ListaDeRelaciones();
-		boolean valido=true;
-		boolean enEntidad=false;
-		mensaje += HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.RATIFYING_ATTRIBUTE))+HTMLUtils.newLine();
-		TransferEntidad te= new TransferEntidad();
-		TransferRelacion tr= new TransferRelacion();
-		int cont =0;
-		int i=0;
-		while (i<entidades.size()&& cont<=1){
-			te= entidades.elementAt(i);
-			if (estaEnVectorDeEnteros(te.getListaAtributos(),ta.getIdAtributo())){
-				cont++;
-				enEntidad=true;
-			}
-			i++;
-		}
-		if (!enEntidad){
-			cont=0;
-			i=0;
-			while (i<relaciones.size()&& cont<=1){
-				tr= relaciones.elementAt(i);
-				if (estaEnVectorDeEnteros(tr.getListaAtributos(),ta.getIdAtributo())){
-					cont++;
-				}
-				i++;
-			}
-		}
-
-		switch (cont){
-		case 0:
-			//entonces es un subatributo, comprobamos q no esta repetido entre los subatributos
-			i=0;
-			int contSubAtrib=0;
-			TransferAtributo aux= new TransferAtributo();
-			while (i<atributos.size()&& contSubAtrib<=1){
-				aux= atributos.elementAt(i);
-				if(aux.getCompuesto())
-					if (estaEnVectorDeEnteros(aux.getListaComponentes(),ta.getIdAtributo())){
-						contSubAtrib++;
-					}
-				i++;
-			}
-			if (contSubAtrib==1)mensaje += HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
-					Lenguaje.getMensaje(Lenguaje.ATTRIBUTE)+" "+ta.getNombre()+ Lenguaje.getMensaje(Lenguaje.ONE_ATTRIB_SUBATTRIB)+HTMLUtils.newLine();
-			else	{
-				mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-					Lenguaje.getMensaje(Lenguaje.ATTRIBUTE)+" "+ta.getNombre()+Lenguaje.getMensaje(Lenguaje.MANY_ATTRIB_SUBATTRIB)+HTMLUtils.newLine();
-				valido=false;
-			}
-			break;
-		case 1:
-			mensaje += HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
-					Lenguaje.getMensaje(Lenguaje.ATTRIBUTE)+" "+ta.getNombre()+Lenguaje.getMensaje(Lenguaje.ONE_ENTITY)+HTMLUtils.newLine();
-			break;
-		default:
-			mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-					Lenguaje.getMensaje(Lenguaje.ATTRIBUTE)+" "+ta.getNombre()+Lenguaje.getMensaje(Lenguaje.MANY_ENTITIES)+HTMLUtils.newLine();
-		valido=false;
-		break;
-		}
-
-		return valido; 
-	}
-	
-	private boolean validaCompuesto(TransferAtributo ta){
-		boolean valido = true;
-		mensaje += HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.RATIFYING_CHILDREN))+HTMLUtils.newLine();
-		int numSubs=ta.getListaComponentes().size();
-		switch (numSubs) {
-		case 0: valido = false;
-		mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+ 
-				Lenguaje.getMensaje(Lenguaje.NO_SUBATTRIB)+ HTMLUtils.newLine();
-		break;
-		case 1: mensaje += HTMLUtils.toBold(HTMLUtils.toYellowColor(Lenguaje.getMensaje(Lenguaje.WARNING)+": "))+
-				Lenguaje.getMensaje(Lenguaje.ONE_SUBATTRIB)+HTMLUtils.newLine();
-		break;
-		}
-
-		return valido;
-	}
-
-	//validacion de entidades
-	private boolean validaEntidades(){
-		DAOEntidades daoEntidades= new DAOEntidades(this.controlador.getPath());
-		Vector <TransferEntidad> entidades =daoEntidades.ListaDeEntidades();
-		boolean valido=true;
-		int i=0;
-		TransferEntidad t = new TransferEntidad();
-		while (i<entidades.size()){
-			t=entidades.elementAt(i);
-			mensaje += HTMLUtils.toBold(t.getNombre())+HTMLUtils.newLine();
-			
-			//por ahora validamos las claves y avisamos de si es padre de varias isA
-			valido = validaKey(t) && this.validaNombresAtributosEntidad(t);
-			validaFidelidadEntidadEnIsA(t);
-			i++;
-			mensaje += HTMLUtils.newLine()+HTMLUtils.newLine();
-		}
-		
-		return valido;
-	}
-
-	//metodos privados de validacion de entidades
-	private boolean validaKey(TransferEntidad te){
-		DAOAtributos daoAtributos= new DAOAtributos(this.controlador.getPath());
-		//valida si la entidad tiene clave y si esta dentro de sus atributos.
-		//ademas si la entidad es debil, debe tener un atributo discriminante.
-		mensaje += HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.RATIFYING_PRIMARYKEYS))+HTMLUtils.newLine();
-		boolean valido=true;
-		boolean noMulti = true;
-		boolean compuesto=false;
-		Vector atbs = te.getListaAtributos();
-		Vector keys = te.getListaClavesPrimarias();
-		int contador=0;
-		TransferAtributo aux= new TransferAtributo();
-		//int enIsA = entidadPerteneceAisA(te);
-		Vector<int[]> resultados =entidadPerteneceAisA(te);
-		int enIsA = 0;
-
-		switch (resultados.size()){
-		case 0: enIsA=-1; break; //no aparece
-		case 1: enIsA= resultados.elementAt(0)[1]; break; //aparece una vez nos quedamos con lo que haya
-		default:  //si aparece mas nos quedamos con la que tenga como padre
-			for (int m=0;m<resultados.size();m++){
-				if(resultados.elementAt(m)[1]==1) enIsA=1;
-			}
-		break;
-
-		}
-
-		// si no tiene clave primaria
-		boolean relacionada = false;
-		if (keys.isEmpty()&& enIsA<=0) {
-			// Comprobar que no estÃ¡ asociada a ninguna relaciÃ³n
-			
-			DAORelaciones daoRelaciones= new DAORelaciones(this.controlador.getPath());
-			Vector<TransferRelacion> rels = daoRelaciones.ListaDeRelaciones();
-			int k = 0;
-			
-			while (k<rels.size() && !relacionada){
-				Vector<EntidadYAridad> ents = rels.get(k).getListaEntidadesYAridades();
-				int m = 0;
-				while (!relacionada && m < ents.size()){
-					relacionada = ents.get(m).getEntidad() == te.getIdEntidad();
-					m++;
-				}
-				k++;
-			}
-			
-			if (relacionada){
-				if (te.isDebil()){
-					mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": 1"))+
-							te.getNombre()+
-							Lenguaje.getMensaje(Lenguaje.NOKEY_WEAK_ENTITY)+HTMLUtils.newLine();
-					valido=false;
-				}else{ 
-					mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": 2"))+ 
-							te.getNombre()+
-							Lenguaje.getMensaje(Lenguaje.NOKEY_ENTITY_RELATION)+HTMLUtils.newLine();
-					valido=false;
-				}
-			}
-		}
-		else
-			// si tiene clave primaria, que esten dentro de sus atributos
-			relacionada = true;
-		
-			if (!te.isDebil())
-				if(!this.vectorEnterosContenidoEnVector(keys, atbs)) {
-					//dos casos. que la clave sea un atbto compuesto o que no haya clave.
-					//comprobamos que hay un atbto compuesto y si lo hay, lo comprobamos.
-					while (contador<atbs.size()){
-						aux.setIdAtributo(this.objectToInt(atbs.elementAt(contador)));
-						aux=daoAtributos.consultarAtributo(aux);
-						if(aux.getCompuesto()){
-							if (compruebaClaveCompuesto(keys,aux)) compuesto=true; 
-
-						}
-						contador++;
-					}
-					if (compuesto) mensaje += HTMLUtils.toBold(HTMLUtils.toYellowColor(Lenguaje.getMensaje(Lenguaje.WARNING)+": 3"))+
-							"The entity "+te.getNombre()+
-							Lenguaje.getMensaje(Lenguaje.ALL_CHILDREN_KEYS)+HTMLUtils.newLine(); 
-					else{
-						valido=false;
-						mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": 4"))+
-								te.getNombre()+
-								Lenguaje.getMensaje(Lenguaje.NO_ATTRIB_KEY)+HTMLUtils.newLine();
-					}
-				}
-				else{ // comprobamos que no haya una clave que sea un atributo multivalorado.
-					while (contador<keys.size()&& noMulti){
-						aux.setIdAtributo(this.objectToInt(keys.elementAt(contador)));
-						aux=daoAtributos.consultarAtributo(aux);
-						if(aux.isMultivalorado()){
-							valido=false;
-							noMulti=false;
-							mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": 5"))+
-								Lenguaje.getMensaje(Lenguaje.ATTRIBUTE)+" "+aux.getNombre()+Lenguaje.getMensaje(Lenguaje.MULTIVALUE_KEY)+HTMLUtils.newLine();
-						}
-						contador++;
-					}
-				}
-		if (valido && !relacionada)
-			mensaje += HTMLUtils.toBold(HTMLUtils.toYellowColor(Lenguaje.getMensaje(Lenguaje.WARNING)+": 7"))+
-			"The entity "+te.getNombre()+Lenguaje.getMensaje(Lenguaje.NO_PRIMARY_KEY)+HTMLUtils.newLine();
-
-		return valido;
-	}
-
-	private boolean compruebaClaveCompuesto(Vector clavesEntidad,TransferAtributo ta) {
-		DAOAtributos daoAtributos= new DAOAtributos(this.controlador.getPath());
-		int i=0;
-		boolean todosBien=true;
-		Vector subs = ta.getListaComponentes();
-		TransferAtributo aux= new TransferAtributo();
-		if (!ta.getCompuesto()){
-			if (estaEnVectorDeEnteros(clavesEntidad, ta.getIdAtributo())) return true;
-			else return false;
-		}
-		else{
-			while (i<subs.size() && todosBien){
-				aux.setIdAtributo(this.objectToInt(subs.elementAt(i)));
-				aux=daoAtributos.consultarAtributo(aux);
-				todosBien=todosBien && compruebaClaveCompuesto(clavesEntidad, aux);
-				i++;
-			}
-			return todosBien;
-		}	
-	}
-	
-	private boolean validaNombresAtributosEntidad(TransferEntidad te){
-		//comprueba que una entidad tenga atributos con nombres distintos.
-		mensaje += HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.RATIFYING_ATTRIB_NAMES))+HTMLUtils.newLine();
-		Vector<TransferAtributo> ats= this.dameAtributosEnTransfer(te.getListaAtributos());
-		
-		if (ats.size() < 1){
-			mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+ 
-					Lenguaje.getMensaje(Lenguaje.ENTITY)+" "+te.getNombre()+Lenguaje.getMensaje(Lenguaje.NO_ATTRIB)+HTMLUtils.newLine();
-			return false;
-		}
-		
-		TransferAtributo ti; //= new TransferAtributo();
-		TransferAtributo tj; //= new TransferAtributo();
-		int i=0;
-		int j=1;
-		boolean valido=true;
-		while (i<ats.size()){
-			ti=ats.elementAt(i);
-			while (j<ats.size()){
-				tj=ats.elementAt(j);
-				if(ti.getNombre().toLowerCase().equals(tj.getNombre().toLowerCase())) {
-					valido=false;
-					mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+ 
-							Lenguaje.getMensaje(Lenguaje.ATTRIB_NAME)+" "+tj.getNombre()+Lenguaje.getMensaje(Lenguaje.IS_REPEATED_IN_ENTITY)+te.getNombre()+"."+HTMLUtils.newLine();
-				}
-
-				j++;
-			}
-			i++;
-			j=i+1;
-		}
-		if (valido)	
-			mensaje += HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+ 
-					Lenguaje.getMensaje(Lenguaje.ATTRIB_NAMES)+" "+te.getNombre()+Lenguaje.getMensaje(Lenguaje.ARE_CORRECT)+HTMLUtils.newLine();
-		return valido;
-	}
-	
-	private void validaFidelidadEntidadEnIsA(TransferEntidad te){
-		DAORelaciones daoRelaciones= new DAORelaciones(this.controlador.getPath());
-		Vector <TransferRelacion> relaciones =daoRelaciones.ListaDeRelaciones();
-//		si la entidad es padre de una relacion isA comprueba que solo lo sea de una, sino, dara un aviso.
-		int i=0;
-		int papi=0;
-
-		while (i<relaciones.size()){
-			TransferRelacion tr=(TransferRelacion)relaciones.elementAt(i);
-			if (tr.isIsA()){
-				Vector<EntidadYAridad> veya =tr.getListaEntidadesYAridades();
-				if (!veya.isEmpty()&& veya.elementAt(0).getEntidad()==te.getIdEntidad()) papi++;
-			}
-			i++;
-		}
-
-		if (papi>1)	mensaje += HTMLUtils.toBold(HTMLUtils.toYellowColor(Lenguaje.getMensaje(Lenguaje.WARNING)+": "))+
-				Lenguaje.getMensaje(Lenguaje.ENT_PARENT_IN)+papi+Lenguaje.getMensaje(Lenguaje.ISA_RELATIONS)+"</p>";
-
-
-	}
-
-	//validacion de relaciones
-	private boolean validaRelaciones(){
-		DAORelaciones daoRelaciones= new DAORelaciones(this.controlador.getPath());
-		Vector <TransferRelacion> relaciones =daoRelaciones.ListaDeRelaciones();
-		boolean valido=true;
-		int i=0;
-		TransferRelacion t = new TransferRelacion();
-		while (i<relaciones.size()){
-			t=relaciones.elementAt(i);
-			mensaje += HTMLUtils.toBold(Lenguaje.getMensaje(Lenguaje.RATIFYING))+HTMLUtils.toItalic(t.getNombre())+HTMLUtils.newLine();
-			if(t.isIsA())
-				valido= validaComponentesRelacionIsA(t);
-			else if (t.getTipo().equals("Normal")) 
-				valido=validaComponentesRelacionNormal(t);
-			else 
-				valido=validaComponentesRelacionDebil(t);
-			i++;
-			mensaje += HTMLUtils.newLine()+HTMLUtils.newLine();
-		}
-		
-		return valido;		
-	}
-
-	//metodos privados de validacion de relaciones.
-	private boolean validaComponentesRelacionIsA(TransferRelacion tr){
-		boolean valida=true;
-		if(dameNumEntidadesDebiles(tr)>0){
-			valida= false;
-			mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-					Lenguaje.getMensaje(Lenguaje.NO_WEAK_ENT_RELAT)+"</p>";
-		}
-		else{
-			//mensaje += "La relaciÃ³n "+tr.getNombre()+" es de tipo IsA");
-			Vector<EntidadYAridad> veya =tr.getListaEntidadesYAridades();
-			int tam =veya.size();
-			switch (tam){
-			case 0: mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+ 
-					Lenguaje.getMensaje(Lenguaje.NO_PARENT_REL)+HTMLUtils.newLine();
-			valida=false;
-			break;
-			case 1: mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-					Lenguaje.getMensaje(Lenguaje.NO_CHILD_RELATION)+HTMLUtils.newLine();
-			valida=false;
-			break;
-			default: {
-				mensaje += HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
-						Lenguaje.getMensaje(Lenguaje.OK_RELATION)+HTMLUtils.newLine();
-				break;
-			}
-			}
-		}
-		return valida;
-	}
-
-	private boolean validaComponentesRelacionNormal(TransferRelacion tr){
-		boolean valida=true;
-		mensaje += HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.THE_RELATION)+" "+tr.getNombre()+
-				Lenguaje.getMensaje(Lenguaje.IS_NORMAL_TYPE))+HTMLUtils.newLine();
-		if(dameNumEntidadesDebiles(tr)>0 && !this.misDebilesEstanEnDebiles(tr)){
-			valida= false;
-			mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-					Lenguaje.getMensaje(Lenguaje.NO_WEAK_ENT_RELAT)+"</p>";
-		}
-		else{
-			Vector<EntidadYAridad> veya =tr.getListaEntidadesYAridades();
-			int tam =veya.size();
-			switch (tam){
-			case 0: mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-					Lenguaje.getMensaje(Lenguaje.NO_ENT_RELATION)+HTMLUtils.newLine();
-					valida = false;
-			break;
-			case 1: mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-					Lenguaje.getMensaje(Lenguaje.ONE_ENT_REL)+HTMLUtils.newLine();
-					valida = false;
-			break;
-			default: {
-				mensaje += HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
-						Lenguaje.getMensaje(Lenguaje.MANY_ENT_REL)+HTMLUtils.newLine();
-				break;
-			}
-			}
-		}
-		return valida;
-	}
-
-	private boolean validaComponentesRelacionDebil(TransferRelacion tr){
-		boolean valida=true;
-		mensaje += HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.THE_RELATION)+" "+tr.getNombre()+
-				Lenguaje.getMensaje(Lenguaje.IS_WEAK_TYPE))+HTMLUtils.newLine();
-		Vector<EntidadYAridad> veya =tr.getListaEntidadesYAridades();
-		int tam =veya.size();
-		int contD=0,contF=0;
-		switch (tam){
-		case 0: mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-				Lenguaje.getMensaje(Lenguaje.NO_ENT_RELATION)+HTMLUtils.newLine();
-		valida=false;
-		break;
-		case 1: mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-				Lenguaje.getMensaje(Lenguaje.ONE_ENT_WEAK_REL)+HTMLUtils.newLine();
-		valida=false;
-		break;
-		default:
-			//en una relacion debil, necesitamos que haya como minimo una entidad fuerte y una debil.
-			contD = this.dameNumEntidadesDebiles(tr);
-		contF= tam-contD;
-		}
-
-		if(contD<1){
-			mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-					Lenguaje.getMensaje(Lenguaje.NO_WEAK_ENT_REL)+HTMLUtils.newLine();
-			valida=false;
-		}
-		
-		if (contD > 1){
-			mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-					Lenguaje.getMensaje(Lenguaje.MANY_WEAK_ENT_REL)+HTMLUtils.newLine();
-			valida=false;
-		}
-		
-		if(contF<1){
-			mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-					Lenguaje.getMensaje(Lenguaje.NO_STRONG_ENT_REL)+HTMLUtils.newLine();
-			valida=false;
-		}
-		
-		if(contD == 1 && contF <= 1)
-			mensaje += HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
-					Lenguaje.getMensaje(Lenguaje.OK_ENT_REL)+HTMLUtils.newLine();
-
-		return valida;
-	}
-	
-	private boolean validaDominios(){
-		DAODominios daoDominios= new DAODominios(this.controlador.getPath());
-		Vector <TransferDominio> dominios = daoDominios.ListaDeDominios();
-		boolean valido=true;
-		int i=0;
-		TransferDominio t;
-		while (i<dominios.size()){
-			t=dominios.get(i);
-			mensaje += HTMLUtils.toBold(Lenguaje.getMensaje(Lenguaje.RATIFYING))+HTMLUtils.toItalic(t.getNombre())+
-					HTMLUtils.newLine();
-
-			// Validar que es Ãºnico
-			mensaje += HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.RATIFYING_DOMAIN))+HTMLUtils.newLine();
-			boolean encontrado = false;
-			int j = i+1;
-			while (!encontrado && j<dominios.size()){
-				encontrado = t.getNombre().equals(dominios.get(j).getNombre());
-				j++;
-			}
-			
-			if (encontrado){
-				valido=false;
-				mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-						Lenguaje.getMensaje(Lenguaje.REPEATED_DOM_NAMES)+HTMLUtils.newLine();				
-			}else{
-				mensaje += HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
-						Lenguaje.getMensaje(Lenguaje.OK_DOMAIN)+HTMLUtils.newLine();
-			}
-			
-			// Validar que tiene valores y son distintos
-			mensaje += HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.RATIFYING_DOMAIN_VALUES))+HTMLUtils.newLine();
-			Vector<String> valores = t.getListaValores();
-			
-			if (valores == null || valores.size() < 1){
-				valido=false;
-				mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-						Lenguaje.getMensaje(Lenguaje.NO_VALUE_DOM)+HTMLUtils.newLine();
-			}else{
-				String valorComprobado = null;
-				int k = 0;
-				boolean seRepite = false;
-				while (k < valores.size() && !seRepite){
-					valorComprobado = valores.get(k);
-					int m = k + 1;
-					while (m < valores.size() && !seRepite){
-						seRepite = (valorComprobado.equals(valores.get(m)));
-						m++;
-					}
-					k++;
-				}
-				
-				if (seRepite){
-					valido=false;
-					mensaje += HTMLUtils.toBold(HTMLUtils.toRedColor(Lenguaje.getMensaje(Lenguaje.ERROR)+": "))+
-							Lenguaje.getMensaje(Lenguaje.THE_VALUE) + valorComprobado +Lenguaje.getMensaje(Lenguaje.IS_REPEATED)+HTMLUtils.newLine();
-				}else{
-					mensaje += HTMLUtils.toBold(HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
-							Lenguaje.getMensaje(Lenguaje.OK_DOM_VALUES)+HTMLUtils.newLine();
-				}
-			}
-			
-			// Comprobar si se usa (esto sÃ³lo da un aviso si falla)
-			mensaje += HTMLUtils.toItalic(Lenguaje.getMensaje(Lenguaje.RATIFYING_DOM_USE))+HTMLUtils.newLine();
-			
-			DAOAtributos daoAtributos= new DAOAtributos(this.controlador.getPath());
-			Vector <TransferAtributo> atributos =daoAtributos.ListaDeAtributos();
-			boolean esta=false;
-			int k=0;
-			while(!esta && k<atributos.size()){
-				esta = atributos.get(k).getDominio().equalsIgnoreCase(t.getNombre());
-				k++;
-			}
-			
-			if (esta){
-				mensaje +=  HTMLUtils.toBold(
-								HTMLUtils.toGreenColor(Lenguaje.getMensaje(Lenguaje.SUCCESS)+": "))+
-								Lenguaje.getMensaje(Lenguaje.USE_DOM) + HTMLUtils.newLine();
-			}else {
-				mensaje +=  HTMLUtils.toBold(
-						HTMLUtils.toYellowColor(Lenguaje.getMensaje(Lenguaje.WARNING)+": "))+
-						Lenguaje.getMensaje(Lenguaje.NO_USE_DOM) + HTMLUtils.newLine();
-			}
-			
-			// Incrementar contador
-			i++;
-			mensaje += HTMLUtils.newLine()+HTMLUtils.newLine();
-		}
-		return valido;
-	}
-
-	//metodo principal
-	public void validaBaseDeDatos(boolean modelo){
-		mensaje = "<p><strong>"+Lenguaje.getMensaje(Lenguaje.RATIFY_ERROR)+"</strong></p>";
-		boolean fenomeno=true;
-		//un fallo en la validacion detiene el proceso
-			
-		fenomeno &= this.validaDominios();
-		fenomeno &= this.validaAtributos();
-		fenomeno &= this.validaEntidades();
-		fenomeno &= this.validaRelaciones();
-		modeloValidado = fenomeno;
-		// Mostrar el texto
-		if (!fenomeno) 
-			if(modelo)controlador.mensajeDesde_SS(TC.SS_ValidacionM,mensaje);
-			else controlador.mensajeDesde_SS(TC.SS_ValidacionC,mensaje);
-	}
-
-	//metodos auxiliares
-	private String quitaParenDominio(String dominio){
-		int c=dominio.indexOf("(");
-		return dominio.substring(0,c);
-	}
-
-	private boolean estaEnVectorDeEnteros(Vector sinParam, int valor){
+	protected boolean estaEnVectorDeEnteros(Vector sinParam, int valor){
 		int i=0;
 		boolean encontrado=false;
 		int elem=0;
@@ -665,112 +56,6 @@ public class GeneradorEsquema {
 			i++;
 		}
 		return encontrado;
-	}
-
-	private boolean vectorEnterosContenidoEnVector(Vector subVector, Vector vector){
-		// comprueba si un vector de enteros esta dentro de otro si estos no estan parametrizados (no funciona contains)
-		boolean esta=false;
-		boolean contiene=true;
-		for (int i =0; i<subVector.size();i++){
-			esta=false;
-			for (int j=0;j<vector.size();j++)
-				if (objectToInt(subVector.elementAt(i))==objectToInt(vector.elementAt(j))) esta=true;
-			contiene= esta && contiene;
-		}
-		return contiene;
-	}
-
-	private Vector<int[]> entidadPerteneceAisA(TransferEntidad te){
-		DAORelaciones daoRelaciones= new DAORelaciones(this.controlador.getPath());
-		Vector <TransferRelacion> relaciones =daoRelaciones.ListaDeRelaciones();
-		/*lo que hay que tener en cuenta para ver si una entidad pertenece a una relacion isA (como hija) segun nuestro
-		 disenio es que sea como minimo la segunda de la lista de entidades y aridades de la relacion. Esto es porque 
-		 la primera indica que es el padre y este si tiene que tener clave.
-		 El metodo devuelve lo siguiente:
-		 en la primera componente: 
-		 la relacion isA en la que actua.
-		 en la segunda componente: 
-		 si no pertenece a una isA -> -1
-		 sino: si es padre -> 0
-		 si es hija -> 1
-		 */
-
-		Vector<int[]> resultados = new Vector<int[]>();
-
-		int i=0;
-		int j=0;
-		//	int queSoy=-1;
-		//while (i<relaciones.size()&&!perteneceAisA){
-		while (i<relaciones.size()){
-			TransferRelacion tr=(TransferRelacion)relaciones.elementAt(i);
-			Vector<EntidadYAridad> veya =tr.getListaEntidadesYAridades();
-			int[] parejaResultados = new int [2];
-			parejaResultados[0]=tr.getIdRelacion();
-			while (j<veya.size()){
-				EntidadYAridad eya = veya.elementAt(j);
-				if(eya.getEntidad()==te.getIdEntidad()&& tr.isIsA()){
-					if(j==0){
-						parejaResultados[1]=0;
-						resultados.add(parejaResultados);
-					}else{
-						parejaResultados[1]=1;
-						resultados.add(parejaResultados);
-					}
-				}
-				j++;
-			}
-			j=0;
-			i++;
-		}
-		return resultados;
-	}
-
-	private int dameNumEntidadesDebiles (TransferRelacion tr){
-		DAOEntidades daoEntidades= new DAOEntidades(this.controlador.getPath());
-		TransferEntidad aux = new TransferEntidad();
-		Vector<EntidadYAridad> veya =tr.getListaEntidadesYAridades();
-		int cont=0;
-		for (int k =0;k<veya.size();k++){
-			aux.setIdEntidad(veya.elementAt(k).getEntidad());
-			aux=daoEntidades.consultarEntidad(aux);
-			if (aux.isDebil()) cont++;
-		}
-		return cont;
-	}
-
-	private boolean misDebilesEstanEnDebiles(TransferRelacion rel){
-		DAORelaciones daoRelaciones = new DAORelaciones(this.getControlador().getPath());
-		DAOEntidades daoEntidades = new DAOEntidades(this.getControlador().getPath());
-		Vector<TransferRelacion> relaciones= daoRelaciones.ListaDeRelaciones();
-		boolean enDebil=false;
-		boolean encontrada=false;
-		TransferEntidad entDebil= new TransferEntidad();
-		int k=0;
-		Vector<EntidadYAridad> veyaRel=rel.getListaEntidadesYAridades();
-		while(k<veyaRel.size()&&!encontrada){
-			EntidadYAridad eya = veyaRel.elementAt(k);
-			entDebil.setIdEntidad(eya.getEntidad());
-			entDebil=daoEntidades.consultarEntidad(entDebil);
-			if(entDebil.isDebil()) encontrada=true;
-			k++;
-		}
-
-
-		int i=0;
-		int j=0;
-		while(i<relaciones.size()&& !enDebil){
-			TransferRelacion tr=relaciones.elementAt(i);
-			Vector<EntidadYAridad> veya=tr.getListaEntidadesYAridades();
-			j=0;
-			while(j<veya.size()&&!enDebil){
-				EntidadYAridad eya = veya.elementAt(j);
-				if (eya.getEntidad()==entDebil.getIdEntidad() && tr.getTipo().equals("Debil")) enDebil=true;
-				j++;
-			}
-			i++;
-		}
-
-		return enDebil;	
 	}
 
 	//metodos de recorrido de los daos para la creacion de las tablas.
@@ -1056,26 +341,23 @@ public class GeneradorEsquema {
 		tablasMultivalorados.clear();
 		tiposEnumerados.clear();
 		
-		modeloValidado = false;
 		conexionScriptGenerado = null;
 		sql="";
 		sqlHTML="";
 	}
 
 	public void generaScriptSQL(TransferConexion conexion){
-		//TODO
-		validaBaseDeDatos(false);
-		if (!modeloValidado)return;
-		
-		// Eliminar tablas anteriores, pero recordar que el modelo sÃ­ ha sido validado
 		reset();
-		modeloValidado = true;
+		StringBuilder warnings = new StringBuilder();
+		if (!validadorBD.validaBaseDeDatos(false, warnings)) return;
+		// Eliminar tablas anteriores, pero recordar que el modelo a ha sido validado
+		reset();
 		conexionScriptGenerado = conexion;
 		
 		// Cabeceras de los documentos
 		sql="-- SCRIPT GENERATED BY DATABASE DESIGN TOOL\n";
 		sql+="-- Script generated using " + conexion.getRuta() + " syntax \n"; 
-		sqlHTML="";
+		sqlHTML=warnings.toString();
 	
 		// Creamos las tablas
 		generaTiposEnumerados();
@@ -1476,17 +758,17 @@ public class GeneradorEsquema {
 	}
 	
 	public void generaModeloRelacional(){
-		//TODO
 		reset();
-		validaBaseDeDatos(true);
-		if (!modeloValidado)return;
+		StringBuilder warnings = new StringBuilder();
+		if (!validadorBD.validaBaseDeDatos(true, warnings))return;
 		restriccionesPerdidas = new RestriccionesPerdidas();
 		generaTablasEntidades();
 		generaTablasRelaciones();
 		if(tablasEntidades.values().isEmpty() && tablasRelaciones.values().isEmpty()) 
 			mr = "<div class='card'><h2>"+"El diagrama está vacio"+"</h2></div>";
 		else {
-			mr = "<div class='card'><h2>"+"Relaciones"+"</h2>";
+			mr = warnings.toString();
+			mr += "<div class='card'><h2>"+"Relaciones"+"</h2>";
 			Iterator tablasE = tablasEntidades.values().iterator();
 			while (tablasE.hasNext()){
 				Tabla t =(Tabla)tablasE.next();
@@ -1580,11 +862,11 @@ public class GeneradorEsquema {
 			restriccionesPerdidas.add(new restriccionPerdida(tablaMulti.getNombreTabla(), rest, restriccionPerdida.TABLA));
 	}
 
-	private int objectToInt(Object ob){
+	protected int objectToInt(Object ob){
 		return Integer.parseInt((String)ob);
 	}
 
-	private  Vector<TransferAtributo> dameAtributosEnTransfer(Vector sinParam){
+	protected  Vector<TransferAtributo> dameAtributosEnTransfer(Vector sinParam){
 		DAOAtributos daoAtributos= new DAOAtributos(this.controlador.getPath());
 		Vector<TransferAtributo> claves= new Vector<TransferAtributo>(); 
 		TransferAtributo aux = new TransferAtributo();
@@ -1602,15 +884,13 @@ public class GeneradorEsquema {
 		System.out.println("------------------------------------");
 		System.out.println("DBMS: " + tc.getRuta() + "(" + tc.getTipoConexion() + ")");
 		System.out.println("Usuario: " + tc.getUsuario());
-		// System.out.println("Password: " + tc.getPassword());
-		
 		System.out.println("Intentando conectar...");
 		ConectorDBMS conector = FactoriaConectores.obtenerConector(tc.getTipoConexion());
 		try {
 			conector.abrirConexion(tc.getRuta(), tc.getUsuario(), tc.getPassword());
 			conector.cerrarConexion();
 		} catch (SQLException e) {
-			// Avisar por GUI que fallÃ³
+			//Avisar por GUI que falle
 			JOptionPane.showMessageDialog(null,
 					Lenguaje.getMensaje(Lenguaje.ERROR)+".\n" +
 					Lenguaje.getMensaje(Lenguaje.NO_DB_CONEXION)+" \n" +
@@ -1618,8 +898,7 @@ public class GeneradorEsquema {
 					Lenguaje.getMensaje(Lenguaje.DBCASE),
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
-			
-			// Terminar
+			//Terminar
 			return;
 		}
 		
@@ -1640,6 +919,8 @@ public class GeneradorEsquema {
 
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
+		this.validadorBD = ValidadorBD.getInstancia();
+		this.validadorBD.setControlador(controlador);
 	}
 }
 

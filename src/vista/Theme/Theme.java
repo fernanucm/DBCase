@@ -21,9 +21,7 @@ public class Theme {
 	public Theme(){}
 	
 	public static Theme getInstancia() {
-		if(INSTANCE==null) {
-			INSTANCE = new Theme();
-		}
+		if(INSTANCE==null) INSTANCE = new Theme();
 		return INSTANCE;
 	}
 	

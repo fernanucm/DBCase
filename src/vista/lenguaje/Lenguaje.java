@@ -79,439 +79,437 @@ public class Lenguaje {
 	public static final int NOT_EXIST_FILE = 1010;//El fichero no existe
 
 	//--- --- --- CONTROLADOR 11XX--- --- ---
-		//public static final int WORKSPACE_CHANGED = 1101;//Se ha cambiado satisfactoriamente el directorio de trabajo.
-		public static final int WORKSPACE_IS = 1102;//El directorio actual de trabajo es:
-		public static final int INITIAL_ERROR = 1104;//Se ha producido un error en la creacion inicial
-		public static final int OF_XMLFILES = 1105;//de los ficheros XML en el directorio de trabajo:
-		//nombres ventanas
-		public static final int DELETE_ENTITY = 1107;//DBDT: Eliminar entidad
-		public static final int DELETE_ATTRIBUTE =1108;//DBDT: Eliminar atributo
-		public static final int DELETE_DOMAIN = 1109;//DBDT: Eliminar dominio
-		public static final int ADD_ENTITY_RELATION = 1110;//DBDT: Añadir una entidad a la relación
-		public static final int DELETE_ISA_RELATION = 1111;//DBDT: Eliminar relación IsA
-		public static final int DELETE_RELATION = 1157;//DBDT: Eliminar relación
-		//advertencias
-		public static final int DELETE_ATTRIBUTES_WARNING = 1112;//Además se eliminarán todos sus atributos.
-		public static final int THE_ENTITY=1113;//La entidad
-		public static final int REMOVE_FROM_SYSTEM=1114;//se eliminará definitivamente del sistema.
-		public static final int THE_ATTRIBUTE=1115;//El atributo
-		public static final int WEAK_RELATION=1116;//Si debilita la relación 
-		public static final int DELETE_ATTRIBUTES_WARNING2=1117;// se eliminarán todos sus atributos.
-		public static final int MODIFYING_CARDINALITY=1118;//, la cardinalidad de su entidad débil será modificada a 1..1.\n
-		public static final int MODIFY_ATTRIBUTE=1119;//Si cambia el atributo compuesto 
-		public static final int DELETE_ATTRIBUTES_WARNING3=1120;// a simple se eliminarán todos sus subatributos.
-		public static final int ISA_RELATION_DELETE=1121;//La relación IsA seleccionada será eliminada del sistema.
-		public static final int THE_DOMAIN=1122;//El dominio 
-		public static final int MODIFYING_ATTRIBUTES_WARNING4=1123;//Todos los atributos con dicho dominio serán modificados.
-		//errores
-		public static final int RELATION_WEAK_ENTITIES=1124;//La relación tiene más de una entidad débil.
-		public static final int NO_ATTRIBUTES_RELATION=1125;//No se puede añadir ningún atributo a la relación.
-		public static final int ALREADY_WEAK_ENTITY=1126;//Ya existe una entidad débil en esta relación.
-		public static final int THE_RELATION=1127;//La relación 
-		public static final int IS_WEAK=1128;// es una relación débil.
-		public static final int INCORRECT_VALUE=1129;//Algún valor no es correcto.	
-		//error de acceso
-		public static final int ENTITIES_FILE_ERROR=1130;//Se ha producido un error en el acceso al fichero de entidades. 
-		public static final int RELATIONS_FILE_ERROR=1131;//Se ha producido un error en el acceso al fichero de relaciones.
-		public static final int ATTRIBUTES_FILE_ERROR=1132;//Se ha producido un error en el acceso al fichero de atributos.
-		public static final int DOMAINS_FILE_ERROR=1133;//Se ha producido un error en el acceso al fichero de dominios.
-		public static final int EMPTY_ATTRIB_NAME=1134;//El nombre del atriburo es vacío. 
-		public static final int EMPTY_DOM_NAME=1135;//El nombre del dominio es vacío.
-		public static final int EMPTY_ENT_NAME=1136;//El nombre de la entidad es vacío.
-		public static final int EMPTY_REL_NAME=1137;//El nombre de la relación es vacío.
-		public static final int EMPTY_SUBATTR_NAME=1138;//El nombre del subatributo es vacío.
-		public static final int EMPTY_TYPE_NAME=1139;//El nuevo tipo es vacío.
-		public static final int EMPTY_VALUES=1140;//El campo 'valores' es vacío.
-		public static final int REPEATED_ENT_NAME=1141;//Existe una entidad en el sistema con el mismo nombre.
-		public static final int REPEATED_ATTRIB_NAME=1142;//Ya existe un atributo con ese nombre en la entidad.
-		public static final int REPEATED_ATTRIB_NAME_REL=1143;//Ya existe un atributo en la relación con ese nombre.		
-		public static final int REPEATED_REL_NAME=1144;//Existe una relación en el sistema con el mismo nombre.
-		public static final int REPEATED_ROL_NAME=1145;//Existe otro rol en la relación con el mismo nombre.
-		public static final int REPEATED_SUBATR_NAME=1146;//Existe otro subatributo con ese nombre.
-		public static final int REPEATED_DOM_NAME=1147;//Existe otro dominio en el sistema con el mismo nombre.
-				
-		public static final int INCORRECT_SIZE1=1148;//El tamano del dominio del atributo no es un valor entero positivo.
-		public static final int INCORRECT_SIZE2=1149;//El tamano del dominio del atributo es nulo o negativo.
-		public static final int INCORRECT_SIZE3=1150;//El tamaño del atributo no es un valor entero positivo. 
-		public static final int INCORRECT_CARDINALITY1=1151;//El valor de inicio no es un número entero positivo o 'n'.
-		public static final int INCORRECT_CARDINALITY2=1152;//El valor de inicio es un número negativo.
-		public static final int INCORRECT_CARDINALITY3=1153;//El valor de fin no es un número entero positivo o 'n'.
-		public static final int INCORRECT_CARDINALITY4=1154;//El valor de fin es un número negativo.
-		public static final int INCORRECT_CARDINALITY5=1155;//El valor de inicio es mayor que el de fin.
-		public static final int NECESARY_ROL=1156;//Debe asignar un rol a la entidad.
-		
-		//public static final int SUCCESS_SAVE = 1158;//Proyecto guardado con éxito
-		public static final int WISH_SAVE = 1159;//¿Desea guardar el proyecto actual?
-		
-		public static final int IF_WEAK_ENTITY = 1160;//Si debilita la entidad		
-		//Advertencias
-		public static final int WARNING_DELETE_WEAK_ENTITY=1161;//Se eliminará también la entidad débil asociada
-		public static final int WARNING_DELETE_WEAK_RELATION=1162;//Se eliminará también la relación débil asociada
-		public static final int REPEATED_ENTITY_REL=1163;
-		
-	//--- --- --- MENSAJES DE LA GUI --- --- --- 
-		//Ventana GUI_InsertaEntidad 12XX
-		public static final int INSERT_ENTITY = 1200;
-		public static final int WRITE_ENTITY_NAME = 1201;
-		public static final int WEAK_ENTITY = 1202;
-		public static final int SELECT_STRONG_ENTITY= 1204;
-		public static final int WRITE_RELATION_WEAK= 1205;
-		public static final int CREATE_STRONG_ENTITY = 1206;
-		
-		//Ventana GUI_InsertarRelacion 13XX
-		public static final int INSERT_RELATION = 1300;
-		public static final int WRITE_RELATION_NAME = 1301;
-		
-		//Ventana de GUI_AnadirAtributoEntidad  y GUI_AnadirAtributoRelacion 14xx
-		public static final int INSERT_ATTRIBUTE = 1400;
-		public static final int COMPOSITE_ATTRIBUTE = 1403;
-		public static final int PRIMARY_KEY_ATTRIBUTE = 1404;
-		public static final int NOT_NULL_ATTRIBUTE = 1405;
-		public static final int UNIQUE_ATTRIBUTE = 1406;
-		public static final int VALUE_ATTRIBUTE = 1407;
-		public static final int DOMAIN_ATTRIBUTE = 1408;
-		public static final int SIZE_ATTRIBUTE = 1409;
-		
-		//Ventana de GUI_AnadirSubAtributoAtributo 15xx
-		public static final int INSERT_NEW_SUBATTRIBUTE = 1500;
-		
-		//Ventana de GUI_AnadirEntidadARelacion 17xx
-		public static final int INSERT_NEW_ENTITY_TO_RELATION = 1700;
-		public static final int IMPOSIBLE_TO_INSERT_ENTITY = 1701;
-		public static final int NO_ENTITY = 1702;
-		public static final int SELECT_ENTITY = 1703;
-		public static final int WRITE_NUMBERS_RELATION = 1704;
-		public static final int THE = 1705;
-		public static final int TO = 1706;
-		public static final int WRITE_ROLL = 1707;
-		public static final int LABEL1A1=1708;
-		public static final int LABEL1AN=1709;
-		public static final int LABELNAN=1710;
-		
-		//Ventana de GUI_AnadirEntidadHija 18xx
-		public static final int INSERT_NEW_DAUGTHER = 1800;
-		public static final int IMPOSIBLE_TO_INSERT_DAUGHTER = 1801;
-		public static final int NO_FATHER = 1802;
-		public static final int SELECT_ENTITY_DAUTHTER = 1803;
-		public static final int NO_ENTITIES_AVAILABLES =1804;
-		
-		//Ventana de GUI_ConfigurarConexionDBMS 19xx
-		public static final int SHAPE_DBMS = 1900;
-		public static final int EXPLANATION_DBMS1 = 1901;
-		public static final int EXPLANATION_DBMS2 = 1902;
-		public static final int EXPLANATION_DBMS3 = 1903;
-		public static final int STRING_CONNECTION = 1904;
-		public static final int USER = 1905;
-		public static final int PASSWORD = 1906;
-		public static final int INFORMATION_INCOMPLETE = 1907;
-		public static final int DBDT = 1908;
-		
-		//Ventana de GUI_EditarCardinalidadEntidad 20xx
-		public static final int EDIT_ARITY_AND_ROLLE = 2000;
-		public static final int IMPOSIBLE_EDIT_ROLLE = 2001;
-		public static final int NO_ENTITIES_IN_RELATION = 2002;
-		public static final int EDIT_ARITY = 2003;
-		public static final int SELECT_ENTITY_TO_CHANGE = 2004;
-		public static final int WRITE_NEW_ARITY = 2005;
-		public static final int WRITE_NEW_ROLLE = 2006;
-		public static final int IF_ENTITY_HAS_ROLLE = 2007;
-		
-		//Ventana de GUI_EditarDominioAtributo 21xx
-		public static final int EDIT_DOMAIN_ATTRIBUTE = 2100;
-		public static final int IMPOSIBLE_EDIT_DOMAIN = 2101;
-		public static final int COMPLEX_ATTRIBUTE = 2102;
-		public static final int SELECT_DOMAIN_FOR_ATTRIBUTE = 2103;
-
-		
-		//Ventana de GUI_EstablecerEntidadPadre 23xx
-		public static final int SET_PARENT_ENTITY = 2300;
-		public static final int IMPOSIBLE_SET_PARENT = 2301;
-		public static final int OTHER_PARENT = 2302;
-		public static final int IMPOSIBLE_SET_PARENT_IN_ISA = 2303;
-		public static final int SELECT_PARENT_ENTITY = 2304;
-		
-		//Ventana de GUI_InsertarDominio 24xx
-		public static final int INSERT_NEW_DOMAIN = 2400;
-		//public static final int WRITE_NAME_DOMAIN = 2401;
-		//public static final int CHOOSE_VALUE_AND_TYPE = 2402;
-		
-		//Ventana de GUI_ModificarDominio 25xx
-		public static final int EDIT_DOMAIN_GUI = 2500;
-		//public static final int CHANGE_DOMAIN = 2501;
-		//public static final int REMEMBER_DOMAIN = 2502;
-		
-		//Ventana de GUI_QuitarEntidadRelacion 26xx
-		public static final int QUIT_ENTITY = 2600;
-		public static final int IMPOSIBLE_QUIT_ENTITY = 2601;
-		public static final int SELECT_ENTITY_TO_QUIT = 2602;
-		
-		//Ventana GUI_QuitarEntidadHija 27xx
-		public static final int QUIT_DAUGHTER_ENTITY = 2700;
-		public static final int IMPOSIBLE_QUIT_DAUGHTER_ENTITY = 2701;
-		public static final int NO_DAUGHTER_ENTITY = 2702;
-		public static final int SELECT_DAUGHTER_TO_QUIT = 2703;
-		
-		//Ventana GUI_QuitarEntidadPadre 28xx
-		public static final int QUIT_PARENT_ENTITY = 2800;
-		public static final int EXPLICATION_QUIT_PARENT = 2801;
-		public static final int DO_YOU_WISH_QUIT_PARENT = 2802;
-		public static final int IMPOSIBLE_QUIT_PARENT = 2803;
-		
-		//Ventana GUI_RenombrarAtributo 29xx
-		public static final int RENAME_ATTRIBUTE = 2900;
-		public static final int WRITE_NAME_ATTRIBUTE_SELECTED = 2901;
-		
-		//Ventana GUI_RenombrarDominio 30xx
-		public static final int RENAME_DOMAIN = 3000;
-		public static final int WRITE_NEW_DOMAIN_NAME = 3001;
-		
-		//GUI_RenombrarEntidad  31xx
-		public static final int RENAME_ENTITY_DBDT = 3100;
-		public static final int WRITE_NEW_ENTITY_NAME = 3101;
-		
-		//GUI_RenombrarRelation 32xx
-		public static final int RENAME_RELATION_DBDT = 3200;
-		public static final int EXPLICATION_RENAME_RELATION1 = 3201;
-		
-		//GUI_Conexion 33xx
-		public static final int SERVER = 3300; 
-		public static final int PORT = 3301;
-		public static final int DATA_BASE = 3302;
-		public static final int CREATE_DATA_BASE = 3303;
-		public static final int USER_DATA_BASE = 3304;
-		public static final int PASSWORD_DATA_BASE = 3305;
-		
-		//GUI_SeleccionarConexion
-		public static final int SELECT_CONNECTION = 3306;		
-		
-		//SERVICIOS 16xx
-		public static final int EMPTY_VALUE = 1600;//"Uno de los valores es vacío."
-		public static final int INCORRECT_NUMBER  = 1601;
-		public static final int INCORRECT_VALUE_EX  = 1602;//"Uno de los valores no es correcto. Ejemplos:"	
-		public static final int INCORRECT_BIT_VALUE  = 1603;//"Uno de los valores no es correcto. Los únicos valores aceptables son 0 y 1"
-		public static final int QUOTATION_MARKS  = 1604;//"Introduzca los valores entre comillas simples"
-		public static final int INCORRECT_DATE  = 1605;//"Uno de los valores no es correcto. Introduzca valores de la forma 'aaaammdd'"
-		//servicios sistema
-		public static final int RATIFYING = 1606;//"Validando "
-		public static final int RATIFYING_ATTRIB_DOMAIN = 1607;//"Validando el dominio del atributo"
-		public static final int COMPOSED_ATTRIBUTE = 1608;//"El atributo es compuesto y no puede tener dominio."
-		public static final int CORRECT_DOMAIN = 1609;//"El dominio del atributo es correcto."
-		public static final int NO_DOMAIN = 1610;//"El atributo no tiene dominio."
-		public static final int UNKNOWN_DOMAIN = 1611;//"El dominio del atributo no esta en el sistema."
-		public static final int RATIFYING_ATTRIBUTE = 1612;//"Validando la exclusividad del atributo"
-		public static final int ONE_ATTRIB_SUBATTRIB = 1613;//" es subatributo de un solo atributo."
-		public static final int MANY_ATTRIB_SUBATTRIB = 1614;//" es subAtributo de más de un atributo."
-		public static final int ONE_ENTITY = 1615;//" pertenece a una sola entidad."
-		public static final int MANY_ENTITIES = 1616;//" pertenece a más de una entidad."
-		public static final int RATIFYING_CHILDREN = 1617;//"Validando hijos atributo compuesto."
-		public static final int NO_SUBATTRIB = 1618;//"El atributo no tiene subatributos."
-		public static final int ONE_SUBATTRIB = 1619;//"El atributo solo tiene un subatributo."
-		public static final int RATIFYING_PRIMARYKEYS = 1620;//"Validando claves primarias de la entidad."
-		public static final int NOKEY_WEAK_ENTITY = 1621;//"La entidad es debil y carece de atributo discriminante (poner clave primaria)."
-		public static final int NOKEY_ENTITY_RELATION = 1622;//"La entidad está vinculada a una relación y no tiene clave primaria."
-		public static final int ALL_CHILDREN_KEYS = 1623;//" El atributo es compuesto y todas sus hojas son claves. También se puede señalar como clave al atributo padre."
-		public static final int NO_ATTRIB_KEY = 1624;//	" La o las claves de la entidad no forman parte de sus atributos."
-		public static final int MULTIVALUE_KEY = 1625;//	" es multivalorado y no puede ser clave."
-		public static final int ISA_PARENT = 1626;//	" La entidad es una hija en una relacion IsA, puede heredar la clave."
-		public static final int NO_PRIMARY_KEY = 1627;//	" La entidad no tiene clave primaria."
-		public static final int CORRECT_KEYS = 1628;//	" Las claves de la entidad son correctas."
-		public static final int RATIFYING_ATTRIB_NAMES = 1629;//	"Validando nombres de los atributos de la entidad"
-		public static final int NO_ATTRIB = 1630;//	" no tiene atributos."
-		public static final int ATTRIB_NAME = 1631;//	" El nombre del atributo "
-		public static final int IS_REPEATED_IN_ENTITY = 1632;//	" está repetido en la entidad "
-		public static final int ATTRIB_NAMES = 1633;//	" Los nombres de los atributos de la entidad "
-		public static final int ARE_CORRECT = 1634;//	" son correctos."
-		public static final int ENT_PARENT_IN = 1635;//	" La entidad es padre en "
-		public static final int ISA_RELATIONS = 1636;//	" relaciones IsA"
-		public static final int NO_WEAK_ENT_RELAT = 1637;//	" Esta relación no puede tener entidades debiles."
-		public static final int NO_PARENT_REL = 1638;//	" La relación carece de padre."
-		public static final int NO_CHILD_RELATION = 1639;//	" La relación necesita al menos un hijo."
-		public static final int OK_RELATION = 1640;//	" La relación tiene padre y al menos un hijo."
-		public static final int IS_NORMAL_TYPE = 1641;//	" es de tipo Normal"
-		public static final int NO_ENT_RELATION = 1643;//	" La relación carece de entidades."
-		public static final int ONE_ENT_REL = 1644;//" La relación sólo relaciona una entidad."
-		public static final int MANY_ENT_REL = 1645;//" La relación asocia dos o más entidades."
-		public static final int IS_WEAK_TYPE = 1646;//	" es de tipo Débil"
-		public static final int ONE_ENT_WEAK_REL = 1648;//	"La relación es débil y necesita mas de una entidad."
-		public static final int NO_WEAK_ENT_REL = 1649;//	" La relación no posee ninguna entidad débil."
-		public static final int MANY_WEAK_ENT_REL = 1650;//	" La relación sólo puede tener una entidad débil."
-		public static final int NO_STRONG_ENT_REL = 1651;//	" La relación no posee ninguna entidad fuerte."
-		public static final int OK_ENT_REL = 1652;//	" La relación posee las entidades adecuadas."
-				
-		public static final int RATIFYING_DOMAIN = 1653;//	"Validando la unicidad del dominio"
-		public static final int REPEATED_DOM_NAMES = 1654;//	"Hay varios dominios con el mismo nombre."
-		public static final int OK_DOMAIN = 1655;//"El dominio es único."
-		public static final int RATIFYING_DOMAIN_VALUES = 1656;//"Validando valores del dominio"
-		public static final int NO_VALUE_DOM = 1657;//"El dominio no tiene ningún valor."
-		public static final int THE_VALUE = 1658;//"El valor "
-		public static final int IS_REPEATED = 1659;//" está indicado varias veces."
-		public static final int OK_DOM_VALUES = 1660;//"Los valores del dominio no se repiten."
-		public static final int RATIFYING_DOM_USE = 1661;//"Validando uso del dominio"
-		public static final int USE_DOM = 1662;//"El dominio está usado en el diseño."
-		public static final int NO_USE_DOM = 1663;//"El dominio no está usado en el diseño."
-				
-		public static final int RATIFYING_DB = 1664;//"INICIANDO LA VALIDACIÓN DE LA BASE DE DATOS"
-		public static final int RATIFYING_DOMAINS = 1665;//"VALIDANDO DOMINIOS"
-		public static final int RATIFYING_ATTRIBUTES = 1666;//"VALIDANDO ATRIBUTOS"
-		public static final int RATIFYING_ENTITIES = 1667;//"VALIDANDO ENTIDADES"
-		public static final int RATIFYING_RELATIONS = 1668;//"VALIDANDO RELACIONES"
-		public static final int RATIFY_SUCCESS = 1669;//"VALIDACIÓN REALIZADA CON ÉXITO"
-		public static final int RATIFY_ERROR = 1670;//"ERROR EN EL PROCESO. VALIDACIÓN INTERRUMPIDA"
-		
-		public static final int MUST_RATIFY_MODEL = 1671;//"Debe validar satisfactoriamente el modelo antes de generar el script."
-		public static final int DESIGN_SQL_CODE = 1672;//"CÓDIGO SQL DEL DISEÑO"
-		public static final int MUST_GENERATE_SCRIPT = 1673;//"Debe generar el Script SQL antes de exportarlo."
-		public static final int SQL_FILES = 1674;//"Ficheros SQL"
-		public static final int OK_FILE = 1675;//"Se ha generado satisfactoriamente el fichero."
-		public static final int FILE = 1676;//"Fichero"
-		public static final int SCRIPT_ERROR = 1677;//"Se ha producido un error al volcar el Script en el fichero."
-		public static final int SCRIPT_GENERATED_FOR = 1678;//"El script SQL fue generado para ejecutarse en un DBMS de tipo"
-		public static final int CONEXION_TYPE_IS = 1679;//"pero el tipo de conexión actual es"
-		public static final int POSSIBLE_ERROR_SRIPT = 1680;//"Es posible que el script no se ejecute correctamente."
-		public static final int SHOULD_GENERATE_SCRIPT = 1681;//"Para evitar este problema, genere de nuevo el script para el tipo"
-		public static final int OF_CONEXION = 1682;//"de conexión actual."
-		public static final int CONTINUE_ANYWAY = 1683;//"¿Desea continuar de todas maneras?"
-		public static final int NO_DB_CONEXION = 1684;//"No se pudo abrir una conexión con la base de datos."
-		public static final int REASON = 1685;//"el motivo es el siguiente"
-		public static final int CANT_EXECUTE_SCRIPT = 1686;//"No se pudo ejecutar el script."
-		public static final int ENQUIRY_ERROR = 1687;//"El error se produjo en la consulta"
-		public static final int CANT_CLOSE_CONEXION = 1688;//"No se pudo cerrar la conexión."
-		public static final int OK_SCRIPT_EXECUT = 1689;//"El script se ha ejecutado correctamente."
-		
-		public static final int TABLES_SECTION = 1690;//"SECCIÓN DE CREACIÓN DE TABLAS"
-		public static final int TYPES_SECTION = 1691;//"SECCIÓN DE CREACIÓN DE TIPOS ENUERADOS"
-		public static final int KEYS_SECTION = 1692;//"SECCIÓN DE ESTABLECIMIENTO DE CLAVES"
-		public static final int CONSTRAINTS_SECTION = 1695;
-		
-		public static final int MUST_VALIDATE_MODEL = 1693;//"Debe validar satisfactoriamente el modelo antes de generar el modelo relacional."
-		public static final int RELATIONAL_MODEL_GENERATED = 1694;//"MODELO RELACIONAL GENERADO"
-		
-		//Persistencia 22XX
-		public static final int UNESPECTED_XML_ERROR = 2200;
-		public static final int ENT_ARITY = 2201;// "Entidad y aridad: ";
-		public static final int ROL = 2202;//"Rol "
-		public static final int ID_ENT = 2203;//", Id de entidad "
-		
-		//Presentacion.Grafo 40XX
-		public static final int DELETE_ALL_NODES  = 4001;//"Todos los nodos seleccionados serán eliminados definitivamente del sistema."
-		public static final int DBCASE_DELETE  = 4002;//"DBCASE: Eliminar"
-		public static final int NO_ENTITY_INVOLVED  = 4003;//"No interviene ninguna entidad"
-		public static final int PARENT_ENTITY  = 4004;//"Entidad padre"
-		public static final int NO_CHILDS_ENTITIES  = 4005;//"No tiene entidades hijas"
-		public static final int CHILDREN_ENTITIES  = 4006;//"Entidades hijas"
-		public static final int IS_MULTIVALUATED = 4009;//	"Es un atributo multivalorado"
-		public static final int IS_NOT_NULL  = 4010;//	"Es un atributo no nulo"
-		public static final int IS_UNIQUE  = 4011;//	"Es un atributo único"
-		public static final int IS_COMPOSED  = 4012;//	"Es un atributo compuesto"
-		public static final int NO_COMPONENTS  = 4013;//	"No tiene componentes"
-		public static final int COMPONENTS  = 4014;//	"Componentes"
-		public static final int IS_WEAK_ENT  = 4015;//	"Es una entidad debil"
-		public static final int ADD_ENTITY = 4016;//"Insertar una nueva entidad"
-		public static final int ADD_RELATION = 4017;//"Insertar una nueva relación"
-		public static final int ADD_ISARELATION = 4018;//"Insertar una nueva relación IsA"
-		public static final int ADD_DOMAIN = 4019;//"Crear un nuevo dominio"
-		public static final int RENAME_ENTITY = 4020;//"Renombrar la entidad"
-		public static final int ADD_ATTRIBUTE = 4022;//"Añadir un nuevo atributo"
-		public static final int DELETE_ENT = 4023;//"Eliminar la entidad"
-	    public static final int RENAME_ATTRIB = 4024;//"Renombrar el atributo"
-		public static final int EDIT_DOMAIN = 4025;//"Editar el dominio"
-		public static final int ADD_SUBATTRIBUTE = 4026;//"Añadir un subatributo"
-		public static final int NOT_NULL = 4027;//"Not Null"
-		public static final int UNIQUE = 4028;//"Unique"
-		public static final int IS_PRIMARY_KEY = 4030;//"Es clave primaria de la entidad"
-		public static final int DELETE_ATTRIB = 4031;//"Eliminar el atributo"
-		public static final int SET_PARENT_ENT = 4032;//"Establecer entidad padre"
-		public static final int REMOVE_PARENT_ENT = 4033;//"Quitar entidad padre"
-		public static final int ADD_CHILD_ENT = 4034;//"Añadir entidad hija"
-		public static final int REMOVE_CHILD_ENT = 4035;//	"Quitar entidad hija"
-		public static final int DELETE_REL = 4036;//"Eliminar la relación"
-		public static final int RENAME_RELATION = 4037;//	"Renombrar la relación"
-		public static final int ADD_ENT = 4039;//	"Añadir una entidad"
-		public static final int REMOVE_ENTITY = 4040;//	"Quitar una entidad"
-		public static final int EDIT_CARD_ROL = 4041;//	"Editar la cardinalidad o el rol de una entidad"
-		
-		// GUIPrincipal + utilidades.AccionMenu 41XX
-		public static final int DOM_MENU_RENAME = 4101;//"Renombrar"
-		public static final int DOM_MENU_DELETE = 4102;//"Eliminar"
-		public static final int DOM_MENU_MODIFY = 4103;//"Modificar dominio"
-		public static final int DOM_MENU_ADD = 4104;//"Añadir nuevo dominio"
-		public static final int DOM_MENU_IN_ORDER = 4105;//"Ordenar valores"
-		public static final int DOM_TREE_CREATED_DOMS = 4106;//"Dominios creados"
-		public static final int DOM_TREE_TYPE = 4107;//"tipo base"
-		public static final int DOM_TREE_VALUES = 4109;//"Valores"
-		
-		public static final int SYSTEM = 4110;//"Sistema"
-		public static final int EXIT_MINCASE = 4112;//"Salir"
-		public static final int OPTIONS = 4113;//"Opciones"
-		public static final int CURRENT_DBMS = 4114;//"Gestor de Base de Datos actual"
-		public static final int SELECT_LANGUAGE = 4136; //"Lenguaje"
-		public static final int EXPORT_DIAGRAM = 4115;//"Exportar el diagrama E/R como archivo de imagen"
-		public static final int PRINT_DIAGRAM = 4116;//"Imprimir el diagrama E/R"
-		public static final int HELP = 4117;//"Ayuda"
-		public static final int CONTENTS = 4118;//"Contenidos"
-		public static final int ABOUT = 4119;//"Acerca de DBDT"
-		public static final int ER_MODEL = 4120;//"Diagrama Entidad Relación"
-		public static final int INF_PANEL = 4121;//"Panel de información"
-		public static final int DOM_PANEL = 4122;//"Panel dominios"
-		public static final int GRAPH_PANEL = 4123;//"Panel grafo"
-		public static final int EVENT_PANEL = 4124;//"Panel de sucesos"
-		public static final int SHOW_EVENTS_PANEL = 4160;
-		public static final int CODE_GENERATION = 4125;//"Generación de código"
-		public static final int CLEAN = 4126;//"Limpiar el area de texto"
-		public static final int VALIDATE_DESIGN = 4127;//"Validar el diseño realizado"
-		public static final int GENERATE_REL_MODEL = 4128;//"Generar el Modelo Relacional del diseño realizado"
-		public static final int GENERATE_SQL_CODE = 4129;//"Generar el código SQL del diseño realizado"
-		public static final int EXPORT_SQL_FILE = 4130;//"Exportar el Script SQL a un archivo"
-		public static final int EXECUTE_SCRIPT = 4131;//"Ejecutar el script SQL en un DBMS"
-		public static final int MUST_GENERATE_SCRIPT_EX = 4133;//"Debe generar el Script SQL antes de ejecutarlo."
-		public static final int JPEG_FILES = 4134;//"Ficheros JPEG"
-		public static final int OK_EXPORT = 4135;//"Se ha exportado satisfactoriamente el diagrama al fichero"
-		
-		public static final int TOOL_FOR_DESING=4137;
-		public static final int SS_II=4138;
-		public static final int COLLEGE=4139;
-		public static final int UNIVERSITY=4140;
-		public static final int DIRECTOR=4141; 
-		public static final int TEACHER_NAME=4142;
-		public static final int AUTHORS=4143;
-		public static final int AUTHOR1=4144;
-		public static final int AUTHOR2=4145;
-		public static final int AUTHOR3=4146;				
-		public static final int BASED=4147;
-		public static final int CONTACT=4148;
-		public static final int DBCASE_LABEL=4149;
-		public static final int DB_CASE_TOOL=4150;
-		
-		
-		//Utilidades.conectorDBMS
-		public static final int NO_CONECTOR =4200;//"Error: No se encuentra el conector JDBC"
-		public static final int TABLE_TITLE =4202;
-		public static final int TEST_DATA =4203;
-		public static final int CLEAN_FIELDS =4204;
-		public static final int HINT =4205;
-		public static final int EXPLORE =4206;
-		
-		public static final int EXISTING_CONN =4207;
-		public static final int CHOOSE_CONN =4208;
-		
-		//Restricciones	
-		public static final int RESTRICTIONS =4300;
-		public static final int ADD_RESTRICTIONS =4301;
-		public static final int TABLE_UNIQUE =4302;
-		public static final int ADD_UNIQUE =4303;
-		public static final int UNIQUE_ERROR =4304;
-		public static final int ERROR_TABLE =4305;
-		public static final int CONC_MODEL =4306;
-		public static final int LOGIC_MODEL =4307;
-		public static final int PHYS_MODEL =4308;
-		public static final int THEME =4309;
-		public static final int GENERATE =4310;
-		public static final int ELEMENTS =4311;
-		public static final int VIEW = 4312;
-		public static final int TABLE = 4313;
-		public static final int VOLUME = 4314;
-		public static final int FREQ = 4315;
+	//public static final int WORKSPACE_CHANGED = 1101;//Se ha cambiado satisfactoriamente el directorio de trabajo.
+	public static final int WORKSPACE_IS = 1102;//El directorio actual de trabajo es:
+	public static final int INITIAL_ERROR = 1104;//Se ha producido un error en la creacion inicial
+	public static final int OF_XMLFILES = 1105;//de los ficheros XML en el directorio de trabajo:
+	//nombres ventanas
+	public static final int DELETE_ENTITY = 1107;//DBDT: Eliminar entidad
+	public static final int DELETE_ATTRIBUTE =1108;//DBDT: Eliminar atributo
+	public static final int DELETE_DOMAIN = 1109;//DBDT: Eliminar dominio
+	public static final int ADD_ENTITY_RELATION = 1110;//DBDT: Añadir una entidad a la relación
+	public static final int DELETE_ISA_RELATION = 1111;//DBDT: Eliminar relación IsA
+	public static final int DELETE_RELATION = 1157;//DBDT: Eliminar relación
+	//advertencias
+	public static final int DELETE_ATTRIBUTES_WARNING = 1112;//Además se eliminarán todos sus atributos.
+	public static final int THE_ENTITY=1113;//La entidad
+	public static final int REMOVE_FROM_SYSTEM=1114;//se eliminará definitivamente del sistema.
+	public static final int THE_ATTRIBUTE=1115;//El atributo
+	public static final int WEAK_RELATION=1116;//Si debilita la relación 
+	public static final int DELETE_ATTRIBUTES_WARNING2=1117;// se eliminarán todos sus atributos.
+	public static final int MODIFYING_CARDINALITY=1118;//, la cardinalidad de su entidad débil será modificada a 1..1.\n
+	public static final int MODIFY_ATTRIBUTE=1119;//Si cambia el atributo compuesto 
+	public static final int DELETE_ATTRIBUTES_WARNING3=1120;// a simple se eliminarán todos sus subatributos.
+	public static final int ISA_RELATION_DELETE=1121;//La relación IsA seleccionada será eliminada del sistema.
+	public static final int THE_DOMAIN=1122;//El dominio 
+	public static final int MODIFYING_ATTRIBUTES_WARNING4=1123;//Todos los atributos con dicho dominio serán modificados.
+	//errores
+	public static final int RELATION_WEAK_ENTITIES=1124;//La relación tiene más de una entidad débil.
+	public static final int NO_ATTRIBUTES_RELATION=1125;//No se puede añadir ningún atributo a la relación.
+	public static final int ALREADY_WEAK_ENTITY=1126;//Ya existe una entidad débil en esta relación.
+	public static final int THE_RELATION=1127;//La relación 
+	public static final int IS_WEAK=1128;// es una relación débil.
+	public static final int INCORRECT_VALUE=1129;//Algún valor no es correcto.	
+	//error de acceso
+	public static final int ENTITIES_FILE_ERROR=1130;//Se ha producido un error en el acceso al fichero de entidades. 
+	public static final int RELATIONS_FILE_ERROR=1131;//Se ha producido un error en el acceso al fichero de relaciones.
+	public static final int ATTRIBUTES_FILE_ERROR=1132;//Se ha producido un error en el acceso al fichero de atributos.
+	public static final int DOMAINS_FILE_ERROR=1133;//Se ha producido un error en el acceso al fichero de dominios.
+	public static final int EMPTY_ATTRIB_NAME=1134;//El nombre del atriburo es vacío. 
+	public static final int EMPTY_DOM_NAME=1135;//El nombre del dominio es vacío.
+	public static final int EMPTY_ENT_NAME=1136;//El nombre de la entidad es vacío.
+	public static final int EMPTY_REL_NAME=1137;//El nombre de la relación es vacío.
+	public static final int EMPTY_SUBATTR_NAME=1138;//El nombre del subatributo es vacío.
+	public static final int EMPTY_TYPE_NAME=1139;//El nuevo tipo es vacío.
+	public static final int EMPTY_VALUES=1140;//El campo 'valores' es vacío.
+	public static final int REPEATED_ENT_NAME=1141;//Existe una entidad en el sistema con el mismo nombre.
+	public static final int REPEATED_ATTRIB_NAME=1142;//Ya existe un atributo con ese nombre en la entidad.
+	public static final int REPEATED_ATTRIB_NAME_REL=1143;//Ya existe un atributo en la relación con ese nombre.		
+	public static final int REPEATED_REL_NAME=1144;//Existe una relación en el sistema con el mismo nombre.
+	public static final int REPEATED_ROL_NAME=1145;//Existe otro rol en la relación con el mismo nombre.
+	public static final int REPEATED_SUBATR_NAME=1146;//Existe otro subatributo con ese nombre.
+	public static final int REPEATED_DOM_NAME=1147;//Existe otro dominio en el sistema con el mismo nombre.
+			
+	public static final int INCORRECT_SIZE1=1148;//El tamano del dominio del atributo no es un valor entero positivo.
+	public static final int INCORRECT_SIZE2=1149;//El tamano del dominio del atributo es nulo o negativo.
+	public static final int INCORRECT_SIZE3=1150;//El tamaño del atributo no es un valor entero positivo. 
+	public static final int INCORRECT_CARDINALITY1=1151;//El valor de inicio no es un número entero positivo o 'n'.
+	public static final int INCORRECT_CARDINALITY2=1152;//El valor de inicio es un número negativo.
+	public static final int INCORRECT_CARDINALITY3=1153;//El valor de fin no es un número entero positivo o 'n'.
+	public static final int INCORRECT_CARDINALITY4=1154;//El valor de fin es un número negativo.
+	public static final int INCORRECT_CARDINALITY5=1155;//El valor de inicio es mayor que el de fin.
+	public static final int NECESARY_ROL=1156;//Debe asignar un rol a la entidad.
 	
+	//public static final int SUCCESS_SAVE = 1158;//Proyecto guardado con éxito
+	public static final int WISH_SAVE = 1159;//¿Desea guardar el proyecto actual?
+	
+	public static final int IF_WEAK_ENTITY = 1160;//Si debilita la entidad		
+	//Advertencias
+	public static final int WARNING_DELETE_WEAK_ENTITY=1161;//Se eliminará también la entidad débil asociada
+	public static final int WARNING_DELETE_WEAK_RELATION=1162;//Se eliminará también la relación débil asociada
+	public static final int REPEATED_ENTITY_REL=1163;
+	
+//--- --- --- MENSAJES DE LA GUI --- --- --- 
+	//Ventana GUI_InsertaEntidad 12XX
+	public static final int INSERT_ENTITY = 1200;
+	public static final int WRITE_ENTITY_NAME = 1201;
+	public static final int WEAK_ENTITY = 1202;
+	public static final int SELECT_STRONG_ENTITY= 1204;
+	public static final int WRITE_RELATION_WEAK= 1205;
+	public static final int CREATE_STRONG_ENTITY = 1206;
+	
+	//Ventana GUI_InsertarRelacion 13XX
+	public static final int INSERT_RELATION = 1300;
+	public static final int WRITE_RELATION_NAME = 1301;
+	
+	//Ventana de GUI_AnadirAtributoEntidad  y GUI_AnadirAtributoRelacion 14xx
+	public static final int INSERT_ATTRIBUTE = 1400;
+	public static final int COMPOSITE_ATTRIBUTE = 1403;
+	public static final int PRIMARY_KEY_ATTRIBUTE = 1404;
+	public static final int NOT_NULL_ATTRIBUTE = 1405;
+	public static final int UNIQUE_ATTRIBUTE = 1406;
+	public static final int VALUE_ATTRIBUTE = 1407;
+	public static final int DOMAIN_ATTRIBUTE = 1408;
+	public static final int SIZE_ATTRIBUTE = 1409;
+	
+	//Ventana de GUI_AnadirSubAtributoAtributo 15xx
+	public static final int INSERT_NEW_SUBATTRIBUTE = 1500;
+	
+	//Ventana de GUI_AnadirEntidadARelacion 17xx
+	public static final int INSERT_NEW_ENTITY_TO_RELATION = 1700;
+	public static final int IMPOSIBLE_TO_INSERT_ENTITY = 1701;
+	public static final int NO_ENTITY = 1702;
+	public static final int SELECT_ENTITY = 1703;
+	public static final int WRITE_NUMBERS_RELATION = 1704;
+	public static final int THE = 1705;
+	public static final int TO = 1706;
+	public static final int WRITE_ROLL = 1707;
+	public static final int LABEL1A1=1708;
+	public static final int LABEL1AN=1709;
+	public static final int LABELNAN=1710;
+	
+	//Ventana de GUI_AnadirEntidadHija 18xx
+	public static final int INSERT_NEW_DAUGTHER = 1800;
+	public static final int IMPOSIBLE_TO_INSERT_DAUGHTER = 1801;
+	public static final int NO_FATHER = 1802;
+	public static final int SELECT_ENTITY_DAUTHTER = 1803;
+	public static final int NO_ENTITIES_AVAILABLES =1804;
+	
+	//Ventana de GUI_ConfigurarConexionDBMS 19xx
+	public static final int SHAPE_DBMS = 1900;
+	public static final int EXPLANATION_DBMS1 = 1901;
+	public static final int EXPLANATION_DBMS2 = 1902;
+	public static final int EXPLANATION_DBMS3 = 1903;
+	public static final int STRING_CONNECTION = 1904;
+	public static final int USER = 1905;
+	public static final int PASSWORD = 1906;
+	public static final int INFORMATION_INCOMPLETE = 1907;
+	public static final int DBDT = 1908;
+	
+	//Ventana de GUI_EditarCardinalidadEntidad 20xx
+	public static final int EDIT_ARITY_AND_ROLLE = 2000;
+	public static final int IMPOSIBLE_EDIT_ROLLE = 2001;
+	public static final int NO_ENTITIES_IN_RELATION = 2002;
+	public static final int EDIT_ARITY = 2003;
+	public static final int SELECT_ENTITY_TO_CHANGE = 2004;
+	public static final int WRITE_NEW_ARITY = 2005;
+	public static final int WRITE_NEW_ROLLE = 2006;
+	public static final int IF_ENTITY_HAS_ROLLE = 2007;
+	
+	//Ventana de GUI_EditarDominioAtributo 21xx
+	public static final int EDIT_DOMAIN_ATTRIBUTE = 2100;
+	public static final int IMPOSIBLE_EDIT_DOMAIN = 2101;
+	public static final int COMPLEX_ATTRIBUTE = 2102;
+	public static final int SELECT_DOMAIN_FOR_ATTRIBUTE = 2103;
+	
+	//Ventana de GUI_EstablecerEntidadPadre 23xx
+	public static final int SET_PARENT_ENTITY = 2300;
+	public static final int IMPOSIBLE_SET_PARENT = 2301;
+	public static final int OTHER_PARENT = 2302;
+	public static final int IMPOSIBLE_SET_PARENT_IN_ISA = 2303;
+	public static final int SELECT_PARENT_ENTITY = 2304;
+	
+	//Ventana de GUI_InsertarDominio 24xx
+	public static final int INSERT_NEW_DOMAIN = 2400;
+	//public static final int WRITE_NAME_DOMAIN = 2401;
+	//public static final int CHOOSE_VALUE_AND_TYPE = 2402;
+	
+	//Ventana de GUI_ModificarDominio 25xx
+	public static final int EDIT_DOMAIN_GUI = 2500;
+	//public static final int CHANGE_DOMAIN = 2501;
+	//public static final int REMEMBER_DOMAIN = 2502;
+	
+	//Ventana de GUI_QuitarEntidadRelacion 26xx
+	public static final int QUIT_ENTITY = 2600;
+	public static final int IMPOSIBLE_QUIT_ENTITY = 2601;
+	public static final int SELECT_ENTITY_TO_QUIT = 2602;
+	
+	//Ventana GUI_QuitarEntidadHija 27xx
+	public static final int QUIT_DAUGHTER_ENTITY = 2700;
+	public static final int IMPOSIBLE_QUIT_DAUGHTER_ENTITY = 2701;
+	public static final int NO_DAUGHTER_ENTITY = 2702;
+	public static final int SELECT_DAUGHTER_TO_QUIT = 2703;
+	
+	//Ventana GUI_QuitarEntidadPadre 28xx
+	public static final int QUIT_PARENT_ENTITY = 2800;
+	public static final int EXPLICATION_QUIT_PARENT = 2801;
+	public static final int DO_YOU_WISH_QUIT_PARENT = 2802;
+	public static final int IMPOSIBLE_QUIT_PARENT = 2803;
+	
+	//Ventana GUI_RenombrarAtributo 29xx
+	public static final int RENAME_ATTRIBUTE = 2900;
+	public static final int WRITE_NAME_ATTRIBUTE_SELECTED = 2901;
+	
+	//Ventana GUI_RenombrarDominio 30xx
+	public static final int RENAME_DOMAIN = 3000;
+	public static final int WRITE_NEW_DOMAIN_NAME = 3001;
+	
+	//GUI_RenombrarEntidad  31xx
+	public static final int RENAME_ENTITY_DBDT = 3100;
+	public static final int WRITE_NEW_ENTITY_NAME = 3101;
+	
+	//GUI_RenombrarRelation 32xx
+	public static final int RENAME_RELATION_DBDT = 3200;
+	public static final int EXPLICATION_RENAME_RELATION1 = 3201;
+	
+	//GUI_Conexion 33xx
+	public static final int SERVER = 3300; 
+	public static final int PORT = 3301;
+	public static final int DATA_BASE = 3302;
+	public static final int CREATE_DATA_BASE = 3303;
+	public static final int USER_DATA_BASE = 3304;
+	public static final int PASSWORD_DATA_BASE = 3305;
+	
+	//GUI_SeleccionarConexion
+	public static final int SELECT_CONNECTION = 3306;		
+	
+	//SERVICIOS 16xx
+	public static final int EMPTY_VALUE = 1600;//"Uno de los valores es vacío."
+	public static final int INCORRECT_NUMBER  = 1601;
+	public static final int INCORRECT_VALUE_EX  = 1602;//"Uno de los valores no es correcto. Ejemplos:"	
+	public static final int INCORRECT_BIT_VALUE  = 1603;//"Uno de los valores no es correcto. Los únicos valores aceptables son 0 y 1"
+	public static final int QUOTATION_MARKS  = 1604;//"Introduzca los valores entre comillas simples"
+	public static final int INCORRECT_DATE  = 1605;//"Uno de los valores no es correcto. Introduzca valores de la forma 'aaaammdd'"
+	//servicios sistema
+	public static final int RATIFYING = 1606;//"Validando "
+	public static final int RATIFYING_ATTRIB_DOMAIN = 1607;//"Validando el dominio del atributo"
+	public static final int COMPOSED_ATTRIBUTE = 1608;//"El atributo es compuesto y no puede tener dominio."
+	public static final int CORRECT_DOMAIN = 1609;//"El dominio del atributo es correcto."
+	public static final int NO_DOMAIN = 1610;//"El atributo no tiene dominio."
+	public static final int UNKNOWN_DOMAIN = 1611;//"El dominio del atributo no esta en el sistema."
+	public static final int RATIFYING_ATTRIBUTE = 1612;//"Validando la exclusividad del atributo"
+	public static final int ONE_ATTRIB_SUBATTRIB = 1613;//" es subatributo de un solo atributo."
+	public static final int MANY_ATTRIB_SUBATTRIB = 1614;//" es subAtributo de más de un atributo."
+	public static final int ONE_ENTITY = 1615;//" pertenece a una sola entidad."
+	public static final int MANY_ENTITIES = 1616;//" pertenece a más de una entidad."
+	public static final int RATIFYING_CHILDREN = 1617;//"Validando hijos atributo compuesto."
+	public static final int NO_SUBATTRIB = 1618;//"El atributo no tiene subatributos."
+	public static final int ONE_SUBATTRIB = 1619;//"El atributo solo tiene un subatributo."
+	public static final int RATIFYING_PRIMARYKEYS = 1620;//"Validando claves primarias de la entidad."
+	public static final int NOKEY_WEAK_ENTITY = 1621;//"La entidad es debil y carece de atributo discriminante (poner clave primaria)."
+	public static final int NOKEY_ENTITY_RELATION = 1622;//"La entidad está vinculada a una relación y no tiene clave primaria."
+	public static final int ALL_CHILDREN_KEYS = 1623;//" El atributo es compuesto y todas sus hojas son claves. También se puede señalar como clave al atributo padre."
+	public static final int NO_ATTRIB_KEY = 1624;//	" La o las claves de la entidad no forman parte de sus atributos."
+	public static final int MULTIVALUE_KEY = 1625;//	" es multivalorado y no puede ser clave."
+	public static final int ISA_PARENT = 1626;//	" La entidad es una hija en una relacion IsA, puede heredar la clave."
+	public static final int NO_PRIMARY_KEY = 1627;//	" La entidad no tiene clave primaria."
+	public static final int CORRECT_KEYS = 1628;//	" Las claves de la entidad son correctas."
+	public static final int RATIFYING_ATTRIB_NAMES = 1629;//	"Validando nombres de los atributos de la entidad"
+	public static final int NO_ATTRIB = 1630;//	" no tiene atributos."
+	public static final int ATTRIB_NAME = 1631;//	" El nombre del atributo "
+	public static final int IS_REPEATED_IN_ENTITY = 1632;//	" está repetido en la entidad "
+	public static final int ATTRIB_NAMES = 1633;//	" Los nombres de los atributos de la entidad "
+	public static final int ARE_CORRECT = 1634;//	" son correctos."
+	public static final int ENT_PARENT_IN = 1635;//	" La entidad es padre en "
+	public static final int ISA_RELATIONS = 1636;//	" relaciones IsA"
+	public static final int NO_WEAK_ENT_RELAT = 1637;//	" Esta relación no puede tener entidades debiles."
+	public static final int NO_PARENT_REL = 1638;//	" La relación carece de padre."
+	public static final int NO_CHILD_RELATION = 1639;//	" La relación necesita al menos un hijo."
+	public static final int OK_RELATION = 1640;//	" La relación tiene padre y al menos un hijo."
+	public static final int IS_NORMAL_TYPE = 1641;//	" es de tipo Normal"
+	public static final int NO_ENT_RELATION = 1643;//	" La relación carece de entidades."
+	public static final int ONE_ENT_REL = 1644;//" La relación sólo relaciona una entidad."
+	public static final int MANY_ENT_REL = 1645;//" La relación asocia dos o más entidades."
+	public static final int IS_WEAK_TYPE = 1646;//	" es de tipo Débil"
+	public static final int ONE_ENT_WEAK_REL = 1648;//	"La relación es débil y necesita mas de una entidad."
+	public static final int NO_WEAK_ENT_REL = 1649;//	" La relación no posee ninguna entidad débil."
+	public static final int MANY_WEAK_ENT_REL = 1650;//	" La relación sólo puede tener una entidad débil."
+	public static final int NO_STRONG_ENT_REL = 1651;//	" La relación no posee ninguna entidad fuerte."
+	public static final int OK_ENT_REL = 1652;//	" La relación posee las entidades adecuadas."
+			
+	public static final int RATIFYING_DOMAIN = 1653;//	"Validando la unicidad del dominio"
+	public static final int REPEATED_DOM_NAMES = 1654;//	"Hay varios dominios con el mismo nombre."
+	public static final int OK_DOMAIN = 1655;//"El dominio es único."
+	public static final int RATIFYING_DOMAIN_VALUES = 1656;//"Validando valores del dominio"
+	public static final int NO_VALUE_DOM = 1657;//"El dominio no tiene ningún valor."
+	public static final int THE_VALUE = 1658;//"El valor "
+	public static final int IS_REPEATED = 1659;//" está indicado varias veces."
+	public static final int OK_DOM_VALUES = 1660;//"Los valores del dominio no se repiten."
+	public static final int RATIFYING_DOM_USE = 1661;//"Validando uso del dominio"
+	public static final int USE_DOM = 1662;//"El dominio está usado en el diseño."
+	public static final int NO_USE_DOM = 1663;//"El dominio no está usado en el diseño."
+			
+	public static final int RATIFYING_DB = 1664;//"INICIANDO LA VALIDACIÓN DE LA BASE DE DATOS"
+	public static final int RATIFYING_DOMAINS = 1665;//"VALIDANDO DOMINIOS"
+	public static final int RATIFYING_ATTRIBUTES = 1666;//"VALIDANDO ATRIBUTOS"
+	public static final int RATIFYING_ENTITIES = 1667;//"VALIDANDO ENTIDADES"
+	public static final int RATIFYING_RELATIONS = 1668;//"VALIDANDO RELACIONES"
+	public static final int RATIFY_SUCCESS = 1669;//"VALIDACIÓN REALIZADA CON ÉXITO"
+	public static final int RATIFY_ERROR = 1670;//"ERROR EN EL PROCESO. VALIDACIÓN INTERRUMPIDA"
+	
+	public static final int MUST_RATIFY_MODEL = 1671;//"Debe validar satisfactoriamente el modelo antes de generar el script."
+	public static final int DESIGN_SQL_CODE = 1672;//"CÓDIGO SQL DEL DISEÑO"
+	public static final int MUST_GENERATE_SCRIPT = 1673;//"Debe generar el Script SQL antes de exportarlo."
+	public static final int SQL_FILES = 1674;//"Ficheros SQL"
+	public static final int OK_FILE = 1675;//"Se ha generado satisfactoriamente el fichero."
+	public static final int FILE = 1676;//"Fichero"
+	public static final int SCRIPT_ERROR = 1677;//"Se ha producido un error al volcar el Script en el fichero."
+	public static final int SCRIPT_GENERATED_FOR = 1678;//"El script SQL fue generado para ejecutarse en un DBMS de tipo"
+	public static final int CONEXION_TYPE_IS = 1679;//"pero el tipo de conexión actual es"
+	public static final int POSSIBLE_ERROR_SRIPT = 1680;//"Es posible que el script no se ejecute correctamente."
+	public static final int SHOULD_GENERATE_SCRIPT = 1681;//"Para evitar este problema, genere de nuevo el script para el tipo"
+	public static final int OF_CONEXION = 1682;//"de conexión actual."
+	public static final int CONTINUE_ANYWAY = 1683;//"¿Desea continuar de todas maneras?"
+	public static final int NO_DB_CONEXION = 1684;//"No se pudo abrir una conexión con la base de datos."
+	public static final int REASON = 1685;//"el motivo es el siguiente"
+	public static final int CANT_EXECUTE_SCRIPT = 1686;//"No se pudo ejecutar el script."
+	public static final int ENQUIRY_ERROR = 1687;//"El error se produjo en la consulta"
+	public static final int CANT_CLOSE_CONEXION = 1688;//"No se pudo cerrar la conexión."
+	public static final int OK_SCRIPT_EXECUT = 1689;//"El script se ha ejecutado correctamente."
+	
+	public static final int TABLES_SECTION = 1690;//"SECCIÓN DE CREACIÓN DE TABLAS"
+	public static final int TYPES_SECTION = 1691;//"SECCIÓN DE CREACIÓN DE TIPOS ENUERADOS"
+	public static final int KEYS_SECTION = 1692;//"SECCIÓN DE ESTABLECIMIENTO DE CLAVES"
+	public static final int CONSTRAINTS_SECTION = 1695;
+	
+	public static final int MUST_VALIDATE_MODEL = 1693;//"Debe validar satisfactoriamente el modelo antes de generar el modelo relacional."
+	public static final int RELATIONAL_MODEL_GENERATED = 1694;//"MODELO RELACIONAL GENERADO"
+	
+	//Persistencia 22XX
+	public static final int UNESPECTED_XML_ERROR = 2200;
+	public static final int ENT_ARITY = 2201;// "Entidad y aridad: ";
+	public static final int ROL = 2202;//"Rol "
+	public static final int ID_ENT = 2203;//", Id de entidad "
+	
+	//Presentacion.Grafo 40XX
+	public static final int DELETE_ALL_NODES  = 4001;//"Todos los nodos seleccionados serán eliminados definitivamente del sistema."
+	public static final int DBCASE_DELETE  = 4002;//"DBCASE: Eliminar"
+	public static final int NO_ENTITY_INVOLVED  = 4003;//"No interviene ninguna entidad"
+	public static final int PARENT_ENTITY  = 4004;//"Entidad padre"
+	public static final int NO_CHILDS_ENTITIES  = 4005;//"No tiene entidades hijas"
+	public static final int CHILDREN_ENTITIES  = 4006;//"Entidades hijas"
+	public static final int IS_MULTIVALUATED = 4009;//	"Es un atributo multivalorado"
+	public static final int IS_NOT_NULL  = 4010;//	"Es un atributo no nulo"
+	public static final int IS_UNIQUE  = 4011;//	"Es un atributo único"
+	public static final int IS_COMPOSED  = 4012;//	"Es un atributo compuesto"
+	public static final int NO_COMPONENTS  = 4013;//	"No tiene componentes"
+	public static final int COMPONENTS  = 4014;//	"Componentes"
+	public static final int IS_WEAK_ENT  = 4015;//	"Es una entidad debil"
+	public static final int ADD_ENTITY = 4016;//"Insertar una nueva entidad"
+	public static final int ADD_RELATION = 4017;//"Insertar una nueva relación"
+	public static final int ADD_ISARELATION = 4018;//"Insertar una nueva relación IsA"
+	public static final int ADD_DOMAIN = 4019;//"Crear un nuevo dominio"
+	public static final int RENAME_ENTITY = 4020;//"Renombrar la entidad"
+	public static final int ADD_ATTRIBUTE = 4022;//"Añadir un nuevo atributo"
+	public static final int DELETE_ENT = 4023;//"Eliminar la entidad"
+    public static final int RENAME_ATTRIB = 4024;//"Renombrar el atributo"
+	public static final int EDIT_DOMAIN = 4025;//"Editar el dominio"
+	public static final int ADD_SUBATTRIBUTE = 4026;//"Añadir un subatributo"
+	public static final int NOT_NULL = 4027;//"Not Null"
+	public static final int UNIQUE = 4028;//"Unique"
+	public static final int IS_PRIMARY_KEY = 4030;//"Es clave primaria de la entidad"
+	public static final int DELETE_ATTRIB = 4031;//"Eliminar el atributo"
+	public static final int SET_PARENT_ENT = 4032;//"Establecer entidad padre"
+	public static final int REMOVE_PARENT_ENT = 4033;//"Quitar entidad padre"
+	public static final int ADD_CHILD_ENT = 4034;//"Añadir entidad hija"
+	public static final int REMOVE_CHILD_ENT = 4035;//	"Quitar entidad hija"
+	public static final int DELETE_REL = 4036;//"Eliminar la relación"
+	public static final int RENAME_RELATION = 4037;//	"Renombrar la relación"
+	public static final int ADD_ENT = 4039;//	"Añadir una entidad"
+	public static final int REMOVE_ENTITY = 4040;//	"Quitar una entidad"
+	public static final int EDIT_CARD_ROL = 4041;//	"Editar la cardinalidad o el rol de una entidad"
+	
+	// GUIPrincipal + utilidades.AccionMenu 41XX
+	public static final int DOM_MENU_RENAME = 4101;//"Renombrar"
+	public static final int DOM_MENU_DELETE = 4102;//"Eliminar"
+	public static final int DOM_MENU_MODIFY = 4103;//"Modificar dominio"
+	public static final int DOM_MENU_ADD = 4104;//"Añadir nuevo dominio"
+	public static final int DOM_MENU_IN_ORDER = 4105;//"Ordenar valores"
+	public static final int DOM_TREE_CREATED_DOMS = 4106;//"Dominios creados"
+	public static final int DOM_TREE_TYPE = 4107;//"tipo base"
+	public static final int DOM_TREE_VALUES = 4109;//"Valores"
+	
+	public static final int SYSTEM = 4110;//"Sistema"
+	public static final int EXIT_MINCASE = 4112;//"Salir"
+	public static final int OPTIONS = 4113;//"Opciones"
+	public static final int CURRENT_DBMS = 4114;//"Gestor de Base de Datos actual"
+	public static final int SELECT_LANGUAGE = 4136; //"Lenguaje"
+	public static final int EXPORT_DIAGRAM = 4115;//"Exportar el diagrama E/R como archivo de imagen"
+	public static final int PRINT_DIAGRAM = 4116;//"Imprimir el diagrama E/R"
+	public static final int HELP = 4117;//"Ayuda"
+	public static final int CONTENTS = 4118;//"Contenidos"
+	public static final int ABOUT = 4119;//"Acerca de DBDT"
+	public static final int ER_MODEL = 4120;//"Diagrama Entidad Relación"
+	public static final int INF_PANEL = 4121;//"Panel de información"
+	public static final int DOM_PANEL = 4122;//"Panel dominios"
+	public static final int GRAPH_PANEL = 4123;//"Panel grafo"
+	public static final int EVENT_PANEL = 4124;//"Panel de sucesos"
+	public static final int SHOW_EVENTS_PANEL = 4160;
+	public static final int CODE_GENERATION = 4125;//"Generación de código"
+	public static final int CLEAN = 4126;//"Limpiar el area de texto"
+	public static final int VALIDATE_DESIGN = 4127;//"Validar el diseño realizado"
+	public static final int GENERATE_REL_MODEL = 4128;//"Generar el Modelo Relacional del diseño realizado"
+	public static final int GENERATE_SQL_CODE = 4129;//"Generar el código SQL del diseño realizado"
+	public static final int EXPORT_SQL_FILE = 4130;//"Exportar el Script SQL a un archivo"
+	public static final int EXECUTE_SCRIPT = 4131;//"Ejecutar el script SQL en un DBMS"
+	public static final int MUST_GENERATE_SCRIPT_EX = 4133;//"Debe generar el Script SQL antes de ejecutarlo."
+	public static final int JPEG_FILES = 4134;//"Ficheros JPEG"
+	public static final int OK_EXPORT = 4135;//"Se ha exportado satisfactoriamente el diagrama al fichero"
+	
+	public static final int TOOL_FOR_DESING=4137;
+	public static final int SS_II=4138;
+	public static final int COLLEGE=4139;
+	public static final int UNIVERSITY=4140;
+	public static final int DIRECTOR=4141; 
+	public static final int TEACHER_NAME=4142;
+	public static final int AUTHORS=4143;
+	public static final int AUTHOR1=4144;
+	public static final int AUTHOR2=4145;
+	public static final int AUTHOR3=4146;				
+	public static final int BASED=4147;
+	public static final int CONTACT=4148;
+	public static final int DBCASE_LABEL=4149;
+	public static final int DB_CASE_TOOL=4150;
+	
+	//Utilidades.conectorDBMS
+	public static final int NO_CONECTOR =4200;//"Error: No se encuentra el conector JDBC"
+	public static final int TABLE_TITLE =4202;
+	public static final int TEST_DATA =4203;
+	public static final int CLEAN_FIELDS =4204;
+	public static final int HINT =4205;
+	public static final int EXPLORE =4206;
+	
+	public static final int EXISTING_CONN =4207;
+	public static final int CHOOSE_CONN =4208;
+	
+	//Restricciones	
+	public static final int RESTRICTIONS =4300;
+	public static final int ADD_RESTRICTIONS =4301;
+	public static final int TABLE_UNIQUE =4302;
+	public static final int ADD_UNIQUE =4303;
+	public static final int UNIQUE_ERROR =4304;
+	public static final int ERROR_TABLE =4305;
+	public static final int CONC_MODEL =4306;
+	public static final int LOGIC_MODEL =4307;
+	public static final int PHYS_MODEL =4308;
+	public static final int THEME =4309;
+	public static final int GENERATE =4310;
+	public static final int ELEMENTS =4311;
+	public static final int VIEW = 4312;
+	public static final int TABLE = 4313;
+	public static final int VOLUME = 4314;
+	public static final int FREQ = 4315;
+
 		
 	// Mensaje por defecto
 	private static String notExistingMessage = "Asked message does not exist";

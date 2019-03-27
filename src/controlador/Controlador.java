@@ -1519,13 +1519,6 @@ public class Controlador {
 			break;
 		}
 		/*
-		 * Validacion del diseno
-		 */
-		case GUI_Principal_Click_BotonValidar:{
-			this.getTheServiciosSistema().validaBaseDeDatos(true);
-			break;
-		}
-		/*
 		 * Generacion del script SQL
 		 */
 		case GUI_Principal_Click_BotonGenerarModeloRelacional:{
