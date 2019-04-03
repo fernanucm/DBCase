@@ -768,7 +768,7 @@ public class GeneradorEsquema {
 			mr = "<div class='card'><h2>"+"El diagrama está vacio"+"</h2></div>";
 		else {
 			mr = warnings.toString();
-			mr += "<div class='card'><h2>"+"Relaciones"+"</h2>";
+			mr += "<div class='card'><h2>"+Lenguaje.getMensaje(Lenguaje.RELATIONS)+"</h2>";
 			Iterator tablasE = tablasEntidades.values().iterator();
 			while (tablasE.hasNext()){
 				Tabla t =(Tabla)tablasE.next();
@@ -786,9 +786,9 @@ public class GeneradorEsquema {
 				Tabla t =(Tabla)tablasM.next();
 				mr+=t.modeloRelacionalDeTabla();
 			}
-			mr += "<p></p></div><div class='card'><h2>"+"Restricciones de Integridad Referencial"+"</h2>";
+			mr += "<p></p></div><div class='card'><h2>"+Lenguaje.getMensaje(Lenguaje.RIC)+"</h2>";
 			mr += restriccionesIR();
-			mr += "<p></p></div><div class='card'><h2>"+"Restricciones perdidas"+"</h2>";
+			mr += "<p></p></div><div class='card'><h2>"+Lenguaje.getMensaje(Lenguaje.LOST_CONSTR)+"</h2>";
 			mr += restriccionesPerdidas();
 			mr += "<p></p></div>";
 		}//else -> diagrama no vacio

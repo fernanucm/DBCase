@@ -30,6 +30,7 @@ edit=Editar
 remove=Quitar
 entity=Entidad
 relation=Relación
+relations=Relaciones
 attribute=Atributo
 isaRelation=IsA
 entities=Entidades
@@ -39,6 +40,7 @@ attibutes=Atributos
 composed=Compuesto
 domain=Dominio
 primaryKeys=Claves primarias
+candidateKeys=Claves candidatas
 delete=Eliminar
 rename=Renombrar
 new=Nuevo
@@ -469,6 +471,9 @@ explore=Examinar...
 
 #restricciones
 restrictions=Restricciones
+RIC=Restricciones de Integridad Referencial
+lostConstr=Restricciones Perdidas
+tableconstraints=Restricciones de tabla
 addRestrictions=Añadir restricciones a 
 tableUnique= Tabla Unique
 addUnique=Modificar tabla 'unique'

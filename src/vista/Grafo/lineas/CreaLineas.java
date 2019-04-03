@@ -124,7 +124,7 @@ public class CreaLineas<V,E> implements Renderer.Edge<V, E> {
      * <code>(x1,y1)</code> and <code>(x2,y2)</code>.
      */
    @SuppressWarnings({ "unchecked", "rawtypes" })
-protected void drawSimpleEdge(RenderContext<V,E> rc, Layout<V,E> layout, E e,String nombre1, 
+   protected void drawSimpleEdge(RenderContext<V,E> rc, Layout<V,E> layout, E e,String nombre1, 
 						String nombre2,int tipo1,int tipo2,int numApariciones, int vuelta) {
         
         GraphicsDecorator g = rc.getGraphicsContext();
@@ -210,8 +210,8 @@ protected void drawSimpleEdge(RenderContext<V,E> rc, Layout<V,E> layout, E e,Str
         			ent = (EntidadYAridad)rela.getListaEntidadesYAridades().get(i);
         			break;
         		}
-    		//cardinalidad 0 .. 1
-    		if(ent.getPrincipioRango()==0 && ent.getFinalRango()==1){
+    		//cardinalidad 0 .. 1 || 1 .. 1
+    		if((ent.getPrincipioRango()==0 && ent.getFinalRango()==1)||(ent.getPrincipioRango()==1 && ent.getFinalRango()==1)){
     			Flecha miFlecha= new Flecha();
     			miFlecha.createArrow(yEnti,yIsA,xEnti,xIsA,false,anchoRect);
     			miFlecha.paintComponent(graf2d,xIsA,yIsA,xEnti,yEnti,false,anchoRect);

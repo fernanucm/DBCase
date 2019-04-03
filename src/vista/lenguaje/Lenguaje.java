@@ -509,6 +509,11 @@ public class Lenguaje {
 	public static final int TABLE = 4313;
 	public static final int VOLUME = 4314;
 	public static final int FREQ = 4315;
+	public static final int CANDIDATE_KEYS = 4316;
+	public static final int TABLE_CONSTR = 4317;
+	public static final int RELATIONS = 4318;
+	public static final int RIC = 4319;
+	public static final int LOST_CONSTR = 4320;
 
 		
 	// Mensaje por defecto
@@ -1132,8 +1137,12 @@ public class Lenguaje {
 		case TABLE: texto = _textos.get("table"); break;
 		case VOLUME: texto = _textos.get("volume"); break;
 		case FREQ: texto = _textos.get("freq"); break;
+		case CANDIDATE_KEYS: texto = _textos.get("candidateKeys"); break;
+		case TABLE_CONSTR: texto = _textos.get("tableconstraints"); break;
+		case RELATIONS: texto = _textos.get("relations"); break;
+		case RIC: texto = _textos.get("RIC"); break;
+		case LOST_CONSTR: texto = _textos.get("lostConstr"); break;
 		default: texto = Lenguaje.notExistingMessage;
-		
 		}
 		return corrigeCaracteres(texto);
 	}

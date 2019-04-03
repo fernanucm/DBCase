@@ -235,11 +235,8 @@ public class Controlador {
 				encontrado = lengs.get(k).equalsIgnoreCase(conf.obtenLenguaje());
 				k++;
 			}
-			
 			if (encontrado) Lenguaje.cargaLenguaje(conf.obtenLenguaje());
 			else Lenguaje.cargaLenguajePorDefecto();
-			
-			
 		}else{
 			Lenguaje.cargaLenguajePorDefecto();
 			Theme.loadDefaultTheme();
@@ -260,9 +257,8 @@ public class Controlador {
 		}
 		
 		// Establecemos la base de datos por defecto
-		if (conf.existeFichero()){
+		if (conf.existeFichero())
 			controlador.getTheGUIPrincipal().cambiarConexion(conf.obtenGestorBBDD());
-		}
 	}
 
 		
@@ -422,7 +418,7 @@ public class Controlador {
 			String tempPath =this.filetemp.getAbsolutePath();
 			FileCopy(tempPath, guardarPath);
 			this.getTheGUIWorkSpace().setInactiva();
-
+			
 			/*JOptionPane.showMessageDialog(
 					null,	
 					Lenguaje.getMensaje(Lenguaje.INFO)+"\n"+
@@ -1264,82 +1260,29 @@ public class Controlador {
 						Lenguaje.getMensaje(Lenguaje.DBCASE),
 						true,
 						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
-				if (respuesta==1) {
-						filetemp.delete();
-						System.exit(0);
-				}else if (respuesta==0) {
+				if (respuesta==1) guardarYSalir();
+				else if (respuesta==0) {
 						theGUIWorkSpace = new GUI_WorkSpace();
 						theGUIWorkSpace.setControlador(this);
-						if (this.getTheGUIWorkSpace().setActiva(2)){
-							filetemp.delete();
-							System.exit(0);
-						}
+						if (this.getTheGUIWorkSpace().setActiva(2)) salir();
 				}		
-			}else{
-				filetemp.delete();
-				System.exit(0);
-			}
+			}else guardarYSalir();
 			break;
 		}
 		case GUI_Principal_Click_Salir:{
-			String ruta;
-			ConfiguradorInicial conf;
-			
 			if (cambios){
 				int respuesta = panelOpcionesPeque.setActiva(
 						Lenguaje.getMensaje(Lenguaje.WISH_SAVE),
 						Lenguaje.getMensaje(Lenguaje.DBCASE),
 						true,
 						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
-				if (respuesta==1) {
-						// Guardar configuración actual
-						ruta = "";
-						if (fileguardar != null && fileguardar.exists()){
-							ruta = fileguardar.getPath();
-						}
-						conf = new ConfiguradorInicial(
-							Lenguaje.getIdiomaActual(),
-							this.getTheGUIPrincipal().getConexionActual().getRuta(),
-							ruta, theme.getThemeName()
-						);
-				
-						conf.guardarFicheroCofiguracion();
-						filetemp.delete();
-						System.exit(0);
-				}else if (respuesta==0) {
+				if (respuesta==1) guardarYSalir();
+				else if (respuesta==0) {
 						theGUIWorkSpace = new GUI_WorkSpace();
 						theGUIWorkSpace.setControlador(this);
-						if (this.getTheGUIWorkSpace().setActiva(2)){
-							// Guardar configuración actual
-							ruta = "";
-							if (fileguardar != null && fileguardar.exists()){
-								ruta = fileguardar.getPath();
-							}
-							conf = new ConfiguradorInicial(
-								Lenguaje.getIdiomaActual(),
-								this.getTheGUIPrincipal().getConexionActual().getRuta(),
-								ruta, theme.getThemeName()
-						);
-				
-				conf.guardarFicheroCofiguracion();
-							filetemp.delete();
-							System.exit(0);
-						}
+						if (this.getTheGUIWorkSpace().setActiva(2)) guardarYSalir();
 				}		
-			}else{
-				// Guardar configuración actual
-				ruta = "";
-				if (fileguardar != null && fileguardar.exists())
-					ruta = fileguardar.getPath();
-				conf = new ConfiguradorInicial(
-					Lenguaje.getIdiomaActual(),
-					this.getTheGUIPrincipal().getConexionActual().getRuta(),
-					ruta, theme.getThemeName()
-				);
-				conf.guardarFicheroCofiguracion();
-				filetemp.delete();
-				System.exit(0);
-			}
+			}else guardarYSalir();
 			break;
 		}
 		case GUI_Principal_Click_Submenu_Abrir:{
@@ -3321,7 +3264,28 @@ public class Controlador {
 			System.err.println("Hubo un error de entrada/salida");
 		}
 	}
-
+    
+    private void guardarConf() {
+    	String ruta = "";
+		if (fileguardar != null && fileguardar.exists()) ruta = fileguardar.getPath();
+		ConfiguradorInicial conf = new ConfiguradorInicial(
+			Lenguaje.getIdiomaActual(),
+			this.getTheGUIPrincipal().getConexionActual().getRuta(),
+			ruta, theme.getThemeName()
+		);
+		conf.guardarFicheroCofiguracion();
+    }
+    
+    private void guardarYSalir() {
+    	guardarConf();
+    	salir();
+    }
+    
+    private void salir() {
+    	filetemp.delete();
+		System.exit(0);
+    }
+    
     private void ActualizaArbol(Transfer t){
     	this.getTheGUIPrincipal().getPanelDiseno().EnviaInformacionNodo(t);
     }

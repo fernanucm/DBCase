@@ -261,18 +261,17 @@ public class Tabla {
 		//dejamos los elementos en las 3 listas sin duplicados.
 		definitivo=this.filtra(atributos, primaries);
 		int i=0,k=0;
-		
 		if(!primaries.isEmpty())
 			for (i=0;i<primaries.size();i++){
 				String repe="";
 				if (this.estaRepe(primaries.elementAt(i)[0], atributos)) repe +=primaries.elementAt(i)[2]+"_";
 				if (i>0) mr+=", ";
-				mr+="<u>"+this.ponGuionesBajos(repe+primaries.elementAt(i)[0])+"</u>";
+				mr+=this.ponGuionesBajos(repe+primaries.elementAt(i)[0]);
 			}
 		for (int j=0;j<definitivo.size();j++){
 			if (i>0||k>0) mr+=", ";
 			String repe="";
-			if (this.estaRepe(definitivo.elementAt(j)[0], atributos)) repe +=definitivo.elementAt(j)[2]+"_";
+			if (this.estaRepe(definitivo.elementAt(j)[0], atributos) && nombreTabla != definitivo.elementAt(j)[2]) repe +=definitivo.elementAt(j)[2]+"_";
 			mr+=this.ponGuionesBajos(repe+definitivo.elementAt(j)[0]);
 		}	
 		mr+=")</p>";
