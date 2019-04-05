@@ -20,7 +20,7 @@ public class ViewDealer {
 	private JSplitPane programmerSplit;
 	private JTabbedPane infoPanel;
 	private byte modo;
-	
+		
 	public ViewDealer(Container mainPanel, JPanel diagrama, JPanel codigos, JTabbedPane infoPanel){
 		this.mainPanel = mainPanel;
 		this.diagrama = diagrama;
@@ -29,28 +29,33 @@ public class ViewDealer {
 		this.splitCodigos = ((JSplitPane) codigos.getComponent(0));
 		this.infoSplitMapa = (JSplitPane) (((JSplitPane) diagrama.getComponent(0)).getComponent(2));
 		this.diagramaSplitCode = new JSplitPane();
-		this.diagramaSplitCode.setResizeWeight(0.8);
 		this.programmerSplit = new JSplitPane();
-		this.programmerSplit.setResizeWeight(0.2);
-		this.programmerSplit.setDividerSize(10);
 	}
 	
+	public void loadDefaultView() {
+		if(modo==0)modoVerTodo();
+		else if(modo==1)modoDiseno();
+		else if(modo==2)modoProgramador();
+		else modoVerTodo();
+	}
 	/*
 	 * Muestra todos los paneles
 	 * */
 	public void modoVerTodo() {
 		mainPanel.removeAll();
-		programmerSplit.removeAll();
 		infoSplitMapa.add(infoPanel, JSplitPane.RIGHT);
+		infoSplitMapa.setResizeWeight(0.9);
 		mainPanel.add(diagramaSplitCode);
 		splitCodigos.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		diagramaSplitCode.add(codigos, JSplitPane.RIGHT);
 		diagramaSplitCode.add(diagrama, JSplitPane.LEFT);
+		diagramaSplitCode.setResizeWeight(0.9);
 		diagramaSplitCode.setVisible(true);
 		programmerSplit.setVisible(false);
-		mainPanel.revalidate();
+		mainPanel.revalidate();		
 		mainPanel.repaint();
-		this.modo = 0;
+		
+		modo = 0;
 	}
 	
 	/*
@@ -58,14 +63,13 @@ public class ViewDealer {
 	 * */
 	public void modoDiseno() {
 		mainPanel.removeAll();
-		programmerSplit.removeAll();
 		infoSplitMapa.add(infoPanel, JSplitPane.RIGHT);
 		mainPanel.add(diagrama);
 		diagramaSplitCode.setVisible(false);
 		programmerSplit.setVisible(false);
 		mainPanel.revalidate();
 		mainPanel.repaint();
-		this.modo = 1;
+		modo = 1;
 	}
 	
 	/*
@@ -74,15 +78,14 @@ public class ViewDealer {
 	public void modoProgramador() {
 		mainPanel.removeAll();
 		splitCodigos.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-		mainPanel.add(programmerSplit);
 		programmerSplit.add(infoPanel, JSplitPane.LEFT);
 		programmerSplit.add(codigos, JSplitPane.RIGHT);
-		programmerSplit.setDividerSize(10);
+		mainPanel.add(programmerSplit);
 		diagramaSplitCode.setVisible(false);
 		programmerSplit.setVisible(true);
 		mainPanel.revalidate();
 		mainPanel.repaint();
-		this.modo = 2;
+		modo = 2;
 	}
 	
 	/*
@@ -99,5 +102,9 @@ public class ViewDealer {
 	public void toggleCodigos() {
 		if(modo == 1) modoVerTodo();
 		else if(modo == 0) modoDiseno();
+	}
+
+	public int getPanelsMode() {
+		return modo;
 	}
 }

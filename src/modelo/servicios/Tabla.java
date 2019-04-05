@@ -42,6 +42,7 @@ public class Tabla {
 	private Vector<String[]> foreigns;
 	private ArrayList<String>  constraints;
 	private Vector<String> uniques;
+	private int constraintNumber;
 	
 	public Tabla(String nombre, Vector restr){
 		nombreTabla=nombre;
@@ -50,10 +51,9 @@ public class Tabla {
 		foreigns=new Vector<String[]>();
 		uniques = new Vector<String>();
 		constraints = new ArrayList<String>();
+		constraintNumber = 0;
 		setConstraints(restr);
 	}
-	
-	
 	
 	public Vector<String[]> getAtributos() {
 		return atributos;
@@ -339,6 +339,12 @@ public class Tabla {
 		return aux;
 	}
 	
+	public String getNombreConstraint() {
+		String s = "constraint_name" + (constraintNumber!=0 ? "("+constraintNumber+")":"");
+		constraintNumber++;
+		return s;
+	}
+	
 	public String codigoEstandarCreacionDeTabla(TransferConexion conexion){
 		Tabla t = creaClonSinAmbiguedadNiEspacios();
 		ConectorDBMS traductor = FactoriaConectores.obtenerConector(conexion.getTipoConexion());
@@ -374,5 +380,4 @@ public class Tabla {
 		ConectorDBMS traductor = FactoriaConectores.obtenerConector(conexion.getTipoConexion());
 		return traductor.obtenerCodigoClavesTablaHTML(t);
 	}
-
 }

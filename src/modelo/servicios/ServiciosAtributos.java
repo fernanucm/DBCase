@@ -458,10 +458,8 @@ public class ServiciosAtributos {
 		TransferAtributo ta = (TransferAtributo) v.get(0);
 		String restriccion = (String) v.get(1);
 		// Si nombre es vacio -> ERROR
-		if (restriccion.isEmpty()){
-			//controlador.mensajeDesde_SE(TC.SE_RenombrarAtributo_ERROR_NombreDeAtributoEsVacio, v);
-			return;
-		}
+		if (restriccion.isEmpty()) return;
+		
 		DAOAtributos daoAtributoes = new DAOAtributos(this.controlador.getPath());
 		Vector<TransferAtributo> lista = daoAtributoes.ListaDeAtributos();
 		if (lista == null){
@@ -472,17 +470,10 @@ public class ServiciosAtributos {
 		Vector<String> vRestricciones = ta.getListaRestricciones();
 		vRestricciones.add(restriccion);
 		ta.setListaRestricciones(vRestricciones);
-				
-		//te.setNombre(nuevoNombre);
-		if (daoAtributoes.modificarAtributo(ta) == false){
-			//te.setNombre(antiguoNombre);
-			//controlador.mensajeDesde_SE(TC.SE_RenombrarAtributo_ERROR_DAOAtributoes, v);
-		}
-		else{
-			//v.add(antiguoNombre);
+		
+		if (daoAtributoes.modificarAtributo(ta) != false)
 			controlador.mensajeDesde_SA(TC.SA_AnadirRestriccionAAtributo_HECHO, v);
-		}
-			
+		
 		return;
 	}
 	
@@ -491,10 +482,8 @@ public class ServiciosAtributos {
 		String restriccion = (String) v.get(1);
 		
 		// Si nombre es vacio -> ERROR
-		if (restriccion.isEmpty()){
-			//controlador.mensajeDesde_SE(TC.SE_RenombrarAtributo_ERROR_NombreDeAtributoEsVacio, v);
-			return;
-		}
+		if (restriccion.isEmpty()) return;
+		
 		DAOAtributos daoAtributoes = new DAOAtributos(this.controlador.getPath());
 		Vector<TransferAtributo> lista = daoAtributoes.ListaDeAtributos();
 		if (lista == null){
@@ -514,14 +503,8 @@ public class ServiciosAtributos {
 		}
 		te.setListaRestricciones(vRestricciones);
 		
-		if (daoAtributoes.modificarAtributo(te) == false){
-			//te.setNombre(antiguoNombre);
-			//controlador.mensajeDesde_SE(TC.SE_RenombrarAtributo_ERROR_DAOAtributoes, v);
-		}
-		else{
-			controlador.mensajeDesde_SA(TC.SA_QuitarRestriccionAAtributo_HECHO, v);
-		}
-			
+		if (daoAtributoes.modificarAtributo(te) != false)
+			controlador.mensajeDesde_SA(TC.SA_QuitarRestriccionAAtributo_HECHO, v);			
 		return;
 	}
 	
@@ -536,13 +519,9 @@ public class ServiciosAtributos {
 			return;
 		}
 		ta.setListaRestricciones(restricciones);
-		if (daoAtributos.modificarAtributo(ta) == false){
-			
-		}
-		else{
+		if (daoAtributos.modificarAtributo(ta) != false)
 			controlador.mensajeDesde_SA(TC.SA_setRestriccionesAAtributo_HECHO, v);
-		}
-			
+		
 		return;		
 	}
 	

@@ -1,12 +1,12 @@
 package vista.GUIFrames;
+
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-
-import java.io.FileWriter;
 import java.io.IOException;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -16,16 +16,12 @@ import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-
 import controlador.Controlador;
 import controlador.TC;
 import modelo.tools.ImagePath;
 import vista.lenguaje.Lenguaje;
-
-
 
 /**
  * This code was edited or generated using CloudGarden's Jigloo
@@ -101,20 +97,7 @@ public class GUI_WorkSpace extends javax.swing.JDialog{
 	//devuelve siempre true, salvo si se ha pulsado en cancelar
 	public boolean setActiva(int b){
 		actuado=false;
-		switch (b){
-			case 0:{//iniciar la aplicacion
-				try {
-					controlador.setFiletemp(File.createTempFile("dbcase", "xml"));
-					creaFicheroXML(controlador.getFiletemp());
-				} catch (IOException e) {
-					JOptionPane.showMessageDialog(null,
-						Lenguaje.getMensaje(Lenguaje.ERROR_TEMP_FILE),
-						Lenguaje.getMensaje(Lenguaje.DBCASE), JOptionPane.ERROR_MESSAGE);
-				}
-				String ruta = controlador.getFiletemp().getPath();
-				this.controlador.mensajeDesde_GUIWorkSpace(TC.GUI_WorkSpace_PrimeraSeleccion, ruta);
-				break;
-			}
+		switch (b){			
 			case 1:{//abrir
 				jLabel1.setText(Lenguaje.getMensaje(Lenguaje.OPEN)+":");
 				abrir=b;
@@ -185,9 +168,7 @@ public class GUI_WorkSpace extends javax.swing.JDialog{
 		File f = this.jfc.getSelectedFile();
 		//construimos la ruta
 		String ruta = f.getPath();
-		if (!ruta.endsWith(".xml")){
-			ruta = ruta+".xml";
-		}
+		if (!ruta.endsWith(".xml")) ruta = ruta+".xml";
 		//si ya existe, 
 		if (f.exists()){
 			//compruebo que sea un xml de esta aplicación
@@ -221,25 +202,11 @@ public class GUI_WorkSpace extends javax.swing.JDialog{
 		File f = this.jfc.getSelectedFile();
 		//construimos la ruta
 		String ruta = f.getPath();
-		if (!ruta.endsWith(".xml")){
-			ruta = ruta+".xml";
-		}
+		if (!ruta.endsWith(".xml")) ruta = ruta+".xml";
+		
 		//si ya existe, 
-		if (f.exists()){
-			this.controlador.mensajeDesde_GUIWorkSpace(TC.GUI_WorkSpace_Click_Guardar, ruta);
-		}
-		else{
-			//si no existe hay que crear el xml
-			//boolean respPersistencia = this.creaFicheroXML(f);
-			//if (respPersistencia){
-				// Mensaje al controlador indicandole el path
-				this.controlador.mensajeDesde_GUIWorkSpace(TC.GUI_WorkSpace_Click_Guardar, ruta);
-			//}
-			//else{
-				// Mensaje al controlador diciendo que ha habido un error en la creacion de los ficheros
-			//	this.controlador.mensajeDesde_GUIWorkSpace(TC.GUI_WorkSpace_ERROR_CreacionFicherosXML, ruta);
-			//}
-		}
+		if (f.exists()) this.controlador.mensajeDesde_GUIWorkSpace(TC.GUI_WorkSpace_Click_Guardar, ruta);
+		else this.controlador.mensajeDesde_GUIWorkSpace(TC.GUI_WorkSpace_Click_Guardar, ruta);
 		f = new File(ruta);
 		controlador.setFileguardar(f);
 	}
@@ -253,11 +220,11 @@ public class GUI_WorkSpace extends javax.swing.JDialog{
 		this.controlador = controlador;
 	}
 
-	
+	@SuppressWarnings("static-access")
 	public void nuevoTemp(){
 		try {
 			controlador.setFiletemp(File.createTempFile("dbcase", "xml"));
-			creaFicheroXML(controlador.getFiletemp());
+			controlador.creaFicheroXML(controlador.getFiletemp());
 			String ruta= controlador.getFiletemp().getAbsolutePath();
 			this.controlador.mensajeDesde_GUIWorkSpace(TC.GUI_WorkSpace_Nuevo, ruta);
 		} catch (IOException e) {
@@ -272,18 +239,8 @@ public class GUI_WorkSpace extends javax.swing.JDialog{
 	 * Utilidades
 	 */
 	private void centraEnPantalla(){
-		// Tamano de la pantalla
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		// Alto
-		String altoString = String.valueOf(this.getSize().getWidth());
-		altoString = altoString.substring(0,altoString.indexOf("."));
-		int altoInt = Integer.parseInt(altoString);
-		// Ancho
-		String anchoString = String.valueOf(this.getSize().getHeight());
-		anchoString = anchoString.substring(0,anchoString.indexOf("."));
-		int anchoInt = Integer.parseInt(anchoString);
-
-		setBounds((screenSize.width-altoInt)/2, (screenSize.height-anchoInt)/2, altoInt, anchoInt);
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 	}
 
 	/*
@@ -301,29 +258,7 @@ public class GUI_WorkSpace extends javax.swing.JDialog{
 			return "xml files";
 		}
 	}
-	private boolean creaFicheroXML(File f){
-		FileWriter fw;
-		String ruta = f.getPath();
-		try {
-			fw = new FileWriter(ruta);
-			fw.write("<?xml version=" + '\"' + "1.0" + '\"' + " encoding="
-					+ '\"' + "utf-8" + '\"' + " ?>" + '\n');
-			//"ISO-8859-1"
-			fw.write("<Inf_dbcase>" + "\n");
-			fw.write("<EntityList proximoID=\"1\">" + "\n" + "</EntityList>"+ "\n");
-			fw.write("<RelationList proximoID=\"1\">" + "\n" + "</RelationList>"+ "\n");
-			fw.write("<AttributeList proximoID=\"1\">" + "\n" + "</AttributeList>"+ "\n");
-			fw.write("<DomainList proximoID=\"1\">" + "\n" + "</DomainList>");
-			fw.write("</Inf_dbcase>" +"\n");
-			fw.close();
-			return true;
-		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null,
-					Lenguaje.getMensaje(Lenguaje.ERROR_CREATING_FILE) + "\n" +ruta,
-					Lenguaje.getMensaje(Lenguaje.DBCASE), JOptionPane.ERROR_MESSAGE);
-			return false;
-		}		
-	}
+	
 
 	private boolean esValido(File f) {
 		try{

@@ -1,8 +1,6 @@
 package modelo.conectorDBMS;
 
 import java.sql.SQLException;
-import java.util.Vector;
-
 import modelo.servicios.Enumerado;
 import modelo.servicios.Tabla;
 
@@ -99,13 +97,17 @@ public abstract class ConectorDBMS {
 	 * @return El código SQL válido para el conector.
 	 */
 	public  String obtenerCodigoRestriccionTabla(Tabla t) {
-		Vector<String> r = t.getConstraints();
 		String salida = "";
-		for (int j=0; j < r.size(); j++)
+		for (String r : t.getConstraints())
 			salida+= "ALTER TABLE " + t.getNombreTabla()  
-					+ " ADD CONSTRAINT nombre1"
+					+ " ADD CONSTRAINT "+ t.getNombreConstraint()
 					+ " CHECK "
-					+ "("+r.get(j)+")\n";
+					+ "("+r+")\n";
+		for (String u : t.getUniques())
+			salida+= "ALTER TABLE " + t.getNombreTabla()  
+					+ " ADD CONSTRAINT "+ t.getNombreConstraint()
+					+ " UNIQUE "
+					+ "("+u+")\n";
 		return salida;
 	}
 	
@@ -116,13 +118,17 @@ public abstract class ConectorDBMS {
 	 * @return El código SQL válido para el conector, con formato HTML
 	 */
 	public String obtenerCodigoRestriccionTablaHTML(Tabla t) {
-		Vector<String> r = t.getConstraints();
 		String salida = "";
-		for (int j=0; j < r.size(); j++)
+		for (String r : t.getConstraints())
 			salida+= "<p><strong>ALTER TABLE</strong> " + t.getNombreTabla()  
-					+ " <strong>ADD CONSTRAINT</strong> nombre1 "
-					+ "<strong>CHECK</strong>"
-					+ " ("+r.get(j).replace("<", "&lt;")+")</p>";
+					+ " <strong>ADD CONSTRAINT</strong> " + t.getNombreConstraint()
+					+ " <strong>CHECK</strong>"
+					+ " ("+r.replace("<", "&lt;")+")</p>";
+		for (String u : t.getUniques())
+			salida+= "<p><strong>ALTER TABLE</strong> " + t.getNombreTabla()  
+			+ " <strong>ADD CONSTRAINT</strong> " + t.getNombreConstraint()
+			+ " <strong>UNIQUE</strong>"
+			+ " ("+u.replace("<", "&lt;")+")</p>";
 		return salida;
 	}
 }

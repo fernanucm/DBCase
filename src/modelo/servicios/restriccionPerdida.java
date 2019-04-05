@@ -50,7 +50,7 @@ public class restriccionPerdida {
 			case TOTAL:
 				s += (card[0] == 2147483647)?"N":String.valueOf(card[0]);
 				s +=" &le; ";
-				s += entidad + "(" + relacion + ")";
+				s += entidad + " &#151;&#151; " + relacion;
 				s +=" &le; ";
 				s += (card[1] == 2147483647)?"N":String.valueOf(card[1]);
 				break;

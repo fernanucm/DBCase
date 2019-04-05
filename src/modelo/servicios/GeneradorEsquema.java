@@ -74,6 +74,7 @@ public class GeneradorEsquema {
 			//recorremos los atributos aniadiendolos a la tabla
 			for (int j=0;j<atribs.size();j++){
 				TransferAtributo ta=atribs.elementAt(j);
+				if(ta.getUnique()) restriccionesPerdidas.add(new restriccionPerdida(te.getNombre(), ta.getNombre()+" "+Lenguaje.getMensaje(Lenguaje.IS_UNIQUE), restriccionPerdida.TABLA));
 				if (ta.getCompuesto()) 
 					tabla.aniadeListaAtributos(this.atributoCompuesto(ta,
 															te.getNombre(),""),te.getListaRestricciones(),tiposEnumerados);
@@ -95,11 +96,10 @@ public class GeneradorEsquema {
 				else
 					if (ta.getCompuesto())
 						tabla.aniadeListaClavesPrimarias(this.atributoCompuesto(ta,te.getNombre(),""));
-					else 
-						//si es normal, lo aniadimos como clave primaria.
+					else //si es normal, lo aniadimos como clave primaria.
 						tabla.aniadeClavePrimaria(ta.getNombre(),ta.getDominio(),te.getNombre());
-
 			}
+			
 			//aniadimos a las tablas del sistema.
 			tablasEntidades.put(te.getIdEntidad(),tabla);
 			//tratamos los multivalorados que hayan surgido en el proceso.
@@ -137,6 +137,7 @@ public class GeneradorEsquema {
 						.getListaAtributos());
 				for (int a = 0; a < ats.size(); a++) {
 					TransferAtributo ta = ats.elementAt(a);
+					if(ta.getUnique()) restriccionesPerdidas.add(new restriccionPerdida(tr.getNombre(), ta.getNombre()+" "+Lenguaje.getMensaje(Lenguaje.IS_UNIQUE), restriccionPerdida.TABLA));
 					if (ta.getCompuesto())
 						tabla.aniadeListaAtributos(this.atributoCompuesto(ta, tr
 								.getNombre(), ""), ta.getListaRestricciones(), tiposEnumerados);
@@ -169,7 +170,7 @@ public class GeneradorEsquema {
 					else previasPrimarias = ent.getPrimaries();
 					
 					//crea las restricciones perdidas (cuando rangoIni > 1 o rangoFin < N)
-					if(eya.getPrincipioRango() > 0)
+					if(eya.getPrincipioRango() > 0 && eya.getFinalRango() < Integer.MAX_VALUE && eya.getFinalRango() >1)
 						restriccionesPerdidas.add(
 								new restriccionPerdida(tr.getNombre(),ent.getNombreTabla(), 
 										eya.getPrincipioRango(), eya.getFinalRango(), restriccionPerdida.TOTAL));
@@ -209,7 +210,6 @@ public class GeneradorEsquema {
 								else uniques += ", " + primarias.get(q)[0];
 							}
 							uniques += "#" + ent.getNombreTabla();
-							
 							tabla.getUniques().add(uniques);
 						}
 					}

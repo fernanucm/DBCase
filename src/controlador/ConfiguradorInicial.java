@@ -27,20 +27,22 @@ public class ConfiguradorInicial{
 	 */
 	protected String _lenguaje;
 	/**
-	 * Lenguaje por defecto
+	 * Tema por defecto
 	 */
 	protected String _tema;
+	/**
+	 * Tema por defecto
+	 */
+	protected int _modoVista;
 	/**
 	 * Gestor de bases de datos por defecto
 	 */
 	protected String _gestorBBDD;
-	
 	/**
 	 * Último proyecto visitado. Si es "", es que el proyecto anterior no se
 	 * guardó
 	 */
 	protected String _ultimoProyecto;
-	
 	/**
 	 * Indica si existe un fichero .config con la configuración actual
 	 */
@@ -57,6 +59,7 @@ public class ConfiguradorInicial{
 		_lenguaje = "";
 		_gestorBBDD = "";
 		_ultimoProyecto = "";
+		_modoVista = 0;
 		_existe = false;
 		_conexiones = new Hashtable<String, TransferConexion>();
 		_conexiones.clear();
@@ -69,7 +72,8 @@ public class ConfiguradorInicial{
 	 * @param gestorBBDD Gestor de bases de datos por defecto
 	 * @param ultimoProy Último proyecto abierto
 	 */
-	public ConfiguradorInicial(String lenguaje, String gestorBBDD, String ultimoProy, String theme){
+	public ConfiguradorInicial(String lenguaje, String gestorBBDD, String ultimoProy, String theme, int modoVista){
+		_modoVista = modoVista;
 		_tema = theme;
 		_lenguaje = lenguaje;
 		_gestorBBDD = gestorBBDD;
@@ -79,9 +83,8 @@ public class ConfiguradorInicial{
 		ConfiguradorInicial aux = new ConfiguradorInicial();
 		aux.leerFicheroConfiguracion();
 		
-		if (aux.existeFichero()) {
-			_conexiones = aux.obtenConexiones();
-		}else{
+		if (aux.existeFichero()) _conexiones = aux.obtenConexiones();
+		else{
 			_conexiones = new Hashtable<String, TransferConexion>();
 			_conexiones.clear();
 		}
@@ -116,6 +119,7 @@ public class ConfiguradorInicial{
 			out.write("database=\"" + _gestorBBDD + "\" ");
 			out.write("lastProject=\"" + _ultimoProyecto + "\" ");
 			out.write("theme=\"" + _tema + "\" ");
+			out.write("modoVista=\"" + _modoVista + "\"");
 			out.write(" > \n");
 			
 			// Conexiones
@@ -168,6 +172,7 @@ public class ConfiguradorInicial{
 			_gestorBBDD = atributos.getNamedItem("database").getNodeValue();
 			_ultimoProyecto = atributos.getNamedItem("lastProject").getNodeValue();
 			_tema = atributos.getNamedItem("theme").getNodeValue();
+			_modoVista = Integer.parseInt(atributos.getNamedItem("modoVista").getNodeValue());
 			
 			// Obtener conexiones
 			NodeList connections = doc.getElementsByTagName("connection");
@@ -184,18 +189,15 @@ public class ConfiguradorInicial{
 				String usuario = atribs.getNamedItem("user").getNodeValue();
 				String pass = atribs.getNamedItem("password").getNodeValue();
 				
-				TransferConexion con = new TransferConexion(tipo, ruta, 
-											false, database, usuario, pass);
+				TransferConexion con = new TransferConexion(tipo, ruta, false, database, usuario, pass);
 				
 				_conexiones.put(nombre, con);
 			}
-			
 		}
 		catch (Exception e) {
 			_existe = false;
 			return;
 		}
-		
 		_existe = true;
 		return;
 	}
@@ -225,6 +227,10 @@ public class ConfiguradorInicial{
 		return _tema;
 	}
 	
+	public int obtenModoVista(){
+		return _modoVista;
+	}
+	
 	public String obtenGestorBBDD(){
 		return _gestorBBDD;
 	}
@@ -247,6 +253,10 @@ public class ConfiguradorInicial{
 	
 	public void ponTema(String tema){
 		_tema = tema;
+	}
+	
+	public void ponModoVista(int modoVista){
+		_modoVista = modoVista;
 	}
 	
 	public void ponGestorBBDD(String gestorBBDD){

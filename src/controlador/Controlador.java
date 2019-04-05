@@ -1,11 +1,10 @@
 package controlador;
 
-import java.awt.Dimension;
-import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Vector;
@@ -13,7 +12,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.UnsupportedLookAndFeelException;
-
 import modelo.persistencia.EntidadYAridad;
 import modelo.servicios.ServiciosAtributos;
 import modelo.servicios.ServiciosDominios;
@@ -114,6 +112,7 @@ public class Controlador {
 	private PanelOpciones panelOpciones;
 	private PanelOpcionesPequeno panelOpcionesPeque;
 	private Theme theme;
+	private int modoVista;
 	
 	public Controlador() {
 
@@ -141,7 +140,6 @@ public class Controlador {
 		theGUIConexion.setControlador(this);
 		theGUISeleccionarConexion = new GUI_SeleccionarConexion();
 		theGUISeleccionarConexion.setControlador(this);
-		
 
 		// Entidades
 		theGUIRenombrarEntidad = new GUI_RenombrarEntidad();
@@ -150,7 +148,6 @@ public class Controlador {
 		theGUIAnadirAtributoEntidad.setControlador(this);
 		theGUIAnadirRestriccionAEntidad = new GUI_InsertarRestriccionAEntidad();
 		theGUIAnadirRestriccionAEntidad.setControlador(this);
-		
 		theGUIAnadirAtributo = new GUI_AnadirAtributo();
 		theGUIAnadirAtributo.setControlador(this);
 
@@ -187,8 +184,6 @@ public class Controlador {
 		theGUIAnadirAtributoRelacion.setControlador(this);
 		theGUIAnadirRestriccionARelacion = new GUI_InsertarRestriccionARelacion();
 		theGUIAnadirRestriccionARelacion.setControlador(this);
-		/*theGUITablaUniqueRelacion = new GUI_TablaUniqueRelacion();
-		theGUITablaUniqueRelacion.setControlador(this);*/
 
 		// Dominios
 		theGUIRenombrarDominio = new GUI_RenombrarDominio();
@@ -199,14 +194,14 @@ public class Controlador {
 		// Otras
 		theGUIWorkSpace = new GUI_WorkSpace();
 		theGUIWorkSpace.setControlador(this);
-		cambios= false;
+		cambios = false;
 		panelOpciones= new PanelOpciones();
 		panelOpcionesPeque= new PanelOpcionesPequeno();
 
 		// GUIPrincipal
-		theme = new Theme();
-		theGUIPrincipal = new GUIPrincipal(theme);
+		theGUIPrincipal = new GUIPrincipal();
 		theGUIPrincipal.setControlador(this);
+		theme = Theme.getInstancia();
 	}
 	
 	
@@ -220,6 +215,7 @@ public class Controlador {
         }
 		// Obtenemos configuración inicial (si la hay)
 		ConfiguradorInicial conf = new ConfiguradorInicial();
+		
 		conf.leerFicheroConfiguracion();
 		
 		// Obtenemos el lenguaje en el que vamos a trabajar
@@ -241,50 +237,94 @@ public class Controlador {
 			Lenguaje.cargaLenguajePorDefecto();
 			Theme.loadDefaultTheme();
 		}
-		
-		// Creamos el controlador de toda la aplicacion
 		Controlador controlador = new Controlador();
 		
 		// Lanzamos la GUI para seleccionar el directorio de trabajo
-		controlador.getTheGUIWorkSpace().setActiva(0);
+		try {
+			controlador.setFiletemp(File.createTempFile("dbcase", "xml"));
+			creaFicheroXML(controlador.getFiletemp());
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null,
+				Lenguaje.getMensaje(Lenguaje.ERROR_TEMP_FILE),
+				Lenguaje.getMensaje(Lenguaje.DBCASE), JOptionPane.ERROR_MESSAGE);
+		}
+		String ruta = controlador.getFiletemp().getPath();
+		controlador.setPath(ruta);
 		
 		// Abrimos el documento guardado últimamente
 		File ultimo = new File(conf.obtenUltimoProyecto());
 		if (ultimo.exists()){
 			controlador.setFileguardar(ultimo);
-			controlador.mensajeDesde_GUIWorkSpace(TC.GUI_WorkSpace_Click_Abrir, 
-					conf.obtenUltimoProyecto());
+			controlador.setModoVista(conf.obtenModoVista());
+			String abrirPath =conf.obtenUltimoProyecto();
+			String tempPath =controlador.filetemp.getAbsolutePath();
+			FileCopy(abrirPath, tempPath);
+			
+			// Reinicializamos la GUIPrincipal
+			boolean guardado=true;
+			try{
+				guardado = controlador.getTheGUIPrincipal().getSalvado();
+			}
+			catch(Exception e){}//es la primera vez que se carga
+			
+			controlador.getTheGUIPrincipal().setActiva(controlador.getModoVista());
+			// Reiniciamos los datos de los servicios de sistema
+			controlador.getTheServiciosSistema().reset();
+			controlador.setCambios(false);
+			controlador.getTheGUIPrincipal().enableCerrar(true);
+			controlador.getTheGUIPrincipal().enableGuardar(true);
+			controlador.getTheGUIPrincipal().enableGuardarComo(true);
+			controlador.getTheGUIPrincipal().loadInfo();
+			try{
+				controlador.getTheGUIPrincipal().setSalvado(guardado);
+			}catch(Exception e){}
+		}else {
+			controlador.setModoVista(0);
+			controlador.getTheGUIPrincipal().setActiva(controlador.getModoVista());
 		}
-		
 		// Establecemos la base de datos por defecto
 		if (conf.existeFichero())
 			controlador.getTheGUIPrincipal().cambiarConexion(conf.obtenGestorBBDD());
 	}
-
+	
+	public static boolean creaFicheroXML(File f){
+		FileWriter fw;
+		String ruta = f.getPath();
+		try {
+			fw = new FileWriter(ruta);
+			fw.write("<?xml version=" + '\"' + "1.0" + '\"' + " encoding="
+					+ '\"' + "utf-8" + '\"' + " ?>" + '\n');
+			//"ISO-8859-1"
+			fw.write("<Inf_dbcase>" + "\n");
+			fw.write("<EntityList proximoID=\"1\">" + "\n" + "</EntityList>"+ "\n");
+			fw.write("<RelationList proximoID=\"1\">" + "\n" + "</RelationList>"+ "\n");
+			fw.write("<AttributeList proximoID=\"1\">" + "\n" + "</AttributeList>"+ "\n");
+			fw.write("<DomainList proximoID=\"1\">" + "\n" + "</DomainList>");
+			fw.write("</Inf_dbcase>" +"\n");
+			fw.close();
+			return true;
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null,
+					Lenguaje.getMensaje(Lenguaje.ERROR_CREATING_FILE) + "\n" +ruta,
+					Lenguaje.getMensaje(Lenguaje.DBCASE), JOptionPane.ERROR_MESSAGE);
+			return false;
+		}		
+	}
 		
 	// Mensajes que le manda la GUI_WorkSpace al Controlador
 	public void mensajeDesde_GUIWorkSpace(TC mensaje, Object datos){
 		switch (mensaje){
-
-		case GUI_WorkSpace_PrimeraSeleccion:{
-	    	this.setPath((String)datos);
-	    	this.getTheGUIWorkSpace().setInactiva();
-	    	this.getTheGUIPrincipal().setActiva();
-			break;
-		}
+			
 		case GUI_WorkSpace_Nuevo:{
 			this.setPath((String)datos);
 			// Reinicializamos la GUIPrincipal
-			Dimension tamano = this.getTheGUIPrincipal().getSize();
-			Point localizacion = this.getTheGUIPrincipal().getLocation();
 			theGUIPrincipal.dispose();
-			theGUIPrincipal = new GUIPrincipal(theme);
+			theGUIPrincipal = new GUIPrincipal();
 			theGUIPrincipal.setControlador(this);
-			this.getTheGUIPrincipal().setActiva();
-			theGUIPrincipal.setSize(tamano);
-			theGUIPrincipal.setLocation(localizacion);
+			
 			// Reiniciamos los datos de los servicios de sistema
-			this.getTheServiciosSistema().reset();
+			getTheServiciosSistema().reset();
+			getTheGUIPrincipal().setActiva(modoVista);
 			setCambios(false);
 			break;
 		}
@@ -293,10 +333,7 @@ public class Controlador {
 			String tempPath =this.filetemp.getAbsolutePath();
 			FileCopy(abrirPath, tempPath);
 			
-			this.getTheGUIWorkSpace().setInactiva();
 			// Reinicializamos la GUIPrincipal
-			Dimension tamano = this.getTheGUIPrincipal().getSize();
-			Point localizacion = this.getTheGUIPrincipal().getLocation();
 			boolean guardado=true;
 			try{
 				guardado = theGUIPrincipal.getSalvado();
@@ -332,10 +369,8 @@ public class Controlador {
 			panelOpciones.dispose();
 			panelOpcionesPeque.dispose();
 			
-			
-			
 			//new de todos
-			theGUIPrincipal = new GUIPrincipal(theme);
+			theGUIPrincipal = new GUIPrincipal();
 			theGUIInsertarDominio = new GUI_InsertarDominio();
 			theGUIInsertarEntidad = new GUI_InsertarEntidad();
 			theGUIInsertarRelacion = new GUI_InsertarRelacion();
@@ -396,17 +431,13 @@ public class Controlador {
 			theGUIModificarElementosDominio.setControlador(this);
 			theGUIWorkSpace.setControlador(this);
 			
-			
-			this.getTheGUIPrincipal().setActiva();
-			theGUIPrincipal.setSize(tamano);
-			theGUIPrincipal.setLocation(localizacion);
+			this.getTheGUIPrincipal().setActiva(modoVista);
 			// Reiniciamos los datos de los servicios de sistema
 			this.getTheServiciosSistema().reset();
 			setCambios(false);
 			theGUIPrincipal.enableCerrar(true);
 			theGUIPrincipal.enableGuardar(true);
 			theGUIPrincipal.enableGuardarComo(true);
-			theGUIPrincipal.visiblePrincipal(true);
 			theGUIPrincipal.loadInfo();
 			try{
 				theGUIPrincipal.setSalvado(guardado);
@@ -418,14 +449,7 @@ public class Controlador {
 			String tempPath =this.filetemp.getAbsolutePath();
 			FileCopy(tempPath, guardarPath);
 			this.getTheGUIWorkSpace().setInactiva();
-			
-			/*JOptionPane.showMessageDialog(
-					null,	
-					Lenguaje.getMensaje(Lenguaje.INFO)+"\n"+
-					Lenguaje.getMensaje(Lenguaje.SUCCESS_SAVE),
-					Lenguaje.getMensaje(Lenguaje.DBCASE),
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));*/		
+					
 			setCambios(false);
 			break;
 		}
@@ -1364,7 +1388,6 @@ public class Controlador {
 						theGUIPrincipal.enableCerrar(false);
 						theGUIPrincipal.enableGuardar(false);
 						theGUIPrincipal.enableGuardarComo(false);
-						theGUIPrincipal.visiblePrincipal(false);
 						filetemp.delete();
 				}else if (respuesta==0) {
 						theGUIWorkSpace = new GUI_WorkSpace();
@@ -1374,7 +1397,6 @@ public class Controlador {
 							theGUIPrincipal.enableCerrar(false);
 							theGUIPrincipal.enableGuardar(false);
 							theGUIPrincipal.enableGuardarComo(false);
-							theGUIPrincipal.visiblePrincipal(false);
 							filetemp.delete();
 						}
 				}		
@@ -1383,7 +1405,6 @@ public class Controlador {
 				theGUIPrincipal.enableCerrar(false);
 				theGUIPrincipal.enableGuardar(false);
 				theGUIPrincipal.enableGuardarComo(false);
-				theGUIPrincipal.visiblePrincipal(false);
 				filetemp.delete();
 			}
 			break;
@@ -1401,7 +1422,6 @@ public class Controlador {
 			boolean enableCerrar = this.theGUIPrincipal.getEnableCerrar();
 			boolean enableGuardar = this.theGUIPrincipal.getEnableGuardar();
 			boolean enableGuardarComo = this.theGUIPrincipal.getEnableGuardarComo();
-			boolean visiblePrincipal = this.theGUIPrincipal.getVisiblePrincipal();
 			File fileguardar = this.fileguardar;
 			try{
 				if (filetemp.exists()){
@@ -1417,23 +1437,20 @@ public class Controlador {
 			catch(IOException e){}
 					
 			this.fileguardar=fileguardar;
-			this.cambios= cambios;
+			this.cambios = cambios;
 			this.theGUIPrincipal.enableCerrar(enableCerrar);
 			this.theGUIPrincipal.enableGuardar(enableGuardar);
 			this.theGUIPrincipal.enableGuardarComo(enableGuardarComo);
-			this.theGUIPrincipal.visiblePrincipal(visiblePrincipal);
 			
 			break;
 		}
 		case GUI_Principal_CambiarTema:{
-			System.out.println("Cambiando tema...");
 			theme.changeTheme((String)datos);
 			/* guardar, "guardado", tempguarda... y todo eso. guardar en un temporal nuevo y luego abrirlo para dejarlo como estuviese*/ 
 			boolean cambios = this.cambios;
 			boolean enableCerrar = this.theGUIPrincipal.getEnableCerrar();
 			boolean enableGuardar = this.theGUIPrincipal.getEnableGuardar();
 			boolean enableGuardarComo = this.theGUIPrincipal.getEnableGuardarComo();
-			boolean visiblePrincipal = this.theGUIPrincipal.getVisiblePrincipal();
 			File fileguardar = this.fileguardar;
 			try{
 				if (filetemp.exists()){
@@ -1443,15 +1460,13 @@ public class Controlador {
 					guardado.delete();
 				}
 				else this.getTheGUIWorkSpace().nuevoTemp();
-			}
-			catch(IOException e){}
+			}catch(IOException e){}
 					
 			this.fileguardar=fileguardar;
 			this.cambios= cambios;
 			this.theGUIPrincipal.enableCerrar(enableCerrar);
 			this.theGUIPrincipal.enableGuardar(enableGuardar);
 			this.theGUIPrincipal.enableGuardarComo(enableGuardarComo);
-			this.theGUIPrincipal.visiblePrincipal(visiblePrincipal);
 			break;
 		}
 		/*
@@ -3209,7 +3224,6 @@ public class Controlador {
 			this.getTheGUIPrincipal().escribeEnModelo(info);
 			break;
 		}
-
 		}// switch
 	}
 
@@ -3248,7 +3262,7 @@ public class Controlador {
         a.set(j,swap);
     }
     
-    public void FileCopy(String sourceFile, String destinationFile) {
+    public static void FileCopy(String sourceFile, String destinationFile) {
 		try {
 			File inFile = new File(sourceFile);
 			File outFile = new File(destinationFile);
@@ -3271,7 +3285,7 @@ public class Controlador {
 		ConfiguradorInicial conf = new ConfiguradorInicial(
 			Lenguaje.getIdiomaActual(),
 			this.getTheGUIPrincipal().getConexionActual().getRuta(),
-			ruta, theme.getThemeName()
+			ruta, theme.getThemeName(), this.getTheGUIPrincipal().getPanelsMode()
 		);
 		conf.guardarFicheroCofiguracion();
     }
@@ -3589,7 +3603,12 @@ public class Controlador {
 	private GUI_TablaUniqueRelacion getTheGUITablaUniqueRelacion() {
 		return this.theGUITablaUniqueRelacion;
 	}
-	
+	private void setModoVista(int m) {
+		this.modoVista = m;
+	}
+	private int getModoVista() {
+		return modoVista;
+	}
 	private void setCambios(boolean b){
 		cambios=b;
 		this.getTheGUIPrincipal().setSalvado(!b);

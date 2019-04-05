@@ -56,11 +56,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
-
 import controlador.Controlador;
 import controlador.TC;
 import modelo.tools.AccionMenu;
-import modelo.tools.ApplicationLauncher;
 import modelo.tools.ImagePath;
 import modelo.transfers.Transfer;
 import modelo.transfers.TransferAtributo;
@@ -120,7 +118,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private JScrollPane panelArbolDom;
 	private JPanel panelDom;
 	private JPanel panelSucesos;
-	private JMenuItem submenuContenidos;
 	private JMenuItem submenuAcercaDe;
 	private JMenuItem menuVista;
 	private JMenu menuAyuda;
@@ -160,28 +157,35 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	protected reportPanel modeloText;
 	private ViewDealer dealer;
 	
-	public GUIPrincipal(Theme theme){
-		this.theme = theme;
+	public GUIPrincipal(){
+		this.theme = Theme.getInstancia();
 		this.panelDiagrama = new JPanel();
 		this.panelGeneracion = new JPanel();
 	}
-
 	/*
 	 * Activar y desctivar la ventana
 	 */
-	public void setActiva(){
+	public void setActiva(int modo){
+		
 		controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ObtenDBMSDisponibles, null);
 		conexionActual = listaConexiones.get(0);
 		mostrarPanelSucesos =false;
 		
 		setLookAndFeel();
-		this.initComponents();
+		initComponents();
 		changeFont(this,new java.awt.Font("Avenir", 0, 16));
-		this.dealer = new ViewDealer(this.getContentPane(), panelDiagrama, panelGeneracion, infoTabPane);
-		this.dealer.modoVerTodo();
-		//this.dealer.modoDiseno();
-		//this.dealer.modoProgramador();
-		this.setVisible(true);
+		dealer = new ViewDealer(this.getContentPane(), panelDiagrama, panelGeneracion, infoTabPane);
+		setModoVista(modo);
+		SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+            	pack();
+            	setLocationRelativeTo(null);
+            	setExtendedState(Frame.MAXIMIZED_BOTH);
+            	setVisible(true);
+            }
+        });
+		
 	}
 	
 	public void setInactiva(){
@@ -255,12 +259,10 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private void initComponents() {
 		try{
 			this.setTitle(Lenguaje.getMensaje(Lenguaje.DBCASE));
-			this.setSize(800, 600);
 			this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 			initMenu();
 			initDiagrama();
 			initCodes();
-			this.setExtendedState(Frame.MAXIMIZED_BOTH);
 			this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
 			this.addWindowListener(this);
 	        this.addKeyListener(this);
@@ -338,7 +340,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					menuSistema.add(submenuGuardarComo);
 					submenuGuardarComo.setText(Lenguaje.getMensaje(Lenguaje.SAVE_AS)+"...");
 					submenuGuardarComo.setMnemonic(Lenguaje.getMensaje(Lenguaje.SAVE_AS).charAt(1));
-					//submenuGuardarComo.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.DIRECTORIO)));
 					submenuGuardarComo.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
 							submenuGuardarComoActionPerformed(evt);
@@ -397,8 +398,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					menuSGBDActual.setText(Lenguaje.getMensaje(Lenguaje.CURRENT_DBMS));
 					menuSGBDActual.setMnemonic(Lenguaje.getMensaje(Lenguaje.CURRENT_DBMS).charAt(0));
 					menuSGBDActual.setIcon(new ImageIcon(
-							getClass().getClassLoader().getResource(
-									ImagePath.SELECCIONARSGBD)));
+							getClass().getClassLoader().getResource(ImagePath.SELECCIONARSGBD)));
 					elementosMenuSGBDActual = new Vector<JCheckBoxMenuItem>(0,1);
 					
 					// Añadir las conexiones listadas
@@ -409,7 +409,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 							JCheckBoxMenuItem menuConexion = new JCheckBoxMenuItem();
 							menuConexion.setText(tc.getRuta());
 							menuConexion.setSelected(i == 0);
-							
 							menuConexion.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
 									// Obtener el checkBox que ha sido pulsado
@@ -420,7 +419,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 									cambiarConexion(check.getText());
 								}
 							});
-							
 							menuSGBDActual.add(menuConexion);
 							elementosMenuSGBDActual.add(menuConexion);
 						}
@@ -462,7 +460,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 								}
 							}
 						});
-						
 						menuLenguajes.add(lenguaje);
 						elementosMenuLenguajes.add(lenguaje);
 					}
@@ -474,34 +471,28 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				barraDeMenus.add(menuVista);
 				menuVista.setText(Lenguaje.getMensaje(Lenguaje.VIEW));
 				menuVista.setMnemonic(Lenguaje.getMensaje(Lenguaje.HELP).charAt(0));
-				{		
-					
-					//JCheckBoxMenuItem model = new JCheckBoxMenuItem();
+				{
 					JCheckBoxMenuItem er = new JCheckBoxMenuItem();
 					JCheckBoxMenuItem code = new JCheckBoxMenuItem();
 					menuPanelSucesos = new JCheckBoxMenuItem();
 					themeMenu = new JMenu();
 					for(String s : this.theme.getAvaiableThemes()) {
 						JCheckBoxMenuItem item = new JCheckBoxMenuItem();
-						//if(theme.getThemeName().equals(s))item.setSelected(true);
 						item.setText(s);
 						item.setFont(new java.awt.Font("Avenir", 0, 16));
 						item.setActionCommand(s);
 						if(s.equals(theme.getThemeName()))item.setSelected(true);
 						item.addActionListener(new ActionListener() {
-
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								cambiaTema(e);
 							}
-							
 						});
 						themeMenu.add(item);
 					}
 					
 					themeMenu.setFont(new java.awt.Font("Avenir", 0, 16));
 					menuVista.add(er);
-					//menuVista.add(model);
 					menuVista.add(code);
 					menuVista.add(new JSeparator());
 					menuVista.add(themeMenu);
@@ -543,18 +534,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				barraDeMenus.add(menuAyuda);
 				menuAyuda.setText(Lenguaje.getMensaje(Lenguaje.HELP));
 				menuAyuda.setMnemonic(Lenguaje.getMensaje(Lenguaje.HELP).charAt(0));
-				{//Ayuda/contenidos
-					submenuContenidos = new JMenuItem();
-					menuAyuda.add(submenuContenidos);
-					submenuContenidos.setText(Lenguaje.getMensaje(Lenguaje.CONTENTS));
-					submenuContenidos.setMnemonic(Lenguaje.getMensaje(Lenguaje.CONTENTS).charAt(0));
-					submenuContenidos.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.AYUDA)));
-					submenuContenidos.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent evt) {
-							submenuContenidosActionPerformed(evt);
-						}
-					});
-				}
+				
 				{//Ayuda/acerca de
 					submenuAcercaDe = new JMenuItem();
 					menuAyuda.add(submenuAcercaDe);
@@ -591,11 +571,9 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		panelDiagrama.add(splitDisenoInfo, BorderLayout.CENTER);
 		splitDisenoInfo.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 		splitDisenoInfo.setOneTouchExpandable(false);
-		splitDisenoInfo.setResizeWeight(0.85);
 		
 		infoTabPane = new JTabbedPane();
 		JSplitPane splitTabMapa = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		splitTabMapa.setResizeWeight(0.155);
 		splitTabMapa.add(infoTabPane, JSplitPane.RIGHT);
 		infoTabPane.setFocusable(false);
 	
@@ -685,10 +663,9 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		BorderLayout panelGeneracionLayout = new BorderLayout();
 		panelGeneracion.setLayout(panelGeneracionLayout);
 		JSplitPane codesSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		codesSplit.setResizeWeight(0.5);
-		codesSplit.setDividerSize(10);
 		codesSplit.setBorder(null);
 		codesSplit.setEnabled(true);
+		codesSplit.setResizeWeight(0.5);
 		panelGeneracion.add(codesSplit, BorderLayout.CENTER);
 		JPanel modeloPanel = new JPanel();
 		modeloPanel.setBackground(theme.background());
@@ -827,7 +804,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		}else{
 			panelSucesos.setVisible(true);
 			splitDisenoInfo.setOneTouchExpandable(true);
-			splitDisenoInfo.setResizeWeight(0.8);
 			splitDisenoInfo.resetToPreferredSizes();
 		}
 	}
@@ -837,13 +813,12 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	 * Oyentes de la toolbar de generacion
 	 */
 	private void botonModeloRelacionalActionPerformed(ActionEvent evt) {
-		Thread hilo = new Thread(new Runnable(){
+		new Thread(new Runnable(){
 			public void run() {
 				controlador.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_BotonGenerarModeloRelacional, null);
 				modeloText.goToTop();
 			}
-		});
-		hilo.start();
+		}).start();
 	}
 
 	private void botonScriptSQLActionPerformed(ActionEvent evt) {
@@ -1342,11 +1317,9 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		} // mensajesDesde_Controlador
 	}
 
-
 	/*
 	 * Getters y Setters
 	 */
-
 	public Controlador getControlador() {
 		return controlador;
 	}
@@ -2182,10 +2155,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 							}
 						}));
 				}
-			}		
-				
-	//	}//path count=1
-			
+			}	
 		popup.setLocation(e.getLocationOnScreen());
 		popup.setVisible(true);
 	}
@@ -2201,8 +2171,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				}
 				return null;
 	}
-		 
-		 
+ 
 	public void activaBotones(){
 		botonLimpiarPantalla.setEnabled(true);
 		botonValidar.setEnabled(true);
@@ -2212,11 +2181,9 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		botonEjecutarEnDBMS.setEnabled(true);
 	}
 	
-	
 	/**
 	 * Oyentes de los botones de la barra de menus
 	 */
-	
 	private void submenuExportarJPEGActionPerformed(ActionEvent evt) {
 		JFileChooser jfc = new JFileChooser();
 		jfc.setDialogTitle(Lenguaje.getMensaje(Lenguaje.DBCASE));
@@ -2239,10 +2206,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private void submenuImprimirActionPerformed(ActionEvent evt) {
 		this.panelDiseno.printGraph();
 	}
-	
-	/*labelBarraEstado = new JLabel();
-						panelBarraEstado.add(labelBarraEstado, BorderLayout.CENTER);
-						labelBarraEstado.setText(Lenguaje.getMensaje(Lenguaje.WORKSPACE_IS));*/
 	
 	private void submenuAcercaDeActionPerformed(ActionEvent evt) {
 		JOptionPane.showMessageDialog(
@@ -2274,24 +2237,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGOFDI)));
 	}
 	
-	private void submenuContenidosActionPerformed(ActionEvent evt) {
-		// Abrimos el explorador los ficheros HTML de ayuda
-		String ruta = getClass().getClassLoader().getResource("doc/DBDT/index.htm").getPath();
-		if (ruta.lastIndexOf('!') != -1){ // Si se ejecuta desde JAR busca el la carpeta /doc/ externa
-			ruta = ruta.substring(0, ruta.indexOf('!'));
-			String dir = ruta.substring(0, ruta.lastIndexOf('/'));
-			System.out.println(dir);
-			dir += "/doc/DBDT/index.htm";
-			System.out.println(dir);
-			dir = dir.substring(5);
-			System.out.println(dir);
-			ApplicationLauncher.launchDefaultViewer(dir);
-		}
-		else { // Si es binario usual no realiza cambios
-			System.out.println(ruta);
-			ApplicationLauncher.launchDefaultViewer(ruta);
-		}
-	}
+	
 	
 	public GUIPrincipal getThePrincipal(){
 		return this;
@@ -2348,9 +2294,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	public void enableGuardarComo(boolean c){
 		this.submenuGuardarComo.setEnabled(c);
 	}
-	public void visiblePrincipal(boolean b) {
-		//this.panelPrincipal.setVisible(b);
-	}
 	
 	public boolean getEnableCerrar(){
 		return submenuCerrar.isEnabled();
@@ -2361,10 +2304,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	public boolean getEnableGuardarComo(){
 		return submenuGuardarComo.isEnabled();
 	}
-	public boolean getVisiblePrincipal() {
-		//return panelPrincipal.isVisible();
-		return true;
-	}
+	
 	public void setSalvado(boolean b){
 		if (b) salvado.setForeground(Color.GREEN);
 		else salvado.setForeground(Color.RED);
@@ -2376,6 +2316,15 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	public void loadInfo() {
 		controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_MostrarDatosEnPanelDeInformacion, getPanelDiseno().generaArbolInformacion());
 		controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_MostrarDatosEnTablaDeVolumenes, getPanelDiseno().generaTablaVolumenes());
+	}
+
+	public int getPanelsMode() {
+		return this.dealer.getPanelsMode();
+	}
+	public void setModoVista(int modo) {
+		if(modo==0)dealer.modoVerTodo();
+		else if(modo==1)dealer.modoDiseno();
+		else if(modo==2)dealer.modoProgramador();
 	}
 
 }

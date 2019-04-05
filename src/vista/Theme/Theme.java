@@ -9,7 +9,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-
+@SuppressWarnings("unchecked")
 public class Theme {
 
 	private static Theme INSTANCE;
@@ -17,9 +17,7 @@ public class Theme {
 	private static String current;
 	private static HashMap<String,myColor> colors;
 	private static final String DEFAULT = "light";
-	
-	public Theme(){}
-	
+		
 	public static Theme getInstancia() {
 		if(INSTANCE==null) INSTANCE = new Theme();
 		return INSTANCE;
@@ -41,7 +39,8 @@ public class Theme {
 		current = Theme.DEFAULT;
 		loadTheme();
 	}
-	@SuppressWarnings("unchecked")
+	
+	
 	private static void loadTheme() {
 		JSONParser parser = new JSONParser();
         try {

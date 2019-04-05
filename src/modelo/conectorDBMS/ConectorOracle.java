@@ -190,7 +190,7 @@ public class ConectorOracle extends ConectorDBMS {
 				}
 				codigo+= "<p><strong>ALTER TABLE </strong>" + t.getNombreTabla() +
 						"<strong> ADD CONSTRAINT </strong>" + 
-										t.getNombreTabla() + "_" +atributo +
+										t.getNombreTabla() + "_" + atributo +
 						"<strong> FOREIGN KEY </strong>"+
 				"("+foreigns.elementAt(j)[0]+") " + "<strong> REFERENCES </strong>"+foreigns.elementAt(j)[2]+";"+
 				"</p>";
