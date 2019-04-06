@@ -3,7 +3,6 @@ package modelo.persistencia;
 import vista.lenguaje.Lenguaje;
 
 public class EntidadYAridad {
-	
 	int entidad;
 	int pRango;
 	int fRango;

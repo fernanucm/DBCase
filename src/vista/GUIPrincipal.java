@@ -276,9 +276,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 			setJMenuBar(barraDeMenus);
 			barraDeMenus.add(Box.createRigidArea(new Dimension(0,30)));
 			barraDeMenus.setOpaque(true);
-			barraDeMenus.setBorder(BorderFactory.createCompoundBorder(
-					null, 
-					null));
+			barraDeMenus.setBorder(BorderFactory.createCompoundBorder(null,null));
 			
 			{	//File
 				menuSistema = new JMenu();
@@ -1241,12 +1239,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					" añadiendole la referencia al atributo "+ta.getNombre()+".");
 			panelDiseno.anadirNodo(ta);
 			panelDiseno.ModificaValorInterno(tr);
-			break;
-		}
-		case Controlador_LimpiarPanelInformacion:{
-			if (this.arbol != null){
-				//this.panelArbol.setVisible(false);
-			}
 			break;
 		}
 		case Controlador_MostrarDatosEnPanelDeInformacion:{

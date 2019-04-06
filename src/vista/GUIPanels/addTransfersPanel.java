@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 
 import controlador.Controlador;
 import controlador.TC;
+import modelo.persistencia.DAOAtributos;
 import modelo.persistencia.DAOEntidades;
 import modelo.persistencia.DAORelaciones;
 import modelo.transfers.Transfer;
@@ -104,6 +105,8 @@ public class addTransfersPanel extends JPanel{
             	listaTransfers.addAll(daoRelaciones.ListaDeRelaciones());
         		DAOEntidades daoEntidades = new DAOEntidades(controlador.getPath());
         		listaTransfers.addAll(daoEntidades.ListaDeEntidades());
+        		DAOAtributos daoAtributos = new DAOAtributos(controlador.getPath());
+        		listaTransfers.addAll(daoAtributos.ListaDeAtributos());
 				controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_InsertarAtributo, listaTransfers);
             }
         });		

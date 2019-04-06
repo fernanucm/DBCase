@@ -22,10 +22,6 @@ public class TransferAtributo extends Transfer{
 	private Point2D posicion;
 	
 	
-	public TransferAtributo() {	
-
-	}
-	
 	public TransferAtributo clonar (){
 		TransferAtributo clon_ta = new TransferAtributo();
 		clon_ta.setIdAtributo(this.getIdAtributo());

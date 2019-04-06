@@ -7,9 +7,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
-import java.util.Iterator;
 import java.util.Vector;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -18,7 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
-
 import controlador.Controlador;
 import controlador.TC;
 import modelo.tools.ImagePath;
@@ -64,8 +61,6 @@ public class GUI_AnadirAtributo extends javax.swing.JDialog implements KeyListen
 	private JTextPane eligeTransfer;
 	private Vector<TransferDominio> listaDominios;
 	private Vector<Transfer> listaTransfers;
-	// End of variables declaration
-
 
 	public GUI_AnadirAtributo() {
 		this.initComponents();
@@ -227,9 +222,9 @@ public class GUI_AnadirAtributo extends javax.swing.JDialog implements KeyListen
 		v.add(listaTransfers.get(comboTransfers.getSelectedIndex()));
 		v.add(ta);
 		if (!tamano.isEmpty()) v.add(tamano);
-		if(listaTransfers.get(comboTransfers.getSelectedIndex()) instanceof TransferRelacion) 
+		if(comboTransfers.getSelectedItem() instanceof TransferRelacion) 
 			controlador.mensajeDesde_GUI(TC.GUIAnadirAtributoRelacion_Click_BotonAnadir, v);
-		else if(listaTransfers.get(comboTransfers.getSelectedIndex()) instanceof TransferEntidad) {
+		else if(comboTransfers.getSelectedItem() instanceof TransferEntidad) {
 			controlador.mensajeDesde_GUI(TC.GUIAnadirAtributoEntidad_Click_BotonAnadir, v);
 			if (this.opcionClavePrimaria.isSelected()){
 				Vector<Object> v1= new Vector<Object>();
@@ -239,20 +234,20 @@ public class GUI_AnadirAtributo extends javax.swing.JDialog implements KeyListen
 			    v1.add(listaTransfers.get(comboTransfers.getSelectedIndex()));
 				controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarClavePrimariaAtributo,v1);
 			}
-		}
+		}else if(comboTransfers.getSelectedItem() instanceof TransferAtributo) 
+			controlador.mensajeDesde_GUI(TC.GUIAnadirSubAtributoAtributo_Click_BotonAnadir, v);
 		if (this.opcionUnique.isSelected()){
 			TransferAtributo clon_atributo = ta.clonar();
 			controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarUniqueAtributo,clon_atributo);
 		}
 		this.setVisible(false);
 	}
-		
+
 	/*
 	 * Activar y desactivar el dialogo
 	 */
 	public void setActiva(){
-		int index = 0, i=0, j=0;
-		String[] transfers = new String[this.listaTransfers.size()];
+		int i=0, j=0;
 		TipoDominio[] basicos = modelo.tools.TipoDominio.values();
 		Object[] nuevos = new Object[this.listaDominios.size()];
 		this.centraEnPantalla();
@@ -268,8 +263,7 @@ public class GUI_AnadirAtributo extends javax.swing.JDialog implements KeyListen
 		controlador.mensajeDesde_GUI(TC.GUIAnadirAtributoEntidad_ActualizameLaListaDeDominios, null);
 		
 		//Genera Transfers
-		for(Transfer t : this.listaTransfers) transfers[index++] = t.getNombre();
-		this.comboTransfers.setModel(new javax.swing.DefaultComboBoxModel(transfers));
+		this.comboTransfers.setModel(new javax.swing.DefaultComboBoxModel(listaTransfers));
 		
 		//Genera Dominios
 		this.generaItems(nuevos);
@@ -623,14 +617,6 @@ public class GUI_AnadirAtributo extends javax.swing.JDialog implements KeyListen
 
 	public void setListaTransfers(Vector<Transfer> lista) {
 		this.listaTransfers = lista;
-		//removemos las IsAs
-		Iterator<Transfer> itr = listaTransfers.iterator();
-		while(itr.hasNext()) {
-			Transfer t = itr.next();
-			if(t instanceof TransferRelacion) 
-				if(((TransferRelacion) t).getTipo().equals("IsA"))
-					itr.remove();
-		}
 	}
 	public void keyPressed( KeyEvent e ) {
 		switch (e.getKeyCode()){

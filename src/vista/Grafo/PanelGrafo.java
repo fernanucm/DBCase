@@ -104,7 +104,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 		// Para que los grafos admitan paralelas el tipo de grafo debe ser este:
 		graph = new UndirectedSparseMultigraph<Transfer, Object>();
 		// Inicializa el layout, el visualizador y el renderer
-		// layout = new FRLayout<Transfer, Double>(graph);
 		layout = new GrafoLayout<Transfer, Object>(graph);
 
 		// Inserta las entidades, atributos, relaciones al grafo
@@ -558,7 +557,18 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 		}
 		return tabla;
 	}
-
+	
+	private DefaultMutableTreeNode nodoAtributo(TransferAtributo a, DefaultMutableTreeNode nodoAtr) {
+		if(a.getCompuesto()) 
+			for(int k=0;k<a.getListaComponentes().size();k++) {
+				TransferAtributo subAtr = atributos.get(Integer.parseInt((String)a.getListaComponentes().get(k)));
+				DefaultMutableTreeNode subNode = new DefaultMutableTreeNode(subAtr);
+				nodoAtributo(subAtr, subNode);
+				nodoAtr.add(subNode);
+			}
+		return nodoAtr;
+	}
+	
 	public JTree generaArbolInformacion() {
 		JTree arbolInformacion;
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode();
@@ -567,9 +577,10 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 		for (HashMap.Entry<Integer, TransferEntidad> ent : this.entidades.entrySet()) {
 			DefaultMutableTreeNode nodoEntidad = new DefaultMutableTreeNode(ent.getValue());
 			Vector lista = (ent.getValue().getListaAtributos());
-			for (int j = 0; j < lista.size(); j++)
-				nodoEntidad
-						.add(new DefaultMutableTreeNode(this.atributos.get(Integer.parseInt((String) lista.get(j)))));
+			for (int j = 0; j < lista.size(); j++) {
+				TransferAtributo a = this.atributos.get(Integer.parseInt((String) lista.get(j)));
+				nodoEntidad.add(nodoAtributo(a,new DefaultMutableTreeNode(a)));
+			}
 			arbolEntidades.add(nodoEntidad);
 		}
 		for (HashMap.Entry<Integer, TransferRelacion> rel : this.relaciones.entrySet()) {
@@ -586,9 +597,10 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 				}
 			Vector listaAtr = (rel.getValue().getListaAtributos());
 			if (!listaAtr.isEmpty())
-				for (int j = 0; j < listaAtr.size(); j++)
-					nodoRelacion.add(
-							new DefaultMutableTreeNode(this.atributos.get(Integer.parseInt((String) listaAtr.get(j)))));
+				for (int j = 0; j < listaAtr.size(); j++) {
+					TransferAtributo a = this.atributos.get(Integer.parseInt((String) listaAtr.get(j)));
+					nodoRelacion.add(nodoAtributo(a,new DefaultMutableTreeNode(a)));
+				}
 			arbolRelaciones.add(nodoRelacion);
 		}
 		root.add(arbolEntidades);
@@ -848,7 +860,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 						Point2D p = menu.punto;
-						System.out.println("Insertar Entidad en: " + p.getX() + "," + p.getY());
 						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_InsertarEntidad, p);
 					}
 				});
@@ -862,7 +873,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 						Point2D p = menu.punto;
-						System.out.println("Insertar Relación en: " + p.getX() + "," + p.getY());
 						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_InsertarRelacionNormal, p);
 					}
 				});
@@ -876,7 +886,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 						Point2D p = menu.punto;
-						System.out.println("Insertar Relación IsA en: " + p.getX() + "," + p.getY());
 						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_InsertarRelacionIsA, p);
 					}
 				});
@@ -890,7 +899,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 						Point2D p = menu.punto;
-						System.out.println("Insertar Dominio");
 						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_CrearDominio, p);
 					}
 				});
@@ -909,7 +917,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 						TransferEntidad entidad = (TransferEntidad) menu.nodo;
-						System.out.println("Añadir un nuevo atributo a la entidad: " + entidad);
 						TransferEntidad clon_entidad = entidad.clonar();
 						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirAtributoEntidad, clon_entidad);
 					}
@@ -923,7 +930,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 						TransferEntidad entidad = (TransferEntidad) menu.nodo;
-						System.out.println("Cambiar nombre a entidad: " + entidad);
 						TransferEntidad clon_entidad = entidad.clonar();
 						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_RenombrarEntidad, clon_entidad);
 					}
@@ -939,7 +945,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 							TransferEntidad entidad = (TransferEntidad) menu.nodo;
-							System.out.println("Eliminar la entidad: " + entidad);
 							TransferEntidad clon_entidad = entidad.clonar();
 							Vector<Object> v = new Vector<Object>();
 							v.add(clon_entidad);
@@ -965,7 +970,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 						TransferEntidad entidad = (TransferEntidad) menu.nodo;
-						System.out.println("Añadir una restriccion a la entidad: " + entidad);
 						TransferEntidad clon_entidad = entidad.clonar();
 						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirRestriccionAEntidad,
 								clon_entidad);
@@ -993,7 +997,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 						TransferAtributo atributo = (TransferAtributo) menu.nodo;
-						System.out.println("Cambiar el dominio del atributo: " + atributo);
 						TransferAtributo clon_atributo = atributo.clonar();
 						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarDominioAtributo, clon_atributo);
 					}
@@ -1006,7 +1009,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 						TransferAtributo atributo = (TransferAtributo) menu.nodo;
-						System.out.println("Cambiar nombre del atributo: " + atributo);
 						TransferAtributo clon_atributo = atributo.clonar();
 						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_RenombrarAtributo, clon_atributo);
 					}
@@ -1027,7 +1029,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 							TransferAtributo atributo = (TransferAtributo) menu.nodo;
-							System.out.println("Eliminar atributo: " + atributo);
 							TransferAtributo clon_atributo = atributo.clonar();
 							Vector<Object> v = new Vector<Object>();
 							v.add(clon_atributo);
@@ -1060,7 +1061,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 							TransferAtributo atributo = (TransferAtributo) menu.nodo;
-							System.out.println("Editar clave primaria etributo: " + atributo);
 							TransferAtributo clon_atributo = atributo.clonar();
 							TransferEntidad clon_entidad = ent.clonar();
 							Vector<Transfer> vector = new Vector<Transfer>();
@@ -1084,7 +1084,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 						TransferAtributo atributo = (TransferAtributo) menu.nodo;
-						System.out.println("Cambiar el carácter de compuesto del atributo: " + atributo);
 						TransferAtributo clon_atributo = atributo.clonar();
 						if (notnul) {
 							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarNotNullAtributo,
@@ -1107,7 +1106,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 							TransferAtributo atributo = (TransferAtributo) menu.nodo;
-							System.out.println("Anadir subatributo: " + atributo);
 							TransferAtributo clon_atributo = atributo.clonar();
 							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirSubAtributoAAtributo,
 									clon_atributo);
@@ -1128,7 +1126,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 							TransferAtributo atributo = (TransferAtributo) menu.nodo;
-							System.out.println("Cambiar el carácter de 'Not Null' del atributo: " + atributo);
 							TransferAtributo clon_atributo = atributo.clonar();
 							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarNotNullAtributo,
 									clon_atributo);
@@ -1148,7 +1145,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 							TransferAtributo atributo = (TransferAtributo) menu.nodo;
-							System.out.println("Cambiar el carácter de 'Unique' del atributo: " + atributo);
 							TransferAtributo clon_atributo = atributo.clonar();
 							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarUniqueAtributo,
 									clon_atributo);
@@ -1169,7 +1165,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 							TransferAtributo atributo = (TransferAtributo) menu.nodo;
-							System.out.println("Cambiar el carácter de multivalorado: " + atributo);
 							TransferAtributo clon_atributo = atributo.clonar();
 							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarMultivaloradoAtributo,
 									clon_atributo);
@@ -1184,7 +1179,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 						TransferAtributo atributo = (TransferAtributo) menu.nodo;
-						System.out.println("Añadir una restriccion al atributo: " + atributo);
 						TransferAtributo clon_atributo = atributo.clonar();
 						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirRestriccionAAtributo,
 								clon_atributo);
@@ -1201,7 +1195,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 							TransferRelacion relacion = (TransferRelacion) menu.nodo;
-							System.out.println("Establecer entidad padre: " + relacion);
 							TransferRelacion clon_relacion = relacion.clonar();
 							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EstablecerEntidadPadre,
 									clon_relacion);
@@ -1213,7 +1206,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 							TransferRelacion relacion = (TransferRelacion) menu.nodo;
-							System.out.println("Quitar entidad padre: " + relacion);
 							TransferRelacion clon_relacion = relacion.clonar();
 							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_QuitarEntidadPadre,
 									clon_relacion);
@@ -1228,7 +1220,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 							TransferRelacion relacion = (TransferRelacion) menu.nodo;
-							System.out.println("Añadir entidad hija: " + relacion);
 							TransferRelacion clon_relacion = relacion.clonar();
 							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirEntidadHija, clon_relacion);
 						}
@@ -1240,7 +1231,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 							TransferRelacion relacion = (TransferRelacion) menu.nodo;
-							System.out.println("Quitar entidad hija: " + relacion);
 							TransferRelacion clon_relacion = relacion.clonar();
 							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_QuitarEntidadHija, clon_relacion);
 						}
@@ -1251,18 +1241,13 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					// Si sólo está seleccionada la relacion..
 					PickedState<Transfer> p = vv.getPickedVertexState();
 					int seleccionados = 0;
-					for (@SuppressWarnings("unused")
-					Transfer t : p.getPicked()) {
-						seleccionados++;
-					}
+					for (@SuppressWarnings("unused")Transfer t : p.getPicked()) seleccionados++;
+					
 					if (seleccionados < 2) {
 						this.add(new JMenu().add(new AbstractAction(Lenguaje.getMensaje(Lenguaje.DELETE_REL)) {
-							private static final long serialVersionUID = -218800914185538588L;
-
 							public void actionPerformed(ActionEvent e) {
 								PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 								TransferRelacion relacion = (TransferRelacion) menu.nodo;
-								System.out.println("Eliminar la relación: " + relacion);
 								TransferRelacion clon_relacion = relacion.clonar();
 								Vector<Object> v = new Vector<Object>();
 								v.add(clon_relacion);
@@ -1294,7 +1279,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 							public void actionPerformed(ActionEvent e) {
 								PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 								TransferRelacion relacion = (TransferRelacion) menu.nodo;
-								System.out.println("Añadir una entidad a la relación: " + relacion);
 								TransferRelacion clon_relacion = relacion.clonar();
 								controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirEntidadARelacion,
 										clon_relacion);
@@ -1314,7 +1298,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 							public void actionPerformed(ActionEvent e) {
 								PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 								TransferRelacion relacion = (TransferRelacion) menu.nodo;
-								System.out.println("Quitar una entidad a la relación: " + relacion);
 								TransferRelacion clon_relacion = relacion.clonar();
 								controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_QuitarEntidadARelacion,
 										clon_relacion);
@@ -1333,7 +1316,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 							public void actionPerformed(ActionEvent e) {
 								PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 								TransferRelacion relacion = (TransferRelacion) menu.nodo;
-								System.out.println("Editar aridad de entidad de la relación: " + relacion);
 								TransferRelacion clon_relacion = relacion.clonar();
 								controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarCardinalidadEntidad,
 										clon_relacion);
@@ -1353,7 +1335,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 							public void actionPerformed(ActionEvent e) {
 								PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 								TransferRelacion relacion = (TransferRelacion) menu.nodo;
-								System.out.println("Añadir atributo a la relación: " + relacion);
 								TransferRelacion clon_relacion = relacion.clonar();
 								controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirAtributoRelacion,
 										clon_relacion);
@@ -1369,7 +1350,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 							TransferRelacion relacion = (TransferRelacion) menu.nodo;
-							System.out.println("Renombrar la relación: " + relacion);
 							TransferRelacion clon_relacion = relacion.clonar();
 							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_RenombrarRelacion, clon_relacion);
 						}
@@ -1390,7 +1370,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 							public void actionPerformed(ActionEvent e) {
 								PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 								TransferRelacion relacion = (TransferRelacion) menu.nodo;
-								System.out.println("Eliminar la relación: " + relacion);
 								TransferRelacion clon_relacion = relacion.clonar();
 								Vector<Object> v = new Vector<Object>();
 								v.add(clon_relacion);
@@ -1416,7 +1395,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 							TransferRelacion relacion = (TransferRelacion) menu.nodo;
-							System.out.println("Añadir una restriccion a la relación: " + relacion);
 							TransferRelacion clon_relacion = relacion.clonar();
 							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirRestriccionARelacion,
 									clon_relacion);

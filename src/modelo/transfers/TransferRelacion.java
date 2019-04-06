@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.Vector;
 
 import modelo.persistencia.EntidadYAridad;
-@SuppressWarnings("rawtypes")
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class TransferRelacion extends Transfer {
 
 	private int idRelacion;
@@ -44,7 +44,6 @@ public class TransferRelacion extends Transfer {
 		return clon_tr;
 	}
 	//Antes sólo tenía un parámetro, el primero; arg0
-	@SuppressWarnings("unchecked")
 	public void CopiarRelacion(TransferRelacion arg0,int idBuscado,Boolean repetido) {
 		this.idRelacion = arg0.getIdRelacion();
 		this.nombre = arg0.getNombre();
@@ -84,7 +83,6 @@ public class TransferRelacion extends Transfer {
 			
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void CopiarRelacionUnoUno(Vector v) {
 		this.idRelacion = (Integer)v.get(0);
 		this.nombre = (String)v.get(4);
@@ -110,9 +108,7 @@ public class TransferRelacion extends Transfer {
 	@Override
 	public Shape toShape() {
 		// Si es IsA retorna el triángulo
-		if (getTipo().equals(new String("IsA"))) 
-			return this.toShapeIsA();
-		
+		if (getTipo().equals(new String("IsA"))) return this.toShapeIsA();
 		
 		// Si es grande ajusta el tamaño al nombre
 		int anchura = Math.max(this.nombre.length() * 11 / 2,50);

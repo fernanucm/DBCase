@@ -17,10 +17,6 @@ public class TransferEntidad extends Transfer{
 	private int volumen;
 	private int frecuencia;
 	
-	public TransferEntidad(){
-		
-	};
-	
 	public TransferEntidad clonar(){
 		TransferEntidad clon_te = new TransferEntidad();
 		clon_te.setIdEntidad(this.getIdEntidad());

@@ -89,10 +89,8 @@ public class ValidadorBD extends GeneradorEsquema{
 			mensaje += error(te,Lenguaje.getMensaje(Lenguaje.NO_ATTRIB));
 			return false;
 		}
-		TransferAtributo ti; //= new TransferAtributo();
-		TransferAtributo tj; //= new TransferAtributo();
-		int i=0;
-		int j=1;
+		TransferAtributo ti, tj;
+		int i=0,j=1;
 		boolean valido=true;
 		while (i<ats.size()){
 			ti=ats.elementAt(i);
@@ -280,7 +278,6 @@ public class ValidadorBD extends GeneradorEsquema{
 				encontrado = t.getNombre().equals(dominios.get(j).getNombre());
 				j++;
 			}
-			
 			if (encontrado){
 				valido=false;
 				mensaje += error(t,Lenguaje.getMensaje(Lenguaje.REPEATED_DOM_NAMES));				
@@ -342,11 +339,8 @@ public class ValidadorBD extends GeneradorEsquema{
 		case 0: enIsA=-1; break; //no aparece
 		case 1: enIsA= resultados.elementAt(0)[1]; break; //aparece una vez nos quedamos con lo que haya
 		default:  //si aparece mas nos quedamos con la que tenga como padre
-			for (int m=0;m<resultados.size();m++){
-				if(resultados.elementAt(m)[1]==1) enIsA=1;
-			}
+			for (int m=0;m<resultados.size();m++) if(resultados.elementAt(m)[1]==1) enIsA=1;	
 		break;
-
 		}
 
 		// si no tiene clave primaria
@@ -491,7 +485,6 @@ public class ValidadorBD extends GeneradorEsquema{
 	 * - Los atributos multivalorados no son clave
 	 */
 	private boolean validaAtributos(){
-		
 		DAOAtributos daoAtributos= new DAOAtributos(controlador.getPath());
 		Vector <TransferAtributo> atributos =daoAtributos.ListaDeAtributos();
 		boolean valido=true;
@@ -584,12 +577,12 @@ public class ValidadorBD extends GeneradorEsquema{
 		//comprueba que tenga dominio
 		boolean valido=true;
 		String dom = ta.getDominio();
-		if (ta.getCompuesto())
+		if (ta.getCompuesto()) {
 			if(!dom.equals("null")){
 				valido=false;
 				mensaje +=  error(ta, Lenguaje.getMensaje(Lenguaje.COMPOSED_ATTRIBUTE));
 			}
-		else{
+		}else{
 			if (dom.equals("")||dom.equals("null")){ 
 				valido=false;
 				mensaje += error(ta, Lenguaje.getMensaje(Lenguaje.NO_DOMAIN));

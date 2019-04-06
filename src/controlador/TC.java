@@ -459,7 +459,6 @@ public enum TC {
 	Controlador_DebilitarRelacion,
 	Controlador_EditarCardinalidadEntidad,
 	Controlador_CardinalidadUnoUno,
-	Controlador_LimpiarPanelInformacion,
 	Controlador_MostrarDatosEnPanelDeInformacion,
 	Controlador_LimpiarPanelDominio,
 	Controlador_MostrarDatosEnPanelDominio,

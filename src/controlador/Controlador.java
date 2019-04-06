@@ -477,8 +477,11 @@ public class Controlador {
 			Iterator<Transfer> itr = listaTransfers.iterator();
 			while(itr.hasNext()) {
 				Transfer t = itr.next();
-				if(t instanceof TransferRelacion) 
+				if(t instanceof TransferRelacion) { 
 					if(((TransferRelacion) t).isIsA())
+						itr.remove();
+				}else if(t instanceof TransferAtributo)
+					if(!((TransferAtributo) t).getCompuesto())
 						itr.remove();
 			}
 			if(listaTransfers.isEmpty())
@@ -1226,10 +1229,6 @@ public class Controlador {
 		/*
 		 * Panel de informacion
 		 */
-		case PanelDiseno_LimpiarPanelInformacion:{
-			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_LimpiarPanelInformacion, null);
-			break;
-		}
 		case PanelDiseno_MostrarDatosEnPanelDeInformacion:{
 			JTree arbol = (JTree) datos;
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_MostrarDatosEnPanelDeInformacion, arbol);
@@ -1685,7 +1684,6 @@ public class Controlador {
 		}
 		case GUIAnadirSubAtributoAtributo_Click_BotonAnadir:{
 			Vector<Transfer> vectorTransfers = (Vector<Transfer>)datos;
-			
 			this.getTheServiciosAtributos().anadirAtributo(vectorTransfers);		
 			ActualizaArbol((Transfer)vectorTransfers.get(1));
 			this.getTheServiciosSistema().reset();

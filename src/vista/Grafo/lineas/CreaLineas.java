@@ -210,6 +210,7 @@ public class CreaLineas<V,E> implements Renderer.Edge<V, E> {
         			ent = (EntidadYAridad)rela.getListaEntidadesYAridades().get(i);
         			break;
         		}
+        	
     		//cardinalidad 0 .. 1 || 1 .. 1
     		if((ent.getPrincipioRango()==0 && ent.getFinalRango()==1)||(ent.getPrincipioRango()==1 && ent.getFinalRango()==1)){
     			Flecha miFlecha= new Flecha();
