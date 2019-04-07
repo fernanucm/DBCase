@@ -42,8 +42,6 @@ public class GUI_WorkSpace extends javax.swing.JDialog{
 	private JPanel panelPrincipal;
 	private JFileChooser jfc;
 	private JLabel jLabel1;
-	//private File filetemp;
-	//private File fileguardar;
 	private int abrir;
 	private boolean actuado; //vale true tras guardar o abrir, false si pulsa en cancelar o cierra la ventana
 	
@@ -52,40 +50,33 @@ public class GUI_WorkSpace extends javax.swing.JDialog{
 	}
 
 	private void initComponents(){
-		{
-			this.setTitle(Lenguaje.text(Lenguaje.DBCASE));
-			this.setModal(true);
-			this.setResizable(false);
-			this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-			this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
-
-		}
-		
-		{
-			panelPrincipal = new JPanel();
-			panelPrincipal.setLayout(null);
-			getContentPane().add(panelPrincipal, BorderLayout.CENTER);
-			panelPrincipal.setPreferredSize(new java.awt.Dimension(545, 318));
-			{
-				jLabel1 = new JLabel();
-				panelPrincipal.add(jLabel1);
-				jLabel1.setBounds(12, 12, 521, 14);
+		this.setTitle(Lenguaje.text(Lenguaje.DBCASE));
+		this.setModal(true);
+		this.setResizable(false);
+		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
+		panelPrincipal = new JPanel();
+		panelPrincipal.setLayout(null);
+		getContentPane().add(panelPrincipal, BorderLayout.CENTER);
+		panelPrincipal.setPreferredSize(new java.awt.Dimension(545, 318));
+		jLabel1 = new JLabel();
+		panelPrincipal.add(jLabel1);
+		jLabel1.setBounds(12, 12, 521, 14);
+		jfc = new JFileChooser();
+		jfc.setCurrentDirectory(new File(System.getProperty("user.dir")+"/projects"));
+		panelPrincipal.add(jfc);
+		jfc.setBounds(0, 32, 547, 286);
+		jfc.setDialogType(2);
+		jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		jfc.setAcceptAllFileFilterUsed(false);
+		XMLFileFilter filter = new XMLFileFilter();
+		jfc.addChoosableFileFilter(filter);
+		jfc.setApproveButtonText(Lenguaje.text(Lenguaje.SELECT));
+		jfc.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				jfcActionPerformed(evt);
 			}
-			jfc = new JFileChooser();
-			panelPrincipal.add(jfc);
-			jfc.setBounds(0, 32, 547, 286);
-			jfc.setDialogType(2);
-			jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-			jfc.setAcceptAllFileFilterUsed(false);
-			XMLFileFilter filter = new XMLFileFilter();
-			jfc.addChoosableFileFilter(filter);
-			jfc.setApproveButtonText(Lenguaje.text(Lenguaje.SELECT));
-			jfc.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent evt) {
-					jfcActionPerformed(evt);
-				}
-			});
-		}
+		});
 		this.setSize(553, 354);
 		this.setContentPane(panelPrincipal);
 	}
@@ -107,7 +98,6 @@ public class GUI_WorkSpace extends javax.swing.JDialog{
 			}
 			case 2:{//guardar
 				jLabel1.setText(Lenguaje.text(Lenguaje.SAVE)+":");
-				
 				if(controlador.getFileguardar()==null || !controlador.getFileguardar().exists()){
 					abrir=b;
 					this.centraEnPantalla();
@@ -133,7 +123,6 @@ public class GUI_WorkSpace extends javax.swing.JDialog{
 	public void setInactiva(){
 		this.setVisible(false);
 	}
-
 
 	/*
 	 * Oyente del jfilechooser
@@ -189,18 +178,13 @@ public class GUI_WorkSpace extends javax.swing.JDialog{
 	
 	private void guardarProyecto(){
 		String ruta=controlador.getFileguardar().getAbsolutePath();
-		if (!ruta.endsWith(".xml"))
-				ruta= ruta+".xml";
-		if (controlador.getFileguardar().exists()){
+		if (!ruta.endsWith(".xml")) ruta = ruta+".xml";
+		if (controlador.getFileguardar().exists())
 			this.controlador.mensajeDesde_GUIWorkSpace(TC.GUI_WorkSpace_Click_Guardar, ruta);
-		}
-		else{
-			System.out.println("HAS INTENTADO GUARDAR SOBRE NULL");
-		}
 	}
+	
 	private void guardarComo(){
 		File f = this.jfc.getSelectedFile();
-		//construimos la ruta
 		String ruta = f.getPath();
 		if (!ruta.endsWith(".xml")) ruta = ruta+".xml";
 		

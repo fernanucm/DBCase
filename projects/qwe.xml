@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Inf_dbcase>
+    <EntityList proximoID="5">
+        <Entity EntityId="3">
+            <Name>ii</Name>
+            <Weak>false</Weak>
+            <AttribList/>
+            <PrimaryKeyList/>
+            <AssertionList/>
+            <UniqueList/>
+            <Position>599,321</Position>
+        </Entity>
+    </EntityList>
+    <RelationList proximoID="4"/>
+    <AttributeList proximoID="8"/>
+    <DomainList proximoID="1"/>
+</Inf_dbcase>

@@ -115,7 +115,6 @@ public class Controlador {
 	private int modoVista;
 	
 	public Controlador() {
-
 		// Creamos todos los servicios y les asignamos el controlador
 		theServiciosEntidades = new ServiciosEntidades(); 
 		theServiciosEntidades.setControlador(this);		
@@ -204,8 +203,6 @@ public class Controlador {
 		theme = Theme.getInstancia();
 	}
 	
-	
-	
 	public static void main(String[] args) {
 		for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) 
             if ("Nimbus".equals(info.getName())) {
@@ -213,9 +210,12 @@ public class Controlador {
             	catch (ClassNotFoundException | InstantiationException | IllegalAccessException| UnsupportedLookAndFeelException e) {e.printStackTrace();}
             break;
         }
+		//creamos la carpeta projects si no existe
+		File directory = new File(System.getProperty("user.dir")+"/projects");
+	    if (!directory.exists()) directory.mkdir();
+	        
 		// Obtenemos configuración inicial (si la hay)
 		ConfiguradorInicial conf = new ConfiguradorInicial();
-		
 		conf.leerFicheroConfiguracion();
 		
 		// Obtenemos el lenguaje en el que vamos a trabajar
@@ -262,9 +262,7 @@ public class Controlador {
 			
 			// Reinicializamos la GUIPrincipal
 			boolean guardado=true;
-			try{
-				guardado = controlador.getTheGUIPrincipal().getSalvado();
-			}
+			try{guardado = controlador.getTheGUIPrincipal().getSalvado();}
 			catch(Exception e){}//es la primera vez que se carga
 			
 			controlador.getTheGUIPrincipal().setActiva(controlador.getModoVista());
@@ -335,9 +333,7 @@ public class Controlador {
 			
 			// Reinicializamos la GUIPrincipal
 			boolean guardado=true;
-			try{
-				guardado = theGUIPrincipal.getSalvado();
-			}
+			try{guardado = theGUIPrincipal.getSalvado();}
 			catch(Exception e){}//es la primera vez que se carga
 			theGUIPrincipal.dispose();
 			theGUIInsertarDominio.dispose();
@@ -439,9 +435,8 @@ public class Controlador {
 			theGUIPrincipal.enableGuardar(true);
 			theGUIPrincipal.enableGuardarComo(true);
 			theGUIPrincipal.loadInfo();
-			try{
-				theGUIPrincipal.setSalvado(guardado);
-			}catch(Exception e){}
+			try{theGUIPrincipal.setSalvado(guardado);}
+			catch(Exception e){}
 			break;
 		}
 		case GUI_WorkSpace_Click_Guardar:{
