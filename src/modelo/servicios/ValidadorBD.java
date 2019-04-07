@@ -3,6 +3,7 @@ package modelo.servicios;
 import java.util.Vector;
 import controlador.Controlador;
 import controlador.TC;
+import modelo.lenguaje.Lenguaje;
 import modelo.persistencia.DAOAtributos;
 import modelo.persistencia.DAODominios;
 import modelo.persistencia.DAOEntidades;
@@ -14,7 +15,6 @@ import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferDominio;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
-import vista.lenguaje.Lenguaje;
 
 @SuppressWarnings({ "unchecked", "rawtypes" ,"unlikely-arg-type"})
 public class ValidadorBD extends GeneradorEsquema{

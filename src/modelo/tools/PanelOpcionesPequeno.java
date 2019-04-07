@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextPane;
 
-import vista.lenguaje.Lenguaje;
+import modelo.lenguaje.Lenguaje;
 
 
 /**

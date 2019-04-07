@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 
-import vista.Theme.Theme;
+import vista.tema.Theme;
 
 public class attributeIcon extends icon{
   

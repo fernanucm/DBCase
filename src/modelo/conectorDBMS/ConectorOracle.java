@@ -7,10 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
+import modelo.lenguaje.Lenguaje;
 import modelo.servicios.Enumerado;
 import modelo.servicios.Tabla;
 import modelo.tools.HTMLUtils;
-import vista.lenguaje.Lenguaje;
 
 /**
  * Conecta la aplicación con un gestor de bases de datos Oracle

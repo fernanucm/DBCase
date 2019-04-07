@@ -12,6 +12,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.UnsupportedLookAndFeelException;
+
+import modelo.lenguaje.Lenguaje;
 import modelo.persistencia.EntidadYAridad;
 import modelo.servicios.ServiciosAtributos;
 import modelo.servicios.ServiciosDominios;
@@ -28,36 +30,35 @@ import modelo.transfers.TransferDominio;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
 import vista.GUIPrincipal;
-import vista.GUIFrames.GUI_AnadirAtributo;
-import vista.GUIFrames.GUI_AnadirAtributoEntidad;
-import vista.GUIFrames.GUI_AnadirAtributoRelacion;
-import vista.GUIFrames.GUI_AnadirEntidadARelacion;
-import vista.GUIFrames.GUI_AnadirEntidadHija;
-import vista.GUIFrames.GUI_AnadirSubAtributoAtributo;
-import vista.GUIFrames.GUI_Conexion;
-import vista.GUIFrames.GUI_EditarCardinalidadEntidad;
-import vista.GUIFrames.GUI_EditarDominioAtributo;
-import vista.GUIFrames.GUI_EstablecerEntidadPadre;
-import vista.GUIFrames.GUI_InsertarDominio;
-import vista.GUIFrames.GUI_InsertarEntidad;
-import vista.GUIFrames.GUI_InsertarRelacion;
-import vista.GUIFrames.GUI_InsertarRestriccionAAtributo;
-import vista.GUIFrames.GUI_InsertarRestriccionAEntidad;
-import vista.GUIFrames.GUI_InsertarRestriccionARelacion;
-import vista.GUIFrames.GUI_ModificarDominio;
-import vista.GUIFrames.GUI_QuitarEntidadARelacion;
-import vista.GUIFrames.GUI_QuitarEntidadHija;
-import vista.GUIFrames.GUI_QuitarEntidadPadre;
-import vista.GUIFrames.GUI_RenombrarAtributo;
-import vista.GUIFrames.GUI_RenombrarDominio;
-import vista.GUIFrames.GUI_RenombrarEntidad;
-import vista.GUIFrames.GUI_RenombrarRelacion;
-import vista.GUIFrames.GUI_SeleccionarConexion;
-import vista.GUIFrames.GUI_TablaUniqueEntidad;
-import vista.GUIFrames.GUI_TablaUniqueRelacion;
-import vista.GUIFrames.GUI_WorkSpace;
-import vista.Theme.Theme;
-import vista.lenguaje.Lenguaje;
+import vista.frames.GUI_AnadirAtributo;
+import vista.frames.GUI_AnadirAtributoEntidad;
+import vista.frames.GUI_AnadirAtributoRelacion;
+import vista.frames.GUI_AnadirEntidadARelacion;
+import vista.frames.GUI_AnadirEntidadHija;
+import vista.frames.GUI_AnadirSubAtributoAtributo;
+import vista.frames.GUI_Conexion;
+import vista.frames.GUI_EditarCardinalidadEntidad;
+import vista.frames.GUI_EditarDominioAtributo;
+import vista.frames.GUI_EstablecerEntidadPadre;
+import vista.frames.GUI_InsertarDominio;
+import vista.frames.GUI_InsertarEntidad;
+import vista.frames.GUI_InsertarRelacion;
+import vista.frames.GUI_InsertarRestriccionAAtributo;
+import vista.frames.GUI_InsertarRestriccionAEntidad;
+import vista.frames.GUI_InsertarRestriccionARelacion;
+import vista.frames.GUI_ModificarDominio;
+import vista.frames.GUI_QuitarEntidadARelacion;
+import vista.frames.GUI_QuitarEntidadHija;
+import vista.frames.GUI_QuitarEntidadPadre;
+import vista.frames.GUI_RenombrarAtributo;
+import vista.frames.GUI_RenombrarDominio;
+import vista.frames.GUI_RenombrarEntidad;
+import vista.frames.GUI_RenombrarRelacion;
+import vista.frames.GUI_SeleccionarConexion;
+import vista.frames.GUI_TablaUniqueEntidad;
+import vista.frames.GUI_TablaUniqueRelacion;
+import vista.frames.GUI_WorkSpace;
+import vista.tema.Theme;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class Controlador {
@@ -261,21 +262,13 @@ public class Controlador {
 			FileCopy(abrirPath, tempPath);
 			
 			// Reinicializamos la GUIPrincipal
-			boolean guardado=true;
-			try{guardado = controlador.getTheGUIPrincipal().getSalvado();}
-			catch(Exception e){}//es la primera vez que se carga
 			
 			controlador.getTheGUIPrincipal().setActiva(controlador.getModoVista());
 			// Reiniciamos los datos de los servicios de sistema
 			controlador.getTheServiciosSistema().reset();
 			controlador.setCambios(false);
-			controlador.getTheGUIPrincipal().enableCerrar(true);
-			controlador.getTheGUIPrincipal().enableGuardar(true);
-			controlador.getTheGUIPrincipal().enableGuardarComo(true);
 			controlador.getTheGUIPrincipal().loadInfo();
-			try{
-				controlador.getTheGUIPrincipal().setSalvado(guardado);
-			}catch(Exception e){}
+			
 		}else {
 			controlador.setModoVista(0);
 			controlador.getTheGUIPrincipal().setActiva(controlador.getModoVista());
@@ -332,9 +325,6 @@ public class Controlador {
 			FileCopy(abrirPath, tempPath);
 			
 			// Reinicializamos la GUIPrincipal
-			boolean guardado=true;
-			try{guardado = theGUIPrincipal.getSalvado();}
-			catch(Exception e){}//es la primera vez que se carga
 			theGUIPrincipal.dispose();
 			theGUIInsertarDominio.dispose();
 			theGUIInsertarEntidad.dispose();
@@ -431,12 +421,7 @@ public class Controlador {
 			// Reiniciamos los datos de los servicios de sistema
 			this.getTheServiciosSistema().reset();
 			setCambios(false);
-			theGUIPrincipal.enableCerrar(true);
-			theGUIPrincipal.enableGuardar(true);
-			theGUIPrincipal.enableGuardarComo(true);
 			theGUIPrincipal.loadInfo();
-			try{theGUIPrincipal.setSalvado(guardado);}
-			catch(Exception e){}
 			break;
 		}
 		case GUI_WorkSpace_Click_Guardar:{
@@ -1287,6 +1272,15 @@ public class Controlador {
 			}else guardarYSalir();
 			break;
 		}
+		case GUI_Principal_Click_Imprimir:{
+			this.getTheGUIPrincipal().imprimir();break;
+		}
+		case GUI_Principal_Click_ToggleCodigos:{
+			this.getTheGUIPrincipal().toggleCodigos();break;
+		}
+		case GUI_Principal_Click_ToggleDiseno:{
+			this.getTheGUIPrincipal().toggleDiseno();break;
+		}
 		case GUI_Principal_Click_Salir:{
 			if (cambios){
 				int respuesta = panelOpcionesPeque.setActiva(
@@ -1379,26 +1373,17 @@ public class Controlador {
 						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
 				if (respuesta==1) {
 						setCambios(false);
-						theGUIPrincipal.enableCerrar(false);
-						theGUIPrincipal.enableGuardar(false);
-						theGUIPrincipal.enableGuardarComo(false);
 						filetemp.delete();
 				}else if (respuesta==0) {
 						theGUIWorkSpace = new GUI_WorkSpace();
 						theGUIWorkSpace.setControlador(this);
 						if (this.getTheGUIWorkSpace().setActiva(2)){
 							setCambios(false);
-							theGUIPrincipal.enableCerrar(false);
-							theGUIPrincipal.enableGuardar(false);
-							theGUIPrincipal.enableGuardarComo(false);
 							filetemp.delete();
 						}
 				}		
 			}else{
 				setCambios(false);
-				theGUIPrincipal.enableCerrar(false);
-				theGUIPrincipal.enableGuardar(false);
-				theGUIPrincipal.enableGuardarComo(false);
 				filetemp.delete();
 			}
 			break;
@@ -1413,9 +1398,6 @@ public class Controlador {
 			
 			/* guardar, "guardado", tempguarda... y todo eso. guardar en un temporal nuevo y luego abrirlo para dejarlo como estuviese*/ 
 			boolean cambios = this.cambios;
-			boolean enableCerrar = this.theGUIPrincipal.getEnableCerrar();
-			boolean enableGuardar = this.theGUIPrincipal.getEnableGuardar();
-			boolean enableGuardarComo = this.theGUIPrincipal.getEnableGuardarComo();
 			File fileguardar = this.fileguardar;
 			try{
 				if (filetemp.exists()){
@@ -1432,9 +1414,6 @@ public class Controlador {
 					
 			this.fileguardar=fileguardar;
 			this.cambios = cambios;
-			this.theGUIPrincipal.enableCerrar(enableCerrar);
-			this.theGUIPrincipal.enableGuardar(enableGuardar);
-			this.theGUIPrincipal.enableGuardarComo(enableGuardarComo);
 			
 			break;
 		}
@@ -1442,9 +1421,6 @@ public class Controlador {
 			theme.changeTheme((String)datos);
 			/* guardar, "guardado", tempguarda... y todo eso. guardar en un temporal nuevo y luego abrirlo para dejarlo como estuviese*/ 
 			boolean cambios = this.cambios;
-			boolean enableCerrar = this.theGUIPrincipal.getEnableCerrar();
-			boolean enableGuardar = this.theGUIPrincipal.getEnableGuardar();
-			boolean enableGuardarComo = this.theGUIPrincipal.getEnableGuardarComo();
 			File fileguardar = this.fileguardar;
 			try{
 				if (filetemp.exists()){
@@ -1458,9 +1434,6 @@ public class Controlador {
 					
 			this.fileguardar=fileguardar;
 			this.cambios= cambios;
-			this.theGUIPrincipal.enableCerrar(enableCerrar);
-			this.theGUIPrincipal.enableGuardar(enableGuardar);
-			this.theGUIPrincipal.enableGuardarComo(enableGuardarComo);
 			break;
 		}
 		/*
@@ -3604,7 +3577,6 @@ public class Controlador {
 	}
 	private void setCambios(boolean b){
 		cambios=b;
-		this.getTheGUIPrincipal().setSalvado(!b);
 	}
 }
 

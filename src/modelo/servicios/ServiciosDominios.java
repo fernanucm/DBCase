@@ -9,10 +9,10 @@ import java.util.regex.Pattern;
 
 import controlador.Controlador;
 import controlador.TC;
+import modelo.lenguaje.Lenguaje;
 import modelo.persistencia.DAODominios;
 import modelo.tools.TipoDominio;
 import modelo.transfers.TransferDominio;
-import vista.lenguaje.Lenguaje;
 
 public class ServiciosDominios {
 

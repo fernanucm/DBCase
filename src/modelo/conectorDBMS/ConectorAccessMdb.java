@@ -12,8 +12,8 @@ import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
+import modelo.lenguaje.Lenguaje;
 import modelo.tools.ImagePath;
-import vista.lenguaje.Lenguaje;
 
 public class ConectorAccessMdb extends ConectorAccessOdbc {
 

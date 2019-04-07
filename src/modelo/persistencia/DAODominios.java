@@ -18,9 +18,9 @@ import org.w3c.dom.NodeList;
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
+import modelo.lenguaje.Lenguaje;
 import modelo.tools.TipoDominio;
 import modelo.transfers.TransferDominio;
-import vista.lenguaje.Lenguaje;
 @SuppressWarnings("rawtypes")
 public class DAODominios {
 

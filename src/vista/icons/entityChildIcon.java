@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.RoundRectangle2D;
 
-import vista.Theme.Theme;
+import vista.tema.Theme;
 
 public class entityChildIcon extends icon{
 	public entityChildIcon() {

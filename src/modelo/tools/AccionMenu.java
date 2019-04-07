@@ -6,9 +6,9 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 
 import controlador.TC;
+import modelo.lenguaje.Lenguaje;
 import modelo.transfers.TransferDominio;
 import vista.GUIPrincipal;
-import vista.lenguaje.Lenguaje;
 
 public class AccionMenu extends AbstractAction {
 	/**

@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.geom.Line2D;
 
-import vista.Theme.Theme;
+import vista.tema.Theme;
 
 public class relationIcon extends icon{
  

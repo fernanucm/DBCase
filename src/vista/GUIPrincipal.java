@@ -1,7 +1,6 @@
 package vista;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -16,28 +15,23 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.Vector;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
@@ -48,16 +42,14 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
 import controlador.Controlador;
 import controlador.TC;
+import modelo.lenguaje.Lenguaje;
 import modelo.tools.AccionMenu;
 import modelo.tools.ImagePath;
 import modelo.transfers.Transfer;
@@ -66,14 +58,14 @@ import modelo.transfers.TransferConexion;
 import modelo.transfers.TransferDominio;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
-import vista.GUIPanels.TablaVolumenes;
-import vista.GUIPanels.addTransfersPanel;
-import vista.GUIPanels.customTreeCellRenderer;
-import vista.GUIPanels.reportPanel;
-import vista.Grafo.PanelGrafo;
-import vista.Grafo.PanelThumbnail;
-import vista.Theme.Theme;
-import vista.lenguaje.Lenguaje;
+import vista.components.miMenu;
+import vista.components.GUIPanels.TablaVolumenes;
+import vista.components.GUIPanels.addTransfersPanel;
+import vista.components.GUIPanels.customTreeCellRenderer;
+import vista.components.GUIPanels.reportPanel;
+import vista.diagrama.PanelGrafo;
+import vista.diagrama.PanelThumbnail;
+import vista.tema.Theme;
 
 /**
  * This code was edited or generated using CloudGarden's Jigloo
@@ -87,10 +79,8 @@ import vista.lenguaje.Lenguaje;
  * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
  * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
  */
-@SuppressWarnings({ "rawtypes", "unchecked" })
+@SuppressWarnings({ "rawtypes", "unchecked", "serial" })
 public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
-
-	private static final long serialVersionUID = 1L;
 	// Controlador de la aplicacion
 	private Controlador controlador;
 	// Variables lógicas
@@ -107,7 +97,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	// Componentes
 	private TablaVolumenes tablaVolumenes;
 	private JPanel panelTablas;
-	private JMenu menuSistema;
 	private JButton botonLimpiarPantalla;
 	private PanelThumbnail panelGrafo;
 	private JTree arbol;
@@ -117,19 +106,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private PanelGrafo panelDiseno;
 	private JScrollPane panelArbolDom;
 	private JPanel panelDom;
-	private JPanel panelSucesos;
-	private JMenuItem submenuAcercaDe;
-	private JMenuItem menuVista;
-	private JMenu menuAyuda;
-	private JMenuItem submenuExportarJPEG;
-	private JMenu menuOpciones;
-	private JCheckBoxMenuItem menuPanelSucesos;	
-	private JMenu menuSGBDActual;
-	private Vector<JCheckBoxMenuItem> elementosMenuSGBDActual;
-	private JMenu menuLenguajes;
-	private Vector<JCheckBoxMenuItem> elementosMenuLenguajes;
 	private JComboBox cboSeleccionDBMS;
-	private JMenuItem submenuImprimir;
 	private JButton botonExportarArchivo;
 	private JButton botonScriptSQL;
 	private JButton botonModeloRelacional;
@@ -138,19 +115,9 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private JSplitPane splitDisenoInfo;
 	private JPanel panelGeneracion;
 	private JPanel panelDiagrama;
-	private JMenuItem submenuSalir;
-	//private JMenuItem submenuWorkSpace;
-	private JMenuItem submenuAbrir;
-	private JMenuItem submenuGuardar;
-	private JMenuItem submenuNuevo;
-	private JMenuItem submenuCerrar;
-	private JMenuItem submenuGuardarComo;
-	private JMenuBar barraDeMenus;
+	private miMenu barraDeMenus;
 	private static JPopupMenu popup;
-	private JRadioButton salvado;
-	private boolean mostrarPanelSucesos;
 	private Theme theme;
-	private JMenu themeMenu;
 	private JScrollPane scrollPanelTablas;
 	private JTabbedPane infoTabPane;
 	protected reportPanel codigoText;
@@ -169,7 +136,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		
 		controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ObtenDBMSDisponibles, null);
 		conexionActual = listaConexiones.get(0);
-		mostrarPanelSucesos =false;
 		
 		setLookAndFeel();
 		initComponents();
@@ -271,293 +237,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	}
 	
 	private void initMenu() {
-		{
-			barraDeMenus = new JMenuBar();
-			setJMenuBar(barraDeMenus);
-			barraDeMenus.add(Box.createRigidArea(new Dimension(0,30)));
-			barraDeMenus.setOpaque(true);
-			barraDeMenus.setBorder(BorderFactory.createCompoundBorder(null,null));
-			
-			{	//File
-				menuSistema = new JMenu();
-				barraDeMenus.add(menuSistema);
-				menuSistema.setText(Lenguaje.text(Lenguaje.FILE));
-				menuSistema.setMnemonic(Lenguaje.text(Lenguaje.FILE).charAt(0));
-				
-				{//File/new
-					submenuNuevo = new JMenuItem();
-					menuSistema.add(submenuNuevo);
-					submenuNuevo.setText(Lenguaje.text(Lenguaje.NEW));
-					submenuNuevo.setMnemonic(Lenguaje.text(Lenguaje.NEW).charAt(0));
-					submenuNuevo.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.N_NUEVO)));
-					submenuNuevo.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent evt) {
-							submenuNuevoActionPerformed(evt);
-						}
-					});
-				}
-				{//File/open
-					submenuAbrir = new JMenuItem();
-					menuSistema.add(submenuAbrir);
-					submenuAbrir.setText(Lenguaje.text(Lenguaje.OPEN)+"...");
-					submenuAbrir.setMnemonic(Lenguaje.text(Lenguaje.OPEN).charAt(0));
-					submenuAbrir.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.N_ABRIR)));
-					submenuAbrir.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent evt) {
-							submenuAbrirActionPerformed(evt);
-						}
-					});
-				}
-				{//File/close
-					submenuCerrar = new JMenuItem();
-					menuSistema.add(submenuCerrar);
-					submenuCerrar.setText(Lenguaje.text(Lenguaje.CLOSE));
-					submenuCerrar.setMnemonic(Lenguaje.text(Lenguaje.CLOSE).charAt(0));
-					submenuCerrar.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.N_CERRAR)));
-					submenuCerrar.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent evt) {
-							submenuCerrarActionPerformed(evt);
-						}
-					});
-				}//File/separator
-				menuSistema.add(new JSeparator());
-				{//File/save
-					submenuGuardar = new JMenuItem();
-					menuSistema.add(submenuGuardar);
-					submenuGuardar.setText(Lenguaje.text(Lenguaje.SAVE));
-					submenuGuardar.setMnemonic(Lenguaje.text(Lenguaje.SAVE).charAt(0));
-					submenuGuardar.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.N_GUARDAR)));
-					submenuGuardar.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent evt) {
-							submenuGuardarActionPerformed(evt);
-						}
-					});
-				}
-				{//File/save as...
-					submenuGuardarComo = new JMenuItem();
-					menuSistema.add(submenuGuardarComo);
-					submenuGuardarComo.setText(Lenguaje.text(Lenguaje.SAVE_AS)+"...");
-					submenuGuardarComo.setMnemonic(Lenguaje.text(Lenguaje.SAVE_AS).charAt(1));
-					submenuGuardarComo.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent evt) {
-							submenuGuardarComoActionPerformed(evt);
-						}
-					});
-				}//File/separator2
-				menuSistema.add(new JSeparator());
-				{//File/imprimir
-					submenuImprimir = new JMenuItem();
-					menuSistema.add(submenuImprimir);
-					submenuImprimir.setText(Lenguaje.text(Lenguaje.PRINT_DIAGRAM)+"...");
-					submenuImprimir.setMnemonic(Lenguaje.text(Lenguaje.PRINT_DIAGRAM).charAt(0));
-					submenuImprimir.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.IMPRESORA)));
-					submenuImprimir.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent evt) {
-							submenuImprimirActionPerformed(evt);
-						}
-					});
-				}
-				{//File/Export
-					submenuExportarJPEG = new JMenuItem();
-					menuSistema.add(submenuExportarJPEG);
-					submenuExportarJPEG.setText(Lenguaje.text(Lenguaje.EXPORT_DIAGRAM));
-					submenuExportarJPEG.setMnemonic(Lenguaje.text(Lenguaje.EXPORT_DIAGRAM).charAt(0));
-					submenuExportarJPEG.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.EXPORTARIMAGEN)));
-					submenuExportarJPEG.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent evt) {
-							submenuExportarJPEGActionPerformed(evt);
-						}
-					});
-				}//File/Separator
-				menuSistema.add(new JSeparator());
-				{//File/salir
-					submenuSalir = new JMenuItem();
-					menuSistema.add(submenuSalir);
-					submenuSalir.setText(Lenguaje.text(Lenguaje.EXIT_MINCASE));
-					submenuSalir.setMnemonic(Lenguaje.text(Lenguaje.EXIT_MINCASE).charAt(0));
-					submenuSalir.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.SALIR)));
-					submenuSalir.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent evt) {
-							submenuSalirActionPerformed(evt);
-						}
-					});
-				}
-			}
-			{//Opciones
-				menuOpciones = new JMenu();
-				barraDeMenus.add(menuOpciones);
-				menuOpciones.setText(Lenguaje.text(Lenguaje.OPTIONS));
-				menuOpciones.setMnemonic(Lenguaje.text(Lenguaje.OPTIONS).charAt(0));
-				{
-					// Menú GESTORES DE BASES DE DATOS
-					menuSGBDActual = new JMenu();
-					menuSGBDActual.setFont(new java.awt.Font("Avenir", 0, 16));
-					menuOpciones.add(menuSGBDActual);
-					menuSGBDActual.setText(Lenguaje.text(Lenguaje.CURRENT_DBMS));
-					menuSGBDActual.setMnemonic(Lenguaje.text(Lenguaje.CURRENT_DBMS).charAt(0));
-					menuSGBDActual.setIcon(new ImageIcon(
-							getClass().getClassLoader().getResource(ImagePath.SELECCIONARSGBD)));
-					elementosMenuSGBDActual = new Vector<JCheckBoxMenuItem>(0,1);
-					
-					// Añadir las conexiones listadas
-					if(listaConexiones!=null) {
-						for (int i=0; i < listaConexiones.size(); i++){
-							TransferConexion tc = listaConexiones.get(i);
-							
-							JCheckBoxMenuItem menuConexion = new JCheckBoxMenuItem();
-							menuConexion.setText(tc.getRuta());
-							menuConexion.setSelected(i == 0);
-							menuConexion.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent e) {
-									// Obtener el checkBox que ha sido pulsado
-									JCheckBoxMenuItem check = (JCheckBoxMenuItem) e.getSource();
-									System.out.println("He pulsado la opción " + check.getText());
-									
-									// Cambiar la conexión actual
-									cambiarConexion(check.getText());
-								}
-							});
-							menuSGBDActual.add(menuConexion);
-							elementosMenuSGBDActual.add(menuConexion);
-						}
-					}
-					// Menu SELECCIONAR LENGUAJE
-					menuLenguajes = new JMenu();
-					menuLenguajes.setFont(new java.awt.Font("Avenir", 0, 16));
-					menuOpciones.add(menuLenguajes);
-					menuLenguajes.setText(Lenguaje.text(Lenguaje.SELECT_LANGUAGE));
-					menuLenguajes.setMnemonic(Lenguaje.text(Lenguaje.SELECT_LANGUAGE).charAt(0));
-					menuLenguajes.setIcon(new ImageIcon(
-							getClass().getClassLoader().getResource(
-									ImagePath.SELECCIONARLENGUAJE)));
-					
-					elementosMenuLenguajes = new Vector<JCheckBoxMenuItem>(0,1);
-					
-					Vector<String> lenguajes = Lenguaje.obtenLenguajesDisponibles();
-					for (int m=0; m<lenguajes.size(); m++){
-						JCheckBoxMenuItem lenguaje = new JCheckBoxMenuItem();
-						lenguaje.setText(lenguajes.get(m));
-						lenguaje.setSelected(lenguajes.get(m).equalsIgnoreCase(
-								Lenguaje.getIdiomaActual()));
-						
-						lenguaje.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								// Obtener el checkBox que ha sido pulsado
-								JCheckBoxMenuItem check = (JCheckBoxMenuItem) e.getSource();
-								System.out.println("Lenguajes: He pulsado la opción " + check.getText());
-								
-								// Cambiar el lenguaje
-								controlador.mensajeDesde_GUIPrincipal(
-										TC.GUI_Principal_CambiarLenguaje, 
-										check.getText());
-								
-								// Actualizar los checkBox
-								for (int k=0; k<elementosMenuLenguajes.size(); k++){
-									JCheckBoxMenuItem l = elementosMenuLenguajes.get(k);
-									l.setSelected(l.getText().equalsIgnoreCase(Lenguaje.getIdiomaActual()));
-								}
-							}
-						});
-						menuLenguajes.add(lenguaje);
-						elementosMenuLenguajes.add(lenguaje);
-					}
-					
-				}	
-			}
-			{
-				menuVista = new JMenu();
-				barraDeMenus.add(menuVista);
-				menuVista.setText(Lenguaje.text(Lenguaje.VIEW));
-				menuVista.setMnemonic(Lenguaje.text(Lenguaje.HELP).charAt(0));
-				{
-					JCheckBoxMenuItem er = new JCheckBoxMenuItem();
-					JCheckBoxMenuItem code = new JCheckBoxMenuItem();
-					menuPanelSucesos = new JCheckBoxMenuItem();
-					themeMenu = new JMenu();
-					for(String s : this.theme.getAvaiableThemes()) {
-						JCheckBoxMenuItem item = new JCheckBoxMenuItem();
-						item.setText(s);
-						item.setFont(new java.awt.Font("Avenir", 0, 16));
-						item.setActionCommand(s);
-						if(s.equals(theme.getThemeName()))item.setSelected(true);
-						item.addActionListener(new ActionListener() {
-							@Override
-							public void actionPerformed(ActionEvent e) {
-								cambiaTema(e);
-							}
-						});
-						themeMenu.add(item);
-					}
-					
-					themeMenu.setFont(new java.awt.Font("Avenir", 0, 16));
-					menuVista.add(er);
-					menuVista.add(code);
-					menuVista.add(new JSeparator());
-					menuVista.add(themeMenu);
-					
-					er.setText(Lenguaje.text(Lenguaje.CONC_MODEL));
-					er.setSelected(true);
-					er.setFont(new java.awt.Font("Avenir", 0, 16));
-					er.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							dealer.toggleDiseno();
-						}
-					});
-					code.setText("Logic + physical");
-					code.setSelected(true);
-					code.setFont(new java.awt.Font("Avenir", 0, 16));
-					code.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							dealer.toggleCodigos();
-						}
-					});
-					themeMenu.setText(Lenguaje.text(Lenguaje.THEME));
-					
-					menuPanelSucesos.setText(Lenguaje.text(Lenguaje.SHOW_EVENTS_PANEL));
-					menuPanelSucesos.setMnemonic(Lenguaje.text(Lenguaje.SHOW_EVENTS_PANEL).charAt(0));
-					menuPanelSucesos.setFont(new java.awt.Font("Avenir", 0, 16));
-					
-					menuPanelSucesos.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent evt) {
-							menuPanelSucesosActionPerformed(evt);
-						}
-					});
-						
-				}
-			}
-			{//Ayuda
-				menuAyuda = new JMenu();
-				barraDeMenus.add(menuAyuda);
-				menuAyuda.setText(Lenguaje.text(Lenguaje.HELP));
-				menuAyuda.setMnemonic(Lenguaje.text(Lenguaje.HELP).charAt(0));
-				
-				{//Ayuda/acerca de
-					submenuAcercaDe = new JMenuItem();
-					menuAyuda.add(submenuAcercaDe);
-					submenuAcercaDe.setText(Lenguaje.text(Lenguaje.ABOUT));
-					submenuAcercaDe.setMnemonic(Lenguaje.text(Lenguaje.ABOUT).charAt(0));
-					submenuAcercaDe.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.CREDITOS)));
-					submenuAcercaDe.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent evt) {
-							submenuAcercaDeActionPerformed(evt);
-						}
-					});
-				}
-			}
-		}
-		salvado = new JRadioButton();
-		salvado.setSelected(true);
-		salvado.setFocusable(false);
-		salvado.setForeground(Color.GREEN);
-		salvado.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent arg0) {
-				if(salvado.isSelected()==false)
-					salvado.setSelected(true);
-			} 
-		});
-		
+		barraDeMenus = new miMenu(controlador);
+		setJMenuBar(barraDeMenus);
 	}//initMenu
 	
 	private void initDiagrama() {
@@ -756,55 +437,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		codePanel.add(codigoText.getPanel(), BorderLayout.CENTER);
 	}
 	
-	/*
-	 * Oyentes de la barra de menus
-	 */
-	private void cambiaTema(ActionEvent evt) {
-		controlador.mensajeDesde_GUIPrincipal(
-				TC.GUI_Principal_CambiarTema, evt.getActionCommand());
-		int i = 0;
-		for(String s : this.theme.getAvaiableThemes()) {
-			if(theme.getThemeName().equals(s))themeMenu.getItem(i).setSelected(true);
-			else themeMenu.getItem(i).setSelected(false);
-			i++;
-		}
-	}
-	
-	private void submenuNuevoActionPerformed(ActionEvent evt) {
-		this.controlador.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_Submenu_Nuevo, null);
-	}
-	
-	private void submenuCerrarActionPerformed(ActionEvent evt) {
-		this.controlador.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_Submenu_Cerrar, null);
-	}
-	
-	private void submenuGuardarComoActionPerformed(ActionEvent evt) {
-		this.controlador.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_Submenu_GuardarComo, null);
-	}
-	
-	private void submenuAbrirActionPerformed(ActionEvent evt) {
-		this.controlador.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_Submenu_Abrir, null);
-	}
-	
-	private void submenuGuardarActionPerformed(ActionEvent evt) {
-		this.controlador.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_Submenu_Guardar, null);
-	}
 
-	private void submenuSalirActionPerformed(ActionEvent evt) {
-		this.controlador.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_Submenu_Salir, null);
-	}
-	
-	private void menuPanelSucesosActionPerformed(ActionEvent evt) {
-		mostrarPanelSucesos= !mostrarPanelSucesos;
-		if(!mostrarPanelSucesos){
-			panelSucesos.setVisible(false);
-			splitDisenoInfo.setOneTouchExpandable(false);
-		}else{
-			panelSucesos.setVisible(true);
-			splitDisenoInfo.setOneTouchExpandable(true);
-			splitDisenoInfo.resetToPreferredSizes();
-		}
-	}
 	
 
 	/*
@@ -1582,560 +1215,450 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	* LISTENER DEL ARBOL INFORMACION
 	* */
 	MouseListener mls = new MouseAdapter() {
-	     @Override
-		public void mousePressed(MouseEvent e){
-	         int selRow = arbol.getRowForLocation(e.getX(), e.getY());
-	         TreePath selPath = arbol.getPathForLocation(e.getX(), e.getY());
-	         if(selRow != -1) {
-	        	 if (javax.swing.SwingUtilities.isRightMouseButton(e)) {
-	        	     muestraMenu(e, selPath);
-	             }
-	        	 else{
-		        	 getPopUp().setVisible(false);
-		         }
-	         }
-	         else{
-	        	 getPopUp().setVisible(false);
-	         }
-	         
-	         
-	     }		
-		private void muestraMenu(MouseEvent e, TreePath selPath) {
-			popup.removeAll();
-			controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeEntidades, null);
-			controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeAtributos, null);
-			controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeRelaciones, null);
-			
-			//if(selPath.getPathCount()==1){//Nodo The entity, the attribute, the relation...
-				String nombre= selPath.getPathComponent(0).toString();
-				if(nombre.contains(Lenguaje.text(Lenguaje.ENTITY))){
-					//buscamos el transfer
-					nombre= nombre.replace('"', '*');
-					nombre= nombre.replaceAll(Lenguaje.text(Lenguaje.THE_ENTITY)+" ", "");
-					nombre= nombre.replace("*", "");
+    @Override
+	public void mousePressed(MouseEvent e){
+         int selRow = arbol.getRowForLocation(e.getX(), e.getY());
+         TreePath selPath = arbol.getPathForLocation(e.getX(), e.getY());
+         if(selRow != -1) 
+        	 if (javax.swing.SwingUtilities.isRightMouseButton(e)) muestraMenu(e, selPath);
+        	 else getPopUp().setVisible(false);
+         else getPopUp().setVisible(false);
+     }		
+	private void muestraMenu(MouseEvent e, TreePath selPath) {
+		popup.removeAll();
+		controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeEntidades, null);
+		controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeAtributos, null);
+		controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeRelaciones, null);
+		
+		//if(selPath.getPathCount()==1){//Nodo The entity, the attribute, the relation...
+			String nombre= selPath.getPathComponent(0).toString();
+			if(nombre.contains(Lenguaje.text(Lenguaje.ENTITY))){
+				//buscamos el transfer
+				nombre= nombre.replace('"', '*');
+				nombre= nombre.replaceAll(Lenguaje.text(Lenguaje.THE_ENTITY)+" ", "");
+				nombre= nombre.replace("*", "");
+				
+				int index=-1;
+				
+				for (int i=0; i<listaEntidades.size();i++){
+					if(listaEntidades.get(i).getNombre().equals(nombre)){
+					 index=i;	
+					}
 					
-					int index=-1;
-					
-					for (int i=0; i<listaEntidades.size();i++){
-						if(listaEntidades.get(i).getNombre().equals(nombre)){
-						 index=i;	
-						}
+				}
+				final TransferEntidad entidad = listaEntidades.get(index);
+				
+				// Anadir un atributo a una entidad
+				JMenuItem j3 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_ATTRIBUTE));
+				j3.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						popup.setVisible(false);
+						System.out.println("Añadir un nuevo atributo a la entidad: " + entidad);
+						TransferEntidad clon_entidad = entidad.clonar();
+						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirAtributoEntidad,clon_entidad);
+					}	
+				});
+				popup.add(j3);
+				popup.add(new JSeparator());
+				// Renombrar la entidad
+				JMenuItem j1 = new JMenuItem(Lenguaje.text(Lenguaje.RENAME_ENTITY));
+				j1.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						popup.setVisible(false);
+						System.out.println("Cambiar nombre a entidad: " + entidad);
+						TransferEntidad clon_entidad = entidad.clonar();
+						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_RenombrarEntidad,clon_entidad);
 						
+					}	
+				});
+				popup.add(j1);
+				// Eliminar una entidad 
+				JMenuItem j4 = new JMenuItem(Lenguaje.text(Lenguaje.DELETE_ENT));
+				j4.addActionListener(new java.awt.event.ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							popup.setVisible(false);
+							System.out.println("Eliminar la entidad: " + entidad);
+							TransferEntidad clon_entidad = entidad.clonar();
+							Vector<Object> v = new Vector<Object>();
+							v.add(clon_entidad);
+							v.add(true);
+							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EliminarEntidad,v);
+						}	
+				});
+				popup.add(j4);
+				popup.add(new JSeparator());
+				//Añadir restricciones			
+				JMenuItem j5 = new JMenuItem(Lenguaje.text(Lenguaje.RESTRICTIONS));
+				j5.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						popup.setVisible(false);
+						System.out.println("Añadir una restriccion a la entidad: " + entidad);
+						TransferEntidad clon_entidad = entidad.clonar();
+						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirRestriccionAEntidad,clon_entidad);
+					}	
+				});
+				popup.add(j5);
+				//Añadir restricciones	Unique		
+				JMenuItem j6 = new JMenuItem(Lenguaje.text(Lenguaje.TABLE_UNIQUE));
+				j6.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						popup.setVisible(false);
+						System.out.println("Tabla 'unique' entidad: " + entidad);
+						TransferEntidad clon_entidad = entidad.clonar();
+						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_TablaUniqueAEntidad,clon_entidad);
+					}	
+				});
+				popup.add(j6);
+			
+					
+			//ATRIBUTO		
+			}else if(nombre.contains(Lenguaje.text(Lenguaje.ATTRIBUTE))){
+				//buscamos el transfer
+				nombre= nombre.replace('"', '*');
+				nombre= nombre.replaceAll(Lenguaje.text(Lenguaje.THE_ATTRIBUTE)+" ", "");
+				nombre= nombre.replace("*", "");
+				int ind = nombre.indexOf("(", 0);
+				nombre = nombre.substring(0,ind-1);
+				// y el transfer de la entidad, relacion o atributo compuesto a la que pertenece
+				String nombreE = selPath.getPathComponent(0).toString();
+				int ind1, ind2;
+				ind1= nombreE.indexOf("(",0);
+				ind2= nombreE.indexOf(")",0);
+				nombreE= nombreE.substring(ind1+1, ind2);
+				
+				
+				int pertenece=-1; //0 entidad, 1 relacion, 2 atributo compuesto.
+				if (nombreE.contains("ent: ")){
+					pertenece=0;
+					nombreE=nombreE.replace("ent: ", "");  /*TRADUCIR*/
+					nombreE= nombreE.replace('"', '*');
+					nombreE= nombreE.replace("*", "");
+				}else if(nombreE.contains("rel: ")){
+					pertenece=1;
+					nombreE=nombreE.replace("rel: ", "");  /*TRADUCIR*/
+					nombreE= nombreE.replace('"', '*');
+					nombreE= nombreE.replace("*", "");
+				}else if(nombreE.contains("attr: ")){
+					pertenece=2;
+					nombreE=nombreE.replace("attr: ", "");  /*TRADUCIR*/
+				}
+				
+				int numAtributo=-1;
+				int index=-1;
+				int idAtributo=-1;
+									
+				if(pertenece==0){
+					for (int i=0; i<listaEntidades.size();i++){
+						if(listaEntidades.get(i).getNombre().equals(nombreE)){
+							index=i;
+						}
 					}
 					final TransferEntidad entidad = listaEntidades.get(index);
-					
-					// Anadir un atributo a una entidad
-					JMenuItem j3 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_ATTRIBUTE));
-					j3.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							popup.setVisible(false);
-							System.out.println("Añadir un nuevo atributo a la entidad: " + entidad);
-							TransferEntidad clon_entidad = entidad.clonar();
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirAtributoEntidad,clon_entidad);
-						}	
-					});
-					popup.add(j3);
-					popup.add(new JSeparator());
-					// Renombrar la entidad
-					JMenuItem j1 = new JMenuItem(Lenguaje.text(Lenguaje.RENAME_ENTITY));
-					j1.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							popup.setVisible(false);
-							System.out.println("Cambiar nombre a entidad: " + entidad);
-							TransferEntidad clon_entidad = entidad.clonar();
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_RenombrarEntidad,clon_entidad);
-							
-						}	
-					});
-					popup.add(j1);
-					// Eliminar una entidad 
-					JMenuItem j4 = new JMenuItem(Lenguaje.text(Lenguaje.DELETE_ENT));
-					j4.addActionListener(new java.awt.event.ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								popup.setVisible(false);
-								System.out.println("Eliminar la entidad: " + entidad);
-								TransferEntidad clon_entidad = entidad.clonar();
-								Vector<Object> v = new Vector<Object>();
-								v.add(clon_entidad);
-								v.add(true);
-								controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EliminarEntidad,v);
-							}	
-					});
-					popup.add(j4);
-					popup.add(new JSeparator());
-					//Añadir restricciones			
-					JMenuItem j5 = new JMenuItem(Lenguaje.text(Lenguaje.RESTRICTIONS));
-					j5.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							popup.setVisible(false);
-							System.out.println("Añadir una restriccion a la entidad: " + entidad);
-							TransferEntidad clon_entidad = entidad.clonar();
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirRestriccionAEntidad,clon_entidad);
-						}	
-					});
-					popup.add(j5);
-					//Añadir restricciones	Unique		
-					JMenuItem j6 = new JMenuItem(Lenguaje.text(Lenguaje.TABLE_UNIQUE));
+					for (int i=0; i<listaAtributos.size();i++){
+						if(listaAtributos.get(i).getNombre().equals(nombre) && 
+								entidad.getListaAtributos().contains(Integer.toString((listaAtributos.get(i).getIdAtributo())))){
+							numAtributo=i;
+							idAtributo=listaAtributos.get(i).getIdAtributo();
+						}
+					}
+				}else if(pertenece==1){
+					for (int i=0; i<listaRelaciones.size();i++){
+						if(listaRelaciones.get(i).getNombre().equals(nombreE)){
+							index=i;
+						}
+					}
+					final TransferRelacion relacion = listaRelaciones.get(index);
+					for (int i=0; i<listaAtributos.size();i++){
+						if(listaAtributos.get(i).getNombre().equals(nombre) && 
+								relacion.getListaAtributos().contains(Integer.toString((listaAtributos.get(i).getIdAtributo())))){
+							numAtributo=i;	
+						}
+					}
+				}else if(pertenece==2){
+					for (int i=0; i<listaAtributos.size();i++){
+						if(listaAtributos.get(i).getIdAtributo() == Integer.parseInt(nombreE)){
+							index=i;
+						}
+					}
+					final TransferAtributo atributoC = listaAtributos.get(index);
+					for (int i=0; i<listaAtributos.size();i++){
+						if(listaAtributos.get(i).getNombre().equals(nombre) && 
+								atributoC.getListaComponentes().contains(Integer.toString((listaAtributos.get(i).getIdAtributo())))){
+							numAtributo=i;	
+						}
+					}
+				}
+				
+				final TransferAtributo atributo = listaAtributos.get(numAtributo);
+				
+				if (pertenece==0)//si es atributo de entidad miramos si es clave primaria
+					for (int j=0; j<listaEntidades.get(index).getListaClavesPrimarias().size();j++){ 
+						System.out.println(listaEntidades.get(index).getListaClavesPrimarias().get(j).toString());
+						System.out.println(idAtributo);
+						if(Integer.parseInt(listaEntidades.get(index).getListaClavesPrimarias().get(j).toString())==idAtributo){
+							atributo.setClavePrimaria(true);
+						}
+					}
+				// Editar el dominio del atributo
+				JMenuItem j2 = new JMenuItem(Lenguaje.text(Lenguaje.EDIT_DOMAIN));
+				j2.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						popup.setVisible(false);
+						System.out.println("Cambiar el dominio del atributo: " + atributo);
+						TransferAtributo clon_atributo = atributo.clonar();
+						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarDominioAtributo,clon_atributo);
+					}	
+				});
+				popup.add(j2);
+				
+				// Renombrar un atributo
+				JMenuItem j1 = new JMenuItem(Lenguaje.text(Lenguaje.RENAME_ATTRIB));
+				j1.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						popup.setVisible(false);
+						System.out.println("Cambiar nombre del atributo: " + atributo);
+						TransferAtributo clon_atributo = atributo.clonar();
+						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_RenombrarAtributo,clon_atributo);
+					}	
+				});
+				popup.add(j1);
+
+				// Eliminar un atributo
+				JMenuItem j7 = new JMenuItem(Lenguaje.text(Lenguaje.DELETE_ATTRIB));
+				j7.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						popup.setVisible(false);
+						System.out.println("Eliminar atributo: " + atributo);
+						TransferAtributo clon_atributo = atributo.clonar();
+						Vector<Object> v = new Vector<Object>();
+						v.add(clon_atributo);
+						v.add(true);
+						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EliminarAtributo,v);
+					}	
+				});
+				popup.add(j7);					
+				popup.add(new JSeparator());
+
+				// Establecer clave primaria
+				// Solamente estara activo cuando sea un atributo directo de una entidad
+				final TransferEntidad ent = esAtributoDirecto(atributo);
+				if (ent != null){
+					JCheckBoxMenuItem j6 = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.IS_PRIMARY_KEY)+" \""+ent.getNombre()+"\"");
+					if (atributo.isClavePrimaria()) j6.setSelected(true);
 					j6.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
-							System.out.println("Tabla 'unique' entidad: " + entidad);
-							TransferEntidad clon_entidad = entidad.clonar();
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_TablaUniqueAEntidad,clon_entidad);
+							System.out.println("Editar clave primaria etributo: " + atributo);
+							TransferAtributo clon_atributo = atributo.clonar();
+							TransferEntidad clon_entidad = ent.clonar();
+							Vector<Transfer> vector = new Vector<Transfer>();
+							vector.add(clon_atributo);
+							vector.add(clon_entidad);
+							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarClavePrimariaAtributo,vector);	
 						}	
 					});
 					popup.add(j6);
+				}
 				
-						
-				//ATRIBUTO		
-				}else if(nombre.contains(Lenguaje.text(Lenguaje.ATTRIBUTE))){
-					//buscamos el transfer
-					nombre= nombre.replace('"', '*');
-					nombre= nombre.replaceAll(Lenguaje.text(Lenguaje.THE_ATTRIBUTE)+" ", "");
-					nombre= nombre.replace("*", "");
-					int ind = nombre.indexOf("(", 0);
-					nombre = nombre.substring(0,ind-1);
-					// y el transfer de la entidad, relacion o atributo compuesto a la que pertenece
-					String nombreE = selPath.getPathComponent(0).toString();
-					int ind1, ind2;
-					ind1= nombreE.indexOf("(",0);
-					ind2= nombreE.indexOf(")",0);
-					nombreE= nombreE.substring(ind1+1, ind2);
-					
-					
-					int pertenece=-1; //0 entidad, 1 relacion, 2 atributo compuesto.
-					if (nombreE.contains("ent: ")){
-						pertenece=0;
-						nombreE=nombreE.replace("ent: ", "");  /*TRADUCIR*/
-						nombreE= nombreE.replace('"', '*');
-						nombreE= nombreE.replace("*", "");
-					}else if(nombreE.contains("rel: ")){
-						pertenece=1;
-						nombreE=nombreE.replace("rel: ", "");  /*TRADUCIR*/
-						nombreE= nombreE.replace('"', '*');
-						nombreE= nombreE.replace("*", "");
-					}else if(nombreE.contains("attr: ")){
-						pertenece=2;
-						nombreE=nombreE.replace("attr: ", "");  /*TRADUCIR*/
-					}
-					
-					int numAtributo=-1;
-					int index=-1;
-					int idAtributo=-1;
-										
-					if(pertenece==0){
-						for (int i=0; i<listaEntidades.size();i++){
-							if(listaEntidades.get(i).getNombre().equals(nombreE)){
-								index=i;
-							}
+				// Es un atributo compuesto
+				JCheckBoxMenuItem j3 = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.COMPOSED));
+				final boolean notnul= atributo.getNotnull();
+				final boolean unique = atributo.getUnique();
+				if (atributo.getCompuesto()) j3.setSelected(true);
+				else j3.setSelected(false);
+				j3.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						popup.setVisible(false);
+						System.out.println("Cambiar el carácter de compuesto del atributo: " + atributo);
+						TransferAtributo clon_atributo = atributo.clonar();
+						if (notnul){
+						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarNotNullAtributo,clon_atributo);
 						}
-						final TransferEntidad entidad = listaEntidades.get(index);
-						for (int i=0; i<listaAtributos.size();i++){
-							if(listaAtributos.get(i).getNombre().equals(nombre) && 
-									entidad.getListaAtributos().contains(Integer.toString((listaAtributos.get(i).getIdAtributo())))){
-								numAtributo=i;
-								idAtributo=listaAtributos.get(i).getIdAtributo();
-							}
+						if (unique){
+							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarUniqueAtributo,clon_atributo);
 						}
-					}else if(pertenece==1){
-						for (int i=0; i<listaRelaciones.size();i++){
-							if(listaRelaciones.get(i).getNombre().equals(nombreE)){
-								index=i;
-							}
-						}
-						final TransferRelacion relacion = listaRelaciones.get(index);
-						for (int i=0; i<listaAtributos.size();i++){
-							if(listaAtributos.get(i).getNombre().equals(nombre) && 
-									relacion.getListaAtributos().contains(Integer.toString((listaAtributos.get(i).getIdAtributo())))){
-								numAtributo=i;	
-							}
-						}
-					}else if(pertenece==2){
-						for (int i=0; i<listaAtributos.size();i++){
-							if(listaAtributos.get(i).getIdAtributo() == Integer.parseInt(nombreE)){
-								index=i;
-							}
-						}
-						final TransferAtributo atributoC = listaAtributos.get(index);
-						for (int i=0; i<listaAtributos.size();i++){
-							if(listaAtributos.get(i).getNombre().equals(nombre) && 
-									atributoC.getListaComponentes().contains(Integer.toString((listaAtributos.get(i).getIdAtributo())))){
-								numAtributo=i;	
-							}
-						}
-					}
-					
-					final TransferAtributo atributo = listaAtributos.get(numAtributo);
-					
-					if (pertenece==0)//si es atributo de entidad miramos si es clave primaria
-						for (int j=0; j<listaEntidades.get(index).getListaClavesPrimarias().size();j++){ 
-							System.out.println(listaEntidades.get(index).getListaClavesPrimarias().get(j).toString());
-							System.out.println(idAtributo);
-							if(Integer.parseInt(listaEntidades.get(index).getListaClavesPrimarias().get(j).toString())==idAtributo){
-								atributo.setClavePrimaria(true);
-							}
-						}
-					// Editar el dominio del atributo
-					JMenuItem j2 = new JMenuItem(Lenguaje.text(Lenguaje.EDIT_DOMAIN));
-					j2.addActionListener(new java.awt.event.ActionListener() {
+						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarCompuestoAtributo,clon_atributo);	
+					}	
+				});
+				popup.add(j3);
+				
+				// Si es compuesto
+				if (atributo.getCompuesto()){
+					JMenuItem j4 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_SUBATTRIBUTE));
+					j4.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
-							System.out.println("Cambiar el dominio del atributo: " + atributo);
+							System.out.println("Anadir subatributo: " + atributo);
 							TransferAtributo clon_atributo = atributo.clonar();
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarDominioAtributo,clon_atributo);
+							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirSubAtributoAAtributo,clon_atributo);
 						}	
 					});
-					popup.add(j2);
-					
-					// Renombrar un atributo
-					JMenuItem j1 = new JMenuItem(Lenguaje.text(Lenguaje.RENAME_ATTRIB));
-					j1.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							popup.setVisible(false);
-							System.out.println("Cambiar nombre del atributo: " + atributo);
-							TransferAtributo clon_atributo = atributo.clonar();
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_RenombrarAtributo,clon_atributo);
-						}	
-					});
-					popup.add(j1);
+					popup.add(j4);
+				}
+				//popup.add(new JSeparator());
 
-					// Eliminar un atributo
-					JMenuItem j7 = new JMenuItem(Lenguaje.text(Lenguaje.DELETE_ATTRIB));
-					j7.addActionListener(new java.awt.event.ActionListener() {
+				// Es un atributo NotNull
+				if(!atributo.getCompuesto() && !atributo.isClavePrimaria()){
+					JCheckBoxMenuItem j3a = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.NOT_NULL));
+					if (atributo.getNotnull()) j3a.setSelected(true);
+					else j3a.setSelected(false);
+					j3a.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
-							System.out.println("Eliminar atributo: " + atributo);
+							System.out.println("Cambiar el carácter de 'Not Null' del atributo: " + atributo);
 							TransferAtributo clon_atributo = atributo.clonar();
-							Vector<Object> v = new Vector<Object>();
-							v.add(clon_atributo);
-							v.add(true);
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EliminarAtributo,v);
+							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarNotNullAtributo,clon_atributo);	
 						}	
 					});
-					popup.add(j7);					
-					popup.add(new JSeparator());
-
-					// Establecer clave primaria
-					// Solamente estara activo cuando sea un atributo directo de una entidad
-					final TransferEntidad ent = esAtributoDirecto(atributo);
-					if (ent != null){
-						JCheckBoxMenuItem j6 = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.IS_PRIMARY_KEY)+" \""+ent.getNombre()+"\"");
-						if (atributo.isClavePrimaria()) j6.setSelected(true);
-						j6.addActionListener(new java.awt.event.ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								popup.setVisible(false);
-								System.out.println("Editar clave primaria etributo: " + atributo);
-								TransferAtributo clon_atributo = atributo.clonar();
-								TransferEntidad clon_entidad = ent.clonar();
-								Vector<Transfer> vector = new Vector<Transfer>();
-								vector.add(clon_atributo);
-								vector.add(clon_entidad);
-								controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarClavePrimariaAtributo,vector);	
-							}	
-						});
-						popup.add(j6);
+					popup.add(j3a);
+					//popup.add(new JSeparator());
+				}
+				// Es un atributo Unique
+				if(!atributo.getCompuesto() && !atributo.isClavePrimaria()){
+				JCheckBoxMenuItem j3b = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.UNIQUE));
+				if (atributo.getUnique()) j3b.setSelected(true);
+				else j3b.setSelected(false);
+				j3b.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						popup.setVisible(false);
+						System.out.println("Cambiar el carácter de 'Unique' del atributo: " + atributo);
+						TransferAtributo clon_atributo = atributo.clonar();
+						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarUniqueAtributo,clon_atributo);	
+					}	
+				});
+				popup.add(j3b);
+				//popup.add(new JSeparator());
+				}
+				
+				// Es un atributo multivalorado
+				if( !atributo.isClavePrimaria()){
+				JCheckBoxMenuItem j5 = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.IS_MULTIVALUATED));
+				if (atributo.isMultivalorado()) j5.setSelected(true);
+				else j5.setSelected(false);
+				j5.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						popup.setVisible(false);
+						System.out.println("Cambiar el carácter de multivalorado: " + atributo);
+						TransferAtributo clon_atributo = atributo.clonar();
+						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarMultivaloradoAtributo,clon_atributo);	
+					}	
+				});
+				popup.add(j5);
+				//popup.add(new JSeparator());
+				}
+				
+				
+				popup.add(new JSeparator());
+				//Añadir restricciones			
+				JMenuItem j8 = new JMenuItem(Lenguaje.text(Lenguaje.RESTRICTIONS));
+				j8.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						popup.setVisible(false);
+						System.out.println("Añadir una restriccion al atributo: " + atributo);
+						TransferAtributo clon_atributo = atributo.clonar();
+						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirRestriccionAAtributo,clon_atributo);
+					}	
+				});
+				popup.add(j8);
+							
+				
+			}else if(nombre.contains(Lenguaje.text(Lenguaje.RELATION)) || 
+					 nombre.contains(Lenguaje.text(Lenguaje.RELATION).toLowerCase())){
+				//buscamos el transfer
+				nombre= nombre.replace('"', '*');
+				nombre= nombre.replaceAll(Lenguaje.text(Lenguaje.THE_RELATION)+" ", "");
+				nombre= nombre.replace("*", "");
+				
+				int index=-1;
+				for (int i=0; i<listaRelaciones.size();i++){
+					if(listaRelaciones.get(i).getNombre().equals(nombre)){
+					 index=i;	
 					}
-					
-					// Es un atributo compuesto
-					JCheckBoxMenuItem j3 = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.COMPOSED));
-					final boolean notnul= atributo.getNotnull();
-					final boolean unique = atributo.getUnique();
-					if (atributo.getCompuesto()) j3.setSelected(true);
-					else j3.setSelected(false);
+				}
+				
+				if (index == -1){
+					nombre= nombre.substring(nombre.indexOf('(')+1, nombre.length()-1);
+					int indice = Integer.parseInt(nombre);
+					for (int i=0; i<listaRelaciones.size();i++){
+						if(listaRelaciones.get(i).getIdRelacion()==indice){
+						 index=i;	
+						}
+					}
+				}
+				
+				final TransferRelacion relacion= listaRelaciones.get(index);
+									
+				if (!(relacion.getTipo().equals("IsA"))){
+					// Anadir una entidad
+					JMenuItem j3 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_ENT));
 					j3.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
-							System.out.println("Cambiar el carácter de compuesto del atributo: " + atributo);
-							TransferAtributo clon_atributo = atributo.clonar();
-							if (notnul){
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarNotNullAtributo,clon_atributo);
-							}
-							if (unique){
-								controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarUniqueAtributo,clon_atributo);
-							}
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarCompuestoAtributo,clon_atributo);	
+							System.out.println("Añadir una entidad a la relación: " + relacion);
+							TransferRelacion clon_relacion = relacion.clonar();
+							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirEntidadARelacion,clon_relacion);	
 						}	
 					});
 					popup.add(j3);
-					
-					// Si es compuesto
-					if (atributo.getCompuesto()){
-						JMenuItem j4 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_SUBATTRIBUTE));
-						j4.addActionListener(new java.awt.event.ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								popup.setVisible(false);
-								System.out.println("Anadir subatributo: " + atributo);
-								TransferAtributo clon_atributo = atributo.clonar();
-								controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirSubAtributoAAtributo,clon_atributo);
-							}	
-						});
-						popup.add(j4);
-					}
-					//popup.add(new JSeparator());
 
-					// Es un atributo NotNull
-					if(!atributo.getCompuesto() && !atributo.isClavePrimaria()){
-						JCheckBoxMenuItem j3a = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.NOT_NULL));
-						if (atributo.getNotnull()) j3a.setSelected(true);
-						else j3a.setSelected(false);
-						j3a.addActionListener(new java.awt.event.ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								popup.setVisible(false);
-								System.out.println("Cambiar el carácter de 'Not Null' del atributo: " + atributo);
-								TransferAtributo clon_atributo = atributo.clonar();
-								controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarNotNullAtributo,clon_atributo);	
-							}	
-						});
-						popup.add(j3a);
-						//popup.add(new JSeparator());
-					}
-					// Es un atributo Unique
-					if(!atributo.getCompuesto() && !atributo.isClavePrimaria()){
-					JCheckBoxMenuItem j3b = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.UNIQUE));
-					if (atributo.getUnique()) j3b.setSelected(true);
-					else j3b.setSelected(false);
-					j3b.addActionListener(new java.awt.event.ActionListener() {
+					// Quitar una entidad
+					JMenuItem j4 = new JMenuItem(Lenguaje.text(Lenguaje.REMOVE_ENTITY));
+					j4.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
-							System.out.println("Cambiar el carácter de 'Unique' del atributo: " + atributo);
-							TransferAtributo clon_atributo = atributo.clonar();
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarUniqueAtributo,clon_atributo);	
+							System.out.println("Quitar una entidad a la relación: " + relacion);
+							TransferRelacion clon_relacion = relacion.clonar();
+							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_QuitarEntidadARelacion,clon_relacion);	
 						}	
 					});
-					popup.add(j3b);
-					//popup.add(new JSeparator());
-					}
-					
-					// Es un atributo multivalorado
-					if( !atributo.isClavePrimaria()){
-					JCheckBoxMenuItem j5 = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.IS_MULTIVALUATED));
-					if (atributo.isMultivalorado()) j5.setSelected(true);
-					else j5.setSelected(false);
+					popup.add(j4);
+
+					// Editar la aridad de una entidad
+					JMenuItem j5 = new JMenuItem(Lenguaje.text(Lenguaje.EDIT_CARD_ROL));
 					j5.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
-							System.out.println("Cambiar el carácter de multivalorado: " + atributo);
-							TransferAtributo clon_atributo = atributo.clonar();
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarMultivaloradoAtributo,clon_atributo);	
+							System.out.println("Editar aridad de entidad de la relación: " + relacion);
+							TransferRelacion clon_relacion = relacion.clonar();
+							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarCardinalidadEntidad,clon_relacion);	
 						}	
 					});
 					popup.add(j5);
-					//popup.add(new JSeparator());
-					}
-					
-					
 					popup.add(new JSeparator());
-					//Añadir restricciones			
-					JMenuItem j8 = new JMenuItem(Lenguaje.text(Lenguaje.RESTRICTIONS));
-					j8.addActionListener(new java.awt.event.ActionListener() {
+
+					// Anadir un atributo a la relacion
+					JMenuItem j6 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_ATTRIBUTE));
+					if (relacion.getTipo().equals("Debil"))
+						j6.setEnabled(false);
+					else{
+						j6.setEnabled(true);
+						j6.addActionListener(new java.awt.event.ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								popup.setVisible(false);
+								System.out.println("Añadir atributo a la relación: " + relacion);
+								TransferRelacion clon_relacion = relacion.clonar();
+								controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirAtributoRelacion,clon_relacion);	
+							}	
+						});
+					}
+					popup.add(j6);	
+					popup.add(new JSeparator());
+					
+					// Renombrar la relacion
+					JMenuItem j1 = new JMenuItem(Lenguaje.text(Lenguaje.RENAME_RELATION));
+					j1.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
-							System.out.println("Añadir una restriccion al atributo: " + atributo);
-							TransferAtributo clon_atributo = atributo.clonar();
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirRestriccionAAtributo,clon_atributo);
+							System.out.println("Renombrar la relación: " + relacion);
+							TransferRelacion clon_relacion = relacion.clonar();
+							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_RenombrarRelacion,clon_relacion);	
 						}	
 					});
-					popup.add(j8);
-								
+					popup.add(j1);
 					
-				}else if(nombre.contains(Lenguaje.text(Lenguaje.RELATION)) || 
-						 nombre.contains(Lenguaje.text(Lenguaje.RELATION).toLowerCase())){
-					//buscamos el transfer
-					nombre= nombre.replace('"', '*');
-					nombre= nombre.replaceAll(Lenguaje.text(Lenguaje.THE_RELATION)+" ", "");
-					nombre= nombre.replace("*", "");
-					
-					int index=-1;
-					for (int i=0; i<listaRelaciones.size();i++){
-						if(listaRelaciones.get(i).getNombre().equals(nombre)){
-						 index=i;	
-						}
-					}
-					
-					if (index == -1){
-						nombre= nombre.substring(nombre.indexOf('(')+1, nombre.length()-1);
-						int indice = Integer.parseInt(nombre);
-						for (int i=0; i<listaRelaciones.size();i++){
-							if(listaRelaciones.get(i).getIdRelacion()==indice){
-							 index=i;	
-							}
-						}
-					}
-					
-					final TransferRelacion relacion= listaRelaciones.get(index);
-										
-					if (!(relacion.getTipo().equals("IsA"))){
-						// Anadir una entidad
-						JMenuItem j3 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_ENT));
-						j3.addActionListener(new java.awt.event.ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								popup.setVisible(false);
-								System.out.println("Añadir una entidad a la relación: " + relacion);
-								TransferRelacion clon_relacion = relacion.clonar();
-								controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirEntidadARelacion,clon_relacion);	
-							}	
-						});
-						popup.add(j3);
-
-						// Quitar una entidad
-						JMenuItem j4 = new JMenuItem(Lenguaje.text(Lenguaje.REMOVE_ENTITY));
-						j4.addActionListener(new java.awt.event.ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								popup.setVisible(false);
-								System.out.println("Quitar una entidad a la relación: " + relacion);
-								TransferRelacion clon_relacion = relacion.clonar();
-								controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_QuitarEntidadARelacion,clon_relacion);	
-							}	
-						});
-						popup.add(j4);
-
-						// Editar la aridad de una entidad
-						JMenuItem j5 = new JMenuItem(Lenguaje.text(Lenguaje.EDIT_CARD_ROL));
-						j5.addActionListener(new java.awt.event.ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								popup.setVisible(false);
-								System.out.println("Editar aridad de entidad de la relación: " + relacion);
-								TransferRelacion clon_relacion = relacion.clonar();
-								controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarCardinalidadEntidad,clon_relacion);	
-							}	
-						});
-						popup.add(j5);
-						popup.add(new JSeparator());
-
-						// Anadir un atributo a la relacion
-						JMenuItem j6 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_ATTRIBUTE));
-						if (relacion.getTipo().equals("Debil"))
-							j6.setEnabled(false);
-						else{
-							j6.setEnabled(true);
-							j6.addActionListener(new java.awt.event.ActionListener() {
-								public void actionPerformed(ActionEvent e) {
-									popup.setVisible(false);
-									System.out.println("Añadir atributo a la relación: " + relacion);
-									TransferRelacion clon_relacion = relacion.clonar();
-									controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirAtributoRelacion,clon_relacion);	
-								}	
-							});
-						}
-						popup.add(j6);	
-						popup.add(new JSeparator());
-						
-						// Renombrar la relacion
-						JMenuItem j1 = new JMenuItem(Lenguaje.text(Lenguaje.RENAME_RELATION));
-						j1.addActionListener(new java.awt.event.ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								popup.setVisible(false);
-								System.out.println("Renombrar la relación: " + relacion);
-								TransferRelacion clon_relacion = relacion.clonar();
-								controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_RenombrarRelacion,clon_relacion);	
-							}	
-						});
-						popup.add(j1);
-						
-						// Eliminar la relacion
-							JMenuItem j7 = new JMenuItem(Lenguaje.text(Lenguaje.DELETE_REL));
-							j7.addActionListener(new java.awt.event.ActionListener() {
-								public void actionPerformed(ActionEvent e) {
-									popup.setVisible(false);
-									System.out.println("Eliminar la relación: " + relacion);
-									TransferRelacion clon_relacion = relacion.clonar();
-									Vector<Object> v = new Vector<Object>();
-									v.add(clon_relacion);
-									v.add(true);
-									controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EliminarRelacionNormal,v);	
-								}	
-							});
-							popup.add(j7);				
-							popup.add(new JSeparator());
-
-						//Añadir restricciones			
-						JMenuItem j8 = new JMenuItem(Lenguaje.text(Lenguaje.RESTRICTIONS));
-						j8.addActionListener(new java.awt.event.ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								popup.setVisible(false);
-								System.out.println("Añadir una restriccion a la relación: " + relacion);
-								TransferRelacion clon_relacion = relacion.clonar();
-								controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirRestriccionARelacion,clon_relacion);
-							}	
-						});
-						popup.add(j8);
-						//Añadir restricciones	Unique		
-						JMenuItem j9 = new JMenuItem(Lenguaje.text(Lenguaje.TABLE_UNIQUE));
-						j9.addActionListener(new java.awt.event.ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								popup.setVisible(false);
-								System.out.println("Tabla 'unique' relacion: " + relacion);
-								TransferRelacion clon_relacion = relacion.clonar();
-								controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_TablaUniqueARelacion,clon_relacion);
-							}	
-						});
-						popup.add(j9);
-						
-					} else {// if no Isa
-					//buscamos el transfer
-					
-					/*nombre= nombre.replace(Lenguaje.getMensaje(Lenguaje.ISA_RELATION)+" (", "");
-					nombre= nombre.replace(")", "");
-					int id=0;
-					try{
-						id= Integer.parseInt(nombre);
-					}catch(Exception e1){}
-					
-					int index=-1;
-					for (int i=0; i<listaRelaciones.size();i++){
-						if(listaRelaciones.get(i).getIdRelacion()==id){
-						 index=i;	
-						}
-						
-					}
-					final TransferRelacion relacion= listaRelaciones.get(index);*/
-					
-					popup.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.SET_PARENT_ENT)){
-						private static final long serialVersionUID = 8766595520619916135L;
-						public void actionPerformed(ActionEvent e) {
-							popup.setVisible(false);
-							System.out.println("Establecer entidad padre: " + relacion);
-							TransferRelacion clon_relacion = relacion.clonar();
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EstablecerEntidadPadre,clon_relacion);
-						}
-					}));
-					popup.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.REMOVE_PARENT_ENT)){
-						private static final long serialVersionUID = 8766595520619916135L;
-						public void actionPerformed(ActionEvent e) {
-							popup.setVisible(false);
-							System.out.println("Quitar entidad padre: " + relacion);
-							TransferRelacion clon_relacion = relacion.clonar();
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_QuitarEntidadPadre,clon_relacion);
-						}
-					}));
-
-					popup.add(new JSeparator());
-
-					popup.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.ADD_CHILD_ENT)){
-						private static final long serialVersionUID = 8766595520619916135L;
-						public void actionPerformed(ActionEvent e) {
-							popup.setVisible(false);
-							System.out.println("Añadir entidad hija: " + relacion);
-							TransferRelacion clon_relacion = relacion.clonar();
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirEntidadHija,clon_relacion);
-						}
-					}));
-
-					popup.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.REMOVE_CHILD_ENT)){
-						private static final long serialVersionUID = 8766595520619916135L;
-						public void actionPerformed(ActionEvent e) {
-							popup.setVisible(false);
-							System.out.println("Quitar entidad hija: " + relacion);
-							TransferRelacion clon_relacion = relacion.clonar();
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_QuitarEntidadHija,clon_relacion);
-						}
-					}));
-
-					popup.add(new JSeparator());
-					//Eliminal la relacion
-					
-						popup.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.DELETE_REL)){
-							private static final long serialVersionUID = -218800914185538588L;
+					// Eliminar la relacion
+						JMenuItem j7 = new JMenuItem(Lenguaje.text(Lenguaje.DELETE_REL));
+						j7.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								popup.setVisible(false);
 								System.out.println("Eliminar la relación: " + relacion);
@@ -2143,18 +1666,116 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 								Vector<Object> v = new Vector<Object>();
 								v.add(clon_relacion);
 								v.add(true);
-								controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EliminarRelacionIsA,v);
-							}
-						}));
+								controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EliminarRelacionNormal,v);	
+							}	
+						});
+						popup.add(j7);				
+						popup.add(new JSeparator());
+
+					//Añadir restricciones			
+					JMenuItem j8 = new JMenuItem(Lenguaje.text(Lenguaje.RESTRICTIONS));
+					j8.addActionListener(new java.awt.event.ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							popup.setVisible(false);
+							System.out.println("Añadir una restriccion a la relación: " + relacion);
+							TransferRelacion clon_relacion = relacion.clonar();
+							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirRestriccionARelacion,clon_relacion);
+						}	
+					});
+					popup.add(j8);
+					//Añadir restricciones	Unique		
+					JMenuItem j9 = new JMenuItem(Lenguaje.text(Lenguaje.TABLE_UNIQUE));
+					j9.addActionListener(new java.awt.event.ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							popup.setVisible(false);
+							System.out.println("Tabla 'unique' relacion: " + relacion);
+							TransferRelacion clon_relacion = relacion.clonar();
+							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_TablaUniqueARelacion,clon_relacion);
+						}	
+					});
+					popup.add(j9);
+					
+				} else {// if no Isa
+				//buscamos el transfer
+				
+				/*nombre= nombre.replace(Lenguaje.getMensaje(Lenguaje.ISA_RELATION)+" (", "");
+				nombre= nombre.replace(")", "");
+				int id=0;
+				try{
+					id= Integer.parseInt(nombre);
+				}catch(Exception e1){}
+				
+				int index=-1;
+				for (int i=0; i<listaRelaciones.size();i++){
+					if(listaRelaciones.get(i).getIdRelacion()==id){
+					 index=i;	
+					}
+					
 				}
-			}	
+				final TransferRelacion relacion= listaRelaciones.get(index);*/
+				
+				popup.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.SET_PARENT_ENT)){
+					private static final long serialVersionUID = 8766595520619916135L;
+					public void actionPerformed(ActionEvent e) {
+						popup.setVisible(false);
+						System.out.println("Establecer entidad padre: " + relacion);
+						TransferRelacion clon_relacion = relacion.clonar();
+						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EstablecerEntidadPadre,clon_relacion);
+					}
+				}));
+				popup.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.REMOVE_PARENT_ENT)){
+					private static final long serialVersionUID = 8766595520619916135L;
+					public void actionPerformed(ActionEvent e) {
+						popup.setVisible(false);
+						System.out.println("Quitar entidad padre: " + relacion);
+						TransferRelacion clon_relacion = relacion.clonar();
+						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_QuitarEntidadPadre,clon_relacion);
+					}
+				}));
+
+				popup.add(new JSeparator());
+
+				popup.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.ADD_CHILD_ENT)){
+					private static final long serialVersionUID = 8766595520619916135L;
+					public void actionPerformed(ActionEvent e) {
+						popup.setVisible(false);
+						System.out.println("Añadir entidad hija: " + relacion);
+						TransferRelacion clon_relacion = relacion.clonar();
+						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirEntidadHija,clon_relacion);
+					}
+				}));
+
+				popup.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.REMOVE_CHILD_ENT)){
+					private static final long serialVersionUID = 8766595520619916135L;
+					public void actionPerformed(ActionEvent e) {
+						popup.setVisible(false);
+						System.out.println("Quitar entidad hija: " + relacion);
+						TransferRelacion clon_relacion = relacion.clonar();
+						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_QuitarEntidadHija,clon_relacion);
+					}
+				}));
+
+				popup.add(new JSeparator());
+				//Eliminal la relacion
+				
+					popup.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.DELETE_REL)){
+						private static final long serialVersionUID = -218800914185538588L;
+						public void actionPerformed(ActionEvent e) {
+							popup.setVisible(false);
+							System.out.println("Eliminar la relación: " + relacion);
+							TransferRelacion clon_relacion = relacion.clonar();
+							Vector<Object> v = new Vector<Object>();
+							v.add(clon_relacion);
+							v.add(true);
+							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EliminarRelacionIsA,v);
+						}
+					}));
+			}
+		}	
 		popup.setLocation(e.getLocationOnScreen());
 		popup.setVisible(true);
 	}
-			
-			
 	};
-	 
 	private TransferEntidad esAtributoDirecto(TransferAtributo ta){
 				//Collection<TransferEntidad> listaEntidades = this.entidades.values();
 				for (Iterator<TransferEntidad> it = listaEntidades.iterator(); it.hasNext();){
@@ -2172,77 +1793,17 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		botonExportarArchivo.setEnabled(true);
 		botonEjecutarEnDBMS.setEnabled(true);
 	}
-	
-	/**
-	 * Oyentes de los botones de la barra de menus
-	 */
-	private void submenuExportarJPEGActionPerformed(ActionEvent evt) {
-		JFileChooser jfc = new JFileChooser();
-		jfc.setDialogTitle(Lenguaje.text(Lenguaje.DBCASE));
-		jfc.setFileFilter(new FileNameExtensionFilter(Lenguaje.text(Lenguaje.JPEG_FILES), "jpg"));
-		int resul = jfc.showSaveDialog(null);
-		if (resul == 0){
-			File ruta = jfc.getSelectedFile();
-			this.panelDiseno.writeJPEGGraph(ruta);
-			JOptionPane.showMessageDialog(
-					null,
-					Lenguaje.text(Lenguaje.INFO)+"\n"+
-					Lenguaje.text(Lenguaje.OK_EXPORT)+".\n" +
-					Lenguaje.text(Lenguaje.FILE)+": "+ruta,
-					Lenguaje.text(Lenguaje.DBCASE),
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
-		}
-	}
-	
-	private void submenuImprimirActionPerformed(ActionEvent evt) {
-		this.panelDiseno.printGraph();
-	}
-	
-	private void submenuAcercaDeActionPerformed(ActionEvent evt) {
-		JOptionPane.showMessageDialog(
-				null,
-				"\n"+
-				Lenguaje.text(Lenguaje.DB_CASE_TOOL)+"\n" +
-				"\""+Lenguaje.text(Lenguaje.TOOL_FOR_DESING)+"\"\n" +
-				"\n" +
-				Lenguaje.text(Lenguaje.SS_II)+"\n" +
-				Lenguaje.text(Lenguaje.COLLEGE)+"\n" +
-				Lenguaje.text(Lenguaje.UNIVERSITY)+"\n" +
-				"\n" +
-				Lenguaje.text(Lenguaje.DIRECTOR)+"\n" +
-				Lenguaje.text(Lenguaje.TEACHER_NAME)+"\n"+
-				"\n"+
-				Lenguaje.text(Lenguaje.AUTHORS)+"\n" +
-				Lenguaje.text(Lenguaje.AUTHOR1)+"\n" +
-				Lenguaje.text(Lenguaje.AUTHOR2)+"\n" +
-				Lenguaje.text(Lenguaje.AUTHOR3)+"\n"+
-				"\n"+
-				Lenguaje.text(Lenguaje.BASED)+"\n"+
-				"\n"+
-				Lenguaje.text(Lenguaje.CONTACT) +
-				"\n" +
-				"\n"
-				,
-				Lenguaje.text(Lenguaje.DBCASE_LABEL),
-				JOptionPane.PLAIN_MESSAGE,
-				new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGOFDI)));
-	}
-	
-	
-	
+		
 	public GUIPrincipal getThePrincipal(){
 		return this;
 	}
 	public JPopupMenu getPopUp(){
 		return popup;
 	}
+	
 	public PanelGrafo getPanelDiseno(){
 		return panelDiseno;
 	}
-	
-	
-	// --- --- --- METODOS AUXILIARES --- --- ---
 
 	public void cambiarConexion(String nombreConexion) {
 		if(listaConexiones==null) return;
@@ -2250,7 +1811,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		TransferConexion tc = null;
 		int i=0;
 		boolean encontrado = false;
-		
 		while (!encontrado && i<listaConexiones.size()){
 			tc = listaConexiones.get(i);
 			encontrado = tc.getRuta().equalsIgnoreCase(nombreConexion);
@@ -2258,14 +1818,11 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		}
 		// Cambiar conexión actual
 		conexionActual = tc;
-		cboSeleccionDBMS.setSelectedIndex(tc.getTipoConexion());
-	
-		for (int k=0; k<elementosMenuSGBDActual.size(); k++){
-			JCheckBoxMenuItem elem = elementosMenuSGBDActual.get(k);
-			elem.setSelected(elem.getText().equalsIgnoreCase(tc.getRuta()));
-		}
 	}
 
+	public void imprimir() {
+		this.panelDiseno.printGraph();
+	}
 	@Override
 	public void windowActivated(WindowEvent e) {}
 	public void windowClosed(WindowEvent e) {}
@@ -2277,34 +1834,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	public void windowIconified(WindowEvent e) {}
 	public void windowOpened(WindowEvent e) {}
 	
-	public void enableCerrar(boolean c){
-		this.submenuCerrar.setEnabled(c);
-	}
-	public void enableGuardar(boolean c){
-		this.submenuGuardar.setEnabled(c);
-	}
-	public void enableGuardarComo(boolean c){
-		this.submenuGuardarComo.setEnabled(c);
-	}
-	
-	public boolean getEnableCerrar(){
-		return submenuCerrar.isEnabled();
-	}
-	public boolean getEnableGuardar(){
-		return submenuGuardar.isEnabled();
-	}
-	public boolean getEnableGuardarComo(){
-		return submenuGuardarComo.isEnabled();
-	}
-	
-	public void setSalvado(boolean b){
-		if (b) salvado.setForeground(Color.GREEN);
-		else salvado.setForeground(Color.RED);
-	}
-	public boolean getSalvado(){
-		return (this.salvado.getForeground() == Color.GREEN);
-	}
-
 	public void loadInfo() {
 		controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_MostrarDatosEnPanelDeInformacion, getPanelDiseno().generaArbolInformacion());
 		controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_MostrarDatosEnTablaDeVolumenes, getPanelDiseno().generaTablaVolumenes());
@@ -2313,13 +1842,21 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	public int getPanelsMode() {
 		return this.dealer.getPanelsMode();
 	}
+	
+	public void toggleCodigos() {
+		this.dealer.toggleCodigos();
+		this.barraDeMenus.setModoVista(getPanelsMode());
+	}
+	
+	public void toggleDiseno() {
+		this.dealer.toggleDiseno();
+		this.barraDeMenus.setModoVista(getPanelsMode());
+	}
+	
 	public void setModoVista(int modo) {
+		this.barraDeMenus.setModoVista(modo);
 		if(modo==0)dealer.modoVerTodo();
 		else if(modo==1)dealer.modoDiseno();
 		else if(modo==2)dealer.modoProgramador();
 	}
-
 }
-	
-
-

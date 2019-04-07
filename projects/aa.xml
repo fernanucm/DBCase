@@ -16,7 +16,7 @@
                 <Assertion>a&gt;12</Assertion>
             </AssertionList>
             <UniqueList/>
-            <Position>210,535</Position>
+            <Position>469,686</Position>
         </Entity>
         <Entity EntityId="2">
             <Name>ee</Name>
@@ -32,7 +32,7 @@
                 <Assertion>entidad es 1</Assertion>
             </AssertionList>
             <UniqueList/>
-            <Position>591,528</Position>
+            <Position>850,679</Position>
         </Entity>
         <Entity EntityId="3">
             <Name>ii</Name>
@@ -46,7 +46,7 @@
             </PrimaryKeyList>
             <AssertionList/>
             <UniqueList/>
-            <Position>599,321</Position>
+            <Position>858,472</Position>
         </Entity>
         <Entity EntityId="4">
             <Name>e1</Name>
@@ -59,7 +59,7 @@
             </PrimaryKeyList>
             <AssertionList/>
             <UniqueList/>
-            <Position>397,642</Position>
+            <Position>656,793</Position>
         </Entity>
         <Entity EntityId="5">
             <Name>12h</Name>
@@ -72,7 +72,7 @@
             </PrimaryKeyList>
             <AssertionList/>
             <UniqueList/>
-            <Position>600,85</Position>
+            <Position>859,236</Position>
         </Entity>
         <Entity EntityId="8">
             <Name>3ra</Name>
@@ -81,7 +81,7 @@
             <PrimaryKeyList/>
             <AssertionList/>
             <UniqueList/>
-            <Position>121,227</Position>
+            <Position>370,263</Position>
         </Entity>
     </EntityList>
     <RelationList proximoID="7">
@@ -102,7 +102,7 @@
                 <Assertion>ww2</Assertion>
             </AssertionList>
             <UniqueList/>
-            <Position>206,371</Position>
+            <Position>465,522</Position>
         </Relation>
         <Relation idRelacion="2">
             <Name>IsA</Name>
@@ -112,7 +112,7 @@
                 <EntityAndArity>(2,0,0,null)</EntityAndArity>
             </EntityAndArityList>
             <AttribList/>
-            <Position>351,536</Position>
+            <Position>610,687</Position>
         </Relation>
         <Relation idRelacion="3">
             <Name>5</Name>
@@ -124,7 +124,7 @@
             <AttribList/>
             <AssertionList/>
             <UniqueList/>
-            <Position>210,641</Position>
+            <Position>469,792</Position>
         </Relation>
         <Relation idRelacion="4">
             <Name>54</Name>
@@ -136,7 +136,7 @@
             <AttribList/>
             <AssertionList/>
             <UniqueList/>
-            <Position>599,206</Position>
+            <Position>858,357</Position>
         </Relation>
         <Relation idRelacion="6">
             <Name>Relative</Name>
@@ -148,7 +148,7 @@
             <AttribList/>
             <AssertionList/>
             <UniqueList/>
-            <Position>112,67</Position>
+            <Position>361,103</Position>
         </Relation>
     </RelationList>
     <AttributeList proximoID="15">
@@ -165,7 +165,7 @@
                 <Assertion>a&gt;4</Assertion>
                 <Assertion>aqwe</Assertion>
             </AssertionList>
-            <Position>604,606</Position>
+            <Position>863,757</Position>
         </Attribute>
         <Attribute AttributeId="2">
             <Name>a</Name>
@@ -176,7 +176,7 @@
             <ComponentList/>
             <Multivalued>false</Multivalued>
             <AssertionList/>
-            <Position>81,547</Position>
+            <Position>340,698</Position>
         </Attribute>
         <Attribute AttributeId="3">
             <Name>a&lt;2</Name>
@@ -187,7 +187,7 @@
             <ComponentList/>
             <Multivalued>false</Multivalued>
             <AssertionList/>
-            <Position>94,445</Position>
+            <Position>353,596</Position>
         </Attribute>
         <Attribute AttributeId="4">
             <Name>qq</Name>
@@ -200,7 +200,7 @@
             <AssertionList>
                 <Assertion>a&lt;11</Assertion>
             </AssertionList>
-            <Position>210,224</Position>
+            <Position>469,375</Position>
         </Attribute>
         <Attribute AttributeId="5">
             <Name>eewqq</Name>
@@ -213,7 +213,7 @@
             <AssertionList>
                 <Assertion>aa In (1, 2, 3)</Assertion>
             </AssertionList>
-            <Position>744,523</Position>
+            <Position>1003,674</Position>
         </Attribute>
         <Attribute AttributeId="6">
             <Name>atrebutt</Name>
@@ -224,7 +224,7 @@
             <ComponentList/>
             <Multivalued>false</Multivalued>
             <AssertionList/>
-            <Position>755,322</Position>
+            <Position>1014,473</Position>
         </Attribute>
         <Attribute AttributeId="7">
             <Name>89</Name>
@@ -235,7 +235,7 @@
             <ComponentList/>
             <Multivalued>false</Multivalued>
             <AssertionList/>
-            <Position>396,732</Position>
+            <Position>655,883</Position>
         </Attribute>
         <Attribute AttributeId="8">
             <Name>321º</Name>
@@ -246,7 +246,7 @@
             <ComponentList/>
             <Multivalued>false</Multivalued>
             <AssertionList/>
-            <Position>416,86</Position>
+            <Position>675,237</Position>
         </Attribute>
         <Attribute AttributeId="9">
             <Name>a</Name>
@@ -259,7 +259,7 @@
             </ComponentList>
             <Multivalued>false</Multivalued>
             <AssertionList/>
-            <Position>327,261</Position>
+            <Position>586,412</Position>
         </Attribute>
         <Attribute AttributeId="10">
             <Name>8480</Name>
@@ -272,7 +272,7 @@
             </ComponentList>
             <Multivalued>false</Multivalued>
             <AssertionList/>
-            <Position>733,261</Position>
+            <Position>992,412</Position>
         </Attribute>
         <Attribute AttributeId="11">
             <Name>5</Name>
@@ -285,7 +285,7 @@
             </ComponentList>
             <Multivalued>false</Multivalued>
             <AssertionList/>
-            <Position>745,145</Position>
+            <Position>1004,296</Position>
         </Attribute>
         <Attribute AttributeId="12">
             <Name>354</Name>
@@ -296,7 +296,7 @@
             <ComponentList/>
             <Multivalued>false</Multivalued>
             <AssertionList/>
-            <Position>336,157</Position>
+            <Position>595,308</Position>
         </Attribute>
         <Attribute AttributeId="13">
             <Name>2sfdg</Name>
@@ -307,7 +307,7 @@
             <ComponentList/>
             <Multivalued>false</Multivalued>
             <AssertionList/>
-            <Position>844,202</Position>
+            <Position>1103,353</Position>
         </Attribute>
     </AttributeList>
     <DomainList proximoID="1"/>
