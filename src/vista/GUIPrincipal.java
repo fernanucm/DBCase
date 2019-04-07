@@ -258,7 +258,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	
 	private void initComponents() {
 		try{
-			this.setTitle(Lenguaje.getMensaje(Lenguaje.DBCASE));
+			this.setTitle(Lenguaje.text(Lenguaje.DBCASE));
 			this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 			initMenu();
 			initDiagrama();
@@ -281,14 +281,14 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 			{	//File
 				menuSistema = new JMenu();
 				barraDeMenus.add(menuSistema);
-				menuSistema.setText(Lenguaje.getMensaje(Lenguaje.FILE));
-				menuSistema.setMnemonic(Lenguaje.getMensaje(Lenguaje.FILE).charAt(0));
+				menuSistema.setText(Lenguaje.text(Lenguaje.FILE));
+				menuSistema.setMnemonic(Lenguaje.text(Lenguaje.FILE).charAt(0));
 				
 				{//File/new
 					submenuNuevo = new JMenuItem();
 					menuSistema.add(submenuNuevo);
-					submenuNuevo.setText(Lenguaje.getMensaje(Lenguaje.NEW));
-					submenuNuevo.setMnemonic(Lenguaje.getMensaje(Lenguaje.NEW).charAt(0));
+					submenuNuevo.setText(Lenguaje.text(Lenguaje.NEW));
+					submenuNuevo.setMnemonic(Lenguaje.text(Lenguaje.NEW).charAt(0));
 					submenuNuevo.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.N_NUEVO)));
 					submenuNuevo.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
@@ -299,8 +299,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				{//File/open
 					submenuAbrir = new JMenuItem();
 					menuSistema.add(submenuAbrir);
-					submenuAbrir.setText(Lenguaje.getMensaje(Lenguaje.OPEN)+"...");
-					submenuAbrir.setMnemonic(Lenguaje.getMensaje(Lenguaje.OPEN).charAt(0));
+					submenuAbrir.setText(Lenguaje.text(Lenguaje.OPEN)+"...");
+					submenuAbrir.setMnemonic(Lenguaje.text(Lenguaje.OPEN).charAt(0));
 					submenuAbrir.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.N_ABRIR)));
 					submenuAbrir.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
@@ -311,8 +311,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				{//File/close
 					submenuCerrar = new JMenuItem();
 					menuSistema.add(submenuCerrar);
-					submenuCerrar.setText(Lenguaje.getMensaje(Lenguaje.CLOSE));
-					submenuCerrar.setMnemonic(Lenguaje.getMensaje(Lenguaje.CLOSE).charAt(0));
+					submenuCerrar.setText(Lenguaje.text(Lenguaje.CLOSE));
+					submenuCerrar.setMnemonic(Lenguaje.text(Lenguaje.CLOSE).charAt(0));
 					submenuCerrar.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.N_CERRAR)));
 					submenuCerrar.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
@@ -324,8 +324,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				{//File/save
 					submenuGuardar = new JMenuItem();
 					menuSistema.add(submenuGuardar);
-					submenuGuardar.setText(Lenguaje.getMensaje(Lenguaje.SAVE));
-					submenuGuardar.setMnemonic(Lenguaje.getMensaje(Lenguaje.SAVE).charAt(0));
+					submenuGuardar.setText(Lenguaje.text(Lenguaje.SAVE));
+					submenuGuardar.setMnemonic(Lenguaje.text(Lenguaje.SAVE).charAt(0));
 					submenuGuardar.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.N_GUARDAR)));
 					submenuGuardar.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
@@ -336,8 +336,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				{//File/save as...
 					submenuGuardarComo = new JMenuItem();
 					menuSistema.add(submenuGuardarComo);
-					submenuGuardarComo.setText(Lenguaje.getMensaje(Lenguaje.SAVE_AS)+"...");
-					submenuGuardarComo.setMnemonic(Lenguaje.getMensaje(Lenguaje.SAVE_AS).charAt(1));
+					submenuGuardarComo.setText(Lenguaje.text(Lenguaje.SAVE_AS)+"...");
+					submenuGuardarComo.setMnemonic(Lenguaje.text(Lenguaje.SAVE_AS).charAt(1));
 					submenuGuardarComo.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
 							submenuGuardarComoActionPerformed(evt);
@@ -348,8 +348,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				{//File/imprimir
 					submenuImprimir = new JMenuItem();
 					menuSistema.add(submenuImprimir);
-					submenuImprimir.setText(Lenguaje.getMensaje(Lenguaje.PRINT_DIAGRAM)+"...");
-					submenuImprimir.setMnemonic(Lenguaje.getMensaje(Lenguaje.PRINT_DIAGRAM).charAt(0));
+					submenuImprimir.setText(Lenguaje.text(Lenguaje.PRINT_DIAGRAM)+"...");
+					submenuImprimir.setMnemonic(Lenguaje.text(Lenguaje.PRINT_DIAGRAM).charAt(0));
 					submenuImprimir.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.IMPRESORA)));
 					submenuImprimir.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
@@ -360,8 +360,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				{//File/Export
 					submenuExportarJPEG = new JMenuItem();
 					menuSistema.add(submenuExportarJPEG);
-					submenuExportarJPEG.setText(Lenguaje.getMensaje(Lenguaje.EXPORT_DIAGRAM));
-					submenuExportarJPEG.setMnemonic(Lenguaje.getMensaje(Lenguaje.EXPORT_DIAGRAM).charAt(0));
+					submenuExportarJPEG.setText(Lenguaje.text(Lenguaje.EXPORT_DIAGRAM));
+					submenuExportarJPEG.setMnemonic(Lenguaje.text(Lenguaje.EXPORT_DIAGRAM).charAt(0));
 					submenuExportarJPEG.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.EXPORTARIMAGEN)));
 					submenuExportarJPEG.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
@@ -373,8 +373,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				{//File/salir
 					submenuSalir = new JMenuItem();
 					menuSistema.add(submenuSalir);
-					submenuSalir.setText(Lenguaje.getMensaje(Lenguaje.EXIT_MINCASE));
-					submenuSalir.setMnemonic(Lenguaje.getMensaje(Lenguaje.EXIT_MINCASE).charAt(0));
+					submenuSalir.setText(Lenguaje.text(Lenguaje.EXIT_MINCASE));
+					submenuSalir.setMnemonic(Lenguaje.text(Lenguaje.EXIT_MINCASE).charAt(0));
 					submenuSalir.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.SALIR)));
 					submenuSalir.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
@@ -386,15 +386,15 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 			{//Opciones
 				menuOpciones = new JMenu();
 				barraDeMenus.add(menuOpciones);
-				menuOpciones.setText(Lenguaje.getMensaje(Lenguaje.OPTIONS));
-				menuOpciones.setMnemonic(Lenguaje.getMensaje(Lenguaje.OPTIONS).charAt(0));
+				menuOpciones.setText(Lenguaje.text(Lenguaje.OPTIONS));
+				menuOpciones.setMnemonic(Lenguaje.text(Lenguaje.OPTIONS).charAt(0));
 				{
 					// Menú GESTORES DE BASES DE DATOS
 					menuSGBDActual = new JMenu();
 					menuSGBDActual.setFont(new java.awt.Font("Avenir", 0, 16));
 					menuOpciones.add(menuSGBDActual);
-					menuSGBDActual.setText(Lenguaje.getMensaje(Lenguaje.CURRENT_DBMS));
-					menuSGBDActual.setMnemonic(Lenguaje.getMensaje(Lenguaje.CURRENT_DBMS).charAt(0));
+					menuSGBDActual.setText(Lenguaje.text(Lenguaje.CURRENT_DBMS));
+					menuSGBDActual.setMnemonic(Lenguaje.text(Lenguaje.CURRENT_DBMS).charAt(0));
 					menuSGBDActual.setIcon(new ImageIcon(
 							getClass().getClassLoader().getResource(ImagePath.SELECCIONARSGBD)));
 					elementosMenuSGBDActual = new Vector<JCheckBoxMenuItem>(0,1);
@@ -425,8 +425,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					menuLenguajes = new JMenu();
 					menuLenguajes.setFont(new java.awt.Font("Avenir", 0, 16));
 					menuOpciones.add(menuLenguajes);
-					menuLenguajes.setText(Lenguaje.getMensaje(Lenguaje.SELECT_LANGUAGE));
-					menuLenguajes.setMnemonic(Lenguaje.getMensaje(Lenguaje.SELECT_LANGUAGE).charAt(0));
+					menuLenguajes.setText(Lenguaje.text(Lenguaje.SELECT_LANGUAGE));
+					menuLenguajes.setMnemonic(Lenguaje.text(Lenguaje.SELECT_LANGUAGE).charAt(0));
 					menuLenguajes.setIcon(new ImageIcon(
 							getClass().getClassLoader().getResource(
 									ImagePath.SELECCIONARLENGUAJE)));
@@ -467,8 +467,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 			{
 				menuVista = new JMenu();
 				barraDeMenus.add(menuVista);
-				menuVista.setText(Lenguaje.getMensaje(Lenguaje.VIEW));
-				menuVista.setMnemonic(Lenguaje.getMensaje(Lenguaje.HELP).charAt(0));
+				menuVista.setText(Lenguaje.text(Lenguaje.VIEW));
+				menuVista.setMnemonic(Lenguaje.text(Lenguaje.HELP).charAt(0));
 				{
 					JCheckBoxMenuItem er = new JCheckBoxMenuItem();
 					JCheckBoxMenuItem code = new JCheckBoxMenuItem();
@@ -495,7 +495,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					menuVista.add(new JSeparator());
 					menuVista.add(themeMenu);
 					
-					er.setText(Lenguaje.getMensaje(Lenguaje.CONC_MODEL));
+					er.setText(Lenguaje.text(Lenguaje.CONC_MODEL));
 					er.setSelected(true);
 					er.setFont(new java.awt.Font("Avenir", 0, 16));
 					er.addActionListener(new ActionListener() {
@@ -513,10 +513,10 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 							dealer.toggleCodigos();
 						}
 					});
-					themeMenu.setText(Lenguaje.getMensaje(Lenguaje.THEME));
+					themeMenu.setText(Lenguaje.text(Lenguaje.THEME));
 					
-					menuPanelSucesos.setText(Lenguaje.getMensaje(Lenguaje.SHOW_EVENTS_PANEL));
-					menuPanelSucesos.setMnemonic(Lenguaje.getMensaje(Lenguaje.SHOW_EVENTS_PANEL).charAt(0));
+					menuPanelSucesos.setText(Lenguaje.text(Lenguaje.SHOW_EVENTS_PANEL));
+					menuPanelSucesos.setMnemonic(Lenguaje.text(Lenguaje.SHOW_EVENTS_PANEL).charAt(0));
 					menuPanelSucesos.setFont(new java.awt.Font("Avenir", 0, 16));
 					
 					menuPanelSucesos.addActionListener(new ActionListener() {
@@ -530,14 +530,14 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 			{//Ayuda
 				menuAyuda = new JMenu();
 				barraDeMenus.add(menuAyuda);
-				menuAyuda.setText(Lenguaje.getMensaje(Lenguaje.HELP));
-				menuAyuda.setMnemonic(Lenguaje.getMensaje(Lenguaje.HELP).charAt(0));
+				menuAyuda.setText(Lenguaje.text(Lenguaje.HELP));
+				menuAyuda.setMnemonic(Lenguaje.text(Lenguaje.HELP).charAt(0));
 				
 				{//Ayuda/acerca de
 					submenuAcercaDe = new JMenuItem();
 					menuAyuda.add(submenuAcercaDe);
-					submenuAcercaDe.setText(Lenguaje.getMensaje(Lenguaje.ABOUT));
-					submenuAcercaDe.setMnemonic(Lenguaje.getMensaje(Lenguaje.ABOUT).charAt(0));
+					submenuAcercaDe.setText(Lenguaje.text(Lenguaje.ABOUT));
+					submenuAcercaDe.setMnemonic(Lenguaje.text(Lenguaje.ABOUT).charAt(0));
 					submenuAcercaDe.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.CREDITOS)));
 					submenuAcercaDe.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
@@ -586,7 +586,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		BorderLayout panelInfoLayout = new BorderLayout();
 		panelInfo.setLayout(panelInfoLayout);
 		panelInfo.addMouseListener(mls);
-		infoTabPane.addTab(Lenguaje.getMensaje(Lenguaje.ELEMENTS), null, panelInfo ,null);
+		infoTabPane.addTab(Lenguaje.text(Lenguaje.ELEMENTS), null, panelInfo ,null);
 		
 		panelArbol = new JScrollPane();
 		panelArbol.setBackground(theme.background());
@@ -597,7 +597,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		panelDom = new JPanel();
 		panelDom.setLayout(new BorderLayout());
 		panelDom.setBackground(theme.background());
-		infoTabPane.addTab(Lenguaje.getMensaje(Lenguaje.DOM_PANEL), null, panelDom ,null);
+		infoTabPane.addTab(Lenguaje.text(Lenguaje.DOM_PANEL), null, panelDom ,null);
 		
 		panelArbolDom = new JScrollPane();
 		panelArbolDom.setBackground(theme.background());
@@ -605,7 +605,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		panelArbolDom.setBorder(null);
 		panelArbolDom.addMouseListener(ml);
 		panelArbolDom.setVisible(false);
-		JButton nuevoDom = new JButton(Lenguaje.getMensaje(Lenguaje.ADD_DOMAIN));
+		JButton nuevoDom = new JButton(Lenguaje.text(Lenguaje.ADD_DOMAIN));
 		JPanel panelBoton = new JPanel();
 		nuevoDom.addActionListener(new ActionListener() {
 			@Override
@@ -631,7 +631,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		scrollPanelTablas = new JScrollPane(tablaVolumenes);
 		scrollPanelTablas.setBackground(theme.background());
 		panelTablas.add(scrollPanelTablas);
-		infoTabPane.addTab(Lenguaje.getMensaje(Lenguaje.TABLES_SECTION), null, panelTablas ,null);
+		infoTabPane.addTab(Lenguaje.text(Lenguaje.TABLES_SECTION), null, panelTablas ,null);
 		panelGrafo = new PanelThumbnail(panelDiseno);
 		splitTabMapa.add(panelGrafo, JSplitPane.LEFT);
 		JPanel diagrama = new JPanel();
@@ -640,7 +640,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		
 		JPanel tituloDiseno = new JPanel();
 		tituloDiseno.setLayout(new BorderLayout());
-		JLabel title = new JLabel("<html><span style='font-size:20px'>"+Lenguaje.getMensaje(Lenguaje.CONC_MODEL)+"</span></html>");
+		JLabel title = new JLabel("<html><span style='font-size:20px'>"+Lenguaje.text(Lenguaje.CONC_MODEL)+"</span></html>");
 		title.setHorizontalAlignment(JTextField.CENTER);
 		title.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
 		tituloDiseno.add(title, BorderLayout.CENTER);
@@ -670,8 +670,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		modeloPanel.setLayout(new BorderLayout());
 		JPanel textPanel = new JPanel();
 		textPanel.setLayout(new BoxLayout(textPanel,BoxLayout.X_AXIS));
-		JLabel text = new JLabel("<html><span style='font-size:20px'>"+Lenguaje.getMensaje(Lenguaje.LOGIC_MODEL)+"</span></html>");
-		JButton generaModelo = new JButton(Lenguaje.getMensaje(Lenguaje.GENERATE));
+		JLabel text = new JLabel("<html><span style='font-size:20px'>"+Lenguaje.text(Lenguaje.LOGIC_MODEL)+"</span></html>");
+		JButton generaModelo = new JButton(Lenguaje.text(Lenguaje.GENERATE));
 		generaModelo.setToolTipText("Genera el modelo relacional a partir del diagrama entidad relacion.");
 		generaModelo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -679,7 +679,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				botonModeloRelacionalActionPerformed(evt);
 			}
 		});
-		JButton exportarModelo = new JButton(Lenguaje.getMensaje(Lenguaje.SAVE_AS));
+		JButton exportarModelo = new JButton(Lenguaje.text(Lenguaje.SAVE_AS));
 		exportarModelo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				botonExportarArchivoActionPerformed(evt,false);
@@ -714,21 +714,21 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		
 		JPanel textPanel2 = new JPanel();
 		textPanel2.setLayout(new BoxLayout(textPanel2,BoxLayout.X_AXIS));
-		JLabel text2 = new JLabel("<html><span style='font-size:20px'>"+Lenguaje.getMensaje(Lenguaje.PHYS_MODEL)+"</span></html>");
-		JButton generaCodigo = new JButton(Lenguaje.getMensaje(Lenguaje.GENERATE));
+		JLabel text2 = new JLabel("<html><span style='font-size:20px'>"+Lenguaje.text(Lenguaje.PHYS_MODEL)+"</span></html>");
+		JButton generaCodigo = new JButton(Lenguaje.text(Lenguaje.GENERATE));
 		generaCodigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				acumulador = "";
 				botonScriptSQLActionPerformed(evt);
 			}
 		});
-		JButton exportarCodigo = new JButton(Lenguaje.getMensaje(Lenguaje.SAVE_AS));
+		JButton exportarCodigo = new JButton(Lenguaje.text(Lenguaje.SAVE_AS));
 		exportarCodigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				botonExportarArchivoActionPerformed(evt,true);
 			}
 		});
-		JButton ejecutarCodigo = new JButton(Lenguaje.getMensaje(Lenguaje.EXECUTE));
+		JButton ejecutarCodigo = new JButton(Lenguaje.text(Lenguaje.EXECUTE));
 		ejecutarCodigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				botonEjecutarEnDBMSActionPerformed(evt);
@@ -852,9 +852,9 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				// Comprobar si hay codigo
 				if (!scriptGeneradoCorrectamente){
 					JOptionPane.showMessageDialog(null,
-							Lenguaje.getMensaje(Lenguaje.ERROR)+".\n" +
-							Lenguaje.getMensaje(Lenguaje.MUST_GENERATE_SCRIPT_EX),
-							Lenguaje.getMensaje(Lenguaje.DBCASE),
+							Lenguaje.text(Lenguaje.ERROR)+".\n" +
+							Lenguaje.text(Lenguaje.MUST_GENERATE_SCRIPT_EX),
+							Lenguaje.text(Lenguaje.DBCASE),
 							JOptionPane.PLAIN_MESSAGE,
 							new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
 					return;
@@ -1408,17 +1408,17 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	
 	private JTree generaArbolDominio(Vector<TransferDominio> listaDominios, String expandir){
 		
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.DOM_TREE_CREATED_DOMS));
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode(Lenguaje.text(Lenguaje.DOM_TREE_CREATED_DOMS));
 		for (Iterator<TransferDominio> it = listaDominios.iterator(); it.hasNext();){
 			TransferDominio td = it.next();
 			//Nombre
 			DefaultMutableTreeNode nodoNombre = new DefaultMutableTreeNode(td.getNombre());
 			root.add(nodoNombre);
 			//TipoBase
-			nodoNombre.add(new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.DOM_TREE_TYPE)+" \""+td.getTipoBase()+"\""));
+			nodoNombre.add(new DefaultMutableTreeNode(Lenguaje.text(Lenguaje.DOM_TREE_TYPE)+" \""+td.getTipoBase()+"\""));
 			// Valores
 			if (td.getListaValores()!=null && td.getListaValores().size()>0){
-				DefaultMutableTreeNode nodo_valores = new DefaultMutableTreeNode(Lenguaje.getMensaje(Lenguaje.DOM_TREE_VALUES));
+				DefaultMutableTreeNode nodo_valores = new DefaultMutableTreeNode(Lenguaje.text(Lenguaje.DOM_TREE_VALUES));
 				nodoNombre.add(nodo_valores);
 				Vector lista = td.getListaValores();
 				for (int cont=0; cont<lista.size(); cont++ )
@@ -1441,10 +1441,10 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		// Expandimos todas las ramas
 		 for(int cont=0; cont<arbolDom.getRowCount(); cont++){
 			 try{ 
-				 if (arbolDom.getPathForRow(cont).getLastPathComponent().toString().contains(Lenguaje.getMensaje(Lenguaje.DOMAIN)+" "+'"'+expandir+'"')){ 
+				 if (arbolDom.getPathForRow(cont).getLastPathComponent().toString().contains(Lenguaje.text(Lenguaje.DOMAIN)+" "+'"'+expandir+'"')){ 
 					 arbolDom.expandRow(cont);
 					 }
-				 else if(arbolDom.getPathForRow(cont).getParentPath().getLastPathComponent().toString().contains(Lenguaje.getMensaje(Lenguaje.DOMAIN)+" "+'"'+expandir+'"')){
+				 else if(arbolDom.getPathForRow(cont).getParentPath().getLastPathComponent().toString().contains(Lenguaje.text(Lenguaje.DOMAIN)+" "+'"'+expandir+'"')){
 					 arbolDom.expandRow(cont);
 				 }
 			 }catch(Exception e){
@@ -1474,7 +1474,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	        	 if (javax.swing.SwingUtilities.isRightMouseButton(e)) {
 	        		 popup.removeAll();
 		 			 GUIPrincipal p = getThePrincipal();
-		        	 popup.add(new AccionMenu(Lenguaje.getMensaje(Lenguaje.DOM_MENU_ADD),p,null));
+		        	 popup.add(new AccionMenu(Lenguaje.text(Lenguaje.DOM_MENU_ADD),p,null));
 		        	 popup.setLocation(e.getLocationOnScreen());
 		        	 getPopUp().setVisible(true);
 	             }
@@ -1493,7 +1493,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				//buscamos el transfer
 				String nombre= selPath.getLastPathComponent().toString();
 				nombre= nombre.replace('"', '*');
-				nombre= nombre.replaceAll(Lenguaje.getMensaje(Lenguaje.DOMAIN)+" ", "");
+				nombre= nombre.replaceAll(Lenguaje.text(Lenguaje.DOMAIN)+" ", "");
 				nombre= nombre.replace("*", "");
 				
 				int index=-1;
@@ -1505,21 +1505,21 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				}
 				TransferDominio dominio = listaDominios.get(index);
 				
-				popup.add(new AccionMenu(Lenguaje.getMensaje(Lenguaje.DOM_MENU_RENAME),p, dominio));
+				popup.add(new AccionMenu(Lenguaje.text(Lenguaje.DOM_MENU_RENAME),p, dominio));
 				popup.addSeparator();
-				popup.add(new AccionMenu(Lenguaje.getMensaje(Lenguaje.DOM_MENU_DELETE),p,dominio));
+				popup.add(new AccionMenu(Lenguaje.text(Lenguaje.DOM_MENU_DELETE),p,dominio));
 				popup.addSeparator();
-				popup.add(new AccionMenu(Lenguaje.getMensaje(Lenguaje.DOM_MENU_MODIFY),p,dominio));
+				popup.add(new AccionMenu(Lenguaje.text(Lenguaje.DOM_MENU_MODIFY),p,dominio));
 				
 			}
 			else if(selPath.getPathCount()==1){//Nodo "Dominios"
-				popup.add(new AccionMenu(Lenguaje.getMensaje(Lenguaje.DOM_MENU_ADD),p,null));
+				popup.add(new AccionMenu(Lenguaje.text(Lenguaje.DOM_MENU_ADD),p,null));
 			}
-			else if(selPath.getLastPathComponent().toString().startsWith(Lenguaje.getMensaje(Lenguaje.DOM_TREE_TYPE)+" ") && (selPath.getPathCount()==3)){
+			else if(selPath.getLastPathComponent().toString().startsWith(Lenguaje.text(Lenguaje.DOM_TREE_TYPE)+" ") && (selPath.getPathCount()==3)){
 				//buscamos el transfer
 				String nombre= selPath.getParentPath().getLastPathComponent().toString();
 				nombre= nombre.replace('"', '*');
-				nombre= nombre.replaceAll(Lenguaje.getMensaje(Lenguaje.DOMAIN)+" ", "");
+				nombre= nombre.replaceAll(Lenguaje.text(Lenguaje.DOMAIN)+" ", "");
 				nombre= nombre.replace("*", "");
 				
 				int index=-1;
@@ -1530,13 +1530,13 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					
 				}
 				TransferDominio dominio = listaDominios.get(index);
-				popup.add(new AccionMenu(Lenguaje.getMensaje(Lenguaje.DOM_MENU_MODIFY),p,dominio));
+				popup.add(new AccionMenu(Lenguaje.text(Lenguaje.DOM_MENU_MODIFY),p,dominio));
 			}
-			else if(selPath.getLastPathComponent().toString().equals(Lenguaje.getMensaje(Lenguaje.DOM_TREE_TYPE)) && (selPath.getPathCount()==3)){
+			else if(selPath.getLastPathComponent().toString().equals(Lenguaje.text(Lenguaje.DOM_TREE_TYPE)) && (selPath.getPathCount()==3)){
 				//buscamos el transfer
 				String nombre= selPath.getParentPath().getLastPathComponent().toString();
 				nombre= nombre.replace('"', '*');
-				nombre= nombre.replaceAll(Lenguaje.getMensaje(Lenguaje.DOMAIN)+" ", "");
+				nombre= nombre.replaceAll(Lenguaje.text(Lenguaje.DOMAIN)+" ", "");
 				nombre= nombre.replace("*", "");
 				
 				int index=-1;
@@ -1547,15 +1547,15 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					
 				}
 				TransferDominio dominio = listaDominios.get(index);
-				popup.add(new AccionMenu(Lenguaje.getMensaje(Lenguaje.DOM_MENU_MODIFY),p,dominio));
+				popup.add(new AccionMenu(Lenguaje.text(Lenguaje.DOM_MENU_MODIFY),p,dominio));
 				popup.addSeparator();
-				popup.add(new AccionMenu(Lenguaje.getMensaje(Lenguaje.DOM_MENU_IN_ORDER),p,dominio));
+				popup.add(new AccionMenu(Lenguaje.text(Lenguaje.DOM_MENU_IN_ORDER),p,dominio));
 			}
-			else if(selPath.getParentPath().getLastPathComponent().toString().equals(Lenguaje.getMensaje(Lenguaje.DOM_TREE_VALUES)) && (selPath.getPathCount()==4)){
+			else if(selPath.getParentPath().getLastPathComponent().toString().equals(Lenguaje.text(Lenguaje.DOM_TREE_VALUES)) && (selPath.getPathCount()==4)){
 				//buscamos el transfer
 				String nombre= selPath.getParentPath().getParentPath().getLastPathComponent().toString();
 				nombre= nombre.replace('"', '*');
-				nombre= nombre.replaceAll(Lenguaje.getMensaje(Lenguaje.DOMAIN)+" ", "");
+				nombre= nombre.replaceAll(Lenguaje.text(Lenguaje.DOMAIN)+" ", "");
 				nombre= nombre.replace("*", "");
 				
 				int index=-1;
@@ -1566,9 +1566,9 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					
 				}
 				TransferDominio dominio = listaDominios.get(index);
-				popup.add(new AccionMenu(Lenguaje.getMensaje(Lenguaje.DOM_MENU_MODIFY),p,dominio));
+				popup.add(new AccionMenu(Lenguaje.text(Lenguaje.DOM_MENU_MODIFY),p,dominio));
 				popup.addSeparator();
-				popup.add(new AccionMenu(Lenguaje.getMensaje(Lenguaje.DOM_MENU_IN_ORDER),p,dominio));
+				popup.add(new AccionMenu(Lenguaje.text(Lenguaje.DOM_MENU_IN_ORDER),p,dominio));
 			}
 						
 			popup.setLocation(e.getLocationOnScreen());
@@ -1608,10 +1608,10 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 			
 			//if(selPath.getPathCount()==1){//Nodo The entity, the attribute, the relation...
 				String nombre= selPath.getPathComponent(0).toString();
-				if(nombre.contains(Lenguaje.getMensaje(Lenguaje.ENTITY))){
+				if(nombre.contains(Lenguaje.text(Lenguaje.ENTITY))){
 					//buscamos el transfer
 					nombre= nombre.replace('"', '*');
-					nombre= nombre.replaceAll(Lenguaje.getMensaje(Lenguaje.THE_ENTITY)+" ", "");
+					nombre= nombre.replaceAll(Lenguaje.text(Lenguaje.THE_ENTITY)+" ", "");
 					nombre= nombre.replace("*", "");
 					
 					int index=-1;
@@ -1625,7 +1625,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					final TransferEntidad entidad = listaEntidades.get(index);
 					
 					// Anadir un atributo a una entidad
-					JMenuItem j3 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_ATTRIBUTE));
+					JMenuItem j3 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_ATTRIBUTE));
 					j3.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
@@ -1637,7 +1637,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					popup.add(j3);
 					popup.add(new JSeparator());
 					// Renombrar la entidad
-					JMenuItem j1 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.RENAME_ENTITY));
+					JMenuItem j1 = new JMenuItem(Lenguaje.text(Lenguaje.RENAME_ENTITY));
 					j1.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
@@ -1649,7 +1649,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					});
 					popup.add(j1);
 					// Eliminar una entidad 
-					JMenuItem j4 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.DELETE_ENT));
+					JMenuItem j4 = new JMenuItem(Lenguaje.text(Lenguaje.DELETE_ENT));
 					j4.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								popup.setVisible(false);
@@ -1664,7 +1664,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					popup.add(j4);
 					popup.add(new JSeparator());
 					//Añadir restricciones			
-					JMenuItem j5 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.RESTRICTIONS));
+					JMenuItem j5 = new JMenuItem(Lenguaje.text(Lenguaje.RESTRICTIONS));
 					j5.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
@@ -1675,7 +1675,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					});
 					popup.add(j5);
 					//Añadir restricciones	Unique		
-					JMenuItem j6 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.TABLE_UNIQUE));
+					JMenuItem j6 = new JMenuItem(Lenguaje.text(Lenguaje.TABLE_UNIQUE));
 					j6.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
@@ -1688,10 +1688,10 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				
 						
 				//ATRIBUTO		
-				}else if(nombre.contains(Lenguaje.getMensaje(Lenguaje.ATTRIBUTE))){
+				}else if(nombre.contains(Lenguaje.text(Lenguaje.ATTRIBUTE))){
 					//buscamos el transfer
 					nombre= nombre.replace('"', '*');
-					nombre= nombre.replaceAll(Lenguaje.getMensaje(Lenguaje.THE_ATTRIBUTE)+" ", "");
+					nombre= nombre.replaceAll(Lenguaje.text(Lenguaje.THE_ATTRIBUTE)+" ", "");
 					nombre= nombre.replace("*", "");
 					int ind = nombre.indexOf("(", 0);
 					nombre = nombre.substring(0,ind-1);
@@ -1776,7 +1776,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 							}
 						}
 					// Editar el dominio del atributo
-					JMenuItem j2 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.EDIT_DOMAIN));
+					JMenuItem j2 = new JMenuItem(Lenguaje.text(Lenguaje.EDIT_DOMAIN));
 					j2.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
@@ -1788,7 +1788,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					popup.add(j2);
 					
 					// Renombrar un atributo
-					JMenuItem j1 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.RENAME_ATTRIB));
+					JMenuItem j1 = new JMenuItem(Lenguaje.text(Lenguaje.RENAME_ATTRIB));
 					j1.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
@@ -1800,7 +1800,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					popup.add(j1);
 
 					// Eliminar un atributo
-					JMenuItem j7 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.DELETE_ATTRIB));
+					JMenuItem j7 = new JMenuItem(Lenguaje.text(Lenguaje.DELETE_ATTRIB));
 					j7.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
@@ -1819,7 +1819,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					// Solamente estara activo cuando sea un atributo directo de una entidad
 					final TransferEntidad ent = esAtributoDirecto(atributo);
 					if (ent != null){
-						JCheckBoxMenuItem j6 = new JCheckBoxMenuItem(Lenguaje.getMensaje(Lenguaje.IS_PRIMARY_KEY)+" \""+ent.getNombre()+"\"");
+						JCheckBoxMenuItem j6 = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.IS_PRIMARY_KEY)+" \""+ent.getNombre()+"\"");
 						if (atributo.isClavePrimaria()) j6.setSelected(true);
 						j6.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
@@ -1837,7 +1837,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					}
 					
 					// Es un atributo compuesto
-					JCheckBoxMenuItem j3 = new JCheckBoxMenuItem(Lenguaje.getMensaje(Lenguaje.COMPOSED));
+					JCheckBoxMenuItem j3 = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.COMPOSED));
 					final boolean notnul= atributo.getNotnull();
 					final boolean unique = atributo.getUnique();
 					if (atributo.getCompuesto()) j3.setSelected(true);
@@ -1860,7 +1860,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					
 					// Si es compuesto
 					if (atributo.getCompuesto()){
-						JMenuItem j4 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_SUBATTRIBUTE));
+						JMenuItem j4 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_SUBATTRIBUTE));
 						j4.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								popup.setVisible(false);
@@ -1875,7 +1875,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 
 					// Es un atributo NotNull
 					if(!atributo.getCompuesto() && !atributo.isClavePrimaria()){
-						JCheckBoxMenuItem j3a = new JCheckBoxMenuItem(Lenguaje.getMensaje(Lenguaje.NOT_NULL));
+						JCheckBoxMenuItem j3a = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.NOT_NULL));
 						if (atributo.getNotnull()) j3a.setSelected(true);
 						else j3a.setSelected(false);
 						j3a.addActionListener(new java.awt.event.ActionListener() {
@@ -1891,7 +1891,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					}
 					// Es un atributo Unique
 					if(!atributo.getCompuesto() && !atributo.isClavePrimaria()){
-					JCheckBoxMenuItem j3b = new JCheckBoxMenuItem(Lenguaje.getMensaje(Lenguaje.UNIQUE));
+					JCheckBoxMenuItem j3b = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.UNIQUE));
 					if (atributo.getUnique()) j3b.setSelected(true);
 					else j3b.setSelected(false);
 					j3b.addActionListener(new java.awt.event.ActionListener() {
@@ -1908,7 +1908,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					
 					// Es un atributo multivalorado
 					if( !atributo.isClavePrimaria()){
-					JCheckBoxMenuItem j5 = new JCheckBoxMenuItem(Lenguaje.getMensaje(Lenguaje.IS_MULTIVALUATED));
+					JCheckBoxMenuItem j5 = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.IS_MULTIVALUATED));
 					if (atributo.isMultivalorado()) j5.setSelected(true);
 					else j5.setSelected(false);
 					j5.addActionListener(new java.awt.event.ActionListener() {
@@ -1926,7 +1926,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					
 					popup.add(new JSeparator());
 					//Añadir restricciones			
-					JMenuItem j8 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.RESTRICTIONS));
+					JMenuItem j8 = new JMenuItem(Lenguaje.text(Lenguaje.RESTRICTIONS));
 					j8.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
@@ -1938,11 +1938,11 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					popup.add(j8);
 								
 					
-				}else if(nombre.contains(Lenguaje.getMensaje(Lenguaje.RELATION)) || 
-						 nombre.contains(Lenguaje.getMensaje(Lenguaje.RELATION).toLowerCase())){
+				}else if(nombre.contains(Lenguaje.text(Lenguaje.RELATION)) || 
+						 nombre.contains(Lenguaje.text(Lenguaje.RELATION).toLowerCase())){
 					//buscamos el transfer
 					nombre= nombre.replace('"', '*');
-					nombre= nombre.replaceAll(Lenguaje.getMensaje(Lenguaje.THE_RELATION)+" ", "");
+					nombre= nombre.replaceAll(Lenguaje.text(Lenguaje.THE_RELATION)+" ", "");
 					nombre= nombre.replace("*", "");
 					
 					int index=-1;
@@ -1966,7 +1966,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 										
 					if (!(relacion.getTipo().equals("IsA"))){
 						// Anadir una entidad
-						JMenuItem j3 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_ENT));
+						JMenuItem j3 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_ENT));
 						j3.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								popup.setVisible(false);
@@ -1978,7 +1978,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						popup.add(j3);
 
 						// Quitar una entidad
-						JMenuItem j4 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.REMOVE_ENTITY));
+						JMenuItem j4 = new JMenuItem(Lenguaje.text(Lenguaje.REMOVE_ENTITY));
 						j4.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								popup.setVisible(false);
@@ -1990,7 +1990,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						popup.add(j4);
 
 						// Editar la aridad de una entidad
-						JMenuItem j5 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.EDIT_CARD_ROL));
+						JMenuItem j5 = new JMenuItem(Lenguaje.text(Lenguaje.EDIT_CARD_ROL));
 						j5.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								popup.setVisible(false);
@@ -2003,7 +2003,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						popup.add(new JSeparator());
 
 						// Anadir un atributo a la relacion
-						JMenuItem j6 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_ATTRIBUTE));
+						JMenuItem j6 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_ATTRIBUTE));
 						if (relacion.getTipo().equals("Debil"))
 							j6.setEnabled(false);
 						else{
@@ -2021,7 +2021,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						popup.add(new JSeparator());
 						
 						// Renombrar la relacion
-						JMenuItem j1 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.RENAME_RELATION));
+						JMenuItem j1 = new JMenuItem(Lenguaje.text(Lenguaje.RENAME_RELATION));
 						j1.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								popup.setVisible(false);
@@ -2033,7 +2033,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						popup.add(j1);
 						
 						// Eliminar la relacion
-							JMenuItem j7 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.DELETE_REL));
+							JMenuItem j7 = new JMenuItem(Lenguaje.text(Lenguaje.DELETE_REL));
 							j7.addActionListener(new java.awt.event.ActionListener() {
 								public void actionPerformed(ActionEvent e) {
 									popup.setVisible(false);
@@ -2049,7 +2049,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 							popup.add(new JSeparator());
 
 						//Añadir restricciones			
-						JMenuItem j8 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.RESTRICTIONS));
+						JMenuItem j8 = new JMenuItem(Lenguaje.text(Lenguaje.RESTRICTIONS));
 						j8.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								popup.setVisible(false);
@@ -2060,7 +2060,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						});
 						popup.add(j8);
 						//Añadir restricciones	Unique		
-						JMenuItem j9 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.TABLE_UNIQUE));
+						JMenuItem j9 = new JMenuItem(Lenguaje.text(Lenguaje.TABLE_UNIQUE));
 						j9.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								popup.setVisible(false);
@@ -2090,7 +2090,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					}
 					final TransferRelacion relacion= listaRelaciones.get(index);*/
 					
-					popup.add(new JMenu().add(new AbstractAction(Lenguaje.getMensaje(Lenguaje.SET_PARENT_ENT)){
+					popup.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.SET_PARENT_ENT)){
 						private static final long serialVersionUID = 8766595520619916135L;
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
@@ -2099,7 +2099,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EstablecerEntidadPadre,clon_relacion);
 						}
 					}));
-					popup.add(new JMenu().add(new AbstractAction(Lenguaje.getMensaje(Lenguaje.REMOVE_PARENT_ENT)){
+					popup.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.REMOVE_PARENT_ENT)){
 						private static final long serialVersionUID = 8766595520619916135L;
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
@@ -2111,7 +2111,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 
 					popup.add(new JSeparator());
 
-					popup.add(new JMenu().add(new AbstractAction(Lenguaje.getMensaje(Lenguaje.ADD_CHILD_ENT)){
+					popup.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.ADD_CHILD_ENT)){
 						private static final long serialVersionUID = 8766595520619916135L;
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
@@ -2121,7 +2121,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						}
 					}));
 
-					popup.add(new JMenu().add(new AbstractAction(Lenguaje.getMensaje(Lenguaje.REMOVE_CHILD_ENT)){
+					popup.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.REMOVE_CHILD_ENT)){
 						private static final long serialVersionUID = 8766595520619916135L;
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
@@ -2134,7 +2134,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					popup.add(new JSeparator());
 					//Eliminal la relacion
 					
-						popup.add(new JMenu().add(new AbstractAction(Lenguaje.getMensaje(Lenguaje.DELETE_REL)){
+						popup.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.DELETE_REL)){
 							private static final long serialVersionUID = -218800914185538588L;
 							public void actionPerformed(ActionEvent e) {
 								popup.setVisible(false);
@@ -2178,18 +2178,18 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	 */
 	private void submenuExportarJPEGActionPerformed(ActionEvent evt) {
 		JFileChooser jfc = new JFileChooser();
-		jfc.setDialogTitle(Lenguaje.getMensaje(Lenguaje.DBCASE));
-		jfc.setFileFilter(new FileNameExtensionFilter(Lenguaje.getMensaje(Lenguaje.JPEG_FILES), "jpg"));
+		jfc.setDialogTitle(Lenguaje.text(Lenguaje.DBCASE));
+		jfc.setFileFilter(new FileNameExtensionFilter(Lenguaje.text(Lenguaje.JPEG_FILES), "jpg"));
 		int resul = jfc.showSaveDialog(null);
 		if (resul == 0){
 			File ruta = jfc.getSelectedFile();
 			this.panelDiseno.writeJPEGGraph(ruta);
 			JOptionPane.showMessageDialog(
 					null,
-					Lenguaje.getMensaje(Lenguaje.INFO)+"\n"+
-					Lenguaje.getMensaje(Lenguaje.OK_EXPORT)+".\n" +
-					Lenguaje.getMensaje(Lenguaje.FILE)+": "+ruta,
-					Lenguaje.getMensaje(Lenguaje.DBCASE),
+					Lenguaje.text(Lenguaje.INFO)+"\n"+
+					Lenguaje.text(Lenguaje.OK_EXPORT)+".\n" +
+					Lenguaje.text(Lenguaje.FILE)+": "+ruta,
+					Lenguaje.text(Lenguaje.DBCASE),
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
 		}
@@ -2203,28 +2203,28 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		JOptionPane.showMessageDialog(
 				null,
 				"\n"+
-				Lenguaje.getMensaje(Lenguaje.DB_CASE_TOOL)+"\n" +
-				"\""+Lenguaje.getMensaje(Lenguaje.TOOL_FOR_DESING)+"\"\n" +
+				Lenguaje.text(Lenguaje.DB_CASE_TOOL)+"\n" +
+				"\""+Lenguaje.text(Lenguaje.TOOL_FOR_DESING)+"\"\n" +
 				"\n" +
-				Lenguaje.getMensaje(Lenguaje.SS_II)+"\n" +
-				Lenguaje.getMensaje(Lenguaje.COLLEGE)+"\n" +
-				Lenguaje.getMensaje(Lenguaje.UNIVERSITY)+"\n" +
+				Lenguaje.text(Lenguaje.SS_II)+"\n" +
+				Lenguaje.text(Lenguaje.COLLEGE)+"\n" +
+				Lenguaje.text(Lenguaje.UNIVERSITY)+"\n" +
 				"\n" +
-				Lenguaje.getMensaje(Lenguaje.DIRECTOR)+"\n" +
-				Lenguaje.getMensaje(Lenguaje.TEACHER_NAME)+"\n"+
+				Lenguaje.text(Lenguaje.DIRECTOR)+"\n" +
+				Lenguaje.text(Lenguaje.TEACHER_NAME)+"\n"+
 				"\n"+
-				Lenguaje.getMensaje(Lenguaje.AUTHORS)+"\n" +
-				Lenguaje.getMensaje(Lenguaje.AUTHOR1)+"\n" +
-				Lenguaje.getMensaje(Lenguaje.AUTHOR2)+"\n" +
-				Lenguaje.getMensaje(Lenguaje.AUTHOR3)+"\n"+
+				Lenguaje.text(Lenguaje.AUTHORS)+"\n" +
+				Lenguaje.text(Lenguaje.AUTHOR1)+"\n" +
+				Lenguaje.text(Lenguaje.AUTHOR2)+"\n" +
+				Lenguaje.text(Lenguaje.AUTHOR3)+"\n"+
 				"\n"+
-				Lenguaje.getMensaje(Lenguaje.BASED)+"\n"+
+				Lenguaje.text(Lenguaje.BASED)+"\n"+
 				"\n"+
-				Lenguaje.getMensaje(Lenguaje.CONTACT) +
+				Lenguaje.text(Lenguaje.CONTACT) +
 				"\n" +
 				"\n"
 				,
-				Lenguaje.getMensaje(Lenguaje.DBCASE_LABEL),
+				Lenguaje.text(Lenguaje.DBCASE_LABEL),
 				JOptionPane.PLAIN_MESSAGE,
 				new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGOFDI)));
 	}

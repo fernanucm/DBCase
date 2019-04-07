@@ -53,7 +53,7 @@ public class GUI_WorkSpace extends javax.swing.JDialog{
 
 	private void initComponents(){
 		{
-			this.setTitle(Lenguaje.getMensaje(Lenguaje.DBCASE));
+			this.setTitle(Lenguaje.text(Lenguaje.DBCASE));
 			this.setModal(true);
 			this.setResizable(false);
 			this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -79,7 +79,7 @@ public class GUI_WorkSpace extends javax.swing.JDialog{
 			jfc.setAcceptAllFileFilterUsed(false);
 			XMLFileFilter filter = new XMLFileFilter();
 			jfc.addChoosableFileFilter(filter);
-			jfc.setApproveButtonText(Lenguaje.getMensaje(Lenguaje.SELECT));
+			jfc.setApproveButtonText(Lenguaje.text(Lenguaje.SELECT));
 			jfc.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					jfcActionPerformed(evt);
@@ -99,14 +99,14 @@ public class GUI_WorkSpace extends javax.swing.JDialog{
 		actuado=false;
 		switch (b){			
 			case 1:{//abrir
-				jLabel1.setText(Lenguaje.getMensaje(Lenguaje.OPEN)+":");
+				jLabel1.setText(Lenguaje.text(Lenguaje.OPEN)+":");
 				abrir=b;
 				this.centraEnPantalla();
 				this.setVisible(true);	
 				break;
 			}
 			case 2:{//guardar
-				jLabel1.setText(Lenguaje.getMensaje(Lenguaje.SAVE)+":");
+				jLabel1.setText(Lenguaje.text(Lenguaje.SAVE)+":");
 				
 				if(controlador.getFileguardar()==null || !controlador.getFileguardar().exists()){
 					abrir=b;
@@ -120,7 +120,7 @@ public class GUI_WorkSpace extends javax.swing.JDialog{
 				break;
 			}
 			case 3:{//guardarComo
-				jLabel1.setText(Lenguaje.getMensaje(Lenguaje.SAVE_AS)+":");
+				jLabel1.setText(Lenguaje.text(Lenguaje.SAVE_AS)+":");
 				abrir=b;
 				this.centraEnPantalla();
 				this.setVisible(true);	
@@ -177,13 +177,13 @@ public class GUI_WorkSpace extends javax.swing.JDialog{
 				this.controlador.mensajeDesde_GUIWorkSpace(TC.GUI_WorkSpace_Click_Abrir, ruta);
 			}else{
 				JOptionPane.showMessageDialog(null,
-						Lenguaje.getMensaje(Lenguaje.WRONG_FILE),
-						Lenguaje.getMensaje(Lenguaje.DBCASE), JOptionPane.ERROR_MESSAGE);
+						Lenguaje.text(Lenguaje.WRONG_FILE),
+						Lenguaje.text(Lenguaje.DBCASE), JOptionPane.ERROR_MESSAGE);
 			}				
 		}else{
 			JOptionPane.showMessageDialog(null,
-					Lenguaje.getMensaje(Lenguaje.NOT_EXIST_FILE),
-					Lenguaje.getMensaje(Lenguaje.DBCASE), JOptionPane.ERROR_MESSAGE);
+					Lenguaje.text(Lenguaje.NOT_EXIST_FILE),
+					Lenguaje.text(Lenguaje.DBCASE), JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
@@ -229,8 +229,8 @@ public class GUI_WorkSpace extends javax.swing.JDialog{
 			this.controlador.mensajeDesde_GUIWorkSpace(TC.GUI_WorkSpace_Nuevo, ruta);
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null,
-				Lenguaje.getMensaje(Lenguaje.ERROR_TEMP_FILE),
-				Lenguaje.getMensaje(Lenguaje.DBCASE), JOptionPane.ERROR_MESSAGE);
+				Lenguaje.text(Lenguaje.ERROR_TEMP_FILE),
+				Lenguaje.text(Lenguaje.DBCASE), JOptionPane.ERROR_MESSAGE);
 		}
 		controlador.setFileguardar(null);
 	}
@@ -290,9 +290,9 @@ public class GUI_WorkSpace extends javax.swing.JDialog{
 		catch (Exception e) {
 			JOptionPane.showMessageDialog(
 					null,
-					Lenguaje.getMensaje(Lenguaje.ERROR)+":\n" +
-					Lenguaje.getMensaje(Lenguaje.UNESPECTED_XML_ERROR)+" \""+f.getName() ,
-					Lenguaje.getMensaje(Lenguaje.DBCASE),
+					Lenguaje.text(Lenguaje.ERROR)+":\n" +
+					Lenguaje.text(Lenguaje.UNESPECTED_XML_ERROR)+" \""+f.getName() ,
+					Lenguaje.text(Lenguaje.DBCASE),
 					JOptionPane.ERROR_MESSAGE);
 		}
 		return doc;

@@ -3,10 +3,10 @@ package modelo.persistencia;
 import vista.lenguaje.Lenguaje;
 
 public class EntidadYAridad {
-	int entidad;
-	int pRango;
-	int fRango;
-	String rol;
+	private int entidad;
+	private int pRango;
+	private int fRango;
+	private String rol;
 	
 	@Override
 	public EntidadYAridad clone() {
@@ -23,8 +23,8 @@ public class EntidadYAridad {
 	public EntidadYAridad(int entidad, int principioRango, int finalRango, String rol) {
 		super();
 		this.entidad = entidad;
-		pRango = principioRango;
-		fRango = finalRango;
+		this.pRango = principioRango;
+		this.fRango = finalRango;
 		this.rol=rol;
 	}
 	
@@ -81,18 +81,16 @@ public class EntidadYAridad {
 		p = Integer.parseInt(cadena.substring(coma1 + 1, coma2));//p=principio de la aridad
 		r= cadena.substring(coma3+1,cadena.length()-1);//r= rol
 		aux = cadena.substring(coma2+1,coma3);// aux=fin de la aridad
-		if (aux.equals("n"))
-			f = Integer.MAX_VALUE;
-		else
-			f = Integer.parseInt(aux);
+		if (aux.equals("n")) f = Integer.MAX_VALUE;
+		else f = Integer.parseInt(aux);
 		return new EntidadYAridad(e, p, f,r);
 	}
 	
 	@Override
 	public String toString(){
-		String a = Lenguaje.getMensaje(Lenguaje.ENT_ARITY);
-		a = a + Lenguaje.getMensaje(Lenguaje.ROL) + rol + Lenguaje.getMensaje(Lenguaje.ID_ENT) + entidad; 
+		String a = Lenguaje.text(Lenguaje.ENT_ARITY);
+		a = a + Lenguaje.text(Lenguaje.ROL) + rol + Lenguaje.text(Lenguaje.ID_ENT) + entidad; 
 		return a;
 	}
-	
+
 }

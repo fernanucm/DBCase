@@ -78,7 +78,7 @@ public class EtiquetaSobreLinea<V,E> extends edu.uci.ics.jung.visualization.rend
         double parallelOffset = 1;
 
         parallelOffset += rc.getParallelEdgeIndexFunction().getIndex(graph, e);
-
+        if(v1.equals(v2))System.out.println(v2);
         if(edgeShape instanceof Ellipse2D) {
             parallelOffset += edgeShape.getBounds().getHeight();
             parallelOffset = -parallelOffset;

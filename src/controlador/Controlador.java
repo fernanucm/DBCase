@@ -245,8 +245,8 @@ public class Controlador {
 			creaFicheroXML(controlador.getFiletemp());
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null,
-				Lenguaje.getMensaje(Lenguaje.ERROR_TEMP_FILE),
-				Lenguaje.getMensaje(Lenguaje.DBCASE), JOptionPane.ERROR_MESSAGE);
+				Lenguaje.text(Lenguaje.ERROR_TEMP_FILE),
+				Lenguaje.text(Lenguaje.DBCASE), JOptionPane.ERROR_MESSAGE);
 		}
 		String ruta = controlador.getFiletemp().getPath();
 		controlador.setPath(ruta);
@@ -305,8 +305,8 @@ public class Controlador {
 			return true;
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null,
-					Lenguaje.getMensaje(Lenguaje.ERROR_CREATING_FILE) + "\n" +ruta,
-					Lenguaje.getMensaje(Lenguaje.DBCASE), JOptionPane.ERROR_MESSAGE);
+					Lenguaje.text(Lenguaje.ERROR_CREATING_FILE) + "\n" +ruta,
+					Lenguaje.text(Lenguaje.DBCASE), JOptionPane.ERROR_MESSAGE);
 			return false;
 		}		
 	}
@@ -454,8 +454,8 @@ public class Controlador {
 			break;
 		}
 		case GUI_WorkSpace_ERROR_CreacionFicherosXML:{
-			JOptionPane.showMessageDialog(null,Lenguaje.getMensaje(Lenguaje.INITIAL_ERROR)+"\n" +
-					Lenguaje.getMensaje(Lenguaje.OF_XMLFILES)+"\n"+this.getPath(),Lenguaje.getMensaje(Lenguaje.DBCASE),JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,Lenguaje.text(Lenguaje.INITIAL_ERROR)+"\n" +
+					Lenguaje.text(Lenguaje.OF_XMLFILES)+"\n"+this.getPath(),Lenguaje.text(Lenguaje.DBCASE),JOptionPane.ERROR_MESSAGE);
 			break;
 		}
 		default: break;
@@ -487,7 +487,7 @@ public class Controlador {
 			if(listaTransfers.isEmpty())
 				JOptionPane.showMessageDialog(null,
 					"ERROR.\nAdd an entity or a relation first\n",
-					Lenguaje.getMensaje(Lenguaje.ADD_ENTITY_RELATION),
+					Lenguaje.text(Lenguaje.ADD_ENTITY_RELATION),
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR))
 				);
@@ -506,7 +506,7 @@ public class Controlador {
 		case PanelDiseno_Click_DebilitarEntidad:{
 			TransferEntidad te = (TransferEntidad) datos;
 			if(!te.isDebil() && this.getTheServiciosRelaciones().tieneHermanoDebil(te))
-				JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ALREADY_WEAK_ENTITY), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+				JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.ALREADY_WEAK_ENTITY), Lenguaje.text(Lenguaje.ERROR), 0);
 			else this.getTheServiciosEntidades().debilitarEntidad(te);
 			break;
 		}
@@ -518,15 +518,15 @@ public class Controlador {
 			if(preguntar == true){
 				String tieneAtributos ="";
 				if (!te.getListaAtributos().isEmpty()) 
-					tieneAtributos = Lenguaje.getMensaje(Lenguaje.DELETE_ATTRIBUTES_WARNING)+"\n";
+					tieneAtributos = Lenguaje.text(Lenguaje.DELETE_ATTRIBUTES_WARNING)+"\n";
 				String tieneRelacion="";
 				//TODO Aquí se avisa de que se va a eliminar también la relación debil!!!
 				if (te.isDebil()) 
-					tieneRelacion = Lenguaje.getMensaje(Lenguaje.WARNING_DELETE_WEAK_RELATION)+"\n";
+					tieneRelacion = Lenguaje.text(Lenguaje.WARNING_DELETE_WEAK_RELATION)+"\n";
 				respuesta = panelOpciones.setActiva(
-						Lenguaje.getMensaje(Lenguaje.ENTITY)+" \""+te.getNombre()+"\"" +Lenguaje.getMensaje(Lenguaje.REMOVE_FROM_SYSTEM)+"\n"+
-						tieneAtributos+tieneRelacion + Lenguaje.getMensaje(Lenguaje.WISH_CONTINUE),
-						Lenguaje.getMensaje(Lenguaje.DELETE_ENTITY),
+						Lenguaje.text(Lenguaje.ENTITY)+" \""+te.getNombre()+"\"" +Lenguaje.text(Lenguaje.REMOVE_FROM_SYSTEM)+"\n"+
+						tieneAtributos+tieneRelacion + Lenguaje.text(Lenguaje.WISH_CONTINUE),
+						Lenguaje.text(Lenguaje.DELETE_ENTITY),
 						false, new ImageIcon(getClass().getClassLoader().getResource(ImagePath.WARNING)));	
 			}
 			//Si quiere borrar la entidad
@@ -630,11 +630,11 @@ public class Controlador {
 			if(preguntar == true){
 				String eliminarSubatributos = "";
 				if (!ta.getListaComponentes().isEmpty())
-					eliminarSubatributos = Lenguaje.getMensaje(Lenguaje.DELETE_ATTRIBUTES_WARNING)+"\n";
+					eliminarSubatributos = Lenguaje.text(Lenguaje.DELETE_ATTRIBUTES_WARNING)+"\n";
 				respuesta = panelOpciones.setActiva(
-						Lenguaje.getMensaje(Lenguaje.ATTRIBUTE)+" \""+ta.getNombre()+"\""+Lenguaje.getMensaje(Lenguaje.REMOVE_FROM_SYSTEM)+"\n" +
-						eliminarSubatributos + Lenguaje.getMensaje(Lenguaje.WISH_CONTINUE),
-						Lenguaje.getMensaje(Lenguaje.DELETE_ATTRIB),
+						Lenguaje.text(Lenguaje.ATTRIBUTE)+" \""+ta.getNombre()+"\""+Lenguaje.text(Lenguaje.REMOVE_FROM_SYSTEM)+"\n" +
+						eliminarSubatributos + Lenguaje.text(Lenguaje.WISH_CONTINUE),
+						Lenguaje.text(Lenguaje.DELETE_ATTRIB),
 						false,
 						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.WARNING)));	
 			}
@@ -672,7 +672,7 @@ public class Controlador {
 				int numDebiles = this.getTheServiciosRelaciones().numEntidadesDebiles(tr);
 				// ...y tiene más de una entidad débil no se puede debilitar
 				if(numDebiles>1){
-					JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATION_WEAK_ENTITIES), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+					JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.RELATION_WEAK_ENTITIES), Lenguaje.text(Lenguaje.ERROR), 0);
 					break;
 				}
 				int respuesta1=-1;//-1 no hay conflicto, 0 el usuario dice SI, 1 el usuario dice NO
@@ -680,20 +680,20 @@ public class Controlador {
 				// ...y tiene atributos y se quiere debilitar hay que eliminar sus atributos
 				if(!tr.getListaAtributos().isEmpty()){
 					respuesta1 = panelOpciones.setActiva(
-							Lenguaje.getMensaje(Lenguaje.WEAK_RELATION)+" \""+tr.getNombre()+"\""+
-							Lenguaje.getMensaje(Lenguaje.DELETE_ATTRIBUTES_WARNING2)+"\n" +
-							Lenguaje.getMensaje(Lenguaje.WISH_CONTINUE),
-							Lenguaje.getMensaje(Lenguaje.DBCASE),
+							Lenguaje.text(Lenguaje.WEAK_RELATION)+" \""+tr.getNombre()+"\""+
+							Lenguaje.text(Lenguaje.DELETE_ATTRIBUTES_WARNING2)+"\n" +
+							Lenguaje.text(Lenguaje.WISH_CONTINUE),
+							Lenguaje.text(Lenguaje.DBCASE),
 							false,
 							null);
 				}
 				// ...y tiene una entidad débil hay que cambiar la cardinalidad
 				if(numDebiles == 1 && respuesta1!=1 ){
 					respuesta2 = panelOpciones.setActiva(
-							Lenguaje.getMensaje(Lenguaje.WEAK_RELATION)+"\""+tr.getNombre()+"\""+
-							Lenguaje.getMensaje(Lenguaje.MODIFYING_CARDINALITY) +".\n" +
-							Lenguaje.getMensaje(Lenguaje.WISH_CONTINUE),
-							Lenguaje.getMensaje(Lenguaje.DBCASE),
+							Lenguaje.text(Lenguaje.WEAK_RELATION)+"\""+tr.getNombre()+"\""+
+							Lenguaje.text(Lenguaje.MODIFYING_CARDINALITY) +".\n" +
+							Lenguaje.text(Lenguaje.WISH_CONTINUE),
+							Lenguaje.text(Lenguaje.DBCASE),
 							false,
 							null);
 				}
@@ -784,10 +784,10 @@ public class Controlador {
 						options,
 						options[1]);*/
 				int respuesta = panelOpciones.setActiva(
-						Lenguaje.getMensaje(Lenguaje.MODIFY_ATTRIBUTE)+"\""+ta.getNombre()+"\""+
-						Lenguaje.getMensaje(Lenguaje.DELETE_ATTRIBUTES_WARNING3)+"\n" +
-						Lenguaje.getMensaje(Lenguaje.WISH_CONTINUE),
-						Lenguaje.getMensaje(Lenguaje.DBCASE),
+						Lenguaje.text(Lenguaje.MODIFY_ATTRIBUTE)+"\""+ta.getNombre()+"\""+
+						Lenguaje.text(Lenguaje.DELETE_ATTRIBUTES_WARNING3)+"\n" +
+						Lenguaje.text(Lenguaje.WISH_CONTINUE),
+						Lenguaje.text(Lenguaje.DBCASE),
 						false,
 						null);
 				if (respuesta == 0){
@@ -1001,9 +1001,9 @@ public class Controlador {
 				JOptionPane.showMessageDialog(
 						null,
 						"ERROR.\n" +
-						Lenguaje.getMensaje(Lenguaje.NO_ATTRIBUTES_RELATION)+".\n" +
-						Lenguaje.getMensaje(Lenguaje.THE_RELATION)+"\""+tr.getNombre()+"\""+ Lenguaje.getMensaje(Lenguaje.IS_WEAK)+".\n",
-						Lenguaje.getMensaje(Lenguaje.ADD_ENTITY_RELATION),
+						Lenguaje.text(Lenguaje.NO_ATTRIBUTES_RELATION)+".\n" +
+						Lenguaje.text(Lenguaje.THE_RELATION)+"\""+tr.getNombre()+"\""+ Lenguaje.text(Lenguaje.IS_WEAK)+".\n",
+						Lenguaje.text(Lenguaje.ADD_ENTITY_RELATION),
 						JOptionPane.PLAIN_MESSAGE,
 						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
 				return;
@@ -1047,9 +1047,9 @@ public class Controlador {
 			int respuesta=0;
 			if(preguntar == true){
 				respuesta = panelOpciones.setActiva(
-						Lenguaje.getMensaje(Lenguaje.ISA_RELATION_DELETE)+"\n" +
-						Lenguaje.getMensaje(Lenguaje.WISH_CONTINUE),
-						Lenguaje.getMensaje(Lenguaje.DELETE_ISA_RELATION),
+						Lenguaje.text(Lenguaje.ISA_RELATION_DELETE)+"\n" +
+						Lenguaje.text(Lenguaje.WISH_CONTINUE),
+						Lenguaje.text(Lenguaje.DELETE_ISA_RELATION),
 						false,
 						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.WARNING)));	
 			}
@@ -1075,17 +1075,17 @@ public class Controlador {
 			if(preguntar == true){
 				String tieneAtributos ="";
 				if (!tr.getListaAtributos().isEmpty()) 
-					tieneAtributos = Lenguaje.getMensaje(Lenguaje.DELETE_ATTRIBUTES_WARNING)+"\n";
+					tieneAtributos = Lenguaje.text(Lenguaje.DELETE_ATTRIBUTES_WARNING)+"\n";
 				String tieneEntidad="";
 				//Informar de que también se va a eliminar la entidad débil asociada
 				if(tr.getTipo().equals("Debil"))
-					tieneEntidad = Lenguaje.getMensaje(Lenguaje.WARNING_DELETE_WEAK_ENTITY)+"\n";
+					tieneEntidad = Lenguaje.text(Lenguaje.WARNING_DELETE_WEAK_ENTITY)+"\n";
 				respuesta = panelOpciones.setActiva(
-						Lenguaje.getMensaje(Lenguaje.THE_RELATION)+" \""+tr.getNombre()+"\""+
-						Lenguaje.getMensaje(Lenguaje.REMOVE_FROM_SYSTEM)+"\n" +
+						Lenguaje.text(Lenguaje.THE_RELATION)+" \""+tr.getNombre()+"\""+
+						Lenguaje.text(Lenguaje.REMOVE_FROM_SYSTEM)+"\n" +
 						tieneAtributos + tieneEntidad+
-						Lenguaje.getMensaje(Lenguaje.WISH_CONTINUE),
-						Lenguaje.getMensaje(Lenguaje.DELETE_RELATION),
+						Lenguaje.text(Lenguaje.WISH_CONTINUE),
+						Lenguaje.text(Lenguaje.DELETE_RELATION),
 						false,
 						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.WARNING)));
 			}
@@ -1172,10 +1172,10 @@ public class Controlador {
 		case PanelDiseno_Click_EliminarDominio:{
 			TransferDominio td = (TransferDominio) datos;
 			int respuesta = panelOpciones.setActiva(
-					Lenguaje.getMensaje(Lenguaje.DOMAIN)+" \""+td.getNombre()+"\""+ Lenguaje.getMensaje(Lenguaje.REMOVE_FROM_SYSTEM)+"\n" +
-					Lenguaje.getMensaje(Lenguaje.MODIFYING_ATTRIBUTES_WARNING4)+"\n" +
-					Lenguaje.getMensaje(Lenguaje.WISH_CONTINUE),
-					Lenguaje.getMensaje(Lenguaje.DELETE_DOMAIN),
+					Lenguaje.text(Lenguaje.DOMAIN)+" \""+td.getNombre()+"\""+ Lenguaje.text(Lenguaje.REMOVE_FROM_SYSTEM)+"\n" +
+					Lenguaje.text(Lenguaje.MODIFYING_ATTRIBUTES_WARNING4)+"\n" +
+					Lenguaje.text(Lenguaje.WISH_CONTINUE),
+					Lenguaje.text(Lenguaje.DELETE_DOMAIN),
 					false,
 					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.WARNING)));
 			if (respuesta == 0){
@@ -1279,8 +1279,8 @@ public class Controlador {
 		case GUI_Principal_Click_Submenu_Salir:{
 			if (cambios){
 				int respuesta = panelOpcionesPeque.setActiva(
-						Lenguaje.getMensaje(Lenguaje.WISH_SAVE),
-						Lenguaje.getMensaje(Lenguaje.DBCASE),
+						Lenguaje.text(Lenguaje.WISH_SAVE),
+						Lenguaje.text(Lenguaje.DBCASE),
 						true,
 						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
 				if (respuesta==1) guardarYSalir();
@@ -1295,8 +1295,8 @@ public class Controlador {
 		case GUI_Principal_Click_Salir:{
 			if (cambios){
 				int respuesta = panelOpcionesPeque.setActiva(
-						Lenguaje.getMensaje(Lenguaje.WISH_SAVE),
-						Lenguaje.getMensaje(Lenguaje.DBCASE),
+						Lenguaje.text(Lenguaje.WISH_SAVE),
+						Lenguaje.text(Lenguaje.DBCASE),
 						true,
 						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
 				if (respuesta==1) guardarYSalir();
@@ -1311,8 +1311,8 @@ public class Controlador {
 		case GUI_Principal_Click_Submenu_Abrir:{
 			if (cambios){
 				int respuesta = panelOpcionesPeque.setActiva(
-						Lenguaje.getMensaje(Lenguaje.WISH_SAVE),
-						Lenguaje.getMensaje(Lenguaje.DBCASE),
+						Lenguaje.text(Lenguaje.WISH_SAVE),
+						Lenguaje.text(Lenguaje.DBCASE),
 						true,
 						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
 				if (respuesta==1) {
@@ -1351,8 +1351,8 @@ public class Controlador {
 		case GUI_Principal_Click_Submenu_Nuevo:{
 			if (cambios){
 				int respuesta = panelOpcionesPeque.setActiva(
-						Lenguaje.getMensaje(Lenguaje.WISH_SAVE),
-						Lenguaje.getMensaje(Lenguaje.DBCASE),
+						Lenguaje.text(Lenguaje.WISH_SAVE),
+						Lenguaje.text(Lenguaje.DBCASE),
 						true,
 						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
 				if (respuesta==1) {
@@ -1378,8 +1378,8 @@ public class Controlador {
 		case GUI_Principal_Click_Submenu_Cerrar:{
 			if (cambios){
 				int respuesta = panelOpcionesPeque.setActiva(
-						Lenguaje.getMensaje(Lenguaje.WISH_SAVE),
-						Lenguaje.getMensaje(Lenguaje.DBCASE),
+						Lenguaje.text(Lenguaje.WISH_SAVE),
+						Lenguaje.text(Lenguaje.DBCASE),
 						true,
 						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
 				if (respuesta==1) {
@@ -1524,7 +1524,7 @@ public class Controlador {
 			break;
 		}
 		case GUIInsertarEntidadDebil_Entidad_Relacion_Repetidos:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_ENTITY_REL), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.REPEATED_ENTITY_REL), Lenguaje.text(Lenguaje.ERROR), 0);
 			break;
 		}
 		case GUIRenombrarEntidad_Click_BotonRenombrar:{
@@ -1798,7 +1798,7 @@ public class Controlador {
 			}
 			
 			if(relDebil && entDebil && relTieneEntDebil)
-				JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ALREADY_WEAK_ENTITY), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+				JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.ALREADY_WEAK_ENTITY), Lenguaje.text(Lenguaje.ERROR), 0);
 			else this.getTheServiciosRelaciones().anadirEntidadARelacion(v);
 			
 			ActualizaArbol(tr);
@@ -1911,38 +1911,38 @@ public class Controlador {
 		 * Insercion de entidades
 		 */
 		case SE_InsertarEntidad_ERROR_NombreDeEntidadEsVacio:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.EMPTY_ENT_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.EMPTY_ENT_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
 		case SE_ComprobarInsertarEntidad_ERROR_NombreDeEntidadEsVacio:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.EMPTY_ENT_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.EMPTY_ENT_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
 		case SE_InsertarEntidad_ERROR_NombreDeEntidadYaExiste:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_ENT_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.REPEATED_ENT_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
 		case SE_ComprobarInsertarEntidad_ERROR_NombreDeEntidadYaExiste:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_ENT_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.REPEATED_ENT_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 		
 			break;
 		}
 		case SE_InsertarEntidad_ERROR_NombreDeEntidadYaExisteComoRelacion:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_REL_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.REPEATED_REL_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
 		case SE_ComprobarInsertarEntidad_ERROR_NombreDeEntidadYaExisteComoRelacion:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_REL_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.REPEATED_REL_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
 		case SE_InsertarEntidad_ERROR_DAO:{
 			this.getTheGUIInsertarEntidad().setInactiva();
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ENTITIES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.ENTITIES_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -1961,33 +1961,33 @@ public class Controlador {
 		case SE_RenombrarEntidad_ERROR_NombreDeEntidadEsVacio:{
 			Vector v = (Vector) datos;
 			v.get(0);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.EMPTY_ENT_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.EMPTY_ENT_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
 		case SE_RenombrarEntidad_ERROR_NombreDeEntidadYaExiste:{
 			Vector v = (Vector) datos;
 			v.get(0);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_ENT_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.REPEATED_ENT_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
 		case SE_RenombrarEntidad_ERROR_NombreDeEntidadYaExisteComoRelacion:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_REL_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.REPEATED_REL_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
 		case SE_RenombrarEntidad_ERROR_DAOEntidades:{
 			Vector v = (Vector) datos;
 			v.get(0);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ENTITIES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.ENTITIES_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
 		case SE_RenombrarEntidad_ERROR_DAORelaciones:{
 			Vector v = (Vector) datos;
 			v.get(0);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2004,7 +2004,7 @@ public class Controlador {
 		 * Debilitar/Fortalecer una entidad
 		 */
 		case SE_DebilitarEntidad_ERROR_DAOEntidades:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ENTITIES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.ENTITIES_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2019,27 +2019,27 @@ public class Controlador {
 		 * Añadir atributo a una relacion
 		 */
 		case SE_AnadirAtributoAEntidad_ERROR_NombreDeAtributoVacio:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.EMPTY_ATTRIB_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.EMPTY_ATTRIB_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
 		case SE_AnadirAtributoAEntidad_ERROR_NombreDeAtributoYaExiste:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_ATTRIB_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.REPEATED_ATTRIB_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
 		case SE_AnadirAtributoAEntidad_ERROR_TamanoNoEsEntero:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_SIZE3), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.INCORRECT_SIZE3), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
 		case SE_AnadirAtributoAEntidad_ERROR_TamanoEsNegativo:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_SIZE2), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.INCORRECT_SIZE2), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
 		case SE_AnadirAtributoAEntidad_ERROR_DAOAtributos:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			this.getTheGUIAnadirAtributoRelacion().setInactiva();
 			break;
@@ -2048,7 +2048,7 @@ public class Controlador {
 			Vector<Transfer> v = (Vector<Transfer>) datos;
 			v.get(0);
 			v.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ENTITIES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.ENTITIES_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			this.getTheGUIAnadirAtributoRelacion().setInactiva();
 			break;
@@ -2067,7 +2067,7 @@ public class Controlador {
 		 * Elimimacion de una entidad
 		 */
 		case SE_EliminarEntidad_ERROR_DAOEntidades:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ENTITIES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.ENTITIES_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2085,7 +2085,7 @@ public class Controlador {
 		 */
 		case SE_MoverPosicionEntidad_ERROR_DAOEntidades:{
 			TransferEntidad te = (TransferEntidad) datos;
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ENTITIES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.ENTITIES_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_MoverEntidad_ERROR, te);
 			break;
@@ -2191,18 +2191,18 @@ public class Controlador {
 		 * Insercion de dominios
 		 */
 		case SD_InsertarDominio_ERROR_NombreDeDominioEsVacio:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.EMPTY_DOM_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.EMPTY_DOM_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}		
 		case SD_InsertarDominio_ERROR_NombreDeDominioYaExiste:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_DOM_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.REPEATED_DOM_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
 		case SD_InsertarDominio_ERROR_DAO:{
 			this.getTheGUIInsertarDominio().setInactiva();
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.DOMAINS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.DOMAINS_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2210,7 +2210,7 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			v.get(0);
 			String error = (String) v.get(1);
-			JOptionPane.showMessageDialog(null, error, Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, error, Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2229,7 +2229,7 @@ public class Controlador {
 		case SD_RenombrarDominio_ERROR_NombreDeDominioEsVacio:{
 			Vector v = (Vector) datos;
 			v.get(0);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.EMPTY_DOM_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.EMPTY_DOM_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2237,7 +2237,7 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			v.get(0);
 			v.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_DOM_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.REPEATED_DOM_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2245,7 +2245,7 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			v.get(0);
 			v.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.DOMAINS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.DOMAINS_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2264,7 +2264,7 @@ public class Controlador {
 		 * Elimimacion de un dominio
 		 */
 		case SD_EliminarDominio_ERROR_DAODominios:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.DOMAINS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.DOMAINS_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2290,14 +2290,14 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			v.get(0);
 			v.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_DOM_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.REPEATED_DOM_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
 		case SD_ModificarTipoBaseDominio_ERROR_TipoBaseDominioEsVacio:{
 			Vector v = (Vector) datos;
 			v.get(0);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.EMPTY_TYPE_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.EMPTY_TYPE_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2314,21 +2314,21 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			v.get(0);
 			v.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_DOM_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.REPEATED_DOM_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
 		case SD_ModificarElementosDominio_ERROR_ElementosDominioEsVacio:{
 			Vector v = (Vector) datos;
 			v.get(0);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.EMPTY_VALUES), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.EMPTY_VALUES), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
 		case SD_ModificarElementosDominio_ERROR_ValorNoValido:{
 			Vector v = (Vector) datos;
 			v.get(0);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_VALUE), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.INCORRECT_VALUE), Lenguaje.text(Lenguaje.ERROR), 0);
 			break;
 		}
 		default: break;
@@ -2349,7 +2349,7 @@ public class Controlador {
 		 * Eliminacion de atributos
 		 */
 		case SA_EliminarAtributo_ERROR_DAOAtributos:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			break;
 		}
 		case SA_EliminarAtributo_HECHO:{
@@ -2367,21 +2367,21 @@ public class Controlador {
 		case SA_RenombrarAtributo_ERROR_NombreDeAtributoEsVacio:{
 			Vector v = (Vector) datos;
 			v.get(0);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.EMPTY_ATTRIB_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.EMPTY_ATTRIB_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;			
 		}
 		case SA_RenombrarAtributo_ERROR_NombreDeAtributoYaExiste:{
 			Vector v = (Vector) datos;
 			v.get(0);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_SUBATR_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.REPEATED_SUBATR_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;			
 		}
 		case SA_RenombrarAtributo_ERROR_DAOAtributos:{
 			Vector v = (Vector) datos;
 			v.get(0);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2406,17 +2406,17 @@ public class Controlador {
 		 * Editar dominio atributo
 		 */
 		case SA_EditarDominioAtributo_ERROR_DAOAtributos:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
 		case SA_EditarDominioAtributo_ERROR_TamanoNoEsEntero:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_SIZE1), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.INCORRECT_SIZE1), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
 		case SA_EditarDominioAtributo_ERROR_TamanoEsNegativo:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_SIZE2), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.INCORRECT_SIZE2), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2433,7 +2433,7 @@ public class Controlador {
 		 * Editar caracter compuesto de atributo
 		 */
 		case SA_EditarCompuestoAtributo_ERROR_DAOAtributos:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2450,7 +2450,7 @@ public class Controlador {
 		 * Editar caracter multivalorado de atributo
 		 */
 		case SA_EditarMultivaloradoAtributo_ERROR_DAOAtributos:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2463,7 +2463,7 @@ public class Controlador {
 		}
 
 		case SA_EditarNotNullAtributo_ERROR_DAOAtributos:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2497,13 +2497,13 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			v.get(0);
 			
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.EMPTY_SUBATTR_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.EMPTY_SUBATTR_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			break;
 		}
 		case SA_AnadirSubAtributoAtributo_ERROR_NombreDeAtributoYaExiste:{
 			Vector v = (Vector) datos;
 			v.get(0);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_SUBATR_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.REPEATED_SUBATR_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 
 			break;
 		}
@@ -2511,7 +2511,7 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			v.get(0);
 			v.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_SIZE1), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.INCORRECT_SIZE1), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;	
 		}
@@ -2519,7 +2519,7 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			v.get(0);
 			v.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_SIZE2), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.INCORRECT_SIZE2), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;	
 		}
@@ -2527,14 +2527,14 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			v.get(0);
 			v.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			break;
 		}
 		case SA_AnadirSubAtributoAtributo_ERROR_DAOAtributosPadre:{
 			Vector v = (Vector) datos;
 			v.get(0);
 			v.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2554,7 +2554,7 @@ public class Controlador {
 		case SA_EditarClavePrimariaAtributo_ERROR_DAOEntidades:{
 			Vector<Transfer> vt = (Vector<Transfer>) datos;
 			vt.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;	
 		}
@@ -2601,7 +2601,7 @@ public class Controlador {
 		 */
 		case SA_MoverPosicionAtributo_ERROR_DAOAtributos:{
 			TransferAtributo ta = (TransferAtributo) datos;
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_MoverAtributo_ERROR, ta);
 			break;
@@ -2629,34 +2629,34 @@ public class Controlador {
 		 * Insercion de Relaciones
 		 */
 		case SR_InsertarRelacion_ERROR_NombreDeRelacionEsVacio:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.EMPTY_REL_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.EMPTY_REL_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}		
 		case SR_InsertarRelacion_ERROR_NombreDeRelacionYaExiste:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_REL_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.REPEATED_REL_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
 		case SR_InsertarRelacion_ERROR_NombreDeRelacionYaExisteComoEntidad:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_ENT_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.REPEATED_ENT_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
 		case SR_InsertarRelacion_ERROR_NombreDelRolYaExiste:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_ROL_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.REPEATED_ROL_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
 		
 		case SR_InsertarRelacion_ERROR_NombreDeRolNecesario:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.NECESARY_ROL), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.NECESARY_ROL), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
 		
 		case SR_InsertarRelacion_ERROR_DAORelaciones:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			this.getTheGUIInsertarRelacion().setInactiva();
 			
 			break;
@@ -2673,7 +2673,7 @@ public class Controlador {
 		 * Eliminacion de una relacion
 		 */
 		case SR_EliminarRelacion_ERROR_DAORelaciones:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2692,7 +2692,7 @@ public class Controlador {
 		case SR_RenombrarRelacion_ERROR_NombreDeRelacionEsVacio:{
 			Vector v = (Vector) datos;
 			v.get(2);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.EMPTY_REL_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.EMPTY_REL_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2700,13 +2700,13 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			v.get(1);
 			v.get(2);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_REL_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.REPEATED_REL_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
 		case SR_RenombrarRelacion_ERROR_NombreDeRelacionYaExisteComoEntidad:{
 			this.getTheGUIRenombrarRelacion().setInactiva();
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_ENT_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.REPEATED_ENT_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			this.getTheGUIRenombrarRelacion().setActiva();
 			
 			
@@ -2716,7 +2716,7 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			v.get(1);
 			v.get(2);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2724,7 +2724,7 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			v.get(1);
 			v.get(2);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ENTITIES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.ENTITIES_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2743,7 +2743,7 @@ public class Controlador {
 		 * Debilitar una relacion
 		 */
 		case SR_DebilitarRelacion_ERROR_DAORelaciones:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2790,7 +2790,7 @@ public class Controlador {
 		 */
 		case SR_MoverPosicionRelacion_ERROR_DAORelaciones:{
 			TransferRelacion tr = (TransferRelacion) datos;
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_MoverRelacion_ERROR, tr);
 			break;
@@ -2808,14 +2808,14 @@ public class Controlador {
 		case SR_AnadirAtributoARelacion_ERROR_NombreDeAtributoVacio:{
 			Vector<Transfer> v = (Vector<Transfer>) datos;
 			v.get(0);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.EMPTY_ATTRIB_NAME), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.EMPTY_ATTRIB_NAME), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
 		case SR_AnadirAtributoARelacion_ERROR_NombreDeAtributoYaExiste:{
 			Vector<Transfer> v = (Vector<Transfer>) datos;
 			v.get(0);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.REPEATED_ATTRIB_NAME_REL), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.REPEATED_ATTRIB_NAME_REL), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2823,7 +2823,7 @@ public class Controlador {
 			Vector<Transfer> v = (Vector<Transfer>) datos;
 			v.get(0);
 			v.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_SIZE1), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.INCORRECT_SIZE1), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2831,7 +2831,7 @@ public class Controlador {
 			Vector<Transfer> v = (Vector<Transfer>) datos;
 			v.get(0);
 			v.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_SIZE2), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.INCORRECT_SIZE2), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2839,7 +2839,7 @@ public class Controlador {
 			Vector<Transfer> v = (Vector<Transfer>) datos;
 			v.get(0);
 			v.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.ATTRIBUTES_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			this.getTheGUIAnadirAtributoRelacion().setInactiva();
 			break;
@@ -2848,7 +2848,7 @@ public class Controlador {
 			Vector<Transfer> v = (Vector<Transfer>) datos;
 			v.get(0);
 			v.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			this.getTheGUIAnadirAtributoRelacion().setInactiva();
 			break;
@@ -2871,7 +2871,7 @@ public class Controlador {
 			this.getTheGUIEstablecerEntidadPadre().setInactiva();
 			Vector<Transfer> vt = (Vector<Transfer>) datos;
 			vt.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2888,7 +2888,7 @@ public class Controlador {
 		 * Quitar la entidad padre en una relacion IsA
 		 */
 		case SR_QuitarEntidadPadre_ERROR_DAORelaciones:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			this.getTheGUIQuitarEntidadPadre().setInactiva();
 			
 			break;			
@@ -2908,7 +2908,7 @@ public class Controlador {
 			this.getTheGUIEstablecerEntidadPadre().setInactiva();
 			Vector<Transfer> vt = (Vector<Transfer>) datos;
 			vt.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2925,7 +2925,7 @@ public class Controlador {
 		 * Quitar una entidad hija en una relacion IsA
 		 */
 		case SR_QuitarEntidadHija_ERROR_DAORelaciones:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			this.getTheGUIQuitarEntidadHija().setInactiva();
 			Vector<Transfer> vt = (Vector<Transfer>) datos;
 			vt.get(1);
@@ -2945,7 +2945,7 @@ public class Controlador {
 		 * Eliminar una relacion IsA
 		 */
 		case SR_EliminarRelacionIsA_ERROR_DAORelaciones:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2961,7 +2961,7 @@ public class Controlador {
 		 * Eliminar una relacion Normal
 		 */
 		case SR_EliminarRelacionNormal_ERROR_DAORelaciones:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -2977,7 +2977,7 @@ public class Controlador {
 		 * Insertar una relacion IsA
 		 */
 		case SR_InsertarRelacionIsA_ERROR_DAORelaciones:{
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;	
 		}
@@ -2996,7 +2996,7 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			v.get(0);
 			v.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_CARDINALITY1), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.INCORRECT_CARDINALITY1), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -3004,7 +3004,7 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			v.get(0);
 			v.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_CARDINALITY2), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.INCORRECT_CARDINALITY2), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -3012,7 +3012,7 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			v.get(0);
 			v.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_CARDINALITY3), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.INCORRECT_CARDINALITY3), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -3020,7 +3020,7 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			v.get(0);
 			v.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_CARDINALITY4), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.INCORRECT_CARDINALITY4), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -3028,7 +3028,7 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			v.get(0);
 			v.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_CARDINALITY5), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.INCORRECT_CARDINALITY5), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -3036,7 +3036,7 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			v.get(0);
 			v.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -3060,7 +3060,7 @@ public class Controlador {
 			Vector<Transfer> vt = (Vector<Transfer>) datos;
 			vt.get(0);
 			vt.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -3081,7 +3081,7 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			v.get(0);
 			v.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_CARDINALITY1), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.INCORRECT_CARDINALITY1), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -3089,7 +3089,7 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			v.get(0);
 			v.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_CARDINALITY2), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.INCORRECT_CARDINALITY2), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -3097,7 +3097,7 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			v.get(0);
 			v.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_CARDINALITY3), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.INCORRECT_CARDINALITY3), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -3105,7 +3105,7 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			v.get(0);
 			v.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_CARDINALITY4), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.INCORRECT_CARDINALITY4), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -3113,7 +3113,7 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			v.get(0);
 			v.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.INCORRECT_CARDINALITY5), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.INCORRECT_CARDINALITY5), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}
@@ -3121,7 +3121,7 @@ public class Controlador {
 			Vector v = (Vector) datos;
 			v.get(0);
 			v.get(1);
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			
 			break;
 		}

@@ -74,7 +74,7 @@ public class GeneradorEsquema {
 			//recorremos los atributos aniadiendolos a la tabla
 			for (int j=0;j<atribs.size();j++){
 				TransferAtributo ta=atribs.elementAt(j);
-				if(ta.getUnique()) restriccionesPerdidas.add(new restriccionPerdida(te.getNombre(), ta.getNombre()+" "+Lenguaje.getMensaje(Lenguaje.IS_UNIQUE), restriccionPerdida.TABLA));
+				if(ta.getUnique()) restriccionesPerdidas.add(new restriccionPerdida(te.getNombre(), ta.getNombre()+" "+Lenguaje.text(Lenguaje.IS_UNIQUE), restriccionPerdida.TABLA));
 				if (ta.getCompuesto()) 
 					tabla.aniadeListaAtributos(this.atributoCompuesto(ta,
 															te.getNombre(),""),te.getListaRestricciones(),tiposEnumerados);
@@ -137,7 +137,7 @@ public class GeneradorEsquema {
 						.getListaAtributos());
 				for (int a = 0; a < ats.size(); a++) {
 					TransferAtributo ta = ats.elementAt(a);
-					if(ta.getUnique()) restriccionesPerdidas.add(new restriccionPerdida(tr.getNombre(), ta.getNombre()+" "+Lenguaje.getMensaje(Lenguaje.IS_UNIQUE), restriccionPerdida.TABLA));
+					if(ta.getUnique()) restriccionesPerdidas.add(new restriccionPerdida(tr.getNombre(), ta.getNombre()+" "+Lenguaje.text(Lenguaje.IS_UNIQUE), restriccionPerdida.TABLA));
 					if (ta.getCompuesto())
 						tabla.aniadeListaAtributos(this.atributoCompuesto(ta, tr
 								.getNombre(), ""), ta.getListaRestricciones(), tiposEnumerados);
@@ -381,17 +381,17 @@ public class GeneradorEsquema {
 		// Si no se ha generado antes el script lanzamos un error
 		if (text.isEmpty()){
 			JOptionPane.showMessageDialog(null,
-					Lenguaje.getMensaje(Lenguaje.ERROR)+".\n" +
-					Lenguaje.getMensaje(Lenguaje.MUST_GENERATE_SCRIPT),
-					Lenguaje.getMensaje(Lenguaje.DBCASE),
+					Lenguaje.text(Lenguaje.ERROR)+".\n" +
+					Lenguaje.text(Lenguaje.MUST_GENERATE_SCRIPT),
+					Lenguaje.text(Lenguaje.DBCASE),
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
 			return;
 		}
 		// Si ya se ha generado el Script
 		JFileChooser jfc = new JFileChooser();
-		jfc.setDialogTitle(Lenguaje.getMensaje(Lenguaje.DBCASE));
-		if(texto)jfc.setFileFilter(new FileNameExtensionFilter(Lenguaje.getMensaje(Lenguaje.SQL_FILES), "sql"));
+		jfc.setDialogTitle(Lenguaje.text(Lenguaje.DBCASE));
+		if(texto)jfc.setFileFilter(new FileNameExtensionFilter(Lenguaje.text(Lenguaje.SQL_FILES), "sql"));
 		jfc.setFileFilter(new FileNameExtensionFilter("Text", "txt"));
 		int resul = jfc.showSaveDialog(null);
 		if (resul == 0){
@@ -408,18 +408,18 @@ public class GeneradorEsquema {
 
 				JOptionPane.showMessageDialog(
 						null,
-						Lenguaje.getMensaje(Lenguaje.INFO)+"\n"+    
-						Lenguaje.getMensaje(Lenguaje.OK_FILE)+"\n" +
-						Lenguaje.getMensaje(Lenguaje.FILE)+": "+ruta,
-						Lenguaje.getMensaje(Lenguaje.DBCASE),
+						Lenguaje.text(Lenguaje.INFO)+"\n"+    
+						Lenguaje.text(Lenguaje.OK_FILE)+"\n" +
+						Lenguaje.text(Lenguaje.FILE)+": "+ruta,
+						Lenguaje.text(Lenguaje.DBCASE),
 						JOptionPane.PLAIN_MESSAGE,
 						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
 
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null,
-						Lenguaje.getMensaje(Lenguaje.ERROR)+".\n" +
-						Lenguaje.getMensaje(Lenguaje.SCRIPT_ERROR),
-						Lenguaje.getMensaje(Lenguaje.DBCASE),
+						Lenguaje.text(Lenguaje.ERROR)+".\n" +
+						Lenguaje.text(Lenguaje.SCRIPT_ERROR),
+						Lenguaje.text(Lenguaje.DBCASE),
 						JOptionPane.PLAIN_MESSAGE,
 						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
 			}	
@@ -444,16 +444,16 @@ public class GeneradorEsquema {
 		// Comprobaciones previas
 		if (tc.getTipoConexion() != conexionScriptGenerado.getTipoConexion()) {
 			int respuesta = JOptionPane.showConfirmDialog(null,
-					Lenguaje.getMensaje(Lenguaje.WARNING)+".\n" +
-					Lenguaje.getMensaje(Lenguaje.SCRIPT_GENERATED_FOR)+": \n" +
+					Lenguaje.text(Lenguaje.WARNING)+".\n" +
+					Lenguaje.text(Lenguaje.SCRIPT_GENERATED_FOR)+": \n" +
 					"     " + conexionScriptGenerado.getRuta() + " \n" +
-					Lenguaje.getMensaje(Lenguaje.CONEXION_TYPE_IS)+": \n" + 
+					Lenguaje.text(Lenguaje.CONEXION_TYPE_IS)+": \n" + 
 					"     " + tc.getRuta() + "\n" +
-					Lenguaje.getMensaje(Lenguaje.POSSIBLE_ERROR_SRIPT)+" \n" +
-					Lenguaje.getMensaje(Lenguaje.SHOULD_GENERATE_SCRIPT)+" \n" +
-					Lenguaje.getMensaje(Lenguaje.OF_CONEXION)+"\n"+
-					Lenguaje.getMensaje(Lenguaje.CONTINUE_ANYWAY),
-					Lenguaje.getMensaje(Lenguaje.DBCASE),
+					Lenguaje.text(Lenguaje.POSSIBLE_ERROR_SRIPT)+" \n" +
+					Lenguaje.text(Lenguaje.SHOULD_GENERATE_SCRIPT)+" \n" +
+					Lenguaje.text(Lenguaje.OF_CONEXION)+"\n"+
+					Lenguaje.text(Lenguaje.CONTINUE_ANYWAY),
+					Lenguaje.text(Lenguaje.DBCASE),
 					JOptionPane.OK_CANCEL_OPTION,
 					JOptionPane.WARNING_MESSAGE,
 					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.PREGUNTA)));
@@ -481,10 +481,10 @@ public class GeneradorEsquema {
 			
 			// Avisar por GUI
 			JOptionPane.showMessageDialog(null,
-					Lenguaje.getMensaje(Lenguaje.ERROR)+".\n" +
-					Lenguaje.getMensaje(Lenguaje.NO_DB_CONEXION)+" \n" +
-					Lenguaje.getMensaje(Lenguaje.REASON)+": \n" + e.getMessage(),
-					Lenguaje.getMensaje(Lenguaje.DBCASE),
+					Lenguaje.text(Lenguaje.ERROR)+".\n" +
+					Lenguaje.text(Lenguaje.NO_DB_CONEXION)+" \n" +
+					Lenguaje.text(Lenguaje.REASON)+": \n" + e.getMessage(),
+					Lenguaje.text(Lenguaje.DBCASE),
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
 			
@@ -518,11 +518,11 @@ public class GeneradorEsquema {
 		} catch (SQLException e) {			
 			// Avisar por GUI
 			JOptionPane.showMessageDialog(null,
-					Lenguaje.getMensaje(Lenguaje.ERROR)+".\n" +
-					Lenguaje.getMensaje(Lenguaje.CANT_EXECUTE_SCRIPT)+" \n" +
-					Lenguaje.getMensaje(Lenguaje.ENQUIRY_ERROR)+": \n" + ordenActual + "\n" + 
-					Lenguaje.getMensaje(Lenguaje.REASON)+": \n" + e.getMessage(),
-					Lenguaje.getMensaje(Lenguaje.DBCASE),
+					Lenguaje.text(Lenguaje.ERROR)+".\n" +
+					Lenguaje.text(Lenguaje.CANT_EXECUTE_SCRIPT)+" \n" +
+					Lenguaje.text(Lenguaje.ENQUIRY_ERROR)+": \n" + ordenActual + "\n" + 
+					Lenguaje.text(Lenguaje.REASON)+": \n" + e.getMessage(),
+					Lenguaje.text(Lenguaje.DBCASE),
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
 			
@@ -542,10 +542,10 @@ public class GeneradorEsquema {
 			
 			// Avisar por GUI
 			JOptionPane.showMessageDialog(null,
-					Lenguaje.getMensaje(Lenguaje.ERROR)+".\n" +
-					Lenguaje.getMensaje(Lenguaje.CANT_CLOSE_CONEXION)+" \n" +
-					Lenguaje.getMensaje(Lenguaje.REASON)+" \n" + e.getMessage(),
-					Lenguaje.getMensaje(Lenguaje.DBCASE),
+					Lenguaje.text(Lenguaje.ERROR)+".\n" +
+					Lenguaje.text(Lenguaje.CANT_CLOSE_CONEXION)+" \n" +
+					Lenguaje.text(Lenguaje.REASON)+" \n" + e.getMessage(),
+					Lenguaje.text(Lenguaje.DBCASE),
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
 			
@@ -555,16 +555,16 @@ public class GeneradorEsquema {
 		System.out.println("Conexion cerrada correctamente");
 		
 		JOptionPane.showMessageDialog(null,
-				Lenguaje.getMensaje(Lenguaje.INFO)+"\n" +
-				Lenguaje.getMensaje(Lenguaje.OK_SCRIPT_EXECUT),
-				Lenguaje.getMensaje(Lenguaje.DBCASE),
+				Lenguaje.text(Lenguaje.INFO)+"\n" +
+				Lenguaje.text(Lenguaje.OK_SCRIPT_EXECUT),
+				Lenguaje.text(Lenguaje.DBCASE),
 				JOptionPane.PLAIN_MESSAGE,
 				new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
 	}
 	
 	private void creaTablas(TransferConexion conexion){
-		sqlHTML+="<div class='card'><h2>"+Lenguaje.getMensaje(Lenguaje.TABLES_SECTION)+"</h2>";
-		sql+="\n-- "+Lenguaje.getMensaje(Lenguaje.TABLES_SECTION)+"\n";
+		sqlHTML+="<div class='card'><h2>"+Lenguaje.text(Lenguaje.TABLES_SECTION)+"</h2>";
+		sql+="\n-- "+Lenguaje.text(Lenguaje.TABLES_SECTION)+"\n";
 
 		Iterator tablasM=tablasMultivalorados.iterator();
 		while (tablasM.hasNext()){
@@ -632,8 +632,8 @@ public class GeneradorEsquema {
 	}
 	
 	private void creaEnums(TransferConexion conexion){
-		sqlHTML+="<div class='card'><h2>"+Lenguaje.getMensaje(Lenguaje.TYPES_SECTION)+"</h2>";
-		sql+="\n-- "+Lenguaje.getMensaje(Lenguaje.TYPES_SECTION)+"\n";
+		sqlHTML+="<div class='card'><h2>"+Lenguaje.text(Lenguaje.TYPES_SECTION)+"</h2>";
+		sql+="\n-- "+Lenguaje.text(Lenguaje.TYPES_SECTION)+"\n";
 		
 		Iterator<Enumerado> tablasD=tiposEnumerados.values().iterator();
 		while (tablasD.hasNext()){
@@ -645,8 +645,8 @@ public class GeneradorEsquema {
 	}
 	
 	private void ponRestricciones(TransferConexion conexion){
-		sqlHTML+="<div class='card'><h2>"+Lenguaje.getMensaje(Lenguaje.CONSTRAINTS_SECTION)+"</h2>";
-		sql+="\n-- "+Lenguaje.getMensaje(Lenguaje.CONSTRAINTS_SECTION)+"\n";
+		sqlHTML+="<div class='card'><h2>"+Lenguaje.text(Lenguaje.CONSTRAINTS_SECTION)+"</h2>";
+		sql+="\n-- "+Lenguaje.text(Lenguaje.CONSTRAINTS_SECTION)+"\n";
 		
 		Iterator tablasE=tablasEntidades.values().iterator();
 		while (tablasE.hasNext()){
@@ -674,8 +674,8 @@ public class GeneradorEsquema {
 	}
 	
 	private void ponClaves(TransferConexion conexion){
-		sqlHTML+="<div class='card'><h2>"+Lenguaje.getMensaje(Lenguaje.KEYS_SECTION)+"</h2>";
-		sql+="\n-- "+Lenguaje.getMensaje(Lenguaje.KEYS_SECTION)+"\n";
+		sqlHTML+="<div class='card'><h2>"+Lenguaje.text(Lenguaje.KEYS_SECTION)+"</h2>";
+		sql+="\n-- "+Lenguaje.text(Lenguaje.KEYS_SECTION)+"\n";
 
 		
 		String restEntidad = "";
@@ -768,7 +768,7 @@ public class GeneradorEsquema {
 			mr = "<div class='card'><h2>"+"El diagrama está vacio"+"</h2></div>";
 		else {
 			mr = warnings.toString();
-			mr += "<div class='card'><h2>"+Lenguaje.getMensaje(Lenguaje.RELATIONS)+"</h2>";
+			mr += "<div class='card'><h2>"+Lenguaje.text(Lenguaje.RELATIONS)+"</h2>";
 			Iterator tablasE = tablasEntidades.values().iterator();
 			while (tablasE.hasNext()){
 				Tabla t =(Tabla)tablasE.next();
@@ -786,9 +786,9 @@ public class GeneradorEsquema {
 				Tabla t =(Tabla)tablasM.next();
 				mr+=t.modeloRelacionalDeTabla();
 			}
-			mr += "<p></p></div><div class='card'><h2>"+Lenguaje.getMensaje(Lenguaje.RIC)+"</h2>";
+			mr += "<p></p></div><div class='card'><h2>"+Lenguaje.text(Lenguaje.RIC)+"</h2>";
 			mr += restriccionesIR();
-			mr += "<p></p></div><div class='card'><h2>"+Lenguaje.getMensaje(Lenguaje.LOST_CONSTR)+"</h2>";
+			mr += "<p></p></div><div class='card'><h2>"+Lenguaje.text(Lenguaje.LOST_CONSTR)+"</h2>";
 			mr += restriccionesPerdidas();
 			mr += "<p></p></div>";
 		}//else -> diagrama no vacio
@@ -892,10 +892,10 @@ public class GeneradorEsquema {
 		} catch (SQLException e) {
 			//Avisar por GUI que falle
 			JOptionPane.showMessageDialog(null,
-					Lenguaje.getMensaje(Lenguaje.ERROR)+".\n" +
-					Lenguaje.getMensaje(Lenguaje.NO_DB_CONEXION)+" \n" +
-					Lenguaje.getMensaje(Lenguaje.REASON)+": \n" + e.getMessage(),
-					Lenguaje.getMensaje(Lenguaje.DBCASE),
+					Lenguaje.text(Lenguaje.ERROR)+".\n" +
+					Lenguaje.text(Lenguaje.NO_DB_CONEXION)+" \n" +
+					Lenguaje.text(Lenguaje.REASON)+": \n" + e.getMessage(),
+					Lenguaje.text(Lenguaje.DBCASE),
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
 			//Terminar
@@ -904,8 +904,8 @@ public class GeneradorEsquema {
 		
 		// Avisar por GUI que va bien
 		JOptionPane.showMessageDialog(null,
-				Lenguaje.getMensaje(Lenguaje.OK_SCRIPT_EXECUT),
-				Lenguaje.getMensaje(Lenguaje.DBCASE),
+				Lenguaje.text(Lenguaje.OK_SCRIPT_EXECUT),
+				Lenguaje.text(Lenguaje.DBCASE),
 				JOptionPane.PLAIN_MESSAGE,
 				new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
 		

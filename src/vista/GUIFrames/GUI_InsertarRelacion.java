@@ -57,7 +57,7 @@ public class GUI_InsertarRelacion extends javax.swing.JDialog  implements KeyLis
 	private void initComponents() {
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setTitle(Lenguaje.getMensaje(Lenguaje.INSERT_RELATION));
+		setTitle(Lenguaje.text(Lenguaje.INSERT_RELATION));
 		setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
 		setModal(true);
 		setResizable(false);
@@ -65,7 +65,7 @@ public class GUI_InsertarRelacion extends javax.swing.JDialog  implements KeyLis
 		{
 			botonCancelar = new JButton();
 			getContentPane().add(botonCancelar);
-			botonCancelar.setText(Lenguaje.getMensaje(Lenguaje.CANCEL));
+			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
 			botonCancelar.setBounds(249, 106, 80, 25);
 			botonCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -81,12 +81,12 @@ public class GUI_InsertarRelacion extends javax.swing.JDialog  implements KeyLis
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonCancelar.setMnemonic(Lenguaje.getMensaje(Lenguaje.CANCEL).charAt(0));
+			botonCancelar.setMnemonic(Lenguaje.text(Lenguaje.CANCEL).charAt(0));
 		}
 		{
 			botonInsertar = new JButton();
 			getContentPane().add(botonInsertar);
-			botonInsertar.setText(Lenguaje.getMensaje(Lenguaje.INSERT));
+			botonInsertar.setText(Lenguaje.text(Lenguaje.INSERT));
 			botonInsertar.setBounds(164, 106, 80, 25);
 			botonInsertar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -102,7 +102,7 @@ public class GUI_InsertarRelacion extends javax.swing.JDialog  implements KeyLis
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonInsertar.setMnemonic(Lenguaje.getMensaje(Lenguaje.INSERT).charAt(0));
+			botonInsertar.setMnemonic(Lenguaje.text(Lenguaje.INSERT).charAt(0));
 		}
 		{
 			cajaNombre = new JTextField();
@@ -119,7 +119,7 @@ public class GUI_InsertarRelacion extends javax.swing.JDialog  implements KeyLis
 		{
 			explicacion = new JTextPane();
 			getContentPane().add(explicacion);
-			explicacion.setText(Lenguaje.getMensaje(Lenguaje.WRITE_RELATION_NAME));
+			explicacion.setText(Lenguaje.text(Lenguaje.WRITE_RELATION_NAME));
 			explicacion.setEditable(false);
 			explicacion.setOpaque(false);
 			explicacion.setBounds(26, 17, 67, 21);

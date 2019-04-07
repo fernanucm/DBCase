@@ -58,7 +58,7 @@ public class ServiciosDominios {
 			if(td.getListaValores().get(i).toString().equals("")){
 				Vector v = new Vector();
 				v.add(td);
-				v.add(Lenguaje.getMensaje(Lenguaje.EMPTY_VALUE));
+				v.add(Lenguaje.text(Lenguaje.EMPTY_VALUE));
 				controlador.mensajeDesde_SD(TC.SD_InsertarDominio_ERROR_ValorNoValido, v);
 				return;
 			}
@@ -250,7 +250,7 @@ public class ServiciosDominios {
 					}catch(Exception e){
 						Vector v = new Vector();
 						v.add(td);
-						v.add(Lenguaje.getMensaje(Lenguaje.INCORRECT_NUMBER));
+						v.add(Lenguaje.text(Lenguaje.INCORRECT_NUMBER));
 						controlador.mensajeDesde_SD(TC.SD_InsertarDominio_ERROR_ValorNoValido, v);
 						return false;
 					}
@@ -275,7 +275,7 @@ public class ServiciosDominios {
 				    if (!resultado){
 				    	Vector v = new Vector();
 				    	v.add(td);
-				    	v.add(Lenguaje.getMensaje(Lenguaje.INCORRECT_VALUE_EX)+" 1, 0.5, 1.5E100, -1, -0.5");
+				    	v.add(Lenguaje.text(Lenguaje.INCORRECT_VALUE_EX)+" 1, 0.5, 1.5E100, -1, -0.5");
 				    	controlador.mensajeDesde_SD(TC.SD_InsertarDominio_ERROR_ValorNoValido, v);
 				    	return false;
 				    }
@@ -289,7 +289,7 @@ public class ServiciosDominios {
 						 if (!(s.equals("0") || s.equals("1"))){
 							 Vector v = new Vector();
 								v.add(td);              
-								v.add(Lenguaje.getMensaje(Lenguaje.INCORRECT_BIT_VALUE));
+								v.add(Lenguaje.text(Lenguaje.INCORRECT_BIT_VALUE));
 								controlador.mensajeDesde_SD(TC.SD_InsertarDominio_ERROR_ValorNoValido, v);
 								return false;
 						 }
@@ -298,7 +298,7 @@ public class ServiciosDominios {
 						}catch(Exception e){
 							Vector v = new Vector();
 							v.add(td);										
-							v.add(Lenguaje.getMensaje(Lenguaje.INCORRECT_BIT_VALUE));
+							v.add(Lenguaje.text(Lenguaje.INCORRECT_BIT_VALUE));
 							controlador.mensajeDesde_SD(TC.SD_InsertarDominio_ERROR_ValorNoValido, v);
 							return false;
 						}
@@ -312,7 +312,7 @@ public class ServiciosDominios {
 					if (!(s.startsWith("'")&&s.endsWith("'"))){
 						Vector v = new Vector();
 						v.add(td);								
-						v.add(Lenguaje.getMensaje(Lenguaje.QUOTATION_MARKS));
+						v.add(Lenguaje.text(Lenguaje.QUOTATION_MARKS));
 						controlador.mensajeDesde_SD(TC.SD_InsertarDominio_ERROR_ValorNoValido, v);
 						return false;
 					}
@@ -325,14 +325,14 @@ public class ServiciosDominios {
 							if (s.length()!=8){
 								Vector v = new Vector();
 								v.add(td);											
-								v.add(Lenguaje.getMensaje(Lenguaje.INCORRECT_DATE));
+								v.add(Lenguaje.text(Lenguaje.INCORRECT_DATE));
 								controlador.mensajeDesde_SD(TC.SD_InsertarDominio_ERROR_ValorNoValido, v);
 								return false;
 							}
 						}catch(Exception e){
 							Vector v = new Vector();
 							v.add(td);				
-							v.add(Lenguaje.getMensaje(Lenguaje.INCORRECT_DATE));
+							v.add(Lenguaje.text(Lenguaje.INCORRECT_DATE));
 							controlador.mensajeDesde_SD(TC.SD_InsertarDominio_ERROR_ValorNoValido, v);
 							return false;
 						}
@@ -347,7 +347,7 @@ public class ServiciosDominios {
 					if (!(s.startsWith("'")&&s.endsWith("'"))){
 						Vector v = new Vector();
 						v.add(td);
-						v.add(Lenguaje.getMensaje(Lenguaje.QUOTATION_MARKS));
+						v.add(Lenguaje.text(Lenguaje.QUOTATION_MARKS));
 						controlador.mensajeDesde_SD(TC.SD_InsertarDominio_ERROR_ValorNoValido, v);
 						return false;
 					}
@@ -360,7 +360,7 @@ public class ServiciosDominios {
 					    if (!resultado){
 					    	Vector v = new Vector();
 					    	v.add(td);						
-					    	v.add(Lenguaje.getMensaje(Lenguaje.INCORRECT_VALUE_EX)+" '00:00:00.999', '22', '22:05', '22:59:59'");
+					    	v.add(Lenguaje.text(Lenguaje.INCORRECT_VALUE_EX)+" '00:00:00.999', '22', '22:05', '22:59:59'");
 					    	controlador.mensajeDesde_SD(TC.SD_InsertarDominio_ERROR_ValorNoValido, v);
 					    	return false;
 					    }
@@ -377,7 +377,7 @@ public class ServiciosDominios {
 						if (!(s.startsWith("'")&&s.endsWith("'"))){
 							Vector v = new Vector();
 							v.add(td);							
-							v.add(Lenguaje.getMensaje(Lenguaje.QUOTATION_MARKS));
+							v.add(Lenguaje.text(Lenguaje.QUOTATION_MARKS));
 							controlador.mensajeDesde_SD(TC.SD_InsertarDominio_ERROR_ValorNoValido, v);
 							return false;
 						}else{
@@ -412,7 +412,7 @@ public class ServiciosDominios {
 							    if (resulDate==false || resulTime==false){
 							    	Vector v = new Vector();
 									v.add(td);									
-									v.add(Lenguaje.getMensaje(Lenguaje.INCORRECT_VALUE_EX) +
+									v.add(Lenguaje.text(Lenguaje.INCORRECT_VALUE_EX) +
 											" '20081125','281125 12','281125 12:34:00','281125 12:34:00.200' ");
 									controlador.mensajeDesde_SD(TC.SD_InsertarDominio_ERROR_ValorNoValido, v);
 									return false;
@@ -427,7 +427,7 @@ public class ServiciosDominios {
 								}catch(Exception e){
 								   	Vector v = new Vector();
 							    	v.add(td);							
-							    	v.add(Lenguaje.getMensaje(Lenguaje.INCORRECT_VALUE_EX) +
+							    	v.add(Lenguaje.text(Lenguaje.INCORRECT_VALUE_EX) +
 											" '20081125','20081125 12','20081125 12:34:00','20081125 12:34:00.200' ");
 							    	controlador.mensajeDesde_SD(TC.SD_InsertarDominio_ERROR_ValorNoValido, v);
 							    	return false;
@@ -437,7 +437,7 @@ public class ServiciosDominios {
 					}catch(Exception e){
 						Vector v = new Vector();
 				    	v.add(td);		
-				    	v.add(Lenguaje.getMensaje(Lenguaje.INCORRECT_VALUE_EX) +
+				    	v.add(Lenguaje.text(Lenguaje.INCORRECT_VALUE_EX) +
 								" '20081125','20081125 12','20081125 12:34:00','20081125 12:34:00.200' ");
 				    	controlador.mensajeDesde_SD(TC.SD_InsertarDominio_ERROR_ValorNoValido, v);
 				    	return false;
@@ -459,7 +459,7 @@ public class ServiciosDominios {
 					if (!(s.startsWith("'")&&s.endsWith("'"))){
 						Vector v = new Vector();
 						v.add(td);							
-						v.add(Lenguaje.getMensaje(Lenguaje.QUOTATION_MARKS));
+						v.add(Lenguaje.text(Lenguaje.QUOTATION_MARKS));
 						controlador.mensajeDesde_SD(TC.SD_InsertarDominio_ERROR_ValorNoValido, v);
 						return false;
 					}
@@ -473,7 +473,7 @@ public class ServiciosDominios {
 					if (!(s.startsWith("'")&&s.endsWith("'"))){
 						Vector v = new Vector();
 						v.add(td);											
-						v.add(Lenguaje.getMensaje(Lenguaje.QUOTATION_MARKS));
+						v.add(Lenguaje.text(Lenguaje.QUOTATION_MARKS));
 						controlador.mensajeDesde_SD(TC.SD_InsertarDominio_ERROR_ValorNoValido, v);
 						return false;
 					}
@@ -487,7 +487,7 @@ public class ServiciosDominios {
 					if (!(s.startsWith("'")&&s.endsWith("'"))){
 						Vector v = new Vector();
 						v.add(td);											
-						v.add(Lenguaje.getMensaje(Lenguaje.QUOTATION_MARKS));
+						v.add(Lenguaje.text(Lenguaje.QUOTATION_MARKS));
 						controlador.mensajeDesde_SD(TC.SD_InsertarDominio_ERROR_ValorNoValido, v);
 						return false;
 					}
@@ -505,7 +505,7 @@ public class ServiciosDominios {
 				    if (!resultado){
 				    	Vector v = new Vector();
 				    	v.add(td);
-				    	v.add(Lenguaje.getMensaje(Lenguaje.INCORRECT_VALUE_EX)+" 1, 0.5" );
+				    	v.add(Lenguaje.text(Lenguaje.INCORRECT_VALUE_EX)+" 1, 0.5" );
 				    	controlador.mensajeDesde_SD(TC.SD_InsertarDominio_ERROR_ValorNoValido, v);
 				    	return false;
 				    }

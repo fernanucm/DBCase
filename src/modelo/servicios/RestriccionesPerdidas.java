@@ -20,9 +20,9 @@ public class RestriccionesPerdidas extends ArrayList<restriccionPerdida>{
 			}
 		}
 		String res = "";
-		res += (candidata!="")?"<h3>"+Lenguaje.getMensaje(Lenguaje.CANDIDATE_KEYS)+"</h3>"+candidata:"";
-		res += (total!="")?"<h3>"+Lenguaje.getMensaje(Lenguaje.CARDINALITY)+"</h3>"+total:"";
-		res += (tabla!="")?"<h3>"+Lenguaje.getMensaje(Lenguaje.TABLE_CONSTR)+"</h3>"+tabla:"";
+		res += (candidata!="")?"<h3>"+Lenguaje.text(Lenguaje.CANDIDATE_KEYS)+"</h3>"+candidata:"";
+		res += (total!="")?"<h3>"+Lenguaje.text(Lenguaje.CARDINALITY)+"</h3>"+total:"";
+		res += (tabla!="")?"<h3>"+Lenguaje.text(Lenguaje.TABLE_CONSTR)+"</h3>"+tabla:"";
 		return res;
 	}
 	

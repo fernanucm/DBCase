@@ -77,7 +77,7 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 	}
 
 	private void initComponents() {
-		setTitle(Lenguaje.getMensaje(Lenguaje.SHAPE_DBMS));
+		setTitle(Lenguaje.text(Lenguaje.SHAPE_DBMS));
         this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -230,9 +230,9 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 				// Notificar error
 				JOptionPane.showMessageDialog(
 						null,
-						(Lenguaje.getMensaje(Lenguaje.ERROR))+"\n" +
+						(Lenguaje.text(Lenguaje.ERROR))+"\n" +
 						"Ya existe una conexión con ese nombre",
-						(Lenguaje.getMensaje(Lenguaje.DBDT)),
+						(Lenguaje.text(Lenguaje.DBDT)),
 						JOptionPane.PLAIN_MESSAGE,
 						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
 				return;
@@ -245,9 +245,9 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 				// Notificar error
 				JOptionPane.showMessageDialog(
 					null,
-					(Lenguaje.getMensaje(Lenguaje.ERROR))+"\n" +
-					(Lenguaje.getMensaje(Lenguaje.INFORMATION_INCOMPLETE)),
-					(Lenguaje.getMensaje(Lenguaje.DBDT)),
+					(Lenguaje.text(Lenguaje.ERROR))+"\n" +
+					(Lenguaje.text(Lenguaje.INFORMATION_INCOMPLETE)),
+					(Lenguaje.text(Lenguaje.DBDT)),
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
 				return;
@@ -279,9 +279,9 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 				// Notificar error
 				JOptionPane.showMessageDialog(
 					null,
-					(Lenguaje.getMensaje(Lenguaje.ERROR))+"\n" +
-					(Lenguaje.getMensaje(Lenguaje.INFORMATION_INCOMPLETE)),
-					(Lenguaje.getMensaje(Lenguaje.DBDT)),
+					(Lenguaje.text(Lenguaje.ERROR))+"\n" +
+					(Lenguaje.text(Lenguaje.INFORMATION_INCOMPLETE)),
+					(Lenguaje.text(Lenguaje.DBDT)),
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
 				return;
@@ -357,7 +357,7 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 	private JTextPane getserver() {
 		if(server == null) {
 			server = new JTextPane();
-			server.setText(Lenguaje.getMensaje(Lenguaje.SERVER));
+			server.setText(Lenguaje.text(Lenguaje.SERVER));
 			//server.setText("Servidor");
 			server.setEditable(false);
 			server.setOpaque(false);
@@ -381,7 +381,7 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 	private JLabel getpuerto() {
 		if(puerto == null) {
 			puerto = new JLabel();
-			puerto.setText(Lenguaje.getMensaje(Lenguaje.PORT));
+			puerto.setText(Lenguaje.text(Lenguaje.PORT));
 			//puerto.setText("Puerto");
 			puerto.setBounds(122, 96, 75, 21);
 		}
@@ -409,7 +409,7 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 	private JLabel getusuario() {
 		if(usuario == null) {
 			usuario = new JLabel();
-			usuario.setText(Lenguaje.getMensaje(Lenguaje.USER));
+			usuario.setText(Lenguaje.text(Lenguaje.USER));
 			//usuario.setText("Usuario");
 			usuario.setBounds(122, 178, 79, 21);
 		}
@@ -419,7 +419,7 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 	private JTextPane getbase() {
 		if(base == null) {
 			base = new JTextPane();
-			base.setText(Lenguaje.getMensaje(Lenguaje.DATA_BASE));
+			base.setText(Lenguaje.text(Lenguaje.DATA_BASE));
 			//base.setText("Base de datos");
 			base.setEditable(false);
 			base.setOpaque(false);
@@ -442,7 +442,7 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 	private JButton getBotonCancelar() {
 		if(botonCancelar == null) {
 			botonCancelar = new JButton();
-			botonCancelar.setText(Lenguaje.getMensaje(Lenguaje.CANCEL));
+			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
 			botonCancelar.setBounds(459, 274, 80, 25);
 			botonCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -458,7 +458,7 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonCancelar.setMnemonic(	Lenguaje.getMensaje(Lenguaje.CANCEL).charAt(0));
+			botonCancelar.setMnemonic(	Lenguaje.text(Lenguaje.CANCEL).charAt(0));
 		}
 		return botonCancelar;
 	}
@@ -466,7 +466,7 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 	private JButton getBotonAnadir() {
 		if(botonAnadir == null) {
 			botonAnadir = new JButton();
-			botonAnadir.setText(Lenguaje.getMensaje(Lenguaje.ACCEPT));
+			botonAnadir.setText(Lenguaje.text(Lenguaje.ACCEPT));
 			botonAnadir.setBounds(358, 274, 80, 25);
 			botonAnadir.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -482,7 +482,7 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonAnadir.setMnemonic(Lenguaje.getMensaje(Lenguaje.ACCEPT).charAt(0));
+			botonAnadir.setMnemonic(Lenguaje.text(Lenguaje.ACCEPT).charAt(0));
 		}
 		return botonAnadir;
 	}
@@ -544,7 +544,7 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 	private JLabel getpassword() {
 		if(password == null) {
 			password = new JLabel();
-			password.setText(Lenguaje.getMensaje(Lenguaje.PASSWORD));
+			password.setText(Lenguaje.text(Lenguaje.PASSWORD));
 			//password.setText("Contraseña");
 			password.setBounds(119, 225, 88, 16);
 		}
@@ -568,7 +568,7 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 		if(nombre == null) {
 			nombre = new JLabel();
 			//nombre.setText("Nombre");
-			nombre.setText(Lenguaje.getMensaje(Lenguaje.NAME));
+			nombre.setText(Lenguaje.text(Lenguaje.NAME));
 			nombre.setBounds(124, 19, 49, 27);
 		}
 		return nombre;
@@ -585,7 +585,7 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 	private JButton getBtnPista() {
 		if(btnPista == null) {
 			btnPista = new JButton();
-			btnPista.setText(Lenguaje.getMensaje(Lenguaje.HINT));
+			btnPista.setText(Lenguaje.text(Lenguaje.HINT));
 			btnPista.setBounds(12, 274, 81, 26);
 		}
 		
@@ -624,7 +624,7 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 	private JButton getBtnLimpiar() {
 		if(btnLimpiar == null) {
 			btnLimpiar = new JButton();
-			btnLimpiar.setText(Lenguaje.getMensaje(Lenguaje.CLEAN_FIELDS));
+			btnLimpiar.setText(Lenguaje.text(Lenguaje.CLEAN_FIELDS));
 			btnLimpiar.setBounds(112, 273, 81, 27);
 		}
 		
@@ -646,7 +646,7 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 	private JButton getBtnComprobar() {
 		if(btnComprobar == null) {
 			btnComprobar = new JButton();
-			btnComprobar.setText(Lenguaje.getMensaje(Lenguaje.TEST_DATA));
+			btnComprobar.setText(Lenguaje.text(Lenguaje.TEST_DATA));
 			btnComprobar.setBounds(212, 274, 129, 25);
 		}
 		
@@ -668,9 +668,9 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 					// Notificar error
 					JOptionPane.showMessageDialog(
 						null,
-						(Lenguaje.getMensaje(Lenguaje.ERROR))+"\n" +
-						(Lenguaje.getMensaje(Lenguaje.INFORMATION_INCOMPLETE)),
-						(Lenguaje.getMensaje(Lenguaje.DBDT)),
+						(Lenguaje.text(Lenguaje.ERROR))+"\n" +
+						(Lenguaje.text(Lenguaje.INFORMATION_INCOMPLETE)),
+						(Lenguaje.text(Lenguaje.DBDT)),
 						JOptionPane.PLAIN_MESSAGE,
 						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
 					return;
@@ -727,7 +727,7 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 	private JButton getBtnExaminar() {
 		if(btnExaminar == null) {
 			btnExaminar = new JButton();
-			btnExaminar.setText(Lenguaje.getMensaje(Lenguaje.EXPLORE));
+			btnExaminar.setText(Lenguaje.text(Lenguaje.EXPLORE));
 			btnExaminar.setBounds(558, 131, 92, 26);
 		}
 		

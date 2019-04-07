@@ -86,7 +86,7 @@ public class GUI_TablaUniqueRelacion extends javax.swing.JDialog  implements Key
 				TableModel tablaModel = 
 					new DefaultTableModel(
 							new String[][] { { "" } },
-							new String[] { Lenguaje.getMensaje(Lenguaje.TABLE_UNIQUE)+":" });
+							new String[] { Lenguaje.text(Lenguaje.TABLE_UNIQUE)+":" });
 				tablaConjuntos = new JTable();
 				jScrollPane1.setViewportView(tablaConjuntos);
 				tablaConjuntos.setModel(tablaModel);
@@ -105,7 +105,7 @@ public class GUI_TablaUniqueRelacion extends javax.swing.JDialog  implements Key
 		{
 			botonAceptar = new JButton();
 			getContentPane().add(botonAceptar);
-			botonAceptar.setText(Lenguaje.getMensaje(Lenguaje.ACCEPT));
+			botonAceptar.setText(Lenguaje.text(Lenguaje.ACCEPT));
 			botonAceptar.setBounds(288, 291, 80, 25);
 			botonAceptar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -121,12 +121,12 @@ public class GUI_TablaUniqueRelacion extends javax.swing.JDialog  implements Key
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonAceptar.setMnemonic(Lenguaje.getMensaje(Lenguaje.ACCEPT).charAt(0));
+			botonAceptar.setMnemonic(Lenguaje.text(Lenguaje.ACCEPT).charAt(0));
 		}
 		{
 			botonCancelar = new JButton();
 			getContentPane().add(botonCancelar);
-			botonCancelar.setText(Lenguaje.getMensaje(Lenguaje.CANCEL));
+			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
 			botonCancelar.setBounds(379, 291, 80, 25);
 			botonCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -142,12 +142,12 @@ public class GUI_TablaUniqueRelacion extends javax.swing.JDialog  implements Key
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonCancelar.setMnemonic(Lenguaje.getMensaje(Lenguaje.CANCEL).charAt(0));
+			botonCancelar.setMnemonic(Lenguaje.text(Lenguaje.CANCEL).charAt(0));
 		}
 		{
 			botonNueva = new JButton();
 			getContentPane().add(botonNueva);
-			botonNueva.setText(Lenguaje.getMensaje(Lenguaje.NEW));
+			botonNueva.setText(Lenguaje.text(Lenguaje.NEW));
 			botonNueva.setBounds(288, 150, 80, 25);
 			botonNueva.addKeyListener(new KeyAdapter() {
 				@Override
@@ -165,12 +165,12 @@ public class GUI_TablaUniqueRelacion extends javax.swing.JDialog  implements Key
 					botonNuevaActionPerformed(evt);
 				}
 			});
-			botonNueva.setMnemonic(Lenguaje.getMensaje(Lenguaje.NEW).charAt(0));
+			botonNueva.setMnemonic(Lenguaje.text(Lenguaje.NEW).charAt(0));
 		}
 		{
 			botonEliminar = new JButton();
 			getContentPane().add(botonEliminar);
-			botonEliminar.setText(Lenguaje.getMensaje(Lenguaje.DELETE));
+			botonEliminar.setText(Lenguaje.text(Lenguaje.DELETE));
 			botonEliminar.setBounds(379, 150, 80, 25);
 			botonEliminar.addKeyListener(new KeyAdapter() {
 				@Override
@@ -188,12 +188,12 @@ public class GUI_TablaUniqueRelacion extends javax.swing.JDialog  implements Key
 					botonEliminarActionPerformed(evt);
 				}
 			});
-			botonEliminar.setMnemonic(Lenguaje.getMensaje(Lenguaje.DELETE).charAt(0));
+			botonEliminar.setMnemonic(Lenguaje.text(Lenguaje.DELETE).charAt(0));
 		}
 		{
 			jLabel1 = new JLabel();
 			getContentPane().add(jLabel1);
-			jLabel1.setText(Lenguaje.getMensaje(Lenguaje.ATTRIBUTES)+":");
+			jLabel1.setText(Lenguaje.text(Lenguaje.ATTRIBUTES)+":");
 			jLabel1.setBounds(24, 158, 88, 17);
 		}
 
@@ -201,7 +201,7 @@ public class GUI_TablaUniqueRelacion extends javax.swing.JDialog  implements Key
 		TableModel tablaModel = 
 			new DefaultTableModel(
 					new String[][] { { "" } },
-					new String[] { Lenguaje.getMensaje(Lenguaje.TABLE_UNIQUE)+":" });
+					new String[] { Lenguaje.text(Lenguaje.TABLE_UNIQUE)+":" });
 		tablaConjuntos = new JTable();
 		jScrollPane1.setViewportView(tablaConjuntos);
 		tablaConjuntos.setModel(tablaModel);
@@ -239,7 +239,7 @@ public class GUI_TablaUniqueRelacion extends javax.swing.JDialog  implements Key
 				i++;
 			}
 			if(!correcto){
-				JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.UNIQUE_ERROR), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+				JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.UNIQUE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
 			}else{
 				Vector<Object> v = new Vector<Object>();
 				v.add(predicados);
@@ -266,7 +266,7 @@ public class GUI_TablaUniqueRelacion extends javax.swing.JDialog  implements Key
 		TableModel tablaModel = 
 			new DefaultTableModel(
 				items,
-				new String[] { Lenguaje.getMensaje(Lenguaje.TABLE_UNIQUE)+":" });
+				new String[] { Lenguaje.text(Lenguaje.TABLE_UNIQUE)+":" });
 		tablaConjuntos.setModel(tablaModel);
 	}
 	
@@ -286,7 +286,7 @@ public class GUI_TablaUniqueRelacion extends javax.swing.JDialog  implements Key
 			TableModel tablaModel = 
 				new DefaultTableModel(
 						items,
-						new String[] { Lenguaje.getMensaje(Lenguaje.TABLE_UNIQUE)+":" });
+						new String[] { Lenguaje.text(Lenguaje.TABLE_UNIQUE)+":" });
 			tablaConjuntos.setModel(tablaModel);
 			
 		}catch(Exception e){
@@ -301,7 +301,7 @@ public class GUI_TablaUniqueRelacion extends javax.swing.JDialog  implements Key
 	 */
 	public void setActiva(){
 		this.centraEnPantalla();
-		this.setTitle(Lenguaje.getMensaje(Lenguaje.ADD_UNIQUE) +" of "+ relacion.getNombre());
+		this.setTitle(Lenguaje.text(Lenguaje.ADD_UNIQUE) +" of "+ relacion.getNombre());
 		muestraEntradas();
 		muestraAtributos();
 		SwingUtilities.invokeLater(doFocus);
@@ -418,7 +418,7 @@ public class GUI_TablaUniqueRelacion extends javax.swing.JDialog  implements Key
 		TableModel tablaModel = 
 			new DefaultTableModel(
 					items,
-					new String[] { Lenguaje.getMensaje(Lenguaje.TABLE_UNIQUE)+":" });
+					new String[] { Lenguaje.text(Lenguaje.TABLE_UNIQUE)+":" });
 		tablaConjuntos.setModel(tablaModel);
 	}
 	
@@ -490,8 +490,8 @@ public class GUI_TablaUniqueRelacion extends javax.swing.JDialog  implements Key
 			tablaConjuntos.getModel().setValueAt(s, row, col);
 		}
 		catch(Exception e){
-			JOptionPane.showMessageDialog(null,Lenguaje.getMensaje(Lenguaje.ERROR_TABLE),
-					Lenguaje.getMensaje(Lenguaje.DBCASE),JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,Lenguaje.text(Lenguaje.ERROR_TABLE),
+					Lenguaje.text(Lenguaje.DBCASE),JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

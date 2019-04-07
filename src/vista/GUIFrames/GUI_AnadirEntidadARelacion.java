@@ -38,10 +38,9 @@ import vista.lenguaje.Lenguaje;
 * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
-@SuppressWarnings({"rawtypes" ,"unchecked"})
+@SuppressWarnings({"rawtypes" ,"unchecked", "serial"})
 public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements KeyListener, MouseListener{
 
-	private static final long serialVersionUID = 1L;
 	private Controlador controlador;
 	private Vector<TransferEntidad> listaEntidades;
 	// Variables declaration - do not modify
@@ -67,7 +66,7 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 	}
 
 	private void initComponents() {
-		setTitle(Lenguaje.getMensaje(Lenguaje.INSERT_NEW_ENTITY_TO_RELATION));
+		setTitle(Lenguaje.text(Lenguaje.INSERT_NEW_ENTITY_TO_RELATION));
         this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -105,11 +104,11 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 		if(items.size() == 0)
 			JOptionPane.showMessageDialog(
 				null,
-				(Lenguaje.getMensaje(Lenguaje.ERROR))+"\n" +
-				(Lenguaje.getMensaje(Lenguaje.INSERT_NEW_ENTITY_TO_RELATION))+"\n" +
-				(Lenguaje.getMensaje(Lenguaje.IMPOSIBLE_TO_INSERT_ENTITY))+"\n" +
-				(Lenguaje.getMensaje(Lenguaje.NO_ENTITY))+"\n",
-				(Lenguaje.getMensaje(Lenguaje.INSERT_ATTRIBUTE)),
+				(Lenguaje.text(Lenguaje.ERROR))+"\n" +
+				(Lenguaje.text(Lenguaje.INSERT_NEW_ENTITY_TO_RELATION))+"\n" +
+				(Lenguaje.text(Lenguaje.IMPOSIBLE_TO_INSERT_ENTITY))+"\n" +
+				(Lenguaje.text(Lenguaje.NO_ENTITY))+"\n",
+				(Lenguaje.text(Lenguaje.INSERT_ATTRIBUTE)),
 				JOptionPane.PLAIN_MESSAGE,
 				new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));	
 		else{
@@ -279,7 +278,7 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 	private JTextPane getExplicacion() {
 		if(explicacion == null) {
 			explicacion = new JTextPane();
-			explicacion.setText(Lenguaje.getMensaje(Lenguaje.SELECT_ENTITY));
+			explicacion.setText(Lenguaje.text(Lenguaje.SELECT_ENTITY));
 			explicacion.setEditable(false);
 			explicacion.setOpaque(false);
 			explicacion.setBounds(25, 8, 115, 24);
@@ -302,7 +301,7 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 	private JTextPane getExplicacion2() {
 		if(explicacion2 == null) {
 			explicacion2 = new JTextPane();
-			explicacion2.setText(Lenguaje.getMensaje(Lenguaje.WRITE_NUMBERS_RELATION));
+			explicacion2.setText(Lenguaje.text(Lenguaje.WRITE_NUMBERS_RELATION));
 			explicacion2.setEditable(false);
 			explicacion2.setOpaque(false);
 			explicacion2.setBounds(25, 63, 107, 24);
@@ -336,7 +335,7 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 		if(jLabel1 == null) {
 			jLabel1 = new JLabel();
 			jLabel1.setEnabled(false);
-			jLabel1.setText(Lenguaje.getMensaje(Lenguaje.TO));
+			jLabel1.setText(Lenguaje.text(Lenguaje.TO));
 			jLabel1.setBounds(140, 160, 60, 25);
 		}
 		return jLabel1;
@@ -345,7 +344,7 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 	private JTextPane getExplicacion3() {
 		if(explicacion3 == null) {
 			explicacion3 = new JTextPane();
-			explicacion3.setText(Lenguaje.getMensaje(Lenguaje.WRITE_ROLL));
+			explicacion3.setText(Lenguaje.text(Lenguaje.WRITE_ROLL));
 			explicacion3.setEditable(false);
 			explicacion3.setOpaque(false);
 			explicacion3.setBounds(25, 194, 147, 24);
@@ -367,7 +366,7 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 	private JButton getBotonCancelar() {
 		if(botonCancelar == null) {
 			botonCancelar = new JButton();
-			botonCancelar.setText(Lenguaje.getMensaje(Lenguaje.CANCEL));
+			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
 			botonCancelar.setBounds(237, 269, 80, 25);
 			botonCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -383,7 +382,7 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonCancelar.setMnemonic(	Lenguaje.getMensaje(Lenguaje.CANCEL).charAt(0));
+			botonCancelar.setMnemonic(	Lenguaje.text(Lenguaje.CANCEL).charAt(0));
 		}
 		return botonCancelar;
 	}
@@ -391,7 +390,7 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 	private JButton getBotonAnadir() {
 		if(botonAnadir == null) {
 			botonAnadir = new JButton();
-			botonAnadir.setText(Lenguaje.getMensaje(Lenguaje.INSERT));
+			botonAnadir.setText(Lenguaje.text(Lenguaje.INSERT));
 			botonAnadir.setBounds(146, 269, 80, 25);
 			botonAnadir.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -407,7 +406,7 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonAnadir.setMnemonic(Lenguaje.getMensaje(Lenguaje.INSERT).charAt(0));
+			botonAnadir.setMnemonic(Lenguaje.text(Lenguaje.INSERT).charAt(0));
 		}
 		return botonAnadir;
 	}
@@ -568,7 +567,7 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 			buttonMax1.setOpaque(false);
 			buttonMax1.setEnabled(false);
 			//internacionalizar mensaje
-			buttonMax1.setText(Lenguaje.getMensaje(Lenguaje.LABEL1A1));
+			buttonMax1.setText(Lenguaje.text(Lenguaje.LABEL1A1));
 			buttonMax1.setBounds(25, 100, 127, 24);
 			buttonMax1.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -592,7 +591,7 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 			buttonMaxN = new JRadioButton();
 			buttonMaxN.setOpaque(false);
 			buttonMaxN.setSelected(true);
-			buttonMaxN.setText(Lenguaje.getMensaje(Lenguaje.LABELNAN));
+			buttonMaxN.setText(Lenguaje.text(Lenguaje.LABELNAN));
 			buttonMaxN.setBounds(25, 130, 127, 24);
 			buttonMaxN.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -616,7 +615,7 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 			buttonMinMax = new JRadioButton();
 			buttonMinMax.setOpaque(false);
 			buttonMinMax.setEnabled(false);
-			buttonMinMax.setText(Lenguaje.getMensaje(Lenguaje.THE));
+			buttonMinMax.setText(Lenguaje.text(Lenguaje.THE));
 			buttonMinMax.setBounds(25, 162, 127, 24);
 			buttonMinMax.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent evt) {

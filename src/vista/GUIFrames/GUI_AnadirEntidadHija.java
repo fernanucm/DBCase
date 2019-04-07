@@ -62,7 +62,7 @@ public class GUI_AnadirEntidadHija extends javax.swing.JDialog  implements KeyLi
 
 	private void initComponents() {
 		getContentPane().setLayout(null);
-		setTitle(Lenguaje.getMensaje(Lenguaje.INSERT_NEW_DAUGTHER));
+		setTitle(Lenguaje.text(Lenguaje.INSERT_NEW_DAUGTHER));
 		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
 		setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 		setModal(true);
@@ -141,10 +141,10 @@ public class GUI_AnadirEntidadHija extends javax.swing.JDialog  implements KeyLi
 		if(this.getRelacion().getListaEntidadesYAridades().isEmpty())
 			JOptionPane.showMessageDialog(
 					null,
-					(Lenguaje.getMensaje(Lenguaje.ERROR))+"\n" +
-					(Lenguaje.getMensaje(Lenguaje.IMPOSIBLE_TO_INSERT_DAUGHTER))+"\n" +
-					(Lenguaje.getMensaje(Lenguaje.NO_FATHER))+"\n",
-					Lenguaje.getMensaje(Lenguaje.INSERT_NEW_DAUGTHER),
+					(Lenguaje.text(Lenguaje.ERROR))+"\n" +
+					(Lenguaje.text(Lenguaje.IMPOSIBLE_TO_INSERT_DAUGHTER))+"\n" +
+					(Lenguaje.text(Lenguaje.NO_FATHER))+"\n",
+					Lenguaje.text(Lenguaje.INSERT_NEW_DAUGTHER),
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
 		else{
@@ -154,10 +154,10 @@ public class GUI_AnadirEntidadHija extends javax.swing.JDialog  implements KeyLi
 			if(items.length == 0)
 				JOptionPane.showMessageDialog(
 						null,
-						(Lenguaje.getMensaje(Lenguaje.ERROR))+"\n" +
-						(Lenguaje.getMensaje(Lenguaje.IMPOSIBLE_TO_INSERT_DAUGHTER))+"\n" +
-						(Lenguaje.getMensaje(Lenguaje.NO_ENTITIES_AVAILABLES))+"\n",
-						Lenguaje.getMensaje(Lenguaje.INSERT_NEW_DAUGTHER),
+						(Lenguaje.text(Lenguaje.ERROR))+"\n" +
+						(Lenguaje.text(Lenguaje.IMPOSIBLE_TO_INSERT_DAUGHTER))+"\n" +
+						(Lenguaje.text(Lenguaje.NO_ENTITIES_AVAILABLES))+"\n",
+						Lenguaje.text(Lenguaje.INSERT_NEW_DAUGTHER),
 						JOptionPane.PLAIN_MESSAGE,
 						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
 
@@ -245,7 +245,7 @@ public class GUI_AnadirEntidadHija extends javax.swing.JDialog  implements KeyLi
 	private JTextPane getExplicacion() {
 		if(explicacion == null) {
 			explicacion = new JTextPane();
-			explicacion.setText(Lenguaje.getMensaje(Lenguaje.SELECT_ENTITY_DAUTHTER));
+			explicacion.setText(Lenguaje.text(Lenguaje.SELECT_ENTITY_DAUTHTER));
 			explicacion.setBounds(136, 12, 224, 22);
 			explicacion.setOpaque(false);
 			explicacion.setEditable(false);
@@ -279,7 +279,7 @@ public class GUI_AnadirEntidadHija extends javax.swing.JDialog  implements KeyLi
 	private JButton getBotonSalir() {
 		if(botonSalir == null) {
 			botonSalir = new JButton();
-			botonSalir.setText(Lenguaje.getMensaje(Lenguaje.EXIT));
+			botonSalir.setText(Lenguaje.text(Lenguaje.EXIT));
 			botonSalir.setBounds(275, 99, 80, 25);
 			botonSalir.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -294,7 +294,7 @@ public class GUI_AnadirEntidadHija extends javax.swing.JDialog  implements KeyLi
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonSalir.setMnemonic(Lenguaje.getMensaje(Lenguaje.EXIT).charAt(0));
+			botonSalir.setMnemonic(Lenguaje.text(Lenguaje.EXIT).charAt(0));
 		}
 		return botonSalir;
 	}
@@ -302,7 +302,7 @@ public class GUI_AnadirEntidadHija extends javax.swing.JDialog  implements KeyLi
 	private JButton getBotonAnadir() {
 		if(botonAnadir == null) {
 			botonAnadir = new JButton();
-			botonAnadir.setText(Lenguaje.getMensaje(Lenguaje.INSERT));
+			botonAnadir.setText(Lenguaje.text(Lenguaje.INSERT));
 			botonAnadir.setBounds(190, 99, 80, 25);
 			botonAnadir.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -319,7 +319,7 @@ public class GUI_AnadirEntidadHija extends javax.swing.JDialog  implements KeyLi
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonAnadir.setMnemonic(Lenguaje.getMensaje(Lenguaje.INSERT).charAt(0));
+			botonAnadir.setMnemonic(Lenguaje.text(Lenguaje.INSERT).charAt(0));
 		}
 		return botonAnadir;
 	}

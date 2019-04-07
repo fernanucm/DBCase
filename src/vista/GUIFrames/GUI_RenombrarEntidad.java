@@ -53,7 +53,7 @@ public class GUI_RenombrarEntidad extends javax.swing.JDialog implements KeyList
 
 	private void initComponents() {
 
-		setTitle(Lenguaje.getMensaje(Lenguaje.RENAME_ENTITY_DBDT));
+		setTitle(Lenguaje.text(Lenguaje.RENAME_ENTITY_DBDT));
 		setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
 		setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 		setResizable(false);
@@ -63,7 +63,7 @@ public class GUI_RenombrarEntidad extends javax.swing.JDialog implements KeyList
 		{
 			botonCancelar = new JButton();
 			getContentPane().add(botonCancelar);
-			botonCancelar.setText(Lenguaje.getMensaje(Lenguaje.CANCEL));
+			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
 			botonCancelar.setBounds(280, 90, 80, 25);
 			botonCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -79,12 +79,12 @@ public class GUI_RenombrarEntidad extends javax.swing.JDialog implements KeyList
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonCancelar.setMnemonic(Lenguaje.getMensaje(Lenguaje.CANCEL).charAt(0));
+			botonCancelar.setMnemonic(Lenguaje.text(Lenguaje.CANCEL).charAt(0));
 		}
 		{
 			botonRenombrar = new JButton();
 			getContentPane().add(botonRenombrar);
-			botonRenombrar.setText(Lenguaje.getMensaje(Lenguaje.RENAME));
+			botonRenombrar.setText(Lenguaje.text(Lenguaje.RENAME));
 			botonRenombrar.setBounds(189, 90, 80, 25);
 			botonRenombrar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -100,7 +100,7 @@ public class GUI_RenombrarEntidad extends javax.swing.JDialog implements KeyList
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonRenombrar.setMnemonic(Lenguaje.getMensaje(Lenguaje.RENAME).charAt(0));
+			botonRenombrar.setMnemonic(Lenguaje.text(Lenguaje.RENAME).charAt(0));
 		}
 		{
 			cajaNombre = new JTextField();
@@ -118,7 +118,7 @@ public class GUI_RenombrarEntidad extends javax.swing.JDialog implements KeyList
 		{
 			explicacion = new JTextPane();
 			getContentPane().add(explicacion);
-			explicacion.setText(Lenguaje.getMensaje(Lenguaje.WRITE_NEW_ENTITY_NAME));
+			explicacion.setText(Lenguaje.text(Lenguaje.WRITE_NEW_ENTITY_NAME));
 			explicacion.setEditable(false);
 			explicacion.setOpaque(false);
 			explicacion.setBounds(124, 12, 236, 24);

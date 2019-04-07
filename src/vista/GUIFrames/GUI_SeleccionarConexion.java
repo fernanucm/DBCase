@@ -83,7 +83,7 @@ public class GUI_SeleccionarConexion extends javax.swing.JDialog  implements Key
 				TableModel tablaModel = 
 					new DefaultTableModel(
 							new String[][] { { "" } },
-							new String[] { Lenguaje.getMensaje(Lenguaje.SELECT_CONNECTION)+":" });
+							new String[] { Lenguaje.text(Lenguaje.SELECT_CONNECTION)+":" });
 				tablaConjuntos = new JTable();
 				jScrollPane1.setViewportView(tablaConjuntos);
 				tablaConjuntos.setModel(tablaModel);
@@ -96,7 +96,7 @@ public class GUI_SeleccionarConexion extends javax.swing.JDialog  implements Key
 		{
 			botonAceptar = new JButton();
 			getContentPane().add(botonAceptar);
-			botonAceptar.setText(Lenguaje.getMensaje(Lenguaje.CONNECT));
+			botonAceptar.setText(Lenguaje.text(Lenguaje.CONNECT));
 			botonAceptar.setBounds(383, 180, 80, 25);
 			botonAceptar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -118,7 +118,7 @@ public class GUI_SeleccionarConexion extends javax.swing.JDialog  implements Key
 		{
 			botonCancelar = new JButton();
 			getContentPane().add(botonCancelar);
-			botonCancelar.setText(Lenguaje.getMensaje(Lenguaje.CANCEL));
+			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
 			botonCancelar.setBounds(484, 180, 80, 25);
 			botonCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -134,12 +134,12 @@ public class GUI_SeleccionarConexion extends javax.swing.JDialog  implements Key
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonCancelar.setMnemonic(Lenguaje.getMensaje(Lenguaje.CANCEL).charAt(0));
+			botonCancelar.setMnemonic(Lenguaje.text(Lenguaje.CANCEL).charAt(0));
 		}
 		{
 			botonNueva = new JButton();
 			getContentPane().add(botonNueva);
-			botonNueva.setText(Lenguaje.getMensaje(Lenguaje.NEW2));
+			botonNueva.setText(Lenguaje.text(Lenguaje.NEW2));
 			botonNueva.setBounds(80, 180, 80, 25);
 			botonNueva.addKeyListener(new KeyAdapter() {
 				@Override
@@ -157,12 +157,12 @@ public class GUI_SeleccionarConexion extends javax.swing.JDialog  implements Key
 					botonNuevaActionPerformed(evt);
 				}
 			});
-			botonNueva.setMnemonic(Lenguaje.getMensaje(Lenguaje.NEW2).charAt(0));
+			botonNueva.setMnemonic(Lenguaje.text(Lenguaje.NEW2).charAt(0));
 		}
 		{
 			botonBorrar = new JButton();
 			getContentPane().add(botonBorrar);
-			botonBorrar.setText(Lenguaje.getMensaje(Lenguaje.DELETE));
+			botonBorrar.setText(Lenguaje.text(Lenguaje.DELETE));
 			botonBorrar.setBounds(181, 180, 80, 25);
 			
 			botonBorrar.addKeyListener(new KeyListener() {
@@ -185,7 +185,7 @@ public class GUI_SeleccionarConexion extends javax.swing.JDialog  implements Key
 		{
 			botonEditar = new JButton();
 			getContentPane().add(botonEditar);
-			botonEditar.setText(Lenguaje.getMensaje(Lenguaje.ACCEPT));
+			botonEditar.setText(Lenguaje.text(Lenguaje.ACCEPT));
 			botonEditar.setBounds(283, 180, 80, 25);
 			
 			botonEditar.addActionListener(new ActionListener() {
@@ -203,14 +203,14 @@ public class GUI_SeleccionarConexion extends javax.swing.JDialog  implements Key
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonEditar.setMnemonic(Lenguaje.getMensaje(Lenguaje.ACCEPT).charAt(0));
+			botonEditar.setMnemonic(Lenguaje.text(Lenguaje.ACCEPT).charAt(0));
 		}
 
 		this.addKeyListener(this);
 		TableModel tablaModel = 
 			new DefaultTableModel(
 					new String[][] { { "" } },
-					new String[] { Lenguaje.getMensaje(Lenguaje.EXISTING_CONN) });
+					new String[] { Lenguaje.text(Lenguaje.EXISTING_CONN) });
 		tablaConjuntos = new JTable();
 		jScrollPane1.setViewportView(tablaConjuntos);
 		tablaConjuntos.setModel(tablaModel);
@@ -225,8 +225,8 @@ public class GUI_SeleccionarConexion extends javax.swing.JDialog  implements Key
 		if (elegido == null){
 			JOptionPane.showMessageDialog(
 							null, 
-							Lenguaje.getMensaje(Lenguaje.CHOOSE_CONN), 
-							Lenguaje.getMensaje(Lenguaje.ERROR), 
+							Lenguaje.text(Lenguaje.CHOOSE_CONN), 
+							Lenguaje.text(Lenguaje.ERROR), 
 							0);
 			return;
 		}
@@ -295,8 +295,8 @@ public class GUI_SeleccionarConexion extends javax.swing.JDialog  implements Key
 		if (elegido == null){
 			JOptionPane.showMessageDialog(
 							null, 
-							Lenguaje.getMensaje(Lenguaje.CHOOSE_CONN), 
-							Lenguaje.getMensaje(Lenguaje.ERROR), 
+							Lenguaje.text(Lenguaje.CHOOSE_CONN), 
+							Lenguaje.text(Lenguaje.ERROR), 
 							0);
 			return;
 		}
@@ -315,8 +315,8 @@ public class GUI_SeleccionarConexion extends javax.swing.JDialog  implements Key
 		if (elegido == null){
 			JOptionPane.showMessageDialog(
 							null, 
-							Lenguaje.getMensaje(Lenguaje.CHOOSE_CONN), 
-							Lenguaje.getMensaje(Lenguaje.ERROR), 
+							Lenguaje.text(Lenguaje.CHOOSE_CONN), 
+							Lenguaje.text(Lenguaje.ERROR), 
 							0);
 			return;
 		}
@@ -370,7 +370,7 @@ public class GUI_SeleccionarConexion extends javax.swing.JDialog  implements Key
 		}
 		
 		TableModel tablaModelo = new DefaultTableModel(valores, new String[] {
-										Lenguaje.getMensaje(Lenguaje.TABLE_TITLE)});
+										Lenguaje.text(Lenguaje.TABLE_TITLE)});
 		tablaConjuntos.setModel(tablaModelo);
 	}
 	
@@ -380,7 +380,7 @@ public class GUI_SeleccionarConexion extends javax.swing.JDialog  implements Key
 	 */
 	public void setActiva(){
 		this.centraEnPantalla();
-		this.setTitle(Lenguaje.getMensaje(Lenguaje.SELECT_CONNECTION));
+		this.setTitle(Lenguaje.text(Lenguaje.SELECT_CONNECTION));
 		rellenaTabla();
 		SwingUtilities.invokeLater(doFocus);
 		this.setVisible(true);

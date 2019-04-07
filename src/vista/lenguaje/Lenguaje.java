@@ -488,7 +488,6 @@ public class Lenguaje {
 	public static final int CLEAN_FIELDS =4204;
 	public static final int HINT =4205;
 	public static final int EXPLORE =4206;
-	
 	public static final int EXISTING_CONN =4207;
 	public static final int CHOOSE_CONN =4208;
 	
@@ -550,11 +549,7 @@ public class Lenguaje {
 	public static Vector<String> obtenLenguajesDisponibles(){
 		Vector<String> sol = new Vector<String>();
 		Enumeration<String> lengs = _lenguajes.keys();
-		
-		while (lengs.hasMoreElements()){
-			sol.add(lengs.nextElement());
-		}
-		
+		while (lengs.hasMoreElements()) sol.add(lengs.nextElement());
 		return sol;
 	}
 	
@@ -566,15 +561,11 @@ public class Lenguaje {
 	public static void encuentraLenguajes(){
 		// Leer el indice
 		Object o = new Object();
-		InputStream input = o.getClass().getResourceAsStream(
-						Lenguaje.CARPETA + Lenguaje.INDICE);
-		
+		InputStream input = o.getClass().getResourceAsStream(Lenguaje.CARPETA + Lenguaje.INDICE);
 		BufferedReader datos = new BufferedReader(new InputStreamReader(input));
-		
 		try {
 			// Analizar su contenido
 			String linea = datos.readLine();
-			
 			while (linea != null){
 				// Comprobar que no es vacía ni comentario
 				if (linea.indexOf("=")>0 && !linea.startsWith("#")){
@@ -584,13 +575,11 @@ public class Lenguaje {
 					nombre = corrigeCaracteres(nombre);
 					_lenguajes.put(nombre, fich);
 				}
-				
 				// Incrementar
 				linea = datos.readLine();
 			}
 		} catch (Exception e) {
-			System.out.println("El fichero índice de idiomas no se encuentra o no " +
-															"tiene el formato correcto");
+			System.out.println("El fichero índice de idiomas no se encuentra o no tiene el formato correcto");
 			System.exit(-1);
 		}
 	}
@@ -620,17 +609,13 @@ public class Lenguaje {
 		// Abrir el fichero
 		// Leer el indice
 		Object o = new Object();
-		InputStream input = o.getClass().getResourceAsStream(
-						Lenguaje.CARPETA + fichero);
-		
+		InputStream input = o.getClass().getResourceAsStream(Lenguaje.CARPETA + fichero);
 		BufferedReader datos = new BufferedReader(new InputStreamReader(input));
 		
 		try {
 			// Analizar su contenido
 			String linea = datos.readLine();
-			
 			boolean idiomaLeido = false;
-			
 			while (linea != null){
 				// Comprobar que no es comentario
 				if (!linea.startsWith("#")){
@@ -645,22 +630,13 @@ public class Lenguaje {
 						_textos.put(parte[0], parte[1]);
 					}
 				}
-				
 				// Incrementar
 				linea = datos.readLine();
 			}
 		} catch (Exception e) {
-			System.out.println("El fichero de idioma " + fichero + " no se encuentra o no " +
-															"tiene el formato correcto");
+			System.out.println("El fichero de idioma " + fichero + " no se encuentra o no tiene el formato correcto");
 			System.exit(-1);
 		}
-		
-//		// Mostrar por consola el diccionario creado
-//		Enumeration<String> claves = _textos.keys();
-//		while (claves.hasMoreElements()){
-//			String clave = claves.nextElement();
-//			System.out.println(clave + " --> " + _textos.get(clave));
-//		}
 	}
 	
 	/**
@@ -668,12 +644,11 @@ public class Lenguaje {
 	 * @param tipoMensaje
 	 * @return
 	 */
-	public static String getMensaje(int tipoMensaje) {
+	public static String text(int tipoMensaje) {
 		String texto;
 		
 		switch (tipoMensaje){
 		case DBCASE: texto = _textos.get("dbcase"); break;
-		
 		case SELECT: texto = _textos.get("select"); break;
 		case YES: texto = _textos.get("yes"); break;
 		case NO: texto = _textos.get("no"); break;

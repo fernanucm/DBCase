@@ -75,7 +75,7 @@ public class PanelOpcionesPequeno extends javax.swing.JDialog implements KeyList
 		{
 			botonSi = new JButton();
 			getContentPane().add(botonSi);
-			botonSi.setText(Lenguaje.getMensaje(Lenguaje.YES));
+			botonSi.setText(Lenguaje.text(Lenguaje.YES));
 			botonSi.setBounds(230, 90, 80, 25);
 			botonSi.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -98,7 +98,7 @@ public class PanelOpcionesPequeno extends javax.swing.JDialog implements KeyList
 		{
 			botonNo = new JButton();
 			getContentPane().add(botonNo);
-			botonNo.setText(Lenguaje.getMensaje(Lenguaje.NO));
+			botonNo.setText(Lenguaje.text(Lenguaje.NO));
 			botonNo.setBounds(321, 90, 80, 25);
 			botonNo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -122,7 +122,7 @@ public class PanelOpcionesPequeno extends javax.swing.JDialog implements KeyList
 		{
 			botonCancelar = new JButton();
 			getContentPane().add(botonCancelar);
-			botonCancelar.setText(Lenguaje.getMensaje(Lenguaje.CANCEL));
+			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
 			botonCancelar.setBounds(190, 81, 80, 25);
 			botonCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -192,12 +192,12 @@ public class PanelOpcionesPequeno extends javax.swing.JDialog implements KeyList
 	
 	private KeyListener general = new KeyListener() {
 		public void keyPressed(KeyEvent e) {
-			if(Character.toLowerCase(e.getKeyChar()) == Character.toLowerCase(Lenguaje.getMensaje(Lenguaje.YES).charAt(0))){
+			if(Character.toLowerCase(e.getKeyChar()) == Character.toLowerCase(Lenguaje.text(Lenguaje.YES).charAt(0))){
 				botonSiActionPerformed(null);}
-			else if(Character.toLowerCase(e.getKeyChar()) == Character.toLowerCase(Lenguaje.getMensaje(Lenguaje.NO).charAt(0))){
+			else if(Character.toLowerCase(e.getKeyChar()) == Character.toLowerCase(Lenguaje.text(Lenguaje.NO).charAt(0))){
 				botonNoActionPerformed(null);}
 			else if (cancelar)
-				if(Character.toLowerCase(e.getKeyChar()) == Character.toLowerCase(Lenguaje.getMensaje(Lenguaje.CANCEL).charAt(0))){
+				if(Character.toLowerCase(e.getKeyChar()) == Character.toLowerCase(Lenguaje.text(Lenguaje.CANCEL).charAt(0))){
 					botonCancelarActionPerformed(null);}
 		}
 		public void keyReleased(KeyEvent e) {}

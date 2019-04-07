@@ -62,7 +62,7 @@ public class GUI_ModificarDominio extends javax.swing.JDialog implements KeyList
 
 	private void initComponents() {
 
-		setTitle(Lenguaje.getMensaje(Lenguaje.EDIT_DOMAIN));
+		setTitle(Lenguaje.text(Lenguaje.EDIT_DOMAIN));
 		setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
 		setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 		setResizable(false);
@@ -195,7 +195,7 @@ public class GUI_ModificarDominio extends javax.swing.JDialog implements KeyList
 	private JButton getBotonCancelar() {
 		if(botonCancelar == null) {
 			botonCancelar = new JButton();
-			botonCancelar.setText(Lenguaje.getMensaje(Lenguaje.CANCEL));
+			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
 			botonCancelar.setBounds(280, 152, 80, 25);
 			botonCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -211,7 +211,7 @@ public class GUI_ModificarDominio extends javax.swing.JDialog implements KeyList
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonCancelar.setMnemonic(Lenguaje.getMensaje(Lenguaje.CANCEL).charAt(0));
+			botonCancelar.setMnemonic(Lenguaje.text(Lenguaje.CANCEL).charAt(0));
 		}
 		return botonCancelar;
 	}
@@ -219,7 +219,7 @@ public class GUI_ModificarDominio extends javax.swing.JDialog implements KeyList
 	private JButton getBotonEditar() {
 		if(botonEditar == null) {
 			botonEditar = new JButton();
-			botonEditar.setText(Lenguaje.getMensaje(Lenguaje.ACCEPT));
+			botonEditar.setText(Lenguaje.text(Lenguaje.ACCEPT));
 			botonEditar.setBounds(189, 152, 80, 25);
 			botonEditar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -235,7 +235,7 @@ public class GUI_ModificarDominio extends javax.swing.JDialog implements KeyList
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonEditar.setMnemonic(Lenguaje.getMensaje(Lenguaje.ACCEPT).charAt(0));
+			botonEditar.setMnemonic(Lenguaje.text(Lenguaje.ACCEPT).charAt(0));
 		}
 		return botonEditar;
 	}
@@ -272,7 +272,7 @@ public class GUI_ModificarDominio extends javax.swing.JDialog implements KeyList
 	private JTextPane getExplicacion() {
 		if(explicacion == null) {
 			explicacion = new JTextPane();
-			explicacion.setText(Lenguaje.getMensaje(Lenguaje.VALUES));
+			explicacion.setText(Lenguaje.text(Lenguaje.VALUES));
 			explicacion.setEditable(false);
 			explicacion.setOpaque(false);
 			explicacion.setBounds(124, 65, 353, 37);
@@ -284,7 +284,7 @@ public class GUI_ModificarDominio extends javax.swing.JDialog implements KeyList
 	private JTextPane getTextoTipo() {
 		if(textoTipo == null) {
 			textoTipo = new JTextPane();
-			textoTipo.setText(Lenguaje.getMensaje(Lenguaje.TYPE));
+			textoTipo.setText(Lenguaje.text(Lenguaje.TYPE));
 			textoTipo.setEditable(false);
 			textoTipo.setOpaque(false);
 			textoTipo.setBounds(124, 15, 353, 37);

@@ -29,7 +29,6 @@ public class DAORelaciones{
 	private Document doc;
 	private String path;
 	
-	
 	// Constructora del DAO
 	public DAORelaciones(String path){
 		this.path = path;
@@ -39,8 +38,6 @@ public class DAORelaciones{
 		this.doc = dameDoc();
 		
 	}
-
-		
 
 	// Metodos del DAOCllientes
 	public int anadirRelacion(TransferRelacion tc) {
@@ -116,7 +113,6 @@ public class DAORelaciones{
 		resultado = proximoID;
 		// Guardamos los cambios en el fichero xml y controlamos la excepcion
 		this.guardaDoc();
-		
 		// Devolvemos el resultado de la operacion
 		return resultado;
 	}
@@ -140,11 +136,8 @@ public class DAORelaciones{
 		Node RelacionBuscado = dameNodoRelacion(tc.getIdRelacion());
 		if (RelacionBuscado != null) {
 			// Cambiamos los datos del Relacion
-			ponValorAElemento(
-					dameNodoPedidoDeRelacion(RelacionBuscado, "Name"), tc
-							.getNombre());
-			ponValorAElemento(dameNodoPedidoDeRelacion(RelacionBuscado,
-					"Type"), tc.getTipo());
+			ponValorAElemento(dameNodoPedidoDeRelacion(RelacionBuscado, "Name"), tc.getNombre());
+			ponValorAElemento(dameNodoPedidoDeRelacion(RelacionBuscado,"Type"), tc.getTipo());
 			ponValorAElemento(dameNodoPedidoDeRelacion(RelacionBuscado,
 			"Position"), ((int)(tc.getPosicion().getX())+","+(int)(tc.getPosicion().getY())));
 						
@@ -207,12 +200,9 @@ public class DAORelaciones{
 					listaU.appendChild(unique);			
 				}
 			}
-		} else
-			respuesta = false;
+		} else respuesta = false;
 		// Guardamos los cambios en el fichero xml y controlamos la excepcion
 		this.guardaDoc();
-		
-		// Devolvemos la respuesta
 		return respuesta;
 	}
 	
@@ -269,32 +259,25 @@ public class DAORelaciones{
 			NamedNodeMap RelacionesNodoRelacionActual = nodoRelacionActual
 					.getAttributes();
 			// Obtenemos el id del Relacion
-			int idNodoRelacionActual = Integer
-					.parseInt(RelacionesNodoRelacionActual.item(0).getNodeValue());
+			int idNodoRelacionActual = Integer.parseInt(RelacionesNodoRelacionActual.item(0).getNodeValue());
 			// Comparamos
 			if (id == idNodoRelacionActual) {
 				encontrado = true;
 				RelacionBuscado = nodoRelacionActual;
-			} else
-				cont++;
+			} else cont++;
 		}
 		return RelacionBuscado;
 	}
 
 	private TransferRelacion nodoRelacionATransferRelacion(Node nodo) {
 		int id = dameRelacion(nodo);
-		String nombre = dameValorDelElemento(dameNodoPedidoDeRelacion(nodo,
-				"Name"));
-		String tipo = dameValorDelElemento(dameNodoPedidoDeRelacion(
-						nodo, "Type"));
+		String nombre = dameValorDelElemento(dameNodoPedidoDeRelacion(nodo,"Name"));
+		String tipo = dameValorDelElemento(dameNodoPedidoDeRelacion(nodo, "Type"));
 		Vector listaC = nodoListaAObjetoLista(dameNodoPedidoDeRelacion(nodo,"EntityAndArityList"), "EntityAndArity");
 		Vector listaV = nodoListaAObjetoLista(dameNodoPedidoDeRelacion(nodo,"AttribList"), "Attrib");
 		Vector listaR = nodoListaAObjetoLista(dameNodoPedidoDeRelacion(nodo,"AssertionList"),"Assertion");
 		Vector listaU = nodoListaAObjetoLista(dameNodoPedidoDeRelacion(nodo,"UniqueList"),"Uniques");
 		Point2D posicion=this.damePunto(dameValorDelElemento(dameNodoPedidoDeRelacion(nodo,"Position")));
-//		String rol=  ((EntidadYAridad)listaC.elementAt(id)).getRol();
-		
-		
 		
 		// Creamos el transfer
 		TransferRelacion transfer = new TransferRelacion();
@@ -306,9 +289,6 @@ public class DAORelaciones{
 		transfer.setListaRestricciones(listaR);
 		transfer.setListaUniques(listaU);
 		transfer.setPosicion(posicion);
-//	transfer.setRol(rol);
-		// Lo devolvemos
-		
 		return transfer;
 	}
 
@@ -327,7 +307,6 @@ public class DAORelaciones{
 				String elem = dameValorDelElemento(aux);
 				if (tipoLista=="EntityAndArity"){
 					EntidadYAridad e = new EntidadYAridad();
-					//Comprobar esto:
 					lista.addElement(e.sacaValoresDeString(elem));
 				}else lista.addElement(elem);
 			}
@@ -335,8 +314,8 @@ public class DAORelaciones{
 		}
 		// Devolvemos la lista
 		return lista;
-	
 	}
+	
 	private String dameValorDelElemento(Node elemento) {
 		return elemento.getFirstChild().getNodeValue().toString();
 	}
@@ -344,8 +323,7 @@ public class DAORelaciones{
 	private void ponValorAElemento(Node elemento, String clavePrimaria) {
 		if(elemento.getNodeName()!= "Role")
 			elemento.getFirstChild().setNodeValue(clavePrimaria);
-		else
-			elemento.setNodeValue(clavePrimaria);
+		else elemento.setNodeValue(clavePrimaria);
 	}
 
 	private int dameRelacion(Node Relacion) {
@@ -360,9 +338,8 @@ public class DAORelaciones{
 		int cont = 0;
 		Node aux = hijos.item(0);
 		if (aux!=null)
-		while ((aux.getNodeName() != (elemento))&&(cont<hijos.getLength())) {
+		while ((aux.getNodeName() != (elemento))&&(cont<hijos.getLength()))
 			aux = hijos.item(cont++);
-		}
 		// Ya tenemos en aux el nodoBuscado
 		nodoBuscado = aux;
 		// Lo devolvemos
@@ -391,9 +368,9 @@ public class DAORelaciones{
 		catch (Exception e) {
 			JOptionPane.showMessageDialog(
 					null,
-					Lenguaje.getMensaje(Lenguaje.ERROR)+":\n" +
-					Lenguaje.getMensaje(Lenguaje.UNESPECTED_XML_ERROR)+" \""+ path+".xml\"",
-					Lenguaje.getMensaje(Lenguaje.DBCASE),
+					Lenguaje.text(Lenguaje.ERROR)+":\n" +
+					Lenguaje.text(Lenguaje.UNESPECTED_XML_ERROR)+" \""+ path+".xml\"",
+					Lenguaje.text(Lenguaje.DBCASE),
 					JOptionPane.ERROR_MESSAGE);
 			
 		}
@@ -404,11 +381,8 @@ public class DAORelaciones{
 		OutputFormat formato = new OutputFormat(doc, "utf-8", true);
 		StringWriter s = new StringWriter();
 		XMLSerializer ser = new XMLSerializer(s, formato);
-		try {
-			ser.serialize(doc);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		try { ser.serialize(doc);} 
+		catch (IOException e) { e.printStackTrace();}
 		// El FileWriter necesita espacios en la ruta
 		this.path = this.path.replace("%20"," ");
 		FileWriter f = null;
@@ -419,17 +393,12 @@ public class DAORelaciones{
 			try {
 				f = new FileWriter(this.path);
 				centinela =false;
-			} catch (IOException e) {
-				centinela=true;
-			}
+			} catch (IOException e) {centinela=true;}
 		}
 		this.path = this.path.replace(" ", "%20");
 		ser = new XMLSerializer(f, formato);
-		try {
-			ser.serialize(doc);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		try {ser.serialize(doc);} 
+		catch (IOException e) {e.printStackTrace();}
 	}
 }
 

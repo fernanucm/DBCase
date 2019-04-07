@@ -62,7 +62,7 @@ public class GUI_QuitarEntidadHija extends javax.swing.JDialog  implements KeyLi
 	private void initComponents() {
 
 		getContentPane().setLayout(null);
-		setTitle(Lenguaje.getMensaje(Lenguaje.QUIT_DAUGHTER_ENTITY));
+		setTitle(Lenguaje.text(Lenguaje.QUIT_DAUGHTER_ENTITY));
 		setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
 		setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 		setModal(true);
@@ -143,10 +143,10 @@ public class GUI_QuitarEntidadHija extends javax.swing.JDialog  implements KeyLi
 		if(this.getRelacion().getListaEntidadesYAridades().size()<=1)
 			JOptionPane.showMessageDialog(
 					null,
-					(Lenguaje.getMensaje(Lenguaje.ERROR))+"\n" +
-					(Lenguaje.getMensaje(Lenguaje.IMPOSIBLE_QUIT_DAUGHTER_ENTITY))+"\n" +
-					(Lenguaje.getMensaje(Lenguaje.NO_DAUGHTER_ENTITY))+"\n",
-					Lenguaje.getMensaje(Lenguaje.QUIT_DAUGHTER_ENTITY),
+					(Lenguaje.text(Lenguaje.ERROR))+"\n" +
+					(Lenguaje.text(Lenguaje.IMPOSIBLE_QUIT_DAUGHTER_ENTITY))+"\n" +
+					(Lenguaje.text(Lenguaje.NO_DAUGHTER_ENTITY))+"\n",
+					Lenguaje.text(Lenguaje.QUIT_DAUGHTER_ENTITY),
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
 		else{
@@ -240,7 +240,7 @@ public class GUI_QuitarEntidadHija extends javax.swing.JDialog  implements KeyLi
 	private JTextPane getExplicacion() {
 		if(explicacion == null) {
 			explicacion = new JTextPane();
-			explicacion.setText(Lenguaje.getMensaje(Lenguaje.SELECT_DAUGHTER_TO_QUIT));
+			explicacion.setText(Lenguaje.text(Lenguaje.SELECT_DAUGHTER_TO_QUIT));
 			explicacion.setBounds(125, 12, 235, 20);
 			explicacion.setEditable(false);
 			explicacion.setOpaque(false);
@@ -252,7 +252,7 @@ public class GUI_QuitarEntidadHija extends javax.swing.JDialog  implements KeyLi
 	private JButton getBotonCancelar() {
 		if(botonCancelar == null) {
 			botonCancelar = new JButton();
-			botonCancelar.setText(Lenguaje.getMensaje(Lenguaje.CANCEL));
+			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
 			botonCancelar.setBounds(280, 91, 80, 25);
 			botonCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -268,7 +268,7 @@ public class GUI_QuitarEntidadHija extends javax.swing.JDialog  implements KeyLi
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonCancelar.setMnemonic(Lenguaje.getMensaje(Lenguaje.CANCEL).charAt(0));
+			botonCancelar.setMnemonic(Lenguaje.text(Lenguaje.CANCEL).charAt(0));
 		}
 		return botonCancelar;
 	}
@@ -276,7 +276,7 @@ public class GUI_QuitarEntidadHija extends javax.swing.JDialog  implements KeyLi
 	private JButton getBotonQuitar() {
 		if(botonQuitar == null) {
 			botonQuitar = new JButton();
-			botonQuitar.setText(Lenguaje.getMensaje(Lenguaje.REMOVE));
+			botonQuitar.setText(Lenguaje.text(Lenguaje.REMOVE));
 			botonQuitar.setBounds(189, 91, 80, 25);
 			botonQuitar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -292,7 +292,7 @@ public class GUI_QuitarEntidadHija extends javax.swing.JDialog  implements KeyLi
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonQuitar.setMnemonic(Lenguaje.getMensaje(Lenguaje.REMOVE).charAt(0));
+			botonQuitar.setMnemonic(Lenguaje.text(Lenguaje.REMOVE).charAt(0));
 		}
 		return botonQuitar;
 	}

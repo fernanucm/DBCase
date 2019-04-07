@@ -459,8 +459,8 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 		int respuesta = 1;
 		if (seleccionados > 1) {
 			respuesta = this.controlador.getPanelOpciones().setActiva(
-					Lenguaje.getMensaje(Lenguaje.DELETE_ALL_NODES) + "\n" + Lenguaje.getMensaje(Lenguaje.WISH_CONTINUE),
-					Lenguaje.getMensaje(Lenguaje.DBCASE_DELETE), false,
+					Lenguaje.text(Lenguaje.DELETE_ALL_NODES) + "\n" + Lenguaje.text(Lenguaje.WISH_CONTINUE),
+					Lenguaje.text(Lenguaje.DBCASE_DELETE), false,
 					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.WARNING)));
 		}
 		if (respuesta == 0 || seleccionados == 1) {
@@ -854,7 +854,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 			this.removeAll();
 			if (nodo == null) { // Si se pide null es que ha pinchado en el área libre
 				// Insertar una entidad
-				JMenuItem j1 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_ENTITY));
+				JMenuItem j1 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_ENTITY));
 
 				j1.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -867,7 +867,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 				this.add(new JSeparator());
 
 				// Insertar una relacion normal
-				JMenuItem j2 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_RELATION));
+				JMenuItem j2 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_RELATION));
 
 				j2.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -881,7 +881,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 
 				// Insertar una relacion IsA
 
-				JMenuItem j3 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_ISARELATION));
+				JMenuItem j3 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_ISARELATION));
 				j3.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
@@ -894,7 +894,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 
 				// Insertar un dominio
 
-				JMenuItem j4 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_DOMAIN));
+				JMenuItem j4 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_DOMAIN));
 				j4.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
@@ -912,7 +912,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 
 			if (nodo instanceof TransferEntidad) { // Si es entidad
 				// Anadir un atributo a una entidad
-				JMenuItem j3 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_ATTRIBUTE));
+				JMenuItem j3 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_ATTRIBUTE));
 				j3.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
@@ -925,7 +925,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 				this.add(new JSeparator());
 
 				// Renombrar la entidad
-				JMenuItem j1 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.RENAME_ENTITY));
+				JMenuItem j1 = new JMenuItem(Lenguaje.text(Lenguaje.RENAME_ENTITY));
 				j1.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
@@ -940,7 +940,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 				// Si sólo está seleccionada la entidad..
 				PickedState<Transfer> p = vv.getPickedVertexState();
 				if (p.getPicked().size() < 2) {
-					JMenuItem j4 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.DELETE_ENT));
+					JMenuItem j4 = new JMenuItem(Lenguaje.text(Lenguaje.DELETE_ENT));
 					j4.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
@@ -954,7 +954,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					});
 					this.add(j4);
 				} else {
-					JMenuItem j4 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.DELETE));
+					JMenuItem j4 = new JMenuItem(Lenguaje.text(Lenguaje.DELETE));
 					j4.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							suprimir();
@@ -965,7 +965,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 				this.add(new JSeparator());
 
 				// Añadir restricciones
-				JMenuItem j5 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.RESTRICTIONS));
+				JMenuItem j5 = new JMenuItem(Lenguaje.text(Lenguaje.RESTRICTIONS));
 				j5.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
@@ -978,7 +978,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 				this.add(j5);
 
 				// Añadir tablaUnique
-				JMenuItem j6 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.TABLE_UNIQUE));
+				JMenuItem j6 = new JMenuItem(Lenguaje.text(Lenguaje.TABLE_UNIQUE));
 				j6.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
@@ -992,7 +992,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 
 			if (nodo instanceof TransferAtributo) { // Si es atributo
 				// Editar el dominio del atributo
-				JMenuItem j2 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.EDIT_DOMAIN));
+				JMenuItem j2 = new JMenuItem(Lenguaje.text(Lenguaje.EDIT_DOMAIN));
 				j2.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
@@ -1004,7 +1004,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 				this.add(j2);
 
 				// Renombrar un atributo
-				JMenuItem j1 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.RENAME_ATTRIB));
+				JMenuItem j1 = new JMenuItem(Lenguaje.text(Lenguaje.RENAME_ATTRIB));
 				j1.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
@@ -1024,7 +1024,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					seleccionados++;
 				}
 				if (seleccionados < 2) {
-					JMenuItem j7 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.DELETE_ATTRIB));
+					JMenuItem j7 = new JMenuItem(Lenguaje.text(Lenguaje.DELETE_ATTRIB));
 					j7.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
@@ -1038,7 +1038,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					});
 					this.add(j7);
 				} else {
-					JMenuItem j7 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.DELETE));
+					JMenuItem j7 = new JMenuItem(Lenguaje.text(Lenguaje.DELETE));
 					j7.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							suprimir();
@@ -1054,7 +1054,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 				final TransferEntidad ent = esAtributoDirecto((TransferAtributo) nodo);
 				if (ent != null) {
 					JCheckBoxMenuItem j6 = new JCheckBoxMenuItem(
-							Lenguaje.getMensaje(Lenguaje.IS_PRIMARY_KEY) + " \"" + ent.getNombre() + "\"");
+							Lenguaje.text(Lenguaje.IS_PRIMARY_KEY) + " \"" + ent.getNombre() + "\"");
 					if (((TransferAtributo) nodo).isClavePrimaria())
 						j6.setSelected(true);
 					j6.addActionListener(new java.awt.event.ActionListener() {
@@ -1073,7 +1073,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					this.add(j6);
 				}
 				// Es un atributo compuesto
-				JCheckBoxMenuItem j3 = new JCheckBoxMenuItem(Lenguaje.getMensaje(Lenguaje.COMPOSED));
+				JCheckBoxMenuItem j3 = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.COMPOSED));
 				final boolean notnul = ((TransferAtributo) nodo).getNotnull();
 				final boolean unique = ((TransferAtributo) nodo).getUnique();
 				if (((TransferAtributo) nodo).getCompuesto())
@@ -1101,7 +1101,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 
 				// Si es compuesto
 				if (((TransferAtributo) nodo).getCompuesto()) {
-					JMenuItem j4 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_SUBATTRIBUTE));
+					JMenuItem j4 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_SUBATTRIBUTE));
 					j4.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
@@ -1117,7 +1117,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 
 				// Es un atributo NotNull
 				if (!((TransferAtributo) nodo).getCompuesto() && !((TransferAtributo) nodo).isClavePrimaria()) {
-					JCheckBoxMenuItem j3a = new JCheckBoxMenuItem(Lenguaje.getMensaje(Lenguaje.NOT_NULL));
+					JCheckBoxMenuItem j3a = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.NOT_NULL));
 					if (((TransferAtributo) nodo).getNotnull())
 						j3a.setSelected(true);
 					else
@@ -1136,7 +1136,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 				}
 				// Es un atributo Unique
 				if (!((TransferAtributo) nodo).getCompuesto() && !((TransferAtributo) nodo).isClavePrimaria()) {
-					JCheckBoxMenuItem j3b = new JCheckBoxMenuItem(Lenguaje.getMensaje(Lenguaje.UNIQUE));
+					JCheckBoxMenuItem j3b = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.UNIQUE));
 					if (((TransferAtributo) nodo).getUnique())
 						j3b.setSelected(true);
 					else
@@ -1156,7 +1156,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 
 				// Es un atributo multivalorado
 				if (!((TransferAtributo) nodo).isClavePrimaria()) {
-					JCheckBoxMenuItem j5 = new JCheckBoxMenuItem(Lenguaje.getMensaje(Lenguaje.IS_MULTIVALUATED));
+					JCheckBoxMenuItem j5 = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.IS_MULTIVALUATED));
 					if (((TransferAtributo) nodo).isMultivalorado())
 						j5.setSelected(true);
 					else
@@ -1174,7 +1174,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 				}
 				this.add(new JSeparator());
 				// Añadir restricciones
-				JMenuItem j8 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.RESTRICTIONS));
+				JMenuItem j8 = new JMenuItem(Lenguaje.text(Lenguaje.RESTRICTIONS));
 				j8.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
@@ -1191,7 +1191,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 				// Si es una relacion IsA
 				if (((TransferRelacion) nodo).getTipo().equals("IsA")) {
 
-					this.add(new JMenu().add(new AbstractAction(Lenguaje.getMensaje(Lenguaje.SET_PARENT_ENT)) {
+					this.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.SET_PARENT_ENT)) {
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 							TransferRelacion relacion = (TransferRelacion) menu.nodo;
@@ -1200,7 +1200,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 									clon_relacion);
 						}
 					}));
-					this.add(new JMenu().add(new AbstractAction(Lenguaje.getMensaje(Lenguaje.REMOVE_PARENT_ENT)) {
+					this.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.REMOVE_PARENT_ENT)) {
 						private static final long serialVersionUID = 8766595520619916135L;
 
 						public void actionPerformed(ActionEvent e) {
@@ -1214,7 +1214,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 
 					this.add(new JSeparator());
 
-					this.add(new JMenu().add(new AbstractAction(Lenguaje.getMensaje(Lenguaje.ADD_CHILD_ENT)) {
+					this.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.ADD_CHILD_ENT)) {
 						private static final long serialVersionUID = 8766595520619916135L;
 
 						public void actionPerformed(ActionEvent e) {
@@ -1225,7 +1225,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 						}
 					}));
 
-					this.add(new JMenu().add(new AbstractAction(Lenguaje.getMensaje(Lenguaje.REMOVE_CHILD_ENT)) {
+					this.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.REMOVE_CHILD_ENT)) {
 						private static final long serialVersionUID = 8766595520619916135L;
 
 						public void actionPerformed(ActionEvent e) {
@@ -1244,7 +1244,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					for (@SuppressWarnings("unused")Transfer t : p.getPicked()) seleccionados++;
 					
 					if (seleccionados < 2) {
-						this.add(new JMenu().add(new AbstractAction(Lenguaje.getMensaje(Lenguaje.DELETE_REL)) {
+						this.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.DELETE_REL)) {
 							public void actionPerformed(ActionEvent e) {
 								PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
 								TransferRelacion relacion = (TransferRelacion) menu.nodo;
@@ -1257,7 +1257,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 						}));
 
 					} else {
-						JMenuItem j6 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.DELETE));
+						JMenuItem j6 = new JMenuItem(Lenguaje.text(Lenguaje.DELETE));
 						j6.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								suprimir();
@@ -1271,7 +1271,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 				// Si es una relacion "Normal"
 				else {
 					// Anadir una entidad
-					JMenuItem j3 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_ENT));
+					JMenuItem j3 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_ENT));
 					if (((TransferRelacion) nodo).getTipo().equals("Debil"))
 						j3.setEnabled(false);
 					else {
@@ -1288,7 +1288,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					this.add(j3);
 
 					// Quitar una entidad
-					JMenuItem j4 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.REMOVE_ENTITY));
+					JMenuItem j4 = new JMenuItem(Lenguaje.text(Lenguaje.REMOVE_ENTITY));
 					// Si es débil
 					if (((TransferRelacion) nodo).getTipo().equals("Debil"))
 						j4.setEnabled(false);
@@ -1307,7 +1307,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					this.add(j4);
 
 					// Editar la aridad de una entidad
-					JMenuItem j5 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.EDIT_CARD_ROL));
+					JMenuItem j5 = new JMenuItem(Lenguaje.text(Lenguaje.EDIT_CARD_ROL));
 					if (((TransferRelacion) nodo).getTipo().equals("Debil"))
 						j5.setEnabled(false);
 					else {
@@ -1326,7 +1326,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					this.add(new JSeparator());
 
 					// Anadir un atributo a la relacion
-					JMenuItem j6 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.ADD_ATTRIBUTE));
+					JMenuItem j6 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_ATTRIBUTE));
 					if (((TransferRelacion) nodo).getTipo().equals("Debil"))
 						j6.setEnabled(false);
 					else {
@@ -1345,7 +1345,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					this.add(new JSeparator());
 
 					// Renombrar la relacion
-					JMenuItem j1 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.RENAME_RELATION));
+					JMenuItem j1 = new JMenuItem(Lenguaje.text(Lenguaje.RENAME_RELATION));
 					j1.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
@@ -1365,7 +1365,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 						seleccionados++;
 					}
 					if (seleccionados < 2) {
-						JMenuItem j7 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.DELETE_REL));
+						JMenuItem j7 = new JMenuItem(Lenguaje.text(Lenguaje.DELETE_REL));
 						j7.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
@@ -1379,7 +1379,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 						});
 						this.add(j7);
 					} else {
-						JMenuItem j7 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.DELETE));
+						JMenuItem j7 = new JMenuItem(Lenguaje.text(Lenguaje.DELETE));
 						j7.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								suprimir();
@@ -1390,7 +1390,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					this.add(new JSeparator());
 
 					// Añadir restricciones
-					JMenuItem j8 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.RESTRICTIONS));
+					JMenuItem j8 = new JMenuItem(Lenguaje.text(Lenguaje.RESTRICTIONS));
 					j8.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
@@ -1402,7 +1402,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					});
 					this.add(j8);
 					// Añadir tablaUnique
-					JMenuItem j9 = new JMenuItem(Lenguaje.getMensaje(Lenguaje.TABLE_UNIQUE));
+					JMenuItem j9 = new JMenuItem(Lenguaje.text(Lenguaje.TABLE_UNIQUE));
 					j9.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();

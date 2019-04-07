@@ -68,7 +68,7 @@ public class GUI_AnadirAtributoRelacion extends javax.swing.JDialog implements K
 	}
 
 	private void initComponents() {
-		setTitle(Lenguaje.getMensaje(Lenguaje.INSERT_ATTRIBUTE));
+		setTitle(Lenguaje.text(Lenguaje.INSERT_ATTRIBUTE));
 		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
 		setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 		setResizable(false);
@@ -359,7 +359,7 @@ public class GUI_AnadirAtributoRelacion extends javax.swing.JDialog implements K
 	private JTextPane getExplicacion() {
 		if(explicacion == null) {
 			explicacion = new JTextPane();
-			explicacion.setText(Lenguaje.getMensaje(Lenguaje.NAME));
+			explicacion.setText(Lenguaje.text(Lenguaje.NAME));
 			explicacion.setBounds(130, 25, 232, 20);
 			explicacion.setEditable(false);
 			explicacion.setOpaque(false);
@@ -389,7 +389,7 @@ public class GUI_AnadirAtributoRelacion extends javax.swing.JDialog implements K
 	private JCheckBox getOpcionCompuesto() {
 		if(opcionCompuesto == null) {
 			opcionCompuesto = new JCheckBox();
-			opcionCompuesto.setText(Lenguaje.getMensaje(Lenguaje.COMPOSITE_ATTRIBUTE));
+			opcionCompuesto.setText(Lenguaje.text(Lenguaje.COMPOSITE_ATTRIBUTE));
 			opcionCompuesto.setBounds(142, 118, 220, 18);
 			opcionCompuesto.setOpaque(false);
 			opcionCompuesto.setBorderPaintedFlat(true);
@@ -413,7 +413,7 @@ public class GUI_AnadirAtributoRelacion extends javax.swing.JDialog implements K
 	private JCheckBox getOpcionNotnull() {
 		if(opcionNotnull == null) {
 			opcionNotnull = new JCheckBox();
-			opcionNotnull.setText(Lenguaje.getMensaje(Lenguaje.NOT_NULL_ATTRIBUTE));
+			opcionNotnull.setText(Lenguaje.text(Lenguaje.NOT_NULL_ATTRIBUTE));
 			opcionNotnull.setBounds(142, 138, 220, 18);
 			opcionNotnull.setOpaque(false);
 			opcionNotnull.setBorderPaintedFlat(true);
@@ -432,7 +432,7 @@ public class GUI_AnadirAtributoRelacion extends javax.swing.JDialog implements K
 	private JCheckBox getOpcionUnique() {
 		if(opcionUnique == null) {
 			opcionUnique = new JCheckBox();
-			opcionUnique.setText(Lenguaje.getMensaje(Lenguaje.UNIQUE_ATTRIBUTE));
+			opcionUnique.setText(Lenguaje.text(Lenguaje.UNIQUE_ATTRIBUTE));
 			opcionUnique.setBounds(142, 158, 220, 18);
 			opcionUnique.setOpaque(false);
 			opcionUnique.setBorderPaintedFlat(true);
@@ -451,7 +451,7 @@ public class GUI_AnadirAtributoRelacion extends javax.swing.JDialog implements K
 	private JCheckBox getOpcionMultivalorado() {
 		if(opcionMultivalorado == null) {
 			opcionMultivalorado = new JCheckBox();
-			opcionMultivalorado.setText(Lenguaje.getMensaje(Lenguaje.VALUE_ATTRIBUTE));
+			opcionMultivalorado.setText(Lenguaje.text(Lenguaje.VALUE_ATTRIBUTE));
 			opcionMultivalorado.setBounds(142, 178, 221, 18);
 			opcionMultivalorado.setOpaque(false);
 			opcionMultivalorado.setBorderPaintedFlat(true);
@@ -470,7 +470,7 @@ public class GUI_AnadirAtributoRelacion extends javax.swing.JDialog implements K
 	private JTextPane getJTextPane2() {
 		if(jTextPane2 == null) {
 			jTextPane2 = new JTextPane();
-			jTextPane2.setText(Lenguaje.getMensaje(Lenguaje.DOMAIN_ATTRIBUTE));
+			jTextPane2.setText(Lenguaje.text(Lenguaje.DOMAIN_ATTRIBUTE));
 			jTextPane2.setEditable(false);
 			jTextPane2.setOpaque(false);
 			jTextPane2.setBounds(129, 228, 231, 20);
@@ -506,7 +506,7 @@ public class GUI_AnadirAtributoRelacion extends javax.swing.JDialog implements K
 	private JLabel getLabelTamano() {
 		if(labelTamano == null) {
 			labelTamano = new JLabel();
-			labelTamano.setText(Lenguaje.getMensaje(Lenguaje.SIZE_ATTRIBUTE));
+			labelTamano.setText(Lenguaje.text(Lenguaje.SIZE_ATTRIBUTE));
 			labelTamano.setBounds(129, 281, 67, 14);
 		}
 		return labelTamano;
@@ -515,7 +515,7 @@ public class GUI_AnadirAtributoRelacion extends javax.swing.JDialog implements K
 	private JButton getBotonAnadir() {
 		if(botonAnadir == null) {
 			botonAnadir = new JButton();
-			botonAnadir.setText(Lenguaje.getMensaje(Lenguaje.INSERT));
+			botonAnadir.setText(Lenguaje.text(Lenguaje.INSERT));
 			botonAnadir.setBounds(196, 343, 80, 25);
 			botonAnadir.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -531,7 +531,7 @@ public class GUI_AnadirAtributoRelacion extends javax.swing.JDialog implements K
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonAnadir.setMnemonic(Lenguaje.getMensaje(Lenguaje.INSERT).charAt(0));
+			botonAnadir.setMnemonic(Lenguaje.text(Lenguaje.INSERT).charAt(0));
 		}
 		return botonAnadir;
 	}
@@ -539,7 +539,7 @@ public class GUI_AnadirAtributoRelacion extends javax.swing.JDialog implements K
 	private JButton getBotonCancelar() {
 		if(botonCancelar == null) {
 			botonCancelar = new JButton();
-			botonCancelar.setText(Lenguaje.getMensaje(Lenguaje.CANCEL));
+			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
 			botonCancelar.setBounds(281, 343, 80, 25);
 			botonCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -555,7 +555,7 @@ public class GUI_AnadirAtributoRelacion extends javax.swing.JDialog implements K
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonCancelar.setMnemonic(Lenguaje.getMensaje(Lenguaje.CANCEL).charAt(0));
+			botonCancelar.setMnemonic(Lenguaje.text(Lenguaje.CANCEL).charAt(0));
 		}
 		return botonCancelar;
 	}

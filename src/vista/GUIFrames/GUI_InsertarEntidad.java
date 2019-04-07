@@ -67,7 +67,7 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 	private void initComponents() {
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setTitle(Lenguaje.getMensaje(Lenguaje.INSERT_ENTITY));
+		setTitle(Lenguaje.text(Lenguaje.INSERT_ENTITY));
 		setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
 		setResizable(false);
 		setModal(true);
@@ -76,7 +76,7 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 		{
 			botonCancelar = new JButton();
 			getContentPane().add(botonCancelar);
-			botonCancelar.setText(Lenguaje.getMensaje(Lenguaje.CANCEL));
+			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
 			botonCancelar.setBounds(262, 140, 80, 25);
 			botonCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -92,12 +92,12 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonCancelar.setMnemonic(Lenguaje.getMensaje(Lenguaje.CANCEL).charAt(0));
+			botonCancelar.setMnemonic(Lenguaje.text(Lenguaje.CANCEL).charAt(0));
 		}
 		{
 			botonInsertar = new JButton();
 			getContentPane().add(botonInsertar);
-			botonInsertar.setText(Lenguaje.getMensaje(Lenguaje.INSERT));
+			botonInsertar.setText(Lenguaje.text(Lenguaje.INSERT));
 			botonInsertar.setBounds(171, 140, 80, 25);
 			botonInsertar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -113,7 +113,7 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonInsertar.setMnemonic(Lenguaje.getMensaje(Lenguaje.INSERT).charAt(0));
+			botonInsertar.setMnemonic(Lenguaje.text(Lenguaje.INSERT).charAt(0));
 		}
 		{
 			/*labelIcono = new JLabel();
@@ -124,7 +124,7 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 		{
 			explicacion = new JTextPane();
 			getContentPane().add(explicacion);
-			explicacion.setText(Lenguaje.getMensaje(Lenguaje.WRITE_ENTITY_NAME));
+			explicacion.setText(Lenguaje.text(Lenguaje.WRITE_ENTITY_NAME));
 			explicacion.setEditable(false);
 			explicacion.setOpaque(false);
 			explicacion.setBounds(26, 12, 67, 21);
@@ -140,7 +140,7 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 		{
 			CasillaEsDebil = new JCheckBox();
 			getContentPane().add(CasillaEsDebil);
-			CasillaEsDebil.setText(Lenguaje.getMensaje(Lenguaje.WEAK_ENTITY));
+			CasillaEsDebil.setText(Lenguaje.text(Lenguaje.WEAK_ENTITY));
 			CasillaEsDebil.setBounds(126, 48, 125, 22);
 			CasillaEsDebil.setOpaque(false);
 			CasillaEsDebil.setBorderPaintedFlat(true);
@@ -167,7 +167,7 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 						//Los ordenamos alfabeticamente
 						quicksort((Vector<String>)items);
 						if(items.size() == 0){
-							JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.CREATE_STRONG_ENTITY), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+							JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.CREATE_STRONG_ENTITY), Lenguaje.text(Lenguaje.ERROR), 0);
 						}
 						else{
 							ampliarVentana();
@@ -210,7 +210,7 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 		{
 			selecFuerte = new JTextPane();
 			getContentPane().add(selecFuerte);
-			selecFuerte.setText(Lenguaje.getMensaje(Lenguaje.SELECT_STRONG_ENTITY));
+			selecFuerte.setText(Lenguaje.text(Lenguaje.SELECT_STRONG_ENTITY));
 			selecFuerte.setBounds(124, 78, 250, 36);
 			selecFuerte.setOpaque(false);
 			selecFuerte.setEditable(false);
@@ -231,7 +231,7 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 		{
 			nombreRelacion = new JTextPane();
 			getContentPane().add(nombreRelacion);
-			nombreRelacion.setText(Lenguaje.getMensaje(Lenguaje.WRITE_RELATION_WEAK));
+			nombreRelacion.setText(Lenguaje.text(Lenguaje.WRITE_RELATION_WEAK));
 			nombreRelacion.setBounds(124, 130, 180, 31);
 			nombreRelacion.setEditable(false);
 			nombreRelacion.setEnabled(false);
@@ -379,7 +379,7 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 			this.controlador.mensajeDesde_GUI(TC.GUIAnadirEntidadARelacion_ClickBotonAnadir,w);
 		}
 		if(items.size() == 0)
-			JOptionPane.showMessageDialog(null, Lenguaje.getMensaje(Lenguaje.CREATE_STRONG_ENTITY), Lenguaje.getMensaje(Lenguaje.ERROR), 0);
+			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.CREATE_STRONG_ENTITY), Lenguaje.text(Lenguaje.ERROR), 0);
 	}
 
 	private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {                                              

@@ -36,8 +36,8 @@ public class ConectorAccessMdb extends ConectorAccessOdbc {
 		try {
 			Class.forName(driver);
 		} catch (ClassNotFoundException e) {
-			System.err.println(Lenguaje.getMensaje(Lenguaje.NO_CONECTOR));
-			throw new SQLException(Lenguaje.getMensaje(Lenguaje.NO_CONECTOR));
+			System.err.println(Lenguaje.text(Lenguaje.NO_CONECTOR));
+			throw new SQLException(Lenguaje.text(Lenguaje.NO_CONECTOR));
 		}
 
 		// Eiminar la base de datos, y crear una nueva
@@ -49,10 +49,10 @@ public class ConectorAccessMdb extends ConectorAccessOdbc {
 		boolean creado = copyfile("/data/void.mdb", nombre);
 		if (!creado) {
 			JOptionPane.showMessageDialog(null,
-					Lenguaje.getMensaje(Lenguaje.ERROR)+".\n" +
+					Lenguaje.text(Lenguaje.ERROR)+".\n" +
 					"File could not be created. Check permissions and " + 
 					"that there is space enough in the hard drive.", // TODO Internacionalizar
-					Lenguaje.getMensaje(Lenguaje.DBCASE),
+					Lenguaje.text(Lenguaje.DBCASE),
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
 			return;

@@ -29,7 +29,7 @@ public class LineaRecta<V,E> {
 	
 	@SuppressWarnings("unchecked")
 	public LineaRecta(RenderContext<V,E> rc, Layout<V,E> layout, E e,String nombre1, Graph<V,E> graph, boolean diagonal,
-			String nombre2,int tipo1,int tipo2,int numApariciones, int vuelta, float thetaRadians, V v1, V v2,
+			String nombre2, int numApariciones, int vuelta, float thetaRadians, V v1, V v2,
 			float xIsA, float yIsA, float xEnti, float yEnti, float dx, float dy, GraphicsDecorator g) {
 		
 		
@@ -54,56 +54,14 @@ public class LineaRecta<V,E> {
         //Calculo el ancho mínimo entre la relación y la entidad.
         int ancho = Math.min(nombre1.length(),nombre2.length());
         //Hay que saber si el ancho mínimo es de la entidad o de la relación
-        if(ancho == nombre1.length()){
-        	if (tipo1==1){
-        		xCentro = xIsA;
-        		yCentro = yIsA;
-        		xNoCentro = xEnti;
-        		yNoCentro = yEnti;
-        		anchoNoCentro = nombre2.length();
-        	}
-        	else if(tipo1==3){
-        		xCentro = xIsA;
-        		yCentro = yIsA;
-        		xNoCentro = xEnti;
-        		yNoCentro = yEnti;
-        		anchoNoCentro = nombre2.length();
-        	}
-        	else{
-        		xCentro = xIsA;
-        		yCentro = yIsA;
-        		xNoCentro = xEnti;
-        		yNoCentro = yEnti;
-        		anchoNoCentro = nombre2.length();
-        	}
-        }
-        else{
-        	//Es una relacion
-        	if (tipo2==1){
-        		xCentro = xEnti;
-        		yCentro = yEnti;
-        		xNoCentro = xIsA;
-        		yNoCentro = yIsA;
-        		anchoNoCentro=nombre1.length();
-        	}
-        	//Es un atributo
-        	else if(tipo2==3){
-        		xCentro = xIsA;
-        		yCentro = yIsA;
-        		xNoCentro = xEnti;
-        		yNoCentro = yEnti;
-        		anchoNoCentro=nombre2.length();
-        	}
-        	//Es una entidad
-        	else{
-        		xCentro = xIsA;
-        		yCentro = yIsA;
-        		xNoCentro = xEnti;
-        		yNoCentro = yEnti;
-        		anchoNoCentro=nombre2.length();
-        	}
-        	//anchoNoCentro=nombre2.length();//habia un 1
-        }
+        xCentro = xIsA;
+		yCentro = yIsA;
+		xNoCentro = xEnti;
+		yNoCentro = yEnti;
+        if(ancho == nombre1.length()) anchoNoCentro = nombre2.length();
+        else anchoNoCentro=nombre2.length();
+       	
+        
         //Si el ancho  es menor que 8 la figura tiene un tamaño fijo
         if(ancho < 8){
         	ancho = 45;
@@ -123,8 +81,7 @@ public class LineaRecta<V,E> {
         else{
         	anchoNoCentro = (anchoNoCentro *5) +5;
         	altoNoCentro = 20;
-        }
-             
+        }    
         
         //Dependiendo de la situación relativa entre la 
        AffineTransform xform = null;

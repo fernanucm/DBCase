@@ -27,7 +27,7 @@ public class ConectorOracle extends ConectorDBMS {
 		try {
 			Class.forName(driver);
 		} catch (ClassNotFoundException e) {
-			System.err.println(Lenguaje.getMensaje(Lenguaje.NO_CONECTOR));
+			System.err.println(Lenguaje.text(Lenguaje.NO_CONECTOR));
 			e.printStackTrace();
 			
 			return;

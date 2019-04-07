@@ -79,7 +79,7 @@ public class GUI_InsertarRestriccionARelacion extends javax.swing.JDialog  imple
 				TableModel tablaModel = 
 					new DefaultTableModel(
 							new String[][] { { "" } },
-							new String[] { Lenguaje.getMensaje(Lenguaje.RESTRICTIONS)+":" });
+							new String[] { Lenguaje.text(Lenguaje.RESTRICTIONS)+":" });
 				tabla = new JTable();
 				jScrollPane1.setViewportView(tabla);
 				tabla.setModel(tablaModel);
@@ -90,7 +90,7 @@ public class GUI_InsertarRestriccionARelacion extends javax.swing.JDialog  imple
 		{
 			botonAceptar = new JButton();
 			getContentPane().add(botonAceptar);
-			botonAceptar.setText(Lenguaje.getMensaje(Lenguaje.ACCEPT));
+			botonAceptar.setText(Lenguaje.text(Lenguaje.ACCEPT));
 			botonAceptar.setBounds(288, 291, 80, 25);
 			botonAceptar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -106,12 +106,12 @@ public class GUI_InsertarRestriccionARelacion extends javax.swing.JDialog  imple
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonAceptar.setMnemonic(Lenguaje.getMensaje(Lenguaje.ACCEPT).charAt(0));
+			botonAceptar.setMnemonic(Lenguaje.text(Lenguaje.ACCEPT).charAt(0));
 		}
 		{
 			botonCancelar = new JButton();
 			getContentPane().add(botonCancelar);
-			botonCancelar.setText(Lenguaje.getMensaje(Lenguaje.CANCEL));
+			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
 			botonCancelar.setBounds(379, 291, 80, 25);
 			botonCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -127,12 +127,12 @@ public class GUI_InsertarRestriccionARelacion extends javax.swing.JDialog  imple
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonCancelar.setMnemonic(Lenguaje.getMensaje(Lenguaje.CANCEL).charAt(0));
+			botonCancelar.setMnemonic(Lenguaje.text(Lenguaje.CANCEL).charAt(0));
 		}
 		{
 			botonNueva = new JButton();
 			getContentPane().add(botonNueva);
-			botonNueva.setText(Lenguaje.getMensaje(Lenguaje.NEW));
+			botonNueva.setText(Lenguaje.text(Lenguaje.NEW));
 			botonNueva.setBounds(288, 237, 80, 25);
 			botonNueva.addKeyListener(new KeyAdapter() {
 				@Override
@@ -150,12 +150,12 @@ public class GUI_InsertarRestriccionARelacion extends javax.swing.JDialog  imple
 					botonNuevaActionPerformed(evt);
 				}
 			});
-			botonNueva.setMnemonic(Lenguaje.getMensaje(Lenguaje.NEW).charAt(0));
+			botonNueva.setMnemonic(Lenguaje.text(Lenguaje.NEW).charAt(0));
 		}
 		{
 			botonEliminar = new JButton();
 			getContentPane().add(botonEliminar);
-			botonEliminar.setText(Lenguaje.getMensaje(Lenguaje.DELETE));
+			botonEliminar.setText(Lenguaje.text(Lenguaje.DELETE));
 			botonEliminar.setBounds(379, 237, 80, 25);
 			botonEliminar.addKeyListener(new KeyAdapter() {
 				@Override
@@ -173,13 +173,13 @@ public class GUI_InsertarRestriccionARelacion extends javax.swing.JDialog  imple
 					botonEliminarActionPerformed(evt);
 				}
 			});
-			botonEliminar.setMnemonic(Lenguaje.getMensaje(Lenguaje.DELETE).charAt(0));
+			botonEliminar.setMnemonic(Lenguaje.text(Lenguaje.DELETE).charAt(0));
 		}
 
 		this.addMouseListener(this);TableModel tablaModel = 
 			new DefaultTableModel(
 					new String[][] { { "" } },
-					new String[] { Lenguaje.getMensaje(Lenguaje.RESTRICTIONS)+":" });
+					new String[] { Lenguaje.text(Lenguaje.RESTRICTIONS)+":" });
 		tabla = new JTable();
 		jScrollPane1.setViewportView(tabla);
 		tabla.setModel(tablaModel);
@@ -222,7 +222,7 @@ public class GUI_InsertarRestriccionARelacion extends javax.swing.JDialog  imple
 		TableModel tablaModel = 
 			new DefaultTableModel(
 				items,
-				new String[] { Lenguaje.getMensaje(Lenguaje.RESTRICTIONS)+":" });
+				new String[] { Lenguaje.text(Lenguaje.RESTRICTIONS)+":" });
 		tabla.setModel(tablaModel);
 	}
 	
@@ -242,7 +242,7 @@ public class GUI_InsertarRestriccionARelacion extends javax.swing.JDialog  imple
 			TableModel tablaModel = 
 				new DefaultTableModel(
 						items,
-						new String[] { Lenguaje.getMensaje(Lenguaje.RESTRICTIONS)+":" });
+						new String[] { Lenguaje.text(Lenguaje.RESTRICTIONS)+":" });
 			tabla.setModel(tablaModel);
 			
 		}catch(Exception e){
@@ -286,7 +286,7 @@ public class GUI_InsertarRestriccionARelacion extends javax.swing.JDialog  imple
 	 */
 	public void setActiva(){
 		this.centraEnPantalla();
-		this.setTitle(Lenguaje.getMensaje(Lenguaje.ADD_RESTRICTIONS) + relacion.getNombre());
+		this.setTitle(Lenguaje.text(Lenguaje.ADD_RESTRICTIONS) + relacion.getNombre());
 		muestraRestricciones();
 		SwingUtilities.invokeLater(doFocus);
 		this.setVisible(true);
@@ -330,7 +330,7 @@ public class GUI_InsertarRestriccionARelacion extends javax.swing.JDialog  imple
 		TableModel tablaModel = 
 			new DefaultTableModel(
 					items,
-					new String[] { Lenguaje.getMensaje(Lenguaje.RESTRICTIONS)+":" });
+					new String[] { Lenguaje.text(Lenguaje.RESTRICTIONS)+":" });
 		tabla.setModel(tablaModel);
 	}
 	

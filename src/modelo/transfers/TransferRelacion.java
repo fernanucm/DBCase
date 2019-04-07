@@ -25,14 +25,14 @@ public class TransferRelacion extends Transfer {
 	public boolean isIsA() {
 		return getTipo().equals("IsA");
 	}
+	
 	public TransferRelacion clonar() {
 		TransferRelacion clon_tr = new TransferRelacion();
 		clon_tr.setIdRelacion(this.getIdRelacion());
 		clon_tr.setNombre(this.getNombre());
 		clon_tr.setTipo(this.getTipo());
 		clon_tr.setRol(this.getRol());
-		clon_tr.setListaEntidadesYAridades((Vector) this
-				.getListaEntidadesYAridades().clone());
+		clon_tr.setListaEntidadesYAridades((Vector) this.getListaEntidadesYAridades().clone());
 		clon_tr.setListaAtributos((Vector) this.getListaAtributos().clone());
 		if (!clon_tr.isIsA()){
 			clon_tr.setListaRestricciones((Vector) this.getListaRestricciones().clone());
@@ -43,6 +43,7 @@ public class TransferRelacion extends Transfer {
 		clon_tr.setFrecuencia(this.getFrecuencia());
 		return clon_tr;
 	}
+	
 	//Antes sólo tenía un parámetro, el primero; arg0
 	public void CopiarRelacion(TransferRelacion arg0,int idBuscado,Boolean repetido) {
 		this.idRelacion = arg0.getIdRelacion();
@@ -56,31 +57,23 @@ public class TransferRelacion extends Transfer {
 		this.listaUniques = arg0.getListaUniques();
 		this.rol=arg0.getRol();
 		//Si entidad ya está asociada con dicha relación, la línea que las unirá deberá ser diferente a la existente
-		 //Filtramos la lista de entidades quitando las entidades que ya estan
-			//Puesto que se van a permitir hacer relaciones circulares no filtramos la lista de entidades
-			//Vector<EntidadYAridad> vectorTupla = this.getRelacion().getListaEntidadesYAridades();
-			Vector<EntidadYAridad> vectorTupla = this.listaEntidadesYAridades;
-			Vector vectorIdsEntidades = new Vector();
-			int cont = 0;
-			while(cont<vectorTupla.size()){
-				vectorIdsEntidades.add((vectorTupla.get(cont)).getEntidad());
-				cont++;
-			}
-			cont = 0;
-			//Vector<TransferEntidad> listaEntidadesFiltrada = new Vector<TransferEntidad>();
-			int limite=this.getListaEntidadesYAridades().size();
-			while((cont<limite)&& (repetido==false)){
-				//TransferEntidad te = (TransferEntidad)this.listaEntidadesYAridades.get(cont);
-				//if(!vectorIdsEntidades.contains(te.getIdEntidad()))
-				if(vectorIdsEntidades.contains(idBuscado))
-					repetido=true;
-				//	listaEntidadesFiltrada.add(te);
-				cont++;
-			}
-		//this.setListaEntidades(listaEntidadesFiltrada);
+		//Filtramos la lista de entidades quitando las entidades que ya estan
+		//Puesto que se van a permitir hacer relaciones circulares no filtramos la lista de entidades
+		Vector<EntidadYAridad> vectorTupla = this.listaEntidadesYAridades;
+		Vector vectorIdsEntidades = new Vector();
+		int cont = 0;
+		while(cont<vectorTupla.size()){
+			vectorIdsEntidades.add((vectorTupla.get(cont)).getEntidad());
+			cont++;
+		}
+		cont = 0;
+		int limite=this.getListaEntidadesYAridades().size();
+		while((cont<limite) && (repetido==false)){
+			if(vectorIdsEntidades.contains(idBuscado)) repetido=true;
+			cont++;
+		}
 		if (repetido) this.posicion = new Point2D.Double(arg0.getPosicion().getX(), arg0.getPosicion().getY());
 		else this.posicion = new Point2D.Double(arg0.getPosicion().getX(), arg0.getPosicion().getY());
-			
 	}
 	
 	public void CopiarRelacionUnoUno(Vector v) {
@@ -91,13 +84,13 @@ public class TransferRelacion extends Transfer {
 		this.listaAtributos = (Vector)v.get(6);
 		this.rol = (String)v.get(8);
 		//Si entidad ya está asociada con dicha relación, la línea que las unirá deberá ser diferente a la existente
-			Vector<EntidadYAridad> vectorTupla = this.listaEntidadesYAridades;
-			Vector vectorIdsEntidades = new Vector();
-			int cont = 0;
-			while(cont<vectorTupla.size()){
-				vectorIdsEntidades.add((vectorTupla.get(cont)).getEntidad());
-				cont++;
-			}			
+		Vector<EntidadYAridad> vectorTupla = this.listaEntidadesYAridades;
+		Vector vectorIdsEntidades = new Vector();
+		int cont = 0;
+		while(cont<vectorTupla.size()){
+			vectorIdsEntidades.add((vectorTupla.get(cont)).getEntidad());
+			cont++;
+		}			
 	}
 
 	@Override
@@ -207,15 +200,19 @@ public class TransferRelacion extends Transfer {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
+	
 	public Vector getListaRestricciones() {
 		return listaRestricciones;
 	}
+	
 	public void setListaRestricciones(Vector listaRestricciones) {
 		this.listaRestricciones = listaRestricciones;
 	}
+	
 	public Vector getListaUniques() {
 		return listaUniques;
 	}
+	
 	public void setListaUniques(Vector listaUniques) {
 		this.listaUniques = listaUniques;
 	}
@@ -235,5 +232,11 @@ public class TransferRelacion extends Transfer {
 	public void setFrecuencia(int frecuencia) {
 		this.frecuencia = frecuencia;
 	}
-		
+
+	public EntidadYAridad getEntidadYAridad(int idEntidad) {
+		for(int i=0;i<listaEntidadesYAridades.size();i++)
+    		if(((EntidadYAridad) listaEntidadesYAridades.get(i)).getEntidad() == idEntidad)
+    			return (EntidadYAridad) listaEntidadesYAridades.get(i);
+		return null;
+	}
 }

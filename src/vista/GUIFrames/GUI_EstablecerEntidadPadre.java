@@ -60,7 +60,7 @@ public class GUI_EstablecerEntidadPadre extends javax.swing.JDialog  implements 
 	}
 
 	private void initComponents() {
-		this.setTitle((Lenguaje.getMensaje(Lenguaje.SET_PARENT_ENTITY)));
+		this.setTitle((Lenguaje.text(Lenguaje.SET_PARENT_ENTITY)));
 		setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
 		getContentPane().setLayout(null);
 		setModal(true);
@@ -84,10 +84,10 @@ public class GUI_EstablecerEntidadPadre extends javax.swing.JDialog  implements 
 		if(!this.getRelacion().getListaEntidadesYAridades().isEmpty())
 			JOptionPane.showMessageDialog(
 					null,
-					(Lenguaje.getMensaje(Lenguaje.ERROR))+"\n" +
-					(Lenguaje.getMensaje(Lenguaje.IMPOSIBLE_SET_PARENT))+"\n" +
-					(Lenguaje.getMensaje(Lenguaje.OTHER_PARENT))+"\n",
-					Lenguaje.getMensaje(Lenguaje.SET_PARENT_ENTITY),
+					(Lenguaje.text(Lenguaje.ERROR))+"\n" +
+					(Lenguaje.text(Lenguaje.IMPOSIBLE_SET_PARENT))+"\n" +
+					(Lenguaje.text(Lenguaje.OTHER_PARENT))+"\n",
+					Lenguaje.text(Lenguaje.SET_PARENT_ENTITY),
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
 		else{
@@ -97,10 +97,10 @@ public class GUI_EstablecerEntidadPadre extends javax.swing.JDialog  implements 
 			if(items.length == 0)
 				JOptionPane.showMessageDialog(
 						null,
-						(Lenguaje.getMensaje(Lenguaje.ERROR))+"\n" +
-						(Lenguaje.getMensaje(Lenguaje.IMPOSIBLE_SET_PARENT_IN_ISA))+"\n" +
-						(Lenguaje.getMensaje(Lenguaje.NO_ENTITIES_AVAILABLES))+"\n",
-						Lenguaje.getMensaje(Lenguaje.SET_PARENT_ENTITY),
+						(Lenguaje.text(Lenguaje.ERROR))+"\n" +
+						(Lenguaje.text(Lenguaje.IMPOSIBLE_SET_PARENT_IN_ISA))+"\n" +
+						(Lenguaje.text(Lenguaje.NO_ENTITIES_AVAILABLES))+"\n",
+						Lenguaje.text(Lenguaje.SET_PARENT_ENTITY),
 						JOptionPane.PLAIN_MESSAGE,
 						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
 			else{
@@ -187,7 +187,7 @@ public class GUI_EstablecerEntidadPadre extends javax.swing.JDialog  implements 
 	private JButton getBotonAceptar() {
 		if(botonAceptar == null) {
 			botonAceptar = new JButton();
-			botonAceptar.setText(Lenguaje.getMensaje(Lenguaje.SELECT));
+			botonAceptar.setText(Lenguaje.text(Lenguaje.SELECT));
 			botonAceptar.setBounds(186, 95, 80, 25);
 			botonAceptar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -203,7 +203,7 @@ public class GUI_EstablecerEntidadPadre extends javax.swing.JDialog  implements 
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonAceptar.setMnemonic(Lenguaje.getMensaje(Lenguaje.SELECT).charAt(0));
+			botonAceptar.setMnemonic(Lenguaje.text(Lenguaje.SELECT).charAt(0));
 		}
 		return botonAceptar;
 	}
@@ -211,7 +211,7 @@ public class GUI_EstablecerEntidadPadre extends javax.swing.JDialog  implements 
 	private JButton getBotonCancelar() {
 		if(botonCancelar == null) {
 			botonCancelar = new JButton();
-			botonCancelar.setText(Lenguaje.getMensaje(Lenguaje.CANCEL));
+			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
 			botonCancelar.setBounds(277, 95, 80, 25);
 			botonCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -227,7 +227,7 @@ public class GUI_EstablecerEntidadPadre extends javax.swing.JDialog  implements 
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonCancelar.setMnemonic(Lenguaje.getMensaje(Lenguaje.CANCEL).charAt(0));
+			botonCancelar.setMnemonic(Lenguaje.text(Lenguaje.CANCEL).charAt(0));
 		}
 		return botonCancelar;
 	}
@@ -257,7 +257,7 @@ public class GUI_EstablecerEntidadPadre extends javax.swing.JDialog  implements 
 	private JTextPane getTextoExplicacion() {
 		if(textoExplicacion == null) {
 			textoExplicacion = new JTextPane();
-			textoExplicacion.setText(Lenguaje.getMensaje(Lenguaje.SELECT_PARENT_ENTITY));
+			textoExplicacion.setText(Lenguaje.text(Lenguaje.SELECT_PARENT_ENTITY));
 			textoExplicacion.setBounds(132, 10, 233, 25);
 			textoExplicacion.setEditable(false);
 			textoExplicacion.setOpaque(false);

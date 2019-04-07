@@ -8,7 +8,7 @@ import vista.lenguaje.Lenguaje;
 @SuppressWarnings("serial")
 public class MyTableModel extends AbstractTableModel{
 	private String[] columnas = 
-		{Lenguaje.getMensaje(Lenguaje.TABLE), Lenguaje.getMensaje(Lenguaje.VOLUME), Lenguaje.getMensaje(Lenguaje.FREQ)};
+		{Lenguaje.text(Lenguaje.TABLE), Lenguaje.text(Lenguaje.VOLUME), Lenguaje.text(Lenguaje.FREQ)};
 	private ArrayList<ArrayList<String>> data;
 	public MyTableModel(){
 		super();

@@ -395,9 +395,9 @@ public class DAOAtributos{
 		catch (Exception e) {
 			JOptionPane.showMessageDialog(
 					null,
-					Lenguaje.getMensaje(Lenguaje.ERROR)+":\n" +
-					Lenguaje.getMensaje(Lenguaje.UNESPECTED_XML_ERROR)+" \""+ path+".xml\"",
-					Lenguaje.getMensaje(Lenguaje.DBCASE),
+					Lenguaje.text(Lenguaje.ERROR)+":\n" +
+					Lenguaje.text(Lenguaje.UNESPECTED_XML_ERROR)+" \""+ path+".xml\"",
+					Lenguaje.text(Lenguaje.DBCASE),
 					JOptionPane.ERROR_MESSAGE);
 			
 		}

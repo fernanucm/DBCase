@@ -65,7 +65,7 @@ public class GUI_QuitarEntidadARelacion extends javax.swing.JDialog  implements 
 
 	private void initComponents() {
 
-		setTitle(Lenguaje.getMensaje(Lenguaje.QUIT_ENTITY));
+		setTitle(Lenguaje.text(Lenguaje.QUIT_ENTITY));
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
 		setResizable(false);
@@ -94,10 +94,10 @@ public class GUI_QuitarEntidadARelacion extends javax.swing.JDialog  implements 
 		if(this.getRelacion().getListaEntidadesYAridades().isEmpty())
 			JOptionPane.showMessageDialog(
 				null,
-				(Lenguaje.getMensaje(Lenguaje.ERROR))+"\n" +
-				(Lenguaje.getMensaje(Lenguaje.IMPOSIBLE_QUIT_ENTITY))+"\n" +
-				(Lenguaje.getMensaje(Lenguaje.NO_ENTITIES_IN_RELATION))+"\n",
-				Lenguaje.getMensaje(Lenguaje.QUIT_ENTITY),
+				(Lenguaje.text(Lenguaje.ERROR))+"\n" +
+				(Lenguaje.text(Lenguaje.IMPOSIBLE_QUIT_ENTITY))+"\n" +
+				(Lenguaje.text(Lenguaje.NO_ENTITIES_IN_RELATION))+"\n",
+				Lenguaje.text(Lenguaje.QUIT_ENTITY),
 				JOptionPane.PLAIN_MESSAGE,
 				new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
 		else{
@@ -280,7 +280,7 @@ public class GUI_QuitarEntidadARelacion extends javax.swing.JDialog  implements 
 	private JTextPane getExplicacion() {
 		if(explicacion == null) {
 			explicacion = new JTextPane();
-			explicacion.setText((Lenguaje.getMensaje(Lenguaje.SELECT_ENTITY_TO_QUIT)));
+			explicacion.setText((Lenguaje.text(Lenguaje.SELECT_ENTITY_TO_QUIT)));
 			explicacion.setEditable(false);
 			explicacion.setOpaque(false);
 			explicacion.setBounds(124, 12, 238, 22);
@@ -315,7 +315,7 @@ public class GUI_QuitarEntidadARelacion extends javax.swing.JDialog  implements 
 	private JButton getBotonCancelar() {
 		if(botonCancelar == null) {
 			botonCancelar = new JButton();
-			botonCancelar.setText(Lenguaje.getMensaje(Lenguaje.CANCEL));
+			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
 			botonCancelar.setBounds(276, 149, 80, 25);
 			botonCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -331,7 +331,7 @@ public class GUI_QuitarEntidadARelacion extends javax.swing.JDialog  implements 
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonCancelar.setMnemonic(Lenguaje.getMensaje(Lenguaje.CANCEL).charAt(0));
+			botonCancelar.setMnemonic(Lenguaje.text(Lenguaje.CANCEL).charAt(0));
 		}
 		return botonCancelar;
 	}
@@ -339,7 +339,7 @@ public class GUI_QuitarEntidadARelacion extends javax.swing.JDialog  implements 
 	private JButton getBotonQuitar() {
 		if(botonQuitar == null) {
 			botonQuitar = new JButton();
-			botonQuitar.setText(Lenguaje.getMensaje(Lenguaje.REMOVE));
+			botonQuitar.setText(Lenguaje.text(Lenguaje.REMOVE));
 			botonQuitar.setBounds(185, 149, 80, 25);
 			botonQuitar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -355,7 +355,7 @@ public class GUI_QuitarEntidadARelacion extends javax.swing.JDialog  implements 
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonQuitar.setMnemonic(Lenguaje.getMensaje(Lenguaje.REMOVE).charAt(0));
+			botonQuitar.setMnemonic(Lenguaje.text(Lenguaje.REMOVE).charAt(0));
 		}
 		return botonQuitar;
 	}
@@ -363,7 +363,7 @@ public class GUI_QuitarEntidadARelacion extends javax.swing.JDialog  implements 
 	private JTextPane getExplicacionRol() {
 		if(explicacionRol == null) {
 			explicacionRol = new JTextPane();
-			explicacionRol.setText(Lenguaje.getMensaje(Lenguaje.IF_ENTITY_HAS_ROLLE));
+			explicacionRol.setText(Lenguaje.text(Lenguaje.IF_ENTITY_HAS_ROLLE));
 			explicacionRol.setBounds(124, 67, 238, 22);
 			explicacionRol.setEditable(false);
 			explicacionRol.setOpaque(false);

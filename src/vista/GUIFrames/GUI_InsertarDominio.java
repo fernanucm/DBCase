@@ -58,7 +58,7 @@ public class GUI_InsertarDominio extends javax.swing.JDialog  implements KeyList
 	private void initComponents() {
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setTitle(Lenguaje.getMensaje(Lenguaje.INSERT_NEW_DOMAIN));
+		setTitle(Lenguaje.text(Lenguaje.INSERT_NEW_DOMAIN));
 		setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
 		setResizable(false);
 		setModal(true);
@@ -67,7 +67,7 @@ public class GUI_InsertarDominio extends javax.swing.JDialog  implements KeyList
 		{
 			botonCancelar = new JButton();
 			getContentPane().add(botonCancelar);
-			botonCancelar.setText(Lenguaje.getMensaje(Lenguaje.CANCEL));
+			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
 			botonCancelar.setBounds(280, 162, 80, 25);
 			botonCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -83,12 +83,12 @@ public class GUI_InsertarDominio extends javax.swing.JDialog  implements KeyList
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonCancelar.setMnemonic(Lenguaje.getMensaje(Lenguaje.CANCEL).charAt(0));
+			botonCancelar.setMnemonic(Lenguaje.text(Lenguaje.CANCEL).charAt(0));
 		}
 		{
 			botonInsertar = new JButton();
 			getContentPane().add(botonInsertar);
-			botonInsertar.setText(Lenguaje.getMensaje(Lenguaje.INSERT));
+			botonInsertar.setText(Lenguaje.text(Lenguaje.INSERT));
 			botonInsertar.setBounds(195, 162, 80, 25);
 			botonInsertar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -104,7 +104,7 @@ public class GUI_InsertarDominio extends javax.swing.JDialog  implements KeyList
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonInsertar.setMnemonic(Lenguaje.getMensaje(Lenguaje.INSERT).charAt(0));
+			botonInsertar.setMnemonic(Lenguaje.text(Lenguaje.INSERT).charAt(0));
 		}
 		{
 			labelIcono = new JLabel();
@@ -115,7 +115,7 @@ public class GUI_InsertarDominio extends javax.swing.JDialog  implements KeyList
 		{
 			explicacion = new JTextPane();
 			getContentPane().add(explicacion);
-			explicacion.setText(Lenguaje.getMensaje(Lenguaje.NAME));
+			explicacion.setText(Lenguaje.text(Lenguaje.NAME));
 			explicacion.setEditable(false);
 			explicacion.setOpaque(false);
 			explicacion.setBounds(124, 10, 348, 20);
@@ -124,7 +124,7 @@ public class GUI_InsertarDominio extends javax.swing.JDialog  implements KeyList
 		{
 			textType = new JTextPane();
 			getContentPane().add(textType);
-			textType.setText(Lenguaje.getMensaje(Lenguaje.TYPE));
+			textType.setText(Lenguaje.text(Lenguaje.TYPE));
 			textType.setEditable(false);
 			textType.setOpaque(false);
 			textType.setBounds(124, 55, 348, 20);
@@ -133,7 +133,7 @@ public class GUI_InsertarDominio extends javax.swing.JDialog  implements KeyList
 		{
 			textValues = new JTextPane();
 			getContentPane().add(textValues);
-			textValues.setText(Lenguaje.getMensaje(Lenguaje.VALUES));
+			textValues.setText(Lenguaje.text(Lenguaje.VALUES));
 			textValues.setEditable(false);
 			textValues.setOpaque(false);
 			textValues.setBounds(124, 100, 348, 20);

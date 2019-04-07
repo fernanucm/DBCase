@@ -17,8 +17,8 @@ public class DobleLinea<V,E> {
 	//separacion entre las rectas
 	private float separac = (float) 2.8;
 	
-	public DobleLinea(RenderContext<V,E> rc, E e,String nombre1, Graph<V,E> graph, boolean diagonal,
-			String nombre2, float thetaRadians,  
+	public DobleLinea(RenderContext<V,E> rc, E e, Graph<V,E> graph, boolean diagonal,
+			 float thetaRadians,  
 			float xRel, float yRel, float xEnti, float yEnti, GraphicsDecorator g) {
 
 		Shape edgeShape = rc.getEdgeShapeTransformer().transform(Context.<Graph<V,E>,E>getInstance(graph, e));

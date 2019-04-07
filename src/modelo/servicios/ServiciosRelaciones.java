@@ -14,12 +14,10 @@ import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
 
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class ServiciosRelaciones {
 
 	private Controlador controlador;
-
-	public ServiciosRelaciones() {
-	}
 	
 	//Devuelve actualizada la lista de relaciones al controlador através de un mensaje
 	public void ListaDeRelaciones(){
@@ -51,7 +49,6 @@ public class ServiciosRelaciones {
 	 * Si el nombre ya existe -> SR_InsertarRelacion_ERROR_NombreDeRelacionYaExiste
 	 * Si al usar el DAORelaciones se produce un error -> SR_InsertarRelacion_ERROR_DAO
 	 */
-	@SuppressWarnings("rawtypes")
 	public void anadirRelacion(TransferRelacion tr){
 		if (tr.getNombre().isEmpty()){
 			controlador.mensajeDesde_SR(TC.SR_InsertarRelacion_ERROR_NombreDeRelacionEsVacio, null);
@@ -92,7 +89,6 @@ public class ServiciosRelaciones {
 	 * Si el nombre ya existe -> SR_InsertarRelacion_ERROR_NombreDeRelacionYaExiste
 	 * Si al usar el DAORelaciones se produce un error -> SR_InsertarRelacion_ERROR_DAO
 	 */
-	@SuppressWarnings("rawtypes")
 	public boolean SePuedeAnadirRelacion(TransferRelacion tr){
 		if (tr.getNombre().isEmpty()){
 			controlador.mensajeDesde_SR(TC.SR_InsertarRelacion_ERROR_NombreDeRelacionEsVacio, null);
@@ -122,7 +118,6 @@ public class ServiciosRelaciones {
 	/*
 	 * Anadir una relacion IsA
 	 */
-	@SuppressWarnings("rawtypes")
 	public void anadirRelacionIsA(TransferRelacion tr){
 		tr.setNombre("IsA");
 		tr.setTipo("IsA");
@@ -162,7 +157,6 @@ public class ServiciosRelaciones {
 		}
 	}
 	
-	@SuppressWarnings("rawtypes")
 	public void renombrarRelacion(TransferRelacion tr, String nuevoNombre){
 		Vector<Object> v = new Vector<Object>();
 		v.add(tr);
@@ -254,8 +248,6 @@ public class ServiciosRelaciones {
 		return false;
 	}
 	
-	
-	@SuppressWarnings("unchecked")
 	public boolean tieneHermanoDebil(TransferEntidad te){
 		DAORelaciones daoRelaciones = new DAORelaciones(this.controlador.getPath());
 		Vector<TransferRelacion> listaRelaciones = daoRelaciones.ListaDeRelaciones();
@@ -283,7 +275,6 @@ public class ServiciosRelaciones {
 		return false;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public int numEntidadesDebiles(TransferRelacion tr){
 		Vector<EntidadYAridad> vectorEntidadesAridades = tr.getListaEntidadesYAridades();
 		int numero=0;
@@ -297,7 +288,6 @@ public class ServiciosRelaciones {
 		return numero;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public int idEntidadDebil(TransferRelacion tr){
 		Vector<EntidadYAridad> vectorEntidadesAridades = tr.getListaEntidadesYAridades();
 		int entidad=0;
@@ -318,7 +308,6 @@ public class ServiciosRelaciones {
 	 * Anadir un atributo a una relacion
 	 * -> en v viene la relacion (pos 0) y el atributo (pos 1)
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void anadirAtributo(Vector v){
 		TransferRelacion tr = (TransferRelacion) v.get(0);
 		TransferAtributo ta = (TransferAtributo) v.get(1);
@@ -362,7 +351,6 @@ public class ServiciosRelaciones {
 		this.controlador.mensajeDesde_SR(TC.SR_AnadirAtributoARelacion_HECHO, v); 
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void anadirRestriccion(Vector v){
 		TransferRelacion tr = (TransferRelacion) v.get(0);
 		String restriccion = (String) v.get(1);
@@ -384,28 +372,17 @@ public class ServiciosRelaciones {
 		tr.setListaRestricciones(vRestricciones);
 				
 		//te.setNombre(nuevoNombre);
-		if (daoRelaciones.modificarRelacion(tr) == false){
-			//te.setNombre(antiguoNombre);
-			//controlador.mensajeDesde_SE(TC.SE_RenombrarRelacion_ERROR_DAORelaciones, v);
-		}
-		else{
-			//v.add(antiguoNombre);
+		if (daoRelaciones.modificarRelacion(tr))
 			controlador.mensajeDesde_SR(TC.SR_AnadirRestriccionARelacion_HECHO, v);
-		}
-			
 		return;
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void quitarRestriccion(Vector v){
 		TransferRelacion te = (TransferRelacion) v.get(0);
 		String restriccion = (String) v.get(1);
 		
 		// Si nombre es vacio -> ERROR
-		if (restriccion.isEmpty()){
-			//controlador.mensajeDesde_SE(TC.SE_RenombrarRelacion_ERROR_NombreDeRelacionesVacio, v);
-			return;
-		}
+		if (restriccion.isEmpty()) return;
 		DAORelaciones daoRelaciones = new DAORelaciones(this.controlador.getPath());
 		Vector<TransferRelacion> lista = daoRelaciones.ListaDeRelaciones();
 		if (lista == null){
@@ -425,18 +402,12 @@ public class ServiciosRelaciones {
 		}
 		te.setListaRestricciones(vRestricciones);
 		
-		if (daoRelaciones.modificarRelacion(te) == false){
-			//te.setNombre(antiguoNombre);
-			//controlador.mensajeDesde_SE(TC.SE_RenombrarRelacion_ERROR_DAORelaciones, v);
-		}
-		else{
+		if (daoRelaciones.modificarRelacion(te))
 			controlador.mensajeDesde_SR(TC.SR_QuitarRestriccionARelacion_HECHO, v);
-		}
-			
+		
 		return;
 	}
 	
-	@SuppressWarnings("rawtypes")
 	public void setRestricciones(Vector v) {
 		Vector restricciones = (Vector) v.get(0);
 		TransferRelacion tr = (TransferRelacion) v.get(1);
@@ -448,17 +419,12 @@ public class ServiciosRelaciones {
 			return;
 		}
 		tr.setListaRestricciones(restricciones);
-		if (daoRelaciones.modificarRelacion(tr) == false){
-			
-		}
-		else{
+		if (daoRelaciones.modificarRelacion(tr))
 			controlador.mensajeDesde_SR(TC.SR_setRestriccionesARelacion_HECHO, v);
-		}
 			
 		return;		
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void anadirUnique(Vector v){
 		TransferRelacion tr = (TransferRelacion) v.get(0);
 		String unique = (String) v.get(1);
@@ -480,19 +446,12 @@ public class ServiciosRelaciones {
 		tr.setListaUniques(vUniques);
 				
 		//te.setNombre(nuevoNombre);
-		if (daoRelaciones.modificarRelacion(tr) == false){
-			//te.setNombre(antiguoNombre);
-			//controlador.mensajeDesde_SE(TC.SE_RenombrarEntidad_ERROR_DAOEntidades, v);
-		}
-		else{
-			//v.add(antiguoNombre);
+		if (daoRelaciones.modificarRelacion(tr))
 			controlador.mensajeDesde_SR(TC.SR_AnadirUniqueARelacion_HECHO, v);
-		}
 			
 		return;
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void quitarUnique(Vector v){
 		TransferRelacion tr = (TransferRelacion) v.get(0);
 		String unique = (String) v.get(1);
@@ -531,7 +490,6 @@ public class ServiciosRelaciones {
 		return;
 	}
 	
-	@SuppressWarnings("rawtypes")
 	public void setUniques(Vector v) {
 		Vector uniques = (Vector) v.get(0);
 		TransferRelacion tr = (TransferRelacion) v.get(1);
@@ -543,19 +501,14 @@ public class ServiciosRelaciones {
 			return;
 		}
 		tr.setListaUniques(uniques);
-		if (daoRelaciones.modificarRelacion(tr) == false){
-			
-		}
-		else{
+		if (daoRelaciones.modificarRelacion(tr))
 			controlador.mensajeDesde_SR(TC.SR_setUniquesARelacion_HECHO, v);
-		}
 		return;		
 	}
 		
 	/*
 	 * Quitar/poner un Unique unitario a la entidad
 	 * */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void setUniqueUnitario(Vector v) {
 		TransferRelacion tr = (TransferRelacion) v.get(0);
 		TransferAtributo ta= (TransferAtributo) v.get(1);
@@ -564,15 +517,11 @@ public class ServiciosRelaciones {
 		boolean encontrado=false;
 		int i=0;
 		while(i<uniques.size()){
-			if(uniques.get(i).toString().equals(ta.getNombre())){
-				encontrado=true;
-			}else{
-				uniquesCopia.add(uniques.get(i));
-			}			
+			if(uniques.get(i).toString().equals(ta.getNombre())) encontrado=true;
+			else uniquesCopia.add(uniques.get(i));
 			i++;
 		}
-		if(!encontrado)
-			uniquesCopia.add(ta.getNombre());
+		if(!encontrado) uniquesCopia.add(ta.getNombre());
 		
 		DAORelaciones daoRelaciones = new DAORelaciones(this.controlador.getPath());
 		Vector<TransferRelacion> lista = daoRelaciones.ListaDeRelaciones();
@@ -581,16 +530,11 @@ public class ServiciosRelaciones {
 			return;
 		}
 		tr.setListaUniques(uniquesCopia);
-		if (daoRelaciones.modificarRelacion(tr) == false){
-			
-		}
-		else{
+		if (daoRelaciones.modificarRelacion(tr))
 			controlador.mensajeDesde_SR(TC.SR_setUniqueUnitarioARelacion_HECHO, v);
-		}
 		return;		
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void eliminarReferenciasUnitario(Vector v) {
 		TransferRelacion tr = (TransferRelacion) v.get(0);
 		TransferAtributo ta= (TransferAtributo) v.get(1);
@@ -616,9 +560,7 @@ public class ServiciosRelaciones {
 				s= s.replaceAll(" ", "");
 				s= s.replaceAll(",",", ");
 				uniquesCopia.add(s);
-			}else{
-				uniquesCopia.add(uniques.get(i));
-			}			
+			}else uniquesCopia.add(uniques.get(i));
 			i++;
 		}
 		
@@ -629,16 +571,11 @@ public class ServiciosRelaciones {
 			return;
 		}
 		tr.setListaUniques(uniquesCopia);
-		if (daoRelaciones.modificarRelacion(tr) == false){
-			
-		}
-		else{
+		if (daoRelaciones.modificarRelacion(tr))
 			controlador.mensajeDesde_SR(TC.SR_setUniqueUnitarioARelacion_HECHO, v);
-		}
 		return;		
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void renombraUnique(Vector v) {
 		TransferRelacion tr = (TransferRelacion) v.get(0);
 		TransferAtributo ta= (TransferAtributo) v.get(1);
@@ -651,9 +588,7 @@ public class ServiciosRelaciones {
 				String s = uniques.get(i).toString();
 				s= s.replaceAll(antiguoNombre, ta.getNombre());
 				uniquesCopia.add(s);
-			}else{
-				uniquesCopia.add(uniques.get(i));
-			}			
+			}else uniquesCopia.add(uniques.get(i));
 			i++;
 		}
 		
@@ -664,12 +599,8 @@ public class ServiciosRelaciones {
 			return;
 		}
 		tr.setListaUniques(uniquesCopia);
-		if (daoRelaciones.modificarRelacion(tr) == false){
-			
-		}
-		else{
+		if (daoRelaciones.modificarRelacion(tr))
 			controlador.mensajeDesde_SR(TC.SR_setUniqueUnitarioARelacion_HECHO, v);
-		}
 		return;
 	}
 	/*
@@ -687,7 +618,6 @@ public class ServiciosRelaciones {
 	/*
 	 * Establecer la entidad padre en una relacion IsA
 	 */
-	@SuppressWarnings("unchecked")
 	public void establecerEntidadPadreEnRelacionIsA(Vector<Transfer> datos){
 		TransferRelacion tr = (TransferRelacion) datos.get(0);
 		TransferEntidad te = (TransferEntidad) datos.get(1);
@@ -700,8 +630,7 @@ public class ServiciosRelaciones {
 		DAORelaciones daoRelaciones = new DAORelaciones(this.controlador.getPath());
 		if (!daoRelaciones.modificarRelacion(tr))
 			controlador.mensajeDesde_SR(TC.SR_EstablecerEntidadPadre_ERROR_DAORelaciones, datos);
-		else
-			controlador.mensajeDesde_SR(TC.SR_EstablecerEntidadPadre_HECHO, datos);
+		else controlador.mensajeDesde_SR(TC.SR_EstablecerEntidadPadre_HECHO, datos);
 	}
 	
 	/*
@@ -713,14 +642,12 @@ public class ServiciosRelaciones {
 		DAORelaciones daoRelaciones = new DAORelaciones(this.controlador.getPath());
 		if (!daoRelaciones.modificarRelacion(tr))
 			controlador.mensajeDesde_SR(TC.SR_QuitarEntidadPadre_ERROR_DAORelaciones, tr);
-		else
-			controlador.mensajeDesde_SR(TC.SR_QuitarEntidadPadre_HECHO, tr);
+		else controlador.mensajeDesde_SR(TC.SR_QuitarEntidadPadre_HECHO, tr);
 	}
 	
 	/*
 	 * Anadir una entidad hija a una relacion IsA
 	 */
-	@SuppressWarnings("unchecked")
 	public void anadirEntidadHijaEnRelacionIsA(Vector<Transfer> datos){
 		TransferRelacion tr = (TransferRelacion) datos.get(0);
 		TransferEntidad te = (TransferEntidad) datos.get(1);
@@ -732,15 +659,13 @@ public class ServiciosRelaciones {
 		DAORelaciones daoRelaciones = new DAORelaciones(this.controlador.getPath());
 		if (!daoRelaciones.modificarRelacion(tr))
 			controlador.mensajeDesde_SR(TC.SR_AnadirEntidadHija_ERROR_DAORelaciones, datos);
-		else
-			controlador.mensajeDesde_SR(TC.SR_AnadirEntidadHija_HECHO, datos);	
+		else controlador.mensajeDesde_SR(TC.SR_AnadirEntidadHija_HECHO, datos);	
 	}
 	
 		
 	/*
 	 * Quitar una entidad hija en una relacion IsA
 	 */
-	@SuppressWarnings("unchecked")
 	public void quitarEntidadHijaEnRelacionIsA(Vector<Transfer> datos){
 		TransferRelacion tr = (TransferRelacion) datos.get(0);
 		TransferEntidad te = (TransferEntidad) datos.get(1);
@@ -759,35 +684,31 @@ public class ServiciosRelaciones {
 		DAORelaciones daoRelaciones = new DAORelaciones(this.controlador.getPath());
 		if (!daoRelaciones.modificarRelacion(tr))
 			controlador.mensajeDesde_SR(TC.SR_QuitarEntidadHija_ERROR_DAORelaciones, datos);
-		else
-			controlador.mensajeDesde_SR(TC.SR_QuitarEntidadHija_HECHO, datos);	
+		else controlador.mensajeDesde_SR(TC.SR_QuitarEntidadHija_HECHO, datos);	
 	}
 	
 	/*
 	 * Anadir una entidad a una relacion
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void anadirEntidadARelacion(Vector v){
 		// Sacamos los componentes del vector que sabemos que son correctos
 		TransferRelacion tr = (TransferRelacion) v.get(0);
+		TransferEntidad te = (TransferEntidad) v.get(1);
 		String aux = (String)v.get(4);
 		tr.setRol(aux);
-		TransferEntidad te = (TransferEntidad) v.get(1);
 		int idEntidad = te.getIdEntidad();
 		//Comprobacion de que el rol que se va a asignar no está ya en esa relación
-		for (Iterator it = tr.getListaEntidadesYAridades().iterator(); it.hasNext(); ){
+		for (Iterator it = tr.getListaEntidadesYAridades().iterator(); it.hasNext();){
 			EntidadYAridad elem_tr = (EntidadYAridad)it.next();
 			if(idEntidad == elem_tr.getEntidad()){
 				if (elem_tr.getRol().toLowerCase().equals(tr.getRol().toLowerCase())){
 					if(elem_tr.getRol().equals(""))
 						controlador.mensajeDesde_SR(TC.SR_InsertarRelacion_ERROR_NombreDeRolNecesario,tr);
-					else
-						controlador.mensajeDesde_SR(TC.SR_InsertarRelacion_ERROR_NombreDelRolYaExiste,tr);
+					else controlador.mensajeDesde_SR(TC.SR_InsertarRelacion_ERROR_NombreDelRolYaExiste,tr);
 					return;
 				}	
 			}
-		}		
-		
+		}
 		// Obtenemos el inicio de rango. Si no es entero positivo o n -> ERROR y salimos
 		String inicioEnCadena = (String) v.get(2);
 		int inicioEnInt;
@@ -800,8 +721,6 @@ public class ServiciosRelaciones {
 			inicioEnCadena = "n";
 			v.set(3, "n");
 			finalEnCadena = "n";
-			//inicioEnInt = Integer.MAX_VALUE;
-			//finalEnInt = Integer.MAX_VALUE;
 		}
 		//Si no son ambas vacias, se comprueba que sean válidas
 		if(inicioEnCadena.equals("n")) inicioEnInt = Integer.MAX_VALUE;	
@@ -833,15 +752,13 @@ public class ServiciosRelaciones {
 		DAORelaciones daoRelaciones = new DAORelaciones(this.controlador.getPath());
 		if (!daoRelaciones.modificarRelacion(tr))
 			controlador.mensajeDesde_SR(TC.SR_AnadirEntidadARelacion_ERROR_DAORelaciones, v);
-		else
-			controlador.mensajeDesde_SR(TC.SR_AnadirEntidadARelacion_HECHO, v);
+		else controlador.mensajeDesde_SR(TC.SR_AnadirEntidadARelacion_HECHO, v);
 		return;
 	}
 	
 	/*
 	 * Editar la aridad de una entidad en una relacion
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void editarAridadEntidad(Vector<Object> v){
 		// Sacamos los componentes del vector que sabemos que son correctos
 		TransferRelacion tr = (TransferRelacion) v.get(0);
@@ -857,8 +774,7 @@ public class ServiciosRelaciones {
 						if (elem_tr.getRol().toLowerCase().equals(rol.toLowerCase())){
 							if(elem_tr.getRol().equals(""))
 								controlador.mensajeDesde_SR(TC.SR_InsertarRelacion_ERROR_NombreDeRolNecesario,tr);
-							else
-								controlador.mensajeDesde_SR(TC.SR_InsertarRelacion_ERROR_NombreDelRolYaExiste,tr);
+							else controlador.mensajeDesde_SR(TC.SR_InsertarRelacion_ERROR_NombreDelRolYaExiste,tr);
 							return;
 						}	
 					}
@@ -891,10 +807,8 @@ public class ServiciosRelaciones {
 		boolean salir = false;
 		while(cont<veya.size() && !salir){
 			EntidadYAridad eya = (EntidadYAridad) veya.get(cont);
-			if((eya.getEntidad()==idEntidad) && (eya.getRol().equals(rolViejo)))
-					salir = true;
-			else 
-				cont++;
+			if((eya.getEntidad()==idEntidad) && (eya.getRol().equals(rolViejo))) salir = true;
+			else cont++;
 		}
 		EntidadYAridad eya = (EntidadYAridad) veya.get(cont);
 		eya.setPrincipioRango(inicioEnInt);
@@ -904,25 +818,20 @@ public class ServiciosRelaciones {
 		DAORelaciones daoRelaciones = new DAORelaciones(this.controlador.getPath());
 		if (!daoRelaciones.modificarRelacion(tr))
 			controlador.mensajeDesde_SR(TC.SR_EditarCardinalidadEntidad_ERROR_DAORelaciones, v);
-		else
-			controlador.mensajeDesde_SR(TC.SR_EditarCardinalidadEntidad_HECHO, v);
+		else controlador.mensajeDesde_SR(TC.SR_EditarCardinalidadEntidad_HECHO, v);
 		return;
 	}
 	
 	/*
 	 * Forzar la aridad de una entidad en una relacion para que sea uno a uno
 	 */
-	
-	@SuppressWarnings("rawtypes")
 	public void aridadEntidadUnoUno(Vector v){
-		//DAORelaciones daoRelaciones = new DAORelaciones(this.controlador.getPath());
 		controlador.mensajeDesde_SR(TC.SR_AridadEntidadUnoUno_HECHO, v);
 		return;		
 	} 
 	/*
 	 * Quitar una entidad de una relacion
 	 */
-	@SuppressWarnings("unchecked")
 	public void quitarEntidadARelacion(Vector<Object> datos){
 		TransferRelacion tr = (TransferRelacion) datos.get(0);
 		TransferEntidad te = (TransferEntidad) datos.get(1);
@@ -942,8 +851,7 @@ public class ServiciosRelaciones {
 		DAORelaciones daoRelaciones = new DAORelaciones(this.controlador.getPath());
 		if (!daoRelaciones.modificarRelacion(tr))
 			controlador.mensajeDesde_SR(TC.SR_QuitarEntidadARelacion_ERROR_DAORelaciones, datos);
-		else
-			controlador.mensajeDesde_SR(TC.SR_QuitarEntidadARelacion_HECHO, datos);
+		else controlador.mensajeDesde_SR(TC.SR_QuitarEntidadARelacion_HECHO, datos);
 	}
 	
 	public boolean tieneAtributo(TransferRelacion tr, TransferAtributo ta){
@@ -961,5 +869,4 @@ public class ServiciosRelaciones {
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
 	}
-
 }

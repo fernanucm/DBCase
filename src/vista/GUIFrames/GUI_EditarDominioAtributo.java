@@ -62,7 +62,7 @@ public class GUI_EditarDominioAtributo extends javax.swing.JDialog implements Ke
 
 	private void initComponents() {
 
-		setTitle(Lenguaje.getMensaje(Lenguaje.EDIT_DOMAIN_ATTRIBUTE));
+		setTitle(Lenguaje.text(Lenguaje.EDIT_DOMAIN_ATTRIBUTE));
 		setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
 		setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 		setResizable(false);
@@ -115,10 +115,10 @@ public class GUI_EditarDominioAtributo extends javax.swing.JDialog implements Ke
 		if (this.getAtributo().getCompuesto()){
 			JOptionPane.showMessageDialog(
 					null,
-					(Lenguaje.getMensaje(Lenguaje.ERROR))+"\n" +
-					(Lenguaje.getMensaje(Lenguaje.IMPOSIBLE_EDIT_DOMAIN))+"\""+this.getAtributo().getNombre()+"\"\n" +
-					(Lenguaje.getMensaje(Lenguaje.COMPLEX_ATTRIBUTE))+"\n",
-					(Lenguaje.getMensaje(Lenguaje.EDIT_DOMAIN_ATTRIBUTE)),
+					(Lenguaje.text(Lenguaje.ERROR))+"\n" +
+					(Lenguaje.text(Lenguaje.IMPOSIBLE_EDIT_DOMAIN))+"\""+this.getAtributo().getNombre()+"\"\n" +
+					(Lenguaje.text(Lenguaje.COMPLEX_ATTRIBUTE))+"\n",
+					(Lenguaje.text(Lenguaje.EDIT_DOMAIN_ATTRIBUTE)),
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
 			return;
@@ -322,7 +322,7 @@ public class GUI_EditarDominioAtributo extends javax.swing.JDialog implements Ke
 	private JButton getBotonCancelar() {
 		if(botonCancelar == null) {
 			botonCancelar = new JButton();
-			botonCancelar.setText(Lenguaje.getMensaje(Lenguaje.CANCEL));
+			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
 			botonCancelar.setBounds(280, 152, 80, 25);
 			botonCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -338,7 +338,7 @@ public class GUI_EditarDominioAtributo extends javax.swing.JDialog implements Ke
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonCancelar.setMnemonic(Lenguaje.getMensaje(Lenguaje.CANCEL).charAt(0));
+			botonCancelar.setMnemonic(Lenguaje.text(Lenguaje.CANCEL).charAt(0));
 		}
 		return botonCancelar;
 	}
@@ -346,7 +346,7 @@ public class GUI_EditarDominioAtributo extends javax.swing.JDialog implements Ke
 	private JButton getBotonEditar() {
 		if(botonEditar == null) {
 			botonEditar = new JButton();
-			botonEditar.setText(Lenguaje.getMensaje(Lenguaje.ACCEPT));
+			botonEditar.setText(Lenguaje.text(Lenguaje.ACCEPT));
 			botonEditar.setBounds(189, 152, 80, 25);
 			botonEditar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -362,7 +362,7 @@ public class GUI_EditarDominioAtributo extends javax.swing.JDialog implements Ke
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonEditar.setMnemonic(Lenguaje.getMensaje(Lenguaje.ACCEPT).charAt(0));
+			botonEditar.setMnemonic(Lenguaje.text(Lenguaje.ACCEPT).charAt(0));
 		}
 		return botonEditar;
 	}
@@ -394,7 +394,7 @@ public class GUI_EditarDominioAtributo extends javax.swing.JDialog implements Ke
 	private JTextPane getExplicacion() {
 		if(explicacion == null) {
 			explicacion = new JTextPane();
-			explicacion.setText(Lenguaje.getMensaje(Lenguaje.SELECT_DOMAIN_FOR_ATTRIBUTE));
+			explicacion.setText(Lenguaje.text(Lenguaje.SELECT_DOMAIN_FOR_ATTRIBUTE));
 			explicacion.setEditable(false);
 			explicacion.setOpaque(false);
 			explicacion.setBounds(12, 10, 353, 37);
@@ -415,7 +415,7 @@ public class GUI_EditarDominioAtributo extends javax.swing.JDialog implements Ke
 	private JLabel getLabelTamano() {
 		if(labelTamano == null) {
 			labelTamano = new JLabel();
-			labelTamano.setText(Lenguaje.getMensaje(Lenguaje.SIZE_ATTRIBUTE));
+			labelTamano.setText(Lenguaje.text(Lenguaje.SIZE_ATTRIBUTE));
 			labelTamano.setBounds(132, 91, 66, 14);
 		}
 		return labelTamano;

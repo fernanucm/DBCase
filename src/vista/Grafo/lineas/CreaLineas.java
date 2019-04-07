@@ -1,6 +1,5 @@
 package vista.Grafo.lineas;
 
-
 /*
  * Copyright (c) 2005, the JUNG Project and the Regents of the University of
  * California All rights reserved.
@@ -10,7 +9,6 @@ package vista.Grafo.lineas;
  *
  * Created on Aug 23, 2005
  */
-
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.Point2D;
@@ -25,12 +23,11 @@ import edu.uci.ics.jung.visualization.RenderContext;
 import edu.uci.ics.jung.visualization.renderers.Renderer;
 import edu.uci.ics.jung.visualization.transform.shape.GraphicsDecorator;
 import modelo.persistencia.EntidadYAridad;
-import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
 import vista.Theme.Theme;
 
-
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class CreaLineas<V,E> implements Renderer.Edge<V, E> {
 	private Theme theme;
 	
@@ -38,7 +35,6 @@ public class CreaLineas<V,E> implements Renderer.Edge<V, E> {
 		this.theme = Theme.getInstancia();
 	}
 	
-
 	public void paintEdge(RenderContext<V,E> rc, Layout<V, E> layout, E e) {
 		GraphicsDecorator g2d = rc.getGraphicsContext();
 		g2d.setColor(theme.lines());
@@ -56,49 +52,17 @@ public class CreaLineas<V,E> implements Renderer.Edge<V, E> {
         int numApariciones= 0;//Numero de veces que aparece la arista a dibujar en el grafo
         String nom1="";
         String nom2="";
-        int tipo1=0, tipo2=0;
-        
         for (E o : aris){
         	par = graph.getEndpoints(o);
-        	if (endpoints.equals(par))//Lo que voy a añadir en la lista es igual que la arista que voy a pintar
+        	if (endpoints.equals(par)) {//Lo que voy a añadir en la lista es igual que la arista que voy a pintar
         		numApariciones++;
+        		nom1 = par.getFirst().toString();
+            	nom2 = par.getSecond().toString();
+        	}
         	lista.add(par);
         	
-        	//Para la distribución de las lineas de los roles
-        	if(par.getFirst() instanceof TransferRelacion){
-        		TransferRelacion nombre1 = (TransferRelacion)par.getFirst();
-        		nom1 = nombre1.toString();
-        		tipo1=1;//Relación
-        	}
-        	if(par.getFirst() instanceof TransferEntidad){
-        		TransferEntidad nombre1 = (TransferEntidad)par.getFirst();
-        		nom1 = nombre1.toString();
-        		tipo1=2;//Entidad
-        	}
-        	if(par.getFirst() instanceof TransferAtributo){
-        		TransferAtributo nombre1 = (TransferAtributo)par.getFirst();
-        		nom1 = nombre1.toString();
-        		tipo1=3;//Atributo
-        	}
-        
-        	//-------------------------------
-        	if(par.getSecond() instanceof TransferRelacion){
-        		TransferRelacion nombre2 = (TransferRelacion)par.getSecond();
-        		nom2 = nombre2.toString();
-        		tipo2=1;//Relación
-        	}
-        	if(par.getSecond() instanceof TransferEntidad){
-        		TransferEntidad nombre2 = (TransferEntidad)par.getSecond();
-        		nom2 = nombre2.toString();
-        		tipo2=2;//Entidad
-        	}
-        	if(par.getSecond() instanceof TransferAtributo){
-        		TransferAtributo nombre2 = (TransferAtributo)par.getSecond();
-        		nom2 = nombre2.toString();
-        		tipo2=3;//Atributo
-        	}
-        } //Fin del bucle      
-              	
+        } //Fin del bucle
+        if(numApariciones==2)System.out.println(nom1 + " "+ nom2); 	
         if (!rc.getVertexIncludePredicate().evaluate(Context.<Graph<V,E>,V>getInstance(graph,v1)) || 
             !rc.getVertexIncludePredicate().evaluate(Context.<Graph<V,E>,V>getInstance(graph,v2)))
             return;
@@ -106,10 +70,9 @@ public class CreaLineas<V,E> implements Renderer.Edge<V, E> {
         Stroke new_stroke = rc.getEdgeStrokeTransformer().transform(e);
         Stroke old_stroke = g2d.getStroke();
         if (new_stroke != null) g2d.setStroke(new_stroke);
-        
-        //Dibujo tantas aristas como asociaciones haya entre los nodos 
+        //Dibujo tantas aristas como asociaciones haya entre los nodos
         for (int i=numApariciones; i>0;i--)
-        	drawSimpleEdge(rc, layout, e,nom1,nom2,tipo1,tipo2,numApariciones,i);
+        	drawSimpleEdge(rc, layout, e,nom1,nom2,numApariciones,i);
         
         // restore paint and stroke
         if (new_stroke != null) g2d.setStroke(old_stroke);
@@ -123,13 +86,12 @@ public class CreaLineas<V,E> implements Renderer.Edge<V, E> {
      * is scaled in the x-direction so that its width is equal to the distance between
      * <code>(x1,y1)</code> and <code>(x2,y2)</code>.
      */
-   @SuppressWarnings({ "unchecked", "rawtypes" })
    protected void drawSimpleEdge(RenderContext<V,E> rc, Layout<V,E> layout, E e,String nombre1, 
-						String nombre2,int tipo1,int tipo2,int numApariciones, int vuelta) {
+						String nombre2,int numApariciones, int vuelta) {
         
         GraphicsDecorator g = rc.getGraphicsContext();
         g.setColor(theme.lines());
-        Graphics2D graf2d = g.getDelegate();//NUEVO!!!
+        Graphics2D graf2d = g.getDelegate();
         Graph<V,E> graph = layout.getGraph();
         Pair<V> endpoints = graph.getEndpoints(e);
         V v1 = endpoints.getFirst();//Relación
@@ -150,10 +112,7 @@ public class CreaLineas<V,E> implements Renderer.Edge<V, E> {
        	float yEnti= (float) p2.getY();//Coordenada y de la entidad
        	
        	//Variables para calcular el centro desde donde se pinta la arista, y la inclinación
-       	float dx = 0;
-        float dy = 0;            
-        float thetaRadians = 0;
-        
+       	float dx = 0, dy = 0, thetaRadians = 0;
         boolean diagonal=false;
        
        	//Si la relacion es IsA en lugar de una arista normal se pintará una flecha	
@@ -202,15 +161,8 @@ public class CreaLineas<V,E> implements Renderer.Edge<V, E> {
     		diagonal=false;
         }
         //Si es linea de relacion a entidad
-        else if(endpoints.getFirst() instanceof TransferRelacion && endpoints.getSecond() instanceof TransferEntidad){	        
-        	TransferRelacion rela =(TransferRelacion)endpoints.getFirst();
-        	EntidadYAridad ent = new EntidadYAridad();
-        	for(int i=0;i<rela.getListaEntidadesYAridades().size();i++)
-        		if(((EntidadYAridad) rela.getListaEntidadesYAridades().get(i)).getEntidad() == ((TransferEntidad) endpoints.getSecond()).getIdEntidad()) {
-        			ent = (EntidadYAridad)rela.getListaEntidadesYAridades().get(i);
-        			break;
-        		}
-        	
+        else if(endpoints.getFirst() instanceof TransferRelacion && endpoints.getSecond() instanceof TransferEntidad){
+        	EntidadYAridad ent = (EntidadYAridad)((TransferRelacion) endpoints.getFirst()).getEntidadYAridad(((TransferEntidad) endpoints.getSecond()).getIdEntidad());
     		//cardinalidad 0 .. 1 || 1 .. 1
     		if((ent.getPrincipioRango()==0 && ent.getFinalRango()==1)||(ent.getPrincipioRango()==1 && ent.getFinalRango()==1)){
     			Flecha miFlecha= new Flecha();
@@ -219,11 +171,25 @@ public class CreaLineas<V,E> implements Renderer.Edge<V, E> {
     		}
     		//cardinalidad a .. b : a>=1
     		else if(ent.getPrincipioRango()>=1)
-    			new DobleLinea(rc, e, nombre1, graph, diagonal, nombre2, thetaRadians, xIsA, yIsA, xEnti, yEnti, g);
-    		else new LineaRecta(rc, layout, e, nombre1, graph, diagonal, nombre2, tipo1, tipo2, numApariciones, vuelta, thetaRadians, v1, v2, xIsA, yIsA, xEnti, yEnti, dx, dy, g);
+    			new DobleLinea(rc, e, graph, diagonal, thetaRadians, xIsA, yIsA, xEnti, yEnti, g);
+    		else new LineaRecta(rc, layout, e, nombre1, graph, diagonal, nombre2,  numApariciones, vuelta, thetaRadians, v1, v2, xIsA, yIsA, xEnti, yEnti, dx, dy, g);
+    		diagonal=false;
+        }
+        else if(endpoints.getFirst() instanceof TransferEntidad && endpoints.getSecond() instanceof TransferRelacion){
+        	EntidadYAridad ent = (EntidadYAridad)((TransferRelacion) endpoints.getSecond()).getEntidadYAridad(((TransferEntidad) endpoints.getFirst()).getIdEntidad());
+    		//cardinalidad 0 .. 1 || 1 .. 1
+    		if((ent.getPrincipioRango()==0 && ent.getFinalRango()==1)||(ent.getPrincipioRango()==1 && ent.getFinalRango()==1)){
+    			Flecha miFlecha= new Flecha();
+    			miFlecha.createArrow(yEnti,yIsA,xEnti,xIsA,false,anchoRect);
+    			miFlecha.paintComponent(graf2d,xIsA,yIsA,xEnti,yEnti,false,anchoRect);
+    		}
+    		//cardinalidad a .. b : a>=1
+    		else if(ent.getPrincipioRango()>=1)
+    			new DobleLinea(rc, e, graph, diagonal, thetaRadians, xIsA, yIsA, xEnti, yEnti, g);
+    		else new LineaRecta(rc, layout, e, nombre1, graph, diagonal, nombre2,  numApariciones, vuelta, thetaRadians, v1, v2, xIsA, yIsA, xEnti, yEnti, dx, dy, g);
     		diagonal=false;
         }
         //Para el resto se pinta siempre una arista normal no dirigida
-        else new LineaRecta(rc, layout, e, nombre1, graph, diagonal, nombre2, tipo1, tipo2, numApariciones, vuelta, thetaRadians, v1, v2, xIsA, yIsA, xEnti, yEnti, dx, dy, g);
+        else new LineaRecta(rc, layout, e, nombre1, graph, diagonal, nombre2, numApariciones, vuelta, thetaRadians, v1, v2, xIsA, yIsA, xEnti, yEnti, dx, dy, g);
     }
 }

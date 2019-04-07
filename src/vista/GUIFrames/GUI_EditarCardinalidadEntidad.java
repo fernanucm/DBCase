@@ -73,7 +73,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 
 	private void initComponents() {
 
-        setTitle(Lenguaje.getMensaje(Lenguaje.EDIT_ARITY_AND_ROLLE));
+        setTitle(Lenguaje.text(Lenguaje.EDIT_ARITY_AND_ROLLE));
         setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setResizable(false);
@@ -112,10 +112,10 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 		if(this.getRelacion().getListaEntidadesYAridades().isEmpty())
 			JOptionPane.showMessageDialog(
 				null,
-				(Lenguaje.getMensaje(Lenguaje.ERROR))+"\n" +
-				(Lenguaje.getMensaje(Lenguaje.IMPOSIBLE_EDIT_ROLLE))+"\n" +
-				(Lenguaje.getMensaje(Lenguaje.NO_ENTITIES_IN_RELATION))+"\n",
-				(Lenguaje.getMensaje(Lenguaje.EDIT_ARITY)),
+				(Lenguaje.text(Lenguaje.ERROR))+"\n" +
+				(Lenguaje.text(Lenguaje.IMPOSIBLE_EDIT_ROLLE))+"\n" +
+				(Lenguaje.text(Lenguaje.NO_ENTITIES_IN_RELATION))+"\n",
+				(Lenguaje.text(Lenguaje.EDIT_ARITY)),
 				JOptionPane.PLAIN_MESSAGE,
 				new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
 		else{
@@ -376,7 +376,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 	private JButton getBotonCancelar() {
 		if(botonCancelar == null) {
 			botonCancelar = new JButton();
-			botonCancelar.setText(Lenguaje.getMensaje(Lenguaje.CANCEL));
+			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
 			botonCancelar.setFont(new java.awt.Font("SansSerif",0,11));
 			botonCancelar.setBounds(279, 347, 80, 25);
 			botonCancelar.addActionListener(new ActionListener() {
@@ -393,7 +393,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonCancelar.setMnemonic(Lenguaje.getMensaje(Lenguaje.CANCEL).charAt(0));
+			botonCancelar.setMnemonic(Lenguaje.text(Lenguaje.CANCEL).charAt(0));
 		}
 		return botonCancelar;
 	}
@@ -401,7 +401,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 	private JButton getBotonEditar() {
 		if(botonEditar == null) {
 			botonEditar = new JButton();
-			botonEditar.setText(Lenguaje.getMensaje(Lenguaje.ACCEPT));
+			botonEditar.setText(Lenguaje.text(Lenguaje.ACCEPT));
 			botonEditar.setFont(new java.awt.Font("SansSerif",0,11));
 			botonEditar.setBounds(188, 347, 80, 25);
 			botonEditar.addActionListener(new ActionListener() {
@@ -418,7 +418,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonEditar.setMnemonic(Lenguaje.getMensaje(Lenguaje.ACCEPT).charAt(0));
+			botonEditar.setMnemonic(Lenguaje.text(Lenguaje.ACCEPT).charAt(0));
 		}
 		return botonEditar;
 	}
@@ -440,7 +440,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 	private JTextPane getExplicacion() {
 		if(explicacion == null) {
 			explicacion = new JTextPane();
-			explicacion.setText(Lenguaje.getMensaje(Lenguaje.SELECT_ENTITY_TO_CHANGE));
+			explicacion.setText(Lenguaje.text(Lenguaje.SELECT_ENTITY_TO_CHANGE));
 			explicacion.setEditable(false);
 			explicacion.setOpaque(false);
 			explicacion.setBounds(25, 21, 238, 25);
@@ -452,7 +452,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 	private JTextPane getExplicacion2() {
 		if(explicacion2 == null) {
 			explicacion2 = new JTextPane();
-			explicacion2.setText(Lenguaje.getMensaje(Lenguaje.WRITE_NEW_ARITY));
+			explicacion2.setText(Lenguaje.text(Lenguaje.WRITE_NEW_ARITY));
 			explicacion2.setEditable(false);
 			explicacion2.setOpaque(false);
 			explicacion2.setBounds(25, 133, 238, 25);
@@ -473,7 +473,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 	private JLabel getJLabel1() {
 		if(jLabel1 == null) {
 			jLabel1 = new JLabel();
-			jLabel1.setText(Lenguaje.getMensaje(Lenguaje.TO));
+			jLabel1.setText(Lenguaje.text(Lenguaje.TO));
 			jLabel1.setBounds(140, 230, 60, 25);
 		}
 		return jLabel1;
@@ -492,7 +492,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 	private JTextPane getJTextRol() {
 		if(jTextRol == null) {
 			jTextRol = new JTextPane();
-			jTextRol.setText(Lenguaje.getMensaje(Lenguaje.WRITE_NEW_ROLLE));
+			jTextRol.setText(Lenguaje.text(Lenguaje.WRITE_NEW_ROLLE));
 			jTextRol.setBounds(25, 261, 239, 25);
 			jTextRol.setOpaque(false);
 			jTextRol.setEditable(false);
@@ -513,7 +513,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 	private JTextPane getJTextPane1() {
 		if(jTextPane1 == null) {
 			jTextPane1 = new JTextPane();
-			jTextPane1.setText(Lenguaje.getMensaje(Lenguaje.IF_ENTITY_HAS_ROLLE));
+			jTextPane1.setText(Lenguaje.text(Lenguaje.IF_ENTITY_HAS_ROLLE));
 			jTextPane1.setEditable(false);
 			jTextPane1.setOpaque(false);
 			jTextPane1.setBounds(25, 77, 238, 25);
@@ -647,7 +647,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 			buttonMax1 = new JRadioButton();
 			buttonMax1.setOpaque(false);
 			buttonMax1.setEnabled(false);
-			buttonMax1.setText(Lenguaje.getMensaje(Lenguaje.LABEL1A1));
+			buttonMax1.setText(Lenguaje.text(Lenguaje.LABEL1A1));
 			buttonMax1.setBounds(25, 159, 127, 30);
 			buttonMax1.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -673,7 +673,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 			buttonMaxN = new JRadioButton();
 			buttonMaxN.setOpaque(false);
 			buttonMaxN.setSelected(true);
-			buttonMaxN.setText(Lenguaje.getMensaje(Lenguaje.LABELNAN));
+			buttonMaxN.setText(Lenguaje.text(Lenguaje.LABELNAN));
 			buttonMaxN.setBounds(25, 195, 127, 30);
 			buttonMaxN.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -697,7 +697,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 			buttonMinMax = new JRadioButton();
 			buttonMinMax.setOpaque(false);
 			buttonMinMax.setEnabled(false);
-			buttonMinMax.setText(Lenguaje.getMensaje(Lenguaje.THE));
+			buttonMinMax.setText(Lenguaje.text(Lenguaje.THE));
 			buttonMinMax.setBounds(25, 230, 70, 25);
 			buttonMinMax.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent evt) {

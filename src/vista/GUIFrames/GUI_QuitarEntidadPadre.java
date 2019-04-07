@@ -54,7 +54,7 @@ public class GUI_QuitarEntidadPadre extends javax.swing.JDialog  implements KeyL
 	private void initComponents() {
 
 		getContentPane().setLayout(null);
-		setTitle(Lenguaje.getMensaje(Lenguaje.QUIT_PARENT_ENTITY));
+		setTitle(Lenguaje.text(Lenguaje.QUIT_PARENT_ENTITY));
 		setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
 		setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 		setModal(true);
@@ -68,7 +68,7 @@ public class GUI_QuitarEntidadPadre extends javax.swing.JDialog  implements KeyL
 		{
 			explicacion = new JTextPane();
 			getContentPane().add(explicacion);
-			explicacion.setText(Lenguaje.getMensaje(Lenguaje.EXPLICATION_QUIT_PARENT));
+			explicacion.setText(Lenguaje.text(Lenguaje.EXPLICATION_QUIT_PARENT));
 			explicacion.setBounds(88, 12, 228, 50);
 			explicacion.setOpaque(false);
 			explicacion.setEditable(false);
@@ -77,7 +77,7 @@ public class GUI_QuitarEntidadPadre extends javax.swing.JDialog  implements KeyL
 		{
 			pregunta = new JTextPane();
 			getContentPane().add(pregunta);
-			pregunta.setText(Lenguaje.getMensaje(Lenguaje.DO_YOU_WISH_QUIT_PARENT));
+			pregunta.setText(Lenguaje.text(Lenguaje.DO_YOU_WISH_QUIT_PARENT));
 			pregunta.setBounds(88, 68, 183, 20);
 			pregunta.setEditable(false);
 			pregunta.setOpaque(false);
@@ -86,7 +86,7 @@ public class GUI_QuitarEntidadPadre extends javax.swing.JDialog  implements KeyL
 		{
 			botonSi = new JButton();
 			getContentPane().add(botonSi);
-			botonSi.setText(Lenguaje.getMensaje(Lenguaje.YES));
+			botonSi.setText(Lenguaje.text(Lenguaje.YES));
 			botonSi.setBounds(106, 105, 80, 25);
 			botonSi.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -102,12 +102,12 @@ public class GUI_QuitarEntidadPadre extends javax.swing.JDialog  implements KeyL
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonSi.setMnemonic(Lenguaje.getMensaje(Lenguaje.YES).charAt(0));
+			botonSi.setMnemonic(Lenguaje.text(Lenguaje.YES).charAt(0));
 		}
 		{
 			botonNo = new JButton();
 			getContentPane().add(botonNo);
-			botonNo.setText(Lenguaje.getMensaje(Lenguaje.NO));
+			botonNo.setText(Lenguaje.text(Lenguaje.NO));
 			botonNo.setBounds(202, 105, 80, 25);
 			botonNo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -123,7 +123,7 @@ public class GUI_QuitarEntidadPadre extends javax.swing.JDialog  implements KeyL
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonNo.setMnemonic(Lenguaje.getMensaje(Lenguaje.NO).charAt(0));
+			botonNo.setMnemonic(Lenguaje.text(Lenguaje.NO).charAt(0));
 		}
 
 		this.setSize(349, 182);
@@ -181,10 +181,10 @@ public class GUI_QuitarEntidadPadre extends javax.swing.JDialog  implements KeyL
 		if(this.getRelacion().getListaEntidadesYAridades().isEmpty())
 			JOptionPane.showMessageDialog(
 				null,
-				(Lenguaje.getMensaje(Lenguaje.ERROR))+"\n" +
-				(Lenguaje.getMensaje(Lenguaje.IMPOSIBLE_QUIT_PARENT))+"\n" +
-				(Lenguaje.getMensaje(Lenguaje.NO_FATHER))+"\n",
-				Lenguaje.getMensaje(Lenguaje.QUIT_PARENT_ENTITY),
+				(Lenguaje.text(Lenguaje.ERROR))+"\n" +
+				(Lenguaje.text(Lenguaje.IMPOSIBLE_QUIT_PARENT))+"\n" +
+				(Lenguaje.text(Lenguaje.NO_FATHER))+"\n",
+				Lenguaje.text(Lenguaje.QUIT_PARENT_ENTITY),
 				JOptionPane.PLAIN_MESSAGE,
 				new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
 		else{

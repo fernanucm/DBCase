@@ -32,30 +32,30 @@ public class AccionMenu extends AbstractAction {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if(textoOpcion.equals(Lenguaje.getMensaje(Lenguaje.DOM_MENU_RENAME))){
+		if(textoOpcion.equals(Lenguaje.text(Lenguaje.DOM_MENU_RENAME))){
 			TransferDominio clon_dominio = dominio.clonar();
 			principal.getPopUp().setVisible(false);
 			principal.getControlador().mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_RenombrarDominio,clon_dominio);
 			principal.actualizaArbolDominio(clon_dominio.getNombre());
 		}
-		if(textoOpcion.equals(Lenguaje.getMensaje(Lenguaje.DOM_MENU_DELETE))){
+		if(textoOpcion.equals(Lenguaje.text(Lenguaje.DOM_MENU_DELETE))){
 			TransferDominio clon_dominio = dominio.clonar();
 			principal.getPopUp().setVisible(false);
 			principal.getControlador().mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EliminarDominio,clon_dominio);
 			principal.actualizaArbolDominio(null);
 		}
-		if(textoOpcion.equals(Lenguaje.getMensaje(Lenguaje.DOM_MENU_MODIFY))){
+		if(textoOpcion.equals(Lenguaje.text(Lenguaje.DOM_MENU_MODIFY))){
 			TransferDominio clon_dominio = dominio.clonar();
 			principal.getPopUp().setVisible(false);
 			principal.getControlador().mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_ModificarDominio,clon_dominio);
 			principal.actualizaArbolDominio(clon_dominio.getNombre());
 		}
-		if(textoOpcion.equals(Lenguaje.getMensaje(Lenguaje.DOM_MENU_ADD))){
+		if(textoOpcion.equals(Lenguaje.text(Lenguaje.DOM_MENU_ADD))){
 			principal.getPopUp().setVisible(false);
 			principal.getControlador().mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_CrearDominio, null);
 			principal.actualizaArbolDominio(null);
 		}
-		if(textoOpcion.equals(Lenguaje.getMensaje(Lenguaje.DOM_MENU_IN_ORDER))){
+		if(textoOpcion.equals(Lenguaje.text(Lenguaje.DOM_MENU_IN_ORDER))){
 			TransferDominio clon_dominio = dominio.clonar();
 			principal.getPopUp().setVisible(false);
 			principal.getControlador().mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_OrdenarValoresDominio,clon_dominio);

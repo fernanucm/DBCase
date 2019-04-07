@@ -27,8 +27,8 @@ public class ConectorAccessOdbc extends ConectorDBMS {
 		try {
 			Class.forName(driver);
 		} catch (ClassNotFoundException e) {
-			System.err.println(Lenguaje.getMensaje(Lenguaje.NO_CONECTOR));
-			throw new SQLException(Lenguaje.getMensaje(Lenguaje.NO_CONECTOR));
+			System.err.println(Lenguaje.text(Lenguaje.NO_CONECTOR));
+			throw new SQLException(Lenguaje.text(Lenguaje.NO_CONECTOR));
 		}
 		
 		_conexion = DriverManager.getConnection(ruta, usuario, password);
