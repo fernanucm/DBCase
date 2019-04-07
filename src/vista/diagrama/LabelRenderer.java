@@ -65,7 +65,7 @@ public class LabelRenderer<V,E> implements edu.uci.ics.jung.visualization.render
 		Theme theme = Theme.getInstancia();
 		/*Cambia la fuente de los elementos*/
 		rc.setVertexFontTransformer(new Transformer<V,Font>(){
-			@Override public Font transform(V arg0) {return new java.awt.Font("Avenir", 0, 16);}
+			@Override public Font transform(V arg0) {return theme.font();}
 		});
 		
 		/*Cambia el color de las uniones entre elementos*/

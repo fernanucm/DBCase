@@ -139,7 +139,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		
 		setLookAndFeel();
 		initComponents();
-		changeFont(this,new java.awt.Font("Avenir", 0, 16));
+		changeFont(this,theme.font());
 		dealer = new ViewDealer(this.getContentPane(), panelDiagrama, panelGeneracion, infoTabPane);
 		setModoVista(modo);
 		SwingUtilities.invokeLater(new Runnable() {
@@ -167,37 +167,37 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	
 	private void setLookAndFeel(){
 		UIManager.put("Button.defaultButtonFollowsFocus", Boolean.TRUE);
-		UIManager.put("Button.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("ToggleButton.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("RadioButton.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("CheckBox.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("ColorChooser.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("ComboBox.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("Label.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("List.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("MenuBar.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("MenuItem.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("RadioButtonMenuItem.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("CheckBoxMenuItem.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("Menu.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("PopupMenu.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("OptionPane.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("Panel.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("ProgressBar.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("ScrollPane.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("Viewport.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("TabbedPane.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("Table.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("TableHeader.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("TextField.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("PasswordField.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("TextArea.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("TextPane.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("EditorPane.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("TitledBorder.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("ToolBar.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("ToolTip.font",  new java.awt.Font("Avenir", 0, 16));
-		UIManager.put("Tree.font",  new java.awt.Font("Avenir", 0, 16));
+		UIManager.put("Button.font",  theme.font());
+		UIManager.put("ToggleButton.font",  theme.font());
+		UIManager.put("RadioButton.font",  theme.font());
+		UIManager.put("CheckBox.font",  theme.font());
+		UIManager.put("ColorChooser.font",  theme.font());
+		UIManager.put("ComboBox.font",  theme.font());
+		UIManager.put("Label.font",  theme.font());
+		UIManager.put("List.font",  theme.font());
+		UIManager.put("MenuBar.font",  theme.font());
+		UIManager.put("MenuItem.font",  theme.font());
+		UIManager.put("RadioButtonMenuItem.font",  theme.font());
+		UIManager.put("CheckBoxMenuItem.font",  theme.font());
+		UIManager.put("Menu.font",  theme.font());
+		UIManager.put("PopupMenu.font",  theme.font());
+		UIManager.put("OptionPane.font",  theme.font());
+		UIManager.put("Panel.font",  theme.font());
+		UIManager.put("ProgressBar.font",  theme.font());
+		UIManager.put("ScrollPane.font",  theme.font());
+		UIManager.put("Viewport.font",  theme.font());
+		UIManager.put("TabbedPane.font",  theme.font());
+		UIManager.put("Table.font",  theme.font());
+		UIManager.put("TableHeader.font",  theme.font());
+		UIManager.put("TextField.font",  theme.font());
+		UIManager.put("PasswordField.font",  theme.font());
+		UIManager.put("TextArea.font",  theme.font());
+		UIManager.put("TextPane.font",  theme.font());
+		UIManager.put("EditorPane.font",  theme.font());
+		UIManager.put("TitledBorder.font",  theme.font());
+		UIManager.put("ToolBar.font",  theme.font());
+		UIManager.put("ToolTip.font",  theme.font());
+		UIManager.put("Tree.font",  theme.font());
 		
 		UIManager.put("nimbusBase", theme.main());
 		UIManager.put("control", theme.control());
@@ -437,9 +437,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		codePanel.add(codigoText.getPanel(), BorderLayout.CENTER);
 	}
 	
-
-	
-
 	/*
 	 * Oyentes de la toolbar de generacion
 	 */

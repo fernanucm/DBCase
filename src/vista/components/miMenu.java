@@ -9,7 +9,6 @@ import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -39,7 +38,7 @@ public class miMenu extends JMenuBar{
 	private AbstractButton submenuSalir;
 	private AbstractButton menuOpciones;
 	private JMenu menuLenguajes;
-	private Vector<JCheckBoxMenuItem> elementosMenuLenguajes;
+	private Vector<JRadioButtonMenuItem> elementosMenuLenguajes;
 	private JMenu themeMenu;
 	private JMenu menuAyuda;
 	private AbstractButton submenuAcercaDe;
@@ -55,12 +54,15 @@ public class miMenu extends JMenuBar{
 		setBorder(BorderFactory.createCompoundBorder(null,null));
 		//File
 		menuSistema = new JMenu();
+		menuSistema.setForeground(theme.fontColor());
 		menuSistema.addMenuListener(a);
 		add(menuSistema);
 		menuSistema.setText(Lenguaje.text(Lenguaje.FILE));
 		menuSistema.setMnemonic(Lenguaje.text(Lenguaje.FILE).charAt(0));
 			//File/new
 			submenuNuevo = new JMenuItem();
+			submenuNuevo.setFont(theme.font());
+			submenuNuevo.setForeground(theme.fontColor());
 			menuSistema.add(submenuNuevo);
 			submenuNuevo.setText(Lenguaje.text(Lenguaje.NEW));
 			submenuNuevo.setMnemonic(Lenguaje.text(Lenguaje.NEW).charAt(0));
@@ -71,6 +73,8 @@ public class miMenu extends JMenuBar{
 			});
 			//File/open
 			submenuAbrir = new JMenuItem();
+			submenuAbrir.setForeground(theme.fontColor());
+			submenuAbrir.setFont(theme.font());
 			menuSistema.add(submenuAbrir);
 			submenuAbrir.setText(Lenguaje.text(Lenguaje.OPEN)+"...");
 			submenuAbrir.setMnemonic(Lenguaje.text(Lenguaje.OPEN).charAt(0));
@@ -81,6 +85,8 @@ public class miMenu extends JMenuBar{
 			});
 			//File/close
 			submenuCerrar = new JMenuItem();
+			submenuCerrar.setForeground(theme.fontColor());
+			submenuCerrar.setFont(theme.font());
 			menuSistema.add(submenuCerrar);
 			submenuCerrar.setText(Lenguaje.text(Lenguaje.CLOSE));
 			submenuCerrar.setMnemonic(Lenguaje.text(Lenguaje.CLOSE).charAt(0));
@@ -93,6 +99,8 @@ public class miMenu extends JMenuBar{
 			menuSistema.add(new JSeparator());
 			//File/save
 			submenuGuardar = new JMenuItem();
+			submenuGuardar.setFont(theme.font());
+			submenuGuardar.setForeground(theme.fontColor());
 			menuSistema.add(submenuGuardar);
 			submenuGuardar.setText(Lenguaje.text(Lenguaje.SAVE));
 			submenuGuardar.setMnemonic(Lenguaje.text(Lenguaje.SAVE).charAt(0));
@@ -103,6 +111,8 @@ public class miMenu extends JMenuBar{
 			});
 			//File/save as...
 			submenuGuardarComo = new JMenuItem();
+			submenuGuardarComo.setForeground(theme.fontColor());
+			submenuGuardarComo.setFont(theme.font());
 			menuSistema.add(submenuGuardarComo);
 			submenuGuardarComo.setText(Lenguaje.text(Lenguaje.SAVE_AS)+"...");
 			submenuGuardarComo.setMnemonic(Lenguaje.text(Lenguaje.SAVE_AS).charAt(1));
@@ -115,6 +125,8 @@ public class miMenu extends JMenuBar{
 			menuSistema.add(new JSeparator());
 			//File/imprimir
 			submenuImprimir = new JMenuItem();
+			submenuImprimir.setFont(theme.font());
+			submenuImprimir.setForeground(theme.fontColor());
 			menuSistema.add(submenuImprimir);
 			submenuImprimir.setText(Lenguaje.text(Lenguaje.PRINT_DIAGRAM)+"...");
 			submenuImprimir.setMnemonic(Lenguaje.text(Lenguaje.PRINT_DIAGRAM).charAt(0));
@@ -125,6 +137,8 @@ public class miMenu extends JMenuBar{
 			});
 			//File/Export
 			submenuExportarJPEG = new JMenuItem();
+			submenuExportarJPEG.setFont(theme.font());
+			submenuExportarJPEG.setForeground(theme.fontColor());
 			menuSistema.add(submenuExportarJPEG);
 			submenuExportarJPEG.setText(Lenguaje.text(Lenguaje.EXPORT_DIAGRAM));
 			submenuExportarJPEG.setMnemonic(Lenguaje.text(Lenguaje.EXPORT_DIAGRAM).charAt(0));
@@ -137,6 +151,8 @@ public class miMenu extends JMenuBar{
 			menuSistema.add(new JSeparator());
 			//File/salir
 			submenuSalir = new JMenuItem();
+			submenuSalir.setFont(theme.font());
+			submenuSalir.setForeground(theme.fontColor());
 			menuSistema.add(submenuSalir);
 			submenuSalir.setText(Lenguaje.text(Lenguaje.EXIT_MINCASE));
 			submenuSalir.setMnemonic(Lenguaje.text(Lenguaje.EXIT_MINCASE).charAt(0));
@@ -147,16 +163,21 @@ public class miMenu extends JMenuBar{
 			});
 		//Vista
 		menuOpciones = new JMenu();
+		menuOpciones.setForeground(theme.fontColor());
 		add(menuOpciones);
 		menuOpciones.setText(Lenguaje.text(Lenguaje.VIEW));
 		menuOpciones.setMnemonic(Lenguaje.text(Lenguaje.VIEW).charAt(0));
 		toggleDiseno = new JRadioButtonMenuItem();
+		toggleDiseno.setForeground(theme.fontColor());
 		toggleCodigo = new JRadioButtonMenuItem();
+		toggleCodigo.setForeground(theme.fontColor());
 		themeMenu = new JMenu();
+		themeMenu.setForeground(theme.fontColor());
 		for(String s : this.theme.getAvaiableThemes()) {
-			JCheckBoxMenuItem item = new JCheckBoxMenuItem();
+			JRadioButtonMenuItem item = new JRadioButtonMenuItem();
 			item.setText(s);
-			item.setFont(new java.awt.Font("Avenir", 0, 16));
+			item.setFont(theme.font());
+			item.setForeground(theme.fontColor());
 			item.setActionCommand(s);
 			if(s.equals(theme.getThemeName()))item.setSelected(true);
 			item.addActionListener(new ActionListener() {
@@ -173,14 +194,14 @@ public class miMenu extends JMenuBar{
 			});
 			themeMenu.add(item);
 		}
-		themeMenu.setFont(new java.awt.Font("Avenir", 0, 16));
+		themeMenu.setFont(theme.font());
 		menuOpciones.add(toggleDiseno);
 		menuOpciones.add(toggleCodigo);
 		menuOpciones.add(new JSeparator());
 		menuOpciones.add(themeMenu);
 		menuOpciones.add(new JSeparator());
 		toggleDiseno.setText(Lenguaje.text(Lenguaje.CONC_MODEL));
-		toggleDiseno.setFont(new java.awt.Font("Avenir", 0, 16));
+		toggleDiseno.setFont(theme.font());
 		toggleDiseno.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -188,7 +209,7 @@ public class miMenu extends JMenuBar{
 			}
 		});
 		toggleCodigo.setText("Logic + physical");
-		toggleCodigo.setFont(new java.awt.Font("Avenir", 0, 16));
+		toggleCodigo.setFont(theme.font());
 		toggleCodigo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -198,23 +219,26 @@ public class miMenu extends JMenuBar{
 		themeMenu.setText(Lenguaje.text(Lenguaje.THEME));
 		//Opciones/Lenguaje
 		menuLenguajes = new JMenu();
-		menuLenguajes.setFont(new java.awt.Font("Avenir", 0, 16));
+		menuLenguajes.setForeground(theme.fontColor());
+		menuLenguajes.setFont(theme.font());
 		menuOpciones.add(menuLenguajes);
 		menuLenguajes.setText(Lenguaje.text(Lenguaje.SELECT_LANGUAGE));
 		menuLenguajes.setMnemonic(Lenguaje.text(Lenguaje.SELECT_LANGUAGE).charAt(0));
-		elementosMenuLenguajes = new Vector<JCheckBoxMenuItem>(0,1);
+		elementosMenuLenguajes = new Vector<JRadioButtonMenuItem>(0,1);
 		Vector<String> lenguajes = Lenguaje.obtenLenguajesDisponibles();
 		for (int m=0; m<lenguajes.size(); m++){
-			JCheckBoxMenuItem lenguaje = new JCheckBoxMenuItem();
+			JRadioButtonMenuItem lenguaje = new JRadioButtonMenuItem();
 			lenguaje.setText(lenguajes.get(m));
+			lenguaje.setFont(theme.font());
 			lenguaje.setSelected(lenguajes.get(m).equalsIgnoreCase(Lenguaje.getIdiomaActual()));
+			lenguaje.setForeground(theme.fontColor());
 			lenguaje.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					JCheckBoxMenuItem check = (JCheckBoxMenuItem) e.getSource();
+					JRadioButtonMenuItem check = (JRadioButtonMenuItem) e.getSource();
 					c.mensajeDesde_GUIPrincipal(TC.GUI_Principal_CambiarLenguaje, check.getText());
 					// Actualizar los checkBox
 					for (int k=0; k<elementosMenuLenguajes.size(); k++){
-						JCheckBoxMenuItem l = elementosMenuLenguajes.get(k);
+						JRadioButtonMenuItem l = elementosMenuLenguajes.get(k);
 						l.setSelected(l.getText().equalsIgnoreCase(Lenguaje.getIdiomaActual()));
 					}
 				}
@@ -224,11 +248,14 @@ public class miMenu extends JMenuBar{
 		}
 		//Ayuda
 		menuAyuda = new JMenu();
+		menuAyuda.setForeground(theme.fontColor());
 		add(menuAyuda);
 		menuAyuda.setText(Lenguaje.text(Lenguaje.HELP));
 		menuAyuda.setMnemonic(Lenguaje.text(Lenguaje.HELP).charAt(0));
 			//Ayuda/acerca de
 			submenuAcercaDe = new JMenuItem();
+			submenuAcercaDe.setFont(theme.font());
+			submenuAcercaDe.setForeground(theme.fontColor());
 			menuAyuda.add(submenuAcercaDe);
 			submenuAcercaDe.setText(Lenguaje.text(Lenguaje.ABOUT));
 			submenuAcercaDe.setMnemonic(Lenguaje.text(Lenguaje.ABOUT).charAt(0));
@@ -238,6 +265,7 @@ public class miMenu extends JMenuBar{
 				}
 			});
 	}
+	
 	
 	/******************
 	 * Listeners

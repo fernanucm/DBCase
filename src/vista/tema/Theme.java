@@ -1,5 +1,6 @@
 package vista.tema;
 
+import java.awt.Font;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class Theme {
 	private static String current;
 	private static HashMap<String,myColor> colors;
 	private static final String DEFAULT = "light";
+	private static Font font = new java.awt.Font("Avenir", 0, 16);
 		
 	public static Theme getInstancia() {
 		if(INSTANCE==null) INSTANCE = new Theme();
@@ -61,6 +63,10 @@ public class Theme {
 			current = name;
 			loadTheme();
 		}
+	}
+	
+	public Font font(){
+		return font;
 	}
 	
 	public String getThemeName(){
