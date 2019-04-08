@@ -132,19 +132,11 @@ public class GUI_WorkSpace extends javax.swing.JDialog{
 		if (command.equals(JFileChooser.APPROVE_SELECTION)){
 			actuado=true;
 			switch (abrir){
-				case 1:{
-					abrirProyecto();
-					break;
-				}
-				case 2:{
-					guardarComo();
-					break;
-				}
-				case 3:{
-					guardarComo();
-					break;
-				}
+				case 1: abrirProyecto(); break;
+				case 2: guardarComo(); break;
+				case 3: guardarComo(); break;
 			}
+			this.dispose();
 		}
 		// Si se ha pulsado el boton cancelar
 		else if (command.equals(JFileChooser.CANCEL_SELECTION)) {

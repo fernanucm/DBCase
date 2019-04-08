@@ -55,6 +55,7 @@ public class miMenu extends JMenuBar{
 		//File
 		menuSistema = new JMenu();
 		menuSistema.setForeground(theme.fontColor());
+		menuSistema.setFont(theme.font());
 		menuSistema.addMenuListener(a);
 		add(menuSistema);
 		menuSistema.setText(Lenguaje.text(Lenguaje.FILE));
@@ -164,6 +165,7 @@ public class miMenu extends JMenuBar{
 		//Vista
 		menuOpciones = new JMenu();
 		menuOpciones.setForeground(theme.fontColor());
+		menuOpciones.setFont(theme.font());
 		add(menuOpciones);
 		menuOpciones.setText(Lenguaje.text(Lenguaje.VIEW));
 		menuOpciones.setMnemonic(Lenguaje.text(Lenguaje.VIEW).charAt(0));
@@ -249,6 +251,7 @@ public class miMenu extends JMenuBar{
 		//Ayuda
 		menuAyuda = new JMenu();
 		menuAyuda.setForeground(theme.fontColor());
+		menuAyuda.setFont(theme.font());
 		add(menuAyuda);
 		menuAyuda.setText(Lenguaje.text(Lenguaje.HELP));
 		menuAyuda.setMnemonic(Lenguaje.text(Lenguaje.HELP).charAt(0));
@@ -265,7 +268,6 @@ public class miMenu extends JMenuBar{
 				}
 			});
 	}
-	
 	
 	/******************
 	 * Listeners

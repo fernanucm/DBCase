@@ -13,24 +13,15 @@ import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
 
-
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class ServiciosEntidades {
-
-
-	// Controlador
-	Controlador controlador;
-	
-	// Constructor vacio
-	public ServiciosEntidades() {
-	}
-	
+	private Controlador controlador;
 	
 	public void ListaDeEntidades(){
 		DAOEntidades dao = new DAOEntidades(this.controlador.getPath());
 		Vector <TransferEntidad> lista_entidades = dao.ListaDeEntidades();
 		controlador.mensajeDesde_SE(TC.SE_ListarEntidades_HECHO, lista_entidades);
 	}
-	
 	
 	/* Anadir Entidad
 	 * Parametros: un TransferEntidad que contiene el nombre de la nueva entidad y la posicion donde debe ir dibujado.
@@ -40,7 +31,6 @@ public class ServiciosEntidades {
 	 * Si el nombre ya existe -> SE_InsertarEntidad_ERROR_NombreDeEntidadYaExiste
 	 * Si al usar el DAOEntidades se produce un error -> SE_InsertarEntidad_ERROR_DAO
 	 */
-	@SuppressWarnings("rawtypes")
 	public void anadirEntidad(TransferEntidad te){
 		if (te.getNombre().isEmpty()){
 			controlador.mensajeDesde_SE(TC.SE_InsertarEntidad_ERROR_NombreDeEntidadEsVacio, null);
@@ -83,7 +73,6 @@ public class ServiciosEntidades {
 	 * Si el nombre ya existe -> SE_InsertarEntidad_ERROR_NombreDeEntidadYaExiste
 	 * Si al usar el DAOEntidades se produce un error -> SE_InsertarEntidad_ERROR_DAO
 	 */
-	@SuppressWarnings("rawtypes")
 	public boolean SePuedeAnadirEntidad(TransferEntidad te){
 		if (te.getNombre().isEmpty()){
 			controlador.mensajeDesde_SE(TC.SE_ComprobarInsertarEntidad_ERROR_NombreDeEntidadEsVacio, null);
@@ -116,7 +105,7 @@ public class ServiciosEntidades {
 	 * Renombrar una en entidad
 	 * -> Recibe la entidad y el nuevo nombre
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	
 	public void renombrarEntidad(Vector v){
 		TransferEntidad te = (TransferEntidad) v.get(0);
 		String nuevoNombre = (String) v.get(1);
@@ -175,8 +164,7 @@ public class ServiciosEntidades {
 			te.setDebil(!te.isDebil());
 			controlador.mensajeDesde_SE(TC.SE_DebilitarEntidad_ERROR_DAOEntidades, te);
 		}
-		else 
-			controlador.mensajeDesde_SE(TC.SE_DebilitarEntidad_HECHO, te);
+		else controlador.mensajeDesde_SE(TC.SE_DebilitarEntidad_HECHO, te);
 		return;
 	}
 	
@@ -195,7 +183,6 @@ public class ServiciosEntidades {
 	 * Anadir un atributo a una entidad
 	 * -> en v viene la entidad (pos 0) y el atributo (pos 1)
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void anadirAtributo(Vector v){
 		TransferEntidad te = (TransferEntidad) v.get(0);
 		TransferAtributo ta = (TransferAtributo) v.get(1);
@@ -228,16 +215,12 @@ public class ServiciosEntidades {
 			}
 		}
 		// Creamos el atributo
-		//DAOAtributos daoAtributos = new DAOAtributos(this.controlador.getPath());
 		int idNuevoAtributo = daoAtributos.anadirAtributo(ta);
 		if(idNuevoAtributo == -1){this.controlador.mensajeDesde_SE(TC.SE_AnadirAtributoAEntidad_ERROR_DAOAtributos, v); return; }
 		// Anadimos el atributo a la lista de atributos de la entidad
 		ta.setIdAtributo(idNuevoAtributo);
 		te.getListaAtributos().add(Integer.toString(idNuevoAtributo));
-		/*if(ta.isClavePrimaria()){
-			//PanelDiseno_Click_EditarClavePrimariaAtributo;AQUI
-			//controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarClavePrimariaAtributo,v);
-		}*/
+		
 		DAOEntidades daoEntidades = new DAOEntidades(this.controlador.getPath());
 		if (!daoEntidades.modificarEntidad(te)){
 			this.controlador.mensajeDesde_SE(TC.SE_AnadirAtributoAEntidad_ERROR_DAOEntidades, v);
@@ -278,7 +261,6 @@ public class ServiciosEntidades {
 	 * relaciones la modificaremos quitando la referencia, la persistimos.
 	 * Deolveremos un vector de relaciones modificadas. Cuando no este referenciada, el vector estara vacio.
 	 */
-	@SuppressWarnings("rawtypes")
 	private Vector<TransferRelacion> eliminaRefererenciasAEntidad(TransferEntidad te){
 		Vector<TransferRelacion> vectorRelaciones = new Vector<TransferRelacion>();
 		int idEntidad = te.getIdEntidad();
@@ -313,16 +295,12 @@ public class ServiciosEntidades {
 		return vectorRelaciones;
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void anadirRestriccion(Vector v){
 		TransferEntidad te = (TransferEntidad) v.get(0);
 		String restriccion = (String) v.get(1);
 		
-		// Si nombre es vacio -> ERROR
-		if (restriccion.isEmpty()){
-			//controlador.mensajeDesde_SE(TC.SE_RenombrarEntidad_ERROR_NombreDeEntidadEsVacio, v);
-			return;
-		}
+		if (restriccion.isEmpty()) return;
+		
 		DAOEntidades daoEntidades = new DAOEntidades(this.controlador.getPath());
 		Vector<TransferEntidad> lista = daoEntidades.ListaDeEntidades();
 		if (lista == null){
@@ -333,30 +311,19 @@ public class ServiciosEntidades {
 		Vector<String> vRestricciones = te.getListaRestricciones();
 		vRestricciones.add(restriccion);
 		te.setListaRestricciones(vRestricciones);
-				
-		//te.setNombre(nuevoNombre);
-		if (daoEntidades.modificarEntidad(te) == false){
-			//te.setNombre(antiguoNombre);
-			//controlador.mensajeDesde_SE(TC.SE_RenombrarEntidad_ERROR_DAOEntidades, v);
-		}
-		else{
-			//v.add(antiguoNombre);
+
+		if (daoEntidades.modificarEntidad(te) == false)
 			controlador.mensajeDesde_SE(TC.SE_AnadirRestriccionAEntidad_HECHO, v);
-		}
-			
+		
 		return;
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void quitarRestriccion(Vector v){
 		TransferEntidad te = (TransferEntidad) v.get(0);
 		String restriccion = (String) v.get(1);
 		
-		// Si nombre es vacio -> ERROR
-		if (restriccion.isEmpty()){
-			//controlador.mensajeDesde_SE(TC.SE_RenombrarEntidad_ERROR_NombreDeEntidadEsVacio, v);
-			return;
-		}
+		if (restriccion.isEmpty()) return;
+		
 		DAOEntidades daoEntidades = new DAOEntidades(this.controlador.getPath());
 		Vector<TransferEntidad> lista = daoEntidades.ListaDeEntidades();
 		if (lista == null){
@@ -376,18 +343,12 @@ public class ServiciosEntidades {
 		}
 		te.setListaRestricciones(vRestricciones);
 		
-		if (daoEntidades.modificarEntidad(te) == false){
-			//te.setNombre(antiguoNombre);
-			//controlador.mensajeDesde_SE(TC.SE_RenombrarEntidad_ERROR_DAOEntidades, v);
-		}
-		else{
+		if (daoEntidades.modificarEntidad(te))
 			controlador.mensajeDesde_SE(TC.SE_QuitarRestriccionAEntidad_HECHO, v);
-		}
-			
+		
 		return;
 	}
 	
-	@SuppressWarnings( "rawtypes" )
 	public void setRestricciones(Vector v) {
 		Vector restricciones = (Vector) v.get(0);
 		TransferEntidad te = (TransferEntidad) v.get(1);
@@ -399,26 +360,18 @@ public class ServiciosEntidades {
 			return;
 		}
 		te.setListaRestricciones(restricciones);
-		if (daoEntidades.modificarEntidad(te) == false){
-			
-		}
-		else{
+		if (daoEntidades.modificarEntidad(te))
 			controlador.mensajeDesde_SE(TC.SE_setRestriccionesAEntidad_HECHO, v);
-		}
-			
 		return;		
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void anadirUnique(Vector v){
 		TransferEntidad te = (TransferEntidad) v.get(0);
 		String unique = (String) v.get(1);
 		
 		// Si nombre es vacio -> ERROR
-		if (unique.isEmpty()){
-			//controlador.mensajeDesde_SE(TC.SE_RenombrarEntidad_ERROR_NombreDeEntidadEsVacio, v);
-			return;
-		}
+		if (unique.isEmpty()) return;
+		
 		DAOEntidades daoEntidades = new DAOEntidades(this.controlador.getPath());
 		Vector<TransferEntidad> lista = daoEntidades.ListaDeEntidades();
 		if (lista == null){
@@ -431,28 +384,17 @@ public class ServiciosEntidades {
 		te.setListaUniques(vUniques);
 				
 		//te.setNombre(nuevoNombre);
-		if (daoEntidades.modificarEntidad(te) == false){
-			//te.setNombre(antiguoNombre);
-			//controlador.mensajeDesde_SE(TC.SE_RenombrarEntidad_ERROR_DAOEntidades, v);
-		}
-		else{
-			//v.add(antiguoNombre);
+		if (daoEntidades.modificarEntidad(te))
 			controlador.mensajeDesde_SE(TC.SE_AnadirUniqueAEntidad_HECHO, v);
-		}
-			
 		return;
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void quitarUnique(Vector v){
 		TransferEntidad te = (TransferEntidad) v.get(0);
 		String unique = (String) v.get(1);
 		
-		// Si nombre es vacio -> ERROR
-		if (unique.isEmpty()){
-			//controlador.mensajeDesde_SE(TC.SE_RenombrarEntidad_ERROR_NombreDeEntidadEsVacio, v);
-			return;
-		}
+		if (unique.isEmpty()) return;
+		
 		DAOEntidades daoEntidades = new DAOEntidades(this.controlador.getPath());
 		Vector<TransferEntidad> lista = daoEntidades.ListaDeEntidades();
 		if (lista == null){
@@ -472,17 +414,11 @@ public class ServiciosEntidades {
 		}
 		te.setListaUniques(vUniques);
 		
-		if (daoEntidades.modificarEntidad(te) == false){
-			//te.setNombre(antiguoNombre);
-			//controlador.mensajeDesde_SE(TC.SE_RenombrarEntidad_ERROR_DAOEntidades, v);
-		}
-		else{
+		if (daoEntidades.modificarEntidad(te))
 			controlador.mensajeDesde_SE(TC.SE_QuitarUniqueAEntidad_HECHO, v);
-		}	
 		return;
 	}
 	
-	@SuppressWarnings("rawtypes")
 	public void setUniques(Vector v) {
 		Vector uniques = (Vector) v.get(0);
 		TransferEntidad te = (TransferEntidad) v.get(1);
@@ -494,19 +430,15 @@ public class ServiciosEntidades {
 			return;
 		}
 		te.setListaUniques(uniques);
-		if (daoEntidades.modificarEntidad(te) == false){
-			
-		}
-		else{
+		if (daoEntidades.modificarEntidad(te))
 			controlador.mensajeDesde_SE(TC.SE_setUniquesAEntidad_HECHO, v);
-		}
+		
 		return;		
 	}
 	
 	/*
 	 * Quitar/poner un Unique unitario a la entidad
 	 * */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void setUniqueUnitario(Vector v) {
 		TransferEntidad te = (TransferEntidad) v.get(0);
 		TransferAtributo ta= (TransferAtributo) v.get(1);
@@ -515,11 +447,8 @@ public class ServiciosEntidades {
 		boolean encontrado=false;
 		int i=0;
 		while(i<uniques.size()){
-			if(uniques.get(i).toString().equals(ta.getNombre())){
-				encontrado=true;
-			}else{
-				uniquesCopia.add(uniques.get(i));
-			}			
+			if(uniques.get(i).toString().equals(ta.getNombre())) encontrado=true;
+			else uniquesCopia.add(uniques.get(i));			
 			i++;
 		}
 		if(!encontrado)
@@ -532,16 +461,12 @@ public class ServiciosEntidades {
 			return;
 		}
 		te.setListaUniques(uniquesCopia);
-		if (daoEntidades.modificarEntidad(te) == false){
-			
-		}
-		else{
+		if (daoEntidades.modificarEntidad(te))
 			controlador.mensajeDesde_SE(TC.SE_setUniqueUnitarioAEntidad_HECHO, v);
-		}
+		
 		return;		
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void eliminarReferenciasUnitario(Vector v) {
 		TransferEntidad te = (TransferEntidad) v.get(0);
 		TransferAtributo ta= (TransferAtributo) v.get(1);
@@ -567,9 +492,7 @@ public class ServiciosEntidades {
 				s= s.replaceAll(" ", "");
 				s= s.replaceAll(",",", ");
 				uniquesCopia.add(s);
-			}else{
-				uniquesCopia.add(uniques.get(i));
-			}			
+			}else uniquesCopia.add(uniques.get(i));
 			i++;
 		}
 		
@@ -580,16 +503,12 @@ public class ServiciosEntidades {
 			return;
 		}
 		te.setListaUniques(uniquesCopia);
-		if (daoEntidades.modificarEntidad(te) == false){
-			
-		}
-		else{
+		if (daoEntidades.modificarEntidad(te))
 			controlador.mensajeDesde_SE(TC.SE_setUniqueUnitarioAEntidad_HECHO, v);
-		}
+		
 		return;		
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void renombraUnique(Vector v) {
 		TransferEntidad te = (TransferEntidad) v.get(0);
 		TransferAtributo ta= (TransferAtributo) v.get(1);
@@ -602,9 +521,7 @@ public class ServiciosEntidades {
 				String s = uniques.get(i).toString();
 				s= s.replaceAll(antiguoNombre, ta.getNombre());
 				uniquesCopia.add(s);
-			}else{
-				uniquesCopia.add(uniques.get(i));
-			}			
+			}else uniquesCopia.add(uniques.get(i));
 			i++;
 		}
 		
@@ -615,12 +532,8 @@ public class ServiciosEntidades {
 			return;
 		}
 		te.setListaUniques(uniquesCopia);
-		if (daoEntidades.modificarEntidad(te) == false){
-			
-		}
-		else{
+		if (daoEntidades.modificarEntidad(te))
 			controlador.mensajeDesde_SE(TC.SE_setUniqueUnitarioAEntidad_HECHO, v);
-		}
 		return;		
 	}
 
@@ -642,7 +555,6 @@ public class ServiciosEntidades {
 		}
 		return false;
 	}
-
 	
 	public Controlador getControlador() {
 		return controlador;
@@ -651,9 +563,4 @@ public class ServiciosEntidades {
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
 	}
-
-
-	
-
-
 }

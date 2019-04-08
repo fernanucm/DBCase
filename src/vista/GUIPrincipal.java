@@ -5,7 +5,7 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Frame;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -117,23 +117,23 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private JPanel panelDiagrama;
 	private miMenu barraDeMenus;
 	private static JPopupMenu popup;
-	private Theme theme;
+	private Theme theme = Theme.getInstancia();
 	private JScrollPane scrollPanelTablas;
 	private JTabbedPane infoTabPane;
 	protected reportPanel codigoText;
 	protected reportPanel modeloText;
 	private ViewDealer dealer;
 	
-	public GUIPrincipal(){
-		this.theme = Theme.getInstancia();
-		this.panelDiagrama = new JPanel();
-		this.panelGeneracion = new JPanel();
-	}
 	/*
 	 * Activar y desctivar la ventana
 	 */
 	public void setActiva(int modo){
-		
+		Toolkit tk = Toolkit.getDefaultToolkit();
+		int xSize = ((int) tk.getScreenSize().getWidth());
+		int ySize = ((int) tk.getScreenSize().getHeight());
+		setPreferredSize(new Dimension(xSize, ySize));
+		this.panelDiagrama = new JPanel();
+		this.panelGeneracion = new JPanel();
 		controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ObtenDBMSDisponibles, null);
 		conexionActual = listaConexiones.get(0);
 		
@@ -142,20 +142,24 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		changeFont(this,theme.font());
 		dealer = new ViewDealer(this.getContentPane(), panelDiagrama, panelGeneracion, infoTabPane);
 		setModoVista(modo);
-		SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-            	pack();
-            	setLocationRelativeTo(null);
-            	setExtendedState(Frame.MAXIMIZED_BOTH);
-            	setVisible(true);
-            }
-        });
-		
+
+		setLocationRelativeTo(null);
+    	pack();    	
+    	setVisible(true);
 	}
 	
-	public void setInactiva(){
-		this.setVisible(false);
+	public void reiniciar(){
+		int modo = dealer.getPanelsMode();
+		this.panelDiagrama = new JPanel();
+		this.panelGeneracion = new JPanel();
+		controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ObtenDBMSDisponibles, null);
+		conexionActual = listaConexiones.get(0);
+		setLookAndFeel();
+		initComponents();
+		dealer = new ViewDealer(this.getContentPane(), panelDiagrama, panelGeneracion, infoTabPane);
+		setModoVista(modo);
+    	pack();
+    	loadInfo();
 	}
 	
 	public static void changeFont (Component component, Font font){
