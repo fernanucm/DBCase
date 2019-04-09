@@ -30,7 +30,6 @@ public class miMenu extends JMenuBar{
 	private JMenu menuSistema;
 	private JMenuItem submenuNuevo;
 	private JMenuItem submenuAbrir;
-	private JMenuItem submenuCerrar;
 	private JMenuItem submenuGuardar;
 	private JMenuItem submenuGuardarComo;
 	private AbstractButton submenuImprimir;
@@ -84,18 +83,7 @@ public class miMenu extends JMenuBar{
 					c.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_Submenu_Abrir, null);
 				}
 			});
-			//File/close
-			submenuCerrar = new JMenuItem();
-			submenuCerrar.setForeground(theme.fontColor());
-			submenuCerrar.setFont(theme.font());
-			menuSistema.add(submenuCerrar);
-			submenuCerrar.setText(Lenguaje.text(Lenguaje.CLOSE));
-			submenuCerrar.setMnemonic(Lenguaje.text(Lenguaje.CLOSE).charAt(0));
-			submenuCerrar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent evt) {
-					c.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_Submenu_Cerrar, null);
-				}
-			});
+			
 			//File/separator
 			menuSistema.add(new JSeparator());
 			//File/save
@@ -129,7 +117,7 @@ public class miMenu extends JMenuBar{
 			submenuImprimir.setFont(theme.font());
 			submenuImprimir.setForeground(theme.fontColor());
 			menuSistema.add(submenuImprimir);
-			submenuImprimir.setText(Lenguaje.text(Lenguaje.PRINT_DIAGRAM)+"...");
+			submenuImprimir.setText(Lenguaje.text(Lenguaje.PRINT_DIAGRAM));
 			submenuImprimir.setMnemonic(Lenguaje.text(Lenguaje.PRINT_DIAGRAM).charAt(0));
 			submenuImprimir.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -280,13 +268,13 @@ public class miMenu extends JMenuBar{
 		if (resul == 0){
 			File ruta = fileChooser.getSelectedFile();
 			JOptionPane.showMessageDialog(
-					null,
-					Lenguaje.text(Lenguaje.INFO)+"\n"+
-					Lenguaje.text(Lenguaje.OK_EXPORT)+".\n" +
-					Lenguaje.text(Lenguaje.FILE)+": "+ruta,
-					Lenguaje.text(Lenguaje.DBCASE),
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
+				null,
+				Lenguaje.text(Lenguaje.INFO)+"\n"+
+				Lenguaje.text(Lenguaje.OK_EXPORT)+".\n" +
+				Lenguaje.text(Lenguaje.FILE)+": "+ruta,
+				Lenguaje.text(Lenguaje.DBCASE),
+				JOptionPane.PLAIN_MESSAGE,
+				new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
 		}
 	}
 	

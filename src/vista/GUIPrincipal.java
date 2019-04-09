@@ -131,7 +131,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		int xSize = ((int) tk.getScreenSize().getWidth());
 		int ySize = ((int) tk.getScreenSize().getHeight());
-		setPreferredSize(new Dimension(xSize, ySize));
+		
 		this.panelDiagrama = new JPanel();
 		this.panelGeneracion = new JPanel();
 		controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ObtenDBMSDisponibles, null);
@@ -143,8 +143,11 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		dealer = new ViewDealer(this.getContentPane(), panelDiagrama, panelGeneracion, infoTabPane);
 		setModoVista(modo);
 
-		setLocationRelativeTo(null);
-    	pack();    	
+		
+    	pack();
+    	setLocationRelativeTo(null);
+    	setPreferredSize(new Dimension(xSize, ySize));
+    	setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
     	setVisible(true);
 	}
 	
@@ -160,6 +163,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		setModoVista(modo);
     	pack();
     	loadInfo();
+    	setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 	}
 	
 	public static void changeFont (Component component, Font font){

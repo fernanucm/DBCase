@@ -16,7 +16,7 @@ import modelo.transfers.TransferDominio;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
 
-@SuppressWarnings({ "unchecked", "rawtypes" ,"unlikely-arg-type"})
+@SuppressWarnings({ "unchecked", "rawtypes"})
 public class ValidadorBD extends GeneradorEsquema{
 	private String mensaje;
 	private static ValidadorBD INSTANCE;

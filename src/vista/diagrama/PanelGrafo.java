@@ -213,7 +213,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 
 		vv.getRenderContext().setVertexShapeTransformer(vlasr);
 		// Color de la letra al pinchar
-		vv.getRenderContext().setVertexLabelRenderer(new DefaultVertexLabelRenderer(Color.white));
+		//vv.getRenderContext().setVertexLabelRenderer(new DefaultVertexLabelRenderer(Color.white));
 		// Ancho de las aristas
 		vv.getRenderContext().setEdgeStrokeTransformer(new ConstantTransformer<Stroke>(new BasicStroke(2f)));
 		// Hace las lineas rectas
@@ -225,36 +225,28 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					EntidadYAridad dato = (EntidadYAridad) input;
 					String iniRango, finRango, strRol, numerito = "";
 
-					if (dato.getFinalRango() == Integer.MAX_VALUE)
-						finRango = "N";
-					else
-						finRango = String.valueOf(dato.getFinalRango());
+					if (dato.getFinalRango() == Integer.MAX_VALUE) finRango = "N";
+					else finRango = String.valueOf(dato.getFinalRango());
 
 					if (dato.getPrincipioRango() == 0) {
-						if (!esEquis(finRango))
-							numerito = finRango;// Es Max = 1 o Max = N
+						if (!esEquis(finRango)) numerito = finRango;// Es Max = 1 o Max = N
 						else if (dato.getFinalRango() == 0)
 							return null;// es IsA
 						else {// Es rango min max
-							if (dato.getPrincipioRango() == Integer.MAX_VALUE)
-								iniRango = "N";
-							else
-								iniRango = String.valueOf(dato.getPrincipioRango());
+							if (dato.getPrincipioRango() == Integer.MAX_VALUE) iniRango = "N";
+							else iniRango = String.valueOf(dato.getPrincipioRango());
 							numerito = iniRango + "  . .  " + finRango;
 						}
 					} else {// Es rango min max
-						if (dato.getPrincipioRango() == Integer.MAX_VALUE)
-							iniRango = "N";
-						else
-							iniRango = String.valueOf(dato.getPrincipioRango());
+						if (dato.getPrincipioRango() == Integer.MAX_VALUE) iniRango = "N";
+						else iniRango = String.valueOf(dato.getPrincipioRango());
 						numerito = iniRango + "  . .  " + finRango;
 					}
 					strRol = dato.getRol();
 					// Color de las cardinalidades
 					return "<html><center><font size=\"5\" face=\"avenir\" color=\"" + theme.lines().hexValue() + "\">"
 							+ numerito + "   " + strRol + "<p>";
-				} else
-					return null; // Si no es una relación no escribe la aridad
+				} else return null; // Si no es una relación no escribe la aridad
 			}
 		});
 
@@ -301,8 +293,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					public Stroke transform(Transfer arg0) {
 						// Ancho del borde al seleccionar
 						for (Transfer t : ps.getPicked())
-							if (arg0.equals(t))
-								return new BasicStroke(3f);
+							if (arg0.equals(t)) return new BasicStroke(3f);
 						return new BasicStroke(0f);// Ancho del borde por defecto
 					}
 				});

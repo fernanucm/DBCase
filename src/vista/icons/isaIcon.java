@@ -26,9 +26,10 @@ public class isaIcon extends icon{
         s.addPoint((int) (getIconWidth()*.5), (int) (getIconHeight()));
         s.addPoint((int) (getIconWidth()*.8), (int) (getIconHeight()*.2));
         g.fillPolygon(s);
-        g2d.setColor(theme.lines());
+        g2d.setColor(theme.labelFontColorDark());
         g.drawPolygon(s);
         if(pintarMas()) {
+        	g2d.setColor(theme.labelFontColorLight());
 	        g2d.draw(new Line2D.Double(getIconWidth()*.45,getIconHeight()*.5,getIconWidth()*.55,getIconHeight()*.5));
 	        g2d.draw(new Line2D.Double(getIconWidth()*.5,getIconHeight()*.4,getIconWidth()*.5,getIconHeight()*.6));
         }

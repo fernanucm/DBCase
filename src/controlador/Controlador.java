@@ -1270,33 +1270,6 @@ public class Controlador {
 			}
 			break;
 		}
-		case GUI_Principal_Click_Submenu_Cerrar:{
-			if (cambios){
-				int respuesta = panelOpcionesPeque.setActiva(
-						Lenguaje.text(Lenguaje.WISH_SAVE),
-						Lenguaje.text(Lenguaje.DBCASE),
-						true,
-						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
-				if (respuesta==1) {
-					setCambios(false);
-					String ruta= filetemp.getAbsolutePath();
-					mensajeDesde_GUIWorkSpace(TC.GUI_WorkSpace_Nuevo, ruta);
-				}else if (respuesta==0) {
-						theGUIWorkSpace = new GUI_WorkSpace();
-						theGUIWorkSpace.setControlador(this);
-						if (this.getTheGUIWorkSpace().setActiva(2)){
-							setCambios(false);
-							String ruta= filetemp.getAbsolutePath();
-							mensajeDesde_GUIWorkSpace(TC.GUI_WorkSpace_Nuevo, ruta);
-						}
-				}		
-			}else{
-				setCambios(false);
-				String ruta= filetemp.getAbsolutePath();
-				mensajeDesde_GUIWorkSpace(TC.GUI_WorkSpace_Nuevo, ruta);
-			}
-			break;
-		}
 		case GUI_Principal_CambiarLenguaje:{
 			// Extraer lenguaje seleccionado
 			String lenguaje = (String)datos;
@@ -1314,9 +1287,7 @@ public class Controlador {
 					mensajeDesde_GUIWorkSpace(TC.GUI_WorkSpace_Click_Abrir, guardado.getAbsolutePath());
 					guardado.delete();
 				}
-				else{
-					this.getTheGUIWorkSpace().nuevoTemp();
-				}
+				else this.getTheGUIWorkSpace().nuevoTemp();
 			}
 			catch(IOException e){}
 					

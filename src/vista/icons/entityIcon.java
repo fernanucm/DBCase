@@ -23,7 +23,7 @@ public class entityIcon extends icon{
     	Theme theme = Theme.getInstancia();
     	g2d.setColor(theme.entity());
     	g2d.fill(rect);
-    	g2d.setColor(theme.lines());
+    	g2d.setColor(theme.labelFontColorDark());
     	g2d.draw(rect);
     	if(pintarMas()) {
 	    	g2d.draw(new Line2D.Double(getIconWidth()*.4,getIconHeight()*.4,getIconWidth()*.5,getIconHeight()*.4));

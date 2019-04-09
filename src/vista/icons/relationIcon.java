@@ -28,9 +28,10 @@ public class relationIcon extends icon{
         s.addPoint((int) (getIconWidth()*.9), (int) (getIconHeight()*.6));
         s.addPoint((int) (getIconWidth()*.5), getIconHeight());
         g.fillPolygon(s);
-        g2d.setColor(theme.lines());
+        g2d.setColor(theme.labelFontColorDark());
         g.drawPolygon(s);
         if(pintarMas()) {
+        	g2d.setColor(theme.labelFontColorLight());
         	g2d.draw(new Line2D.Double(getIconWidth()*.45,getIconHeight()*.6,getIconWidth()*.55,getIconHeight()*.6));
 	        g2d.draw(new Line2D.Double(getIconWidth()*.5,getIconHeight()*.5,getIconWidth()*.5,getIconHeight()*.7));
         }
