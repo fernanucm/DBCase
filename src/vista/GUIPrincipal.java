@@ -81,20 +81,15 @@ import vista.tema.Theme;
  */
 @SuppressWarnings({ "rawtypes", "unchecked", "serial" })
 public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
-	// Controlador de la aplicacion
 	private Controlador controlador;
-	// Variables lógicas
 	private TransferConexion conexionActual = null;
 	private boolean scriptGeneradoCorrectamente = false;
-	// Listas
 	private Vector<TransferConexion> listaConexiones;
 	private Vector<TransferEntidad> listaEntidades;
 	private Vector<TransferAtributo> listaAtributos;
 	private Vector<TransferRelacion> listaRelaciones;
 	private Vector<TransferDominio> listaDominios;
-	//variables de escritura
 	private String acumulador="";
-	// Componentes
 	private TablaVolumenes tablaVolumenes;
 	private JPanel panelTablas;
 	private JButton botonLimpiarPantalla;
@@ -142,7 +137,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		changeFont(this,theme.font());
 		dealer = new ViewDealer(this.getContentPane(), panelDiagrama, panelGeneracion, infoTabPane);
 		setModoVista(modo);
-
 		
     	pack();
     	setLocationRelativeTo(null);
@@ -888,7 +882,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		    renderer.setClosedIcon(null);
 		    renderer.setLeafIcon(null);
 		    arbol.setCellRenderer(new customTreeCellRenderer());
-			this.arbol.setFont(new java.awt.Font("Avenir", 0, 15));
+			this.arbol.setFont(theme.font());
 			this.arbol.setBackground(theme.background());
 			this.panelArbol.setViewportView(arbol);
 			this.repaint();
@@ -911,7 +905,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		case Controlador_MostrarDatosEnPanelDominio:{
 			this.panelArbolDom.setVisible(true);
 			this.arbolDom = (JTree) datos;
-			this.arbolDom.setFont(new java.awt.Font("Avenir", 0, 15));
+			this.arbolDom.setFont(theme.font());
 			this.arbolDom.setBackground(theme.background());
 			this.panelArbolDom.setViewportView(arbolDom);
 			this.repaint();

@@ -1,7 +1,6 @@
 package vista.diagrama;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
@@ -39,14 +38,12 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
 import org.apache.commons.collections15.Transformer;
 import org.apache.commons.collections15.functors.ConstantTransformer;
-
 import controlador.Controlador;
 import controlador.TC;
 import edu.uci.ics.jung.algorithms.layout.GraphElementAccessor;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.UndirectedSparseMultigraph;
 import edu.uci.ics.jung.graph.util.EdgeIndexFunction;
-import edu.uci.ics.jung.visualization.DefaultVertexLabelRenderer;
 import edu.uci.ics.jung.visualization.RenderContext;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.AbstractPopupGraphMousePlugin;
@@ -244,7 +241,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					}
 					strRol = dato.getRol();
 					// Color de las cardinalidades
-					return "<html><center><font size=\"5\" face=\"avenir\" color=\"" + theme.lines().hexValue() + "\">"
+					return "<html><center><font size=\"5\" color=\"" + theme.lines().hexValue() + "\">"
 							+ numerito + "   " + strRol + "<p>";
 				} else return null; // Si no es una relación no escribe la aridad
 			}

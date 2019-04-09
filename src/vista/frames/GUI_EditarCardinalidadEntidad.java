@@ -28,6 +28,7 @@ import modelo.persistencia.EntidadYAridad;
 import modelo.tools.ImagePath;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
+import vista.tema.Theme;
 
 /**
 * This code was edited or generated using CloudGarden's Jigloo
@@ -66,6 +67,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 	private String rolViejo;
 	private JRadioButton buttonMaxN;
 	private JRadioButton buttonMax1;
+	private Theme theme = Theme.getInstancia();
 	
 	public GUI_EditarCardinalidadEntidad() {
 		initComponents();
@@ -377,7 +379,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 		if(botonCancelar == null) {
 			botonCancelar = new JButton();
 			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
-			botonCancelar.setFont(new java.awt.Font("SansSerif",0,11));
+			botonCancelar.setFont(theme.font());
 			botonCancelar.setBounds(279, 347, 80, 25);
 			botonCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -402,7 +404,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 		if(botonEditar == null) {
 			botonEditar = new JButton();
 			botonEditar.setText(Lenguaje.text(Lenguaje.ACCEPT));
-			botonEditar.setFont(new java.awt.Font("SansSerif",0,11));
+			botonEditar.setFont(theme.font());
 			botonEditar.setBounds(188, 347, 80, 25);
 			botonEditar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {

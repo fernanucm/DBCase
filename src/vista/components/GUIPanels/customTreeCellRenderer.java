@@ -21,8 +21,8 @@ import vista.tema.Theme;
 @SuppressWarnings("serial")
 public class customTreeCellRenderer extends DefaultTreeCellRenderer {
 
-	private static final String SPAN_FORMAT = "<span style='color:%s;font-family:Verdana;'>%s</span>";
-	private static final String SUBSPAN_FORMAT = "<span style='color:%s;font-family:arial;font-size:9px'>%s</span>";
+	private static final String SPAN_FORMAT = "<span style='color:%s;'>%s</span>";
+	private static final String SUBSPAN_FORMAT = "<span style='color:%s;font-size:9px'>%s</span>";
 	private Theme theme = Theme.getInstancia();
 	
 	/*

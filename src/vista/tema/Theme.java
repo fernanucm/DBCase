@@ -18,7 +18,7 @@ public class Theme {
 	private static String current;
 	private static HashMap<String,myColor> colors;
 	private static final String DEFAULT = "light";
-	private static Font font = new java.awt.Font("Avenir", 0, 16);
+	private static Font font = new Font("Verdana", Font.PLAIN, 16);
 		
 	public static Theme getInstancia() {
 		if(INSTANCE==null) INSTANCE = new Theme();
