@@ -20,6 +20,8 @@ import modelo.transfers.TransferRelacion;
 public class ValidadorBD extends GeneradorEsquema{
 	private String mensaje;
 	private static ValidadorBD INSTANCE;
+	private String errores="";
+	private String warnings="";
 	
 	public ValidadorBD() {}
 	
@@ -32,33 +34,46 @@ public class ValidadorBD extends GeneradorEsquema{
 		this.controlador = controlador;
 	}
 	//Dado un transfer y un texto, genera un error (formato html)
-	private String error(Transfer t, String texto) {
-		if(t instanceof TransferEntidad) texto = "The entity "+t.getNombre()+texto;
-		else if(t instanceof TransferRelacion) texto = "The relation "+t.getNombre()+texto;
-		else if(t instanceof TransferAtributo) texto = "The atribute "+t.getNombre()+texto;
-		else if(t instanceof TransferDominio) texto = "The domain "+t.getNombre()+texto;
-		return "<div class='error'><strong>" + Lenguaje.text(Lenguaje.ERROR)+"</strong><br>"+texto+"</div>";
+	private void error(Transfer t, String texto) {
+		if(t instanceof TransferEntidad) texto = Lenguaje.text(Lenguaje.THE_ENTITY)+" "+t.getNombre()+" "+texto;
+		else if(t instanceof TransferRelacion) texto = Lenguaje.text(Lenguaje.THE_RELATION)+" "+t.getNombre()+" "+texto;
+		else if(t instanceof TransferAtributo) texto = Lenguaje.text(Lenguaje.THE_ATRIBUTE)+" "+t.getNombre()+" "+texto;
+		else if(t instanceof TransferDominio) texto = Lenguaje.text(Lenguaje.THE_DOMAIN)+" "+t.getNombre()+" "+texto;
+		errores += "<li>"+texto+"</li>";
 	}
 	//Dado un transfer y un texto, genera un warning (formato html)
-	private String warning(Transfer t, String texto) {
-		if(t instanceof TransferEntidad) texto = "The entity "+t.getNombre()+texto;
-		else if(t instanceof TransferRelacion) texto = "The relation "+t.getNombre()+texto;
-		else if(t instanceof TransferAtributo) texto = "The atribute "+t.getNombre()+texto;
-		else if(t instanceof TransferDominio) texto = "The domain "+t.getNombre()+texto;
-		return "<div class='warning'><strong>" + Lenguaje.text(Lenguaje.WARNING)+"</strong><br>"+texto+"</div>";
+	private void warning(Transfer t, String texto) {
+		if(t instanceof TransferEntidad) texto = Lenguaje.text(Lenguaje.THE_ENTITY)+" "+t.getNombre()+" "+texto;
+		else if(t instanceof TransferRelacion) texto = Lenguaje.text(Lenguaje.THE_RELATION)+" "+t.getNombre()+" "+texto;
+		else if(t instanceof TransferAtributo) texto = Lenguaje.text(Lenguaje.THE_ATRIBUTE)+" "+t.getNombre()+" "+texto;
+		else if(t instanceof TransferDominio) texto = Lenguaje.text(Lenguaje.THE_DOMAIN)+" "+t.getNombre()+" "+texto;
+		warnings += "<li>"+texto+"</li>";
+	}
+	private void construyeErroresWarnings() {
+		if(!warnings.isEmpty())
+			mensaje += "<div class='warning'><strong>" + Lenguaje.text(Lenguaje.WARNING)+"</strong><ol>"+warnings+"</ol></div>";
+		if(!errores.isEmpty())
+			mensaje += "<div class='error'><strong>" + Lenguaje.text(Lenguaje.ERROR)+"</strong><ol>"+errores+"</ol></div>";
 	}
 	/*
 	 * metodo principal
 	 * boolean modelo: diferencia entre esquema logico y fisico
 	 */
 	protected boolean validaBaseDeDatos(boolean modelo, StringBuilder warnings){
-		mensaje = "";
-		boolean valido=true;
-		valido &= this.validaDominios();
-		valido &= this.validaAtributos();
-		valido &= this.validaEntidades();
-		valido &= this.validaRelaciones();
+		mensaje = "";this.warnings = "";this.errores = "";
+		boolean valido;
+		if(esVacio()) {
+			warning(null, Lenguaje.text(Lenguaje.EMPTY_DIAGRAM));
+			valido=false;
+		}else {
+			valido=true;
+			valido &= this.validaDominios();
+			valido &= this.validaAtributos();
+			valido &= this.validaEntidades();
+			valido &= this.validaRelaciones();
+		}
 		// Mostrar el texto
+		construyeErroresWarnings();
 		if (!valido) 
 			if(modelo)controlador.mensajeDesde_SS(TC.SS_ValidacionM,mensaje);
 			else controlador.mensajeDesde_SS(TC.SS_ValidacionC,mensaje);
@@ -66,6 +81,11 @@ public class ValidadorBD extends GeneradorEsquema{
 		return valido;
 	}
 
+	private boolean esVacio() {
+		DAOEntidades daoEntidades= new DAOEntidades(controlador.getPath());
+		DAORelaciones daoRelaciones= new DAORelaciones(controlador.getPath());
+		return daoRelaciones.ListaDeRelaciones().isEmpty() && daoEntidades.ListaDeEntidades().isEmpty();
+	}
 	private boolean validaEntidades(){
 		DAOEntidades daoEntidades= new DAOEntidades(controlador.getPath());
 		Vector <TransferEntidad> entidades =daoEntidades.ListaDeEntidades();
@@ -86,7 +106,7 @@ public class ValidadorBD extends GeneradorEsquema{
 		//comprueba que una entidad tenga atributos con nombres distintos.
 		Vector<TransferAtributo> ats= dameAtributosEnTransfer(te.getListaAtributos());
 		if (ats.size() < 1){
-			mensaje += error(te,Lenguaje.text(Lenguaje.NO_ATTRIB));
+			error(te,Lenguaje.text(Lenguaje.NO_ATTRIB));
 			return false;
 		}
 		TransferAtributo ti, tj;
@@ -98,7 +118,7 @@ public class ValidadorBD extends GeneradorEsquema{
 				tj=ats.elementAt(j);
 				if(ti.getNombre().toLowerCase().equals(tj.getNombre().toLowerCase())) {
 					valido=false;
-					mensaje += error(tj,Lenguaje.text(Lenguaje.IS_REPEATED_IN_ENTITY)+te.getNombre());
+					error(tj,Lenguaje.text(Lenguaje.IS_REPEATED_IN_ENTITY)+te.getNombre());
 				}j++;
 			}
 			i++;
@@ -113,10 +133,10 @@ public class ValidadorBD extends GeneradorEsquema{
 		int tam =veya.size();
 		int contD=0,contF=0;
 		switch (tam){
-		case 0: mensaje += error(tr,Lenguaje.text(Lenguaje.NO_ENT_RELATION));
+		case 0: error(tr,Lenguaje.text(Lenguaje.NO_ENT_RELATION));
 			valida=false;
 		break;
-		case 1: mensaje += error(tr,Lenguaje.text(Lenguaje.ONE_ENT_WEAK_REL));
+		case 1: error(tr,Lenguaje.text(Lenguaje.ONE_ENT_WEAK_REL));
 			valida=false;
 		break;
 		default:
@@ -125,15 +145,15 @@ public class ValidadorBD extends GeneradorEsquema{
 			contF= tam-contD;
 		}
 		if(contD<1){
-			mensaje += error(tr,Lenguaje.text(Lenguaje.NO_WEAK_ENT_REL));
+			error(tr,Lenguaje.text(Lenguaje.NO_WEAK_ENT_REL));
 			valida=false;
 		}
 		if (contD > 1){
-			mensaje += error(tr,Lenguaje.text(Lenguaje.MANY_WEAK_ENT_REL));
+			error(tr,Lenguaje.text(Lenguaje.MANY_WEAK_ENT_REL));
 			valida=false;
 		}
 		if(contF<1){
-			mensaje += error(tr,Lenguaje.text(Lenguaje.NO_STRONG_ENT_REL));
+			error(tr,Lenguaje.text(Lenguaje.NO_STRONG_ENT_REL));
 			valida=false;
 		}
 		return valida;
@@ -152,7 +172,7 @@ public class ValidadorBD extends GeneradorEsquema{
 				if (!veya.isEmpty()&& veya.elementAt(0).getEntidad()==te.getIdEntidad()) papi++;
 			}i++;
 		}
-		if (papi>1)	mensaje += warning(te,Lenguaje.text(Lenguaje.ENT_PARENT_IN)+papi+Lenguaje.text(Lenguaje.ISA_RELATIONS));
+		if (papi>1)	warning(te,Lenguaje.text(Lenguaje.ENT_PARENT_IN)+" "+papi+Lenguaje.text(Lenguaje.ISA_RELATIONS));
 	}
 
 	//metodos privados de validacion de relaciones.
@@ -160,16 +180,16 @@ public class ValidadorBD extends GeneradorEsquema{
 		boolean valida=true;
 		if(dameNumEntidadesDebiles(tr)>0){
 			valida= false;
-			mensaje += error(tr,Lenguaje.text(Lenguaje.NO_WEAK_ENT_RELAT));
+			error(tr,Lenguaje.text(Lenguaje.NO_WEAK_ENT_RELAT));
 		}
 		else{
 			Vector<EntidadYAridad> veya =tr.getListaEntidadesYAridades();
 			int tam =veya.size();
 			switch (tam){
-			case 0: mensaje += error(tr,Lenguaje.text(Lenguaje.NO_PARENT_REL));
+			case 0: error(tr,Lenguaje.text(Lenguaje.NO_PARENT_REL));
 					valida=false;
 			break;
-			case 1: mensaje += error(tr,Lenguaje.text(Lenguaje.NO_CHILD_RELATION));
+			case 1: error(tr,Lenguaje.text(Lenguaje.NO_CHILD_RELATION));
 					valida=false;
 			break;
 			default: break;
@@ -229,16 +249,16 @@ public class ValidadorBD extends GeneradorEsquema{
 		boolean valida=true;
 		if(dameNumEntidadesDebiles(tr)>0 && !this.misDebilesEstanEnDebiles(tr)){
 			valida= false;
-			mensaje += error(tr,Lenguaje.text(Lenguaje.NO_WEAK_ENT_RELAT));
+			error(tr,Lenguaje.text(Lenguaje.NO_WEAK_ENT_RELAT));
 		}
 		else{
 			Vector<EntidadYAridad> veya =tr.getListaEntidadesYAridades();
 			int tam =veya.size();
 			switch (tam){
-			case 0: mensaje += error(tr,Lenguaje.text(Lenguaje.NO_ENT_RELATION));
+			case 0: error(tr,Lenguaje.text(Lenguaje.NO_ENT_RELATION));
 					valida = false;
 			break;
-			case 1: mensaje += error(tr,Lenguaje.text(Lenguaje.ONE_ENT_REL));
+			case 1: error(tr,Lenguaje.text(Lenguaje.ONE_ENT_REL));
 					valida = false;
 			break;
 			default: break;
@@ -280,13 +300,13 @@ public class ValidadorBD extends GeneradorEsquema{
 			}
 			if (encontrado){
 				valido=false;
-				mensaje += error(t,Lenguaje.text(Lenguaje.REPEATED_DOM_NAMES));				
+				error(t,Lenguaje.text(Lenguaje.REPEATED_DOM_NAMES));				
 			}
 			// Validar que tiene valores y son distintos
 			Vector<String> valores = t.getListaValores();
 			if (valores == null || valores.size() < 1){
 				valido=false;
-				mensaje += error(t,Lenguaje.text(Lenguaje.NO_VALUE_DOM));
+				error(t,Lenguaje.text(Lenguaje.NO_VALUE_DOM));
 			}else{
 				String valorComprobado = null;
 				int k = 0;
@@ -302,7 +322,7 @@ public class ValidadorBD extends GeneradorEsquema{
 				}
 				if (seRepite){
 					valido=false;
-					mensaje += error(t,Lenguaje.text(Lenguaje.THE_VALUE) + valorComprobado +Lenguaje.text(Lenguaje.IS_REPEATED));
+					error(t,Lenguaje.text(Lenguaje.THE_VALUE) + valorComprobado +Lenguaje.text(Lenguaje.IS_REPEATED));
 				}
 			}
 			// Comprobar si se usa (esto solo da un aviso si falla)
@@ -314,7 +334,7 @@ public class ValidadorBD extends GeneradorEsquema{
 				esta = atributos.get(k).getDominio().equalsIgnoreCase(t.getNombre());
 				k++;
 			}
-			if (!esta) mensaje +=  warning(t,Lenguaje.text(Lenguaje.NO_USE_DOM));
+			if (!esta) warning(t,Lenguaje.text(Lenguaje.NO_USE_DOM));
 			i++;
 		}
 		return valido;
@@ -360,8 +380,8 @@ public class ValidadorBD extends GeneradorEsquema{
 				k++;
 			}
 			if (relacionada){
-				if (te.isDebil()) mensaje += error(te, Lenguaje.text(Lenguaje.NOKEY_WEAK_ENTITY));
-				else mensaje += error(te,Lenguaje.text(Lenguaje.NOKEY_ENTITY_RELATION));
+				if (te.isDebil()) error(te, Lenguaje.text(Lenguaje.NOKEY_WEAK_ENTITY));
+				else error(te,Lenguaje.text(Lenguaje.NOKEY_ENTITY_RELATION));
 				valido=false;
 			}
 		}
@@ -381,10 +401,10 @@ public class ValidadorBD extends GeneradorEsquema{
 						}
 						contador++;
 					}
-					if (compuesto) mensaje += warning(te,Lenguaje.text(Lenguaje.ALL_CHILDREN_KEYS)); 
+					if (compuesto) warning(te,Lenguaje.text(Lenguaje.ALL_CHILDREN_KEYS));
 					else{
 						valido=false;
-						mensaje += error(te,Lenguaje.text(Lenguaje.NO_ATTRIB_KEY));
+						error(te,Lenguaje.text(Lenguaje.NO_ATTRIB_KEY));
 					}
 				}
 				else{ // comprobamos que no haya una clave que sea un atributo multivalorado.
@@ -394,12 +414,12 @@ public class ValidadorBD extends GeneradorEsquema{
 						if(aux.isMultivalorado()){
 							valido=false;
 							noMulti=false;
-							mensaje += error(aux,Lenguaje.text(Lenguaje.MULTIVALUE_KEY));
+							error(aux,Lenguaje.text(Lenguaje.MULTIVALUE_KEY));
 						}
 						contador++;
 					}
 				}
-		if (valido && !relacionada) mensaje += warning(te,Lenguaje.text(Lenguaje.NO_PRIMARY_KEY));
+		if (valido && !relacionada) warning(te,Lenguaje.text(Lenguaje.NO_PRIMARY_KEY));
 		return valido;
 	}
 	
@@ -543,12 +563,12 @@ public class ValidadorBD extends GeneradorEsquema{
 				i++;
 			}
 			if (contSubAtrib!=1){
-				mensaje += error(ta,Lenguaje.text(Lenguaje.MANY_ATTRIB_SUBATTRIB));
+				error(ta,Lenguaje.text(Lenguaje.MANY_ATTRIB_SUBATTRIB));
 				valido=false;
 			}
 		}
 		else if (cont!=1){ 
-			mensaje += error(ta,Lenguaje.text(Lenguaje.MANY_ENTITIES));
+			error(ta,Lenguaje.text(Lenguaje.MANY_ENTITIES));
 			valido=false;
 		}
 		return valido; 
@@ -559,9 +579,9 @@ public class ValidadorBD extends GeneradorEsquema{
 		int numSubs=ta.getListaComponentes().size();
 		switch (numSubs) {
 		case 0: valido=false;
-				mensaje += error(ta, Lenguaje.text(Lenguaje.NO_SUBATTRIB));
+				error(ta, Lenguaje.text(Lenguaje.NO_SUBATTRIB));
 		break;
-		case 1: mensaje += warning(ta,Lenguaje.text(Lenguaje.ONE_SUBATTRIB));
+		case 1: warning(ta,Lenguaje.text(Lenguaje.ONE_SUBATTRIB));
 		break;
 		}
 
@@ -580,19 +600,19 @@ public class ValidadorBD extends GeneradorEsquema{
 		if (ta.getCompuesto()) {
 			if(!dom.equals("null")){
 				valido=false;
-				mensaje +=  error(ta, Lenguaje.text(Lenguaje.COMPOSED_ATTRIBUTE));
+				error(ta, Lenguaje.text(Lenguaje.COMPOSED_ATTRIBUTE));
 			}
 		}else{
 			if (dom.equals("")||dom.equals("null")){ 
 				valido=false;
-				mensaje += error(ta, Lenguaje.text(Lenguaje.NO_DOMAIN));
+				error(ta, Lenguaje.text(Lenguaje.NO_DOMAIN));
 			}
 			else{
 				if (dom.contains("(")) dom=quitaParenDominio(dom);
 				int i=0;
 				while(i<TipoDominio.values().length && !TipoDominio.values()[i].equals(dom))i++;
 				if (i>TipoDominio.values().length){
-					mensaje += error(ta, Lenguaje.text(Lenguaje.UNKNOWN_DOMAIN));
+					error(ta, Lenguaje.text(Lenguaje.UNKNOWN_DOMAIN));
 					valido=false;
 				}
 			}

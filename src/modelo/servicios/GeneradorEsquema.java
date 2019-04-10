@@ -764,34 +764,30 @@ public class GeneradorEsquema {
 		restriccionesPerdidas = new RestriccionesPerdidas();
 		generaTablasEntidades();
 		generaTablasRelaciones();
-		if(tablasEntidades.values().isEmpty() && tablasRelaciones.values().isEmpty()) 
-			mr = "<div class='card'><h2>"+"El diagrama está vacio"+"</h2></div>";
-		else {
-			mr = warnings.toString();
-			mr += "<div class='card'><h2>"+Lenguaje.text(Lenguaje.RELATIONS)+"</h2>";
-			Iterator tablasE = tablasEntidades.values().iterator();
-			while (tablasE.hasNext()){
-				Tabla t =(Tabla)tablasE.next();
-				mr+=t.modeloRelacionalDeTabla();
-			}
-			
-			Iterator tablasR = tablasRelaciones.values().iterator();
-			while (tablasR.hasNext()){
-				Tabla t =(Tabla)tablasR.next();
-				mr+=t.modeloRelacionalDeTabla();
-			}
-			
-			Iterator tablasM = tablasMultivalorados.iterator();
-			while (tablasM.hasNext()){
-				Tabla t =(Tabla)tablasM.next();
-				mr+=t.modeloRelacionalDeTabla();
-			}
-			mr += "<p></p></div><div class='card'><h2>"+Lenguaje.text(Lenguaje.RIC)+"</h2>";
-			mr += restriccionesIR();
-			mr += "<p></p></div><div class='card'><h2>"+Lenguaje.text(Lenguaje.LOST_CONSTR)+"</h2>";
-			mr += restriccionesPerdidas();
-			mr += "<p></p></div>";
-		}//else -> diagrama no vacio
+		mr = warnings.toString();
+		mr += "<div class='card'><h2>"+Lenguaje.text(Lenguaje.RELATIONS)+"</h2>";
+		Iterator tablasE = tablasEntidades.values().iterator();
+		while (tablasE.hasNext()){
+			Tabla t =(Tabla)tablasE.next();
+			mr+=t.modeloRelacionalDeTabla();
+		}
+		
+		Iterator tablasR = tablasRelaciones.values().iterator();
+		while (tablasR.hasNext()){
+			Tabla t =(Tabla)tablasR.next();
+			mr+=t.modeloRelacionalDeTabla();
+		}
+		
+		Iterator tablasM = tablasMultivalorados.iterator();
+		while (tablasM.hasNext()){
+			Tabla t =(Tabla)tablasM.next();
+			mr+=t.modeloRelacionalDeTabla();
+		}
+		mr += "<p></p></div><div class='card'><h2>"+Lenguaje.text(Lenguaje.RIC)+"</h2>";
+		mr += restriccionesIR();
+		mr += "<p></p></div><div class='card'><h2>"+Lenguaje.text(Lenguaje.LOST_CONSTR)+"</h2>";
+		mr += restriccionesPerdidas();
+		mr += "<p></p></div>";
 		controlador.mensajeDesde_SS(TC.SS_GeneracionModeloRelacional,mr);
 	}
 

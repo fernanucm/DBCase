@@ -92,7 +92,6 @@ public class Lenguaje {
 	public static final int DELETE_RELATION = 1157;//DBDT: Eliminar relación
 	//advertencias
 	public static final int DELETE_ATTRIBUTES_WARNING = 1112;//Además se eliminarán todos sus atributos.
-	public static final int THE_ENTITY=1113;//La entidad
 	public static final int REMOVE_FROM_SYSTEM=1114;//se eliminará definitivamente del sistema.
 	public static final int THE_ATTRIBUTE=1115;//El atributo
 	public static final int WEAK_RELATION=1116;//Si debilita la relación 
@@ -107,7 +106,6 @@ public class Lenguaje {
 	public static final int RELATION_WEAK_ENTITIES=1124;//La relación tiene más de una entidad débil.
 	public static final int NO_ATTRIBUTES_RELATION=1125;//No se puede añadir ningún atributo a la relación.
 	public static final int ALREADY_WEAK_ENTITY=1126;//Ya existe una entidad débil en esta relación.
-	public static final int THE_RELATION=1127;//La relación 
 	public static final int IS_WEAK=1128;// es una relación débil.
 	public static final int INCORRECT_VALUE=1129;//Algún valor no es correcto.	
 	//error de acceso
@@ -491,7 +489,7 @@ public class Lenguaje {
 	public static final int EXISTING_CONN =4207;
 	public static final int CHOOSE_CONN =4208;
 	
-	//Restricciones	
+	//Mas cosas
 	public static final int RESTRICTIONS =4300;
 	public static final int ADD_RESTRICTIONS =4301;
 	public static final int TABLE_UNIQUE =4302;
@@ -513,7 +511,10 @@ public class Lenguaje {
 	public static final int RELATIONS = 4318;
 	public static final int RIC = 4319;
 	public static final int LOST_CONSTR = 4320;
-
+	public static final int THE_ATRIBUTE = 4321;
+	public static final int THE_RELATION = 4322;
+	public static final int THE_ENTITY = 4323;
+	public static final int EMPTY_DIAGRAM = 4324;
 		
 	// Mensaje por defecto
 	private static String notExistingMessage = "Asked message does not exist";
@@ -703,7 +704,6 @@ public class Lenguaje {
 		case DELETE_ISA_RELATION: texto = _textos.get("deleteIsaRelation"); break;//DBDT: Eliminar relación IsA
 		case DELETE_RELATION: texto = _textos.get("deleteRelation"); break;//DBDT: Eliminar relación
 		case DELETE_ATTRIBUTES_WARNING: texto = _textos.get("deleteAttributes"); break;
-		case THE_ENTITY: texto = _textos.get("entity"); break;
 		case REMOVE_FROM_SYSTEM: texto = _textos.get("removeFromSystem"); break;
 		case THE_ATTRIBUTE: texto = _textos.get("attribute"); break;
 		case WEAK_RELATION: texto = _textos.get("weakRelation"); break; 
@@ -712,12 +712,10 @@ public class Lenguaje {
 		case MODIFY_ATTRIBUTE: texto = _textos.get("modifyAttribute"); break; 
 		case DELETE_ATTRIBUTES_WARNING3: texto = _textos.get("deleteAttributes3"); break;
 		case ISA_RELATION_DELETE: texto = _textos.get("deleteIsaRelation"); break;
-		case THE_DOMAIN: texto = _textos.get("domain"); break; 
 		case MODIFYING_ATTRIBUTES_WARNING4: texto = _textos.get("modifyingAttributesWarning"); break;
 		case RELATION_WEAK_ENTITIES: texto = _textos.get("relationWeakEntities"); break;
 		case NO_ATTRIBUTES_RELATION: texto = _textos.get("noAttributesRelation"); break;
 		case ALREADY_WEAK_ENTITY: texto = _textos.get("alreadyWeakEntity"); break;
-		case THE_RELATION: texto = _textos.get("relation"); break; 
 		case IS_WEAK: texto = _textos.get("isWeak"); break;
 		case INCORRECT_VALUE: texto = _textos.get("incorrectValue"); break;	
 		case ENTITIES_FILE_ERROR: texto = _textos.get("entitiesFileError"); break;//Se ha producido un error en el acceso al fichero de entidades. 
@@ -1115,8 +1113,13 @@ public class Lenguaje {
 		case CANDIDATE_KEYS: texto = _textos.get("candidateKeys"); break;
 		case TABLE_CONSTR: texto = _textos.get("tableconstraints"); break;
 		case RELATIONS: texto = _textos.get("relations"); break;
-		case RIC: texto = _textos.get("RIC"); break;
+		case RIC: texto = _textos.get("RIC");
 		case LOST_CONSTR: texto = _textos.get("lostConstr"); break;
+		case THE_ATRIBUTE: texto = _textos.get("theattribute"); break;
+		case THE_RELATION: texto = _textos.get("therelation"); break;
+		case THE_ENTITY: texto = _textos.get("theentity"); break;
+		case THE_DOMAIN: texto = _textos.get("thedomain"); break;
+		case EMPTY_DIAGRAM: texto = _textos.get("emptyDiagram"); break;
 		default: texto = Lenguaje.notExistingMessage;
 		}
 		return corrigeCaracteres(texto);
