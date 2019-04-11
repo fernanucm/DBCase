@@ -321,15 +321,10 @@ public class GeneradorEsquema {
 		//recorremos los dominios creando sus tipos enumerados
 		for (int i=0;i<dominios.size();i++){
 			TransferDominio td=dominios.elementAt(i);
-			
 			Enumerado enu = new Enumerado(td.getNombre());
-			
 			// Obtener todos sus posibles valores
 			Vector<String> valores = td.getListaValores();
-			for (int k=0; k<valores.size(); k++){
-				enu.anadeValor(valores.get(k));
-			}
-			
+			for (int k=0; k<valores.size(); k++) enu.anadeValor(valores.get(k));
 			// Insertar en la tabla Hash
 			tiposEnumerados.put(td.getIdDominio(), enu);
 		}
@@ -840,8 +835,7 @@ public class GeneradorEsquema {
 		if (ta.getCompuesto())
 			tablaMulti.aniadeListaAtributos(this.atributoCompuesto(ta,
 					tablaEntidad.getNombreTabla(), ""),ta.getListaRestricciones(), tiposEnumerados);
-		else
-			tablaMulti.aniadeAtributo(ta.getNombre(), ta.getDominio(),
+		else tablaMulti.aniadeAtributo(ta.getNombre(), ta.getDominio(),
 					tablaEntidad.getNombreTabla(), tiposEnumerados, ta.getListaRestricciones(),ta.getUnique(), ta.getNotnull());
 		tablaMulti.aniadeListaAtributos(tablaEntidad.getPrimaries(), ta.getListaRestricciones(),tiposEnumerados);
 		

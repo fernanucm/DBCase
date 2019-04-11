@@ -14,12 +14,13 @@ import vista.icons.entityChildIcon;
 import vista.icons.entityIcon;
 import vista.icons.isaIcon;
 import vista.icons.relationIcon;
+import vista.icons.subAttributeIcon;
 import vista.tema.Theme;
 /*
  * Clase para representar el arbol de elementos del panel de informacion
  * */
 @SuppressWarnings("serial")
-public class customTreeCellRenderer extends DefaultTreeCellRenderer {
+public class ArbolElementos extends DefaultTreeCellRenderer {
 
 	private static final String SPAN_FORMAT = "<span style='color:%s;'>%s</span>";
 	private static final String SUBSPAN_FORMAT = "<span style='color:%s;font-size:9px'>%s</span>";
@@ -43,7 +44,8 @@ public class customTreeCellRenderer extends DefaultTreeCellRenderer {
       if(userObject instanceof TransferAtributo){
     	  text = String.format(SPAN_FORMAT, sel?theme.labelFontColorLight().hexValue():theme.fontColor().hexValue(), userObject + " : ")+
     			  String.format(SUBSPAN_FORMAT, sel?theme.labelFontColorLight().hexValue():theme.fontColor().hexValue(), ((TransferAtributo) userObject).getDominio() );
-    	  setIcon(new attributeIcon("mini"));
+    	  if(((TransferAtributo) userObject).isSubatributo()) setIcon(new subAttributeIcon("mini"));
+    	  else setIcon(new attributeIcon("mini"));
       }
       else if(userObject instanceof NodoEntidad) {
     	  /*

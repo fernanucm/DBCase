@@ -5,11 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
-
 import modelo.lenguaje.Lenguaje;
 import modelo.servicios.Enumerado;
 import modelo.servicios.Tabla;
-import modelo.tools.HTMLUtils;
 
 /**
  * Conecta la aplicación con un gestor de bases de datos MySQL
@@ -219,21 +217,14 @@ public class ConectorMySQL extends ConectorDBMS {
 		codigo+=")<strong> ENGINE = InnoDB</strong>;</p>";
 
 		// Establecer la clave primaria
-		codigo+="<p><strong>ALTER TABLE </strong>"+e.getNombre()+
-				"<strong> ADD PRIMARY KEY </strong>"+"(value_list);</p>";
+		codigo+="<p><strong>ALTER TABLE </strong>"+e.getNombre()+"<strong> ADD PRIMARY KEY </strong>"+"(value_list);</p>";
 		
 		// Insertar los valores
 		for (int i=0; i<e.getNumeroValores(); i++){
 			String valor = e.getValor(i);
-			if (valor.startsWith("'")) {
-				valor = valor.substring(1, valor.length() - 1);
-			}
-			
-			codigo += "<p><strong>INSERT INTO </strong>" + e.getNombre() + 
-						"<strong> VALUES (" + 
-						HTMLUtils.toGreenColor("'" + valor + "'") + ");</p>";
+			if (valor.startsWith("'")) valor = valor.substring(1, valor.length() - 1);
+			codigo += "<p><strong>INSERT INTO </strong>" + e.getNombre() + "<strong> VALUES (" + "'" + valor + "'" + ");</p>";
 		}
-		
 		codigo += "</p>";
 		return codigo;
 	}

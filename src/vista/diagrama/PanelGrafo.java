@@ -553,6 +553,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 				DefaultMutableTreeNode subNode = new DefaultMutableTreeNode(subAtr);
 				nodoAtributo(subAtr, subNode);
 				nodoAtr.add(subNode);
+				subAtr.setSubatributo(true);
 			}
 		return nodoAtr;
 	}
@@ -567,6 +568,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 			Vector lista = (ent.getValue().getListaAtributos());
 			for (int j = 0; j < lista.size(); j++) {
 				TransferAtributo a = this.atributos.get(Integer.parseInt((String) lista.get(j)));
+				a.setSubatributo(false);
 				nodoEntidad.add(nodoAtributo(a,new DefaultMutableTreeNode(a)));
 			}
 			arbolEntidades.add(nodoEntidad);

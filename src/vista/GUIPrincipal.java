@@ -61,7 +61,7 @@ import modelo.transfers.TransferRelacion;
 import vista.components.miMenu;
 import vista.components.GUIPanels.TablaVolumenes;
 import vista.components.GUIPanels.addTransfersPanel;
-import vista.components.GUIPanels.customTreeCellRenderer;
+import vista.components.GUIPanels.ArbolElementos;
 import vista.components.GUIPanels.reportPanel;
 import vista.diagrama.PanelGrafo;
 import vista.diagrama.PanelThumbnail;
@@ -881,7 +881,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		    renderer.setOpenIcon(null);
 		    renderer.setClosedIcon(null);
 		    renderer.setLeafIcon(null);
-		    arbol.setCellRenderer(new customTreeCellRenderer());
+		    arbol.setCellRenderer(new ArbolElementos());
 			this.arbol.setFont(theme.font());
 			this.arbol.setBackground(theme.background());
 			this.panelArbol.setViewportView(arbol);

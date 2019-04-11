@@ -6,11 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
-
 import modelo.lenguaje.Lenguaje;
 import modelo.servicios.Enumerado;
 import modelo.servicios.Tabla;
-import modelo.tools.HTMLUtils;
 
 /**
  * Conecta la aplicación con un gestor de bases de datos Oracle
@@ -124,8 +122,7 @@ public class ConectorOracle extends ConectorDBMS {
 		Vector<String[]> primaries = t.getPrimaries();
 		if (!primaries.isEmpty()){
 			codigo+="ALTER TABLE " + t.getNombreTabla() + 
-					" ADD CONSTRAINT " + t.getNombreTabla() + "_pk" + 
-					" PRIMARY KEY (";
+					" ADD CONSTRAINT " + t.getNombreTabla() + "_pk" + " PRIMARY KEY (";
 			for (int i=0;i<primaries.size();i++){
 				if (i>0)codigo+=", ";
 				codigo+=primaries.elementAt(i)[0];
@@ -138,16 +135,12 @@ public class ConectorOracle extends ConectorDBMS {
 		if(!foreigns.isEmpty()){
 			for (int j=0;j<foreigns.size();j++){
 				String atributo = foreigns.elementAt(j)[0];
-				if (atributo.indexOf("(") >= 0){
-					atributo = atributo.substring(0, atributo.indexOf("("));
-				}
+				if (atributo.indexOf("(") >= 0) atributo = atributo.substring(0, atributo.indexOf("("));
 				codigo+="ALTER TABLE " + t.getNombreTabla() +
 						" ADD CONSTRAINT " + t.getNombreTabla() + "_" + atributo +
-						" FOREIGN KEY ("+
-						foreigns.elementAt(j)[0]+") REFERENCES "+
+						" FOREIGN KEY ("+ foreigns.elementAt(j)[0]+") REFERENCES "+
 						foreigns.elementAt(j)[2]+";\n";
 			}
-				
 		}
 		
 		// Si tiene uniques, se ponen
@@ -156,8 +149,7 @@ public class ConectorOracle extends ConectorDBMS {
 			for (int j=0;j<uniques.size();j++){
 				codigo+="ALTER TABLE "+t.getNombreTabla()+
 				" ADD CONSTRAINT "+t.getNombreTabla() + "_unique_" + j + 
-				" UNIQUE" + 
-				"("+uniques.elementAt(j)+");\n";
+				" UNIQUE" + "("+uniques.elementAt(j)+");\n";
 			}	
 		}
 		
@@ -175,7 +167,7 @@ public class ConectorOracle extends ConectorDBMS {
 			"<strong> ADD CONSTRAINT </strong>" + t.getNombreTabla() + "_pk" +
 			"<strong> PRIMARY KEY </strong>"+"(";
 			for (int i=0;i<primaries.size();i++){
-				if (i>0)codigo+=", ";
+				if (i>0) codigo+=", ";
 				codigo+=primaries.elementAt(i)[0];
 			}
 			codigo+=");</p>";
@@ -185,17 +177,13 @@ public class ConectorOracle extends ConectorDBMS {
 		if(!foreigns.isEmpty()){
 			for (int j=0;j<foreigns.size();j++){
 				String atributo = foreigns.elementAt(j)[0];
-				if (atributo.indexOf("(") >= 0){
-					atributo = atributo.substring(0, atributo.indexOf("("));
-				}
+				if (atributo.indexOf("(") >= 0) atributo = atributo.substring(0, atributo.indexOf("("));
 				codigo+= "<p><strong>ALTER TABLE </strong>" + t.getNombreTabla() +
-						"<strong> ADD CONSTRAINT </strong>" + 
-										t.getNombreTabla() + "_" + atributo +
+						"<strong> ADD CONSTRAINT </strong>" + t.getNombreTabla() + "_" + atributo +
 						"<strong> FOREIGN KEY </strong>"+
 				"("+foreigns.elementAt(j)[0]+") " + "<strong> REFERENCES </strong>"+foreigns.elementAt(j)[2]+";"+
 				"</p>";
 			}
-				
 		}
 		
 		// Si tiene uniques, se ponen
@@ -220,19 +208,14 @@ public class ConectorOracle extends ConectorDBMS {
 		codigo+=");\n";
 		
 		// Establecer la clave primaria
-		codigo+="ALTER TABLE "+e.getNombre()+" ADD CONSTRAINT " + e.getNombre() + "_pk" + 
-				" PRIMARY KEY (value_list);\n";
+		codigo+="ALTER TABLE "+e.getNombre()+" ADD CONSTRAINT " + e.getNombre() + "_pk" + " PRIMARY KEY (value_list);\n";
 		
 		// Insertar los valores
 		for (int i=0; i<e.getNumeroValores(); i++){
 			String valor = e.getValor(i);
-			if (valor.startsWith("'")) {
-				valor = valor.substring(1, valor.length() - 1);
-			}
-			
+			if (valor.startsWith("'")) valor = valor.substring(1, valor.length() - 1);
 			codigo += "INSERT INTO " + e.getNombre() + " values ('" + valor + "');\n";
 		}
-		
 		codigo += "\n";
 		return codigo;
 	}
@@ -252,16 +235,10 @@ public class ConectorOracle extends ConectorDBMS {
 		// Insertar los valores
 		for (int i=0; i<e.getNumeroValores(); i++){
 			String valor = e.getValor(i);
-			if (valor.startsWith("'")) {
-				valor = valor.substring(1, valor.length() - 1);
-			}
-			
-			codigo += "<p><strong>INSERT INTO </strong>" + e.getNombre() + 
-						"<strong> VALUES </strong>" + "(" + 
-						HTMLUtils.toGreenColor("'" + valor + "'") + ");" + 
-						"</p>";
+			if (valor.startsWith("'")) valor = valor.substring(1, valor.length() - 1);			
+			codigo += "<p><strong>INSERT INTO </strong>" + e.getNombre() + "<strong> VALUES </strong>" + "(" + 
+						"'" + valor + "'" + ");" + "</p>";
 		}
-		
 		return codigo;
 	}
 	

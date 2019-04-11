@@ -59,8 +59,8 @@ public class ValidadorBD extends GeneradorEsquema{
 	 * metodo principal
 	 * boolean modelo: diferencia entre esquema logico y fisico
 	 */
-	protected boolean validaBaseDeDatos(boolean modelo, StringBuilder warnings){
-		mensaje = "";this.warnings = "";this.errores = "";
+	protected boolean validaBaseDeDatos(boolean modelo, StringBuilder warning){
+		mensaje = "";warnings = "";this.errores = "";
 		boolean valido;
 		if(esVacio()) {
 			warning(null, Lenguaje.text(Lenguaje.EMPTY_DIAGRAM));
@@ -77,7 +77,7 @@ public class ValidadorBD extends GeneradorEsquema{
 		if (!valido) 
 			if(modelo)controlador.mensajeDesde_SS(TC.SS_ValidacionM,mensaje);
 			else controlador.mensajeDesde_SS(TC.SS_ValidacionC,mensaje);
-		warnings.append(mensaje);
+		warning.append(mensaje);
 		return valido;
 	}
 

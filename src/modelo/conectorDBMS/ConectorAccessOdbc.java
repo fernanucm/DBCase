@@ -5,11 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
-
 import modelo.lenguaje.Lenguaje;
 import modelo.servicios.Enumerado;
 import modelo.servicios.Tabla;
-import modelo.tools.HTMLUtils;
 
 /**
  * Conecta la aplicación a una base de datos de Microsoft Access
@@ -232,16 +230,10 @@ String codigo="";
 		// Insertar los valores
 		for (int i=0; i<e.getNumeroValores(); i++){
 			String valor = e.getValor(i);
-			if (valor.startsWith("'")) {
-				valor = valor.substring(1, valor.length() - 1);
-			}
-			
+			if (valor.startsWith("'")) valor = valor.substring(1, valor.length() - 1);			
 			codigo += "<p><strong>INSERT INTO </strong>" + e.getNombre() + " (value_list) " +
-						"<strong> VALUES </strong>" + "(" + 
-						HTMLUtils.toGreenColor("'" + valor + "'") + ");" + 
-						"</p>";
+						"<strong> VALUES </strong>" + "(" + "'" + valor + "'" + ");" + "</p>";
 		}
-		
 		return codigo;
 	}
 	

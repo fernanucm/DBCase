@@ -26,8 +26,8 @@ public class attributeIcon extends icon{
     	g2d.setColor(theme.labelFontColorDark());
     	g2d.draw(new Ellipse2D.Double(x+getIconWidth()*.15, y,getIconWidth()*.7, getIconHeight()*.85));
     	if(pintarMas()) {
-	    	g2d.draw(new Line2D.Double(getIconWidth()*.45,getIconHeight()*.4,getIconWidth()*.55,getIconHeight()*.4));
-	        g2d.draw(new Line2D.Double(getIconWidth()*.5,getIconHeight()*.3,getIconWidth()*.5,getIconHeight()*.5));
+	    	g2d.draw(new Line2D.Double(getIconWidth()*.52,getIconHeight()*.4,getIconWidth()*.62,getIconHeight()*.4));//hor
+	        g2d.draw(new Line2D.Double(getIconWidth()*.58,getIconHeight()*.3,getIconWidth()*.58,getIconHeight()*.5));//ver
     	}
     }
 

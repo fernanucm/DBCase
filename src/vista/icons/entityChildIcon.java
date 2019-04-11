@@ -23,11 +23,10 @@ public class entityChildIcon extends icon{
     	Theme theme = Theme.getInstancia();
     	g2d.setColor(theme.entity());
     	g2d.fill(rect);
-    	g2d.setColor(theme.lines());
+    	g2d.setColor(theme.labelFontColorDark());
     	g2d.draw(rect);
-    	
+    	g2d.setColor(theme.lines());
 	    g2d.draw(new Line2D.Double(0,getIconHeight()*.75,getIconWidth()*.3,getIconHeight()*.75));
 	    g2d.draw(new Line2D.Double(0,0,0,getIconHeight()*.75));
-    	
     }	
 }

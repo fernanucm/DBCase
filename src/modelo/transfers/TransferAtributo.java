@@ -14,13 +14,13 @@ public class TransferAtributo extends Transfer{
 	private boolean compuesto;
 	private boolean notnull;
 	private boolean unique;
+	private boolean subatributo;
 	private int volumen;
 	private int frecuencia;
 	private Vector listaComponentes;
 	private boolean multivalorado;
 	private Vector listaRestricciones;
 	private Point2D posicion;
-	
 	
 	public TransferAtributo clonar (){
 		TransferAtributo clon_ta = new TransferAtributo();
@@ -140,7 +140,13 @@ public class TransferAtributo extends Transfer{
 	public void setFrecuencia(int frecuencia) {
 		this.frecuencia = frecuencia;
 	}
+	public boolean isSubatributo() {
+		return subatributo;
+	}
 
+	public void setSubatributo(boolean subatributo) {
+		this.subatributo = subatributo;
+	}
 	@Override
 	public String toString() {
 		return this.nombre;
@@ -176,5 +182,4 @@ public class TransferAtributo extends Transfer{
 		figura = new Ellipse2D.Double(-anchura,-altura,anchura * 2,altura*2);
 		return figura;
 	}
-	
 }
