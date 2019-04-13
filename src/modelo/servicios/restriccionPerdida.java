@@ -48,11 +48,7 @@ public class restriccionPerdida {
 			String s = "<p> ";
 			switch(tipo) {
 			case TOTAL:
-				s += (card[0] == 2147483647)?"N":String.valueOf(card[0]);
-				s +=" &le; ";
-				s += entidad + " &#151;&#151; " + relacion;
-				s +=" &le; ";
-				s += (card[1] == 2147483647)?"N":String.valueOf(card[1]);
+				s += entidad + " -> " + relacion;
 				break;
 			case CANDIDATA:
 				s+= clave + " es una clave candidata de la relacion ";

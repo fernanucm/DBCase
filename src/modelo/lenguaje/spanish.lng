@@ -476,7 +476,7 @@ explore=Examinar...
 
 #restricciones
 restrictions=Restricciones
-RIC=Restricciones de Integridad Referencial
+ric=Restricciones de Integridad Referencial
 lostConstr=Restricciones Perdidas
 tableconstraints=Restricciones de tabla
 addRestrictions=Añadir restricciones a 

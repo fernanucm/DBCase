@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Inf_dbcase>
+    <EntityList proximoID="3">
+        <Entity EntityId="1">
+            <Name>t</Name>
+            <Weak>false</Weak>
+            <AttribList>
+                <Attrib>2</Attrib>
+                <Attrib>4</Attrib>
+            </AttribList>
+            <PrimaryKeyList>
+                <PrimaryKey>2</PrimaryKey>
+            </PrimaryKeyList>
+            <AssertionList/>
+            <UniqueList/>
+            <Position>202,394</Position>
+        </Entity>
+        <Entity EntityId="2">
+            <Name>s</Name>
+            <Weak>false</Weak>
+            <AttribList>
+                <Attrib>3</Attrib>
+            </AttribList>
+            <PrimaryKeyList>
+                <PrimaryKey>3</PrimaryKey>
+            </PrimaryKeyList>
+            <AssertionList/>
+            <UniqueList/>
+            <Position>568,390</Position>
+        </Entity>
+    </EntityList>
+    <RelationList proximoID="2">
+        <Relation idRelacion="1">
+            <Name>r</Name>
+            <Type>Normal</Type>
+            <EntityAndArityList>
+                <EntityAndArity>(1,0,n,)</EntityAndArity>
+                <EntityAndArity>(2,1,1,)</EntityAndArity>
+            </EntityAndArityList>
+            <AttribList>
+                <Attrib>1</Attrib>
+            </AttribList>
+            <AssertionList/>
+            <UniqueList/>
+            <Position>387,391</Position>
+        </Relation>
+    </RelationList>
+    <AttributeList proximoID="5">
+        <Attribute AttributeId="1">
+            <Name>a</Name>
+            <Dom>VARCHAR(10)</Dom>
+            <Composed>false</Composed>
+            <NotNull>false</NotNull>
+            <Unique>false</Unique>
+            <ComponentList/>
+            <Multivalued>false</Multivalued>
+            <AssertionList/>
+            <Position>390,280</Position>
+        </Attribute>
+        <Attribute AttributeId="2">
+            <Name>a</Name>
+            <Dom>VARCHAR(10)</Dom>
+            <Composed>false</Composed>
+            <NotNull>false</NotNull>
+            <Unique>false</Unique>
+            <ComponentList/>
+            <Multivalued>false</Multivalued>
+            <AssertionList/>
+            <Position>208,299</Position>
+        </Attribute>
+        <Attribute AttributeId="3">
+            <Name>a</Name>
+            <Dom>VARCHAR(10)</Dom>
+            <Composed>false</Composed>
+            <NotNull>false</NotNull>
+            <Unique>false</Unique>
+            <ComponentList/>
+            <Multivalued>false</Multivalued>
+            <AssertionList/>
+            <Position>564,276</Position>
+        </Attribute>
+        <Attribute AttributeId="4">
+            <Name>b</Name>
+            <Dom>VARCHAR(10)</Dom>
+            <Composed>false</Composed>
+            <NotNull>false</NotNull>
+            <Unique>false</Unique>
+            <ComponentList/>
+            <Multivalued>false</Multivalued>
+            <AssertionList/>
+            <Position>209,475</Position>
+        </Attribute>
+    </AttributeList>
+    <DomainList proximoID="1"/>
+</Inf_dbcase>

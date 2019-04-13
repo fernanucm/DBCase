@@ -38,7 +38,6 @@ public class GeneradorEsquema {
 	private String mr="";
 	private TransferConexion conexionScriptGenerado = null;
 	private RestriccionesPerdidas restriccionesPerdidas = new RestriccionesPerdidas();
-
 	//aqui se almacenaran las tablas ya creadas, organizadas por el id de la entidad /relacion (clave) y con el objeto tabla como valor.
 	private Hashtable<Integer,Tabla> tablasEntidades=new Hashtable<Integer,Tabla>();
 	private Hashtable<Integer,Tabla> tablasRelaciones=new Hashtable<Integer,Tabla>();
@@ -76,13 +75,12 @@ public class GeneradorEsquema {
 				TransferAtributo ta=atribs.elementAt(j);
 				if(ta.getUnique()) restriccionesPerdidas.add(new restriccionPerdida(te.getNombre(), ta.getNombre()+" "+Lenguaje.text(Lenguaje.IS_UNIQUE), restriccionPerdida.TABLA));
 				if (ta.getCompuesto()) 
-					tabla.aniadeListaAtributos(this.atributoCompuesto(ta,
-															te.getNombre(),""),te.getListaRestricciones(),tiposEnumerados);
+					tabla.aniadeListaAtributos(this.atributoCompuesto(ta, te.getNombre(),""),te.getListaRestricciones(),tiposEnumerados);
 				else if (ta.isMultivalorado()) multivalorados.add(ta);
-				else { tabla.aniadeAtributo(ta.getNombre(), ta.getDominio(),te.getNombre(),
-												tiposEnumerados,ta.getListaRestricciones(), ta.getUnique(), ta.getNotnull());
-						for(String rest : (Vector<String>)ta.getListaRestricciones())
-							restriccionesPerdidas.add(new restriccionPerdida(te.getNombre(), rest, restriccionPerdida.TABLA));
+				else{ 
+					tabla.aniadeAtributo(ta.getNombre(), ta.getDominio(),te.getNombre(), tiposEnumerados,ta.getListaRestricciones(), ta.getUnique(), ta.getNotnull());
+					for(String rest : (Vector<String>)ta.getListaRestricciones())
+						restriccionesPerdidas.add(new restriccionPerdida(te.getNombre(), rest, restriccionPerdida.TABLA));
 				}
 			}
 			
@@ -110,11 +108,8 @@ public class GeneradorEsquema {
 			
 			// Establecimiento de uniques
 			Vector<String> listaUniques = te.getListaUniques();
-			for (int m = 0; m < listaUniques.size(); m++)
-				tabla.getUniques().add(listaUniques.get(m));
-			
+			for (int m = 0; m < listaUniques.size(); m++) tabla.getUniques().add(listaUniques.get(m));
 		}
-
 	}
 	
 	private void generaTablasRelaciones() {
@@ -133,19 +128,17 @@ public class GeneradorEsquema {
 				// creamos la tabla
 				Tabla tabla = new Tabla(tr.getNombre(), tr.getListaRestricciones());
 				// aniadimos los atributos propios.
-				Vector<TransferAtributo> ats = this.dameAtributosEnTransfer(tr
-						.getListaAtributos());
+				Vector<TransferAtributo> ats = this.dameAtributosEnTransfer(tr.getListaAtributos());
 				for (int a = 0; a < ats.size(); a++) {
 					TransferAtributo ta = ats.elementAt(a);
 					if(ta.getUnique()) restriccionesPerdidas.add(new restriccionPerdida(tr.getNombre(), ta.getNombre()+" "+Lenguaje.text(Lenguaje.IS_UNIQUE), restriccionPerdida.TABLA));
 					if (ta.getCompuesto())
-						tabla.aniadeListaAtributos(this.atributoCompuesto(ta, tr
-								.getNombre(), ""), ta.getListaRestricciones(), tiposEnumerados);
+						tabla.aniadeListaAtributos(this.atributoCompuesto(ta, tr.getNombre(), ""), ta.getListaRestricciones(), tiposEnumerados);
 					else if (ta.isMultivalorado()) multivalorados.add(ta);
-					else { tabla.aniadeAtributo(ta.getNombre(), ta.getDominio(), tr
-								.getNombre(), tiposEnumerados, ta.getListaRestricciones(), ta.getUnique(), ta.getNotnull());
-					for(String rest : (Vector<String>)ta.getListaRestricciones())
-						restriccionesPerdidas.add(new restriccionPerdida(tr.getNombre(), rest, restriccionPerdida.TABLA));
+					else { 
+						tabla.aniadeAtributo(ta.getNombre(), ta.getDominio(), tr.getNombre(), tiposEnumerados, ta.getListaRestricciones(), ta.getUnique(), ta.getNotnull());
+						for(String rest : (Vector<String>)ta.getListaRestricciones())
+							restriccionesPerdidas.add(new restriccionPerdida(tr.getNombre(), rest, restriccionPerdida.TABLA));
 					}
 				}
 
@@ -162,18 +155,12 @@ public class GeneradorEsquema {
 				//Para cada entidad...
 				boolean esLaPrimeraDel1a1 = true;
 				for (int m = 0; m < veya.size(); m++){
-					// Aniadir su clave primaria a la relaciÃ³n (es clave forÃ¡nea)
+					// Aniadir su clave primaria a la relacion (es clave foranea)
 					EntidadYAridad eya = veya.elementAt(m);
 					Tabla ent = tablasEntidades.get(eya.getEntidad());
 					Vector<String[]> previasPrimarias;
 					if (ent.getPrimaries().isEmpty()) previasPrimarias = ent.getAtributos();
 					else previasPrimarias = ent.getPrimaries();
-					
-					//crea las restricciones perdidas (cuando rangoIni > 1 o rangoFin < N)
-					if(eya.getPrincipioRango() > 0 && eya.getFinalRango() < Integer.MAX_VALUE && eya.getFinalRango() >1)
-						restriccionesPerdidas.add(
-								new restriccionPerdida(tr.getNombre(),ent.getNombreTabla(), 
-										eya.getPrincipioRango(), eya.getFinalRango(), restriccionPerdida.TOTAL));
 					
 					//...pero antes renombrarla con el rol
 					Vector<String[]> primarias = new Vector<String[]>();
@@ -181,15 +168,13 @@ public class GeneradorEsquema {
 					
 					for (int q=0; q<previasPrimarias.size(); q++){
 						String[] clave = new String[3];
-						if (!eya.getRol().equals(""))
-							clave[0] = eya.getRol() + "_" + previasPrimarias.get(q)[0];
+						if (!eya.getRol().equals("")) clave[0] = eya.getRol() + "_" + previasPrimarias.get(q)[0];
 						else clave[0] = previasPrimarias.get(q)[0];
 						clave[1] = previasPrimarias.get(q)[1];
 						clave[2] = previasPrimarias.get(q)[2];
 						primarias.add(clave);
 						referenciadas[q] = previasPrimarias.get(q)[0];
 					}
-					
 					
 					tabla.aniadeListaAtributos(primarias, tr.getListaRestricciones(), tiposEnumerados);
 					tabla.aniadeListaClavesForaneas(primarias, ent.getNombreTabla(), referenciadas);
@@ -213,10 +198,11 @@ public class GeneradorEsquema {
 							tabla.getUniques().add(uniques);
 						}
 					}
+					//crea las restricciones perdidas (cuando rangoIni > 1 o rangoFin < N)
+					if(eya.getPrincipioRango() > 0 && eya.getFinalRango() < Integer.MAX_VALUE && eya.getFinalRango() >1)
+						restriccionesPerdidas.add(new restriccionPerdida(tabla.modeloRelacionalDeTabla(false),ent.modeloRelacionalDeTabla(false), 
+										eya.getPrincipioRango(), eya.getFinalRango(), restriccionPerdida.TOTAL));
 				}
-				
-				// -------------------------------------------
-				
 				tablasRelaciones.put(tr.getIdRelacion(), tabla);
 				for (int mul = 0; mul < multivalorados.size(); mul++) {
 					TransferAtributo multi = multivalorados.elementAt(mul);
@@ -296,18 +282,12 @@ public class GeneradorEsquema {
 					Tabla tFuerte = tablasEntidades.get(fuerte.getIdEntidad());
 					for (int d = 0; d < debiles.size(); d++) {
 						TransferEntidad debil = debiles.elementAt(d);
-						Tabla tDebil = tablasEntidades
-								.get(debil.getIdEntidad());
-						tDebil.aniadeListaAtributos(tFuerte.getPrimaries(),fuerte.getListaRestricciones(),
-								tiposEnumerados);
-						
+						Tabla tDebil = tablasEntidades.get(debil.getIdEntidad());
+						tDebil.aniadeListaAtributos(tFuerte.getPrimaries(),fuerte.getListaRestricciones(),tiposEnumerados);
 						Vector<String[]> clavesFuerte = tFuerte.getPrimaries();
 						String[] referenciadas = new String[clavesFuerte.size()];
-						for (int q=0; q<clavesFuerte.size(); q++){
-							referenciadas[q] = clavesFuerte.get(q)[0];
-						}
-						tDebil.aniadeListaClavesForaneas(tFuerte.getPrimaries(),
-								tFuerte.getNombreTabla(), referenciadas);
+						for (int q=0; q<clavesFuerte.size(); q++) referenciadas[q] = clavesFuerte.get(q)[0];
+						tDebil.aniadeListaClavesForaneas(tFuerte.getPrimaries(),tFuerte.getNombreTabla(), referenciadas);
 					}
 				}
 			}
@@ -423,14 +403,11 @@ public class GeneradorEsquema {
 	
 	public Vector<TransferConexion> obtenerTiposDeConexion(){
 		Vector<String> nombres = FactoriaConectores.obtenerTodosLosConectores();
-		
 		Vector<TransferConexion> conexiones;
 		conexiones = new Vector<TransferConexion>();
 		conexiones.clear();
-		for (int i = 0; i < nombres.size(); i++){
+		for (int i = 0; i < nombres.size(); i++)
 			conexiones.add(new TransferConexion(i, nombres.get(i)));
-		}
-		
 		return conexiones;
 	}
 
@@ -452,9 +429,7 @@ public class GeneradorEsquema {
 					JOptionPane.OK_CANCEL_OPTION,
 					JOptionPane.WARNING_MESSAGE,
 					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.PREGUNTA)));
-			if (respuesta == JOptionPane.CANCEL_OPTION){
-				return;	
-			}
+			if (respuesta == JOptionPane.CANCEL_OPTION) return;
 		}
 		
 		// Ejecutar en DBMS
@@ -482,7 +457,6 @@ public class GeneradorEsquema {
 					Lenguaje.text(Lenguaje.DBCASE),
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
-			
 			// Terminar
 			return;
 		}
@@ -490,7 +464,6 @@ public class GeneradorEsquema {
 		try {
 			// Crear la base de datos
 			conector.usarDatabase(tc.getDatabase());
-			
 			// Ejecutar cada orden
 			String[] orden = sql.split(";");
 			for (int i=0; i < orden.length; i++){
@@ -498,13 +471,9 @@ public class GeneradorEsquema {
 					ordenActual = orden[i].trim() + ";";
 					
 					// Eliminar los comentarios y lineas en blanco
-					if (ordenActual.startsWith("--") && !ordenActual.contains("\n")){
-						continue;
-					}
-					
-					while (ordenActual.startsWith("--") || ordenActual.startsWith("\n")){
+					if (ordenActual.startsWith("--") && !ordenActual.contains("\n")) continue;
+					while (ordenActual.startsWith("--") || ordenActual.startsWith("\n"))
 						ordenActual = ordenActual.substring(ordenActual.indexOf("\n") + 1);
-					}
 					
 					// Ejecutar la orden
 					conector.ejecutarOrden(ordenActual);	
@@ -524,18 +493,9 @@ public class GeneradorEsquema {
 			// Terminar
 			return;
 		}
-//		System.out.println("Ejecutado correctamente.");
-		
-//		System.out.println("Cerrando conexiÃ³n");
 		try {
 			conector.cerrarConexion();
 		} catch (SQLException e) {
-//			// Avisar por consola
-//			System.out.println("ERROR: No se pudo cerrar la conexiÃ³n");
-//			System.out.println("MOTIVO");
-//			System.out.println(e.getMessage());
-			
-			// Avisar por GUI
 			JOptionPane.showMessageDialog(null,
 					Lenguaje.text(Lenguaje.ERROR)+".\n" +
 					Lenguaje.text(Lenguaje.CANT_CLOSE_CONEXION)+" \n" +
@@ -543,12 +503,9 @@ public class GeneradorEsquema {
 					Lenguaje.text(Lenguaje.DBCASE),
 					JOptionPane.PLAIN_MESSAGE,
 					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
-			
-			// Terminar
 			return;
 		}
 		System.out.println("Conexion cerrada correctamente");
-		
 		JOptionPane.showMessageDialog(null,
 				Lenguaje.text(Lenguaje.INFO)+"\n" +
 				Lenguaje.text(Lenguaje.OK_SCRIPT_EXECUT),
@@ -589,7 +546,6 @@ public class GeneradorEsquema {
 				tablasEntidad+=t.codigoEstandarCreacionDeTabla(conexion);
 			}
 		}
-		
 		sql += tablasEntidad;
 		sqlHTML += tablasEntidadHTML;
 		sqlHTML+="<p></p></div>";
@@ -597,7 +553,6 @@ public class GeneradorEsquema {
 	
 	private boolean esPadreEnIsa(Tabla tabla){
 		boolean encontrado = false;
-		
 		DAORelaciones daoRelaciones = new DAORelaciones(controlador.getPath());
 		Vector<TransferRelacion> relaciones = daoRelaciones.ListaDeRelaciones();
 
@@ -605,7 +560,6 @@ public class GeneradorEsquema {
 		int i = 0;
 		while (i < relaciones.size() && !encontrado) {
 			TransferRelacion tr = relaciones.elementAt(i);
-			
 			if (tr.isIsA()) {
 				// Obtener ID del padre
 				Vector<EntidadYAridad> veya = tr.getListaEntidadesYAridades();
@@ -671,7 +625,6 @@ public class GeneradorEsquema {
 	private void ponClaves(TransferConexion conexion){
 		sqlHTML+="<div class='card'><h2>"+Lenguaje.text(Lenguaje.KEYS_SECTION)+"</h2>";
 		sql+="\n-- "+Lenguaje.text(Lenguaje.KEYS_SECTION)+"\n";
-
 		
 		String restEntidad = "";
 		String restEntidadHTML = "";
@@ -713,41 +666,31 @@ public class GeneradorEsquema {
 	
 	public String restriccionesIR() {
 		String mr= "";
-		
 		Iterator<Tabla> tablasE=tablasEntidades.values().iterator();
 		while (tablasE.hasNext()){
 			Tabla t =(Tabla)tablasE.next();
 			Vector<String[]> foreigns = t.getForeigns();
-			if(!foreigns.isEmpty()){
-				for (int j=0;j<foreigns.size();j++){
-					mr+="<p>" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[3]+"_"+foreigns.elementAt(j)[0]+") "
-							+ "&rarr; " + foreigns.elementAt(j)[2]+"</p>";
-				}
-			}
+			if(!foreigns.isEmpty())
+				for (int j=0;j<foreigns.size();j++)
+					mr+="<p>" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[3]+"_"+foreigns.elementAt(j)[0]+") "+ "-> " + foreigns.elementAt(j)[2]+"</p>";
 		}
 		
 		Iterator<Tabla> tablasR=tablasRelaciones.values().iterator();
 		while (tablasR.hasNext()){
 			Tabla t =(Tabla)tablasR.next();
 			Vector<String[]> foreigns = t.getForeigns();
-			if(!foreigns.isEmpty()){
-				for (int j=0;j<foreigns.size();j++){
-					mr+="<p>" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[3]+"_"+foreigns.elementAt(j)[0]+") "
-							+ "&rarr; " + foreigns.elementAt(j)[2]+"</p>";
-				}
-			}
+			if(!foreigns.isEmpty())
+				for (int j=0;j<foreigns.size();j++)
+					mr+="<p>" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[3]+"_"+foreigns.elementAt(j)[0]+") "+ "-> " + foreigns.elementAt(j)[2]+"</p>";
 		}
 		
 		Iterator<Tabla> tablasM=tablasMultivalorados.iterator();
 		while (tablasM.hasNext()){
 			Tabla t =(Tabla)tablasM.next();
 			Vector<String[]> foreigns = t.getForeigns();
-			if(!foreigns.isEmpty()){
-				for (int j=0;j<foreigns.size();j++){
-					mr+="<p>" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[3]+"_"+foreigns.elementAt(j)[0]+") "
-							+ "&rarr; " + foreigns.elementAt(j)[2]+"</p>";
-				}
-			}
+			if(!foreigns.isEmpty())
+				for (int j=0;j<foreigns.size();j++)
+					mr+="<p>" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[3]+"_"+foreigns.elementAt(j)[0]+") "+ "-> " + foreigns.elementAt(j)[2]+"</p>";
 		}
 		return mr;
 	}
@@ -764,19 +707,19 @@ public class GeneradorEsquema {
 		Iterator tablasE = tablasEntidades.values().iterator();
 		while (tablasE.hasNext()){
 			Tabla t =(Tabla)tablasE.next();
-			mr+=t.modeloRelacionalDeTabla();
+			mr+=t.modeloRelacionalDeTabla(true);
 		}
 		
 		Iterator tablasR = tablasRelaciones.values().iterator();
 		while (tablasR.hasNext()){
 			Tabla t =(Tabla)tablasR.next();
-			mr+=t.modeloRelacionalDeTabla();
+			mr+=t.modeloRelacionalDeTabla(true);
 		}
 		
 		Iterator tablasM = tablasMultivalorados.iterator();
 		while (tablasM.hasNext()){
 			Tabla t =(Tabla)tablasM.next();
-			mr+=t.modeloRelacionalDeTabla();
+			mr+=t.modeloRelacionalDeTabla(true);
 		}
 		mr += "<p></p></div><div class='card'><h2>"+Lenguaje.text(Lenguaje.RIC)+"</h2>";
 		mr += restriccionesIR();
@@ -841,12 +784,9 @@ public class GeneradorEsquema {
 		
 		Vector<String[]> clavesEntidad = tablaEntidad.getPrimaries();
 		String[] referenciadas = new String[clavesEntidad.size()];
-		for (int q=0; q<clavesEntidad.size(); q++){
-			referenciadas[q] = clavesEntidad.get(q)[0];
-		}
+		for (int q=0; q<clavesEntidad.size(); q++) referenciadas[q] = clavesEntidad.get(q)[0];
 		
-		tablaMulti.aniadeListaClavesForaneas(tablaEntidad.getPrimaries(),
-				tablaEntidad.getNombreTabla(), referenciadas);
+		tablaMulti.aniadeListaClavesForaneas(tablaEntidad.getPrimaries(),tablaEntidad.getNombreTabla(), referenciadas);
 		tablasMultivalorados.add(tablaMulti);
 		for(String rest : (Vector<String>)ta.getListaRestricciones())
 			restriccionesPerdidas.add(new restriccionPerdida(tablaMulti.getNombreTabla(), rest, restriccionPerdida.TABLA));
@@ -869,7 +809,6 @@ public class GeneradorEsquema {
 	}	
 	
 	public void compruebaConexion(TransferConexion tc){
-		// Ejecutar en DBMS
 		System.out.println("Datos de conexion a la base de datos");
 		System.out.println("------------------------------------");
 		System.out.println("DBMS: " + tc.getRuta() + "(" + tc.getTipoConexion() + ")");
@@ -880,26 +819,19 @@ public class GeneradorEsquema {
 			conector.abrirConexion(tc.getRuta(), tc.getUsuario(), tc.getPassword());
 			conector.cerrarConexion();
 		} catch (SQLException e) {
-			//Avisar por GUI que falle
-			JOptionPane.showMessageDialog(null,
-					Lenguaje.text(Lenguaje.ERROR)+".\n" +
-					Lenguaje.text(Lenguaje.NO_DB_CONEXION)+" \n" +
-					Lenguaje.text(Lenguaje.REASON)+": \n" + e.getMessage(),
-					Lenguaje.text(Lenguaje.DBCASE),
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
-			//Terminar
-			return;
-		}
-		
-		// Avisar por GUI que va bien
-		JOptionPane.showMessageDialog(null,
-				Lenguaje.text(Lenguaje.OK_SCRIPT_EXECUT),
+			JOptionPane.showMessageDialog(null,Lenguaje.text(Lenguaje.ERROR)+".\n" +
+				Lenguaje.text(Lenguaje.NO_DB_CONEXION)+" \n" +
+				Lenguaje.text(Lenguaje.REASON)+": \n" + e.getMessage(),
 				Lenguaje.text(Lenguaje.DBCASE),
 				JOptionPane.PLAIN_MESSAGE,
-				new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
-		
-		// Terminar
+				new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
+			return;
+		}
+		JOptionPane.showMessageDialog(null,
+			Lenguaje.text(Lenguaje.OK_SCRIPT_EXECUT),
+			Lenguaje.text(Lenguaje.DBCASE),
+			JOptionPane.PLAIN_MESSAGE,
+			new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
 		return;
 	}
 

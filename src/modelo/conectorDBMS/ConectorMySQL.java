@@ -223,7 +223,7 @@ public class ConectorMySQL extends ConectorDBMS {
 		for (int i=0; i<e.getNumeroValores(); i++){
 			String valor = e.getValor(i);
 			if (valor.startsWith("'")) valor = valor.substring(1, valor.length() - 1);
-			codigo += "<p><strong>INSERT INTO </strong>" + e.getNombre() + "<strong> VALUES (" + "'" + valor + "'" + ");</p>";
+			codigo += "<p><strong>INSERT INTO </strong>" + e.getNombre() + "<strong> VALUES </strong>(" + "'" + valor + "'" + ");</p>";
 		}
 		codigo += "</p>";
 		return codigo;

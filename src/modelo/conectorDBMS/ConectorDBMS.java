@@ -102,12 +102,12 @@ public abstract class ConectorDBMS {
 			salida+= "ALTER TABLE " + t.getNombreTabla()  
 					+ " ADD CONSTRAINT "+ t.getNombreConstraint()
 					+ " CHECK "
-					+ "("+r+")\n";
+					+ "("+r+");\n";
 		for (String u : t.getUniques())
 			salida+= "ALTER TABLE " + t.getNombreTabla()  
 					+ " ADD CONSTRAINT "+ t.getNombreConstraint()
 					+ " UNIQUE "
-					+ "("+u+")\n";
+					+ "("+u+");\n";
 		return salida;
 	}
 	
@@ -123,12 +123,12 @@ public abstract class ConectorDBMS {
 			salida+= "<p><strong>ALTER TABLE</strong> " + t.getNombreTabla()  
 					+ " <strong>ADD CONSTRAINT</strong> " + t.getNombreConstraint()
 					+ " <strong>CHECK</strong>"
-					+ " ("+r.replace("<", "&lt;")+")</p>";
+					+ " ("+r.replace("<", "&lt;")+");</p>";
 		for (String u : t.getUniques())
 			salida+= "<p><strong>ALTER TABLE</strong> " + t.getNombreTabla()  
 			+ " <strong>ADD CONSTRAINT</strong> " + t.getNombreConstraint()
 			+ " <strong>UNIQUE</strong>"
-			+ " ("+u.replace("<", "&lt;")+")</p>";
+			+ " ("+u.replace("<", "&lt;")+");</p>";
 		return salida;
 	}
 }

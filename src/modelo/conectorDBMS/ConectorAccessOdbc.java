@@ -19,8 +19,7 @@ public class ConectorAccessOdbc extends ConectorDBMS {
 	protected Connection _conexion;
 	
 	@Override
-	public void abrirConexion(String ruta, String usuario, String password)
-			throws SQLException {
+	public void abrirConexion(String ruta, String usuario, String password) throws SQLException {
 		String driver = "sun.jdbc.odbc.JdbcOdbcDriver";
 		try {
 			Class.forName(driver);
@@ -28,7 +27,6 @@ public class ConectorAccessOdbc extends ConectorDBMS {
 			System.err.println(Lenguaje.text(Lenguaje.NO_CONECTOR));
 			throw new SQLException(Lenguaje.text(Lenguaje.NO_CONECTOR));
 		}
-		
 		_conexion = DriverManager.getConnection(ruta, usuario, password);
 		
 		if(!_conexion.isClosed())
@@ -37,8 +35,7 @@ public class ConectorAccessOdbc extends ConectorDBMS {
 
 	@Override
 	public void cerrarConexion() throws SQLException {
-		if(_conexion != null)
-			_conexion.close();
+		if(_conexion != null) _conexion.close();
 	}
 
 	@Override

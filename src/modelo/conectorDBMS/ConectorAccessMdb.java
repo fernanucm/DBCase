@@ -42,25 +42,20 @@ public class ConectorAccessMdb extends ConectorAccessOdbc {
 
 		// Eiminar la base de datos, y crear una nueva
 		File f = new File(nombre);
-		if (f.exists()){
-			f.delete();
-		}
+		if (f.exists()) f.delete();
 		
 		boolean creado = copyfile("/data/void.mdb", nombre);
 		if (!creado) {
 			JOptionPane.showMessageDialog(null,
-					Lenguaje.text(Lenguaje.ERROR)+".\n" +
-					"File could not be created. Check permissions and " + 
-					"that there is space enough in the hard drive.", // TODO Internacionalizar
-					Lenguaje.text(Lenguaje.DBCASE),
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
+				Lenguaje.text(Lenguaje.ERROR)+".\n" +
+				"File could not be created. Check permissions and " + 
+				"that there is space enough in the hard drive.", // TODO Internacionalizar
+				Lenguaje.text(Lenguaje.DBCASE),
+				JOptionPane.PLAIN_MESSAGE,
+				new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
 			return;
 		}
-		
-		_conexion = DriverManager.getConnection(rutaCompleta, _usuario,
-				_password);
-
+		_conexion = DriverManager.getConnection(rutaCompleta, _usuario, _password);
 		if (!_conexion.isClosed())
 			System.out.println("Conectado correctamente a '" + nombre + "'...");
 	}
@@ -76,15 +71,11 @@ public class ConectorAccessMdb extends ConectorAccessOdbc {
 
 			// For Overwrite the file.
 			OutputStream out = new FileOutputStream(f2);
-
 			byte[] buf = new byte[1024];
 			int len;
-			while ((len = in.read(buf)) > 0) {
-				out.write(buf, 0, len);
-			}
+			while ((len = in.read(buf)) > 0) out.write(buf, 0, len);
 			in.close();
 			out.close();
-
 			return true;
 		} catch (FileNotFoundException ex) {
 			return false;

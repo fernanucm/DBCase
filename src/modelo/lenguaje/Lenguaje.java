@@ -1113,7 +1113,7 @@ public class Lenguaje {
 		case CANDIDATE_KEYS: texto = _textos.get("candidateKeys"); break;
 		case TABLE_CONSTR: texto = _textos.get("tableconstraints"); break;
 		case RELATIONS: texto = _textos.get("relations"); break;
-		case RIC: texto = _textos.get("RIC");
+		case RIC: texto = _textos.get("ric"); break;
 		case LOST_CONSTR: texto = _textos.get("lostConstr"); break;
 		case THE_ATRIBUTE: texto = _textos.get("theattribute"); break;
 		case THE_RELATION: texto = _textos.get("therelation"); break;

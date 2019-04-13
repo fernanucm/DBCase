@@ -55,40 +55,8 @@ public class Tabla {
 		setConstraints(restr);
 	}
 	
-	public Vector<String[]> getAtributos() {
-		return atributos;
-	}
-	public void setAtributos(Vector<String[]> atributos) {
-		this.atributos = atributos;
-	}
-	public Vector<String[]> getForeigns() {
-		return foreigns;
-	}
-	public void setForeigns(Vector<String[]> foreigns) {
-		this.foreigns = foreigns;
-	}
-	public Vector<String[]> getPrimaries() {
-		return primaries;
-	}
-	public void setPrimaries(Vector<String[]> primaries) {
-		this.primaries = primaries;
-	}
-	public Vector<String> getUniques() {
-		return uniques;
-	}
-	public void setUniques(Vector<String> uniques) {
-		this.uniques = uniques;
-	}
-	public Vector<String> getConstraints() {
-		return new Vector<String>(constraints);
-	}
-	public void setConstraints(Vector<String> restr) {
-		constraints.addAll(restr);
-	}
-	public void aniadeAtributo(String nombre, String dominio,String tablaReferencia,
-														Hashtable<Integer,Enumerado> dominios,
-														Vector<String> restric,
-														boolean unique, boolean notNull){
+	public void aniadeAtributo(String nombre, String dominio,String tablaReferencia,Hashtable<Integer,Enumerado> dominios,
+														Vector<String> restric,boolean unique, boolean notNull){
 		String [] trio=new String[5];
 		trio[0]=nombre;
 		trio[1]=dominio;
@@ -121,9 +89,7 @@ public class Tabla {
 		for (int i=0;i<listado.size();i++){
 			String[] trio = listado.elementAt(i);
 			if (trio.length < 4) aniadeAtributo(trio[0], trio[1], trio[2], dominios, rest, false, false);
-			else aniadeAtributo(trio[0], trio[1], trio[2], dominios,rest,
-									trio[3].equalsIgnoreCase("1"),
-									trio[4].equalsIgnoreCase("1"));
+			else aniadeAtributo(trio[0], trio[1], trio[2], dominios,rest, trio[3].equalsIgnoreCase("1"), trio[4].equalsIgnoreCase("1"));
 		}
 	}
 	
@@ -137,7 +103,7 @@ public class Tabla {
 			String []par=listado.elementAt(i);
 			trio[0]=par[0];
 			trio[1]=par[1];
-			trio[2]=nombreEntidad + " (" + atributosReferenciados[i] + ")";
+			trio[2]=nombreEntidad + "(" + atributosReferenciados[i] + ")";
 			trio[3]=nombreEntidad;
 			foreigns.add(trio);
 		}
@@ -159,8 +125,7 @@ public class Tabla {
 		foreigns.add(trio);
 	}
 	
-	private void aniadeAtributo(String nombre, String dominio,String tablaReferencia, 
-														boolean unique, boolean notNull){
+	private void aniadeAtributo(String nombre, String dominio,String tablaReferencia, boolean unique, boolean notNull){
 		String [] trio=new String[5];
 		trio[0]=nombre;
 		trio[1]=dominio;
@@ -202,8 +167,7 @@ public class Tabla {
 					else repe +=ref+"_";
 				}
 				t.aniadeClavePrimaria(ponGuionesBajos(repe+primaries.elementAt(i)[0]), 
-									primaries.elementAt(i)[1], 
-									ponGuionesBajos(primaries.elementAt(i)[2]));
+									primaries.elementAt(i)[1], ponGuionesBajos(primaries.elementAt(i)[2]));
 			}
 		}
 		
@@ -217,8 +181,7 @@ public class Tabla {
 					else repe +=ref;
 				}
 				t.aniadeClaveForanea(ponGuionesBajos(repe+foreigns.elementAt(i)[0]), 
-									foreigns.elementAt(i)[1], 
-									ponGuionesBajos(foreigns.elementAt(i)[2]));
+									foreigns.elementAt(i)[1], ponGuionesBajos(foreigns.elementAt(i)[2]));
 			}
 		}
 		
@@ -248,15 +211,15 @@ public class Tabla {
 					if (m == 0) resul += ponGuionesBajos(unis[m].trim());
 					else resul += ", " + ponGuionesBajos(unis[m].trim());
 				}
-				
 				t.getUniques().add(resul);
 			}
 		}
-		
 		return t;
 	}
-	public String modeloRelacionalDeTabla(){
-		String mr="<p>"+this.ponGuionesBajos(nombreTabla)+" (";
+	public String modeloRelacionalDeTabla(boolean p){
+		String mr="";
+		if(p)mr+="<p>";
+		mr+=this.ponGuionesBajos(nombreTabla)+" (";
 		Vector<String[]>definitivo= new Vector<String[]>();
 		//dejamos los elementos en las 3 listas sin duplicados.
 		definitivo=this.filtra(atributos, primaries);
@@ -266,7 +229,7 @@ public class Tabla {
 				String repe="";
 				if (this.estaRepe(primaries.elementAt(i)[0], atributos)) repe +=primaries.elementAt(i)[2]+"_";
 				if (i>0) mr+=", ";
-				mr+=this.ponGuionesBajos(repe+primaries.elementAt(i)[0]);
+				mr+=this.ponGuionesBajos("<u>"+repe+primaries.elementAt(i)[0]+"</u>");
 			}
 		for (int j=0;j<definitivo.size();j++){
 			if (i>0||k>0) mr+=", ";
@@ -274,7 +237,8 @@ public class Tabla {
 			if (this.estaRepe(definitivo.elementAt(j)[0], atributos) && nombreTabla != definitivo.elementAt(j)[2]) repe +=definitivo.elementAt(j)[2]+"_";
 			mr+=this.ponGuionesBajos(repe+definitivo.elementAt(j)[0]);
 		}	
-		mr+=")</p>";
+		mr+=")";
+		if(p)mr+="</p>";
 		return mr;
 	}
 	
@@ -289,7 +253,6 @@ public class Tabla {
 	
 	//metodos auxiliares:
 	private String ponGuionesBajos(String cadena){
-		//sustituye todos los blancos y guiones medios, por guiones bajos.
 		cadena= cadena.replaceAll(" ", "_");
 		cadena= cadena.replaceAll("-", "_");
 		return cadena;
@@ -379,5 +342,35 @@ public class Tabla {
 		Tabla t = creaClonSinAmbiguedadNiEspacios();
 		ConectorDBMS traductor = FactoriaConectores.obtenerConector(conexion.getTipoConexion());
 		return traductor.obtenerCodigoClavesTablaHTML(t);
+	}
+	public Vector<String[]> getAtributos() {
+		return atributos;
+	}
+	public void setAtributos(Vector<String[]> atributos) {
+		this.atributos = atributos;
+	}
+	public Vector<String[]> getForeigns() {
+		return foreigns;
+	}
+	public void setForeigns(Vector<String[]> foreigns) {
+		this.foreigns = foreigns;
+	}
+	public Vector<String[]> getPrimaries() {
+		return primaries;
+	}
+	public void setPrimaries(Vector<String[]> primaries) {
+		this.primaries = primaries;
+	}
+	public Vector<String> getUniques() {
+		return uniques;
+	}
+	public void setUniques(Vector<String> uniques) {
+		this.uniques = uniques;
+	}
+	public Vector<String> getConstraints() {
+		return new Vector<String>(constraints);
+	}
+	public void setConstraints(Vector<String> restr) {
+		constraints.addAll(restr);
 	}
 }

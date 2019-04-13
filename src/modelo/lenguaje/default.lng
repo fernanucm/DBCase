@@ -467,7 +467,7 @@ explore=Explore...
 
 #restricciones
 restrictions=Constraints
-RIC=Referential Integrity Constraints
+ric=Referential Integrity Constraints
 lostConstr=Lost Constraints
 tableconstraints=Table constraints
 addRestrictions=Add constraints to 
