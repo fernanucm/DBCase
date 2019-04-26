@@ -198,7 +198,7 @@ public class miMenu extends JMenuBar{
 				c.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_ToggleDiseno, null);
 			}
 		});
-		toggleCodigo.setText("Logic + physical");
+		toggleCodigo.setText("Logical + physical");
 		toggleCodigo.setFont(theme.font());
 		toggleCodigo.addActionListener(new ActionListener() {
 			@Override
