@@ -16,9 +16,9 @@ import javax.swing.SwingUtilities;
 import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
-import modelo.tools.ImagePath;
 import modelo.tools.TipoDominio;
 import modelo.transfers.TransferDominio;
+import vista.imagenes.ImagePath;
 
 @SuppressWarnings({ "rawtypes", "serial" , "unchecked"})
 public class GUI_ModificarDominio extends Parent_GUI {

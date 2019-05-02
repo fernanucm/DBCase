@@ -16,10 +16,10 @@ import javax.swing.SwingUtilities;
 import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
-import modelo.tools.ImagePath;
 import modelo.transfers.Transfer;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
+import vista.imagenes.ImagePath;
 
 
 @SuppressWarnings({"rawtypes" ,"unchecked", "serial"})

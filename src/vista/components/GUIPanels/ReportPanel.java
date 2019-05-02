@@ -10,11 +10,11 @@ import vista.tema.Theme;
  * 
  * */
 @SuppressWarnings("serial")
-public class reportPanel extends JTextPane{
+public class ReportPanel extends JTextPane{
 
 	private JScrollPane scroll;
 	private Theme theme = Theme.getInstancia();
-	public reportPanel() {
+	public ReportPanel() {
 		setContentType("text/html");
 		setBorder(null);
 		//css
@@ -25,8 +25,8 @@ public class reportPanel extends JTextPane{
 				+ "li{padding-top:10px}"
 				+ ".card{border:1px solid "+theme.toolBar().hexValue()+";padding:5px;background:"+theme.control().hexValue()+";margin:15px;}"
 				+ "p{padding-left:30px;color:"+theme.paragraph().hexValue()+"}"
-				+ ".warning{background:"+theme.entity().hexValue()+";padding:5px;margin:15px;}"
-				+ ".error{background:"+theme.relation().hexValue()+";padding:5px;margin:15px;}"
+				+ ".warning{background:"+theme.entity().hexValue()+";padding:5px;color:black;margin:15px;}"
+				+ ".error{background:"+theme.relation().hexValue()+";padding:5px;color:white;margin:15px;}"
 				+ "</style><p></p>");
 		scroll = new JScrollPane(this);
 	}

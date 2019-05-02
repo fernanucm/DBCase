@@ -11,9 +11,7 @@ import modelo.transfers.TransferDominio;
 import vista.GUIPrincipal;
 
 public class AccionMenu extends AbstractAction {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private String textoOpcion;
 	private TransferDominio dominio;

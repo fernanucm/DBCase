@@ -79,12 +79,12 @@ workspaceChanged=Se ha cambiado satisfactoriamente el directorio de trabajo.
 workspaceIs=El directorio actual de trabajo es:
 initialError=Se ha producido un error en la creacion inicial
 ofXMLfiles= de los ficheros XML.
-deleteEntity=DBCase: Eliminar entidad
-deleteAttribute=DBCase: Eliminar atributo
-deleteDomain=DBCase: Eliminar dominio
-addEntityRelation=DBCase: Añadir una entidad a la relación
-deleteIsaRelation=DBCase: Eliminar relacón IsA
-deleteRelation=DBCase: Eliminar relación
+deleteEntity=Eliminar entidad
+deleteAttribute=Eliminar atributo
+deleteDomain=Eliminar dominio
+addEntityRelation=Añadir una entidad a la relación
+deleteIsaRelation=Eliminar relacón IsA
+deleteRelation=Eliminar relación
 deleteAttributes=Además se eliminarán todos sus atributos.
 warningDeleteWeakEntity=Además se eliminará la entidad débil asociada.
 warningDeleteWeakRelation=Además se eliminará la relación débil asociada.
@@ -121,8 +121,8 @@ repeatedRelName=Existe una relación en el sistema con el mismo nombre.
 repeatedRolName=Existe otro rol en la relación con el mismo nombre.
 repeatedSubattrName=Existe otro subatributo con ese nombre.
 repeatedDomName=Existe otro dominio en el sistema con el mismo nombre.
-incorrectSize1=El tamano del dominio del atributo no es un valor entero positivo.
-incorrectSize2=El tamano del dominio del atributo es nulo o negativo.
+incorrectSize1=El tamano del dominio no es un valor entero positivo.
+incorrectSize2=El tamano del dominio es nulo o negativo.
 incorrectSize3=El tamaño del atributo no es un valor entero positivo. 
 incorrectCardinality1=El valor de inicio no es un número entero positivo o 'n'.
 incorrectCardinality2=El valor de inicio es un número negativo.
@@ -185,7 +185,7 @@ noEntRelation=carece de entidades.
 oneEntRel=sólo relaciona una entidad.
 manyEntRel=asocia dos o más entidades.
 isWeakType=es de tipo Débil
-oneEntWeakRel=es débil y necesita mas de una entidad.
+oneEntWeakRel=es débil y necesita más de una entidad.
 noWeakEntRel=no posee ninguna entidad débil.
 manyWeakEntRel=sólo puede tener una entidad débil.
 noStrongEntRel= no posee ninguna entidad fuerte.
@@ -241,7 +241,7 @@ rol=Rol
 idEnt=, Id de entidad 		
 
 #"GUI_InsertEntity" window
-insertNewEntity=DBCase: Insertar una nueva entidad
+insertNewEntity=Insertar una nueva entidad
 writeEntityName=Entidad:
 weakEntity=Es débil.
 selectStrongEntity=Entidad fuerte: 
@@ -249,12 +249,12 @@ writeRelationWeak=Relación:
 createStrongEntity=Se necesita una entidad fuerte.
 
 #"GUI_InsertRelation" window
-insertNewRelation=DBCase: Insertar una nueva relación
+insertNewRelation=Insertar una nueva relación
 writeRelationName=Relación:
 
 
 #"GUI_AnadirAtributoEntidad AND GUI_AnadirAtributoRelacion" window
-insertNewAttribute=DBCase: Añadir un nuevo atributo
+insertNewAttribute=Añadir un nuevo atributo
 compositeAttribute=Compuesto
 primaryKeyAttribute=Clave Primaria
 notNullAttribute=Not Null
@@ -264,12 +264,12 @@ domainAttribute=Dominio:
 sizeAttribute=Tamaño:
 
 #"GUI_AnadirSubAtributoAtributo" window
-insertNewSubAttribute=DBCase: Añadir un nuevo subatributo
+insertNewSubAttribute=Añadir un nuevo subatributo
 writeNewSubAttribute=Escriba en la siguiente caja de texto el nombre del nuevo subatributo.
 typeSubAttribute=Si se trata de un subatributo compuesto y/o multivalorado, seleccione la casilla de verificación correspondiente.
 
 #"GUI_AnadirEntiadARelacion" window
-insertNewEntityToRelation=DBCase: Añadir una entidad a la relación
+insertNewEntityToRelation=Añadir una entidad a la relación
 imposibleToInsertEntity=No se puede añadir ninguna entidad a la relación.
 noEntities=No existen entidades que añadir.
 selectEntity=Entidad:
@@ -282,14 +282,14 @@ label1aN=Unused
 labelNaN=Max N
 
 #"GUI_AnadirEntiadHija" window
-insertNewDaughter=DBCase: Añadir una entidad hija
+insertNewDaughter=Añadir una entidad hija
 imposibleToInsertDaughter=No se puede añadir ninguna entidad hija.
 noEntitiesAvailables=No existen entidades disponibles en el sistema.
 noFather=La relación IsA no tiene establecida una entidad padre.
 selectEntityDaughter=Entidad hija:
 
 #GUI_ConfigurarConexionDBMS" window
-shapeDBMS=DBCase: Configurar conexión a DBMS
+shapeDBMS=Configurar conexión a DBMS
 explanationDBMS1=La aplicación intentará conectarse a un DBMS del tipo 
 explanationDBMS2=. Si desea utilizar otro, cambie el tipo de 
 explanationDBMS3=conexión actual.
@@ -300,65 +300,65 @@ informationIncomplete=No se ha indicado alguno de los datos
 dbdt=DBCase
 
 #"GUI_EditarCardinalidadEntidad" window
-editArityAndRolle=DBCase: Editar la cardinalidad o el rol de una entidad
+editArityAndRolle=Editar la cardinalidad o el rol de una entidad
 imposibleToEditRolle=No se puede editar la cardinalidad de ninguna entidad.
 noEntitiesInRelation=No interviene ninguna entidad en la relación.
-editArity= DBCase: Editar la cardinalidad de una entidad
+editArity= Editar la cardinalidad de una entidad
 selectEntityToChange=Entidad a editar:
 writeNewArity=Nueva cardinalidad:
 writeNewRolle=Nuevo rol:
 ifEntityHasRolle=Rol de la entidad:
 
 #"GUI_EditarDominioAtributo" window
-editDomainAttribute=DBCase: Editar el dominio del atributo
+editDomainAttribute=Editar el dominio del atributo
 imposibleEditDomain=No se puede editar el dominio del atributo
 complexAttribute=Es un atributo compuesto.
-selectDomaninForAttribute=Seleccione de la siguiente lista desplegable el nuevo dominio que desee para el atributo seleccionado y especifique el tamaño si es necesario.
+selectDomaninForAttribute=Seleccione el dominio que desee para el atributo seleccionado y especifique el tamaño si es necesario.
 
 #"GUI_EstablecerEntidadPadre" window
-setParentEntity=DBCase: Establecer la entidad padre
+setParentEntity=Establecer la entidad padre
 imposibleSetParent=No se puede establecer la entidad padre.
 otherParent=La relación IsA ya tiene establecida una entidad padre.
 imposibleSetParenInISA=No se puede establecer la entidad padre a la relación IsA.
 selectParentEntity=Entidad padre:
 
 #"GUI_InsertarDominio" window
-insertNewDomain=DBCase: Insertar un nuevo dominio
+insertNewDomain=Insertar un nuevo dominio
 
 #"GUI_ModificarDominio" window
-editDomain=DBCase: Editar dominio
+editDomain=Editar dominio
 
 #"GUI_QuitarEntidadARelacion" window
-quitEntity=DBCase: Quitar una entidad de la relación
+quitEntity=Quitar una entidad de la relación
 imposibleQuitEntity=No se puede quitar ninguna entidad de la relación.
 selectEntityToQuit=Entidad a quitar:
 
 #"GUI_QuitarEntidadHija" window
-quitDaughterEntity=DBCase: Quitar una entidad hija
+quitDaughterEntity=Quitar una entidad hija
 imposibleQuitDaughterEntity=No se puede quitar ninguna entidad hija.
-noDaughterEntity=La relación IsA no tiene establecida ninguna entidad hija.
+noDaughterEntity=La relación IsA no tiene entidad hija.
 selectDaughterToQuit=Entidad hija a quitar:
 
 #"GUI_QuitarEntidadPadre" window
-quitParentEntity=DBCase: Quitar la entidad padre
-explicationQuitParent=Si quita la entidad padre de la relación IsA las entidades que hereden de ella (entidades hijas) tambien serán quitadas de la relación.
+quitParentEntity=Quitar la entidad padre
+explicationQuitParent=Si eliminas la entidad padre, las entidades hijas tambien serán eliminadas.
 doYouWhisQuitParent=¿Desea quitar la entidad padre?
 imposibleQuitParent=No se puede quitar la entidad padre.
 
 #"GUI_RenombrarAtributo" window
-renameAttribute=DBCase: Renombrar el atributo
+renameAttribute=Renombrar atributo
 writeNameAttributeSelected=Nuevo nombre del atributo:
 
 #"GUI_RenombrarDominio" window
-renameDomain=DBCase: Renombrar la dominio
+renameDomain=Renombrar dominio
 writeNewDomainName=Nuevo nombre del dominio.
 
 #"GUI_RenombrarEntidad" window
-renameEntityDBCase=DBCase: Renombrar la entidad
+renameEntityDBCase=Renombrar la entidad
 writeNewEntityName=Nuevo nombre para la entidad:
 
 #"GUI_RenombrarRelation" window
-renameRelationDBCase=DBCase: Renombrar la relación
+renameRelationDBCase=Renombrar la relación
 explicationRenameRelation1=Nuevo nombre para la relación:
 
 #"GUI_Conexion" window
@@ -377,7 +377,7 @@ chooseConn=Elija una conexión de la lista
 
 #Presentacion.Grafo
 deleteAllNodes=Todos los nodos seleccionados serán eliminados definitivamente del sistema.
-dbcaseDelete=DBCASE: Eliminar
+dbcaseDelete=Eliminar
 noEntityInvolved=No interviene ninguna entidad
 parentEntity=Entidad padre
 noChildEntities=No tiene entidades hijas
@@ -439,7 +439,7 @@ dbcase=DBCASE
 system=Sistema
 exitMincase=Salir
 options=Opciones
-currentDBMS=Gestor de Base de Datos actual
+currentDBMS=Gestor de base de datos actual
 selectLanguage=Lenguaje
 exportDiagram=Exportar esquema conceptual
 printDiagram=Imprimir esquema conceptual
@@ -458,8 +458,8 @@ showEventsPanel=Panel de sucesos
 codeGeneration=Generación de código
 clean=Limpiar el area de texto
 validateDesign=Validar el diseño realizado
-generateRelModel=Generar el Modelo Relacional del diseño realizado
-generateSQLmodel=Generar el código SQL del diseño realizado
+generateRelModel=Generar el modelo relacional del diseño
+generateSQLmodel=Generar el código SQL del diseño
 exportSQLfile=Exportar el Script SQL a un archivo
 executeScript=Ejecutar el script SQL en un DBMS
 mustGenerateScriptEx=Debe generar el Script SQL antes de ejecutarlo.
@@ -476,8 +476,8 @@ explore=Examinar...
 
 #restricciones
 restrictions=Restricciones
-ric=Restricciones de Integridad Referencial
-lostConstr=Restricciones Perdidas
+ric=Restricciones de integridad referencial
+lostConstr=Restricciones perdidas
 tableconstraints=Restricciones de tabla
 addRestrictions=Añadir restricciones a 
 tableUnique=Tabla Unique

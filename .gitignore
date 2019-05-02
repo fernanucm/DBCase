@@ -2,3 +2,4 @@
 .DS_Store
 dbcase.config
 *.config
+bin/Controlador/Controlador.class

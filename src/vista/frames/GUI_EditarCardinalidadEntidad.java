@@ -20,9 +20,9 @@ import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
 import modelo.persistencia.EntidadYAridad;
-import modelo.tools.ImagePath;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
+import vista.imagenes.ImagePath;
 
 @SuppressWarnings({"rawtypes" ,"unchecked", "serial"})
 public class GUI_EditarCardinalidadEntidad extends Parent_GUI{

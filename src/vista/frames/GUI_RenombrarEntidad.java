@@ -13,8 +13,8 @@ import javax.swing.SwingUtilities;
 import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
-import modelo.tools.ImagePath;
 import modelo.transfers.TransferEntidad;
+import vista.imagenes.ImagePath;
 
 @SuppressWarnings("serial")
 public class GUI_RenombrarEntidad extends Parent_GUI {

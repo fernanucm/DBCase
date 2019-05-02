@@ -71,12 +71,12 @@ workspaceChanged=The workspace has been changed successfully.
 workspaceIs=The current workspace is:
 initialError=An error has occurred when creating
 ofXMLfiles= of XML files.
-deleteEntity=DBCASE: Delete Entity
-deleteAttribute=DBCASE: Delete Attribute
-deleteDomain=DBCASE: Delete Domain
-addEntityRelation=DBCASE: Add new entity to Relation
-deleteIsaRelation=DBCASE: Delete IsA relation
-deleteRelation=DBCASE: Delete Relation
+deleteEntity=Delete Entity
+deleteAttribute=Delete Attribute
+deleteDomain=Delete Domain
+addEntityRelation=Add new entity to Relation
+deleteIsaRelation=Delete IsA relation
+deleteRelation=Delete Relation
 deleteAttributes=Also its attributes will be deleted.
 warningDeleteWeakEntity=Also its weak entity will be deleted.
 warningDeleteWeakRelation=Also its weak relation will be deleted.
@@ -234,7 +234,7 @@ rol=Role
 idEnt=, entity Id 	
 
 #"GUI_InsertEntity" window
-insertNewEntity=DBCase: Insert a new entity
+insertNewEntity=Insert a new entity
 writeEntityName=Entity:
 weakEntity=Is a weak entity.
 allEntity=A weak entity needs to be relationed with a strong one. It will inherit its primary key.
@@ -243,11 +243,11 @@ writeRelationWeak=Relation:
 createStrongEntity=It's necesary a strong entity. 
 
 #"GUI_InsertRelation" window
-insertNewRelation=DBCase: Insert a new relation
+insertNewRelation=Insert a new relation
 writeRelationName=Relation:	
 
 #"GUI_AnadirAtributoEntidad AND GUI_AnadirAtributoRelacion" window
-insertNewAttribute=DBCase: Add new attribute
+insertNewAttribute=Add new attribute
 compositeAttribute=Composite
 primaryKeyAttribute=Primary key
 notNullAttribute=Not Null
@@ -257,10 +257,10 @@ domainAttribute=Domain:
 sizeAttribute=Size:
 
 #"GUI_AnadirSubAtributoAtributo" window
-insertNewSubAttribute=DBCase: Add new sub-attribute
+insertNewSubAttribute=Add new sub-attribute
 
 #"GUI_AnadirEntidadARelacion" window
-insertNewEntityToRelation=DBCase: Add an entity to the relation
+insertNewEntityToRelation=Add an entity to the relation
 imposibleToInsertEntity=You cannot add any entoty to the relation.
 noEntities=There is not any entity to add.
 selectEntity=Entity:
@@ -273,14 +273,14 @@ label1aN=Unused
 labelNaN=Max N
 
 #"GUI_AnadirEntiadHija" window
-insertNewDaughter=DBCase: Add child entity
+insertNewDaughter=Add child entity
 imposibleToInsertDaughter=You cannot ad any  child entity.
 noEntitiesAvailables=There is not any entity available.
 noFather=IsA relation does not have any parent.
 selectEntityDaughter=Child entity:
 
 #GUI_ConfigurarConexionDBMS" window
-shapeDBMS=DBCase: Configure DBMS connection
+shapeDBMS=Configure DBMS connection
 explanationDBMS1=DBCASE will try to connect a DBMS of type 
 explanationDBMS2=. If you want to use a different one, 
 explanationDBMS3=change actual connection type.
@@ -291,65 +291,65 @@ informationIncomplete=Some necessary information has not been given
 dbdt=DBCASE
 
 #"GUI_EditarCardinalidadEntidad" window
-editArityAndRolle=DBCase: Editing role and cardinality of an entity
+editArityAndRolle=Editing role and cardinality of an entity
 imposibleToEditRolle=You cannot edit the cardinality of any entity.
 noEntitiesInRelation=There is no entity associated to the relation.
-editArity= DBCASE: Edit cardinality of an entity
+editArity= Edit cardinality of an entity
 selectEntityToChange=Entity whose cardinality will be modified.
 writeNewArity=New cardinality:
 writeNewRolle=New rol name:
 ifEntityHasRolle=Entity's role:
 
 #"GUI_EditarDominioAtributo" window
-editDomainAttribute=DBCase: Edit attribute's domain
+editDomainAttribute=Edit attribute's domain
 imposibleEditDomain=You cannot edit the attribute's domain
 complexAttribute=It is a composed attribute.
 selectDomaninForAttribute=Select the new domain from the list and specify its range, if necessary.
 
 #"GUI_EstablecerEntidadPadre" window
-setParentEntity=DBCase: Assign parent entity
+setParentEntity=Assign parent entity
 imposibleSetParent=You cannot assign the parent entity.
 otherParent=IsA relation already has a parent entity.
 imposibleSetParenInISA=You cannot assign the parent entity to the IsA relation.
 selectParentEntity=Parent entity:
 
 #"GUI_InsertarDominio" window
-insertNewDomain=DBCASE: Insert new domain
+insertNewDomain=Insert new domain
 
 #"GUI_ModificarDominio" window
-editDomain=DBCASE: Edit domain
+editDomain=Edit domain
 
 #"GUI_QuitarEntidadARelacion" window
-quitEntity=DBCASE: Separate entity from relation
+quitEntity=Separate entity from relation
 imposibleQuitEntity=You cannot separate any entity from the relation.
 selectEntityToQuit=Quit the entity:
 
 #"GUI_QuitarEntidadHija" window
-quitDaughterEntity=DBCASE: Separate child entity
+quitDaughterEntity=Separate child entity
 imposibleQuitDaughterEntity=You cannot separate any child entity.
 noDaughterEntity=IsA relation does not have any child.
 selectDaughterToQuit=Quit child entity:
 
 #"GUI_QuitarEntidadPadre" window
-quitParentEntity=DBCase: Drop parent entity
+quitParentEntity=Drop parent entity
 explicationQuitParent=If you drop the parent entity from the IsA relation, the children entities will also be separated from the relation.
 doYouWhisQuitParent=Do you still wish to drop parent entity?
 imposibleQuitParent=You cannot drop parent entity.
 
 #"GUI_RenombrarAtributo" window
-renameAttribute=DBCase: Rename attribute
+renameAttribute=Rename attribute
 writeNameAttributeSelected=New name for attribute.
 
 #"GUI_RenombrarDominio" window
-renameDomain=DBCase: Rename domain
+renameDomain=Rename domain
 writeNewDomainName=New name for domain:
 
 #"GUI_RenombrarEntidad" window
-renameEntityDBCase=DBCase: Rename entity
+renameEntityDBCase=Rename entity
 writeNewEntityName=New name for entity:		
 
 #"GUI_RenombrarRelation" window
-renameRelationDBCase=DBCase: Rename relation
+renameRelationDBCase=Rename relation
 explicationRenameRelation1=New name for relation.
 
 #"GUI_Conexion" window
@@ -368,7 +368,7 @@ chooseConn=Choose a connection from the list
 
 #Presentacion.Grafo
 deleteAllNodes=All selected nodes will be removed.
-dbcaseDelete=DBCASE: Remove
+dbcaseDelete=Remove
 noEntityInvolved=There is no entity involved
 parentEntity=Parent entity
 noChildEntities=Has no child entities

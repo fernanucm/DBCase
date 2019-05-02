@@ -22,9 +22,9 @@ import controlador.Controlador;
 import controlador.TC;
 import modelo.conectorDBMS.FactoriaConectores;
 import modelo.lenguaje.Lenguaje;
-import modelo.tools.ImagePath;
 import modelo.transfers.TransferConexion;
 import vista.components.CustomCellEditor;
+import vista.imagenes.ImagePath;
 
 @SuppressWarnings("serial")
 public class GUI_SeleccionarConexion extends Parent_GUI{

@@ -21,10 +21,10 @@ import javax.swing.table.TableModel;
 import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
-import modelo.tools.ImagePath;
 import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferEntidad;
 import vista.components.CustomCellEditor;
+import vista.imagenes.ImagePath;
 
 @SuppressWarnings({"serial", "unchecked"})
 public class GUI_TablaUniqueEntidad extends Parent_GUI {

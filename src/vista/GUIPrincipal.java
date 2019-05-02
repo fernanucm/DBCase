@@ -51,7 +51,6 @@ import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
 import modelo.tools.AccionMenu;
-import modelo.tools.ImagePath;
 import modelo.transfers.Transfer;
 import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferConexion;
@@ -62,9 +61,10 @@ import vista.components.ArbolElementos;
 import vista.components.miMenu;
 import vista.components.GUIPanels.TablaVolumenes;
 import vista.components.GUIPanels.addTransfersPanel;
-import vista.components.GUIPanels.reportPanel;
+import vista.components.GUIPanels.ReportPanel;
 import vista.diagrama.PanelGrafo;
 import vista.diagrama.PanelThumbnail;
+import vista.imagenes.ImagePath;
 import vista.tema.Theme;
 
 @SuppressWarnings({ "rawtypes", "unchecked", "serial" })
@@ -103,8 +103,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private Theme theme = Theme.getInstancia();
 	private JScrollPane scrollPanelTablas;
 	private JTabbedPane infoTabPane;
-	protected reportPanel codigoText;
-	protected reportPanel modeloText;
+	protected ReportPanel codigoText;
+	protected ReportPanel modeloText;
 	private ViewDealer dealer;
 	
 	/*
@@ -326,7 +326,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	}
 	
 	private void initCodes() {
-		modeloText = new reportPanel();
+		modeloText = new ReportPanel();
 		BorderLayout panelGeneracionLayout = new BorderLayout();
 		panelGeneracion.setLayout(panelGeneracionLayout);
 		JSplitPane codesSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
@@ -420,7 +420,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		codesSplit.add(modeloPanel,JSplitPane.TOP);
 		codesSplit.add(codePanel,JSplitPane.BOTTOM);
 				
-		codigoText = new reportPanel();
+		codigoText = new ReportPanel();
 
 		codePanel.add(codigoText.getPanel(), BorderLayout.CENTER);
 	}

@@ -19,10 +19,10 @@ import controlador.Controlador;
 import controlador.TC;
 import modelo.conectorDBMS.FactoriaConectores;
 import modelo.lenguaje.Lenguaje;
-import modelo.tools.ImagePath;
 import modelo.transfers.TransferConexion;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
+import vista.imagenes.ImagePath;
 
 @SuppressWarnings("serial")
 public class GUI_Conexion extends Parent_GUI{

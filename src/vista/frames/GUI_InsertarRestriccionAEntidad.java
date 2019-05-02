@@ -18,9 +18,9 @@ import javax.swing.table.TableModel;
 import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
-import modelo.tools.ImagePath;
 import modelo.transfers.TransferEntidad;
 import vista.components.CustomCellEditor;
+import vista.imagenes.ImagePath;
 
 @SuppressWarnings("serial")
 public class GUI_InsertarRestriccionAEntidad extends Parent_GUI {

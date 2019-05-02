@@ -1,5 +1,6 @@
 package vista.diagrama;
 
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.geom.Point2D;
 import java.util.Collection;
@@ -668,6 +669,13 @@ public class MenuDesplegable extends JPopupMenu {
 			}
 		}
 	}
+	
+	@Override
+    public void paintComponent(final Graphics g) {
+        g.setColor(theme.toolBar());
+        g.fillRect(0,0,getWidth(), getHeight());
+    }
+	
 	/**
 	 * Metodo auxiliar para saber si hay que mostrar en el popup de los atributos la
 	 * opcion de "Es clave primaria".

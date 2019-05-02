@@ -14,9 +14,9 @@ import javax.swing.SwingUtilities;
 import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
-import modelo.tools.ImagePath;
 import modelo.tools.TipoDominio;
 import modelo.transfers.TransferDominio;
+import vista.imagenes.ImagePath;
 
 @SuppressWarnings({"rawtypes" ,"unchecked", "serial"})
 public class GUI_InsertarDominio extends Parent_GUI {

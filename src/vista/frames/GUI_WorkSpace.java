@@ -21,7 +21,7 @@ import org.w3c.dom.NodeList;
 import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
-import modelo.tools.ImagePath;
+import vista.imagenes.ImagePath;
 
 /**
  * This code was edited or generated using CloudGarden's Jigloo

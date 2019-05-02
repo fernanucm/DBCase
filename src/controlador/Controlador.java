@@ -2557,7 +2557,6 @@ public class Controlador {
 		 */
 		case SR_DebilitarRelacion_ERROR_DAORelaciones:{
 			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.RELATIONS_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
-			
 			break;
 		}
 		case SR_DebilitarRelacion_HECHO:{

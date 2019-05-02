@@ -16,6 +16,7 @@ public class Parent_GUI extends javax.swing.JDialog implements KeyListener, Mous
 	protected Theme theme = Theme.getInstancia();
 	
 	public void centraEnPantalla(){
+		setAlwaysOnTop(false);
 		setLocationRelativeTo(null);
 	}
 	

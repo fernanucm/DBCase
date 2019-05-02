@@ -21,7 +21,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
-import modelo.tools.ImagePath;
+import vista.imagenes.ImagePath;
 import vista.tema.Theme;
 
 @SuppressWarnings("serial")

@@ -12,16 +12,16 @@ import javax.swing.SwingUtilities;
 import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
-import modelo.tools.ImagePath;
 import modelo.transfers.TransferRelacion;
-import vista.components.GUIPanels.reportPanel;
+import vista.components.GUIPanels.ReportPanel;
+import vista.imagenes.ImagePath;
 
 @SuppressWarnings("serial")
 public class GUI_QuitarEntidadPadre extends Parent_GUI {
 	private Controlador controlador;
 	private TransferRelacion relacion;
 	private JLabel pregunta;
-	private reportPanel explicacion;
+	private ReportPanel explicacion;
 	private JButton botonNo;
 	private JButton botonSi;
 
@@ -38,7 +38,7 @@ public class GUI_QuitarEntidadPadre extends Parent_GUI {
 		setResizable(false);
 		this.setSize(400, 300);
 		{
-			explicacion = new reportPanel();
+			explicacion = new ReportPanel();
 			explicacion.setBorder(null);
 			getContentPane().add(explicacion);
 			explicacion.setEditable(false);
