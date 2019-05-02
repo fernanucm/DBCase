@@ -82,6 +82,7 @@ public class GUI_TablaUniqueEntidad extends Parent_GUI {
 		}
 		{
 			botonNueva = new JButton();
+			botonNueva.setFont(theme.font());
 			getContentPane().add(botonNueva);
 			botonNueva.setText("+");
 			botonNueva.setBounds(350, 10, 45, 45);
@@ -105,6 +106,7 @@ public class GUI_TablaUniqueEntidad extends Parent_GUI {
 			botonEliminar = new JButton();
 			getContentPane().add(botonEliminar);
 			botonEliminar.setText("-");
+			botonEliminar.setFont(theme.font());
 			botonEliminar.setBounds(350, 55, 45, 45);
 			botonEliminar.addKeyListener(new KeyAdapter() {
 				@Override

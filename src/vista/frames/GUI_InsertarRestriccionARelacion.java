@@ -69,6 +69,7 @@ public class GUI_InsertarRestriccionARelacion extends Parent_GUI {
 		}
 		{
 			botonNueva = new JButton();
+			botonNueva.setFont(theme.font());
 			getContentPane().add(botonNueva);
 			botonNueva.setText("+");
 			botonNueva.setBounds(350, 10, 45, 45);
@@ -92,6 +93,7 @@ public class GUI_InsertarRestriccionARelacion extends Parent_GUI {
 		{
 			botonEliminar = new JButton();
 			getContentPane().add(botonEliminar);
+			botonEliminar.setFont(theme.font());
 			botonEliminar.setText("-");
 			botonEliminar.setBounds(350, 55, 45, 45);
 			botonEliminar.addKeyListener(new KeyAdapter() {

@@ -94,6 +94,7 @@ public class GUI_SeleccionarConexion extends Parent_GUI{
 		}
 		{
 			botonNueva = new JButton();
+			botonNueva.setFont(theme.font());
 			getContentPane().add(botonNueva);
 			botonNueva.setText("+");
 			botonNueva.setBounds(350, 10, 45, 45);
@@ -116,6 +117,7 @@ public class GUI_SeleccionarConexion extends Parent_GUI{
 		}
 		{
 			botonBorrar = new JButton();
+			botonBorrar.setFont(theme.font());
 			getContentPane().add(botonBorrar);
 			botonBorrar.setText("-");
 			botonBorrar.setBounds(350, 55, 45, 45);

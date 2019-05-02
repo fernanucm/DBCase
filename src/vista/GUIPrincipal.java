@@ -275,6 +275,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		panelArbolDom.addMouseListener(ml);
 		panelArbolDom.setVisible(false);
 		JButton nuevoDom = new JButton(Lenguaje.text(Lenguaje.ADD_DOMAIN));
+		nuevoDom.setFont(theme.font());
 		JPanel panelBoton = new JPanel();
 		nuevoDom.addActionListener(new ActionListener() {
 			@Override
@@ -341,6 +342,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		textPanel.setLayout(new BoxLayout(textPanel,BoxLayout.X_AXIS));
 		JLabel text = new JLabel("<html><span style='font-size:20px'>"+Lenguaje.text(Lenguaje.LOGIC_MODEL)+"</span></html>");
 		JButton generaModelo = new JButton(Lenguaje.text(Lenguaje.GENERATE));
+		generaModelo.setFont(theme.font());
 		generaModelo.setToolTipText("Genera el modelo relacional a partir del diagrama entidad relacion.");
 		generaModelo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -349,6 +351,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 			}
 		});
 		JButton exportarModelo = new JButton(Lenguaje.text(Lenguaje.SAVE_AS));
+		exportarModelo.setFont(theme.font());
 		exportarModelo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				botonExportarArchivoActionPerformed(evt,false);
@@ -385,6 +388,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		textPanel2.setLayout(new BoxLayout(textPanel2,BoxLayout.X_AXIS));
 		JLabel text2 = new JLabel("<html><span style='font-size:20px'>"+Lenguaje.text(Lenguaje.PHYS_MODEL)+"</span></html>");
 		JButton generaCodigo = new JButton(Lenguaje.text(Lenguaje.GENERATE));
+		generaCodigo.setFont(theme.font());
 		generaCodigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				acumulador = "";
@@ -392,12 +396,14 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 			}
 		});
 		JButton exportarCodigo = new JButton(Lenguaje.text(Lenguaje.SAVE_AS));
+		exportarCodigo.setFont(theme.font());
 		exportarCodigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				botonExportarArchivoActionPerformed(evt,true);
 			}
 		});
 		JButton ejecutarCodigo = new JButton(Lenguaje.text(Lenguaje.EXECUTE));
+		ejecutarCodigo.setFont(theme.font());
 		ejecutarCodigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				botonEjecutarEnDBMSActionPerformed(evt);

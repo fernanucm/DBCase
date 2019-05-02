@@ -71,6 +71,7 @@ public class GUI_InsertarRestriccionAEntidad extends Parent_GUI {
 			botonNueva = new JButton();
 			getContentPane().add(botonNueva);
 			botonNueva.setText("+");
+			botonNueva.setFont(theme.font());
 			botonNueva.setBounds(350, 10, 45, 45);
 			botonNueva.addKeyListener(new KeyAdapter() {
 				@Override
@@ -92,6 +93,7 @@ public class GUI_InsertarRestriccionAEntidad extends Parent_GUI {
 		{
 			botonEliminar = new JButton();
 			getContentPane().add(botonEliminar);
+			botonEliminar.setFont(theme.font());
 			botonEliminar.setText("-");
 			botonEliminar.setBounds(350, 55, 45, 45);
 			botonEliminar.addKeyListener(new KeyAdapter() {
