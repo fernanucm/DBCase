@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Stroke;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -24,14 +23,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 import javax.imageio.ImageIO;
-import javax.swing.AbstractAction;
-import javax.swing.ImageIcon;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JSeparator;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.event.TableModelEvent;
@@ -53,15 +45,13 @@ import edu.uci.ics.jung.visualization.control.PickingGraphMousePlugin;
 import edu.uci.ics.jung.visualization.decorators.EdgeShape;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import edu.uci.ics.jung.visualization.picking.PickedState;
-import modelo.lenguaje.Lenguaje;
 import modelo.persistencia.EntidadYAridad;
 import modelo.persistencia.NodoEntidad;
-import modelo.tools.ImagePath;
 import modelo.transfers.Transfer;
 import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
-import vista.components.GUIPanels.MyTableModel;
+import vista.components.MyTableModel;
 import vista.diagrama.lineas.CreaLineas;
 import vista.diagrama.lineas.EtiquetaSobreLinea;
 import vista.tema.Theme;
@@ -89,13 +79,13 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 	protected Map<Integer, TransferRelacion> relaciones;
 	// guarda los elementos que formaran tablas
 	protected ArrayList<Transfer> tablas;
+	private final MenuDesplegable clickDerecho;
 
 	private boolean esEquis(String n) {
 		return !n.equals("1") && !n.equals("N");
 	}
 
-	public PanelGrafo(Vector<TransferEntidad> entidades, Vector<TransferAtributo> atributos,
-			Vector<TransferRelacion> relaciones) {
+	public PanelGrafo(Vector<TransferEntidad> entidades, Vector<TransferAtributo> atributos, Vector<TransferRelacion> relaciones) {
 		this.setLayout(new GridLayout(1, 1));
 		Theme theme = Theme.getInstancia();
 		// Para que los grafos admitan paralelas el tipo de grafo debe ser este:
@@ -166,7 +156,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 		}
 
 		vv = new VisualizationViewer<Transfer, Object>(layout);
-
+		clickDerecho = new MenuDesplegable(vv, this.entidades);
 		// this class will provide both label drawing and vertex shapes
 		LabelRenderer<Transfer, Object> vlasr = new LabelRenderer<Transfer, Object>();
 		vv.setDoubleBuffered(true); // Incrementa rendimiento
@@ -273,7 +263,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 						e.getScrollAmount(), rot));
 			}
 		};
-		final PopUpMenu clickDerecho = new PopUpMenu();
 
 		// El evento se dispara al terminar de mover un nodo
 		graphMouse.add(new PickingGraphMousePlugin<Transfer, Double>() {
@@ -391,6 +380,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
+		this.clickDerecho.setControlador(controlador);
 	}
 
 	private void generaTablasNodos(Vector<TransferEntidad> entidades, Vector<TransferAtributo> atributos,
@@ -428,7 +418,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
 		case 127:
-			suprimir();
+			this.clickDerecho.suprimir();
 			break;
 		case 83:// CTRL S
 			if (e.isControlDown())
@@ -437,46 +427,10 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 		}
 	}
 
-	private void suprimir() {
-		PickedState<Transfer> p = vv.getPickedVertexState();
-		int seleccionados = 0;
-		for (@SuppressWarnings("unused")
-		Transfer t : p.getPicked()) {
-			seleccionados++;
-		}
-		int respuesta = 1;
-		if (seleccionados > 1) {
-			respuesta = this.controlador.getPanelOpciones().setActiva(
-					Lenguaje.text(Lenguaje.DELETE_ALL_NODES) + "\n" + Lenguaje.text(Lenguaje.WISH_CONTINUE),
-					Lenguaje.text(Lenguaje.DBCASE_DELETE), false,
-					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.WARNING)));
-		}
-		if (respuesta == 0 || seleccionados == 1) {
-			PickedState<Transfer> ps = vv.getPickedVertexState();
-			for (Transfer t : ps.getPicked()) {
-				Vector<Object> v = new Vector<Object>();
-				v.add(t);
-				v.add(respuesta == 1);
-				if (t instanceof TransferEntidad)
-					controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EliminarEntidad, v);
 
-				if (t instanceof TransferAtributo)
-					controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EliminarAtributo, v);
+	public void keyReleased(KeyEvent arg0) {}
 
-				if (t instanceof TransferRelacion)
-					if (((TransferRelacion) t).getTipo().equals("IsA"))
-						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EliminarRelacionIsA, v);
-					else
-						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EliminarRelacionNormal, v);
-			}
-		}
-	}
-
-	public void keyReleased(KeyEvent arg0) {
-	}
-
-	public void keyTyped(KeyEvent arg0) {
-	}
+	public void keyTyped(KeyEvent arg0) {}
 
 	/**
 	 * Este método enviará la información referente al nodo t contenida en un JTree
@@ -499,8 +453,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 		tablas = new ArrayList<Transfer>();
 		tablas.addAll(entidades.values());
 		for (HashMap.Entry<Integer, TransferRelacion> rel : this.relaciones.entrySet())
-			if (!rel.getValue().isIsA())
-				tablas.add(rel.getValue());
+			if (!rel.getValue().isIsA()) tablas.add(rel.getValue());
 		tablas.addAll(listaMultivalorados().values());
 	}
 
@@ -522,8 +475,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 		HashMap<Integer, TransferAtributo> multis = new HashMap<Integer, TransferAtributo>();
 		int p = 1;
 		for (HashMap.Entry<Integer, TransferAtributo> a : atributos.entrySet())
-			if (a.getValue().isMultivalorado())
-				multis.put(p++, a.getValue());
+			if (a.getValue().isMultivalorado()) multis.put(p++, a.getValue());
 		return multis;
 	}
 
@@ -533,12 +485,9 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 		String[][] tabla = new String[filas][3];
 		for (Transfer t : this.tablas) {
 			for (int col = 0; col < columnas; col++) {
-				if (col == 0)
-					valor = t.getNombre();
-				else if (col == 1)
-					valor = String.valueOf(t.getVolumen());
-				else
-					valor = String.valueOf(t.getFrecuencia());
+				if (col == 0) valor = t.getNombre();
+				else if (col == 1) valor = String.valueOf(t.getVolumen());
+				else valor = String.valueOf(t.getFrecuencia());
 				tabla[row][col] = valor;
 			}
 			row++;
@@ -827,606 +776,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 		}
 	}
 
-	public class PopUpMenu extends JPopupMenu {
-		private static final long serialVersionUID = -1855939762977980663L;
-		public Transfer nodo; // Nodo sobre el que se ha pulsado
-		public Point2D punto; // Punto del plano donde se ha pulsado
-
-		/**
-		 * Constructor público
-		 */
-		public PopUpMenu() {
-			this.removeAll();
-		}
-
-		public void Reinicializa(Transfer nodo, Point2D punto) {
-			this.punto = punto;
-			this.removeAll();
-			if (nodo == null) { // Si se pide null es que ha pinchado en el área libre
-				// Insertar una entidad
-				JMenuItem j1 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_ENTITY));
-
-				j1.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-						Point2D p = menu.punto;
-						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_InsertarEntidad, p);
-					}
-				});
-				this.add(j1);
-				this.add(new JSeparator());
-
-				// Insertar una relacion normal
-				JMenuItem j2 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_RELATION));
-
-				j2.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-						Point2D p = menu.punto;
-						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_InsertarRelacionNormal, p);
-					}
-				});
-				this.add(j2);
-				this.add(new JSeparator());
-
-				// Insertar una relacion IsA
-
-				JMenuItem j3 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_ISARELATION));
-				j3.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-						Point2D p = menu.punto;
-						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_InsertarRelacionIsA, p);
-					}
-				});
-				this.add(j3);
-				this.add(new JSeparator());
-
-				// Insertar un dominio
-
-				JMenuItem j4 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_DOMAIN));
-				j4.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-						Point2D p = menu.punto;
-						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_CrearDominio, p);
-					}
-				});
-				this.add(j4);
-
-				return;
-			}
-			// Se ha pinchado sobre un nodo
-			this.nodo = nodo;
-			System.out.println("Vertice " + nodo.toString() + " fue pulsado");
-
-			if (nodo instanceof TransferEntidad) { // Si es entidad
-				// Anadir un atributo a una entidad
-				JMenuItem j3 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_ATTRIBUTE));
-				j3.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-						TransferEntidad entidad = (TransferEntidad) menu.nodo;
-						TransferEntidad clon_entidad = entidad.clonar();
-						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirAtributoEntidad, clon_entidad);
-					}
-				});
-				this.add(j3);
-				this.add(new JSeparator());
-
-				// Renombrar la entidad
-				JMenuItem j1 = new JMenuItem(Lenguaje.text(Lenguaje.RENAME_ENTITY));
-				j1.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-						TransferEntidad entidad = (TransferEntidad) menu.nodo;
-						TransferEntidad clon_entidad = entidad.clonar();
-						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_RenombrarEntidad, clon_entidad);
-					}
-				});
-				this.add(j1);
-
-				// Eliminar una entidad
-				// Si sólo está seleccionada la entidad..
-				PickedState<Transfer> p = vv.getPickedVertexState();
-				if (p.getPicked().size() < 2) {
-					JMenuItem j4 = new JMenuItem(Lenguaje.text(Lenguaje.DELETE_ENT));
-					j4.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-							TransferEntidad entidad = (TransferEntidad) menu.nodo;
-							TransferEntidad clon_entidad = entidad.clonar();
-							Vector<Object> v = new Vector<Object>();
-							v.add(clon_entidad);
-							v.add(true);
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EliminarEntidad, v);
-						}
-					});
-					this.add(j4);
-				} else {
-					JMenuItem j4 = new JMenuItem(Lenguaje.text(Lenguaje.DELETE));
-					j4.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							suprimir();
-						}
-					});
-					this.add(j4);
-				}
-				this.add(new JSeparator());
-
-				// Añadir restricciones
-				JMenuItem j5 = new JMenuItem(Lenguaje.text(Lenguaje.RESTRICTIONS));
-				j5.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-						TransferEntidad entidad = (TransferEntidad) menu.nodo;
-						TransferEntidad clon_entidad = entidad.clonar();
-						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirRestriccionAEntidad,
-								clon_entidad);
-					}
-				});
-				this.add(j5);
-
-				// Añadir tablaUnique
-				JMenuItem j6 = new JMenuItem(Lenguaje.text(Lenguaje.TABLE_UNIQUE));
-				j6.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-						TransferEntidad entidad = (TransferEntidad) menu.nodo;
-						TransferEntidad clon_entidad = entidad.clonar();
-						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_TablaUniqueAEntidad, clon_entidad);
-					}
-				});
-				this.add(j6);
-			}
-
-			if (nodo instanceof TransferAtributo) { // Si es atributo
-				// Editar el dominio del atributo
-				JMenuItem j2 = new JMenuItem(Lenguaje.text(Lenguaje.EDIT_DOMAIN));
-				j2.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-						TransferAtributo atributo = (TransferAtributo) menu.nodo;
-						TransferAtributo clon_atributo = atributo.clonar();
-						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarDominioAtributo, clon_atributo);
-					}
-				});
-				this.add(j2);
-
-				// Renombrar un atributo
-				JMenuItem j1 = new JMenuItem(Lenguaje.text(Lenguaje.RENAME_ATTRIB));
-				j1.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-						TransferAtributo atributo = (TransferAtributo) menu.nodo;
-						TransferAtributo clon_atributo = atributo.clonar();
-						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_RenombrarAtributo, clon_atributo);
-					}
-				});
-				this.add(j1);
-
-				// Eliminar un atributo
-				// Si sólo está seleccionado el atributo..
-				PickedState<Transfer> p = vv.getPickedVertexState();
-				int seleccionados = 0;
-				for (@SuppressWarnings("unused")
-				Transfer t : p.getPicked()) {
-					seleccionados++;
-				}
-				if (seleccionados < 2) {
-					JMenuItem j7 = new JMenuItem(Lenguaje.text(Lenguaje.DELETE_ATTRIB));
-					j7.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-							TransferAtributo atributo = (TransferAtributo) menu.nodo;
-							TransferAtributo clon_atributo = atributo.clonar();
-							Vector<Object> v = new Vector<Object>();
-							v.add(clon_atributo);
-							v.add(true);
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EliminarAtributo, v);
-						}
-					});
-					this.add(j7);
-				} else {
-					JMenuItem j7 = new JMenuItem(Lenguaje.text(Lenguaje.DELETE));
-					j7.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							suprimir();
-						}
-					});
-					this.add(j7);
-				}
-
-				this.add(new JSeparator());
-
-				// Establecer clave primaria
-				// Solamente estara activo cuando sea un atributo directo de una entidad
-				final TransferEntidad ent = esAtributoDirecto((TransferAtributo) nodo);
-				if (ent != null) {
-					JCheckBoxMenuItem j6 = new JCheckBoxMenuItem(
-							Lenguaje.text(Lenguaje.IS_PRIMARY_KEY) + " \"" + ent.getNombre() + "\"");
-					if (((TransferAtributo) nodo).isClavePrimaria())
-						j6.setSelected(true);
-					j6.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-							TransferAtributo atributo = (TransferAtributo) menu.nodo;
-							TransferAtributo clon_atributo = atributo.clonar();
-							TransferEntidad clon_entidad = ent.clonar();
-							Vector<Transfer> vector = new Vector<Transfer>();
-							vector.add(clon_atributo);
-							vector.add(clon_entidad);
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarClavePrimariaAtributo,
-									vector);
-						}
-					});
-					this.add(j6);
-				}
-				// Es un atributo compuesto
-				JCheckBoxMenuItem j3 = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.COMPOSED));
-				final boolean notnul = ((TransferAtributo) nodo).getNotnull();
-				final boolean unique = ((TransferAtributo) nodo).getUnique();
-				if (((TransferAtributo) nodo).getCompuesto())
-					j3.setSelected(true);
-				else
-					j3.setSelected(false);
-				j3.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-						TransferAtributo atributo = (TransferAtributo) menu.nodo;
-						TransferAtributo clon_atributo = atributo.clonar();
-						if (notnul) {
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarNotNullAtributo,
-									clon_atributo);
-						}
-						if (unique) {
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarUniqueAtributo,
-									clon_atributo);
-						}
-						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarCompuestoAtributo,
-								clon_atributo);
-					}
-				});
-				this.add(j3);
-
-				// Si es compuesto
-				if (((TransferAtributo) nodo).getCompuesto()) {
-					JMenuItem j4 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_SUBATTRIBUTE));
-					j4.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-							TransferAtributo atributo = (TransferAtributo) menu.nodo;
-							TransferAtributo clon_atributo = atributo.clonar();
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirSubAtributoAAtributo,
-									clon_atributo);
-						}
-					});
-					this.add(j4);
-				}
-				// this.add(new JSeparator());
-
-				// Es un atributo NotNull
-				if (!((TransferAtributo) nodo).getCompuesto() && !((TransferAtributo) nodo).isClavePrimaria()) {
-					JCheckBoxMenuItem j3a = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.NOT_NULL));
-					if (((TransferAtributo) nodo).getNotnull())
-						j3a.setSelected(true);
-					else
-						j3a.setSelected(false);
-					j3a.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-							TransferAtributo atributo = (TransferAtributo) menu.nodo;
-							TransferAtributo clon_atributo = atributo.clonar();
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarNotNullAtributo,
-									clon_atributo);
-						}
-					});
-					this.add(j3a);
-					// this.add(new JSeparator());
-				}
-				// Es un atributo Unique
-				if (!((TransferAtributo) nodo).getCompuesto() && !((TransferAtributo) nodo).isClavePrimaria()) {
-					JCheckBoxMenuItem j3b = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.UNIQUE));
-					if (((TransferAtributo) nodo).getUnique())
-						j3b.setSelected(true);
-					else
-						j3b.setSelected(false);
-					j3b.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-							TransferAtributo atributo = (TransferAtributo) menu.nodo;
-							TransferAtributo clon_atributo = atributo.clonar();
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarUniqueAtributo,
-									clon_atributo);
-						}
-					});
-					this.add(j3b);
-					// this.add(new JSeparator());
-				}
-
-				// Es un atributo multivalorado
-				if (!((TransferAtributo) nodo).isClavePrimaria()) {
-					JCheckBoxMenuItem j5 = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.IS_MULTIVALUATED));
-					if (((TransferAtributo) nodo).isMultivalorado())
-						j5.setSelected(true);
-					else
-						j5.setSelected(false);
-					j5.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-							TransferAtributo atributo = (TransferAtributo) menu.nodo;
-							TransferAtributo clon_atributo = atributo.clonar();
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarMultivaloradoAtributo,
-									clon_atributo);
-						}
-					});
-					this.add(j5);
-				}
-				this.add(new JSeparator());
-				// Añadir restricciones
-				JMenuItem j8 = new JMenuItem(Lenguaje.text(Lenguaje.RESTRICTIONS));
-				j8.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-						TransferAtributo atributo = (TransferAtributo) menu.nodo;
-						TransferAtributo clon_atributo = atributo.clonar();
-						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirRestriccionAAtributo,
-								clon_atributo);
-					}
-				});
-				this.add(j8);
-			}
-
-			if (nodo instanceof TransferRelacion) { // Si es relación
-				// Si es una relacion IsA
-				if (((TransferRelacion) nodo).getTipo().equals("IsA")) {
-
-					this.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.SET_PARENT_ENT)) {
-						public void actionPerformed(ActionEvent e) {
-							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-							TransferRelacion relacion = (TransferRelacion) menu.nodo;
-							TransferRelacion clon_relacion = relacion.clonar();
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EstablecerEntidadPadre,
-									clon_relacion);
-						}
-					}));
-					this.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.REMOVE_PARENT_ENT)) {
-						private static final long serialVersionUID = 8766595520619916135L;
-
-						public void actionPerformed(ActionEvent e) {
-							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-							TransferRelacion relacion = (TransferRelacion) menu.nodo;
-							TransferRelacion clon_relacion = relacion.clonar();
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_QuitarEntidadPadre,
-									clon_relacion);
-						}
-					}));
-
-					this.add(new JSeparator());
-
-					this.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.ADD_CHILD_ENT)) {
-						private static final long serialVersionUID = 8766595520619916135L;
-
-						public void actionPerformed(ActionEvent e) {
-							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-							TransferRelacion relacion = (TransferRelacion) menu.nodo;
-							TransferRelacion clon_relacion = relacion.clonar();
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirEntidadHija, clon_relacion);
-						}
-					}));
-
-					this.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.REMOVE_CHILD_ENT)) {
-						private static final long serialVersionUID = 8766595520619916135L;
-
-						public void actionPerformed(ActionEvent e) {
-							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-							TransferRelacion relacion = (TransferRelacion) menu.nodo;
-							TransferRelacion clon_relacion = relacion.clonar();
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_QuitarEntidadHija, clon_relacion);
-						}
-					}));
-
-					this.add(new JSeparator());
-					// Eliminar la relacion
-					// Si sólo está seleccionada la relacion..
-					PickedState<Transfer> p = vv.getPickedVertexState();
-					int seleccionados = 0;
-					for (@SuppressWarnings("unused")Transfer t : p.getPicked()) seleccionados++;
-					
-					if (seleccionados < 2) {
-						this.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.DELETE_REL)) {
-							public void actionPerformed(ActionEvent e) {
-								PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-								TransferRelacion relacion = (TransferRelacion) menu.nodo;
-								TransferRelacion clon_relacion = relacion.clonar();
-								Vector<Object> v = new Vector<Object>();
-								v.add(clon_relacion);
-								v.add(true);
-								controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EliminarRelacionIsA, v);
-							}
-						}));
-
-					} else {
-						JMenuItem j6 = new JMenuItem(Lenguaje.text(Lenguaje.DELETE));
-						j6.addActionListener(new java.awt.event.ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								suprimir();
-							}
-						});
-						this.add(j6);
-					}
-
-				}
-
-				// Si es una relacion "Normal"
-				else {
-					// Anadir una entidad
-					JMenuItem j3 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_ENT));
-					if (((TransferRelacion) nodo).getTipo().equals("Debil"))
-						j3.setEnabled(false);
-					else {
-						j3.addActionListener(new java.awt.event.ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-								TransferRelacion relacion = (TransferRelacion) menu.nodo;
-								TransferRelacion clon_relacion = relacion.clonar();
-								controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirEntidadARelacion,
-										clon_relacion);
-							}
-						});
-					}
-					this.add(j3);
-
-					// Quitar una entidad
-					JMenuItem j4 = new JMenuItem(Lenguaje.text(Lenguaje.REMOVE_ENTITY));
-					// Si es débil
-					if (((TransferRelacion) nodo).getTipo().equals("Debil"))
-						j4.setEnabled(false);
-					// Si es normal
-					else {
-						j4.addActionListener(new java.awt.event.ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-								TransferRelacion relacion = (TransferRelacion) menu.nodo;
-								TransferRelacion clon_relacion = relacion.clonar();
-								controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_QuitarEntidadARelacion,
-										clon_relacion);
-							}
-						});
-					}
-					this.add(j4);
-
-					// Editar la aridad de una entidad
-					JMenuItem j5 = new JMenuItem(Lenguaje.text(Lenguaje.EDIT_CARD_ROL));
-					if (((TransferRelacion) nodo).getTipo().equals("Debil"))
-						j5.setEnabled(false);
-					else {
-						j5.setEnabled(true);
-						j5.addActionListener(new java.awt.event.ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-								TransferRelacion relacion = (TransferRelacion) menu.nodo;
-								TransferRelacion clon_relacion = relacion.clonar();
-								controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarCardinalidadEntidad,
-										clon_relacion);
-							}
-						});
-					}
-					this.add(j5);
-					this.add(new JSeparator());
-
-					// Anadir un atributo a la relacion
-					JMenuItem j6 = new JMenuItem(Lenguaje.text(Lenguaje.ADD_ATTRIBUTE));
-					if (((TransferRelacion) nodo).getTipo().equals("Debil"))
-						j6.setEnabled(false);
-					else {
-						j6.setEnabled(true);
-						j6.addActionListener(new java.awt.event.ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-								TransferRelacion relacion = (TransferRelacion) menu.nodo;
-								TransferRelacion clon_relacion = relacion.clonar();
-								controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirAtributoRelacion,
-										clon_relacion);
-							}
-						});
-					}
-					this.add(j6);
-					this.add(new JSeparator());
-
-					// Renombrar la relacion
-					JMenuItem j1 = new JMenuItem(Lenguaje.text(Lenguaje.RENAME_RELATION));
-					j1.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-							TransferRelacion relacion = (TransferRelacion) menu.nodo;
-							TransferRelacion clon_relacion = relacion.clonar();
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_RenombrarRelacion, clon_relacion);
-						}
-					});
-					this.add(j1);
-
-					// Eliminar la relacion
-					// Si sólo está seleccionada la relacion..
-					PickedState<Transfer> p = vv.getPickedVertexState();
-					int seleccionados = 0;
-					for (@SuppressWarnings("unused")
-					Transfer t : p.getPicked()) {
-						seleccionados++;
-					}
-					if (seleccionados < 2) {
-						JMenuItem j7 = new JMenuItem(Lenguaje.text(Lenguaje.DELETE_REL));
-						j7.addActionListener(new java.awt.event.ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-								TransferRelacion relacion = (TransferRelacion) menu.nodo;
-								TransferRelacion clon_relacion = relacion.clonar();
-								Vector<Object> v = new Vector<Object>();
-								v.add(clon_relacion);
-								v.add(true);
-								controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EliminarRelacionNormal, v);
-							}
-						});
-						this.add(j7);
-					} else {
-						JMenuItem j7 = new JMenuItem(Lenguaje.text(Lenguaje.DELETE));
-						j7.addActionListener(new java.awt.event.ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								suprimir();
-							}
-						});
-						this.add(j7);
-					}
-					this.add(new JSeparator());
-
-					// Añadir restricciones
-					JMenuItem j8 = new JMenuItem(Lenguaje.text(Lenguaje.RESTRICTIONS));
-					j8.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-							TransferRelacion relacion = (TransferRelacion) menu.nodo;
-							TransferRelacion clon_relacion = relacion.clonar();
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirRestriccionARelacion,
-									clon_relacion);
-						}
-					});
-					this.add(j8);
-					// Añadir tablaUnique
-					JMenuItem j9 = new JMenuItem(Lenguaje.text(Lenguaje.TABLE_UNIQUE));
-					j9.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							PopUpMenu menu = (PopUpMenu) ((JMenuItem) e.getSource()).getParent();
-							TransferRelacion relacion = (TransferRelacion) menu.nodo;
-							TransferRelacion clon_relacion = relacion.clonar();
-							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_TablaUniqueARelacion,
-									clon_relacion);
-						}
-					});
-					this.add(j9);
-				} // else
-			}
-
-		}
-	}
-
-	/**
-	 * Metodo auxiliar para saber si hay que mostrar en el popup de los atributos la
-	 * opcion de "Es clave primaria".
-	 * 
-	 * @param ta
-	 *            - Atributo que se quiere consultar
-	 * @return te -> la entidad a la que pertenece null -> en otro caso (sera un
-	 *         subatributo o sera un atributo de una relacion)
-	 */
-	private TransferEntidad esAtributoDirecto(TransferAtributo ta) {
-		Collection<TransferEntidad> listaEntidades = this.entidades.values();
-		for (Iterator<TransferEntidad> it = listaEntidades.iterator(); it.hasNext();) {
-			TransferEntidad te = it.next();
-			if (te.getListaAtributos().contains(String.valueOf(ta.getIdAtributo())))
-				return te;
-		}
-		return null;
-	}
 
 	/**
 	 * Método auxiliar para determinar la posición relativa en que el usuario hizo

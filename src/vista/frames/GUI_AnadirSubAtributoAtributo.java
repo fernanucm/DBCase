@@ -4,20 +4,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
 import java.util.Vector;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
-
 import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
@@ -27,40 +22,23 @@ import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferDominio;
 
 
-/**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
-@SuppressWarnings({"rawtypes" ,"unchecked"})
-public class GUI_AnadirSubAtributoAtributo extends javax.swing.JDialog implements KeyListener, MouseListener {
+@SuppressWarnings({"rawtypes" ,"unchecked", "serial"})
+public class GUI_AnadirSubAtributoAtributo extends Parent_GUI {
 
-	private static final long serialVersionUID = 1L;
 	private TransferAtributo atributo;
 	private Controlador controlador;
-	// Variables declaration - do not modify
-	private JTextField cajaNombre;
+	private JTextField cajaNombre = this.getCajaNombre(25, 45);
 	private JCheckBox opcionMultivalorado;
 	private JCheckBox opcionCompuesto;
 	private JCheckBox opcionNotnull;
 	private JCheckBox opcionUnique;
 	private JComboBox comboDominios;
-	private JButton botonCancelar;
-	private JButton botonAnadir;
+	private JButton botonInsertar;
 	private JLabel labelTamano;
 	private JTextField cajaTamano;
-	private JTextPane jTextPane2;
-	private JLabel labelIcono;
-	private JTextPane explicacion;
+	private JLabel jTextPane2;
+	private JLabel explicacion;
 	private Vector<TransferDominio> listaDominios;
-	// End of variables declaration
 
 	public GUI_AnadirSubAtributoAtributo() {
 		this.initComponents();
@@ -74,8 +52,7 @@ public class GUI_AnadirSubAtributoAtributo extends javax.swing.JDialog implement
 		setModal(true);
 		getContentPane().setLayout(null);
 		getContentPane().add(getExplicacion());
-		getContentPane().add(getCajaNombre());
-		getContentPane().add(getLabelIcono());
+		getContentPane().add(cajaNombre);
 		getContentPane().add(getOpcionCompuesto());
 		getContentPane().add(getOpcionNotnull());
 		getContentPane().add(getOpcionUnique());
@@ -84,9 +61,8 @@ public class GUI_AnadirSubAtributoAtributo extends javax.swing.JDialog implement
 		getContentPane().add(getComboDominios());
 		getContentPane().add(getCajaTamano());
 		getContentPane().add(getLabelTamano());
-		getContentPane().add(getBotonAnadir());
-		getContentPane().add(getBotonCancelar());
-		this.setSize(404, 372);
+		getContentPane().add(getBotonInsertar());
+		this.setSize(300, 350);
 		this.addMouseListener(this);
 		this.addKeyListener(this);
 	}
@@ -104,8 +80,6 @@ public class GUI_AnadirSubAtributoAtributo extends javax.swing.JDialog implement
 			this.opcionUnique.setEnabled(false);
 			this.cajaTamano.setEditable(false);
 			this.cajaTamano.setEnabled(false);
-			//this.comboDominios.setSelectedIndex(0);
-			//this.cajaTamano.setText("");
 		}
 		else{
 			this.comboDominios.setEnabled(true);
@@ -218,21 +192,6 @@ public class GUI_AnadirSubAtributoAtributo extends javax.swing.JDialog implement
 			}
 		}
 	} 
-	public void keyReleased(KeyEvent arg0) {}
-
-	public void keyTyped(KeyEvent arg0) {}
-
-	public void mouseEntered( MouseEvent e ) {} 
-	
-	public void mouseClicked(MouseEvent arg0) {
-		this.requestFocus();
-	}
-
-	public void mouseExited(MouseEvent arg0) {}
-
-	public void mousePressed(MouseEvent arg0) {}
-
-	public void mouseReleased(MouseEvent arg0) {}
 	
 	//Oyente para todos los elementos
 	private KeyListener general = new KeyListener() {
@@ -259,23 +218,11 @@ public class GUI_AnadirSubAtributoAtributo extends javax.swing.JDialog implement
 		this.cajaTamano.setText("");
 		
 		controlador.mensajeDesde_GUI(TC.GUIAnadirSubAtributoAtributo_ActualizameLaListaDeDominios, null);
-		TipoDominio[] basicos = modelo.tools.TipoDominio.values();
 		Object[] nuevos = new Object[this.listaDominios.size()];
 		this.generaItems(nuevos);
-		String[] items = new String[this.listaDominios.size()+basicos.length];
-		int i;
-		for(i=0; i<basicos.length;i++){
-			items[i]=basicos[i].toString();
-		}
-		int j=0;
-		while(i<this.listaDominios.size()+basicos.length){
-			items[i]=nuevos[j].toString();
-			i++;
-			j++;
-		}
-		quicksort(items);
 		
-		this.comboDominios.setModel(new javax.swing.DefaultComboBoxModel(items));
+		
+		this.comboDominios.setModel(new javax.swing.DefaultComboBoxModel(nuevos));
 		this.comboDominios.setSelectedItem("VARCHAR");
 		if (this.activarTamano()){
 			this.cajaTamano.setEditable(true);
@@ -344,41 +291,25 @@ public class GUI_AnadirSubAtributoAtributo extends javax.swing.JDialog implement
 	 * Interfaz
 	 */
 
-	private JTextPane getExplicacion() {
+	private JLabel getExplicacion() {
 		if(explicacion == null) {
-			explicacion = new JTextPane();
+			explicacion = new JLabel();
+			explicacion.setFont(theme.font());
 			explicacion.setText(Lenguaje.text(Lenguaje.NAME));
-			explicacion.setBounds(130, 25, 232, 20);
-			explicacion.setEditable(false);
+			explicacion.setBounds(25, 25, 232, 20);
 			explicacion.setOpaque(false);
 			explicacion.setFocusable(false);
 		}
 		return explicacion;
 	}
-	
-	private JTextField getCajaNombre() {
-		if(cajaNombre == null) {
-			cajaNombre = new JTextField();
-			cajaNombre.setBounds(130, 48, 232, 21);
-		}
-		cajaNombre.addKeyListener(general);
-		return cajaNombre;
-	}
-	
-	private JLabel getLabelIcono() {
-		if(labelIcono == null) {
-			labelIcono = new JLabel();
-			labelIcono.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.TECLADO)));
-			labelIcono.setBounds(12, 12, 100, 100);
-		}
-		return labelIcono;
-	}
+
 	
 	private JCheckBox getOpcionCompuesto() {
 		if(opcionCompuesto == null) {
 			opcionCompuesto = new JCheckBox();
+			opcionCompuesto.setFont(theme.font());
 			opcionCompuesto.setText(Lenguaje.text(Lenguaje.COMPOSITE_ATTRIBUTE));
-			opcionCompuesto.setBounds(142, 85, 220, 18);
+			opcionCompuesto.setBounds(25, 94, 220, 18);
 			opcionCompuesto.setOpaque(false);
 			opcionCompuesto.setBorderPaintedFlat(true);
 			opcionCompuesto.addItemListener(new java.awt.event.ItemListener() {
@@ -388,8 +319,7 @@ public class GUI_AnadirSubAtributoAtributo extends javax.swing.JDialog implement
 			});
 			opcionCompuesto.addKeyListener(new KeyListener() {
 				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){opcionCompuesto.setSelected(
-												!opcionCompuesto.isSelected());}
+					if(e.getKeyCode()==10){opcionCompuesto.setSelected(!opcionCompuesto.isSelected());}
 				}
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
@@ -401,8 +331,9 @@ public class GUI_AnadirSubAtributoAtributo extends javax.swing.JDialog implement
 	private JCheckBox getOpcionNotnull() {
 		if(opcionNotnull == null) {
 			opcionNotnull = new JCheckBox();
+			opcionNotnull.setFont(theme.font());
 			opcionNotnull.setText(Lenguaje.text(Lenguaje.NOT_NULL_ATTRIBUTE));
-			opcionNotnull.setBounds(142, 104, 220, 18);
+			opcionNotnull.setBounds(25, 113, 220, 18);
 			opcionNotnull.setOpaque(false);
 			opcionNotnull.setBorderPaintedFlat(true);
 			opcionNotnull.addKeyListener(new KeyListener() {
@@ -421,8 +352,9 @@ public class GUI_AnadirSubAtributoAtributo extends javax.swing.JDialog implement
 		if(opcionUnique == null) {
 			opcionUnique = new JCheckBox();
 			opcionUnique.setText(Lenguaje.text(Lenguaje.UNIQUE_ATTRIBUTE));
-			opcionUnique.setBounds(142, 123, 220, 18);
+			opcionUnique.setBounds(25, 132, 220, 18);
 			opcionUnique.setOpaque(false);
+			opcionUnique.setFont(theme.font());
 			opcionUnique.setBorderPaintedFlat(true);
 			opcionUnique.addKeyListener(new KeyListener() {
 				public void keyPressed(KeyEvent e) {
@@ -435,11 +367,13 @@ public class GUI_AnadirSubAtributoAtributo extends javax.swing.JDialog implement
 		}
 		return opcionUnique;
 	}
+	
 	private JCheckBox getOpcionMultivalorado() {
 		if(opcionMultivalorado == null) {
 			opcionMultivalorado = new JCheckBox();
+			opcionMultivalorado.setFont(theme.font());
 			opcionMultivalorado.setText(Lenguaje.text(Lenguaje.VALUE_ATTRIBUTE));
-			opcionMultivalorado.setBounds(142, 142, 221, 18);
+			opcionMultivalorado.setBounds(25, 151, 221, 18);
 			opcionMultivalorado.setOpaque(false);
 			opcionMultivalorado.setBorderPaintedFlat(true);
 		}
@@ -454,13 +388,13 @@ public class GUI_AnadirSubAtributoAtributo extends javax.swing.JDialog implement
 		return opcionMultivalorado;
 	}
 	
-	private JTextPane getJTextPane2() {
+	private JLabel getJTextPane2() {
 		if(jTextPane2 == null) {
-			jTextPane2 = new JTextPane();
+			jTextPane2 = new JLabel();
+			jTextPane2.setFont(theme.font());
 			jTextPane2.setText(Lenguaje.text(Lenguaje.DOMAIN_ATTRIBUTE));
-			jTextPane2.setEditable(false);
 			jTextPane2.setOpaque(false);
-			jTextPane2.setBounds(129, 169, 231, 20);
+			jTextPane2.setBounds(25, 168, 231, 20);
 			jTextPane2.setFocusable(false);
 		}
 		return jTextPane2;
@@ -469,15 +403,14 @@ public class GUI_AnadirSubAtributoAtributo extends javax.swing.JDialog implement
 	private JComboBox getComboDominios() {
 		if(comboDominios == null) {
 			comboDominios = new JComboBox();
-			comboDominios.setModel(new javax.swing.DefaultComboBoxModel(TipoDominio.values()));
-			comboDominios.setBounds(129, 201, 231, 21);
+			comboDominios.setFont(theme.font());
+			comboDominios.setBounds(25, 190, 231, 27);
 			comboDominios.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent evt) {
 					comboDominiosItemStateChanged(evt);
 				}
 			});
 			comboDominios.addKeyListener(general);
-			
 		}
 		return comboDominios;
 	}
@@ -485,7 +418,9 @@ public class GUI_AnadirSubAtributoAtributo extends javax.swing.JDialog implement
 	private JTextField getCajaTamano() {
 		if(cajaTamano == null) {
 			cajaTamano = new JTextField();
-			cajaTamano.setBounds(185, 239, 175, 21);
+			cajaTamano.setFont(theme.font());
+			cajaTamano.setForeground(theme.labelFontColorDark());
+			cajaTamano.setBounds(25, 243, 166, 27);
 		}
 		cajaTamano.addKeyListener(general);
 		return cajaTamano;
@@ -494,76 +429,36 @@ public class GUI_AnadirSubAtributoAtributo extends javax.swing.JDialog implement
 	private JLabel getLabelTamano() {
 		if(labelTamano == null) {
 			labelTamano = new JLabel();
+			labelTamano.setFont(theme.font());
 			labelTamano.setText(Lenguaje.text(Lenguaje.SIZE_ATTRIBUTE));
-			labelTamano.setBounds(129, 239, 67, 14);
+			labelTamano.setBounds(25, 223, 110, 14);
 		}
 		return labelTamano;
 	}
 	
-	private JButton getBotonAnadir() {
-		if(botonAnadir == null) {
-			botonAnadir = new JButton();
-			botonAnadir.setText(Lenguaje.text(Lenguaje.INSERT));
-			botonAnadir.setBounds(196, 292, 80, 25);
-			botonAnadir.addActionListener(new ActionListener() {
+	private JButton getBotonInsertar() {
+		if(botonInsertar == null) {
+			botonInsertar = this.botonInsertar(160,290);
+			botonInsertar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					botonAnadirActionPerformed(evt);
 				}
 			});
-			botonAnadir.addKeyListener(new KeyListener() {
+			botonInsertar.addKeyListener(new KeyListener() {
 				public void keyPressed(KeyEvent e) {
 					if(e.getKeyCode()==10){botonAnadirActionPerformed(null);}
-					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==39){botonCancelar.grabFocus();}
+					else if(e.getKeyCode()==39){}
 				}
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonAnadir.setMnemonic(Lenguaje.text(Lenguaje.INSERT).charAt(0));
 		}
-		return botonAnadir;
-	}
-	
-	private JButton getBotonCancelar() {
-		if(botonCancelar == null) {
-			botonCancelar = new JButton();
-			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
-			botonCancelar.setBounds(281, 292, 80, 25);
-			botonCancelar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent evt) {
-					botonCancelarActionPerformed(evt);
-				}
-			});
-			botonCancelar.addKeyListener(new KeyListener() {
-				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==37){botonAnadir.grabFocus();}
-				}
-				public void keyReleased(KeyEvent e) {}
-				public void keyTyped(KeyEvent e) {}
-			});
-			botonCancelar.setMnemonic(Lenguaje.text(Lenguaje.CANCEL).charAt(0));
-		}
-		return botonCancelar;
+		return botonInsertar;
 	}
 	
 	/*
 	 * Utilidades
 	 */
-	private void centraEnPantalla(){
-		// Tamano de la pantalla
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		// Alto
-		String altoString = String.valueOf(this.getSize().getWidth());
-		altoString = altoString.substring(0,altoString.indexOf("."));
-		int altoInt = Integer.parseInt(altoString);
-		// Ancho
-		String anchoString = String.valueOf(this.getSize().getHeight());
-		anchoString = anchoString.substring(0,anchoString.indexOf("."));
-		int anchoInt = Integer.parseInt(anchoString);
-		setBounds((screenSize.width-altoInt)/2, (screenSize.height-anchoInt)/2, altoInt, anchoInt);
-	}
 	
 	private Object[] generaItems(Object[] items){
 		int cont = 0;
@@ -579,34 +474,4 @@ public class GUI_AnadirSubAtributoAtributo extends javax.swing.JDialog implement
 		this.listaDominios = listaDominios;
 	}
 
-	private static void quicksort(String[] a) {
-        quicksort(a, 0, a.length - 1);
-    }
-	
-	private static void quicksort(String[] a, int left, int right) {
-        if (right <= left) return;
-        int i = partition(a, left, right);
-        quicksort(a, left, i-1);
-        quicksort(a, i+1, right);
-    }
-
-    private static int partition(String[] a, int left, int right) {
-        int i = left - 1;
-        int j = right;
-        while (true) {
-            while ((a[++i].compareToIgnoreCase(a[right])<0))      
-                ;                              
-            while ((a[right].compareToIgnoreCase(a[--j])<0))      
-                if (j == left) break;          
-            if (i >= j) break;                  
-            exch(a, i, j);                     
-        }
-        exch(a, i, right);                      
-        return i;
-    }
-    private static void exch(String[] a, int i, int j) {
-        String swap = a[i];
-        a[i]=a[j];
-        a[j]=swap;
-    }
 }

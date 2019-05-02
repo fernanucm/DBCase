@@ -17,7 +17,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 import controlador.Controlador;
 import controlador.TC;
@@ -25,41 +24,24 @@ import modelo.lenguaje.Lenguaje;
 import modelo.tools.ImagePath;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
-import vista.tema.Theme;
 
-/**
- * This code was edited or generated using CloudGarden's Jigloo
- * SWT/Swing GUI Builder, which is free for non-commercial
- * use. If Jigloo is being used commercially (ie, by a corporation,
- * company or business for any purpose whatever) then you
- * should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details.
- * Use of Jigloo implies acceptance of these licensing terms.
- * A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
- * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
- * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
- */
-@SuppressWarnings({"rawtypes" ,"unchecked"})
-public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyListener, MouseListener{
-	private static final long serialVersionUID = 1L;
+
+@SuppressWarnings({"rawtypes" ,"unchecked", "serial"})
+public class GUI_InsertarEntidad extends Parent_GUI{
 	private Controlador controlador;
 	private Point2D posicionEntidad;
-	// Variables declaration - do not modify
-	private JButton botonCancelar;
-	private JTextField cajaNombre;
+	private JTextField cajaNombre = this.getCajaNombre(100, 10);
 	private JCheckBox CasillaEsDebil;
-	private JTextPane explicacion;
+	private JLabel explicacion;
 	private JButton botonInsertar;
 	private JTextField jTextRelacion;
-	private JTextPane nombreRelacion;
-	private Theme theme = Theme.getInstancia();
+	private JLabel nombreRelacion;
 	private JComboBox comboEntidadesFuertes;
 	private JLabel selecFuerte;
 	private Vector<TransferEntidad> listaEntidades;
 	private Vector<String> items;
 	private TransferRelacion relacion;
 	private boolean factibleEntidad;//Sirve para la comprobación de si se puede añadir una entidad debil
-	// End of variables declaration
 
 	public GUI_InsertarEntidad() {
 		initComponents();
@@ -72,33 +54,9 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 		setResizable(false);
 		setModal(true);
 		getContentPane().setLayout(null);
-		this.setSize(409, 208);
 		{
-			botonCancelar = new JButton();
-			botonCancelar.setFont(theme.font());
-			getContentPane().add(botonCancelar);
-			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
-			botonCancelar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent evt) {
-					botonCancelarActionPerformed(evt);
-				}
-			});
-			botonCancelar.addKeyListener(new KeyListener() {
-				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==37){botonInsertar.grabFocus();}
-				}
-				public void keyReleased(KeyEvent e) {}
-				public void keyTyped(KeyEvent e) {}
-			});
-			botonCancelar.setMnemonic(Lenguaje.text(Lenguaje.CANCEL).charAt(0));
-		}
-		{
-			botonInsertar = new JButton();
+			botonInsertar = botonInsertar(200,100);
 			getContentPane().add(botonInsertar);
-			botonInsertar.setText(Lenguaje.text(Lenguaje.INSERT));
-			botonInsertar.setFont(theme.font());
 			botonInsertar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					botonInsertarActionPerformed(evt);
@@ -108,7 +66,6 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 				public void keyPressed(KeyEvent e) {
 					if(e.getKeyCode()==10){botonInsertarActionPerformed(null);}
 					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==39){botonCancelar.grabFocus();}
 				}
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
@@ -116,29 +73,24 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 			botonInsertar.setMnemonic(Lenguaje.text(Lenguaje.INSERT).charAt(0));
 		}
 		{
-			explicacion = new JTextPane();
+			explicacion = new JLabel();
 			getContentPane().add(explicacion);
 			explicacion.setText(Lenguaje.text(Lenguaje.NAME));
-			explicacion.setEditable(false);
 			explicacion.setOpaque(false);
-			explicacion.setBounds(26, 12, 67, 21);
+			explicacion.setBounds(25, 10, 67, 25);
 			explicacion.setFont(theme.font());
 			explicacion.setFocusable(false);
 			explicacion.setAlignmentX(0.0f);
 		}
 		{
-			cajaNombre = new JTextField();
 			getContentPane().add(cajaNombre);
-			cajaNombre.setFont(theme.font());
-			cajaNombre.setBounds(100, 13, 200, 29);
-			cajaNombre.addKeyListener(general);
 		}
 		{
 			CasillaEsDebil = new JCheckBox();
 			getContentPane().add(CasillaEsDebil);
 			CasillaEsDebil.setText(Lenguaje.text(Lenguaje.WEAK_ENTITY));
 			CasillaEsDebil.setFont(theme.font());
-			CasillaEsDebil.setBounds(100, 48, 170, 22);
+			CasillaEsDebil.setBounds(100, 40, 170, 25);
 			CasillaEsDebil.setOpaque(false);
 			CasillaEsDebil.setBorderPaintedFlat(true);
 			CasillaEsDebil.addKeyListener(new KeyListener() {
@@ -160,7 +112,6 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 						//Generamos los items del comboEntidades
 						items = generaItems();
 						//Los ordenamos alfabeticamente
-						quicksort((Vector<String>)items);
 						if(items.size() == 0)
 							JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.CREATE_STRONG_ENTITY), Lenguaje.text(Lenguaje.ERROR), 0);
 						else{
@@ -202,7 +153,7 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 			getContentPane().add(selecFuerte);
 			selecFuerte.setText(Lenguaje.text(Lenguaje.SELECT_STRONG_ENTITY));
 			selecFuerte.setFont(theme.font());
-			selecFuerte.setBounds(100, 78, 250, 20);
+			selecFuerte.setBounds(100, 78, 200, 25);
 			selecFuerte.setOpaque(false);
 			selecFuerte.setEnabled(false);
 			selecFuerte.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -213,16 +164,15 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 			getContentPane().add(comboEntidadesFuertes);
 			getContentPane().add(comboEntidadesFuertes);
 			comboEntidadesFuertes.setEnabled(false);
-			comboEntidadesFuertes.setBounds(100, 105, 180, 30);
+			comboEntidadesFuertes.setBounds(100, 105, 200, 25);
 			comboEntidadesFuertes.setFont(theme.font());
 			comboEntidadesFuertes.setVisible(false);
 		}
 		{
-			nombreRelacion = new JTextPane();
+			nombreRelacion = new JLabel();
 			getContentPane().add(nombreRelacion);
 			nombreRelacion.setText(Lenguaje.text(Lenguaje.WRITE_RELATION_WEAK));
-			nombreRelacion.setBounds(100, 130, 180, 31);
-			nombreRelacion.setEditable(false);
+			nombreRelacion.setBounds(100, 130, 200, 25);
 			nombreRelacion.setFont(theme.font());
 			nombreRelacion.setEnabled(false);
 			nombreRelacion.setOpaque(false);
@@ -232,9 +182,10 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 			jTextRelacion = new JTextField();
 			getContentPane().add(jTextRelacion);
 			jTextRelacion.setEnabled(false);
-			jTextRelacion.setBounds(100, 163, 180, 25);
+			jTextRelacion.setBounds(100, 163, 200, 25);
 			jTextRelacion.setBorder(BorderFactory.createLineBorder(theme.lines(), 1));
 			jTextRelacion.setVisible(false);
+			jTextRelacion.setForeground(theme.labelFontColorDark());
 		}
 		this.addMouseListener(this);
 		this.addKeyListener(this);
@@ -245,15 +196,13 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 	 * para hacer las entidades débiles*/
 	public void ampliarVentana(){
 		this.setSize(350, 280); 
-		botonInsertar.setBounds(130, 200, 80, 25);
-		botonCancelar.setBounds(220, 200, 100, 25);
+		botonInsertar.setBounds(200, 200, 100, 30);
 	}
 	
 	/*Redimensiona la ventana para que se oculten la parte de las entidades débiles*/
 	public void reducirVentana(){
 		this.setSize(350, 178); 
-		botonInsertar.setBounds(130, 100, 80, 25);
-		botonCancelar.setBounds(220, 100, 100, 25);
+		botonInsertar.setBounds(200, 100, 100, 30);
 	}
 	
 	/*
@@ -388,31 +337,6 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 			}
 		}
 	} 
-	public void keyReleased(KeyEvent arg0) {}
-
-	public void keyTyped(KeyEvent arg0) {}
-
-	public void mouseEntered( MouseEvent e ) {} 
-	
-	public void mouseClicked(MouseEvent arg0) {
-		this.requestFocus();
-	}
-
-	public void mouseExited(MouseEvent arg0) {}
-
-	public void mousePressed(MouseEvent arg0) {}
-
-	public void mouseReleased(MouseEvent arg0) {}
-	
-	//Oyente para todos los elementos
-	private KeyListener general = new KeyListener() {
-		public void keyPressed(KeyEvent e) {
-			if(e.getKeyCode()==10){botonInsertarActionPerformed(null);}
-			if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-		}
-		public void keyReleased(KeyEvent e) {}
-		public void keyTyped(KeyEvent e) {}
-	};
 	
 	/*
 	 * Activar y desactivar el dialogo
@@ -480,61 +404,6 @@ public class GUI_InsertarEntidad extends javax.swing.JDialog  implements KeyList
 		}
 		return i;
 	}
-
-	/*
-	 * Utilidades
-	 */
-	private void centraEnPantalla(){
-		// Tamano de la pantalla
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		// Alto
-		String altoString = String.valueOf(this.getSize().getWidth());
-		altoString = altoString.substring(0,altoString.indexOf("."));
-		int altoInt = Integer.parseInt(altoString);
-		// Ancho
-		String anchoString = String.valueOf(this.getSize().getHeight());
-		anchoString = anchoString.substring(0,anchoString.indexOf("."));
-		int anchoInt = Integer.parseInt(anchoString);
-
-		setBounds((screenSize.width-altoInt)/2, (screenSize.height-anchoInt)/2, altoInt, anchoInt);
-	}
-	
-	
-	//Utilidades
-	private static void quicksort(Vector<String> a) {
-        quicksort(a, 0, a.size() - 1);
-    }
-
-    // quicksort a[left] to a[right]
-    private static void quicksort(Vector<String> a, int left, int right) {
-        if (right <= left) return;
-        int i = partition(a, left, right);
-        quicksort(a, left, i-1);
-        quicksort(a, i+1, right);
-    }
-
-    // partition a[left] to a[right], assumes left < right
-    private static int partition(Vector<String> a, int left, int right) {
-        int i = left - 1;
-        int j = right;
-        while (true) {
-            while ((a.get(++i).compareToIgnoreCase(a.get(right))<0))      // find item on left to swap
-                ;                               // a[right] acts as sentinel
-            while ((a.get(right).compareToIgnoreCase(a.get(--j))<0))      // find item on right to swap
-                if (j == left) break;           // don't go out-of-bounds
-            if (i >= j) break;                  // check if pointers cross
-            exch(a, i, j);                      // swap two elements into place
-        }
-        exch(a, i, right);                      // swap with partition element
-        return i;
-    }
-    
-    private static void exch(Vector<String> a, int i, int j) {
-        //exchanges++;
-        String swap = a.get(i);
-        a.set(i,a.get(j));
-        a.set(j,swap);
-    }
 
 	/*
 	 * Getters y Setters

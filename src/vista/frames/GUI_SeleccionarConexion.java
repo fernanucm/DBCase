@@ -1,24 +1,22 @@
 package vista.frames;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-
 import controlador.ConfiguradorInicial;
 import controlador.Controlador;
 import controlador.TC;
@@ -26,36 +24,19 @@ import modelo.conectorDBMS.FactoriaConectores;
 import modelo.lenguaje.Lenguaje;
 import modelo.tools.ImagePath;
 import modelo.transfers.TransferConexion;
+import vista.components.CustomCellEditor;
 
+@SuppressWarnings("serial")
+public class GUI_SeleccionarConexion extends Parent_GUI{
 
-/**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
-
-public class GUI_SeleccionarConexion extends javax.swing.JDialog  implements KeyListener, MouseListener {
-
-	private static final long serialVersionUID = 1L;
 	private Controlador controlador;
 	private TransferConexion _conexion;
-	// Variables declaration - do not modify
-	private JButton botonCancelar;
-	private JLabel labelIcono;
 	private JScrollPane jScrollPane1;
 	private JButton botonNueva;
 	private JButton botonAceptar;
 	private JTable tablaConjuntos;
 	private JButton botonBorrar;
 	private JButton botonEditar;
-	// End of variables declaration
 
 	public GUI_SeleccionarConexion() {
 		initComponents();
@@ -68,36 +49,15 @@ public class GUI_SeleccionarConexion extends javax.swing.JDialog  implements Key
 		setResizable(false);
 		setModal(true);
 		getContentPane().setLayout(null);
-		this.setSize(605, 261);
-		{
-			labelIcono = new JLabel();
-			getContentPane().add(labelIcono);
-			labelIcono.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.RATON)));
-			labelIcono.setBounds(12, 12, 100, 100);
-		}
+		this.setSize(400,350);
 		{
 			jScrollPane1 = new JScrollPane();
 			getContentPane().add(jScrollPane1);
-			jScrollPane1.setBounds(149, 34, 415, 126);
-			{
-				TableModel tablaModel = 
-					new DefaultTableModel(
-							new String[][] { { "" } },
-							new String[] { Lenguaje.text(Lenguaje.SELECT_CONNECTION)+":" });
-				tablaConjuntos = new JTable();
-				jScrollPane1.setViewportView(tablaConjuntos);
-				tablaConjuntos.setModel(tablaModel);
-				tablaConjuntos.setBounds(58, 16, 307, 81);
-				tablaConjuntos.setPreferredSize(new java.awt.Dimension(309, 106));
-			}
-			
-			
+			jScrollPane1.setBounds(0, 0, 340, 250);
 		}
 		{
-			botonAceptar = new JButton();
+			botonAceptar = boton(200, 275,Lenguaje.text(Lenguaje.CONNECT));
 			getContentPane().add(botonAceptar);
-			botonAceptar.setText(Lenguaje.text(Lenguaje.CONNECT));
-			botonAceptar.setBounds(383, 180, 80, 25);
 			botonAceptar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					botonAceptarActionPerformed(evt);
@@ -105,42 +65,38 @@ public class GUI_SeleccionarConexion extends javax.swing.JDialog  implements Key
 			});
 			botonAceptar.addKeyListener(new KeyListener() {
 				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==39){botonCancelar.grabFocus();}
-					else if(e.getKeyCode()==37){botonEditar.grabFocus();}
+					if(e.getKeyCode()==10) botonCancelarActionPerformed(null);
+					else if(e.getKeyCode()==27) botonCancelarActionPerformed(null);
+					else if(e.getKeyCode()==37) botonEditar.grabFocus();
 				}
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-						
 		}
 		{
-			botonCancelar = new JButton();
-			getContentPane().add(botonCancelar);
-			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
-			botonCancelar.setBounds(484, 180, 80, 25);
-			botonCancelar.addActionListener(new ActionListener() {
+			botonEditar = boton(70, 275,Lenguaje.text(Lenguaje.EDIT));
+			getContentPane().add(botonEditar);
+			botonEditar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
-					botonCancelarActionPerformed(evt);
+					botonEditarActionPerformed(evt);
 				}
 			});
-			botonCancelar.addKeyListener(new KeyListener() {
+			botonEditar.addKeyListener(new KeyListener() {
 				public void keyPressed(KeyEvent e) {
 					if(e.getKeyCode()==10){botonCancelarActionPerformed(null);}
 					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==37){botonAceptar.grabFocus();}
+					else if(e.getKeyCode()==39){botonAceptar.grabFocus();}
+					else if(e.getKeyCode()==37){botonBorrar.grabFocus();}
 				}
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonCancelar.setMnemonic(Lenguaje.text(Lenguaje.CANCEL).charAt(0));
 		}
 		{
 			botonNueva = new JButton();
 			getContentPane().add(botonNueva);
-			botonNueva.setText(Lenguaje.text(Lenguaje.NEW2));
-			botonNueva.setBounds(80, 180, 80, 25);
+			botonNueva.setText("+");
+			botonNueva.setBounds(350, 10, 45, 45);
 			botonNueva.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyTyped(KeyEvent e) {}
@@ -157,64 +113,55 @@ public class GUI_SeleccionarConexion extends javax.swing.JDialog  implements Key
 					botonNuevaActionPerformed(evt);
 				}
 			});
-			botonNueva.setMnemonic(Lenguaje.text(Lenguaje.NEW2).charAt(0));
 		}
 		{
 			botonBorrar = new JButton();
 			getContentPane().add(botonBorrar);
-			botonBorrar.setText(Lenguaje.text(Lenguaje.DELETE));
-			botonBorrar.setBounds(181, 180, 80, 25);
-			
-			botonBorrar.addKeyListener(new KeyListener() {
-				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==37){botonNueva.grabFocus();}
-					else if(e.getKeyCode()==39){botonEditar.grabFocus();}
-				}
-				public void keyReleased(KeyEvent e) {}
+			botonBorrar.setText("-");
+			botonBorrar.setBounds(350, 55, 45, 45);
+			botonBorrar.addKeyListener(new KeyAdapter() {
+				@Override
 				public void keyTyped(KeyEvent e) {}
+				@Override
+				public void keyReleased(KeyEvent e) {}
+				@Override
+				public void keyPressed(KeyEvent e) {
+					if(e.getKeyCode()==27) botonCancelarActionPerformed(null);
+					else if(e.getKeyCode()==37) botonNueva.grabFocus();
+				}
 			});
 			botonBorrar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					botonBorrarActionPerformed(evt);
 				}
 			});
-			//botonBorrar.setMnemonic(Lenguaje.getMensaje(Lenguaje.DELETE).charAt(0));
 		}
-		{
-			botonEditar = new JButton();
-			getContentPane().add(botonEditar);
-			botonEditar.setText(Lenguaje.text(Lenguaje.ACCEPT));
-			botonEditar.setBounds(283, 180, 80, 25);
-			
-			botonEditar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent evt) {
-					botonEditarActionPerformed(evt);
-				}
-			});
-			botonEditar.addKeyListener(new KeyListener() {
-				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==39){botonAceptar.grabFocus();}
-					else if(e.getKeyCode()==37){botonBorrar.grabFocus();}
-				}
-				public void keyReleased(KeyEvent e) {}
-				public void keyTyped(KeyEvent e) {}
-			});
-			botonEditar.setMnemonic(Lenguaje.text(Lenguaje.ACCEPT).charAt(0));
-		}
-
 		this.addKeyListener(this);
-		TableModel tablaModel = 
-			new DefaultTableModel(
-					new String[][] { { "" } },
-					new String[] { Lenguaje.text(Lenguaje.EXISTING_CONN) });
-		tablaConjuntos = new JTable();
+		this.addMouseListener(this);
+		TableModel tablaModel = new DefaultTableModel(new String[][] {{""}},new String[]{ Lenguaje.text(Lenguaje.EXISTING_CONN)+":"});
+		tablaConjuntos = new JTable(tablaModel) {
+			@Override
+			public boolean isCellEditable(int row, int column){
+		      return false;
+		    }
+		};
 		jScrollPane1.setViewportView(tablaConjuntos);
-		tablaConjuntos.setModel(tablaModel);
-		this.addKeyListener(this);	
+		tablaConjuntos.setFont(theme.font());
+		tablaConjuntos.setBackground(theme.background());
+		DefaultTableCellRenderer r = new DefaultTableCellRenderer() {
+		    @Override
+		    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
+		        super.getTableCellRendererComponent(table, value, isSelected, hasFocus,row, column);
+		        setFont(theme.font());
+		        return this;
+		    }
+		};
+        setForeground(theme.background());
+        tablaConjuntos.setDefaultEditor(Object.class, CustomCellEditor.make());
+        tablaConjuntos.getColumnModel().getColumn(0).setCellRenderer(r);
+        tablaConjuntos.setRowHeight(25);
+        tablaConjuntos.getTableHeader().setReorderingAllowed(false);//columnas fijadas
+		this.addKeyListener(this);
 	}
 
 	/*
@@ -223,11 +170,9 @@ public class GUI_SeleccionarConexion extends javax.swing.JDialog  implements Key
 	private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {                                              
 		String elegido = getElementoSeleccionado();		
 		if (elegido == null){
-			JOptionPane.showMessageDialog(
-							null, 
-							Lenguaje.text(Lenguaje.CHOOSE_CONN), 
-							Lenguaje.text(Lenguaje.ERROR), 
-							0);
+			JOptionPane.showMessageDialog(null, 
+				Lenguaje.text(Lenguaje.CHOOSE_CONN), 
+				Lenguaje.text(Lenguaje.ERROR),0);
 			return;
 		}
 		elegido = elegido.substring(0, elegido.indexOf("(") - 1);
@@ -253,30 +198,20 @@ public class GUI_SeleccionarConexion extends javax.swing.JDialog  implements Key
 		}
 		
 		int dosPuntos = tc.getRuta().indexOf(":");
-		if ( dosPuntos > 0 
-				&&
-				dosPuntos == tc.getRuta().length() - 1){
+		if ( dosPuntos > 0 && dosPuntos == tc.getRuta().length() - 1)
 			connectionString += tc.getRuta().substring(0, dosPuntos);
-		}else{
-			connectionString += tc.getRuta();
-		}
+		else connectionString += tc.getRuta();
 		
-		if (_conexion.getTipoConexion() != FactoriaConectores.CONECTOR_ORACLE){
-			connectionString += "/";
-		}else{
-			connectionString += "#" + tc.getDatabase();
-		}
+		if (_conexion.getTipoConexion() != FactoriaConectores.CONECTOR_ORACLE) connectionString += "/";
+		else connectionString += "#" + tc.getDatabase();
 		
-		if (this._conexion.getTipoConexion() == 
-						FactoriaConectores.CONECTOR_MSACCESS_MDB){
+		if (this._conexion.getTipoConexion() == FactoriaConectores.CONECTOR_MSACCESS_MDB)
 			connectionString = tc.getDatabase();
-		}
 		
 		tc.setRuta(connectionString);
 		
 		// Enviar datos para la conexión
 		controlador.mensajeDesde_GUI(TC.GUIConfigurarConexionDBMS_Click_BotonEjecutar, tc);
-		
 		this.setInactiva();
 	}                                       
 		
@@ -293,31 +228,25 @@ public class GUI_SeleccionarConexion extends javax.swing.JDialog  implements Key
 		// <connection name="Conexion 3" type="0" path="localhost" database="test2" user="root" password="123456"  /> 
 		String elegido = getElementoSeleccionado();		
 		if (elegido == null){
-			JOptionPane.showMessageDialog(
-							null, 
-							Lenguaje.text(Lenguaje.CHOOSE_CONN), 
-							Lenguaje.text(Lenguaje.ERROR), 
-							0);
+			JOptionPane.showMessageDialog(null, 
+				Lenguaje.text(Lenguaje.CHOOSE_CONN), 
+				Lenguaje.text(Lenguaje.ERROR), 0);
 			return;
 		}
 		elegido = elegido.substring(0, elegido.indexOf("(") - 1);
-		
 		ConfiguradorInicial config = new ConfiguradorInicial();
 		config.leerFicheroConfiguracion();
 		config.quitaConexion(elegido);
 		config.guardarFicheroCofiguracion();
-		
 		rellenaTabla();
 	}
 	
 	private void botonEditarActionPerformed(ActionEvent evt) {
 		String elegido = getElementoSeleccionado();		
 		if (elegido == null){
-			JOptionPane.showMessageDialog(
-							null, 
-							Lenguaje.text(Lenguaje.CHOOSE_CONN), 
-							Lenguaje.text(Lenguaje.ERROR), 
-							0);
+			JOptionPane.showMessageDialog(null, 
+				Lenguaje.text(Lenguaje.CHOOSE_CONN), 
+				Lenguaje.text(Lenguaje.ERROR), 0);
 			return;
 		}
 		elegido = elegido.substring(0, elegido.indexOf("(") - 1);
@@ -339,7 +268,6 @@ public class GUI_SeleccionarConexion extends javax.swing.JDialog  implements Key
 		}catch(ArrayIndexOutOfBoundsException e) {
 			return null;
 		}
-		
 		return elegido;
 	}
 	
@@ -361,16 +289,13 @@ public class GUI_SeleccionarConexion extends javax.swing.JDialog  implements Key
 			TransferConexion conexion = conexiones.get(nombre);
 			String usuario = conexion.getUsuario();
 			String database = conexion.getDatabase();
-			String dbms = FactoriaConectores.obtenerTodosLosConectores().get(
-								conexion.getTipoConexion());
+			String dbms = FactoriaConectores.obtenerTodosLosConectores().get(conexion.getTipoConexion());
 			
 			// Añadir a la lista el nombre de cada conexión
 			valores[i][0] = nombre + " (" + usuario + "@" + database + ", " + dbms + ")";
 			i ++;
 		}
-		
-		TableModel tablaModelo = new DefaultTableModel(valores, new String[] {
-										Lenguaje.text(Lenguaje.TABLE_TITLE)});
+		TableModel tablaModelo = new DefaultTableModel(valores, new String[] {Lenguaje.text(Lenguaje.TABLE_TITLE)});
 		tablaConjuntos.setModel(tablaModelo);
 	}
 	
@@ -408,41 +333,6 @@ public class GUI_SeleccionarConexion extends javax.swing.JDialog  implements Key
 				break;
 			}
 		}
-	} 
-	public void keyReleased(KeyEvent arg0) {}
-
-	public void keyTyped(KeyEvent arg0) {}
-
-	public void mouseEntered( MouseEvent e ) {} 
-	
-	public void mouseClicked(MouseEvent arg0) {
-		this.requestFocus();
-	}
-
-	public void mouseExited(MouseEvent arg0) {}
-
-	public void mousePressed(MouseEvent arg0) {}
-
-	public void mouseReleased(MouseEvent arg0) {}
-	
-	
-	
-	/*
-	 * Utilidades
-	 */
-	private void centraEnPantalla(){
-		// Tamano de la pantalla
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		// Alto
-		String altoString = String.valueOf(this.getSize().getWidth());
-		altoString = altoString.substring(0,altoString.indexOf("."));
-		int altoInt = Integer.parseInt(altoString);
-		// Ancho
-		String anchoString = String.valueOf(this.getSize().getHeight());
-		anchoString = anchoString.substring(0,anchoString.indexOf("."));
-		int anchoInt = Integer.parseInt(anchoString);
-
-		setBounds((screenSize.width-altoInt)/2, (screenSize.height-anchoInt)/2, altoInt, anchoInt);
 	}
 		
 	/*

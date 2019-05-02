@@ -8,12 +8,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Vector;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.UnsupportedLookAndFeelException;
-
 import modelo.lenguaje.Lenguaje;
 import modelo.persistencia.EntidadYAridad;
 import modelo.servicios.ServiciosAtributos;
@@ -21,9 +19,7 @@ import modelo.servicios.ServiciosDominios;
 import modelo.servicios.ServiciosEntidades;
 import modelo.servicios.ServiciosRelaciones;
 import modelo.servicios.GeneradorEsquema;
-import modelo.tools.ImagePath;
-import modelo.tools.PanelOpciones;
-import modelo.tools.PanelOpcionesPequeno;
+import vista.frames.GUI_Pregunta;
 import modelo.transfers.Transfer;
 import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferConexion;
@@ -111,8 +107,7 @@ public class Controlador {
 	private boolean cambios;
 	private File filetemp;
 	private File fileguardar;
-	private PanelOpciones panelOpciones;
-	private PanelOpcionesPequeno panelOpcionesPeque;
+	private GUI_Pregunta panelOpciones;
 	private Theme theme;
 	private int modoVista;
 	
@@ -196,8 +191,7 @@ public class Controlador {
 		theGUIWorkSpace = new GUI_WorkSpace();
 		theGUIWorkSpace.setControlador(this);
 		cambios = false;
-		panelOpciones= new PanelOpciones();
-		panelOpcionesPeque= new PanelOpcionesPequeno();
+		panelOpciones= new GUI_Pregunta();
 
 		// GUIPrincipal
 		theGUIPrincipal = new GUIPrincipal();
@@ -377,9 +371,7 @@ public class Controlador {
 				JOptionPane.showMessageDialog(null,
 					"ERROR.\nAdd an entity or a relation first\n",
 					Lenguaje.text(Lenguaje.ADD_ENTITY_RELATION),
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR))
-				);
+					JOptionPane.PLAIN_MESSAGE);
 			else {
 				this.getTheGUIAnadirAtributo().setListaTransfers(listaTransfers);
 				this.getTheGUIAnadirAtributo().setActiva();
@@ -412,8 +404,7 @@ public class Controlador {
 				respuesta = panelOpciones.setActiva(
 						Lenguaje.text(Lenguaje.ENTITY)+" \""+te.getNombre()+"\"" +Lenguaje.text(Lenguaje.REMOVE_FROM_SYSTEM)+"\n"+
 						tieneAtributos+tieneRelacion + Lenguaje.text(Lenguaje.WISH_CONTINUE),
-						Lenguaje.text(Lenguaje.DELETE_ENTITY),
-						false, new ImageIcon(getClass().getClassLoader().getResource(ImagePath.WARNING)));	
+						Lenguaje.text(Lenguaje.DELETE_ENTITY));	
 			}
 			//Si quiere borrar la entidad
 			/*Se entrará con preguntar a false si se viene de eliminar una relación débil 
@@ -520,9 +511,7 @@ public class Controlador {
 				respuesta = panelOpciones.setActiva(
 						Lenguaje.text(Lenguaje.ATTRIBUTE)+" \""+ta.getNombre()+"\""+Lenguaje.text(Lenguaje.REMOVE_FROM_SYSTEM)+"\n" +
 						eliminarSubatributos + Lenguaje.text(Lenguaje.WISH_CONTINUE),
-						Lenguaje.text(Lenguaje.DELETE_ATTRIB),
-						false,
-						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.WARNING)));	
+						Lenguaje.text(Lenguaje.DELETE_ATTRIB));	
 			}
 			if (respuesta == 0){
 				if(ta.getUnique()){
@@ -569,9 +558,7 @@ public class Controlador {
 							Lenguaje.text(Lenguaje.WEAK_RELATION)+" \""+tr.getNombre()+"\""+
 							Lenguaje.text(Lenguaje.DELETE_ATTRIBUTES_WARNING2)+"\n" +
 							Lenguaje.text(Lenguaje.WISH_CONTINUE),
-							Lenguaje.text(Lenguaje.DBCASE),
-							false,
-							null);
+							Lenguaje.text(Lenguaje.DBCASE));
 				}
 				// ...y tiene una entidad débil hay que cambiar la cardinalidad
 				if(numDebiles == 1 && respuesta1!=1 ){
@@ -579,9 +566,7 @@ public class Controlador {
 							Lenguaje.text(Lenguaje.WEAK_RELATION)+"\""+tr.getNombre()+"\""+
 							Lenguaje.text(Lenguaje.MODIFYING_CARDINALITY) +".\n" +
 							Lenguaje.text(Lenguaje.WISH_CONTINUE),
-							Lenguaje.text(Lenguaje.DBCASE),
-							false,
-							null);
+							Lenguaje.text(Lenguaje.DBCASE));
 				}
 				if (respuesta2==0 && respuesta1!=1){
 					//Aqui se fija la cardinalidad de la entidad débil como de 1 a 1.		
@@ -673,9 +658,7 @@ public class Controlador {
 						Lenguaje.text(Lenguaje.MODIFY_ATTRIBUTE)+"\""+ta.getNombre()+"\""+
 						Lenguaje.text(Lenguaje.DELETE_ATTRIBUTES_WARNING3)+"\n" +
 						Lenguaje.text(Lenguaje.WISH_CONTINUE),
-						Lenguaje.text(Lenguaje.DBCASE),
-						false,
-						null);
+						Lenguaje.text(Lenguaje.DBCASE));
 				if (respuesta == 0){
 					// Eliminamos sus subatributos
 					Vector lista_atributos = ta.getListaComponentes();
@@ -885,13 +868,11 @@ public class Controlador {
 			// Si es una relacion debil no se pueden anadir atributos
 			if (tr.getTipo().equals("Debil")){
 				JOptionPane.showMessageDialog(
-						null,
-						"ERROR.\n" +
+						null,"ERROR.\n" +
 						Lenguaje.text(Lenguaje.NO_ATTRIBUTES_RELATION)+".\n" +
 						Lenguaje.text(Lenguaje.THE_RELATION)+"\""+tr.getNombre()+"\""+ Lenguaje.text(Lenguaje.IS_WEAK)+".\n",
 						Lenguaje.text(Lenguaje.ADD_ENTITY_RELATION),
-						JOptionPane.PLAIN_MESSAGE,
-						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
+						JOptionPane.PLAIN_MESSAGE);
 				return;
 			}
 
@@ -935,9 +916,7 @@ public class Controlador {
 				respuesta = panelOpciones.setActiva(
 						Lenguaje.text(Lenguaje.ISA_RELATION_DELETE)+"\n" +
 						Lenguaje.text(Lenguaje.WISH_CONTINUE),
-						Lenguaje.text(Lenguaje.DELETE_ISA_RELATION),
-						false,
-						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.WARNING)));	
+						Lenguaje.text(Lenguaje.DELETE_ISA_RELATION));	
 			}
 			if (respuesta == 0)
 				this.getTheServiciosRelaciones().eliminarRelacionIsA(tr);
@@ -971,9 +950,7 @@ public class Controlador {
 						Lenguaje.text(Lenguaje.REMOVE_FROM_SYSTEM)+"\n" +
 						tieneAtributos + tieneEntidad+
 						Lenguaje.text(Lenguaje.WISH_CONTINUE),
-						Lenguaje.text(Lenguaje.DELETE_RELATION),
-						false,
-						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.WARNING)));
+						Lenguaje.text(Lenguaje.DELETE_RELATION));
 			}
 			//Si se desea eliminar la relación
 			if (respuesta == 0){
@@ -1061,9 +1038,7 @@ public class Controlador {
 					Lenguaje.text(Lenguaje.DOMAIN)+" \""+td.getNombre()+"\""+ Lenguaje.text(Lenguaje.REMOVE_FROM_SYSTEM)+"\n" +
 					Lenguaje.text(Lenguaje.MODIFYING_ATTRIBUTES_WARNING4)+"\n" +
 					Lenguaje.text(Lenguaje.WISH_CONTINUE),
-					Lenguaje.text(Lenguaje.DELETE_DOMAIN),
-					false,
-					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.WARNING)));
+					Lenguaje.text(Lenguaje.DELETE_DOMAIN));
 			if (respuesta == 0){
 				modelo.tools.TipoDominio valorBase = td.getTipoBase();
 				String dominioEliminado = td.getNombre();
@@ -1164,11 +1139,9 @@ public class Controlador {
 		 */
 		case GUI_Principal_Click_Submenu_Salir:{
 			if (cambios){
-				int respuesta = panelOpcionesPeque.setActiva(
+				int respuesta = panelOpciones.setActiva(
 						Lenguaje.text(Lenguaje.WISH_SAVE),
-						Lenguaje.text(Lenguaje.DBCASE),
-						true,
-						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
+						Lenguaje.text(Lenguaje.DBCASE),true);
 				if (respuesta==1) guardarYSalir();
 				else if (respuesta==0) {
 						theGUIWorkSpace = new GUI_WorkSpace();
@@ -1189,11 +1162,9 @@ public class Controlador {
 		}
 		case GUI_Principal_Click_Salir:{
 			if (cambios){
-				int respuesta = panelOpcionesPeque.setActiva(
+				int respuesta = panelOpciones.setActiva(
 						Lenguaje.text(Lenguaje.WISH_SAVE),
-						Lenguaje.text(Lenguaje.DBCASE),
-						true,
-						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
+						Lenguaje.text(Lenguaje.DBCASE),true);
 				if (respuesta==1) guardarYSalir();
 				else if (respuesta==0) {
 						theGUIWorkSpace = new GUI_WorkSpace();
@@ -1205,11 +1176,9 @@ public class Controlador {
 		}
 		case GUI_Principal_Click_Submenu_Abrir:{
 			if (cambios){
-				int respuesta = panelOpcionesPeque.setActiva(
+				int respuesta = panelOpciones.setActiva(
 						Lenguaje.text(Lenguaje.WISH_SAVE),
-						Lenguaje.text(Lenguaje.DBCASE),
-						true,
-						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
+						Lenguaje.text(Lenguaje.DBCASE),true);
 				if (respuesta==1) {
 						theGUIWorkSpace = new GUI_WorkSpace();
 						theGUIWorkSpace.setControlador(this);
@@ -1245,11 +1214,9 @@ public class Controlador {
 		}
 		case GUI_Principal_Click_Submenu_Nuevo:{
 			if (cambios){
-				int respuesta = panelOpcionesPeque.setActiva(
+				int respuesta = panelOpciones.setActiva(
 						Lenguaje.text(Lenguaje.WISH_SAVE),
-						Lenguaje.text(Lenguaje.DBCASE),
-						true,
-						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
+						Lenguaje.text(Lenguaje.DBCASE),true);
 				if (respuesta==1) {
 						filetemp.delete();
 						this.getTheGUIWorkSpace().nuevoTemp();
@@ -1750,7 +1717,6 @@ public class Controlador {
 			this.getTheGUIAnadirEntidadARelacion().setListaEntidades((Vector)datos);
 			this.getTheGUIQuitarEntidadARelacion().setListaEntidades((Vector)datos);
 			this.getTheGUIEditarCardinalidadEntidad().setListaEntidades((Vector)datos);
-			this.getTheGUIInsertarRelacion().setListaEntidades((Vector)datos);
 			this.getTheGUIInsertarEntidad().setListaEntidades((Vector)datos);
 			break;
 		}
@@ -3437,7 +3403,7 @@ public class Controlador {
 		this.fileguardar = guardar;
 	}
 	
-	public PanelOpciones getPanelOpciones(){
+	public GUI_Pregunta getPanelOpciones(){
 		return this.panelOpciones;
 	}
 	

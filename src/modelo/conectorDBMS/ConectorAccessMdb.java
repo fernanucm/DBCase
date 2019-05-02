@@ -8,12 +8,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-
 import modelo.lenguaje.Lenguaje;
-import modelo.tools.ImagePath;
 
 public class ConectorAccessMdb extends ConectorAccessOdbc {
 
@@ -49,10 +45,9 @@ public class ConectorAccessMdb extends ConectorAccessOdbc {
 			JOptionPane.showMessageDialog(null,
 				Lenguaje.text(Lenguaje.ERROR)+".\n" +
 				"File could not be created. Check permissions and " + 
-				"that there is space enough in the hard drive.", // TODO Internacionalizar
+				"that there is space enough in the hard drive.",
 				Lenguaje.text(Lenguaje.DBCASE),
-				JOptionPane.PLAIN_MESSAGE,
-				new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
+				JOptionPane.PLAIN_MESSAGE);
 			return;
 		}
 		_conexion = DriverManager.getConnection(rutaCompleta, _usuario, _password);

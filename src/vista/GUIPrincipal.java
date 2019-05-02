@@ -58,27 +58,15 @@ import modelo.transfers.TransferConexion;
 import modelo.transfers.TransferDominio;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
+import vista.components.ArbolElementos;
 import vista.components.miMenu;
 import vista.components.GUIPanels.TablaVolumenes;
 import vista.components.GUIPanels.addTransfersPanel;
-import vista.components.GUIPanels.ArbolElementos;
 import vista.components.GUIPanels.reportPanel;
 import vista.diagrama.PanelGrafo;
 import vista.diagrama.PanelThumbnail;
 import vista.tema.Theme;
 
-/**
- * This code was edited or generated using CloudGarden's Jigloo
- * SWT/Swing GUI Builder, which is free for non-commercial
- * use. If Jigloo is being used commercially (ie, by a corporation,
- * company or business for any purpose whatever) then you
- * should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details.
- * Use of Jigloo implies acceptance of these licensing terms.
- * A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
- * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
- * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
- */
 @SuppressWarnings({ "rawtypes", "unchecked", "serial" })
 public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private Controlador controlador;
@@ -201,20 +189,17 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		UIManager.put("ToolBar.font",  theme.font());
 		UIManager.put("ToolTip.font",  theme.font());
 		UIManager.put("Tree.font",  theme.font());
-		
 		UIManager.put("nimbusBase", theme.main());
 		UIManager.put("control", theme.control());
 		UIManager.put("nimbusSelectionBackground", theme.SelectionBackground());
 		UIManager.put("text", theme.fontColor());
 		UIManager.put("nimbusSelectedText", theme.fontColor());
 		UIManager.put("nimbusFocus", theme.SelectionBackground());
-		
 		UIManager.put("menu", theme.background());
 		UIManager.put("menuText", theme.background());
 		UIManager.put("nimbusBlueGrey", theme.background());
 		UIManager.put("nimbusBorder", theme.background());
 		UIManager.put("nimbusSelection", theme.SelectionBackground());
-		
 		UIManager.put("Tree.collapsedIcon", false);
 		UIManager.put("Tree.expandedIcon", false);
         for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) 
@@ -341,7 +326,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	}
 	
 	private void initCodes() {
-		modeloText = new reportPanel(theme);
+		modeloText = new reportPanel();
 		BorderLayout panelGeneracionLayout = new BorderLayout();
 		panelGeneracion.setLayout(panelGeneracionLayout);
 		JSplitPane codesSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
@@ -435,7 +420,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		codesSplit.add(modeloPanel,JSplitPane.TOP);
 		codesSplit.add(codePanel,JSplitPane.BOTTOM);
 				
-		codigoText = new reportPanel(theme);
+		codigoText = new reportPanel();
 
 		codePanel.add(codigoText.getPanel(), BorderLayout.CENTER);
 	}
@@ -485,11 +470,10 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				// Comprobar si hay codigo
 				if (!scriptGeneradoCorrectamente){
 					JOptionPane.showMessageDialog(null,
-							Lenguaje.text(Lenguaje.ERROR)+".\n" +
-							Lenguaje.text(Lenguaje.MUST_GENERATE_SCRIPT_EX),
-							Lenguaje.text(Lenguaje.DBCASE),
-							JOptionPane.PLAIN_MESSAGE,
-							new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
+						Lenguaje.text(Lenguaje.ERROR)+".\n" +
+						Lenguaje.text(Lenguaje.MUST_GENERATE_SCRIPT_EX),
+						Lenguaje.text(Lenguaje.DBCASE),
+						JOptionPane.PLAIN_MESSAGE);
 					return;
 				}
 				

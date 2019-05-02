@@ -64,7 +64,7 @@ public class addTransfersPanel extends JPanel{
 		anadirAttribute.setVerticalTextPosition(JLabel.BOTTOM);
 		anadirAttribute.setHorizontalTextPosition(JLabel.CENTER);
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.add(Box.createVerticalGlue());
+		this.add(Box.createRigidArea(new Dimension(0,30)));
 		this.add(anadirEntidad);
 		this.add(Box.createRigidArea(new Dimension(0,30)));
 		this.add(anadirRelacion);

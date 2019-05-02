@@ -1,4 +1,4 @@
-package vista.components.GUIPanels;
+package vista.components;
 
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;

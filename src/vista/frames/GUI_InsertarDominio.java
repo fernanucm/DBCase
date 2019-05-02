@@ -4,18 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Vector;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
-
 import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
@@ -23,73 +18,32 @@ import modelo.tools.ImagePath;
 import modelo.tools.TipoDominio;
 import modelo.transfers.TransferDominio;
 
-/**
- * This code was edited or generated using CloudGarden's Jigloo
- * SWT/Swing GUI Builder, which is free for non-commercial
- * use. If Jigloo is being used commercially (ie, by a corporation,
- * company or business for any purpose whatever) then you
- * should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details.
- * Use of Jigloo implies acceptance of these licensing terms.
- * A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
- * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
- * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
- */
-@SuppressWarnings({"rawtypes" ,"unchecked"})
-public class GUI_InsertarDominio extends javax.swing.JDialog  implements KeyListener, MouseListener {
-	private static final long serialVersionUID = 1L;
+@SuppressWarnings({"rawtypes" ,"unchecked", "serial"})
+public class GUI_InsertarDominio extends Parent_GUI {
 	private Controlador controlador;
-	// Variables declaration - do not modify
-	private JButton botonCancelar;
-	private JTextField cajaNombre;
+	private JTextField cajaNombre = this.getCajaNombre(25, 40);
 	private JTextField cajaValores;
 	private JComboBox comboTipo;
-	private JTextPane explicacion;
-	private JTextPane textType;
-	private JTextPane textValues;
-	private JLabel labelIcono;
+	private JLabel explicacion;
+	private JLabel textType;
+	private JLabel textValues;
 	private JButton botonInsertar;
-	// End of variables declaration
 
 	public GUI_InsertarDominio() {
 		initComponents();
 	}
 
 	private void initComponents() {
-
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle(Lenguaje.text(Lenguaje.INSERT_NEW_DOMAIN));
 		setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
 		setResizable(false);
 		setModal(true);
 		getContentPane().setLayout(null);
-		this.setSize(380, 230);
+		setSize(300, 250);
 		{
-			botonCancelar = new JButton();
-			getContentPane().add(botonCancelar);
-			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
-			botonCancelar.setBounds(280, 162, 80, 25);
-			botonCancelar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent evt) {
-					botonCancelarActionPerformed(evt);
-				}
-			});
-			botonCancelar.addKeyListener(new KeyListener() {
-				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==37){botonInsertar.grabFocus();}
-				}
-				public void keyReleased(KeyEvent e) {}
-				public void keyTyped(KeyEvent e) {}
-			});
-			botonCancelar.setMnemonic(Lenguaje.text(Lenguaje.CANCEL).charAt(0));
-		}
-		{
-			botonInsertar = new JButton();
+			botonInsertar = botonInsertar(160,180);
 			getContentPane().add(botonInsertar);
-			botonInsertar.setText(Lenguaje.text(Lenguaje.INSERT));
-			botonInsertar.setBounds(195, 162, 80, 25);
 			botonInsertar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					botonInsertarActionPerformed(evt);
@@ -99,56 +53,46 @@ public class GUI_InsertarDominio extends javax.swing.JDialog  implements KeyList
 				public void keyPressed(KeyEvent e) {
 					if(e.getKeyCode()==10){botonInsertarActionPerformed(null);}
 					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==39){botonCancelar.grabFocus();}
 				}
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonInsertar.setMnemonic(Lenguaje.text(Lenguaje.INSERT).charAt(0));
 		}
 		{
-			labelIcono = new JLabel();
-			getContentPane().add(labelIcono);
-			labelIcono.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.TECLADO)));
-			labelIcono.setBounds(12, 70, 100, 100);
-		}
-		{
-			explicacion = new JTextPane();
+			explicacion = new JLabel();
 			getContentPane().add(explicacion);
+			explicacion.setFont(theme.font());
 			explicacion.setText(Lenguaje.text(Lenguaje.NAME));
-			explicacion.setEditable(false);
 			explicacion.setOpaque(false);
-			explicacion.setBounds(124, 10, 348, 20);
+			explicacion.setBounds(25, 10, 348, 25);
 			explicacion.setFocusable(false);
 		}
 		{
-			textType = new JTextPane();
+			textType = new JLabel();
 			getContentPane().add(textType);
+			textType.setFont(theme.font());
 			textType.setText(Lenguaje.text(Lenguaje.TYPE));
-			textType.setEditable(false);
 			textType.setOpaque(false);
-			textType.setBounds(124, 55, 348, 20);
+			textType.setBounds(25, 65, 348, 25);
 			textType.setFocusable(false);
 		}
 		{
-			textValues = new JTextPane();
+			textValues = new JLabel();
 			getContentPane().add(textValues);
+			textValues.setFont(theme.font());
 			textValues.setText(Lenguaje.text(Lenguaje.VALUES));
-			textValues.setEditable(false);
 			textValues.setOpaque(false);
-			textValues.setBounds(124, 100, 348, 20);
+			textValues.setBounds(25, 115, 348, 25);
 			textValues.setFocusable(false);
 		}
 		{
-			cajaNombre = new JTextField();
 			getContentPane().add(cajaNombre);
-			cajaNombre.setBounds(124, 30, 236, 20);
-			cajaNombre.addKeyListener(general);
 		}
 		{
 			comboTipo = new JComboBox();
 			getContentPane().add(comboTipo);
-			comboTipo.setBounds(124, 75, 236, 20);
+			comboTipo.setFont(theme.font());
+			comboTipo.setBounds(25, 90, 236, 25);
 			//Creamos lista de tipos básicos
 			Object[] items = modelo.tools.TipoDominio.values();
 			Object[] items2 = new Object[items.length-1];
@@ -158,16 +102,16 @@ public class GUI_InsertarDominio extends javax.swing.JDialog  implements KeyList
 				items2[i]=items[i];
 				i++;
 			}
-			for (int j=i+1; j<items.length;j++){
-				items2[j-1]=items[j];
-			}
+			for (int j=i+1; j<items.length;j++) items2[j-1]=items[j];
 			comboTipo.setModel(new javax.swing.DefaultComboBoxModel(items2));
 			comboTipo.addKeyListener(general);
 		}
 		{
 			cajaValores = new JTextField();
 			getContentPane().add(cajaValores);
-			cajaValores.setBounds(124, 120, 236, 20);
+			cajaValores.setFont(theme.font());
+			cajaValores.setForeground(theme.labelFontColorDark());
+			cajaValores.setBounds(25, 140, 236, 25);
 			cajaValores.addKeyListener(general);
 		}
 		this.addMouseListener(this);
@@ -203,21 +147,6 @@ public class GUI_InsertarDominio extends javax.swing.JDialog  implements KeyList
 			}
 		}
 	} 
-	public void keyReleased(KeyEvent arg0) {}
-
-	public void keyTyped(KeyEvent arg0) {}
-
-	public void mouseEntered( MouseEvent e ) {} 
-	
-	public void mouseClicked(MouseEvent arg0) {
-		this.requestFocus();
-	}
-
-	public void mouseExited(MouseEvent arg0) {}
-
-	public void mousePressed(MouseEvent arg0) {}
-
-	public void mouseReleased(MouseEvent arg0) {}
 	
 	//Oyente para todos los elementos
 	private KeyListener general = new KeyListener() {
@@ -232,7 +161,6 @@ public class GUI_InsertarDominio extends javax.swing.JDialog  implements KeyList
 	/*
 	 * Activar y desactivar el dialogo
 	 */
-
 	public void setActiva(){
 		this.centraEnPantalla();
 		this.cajaNombre.setText("");
@@ -254,22 +182,7 @@ public class GUI_InsertarDominio extends javax.swing.JDialog  implements KeyList
 	/*
 	 * Utilidades
 	 */
-	private void centraEnPantalla(){
-		// Tamano de la pantalla
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		// Alto
-		String altoString = String.valueOf(this.getSize().getWidth());
-		altoString = altoString.substring(0,altoString.indexOf("."));
-		int altoInt = Integer.parseInt(altoString);
-		// Ancho
-		String anchoString = String.valueOf(this.getSize().getHeight());
-		anchoString = anchoString.substring(0,anchoString.indexOf("."));
-		int anchoInt = Integer.parseInt(anchoString);
-
-		setBounds((screenSize.width-altoInt)/2, (screenSize.height-anchoInt)/2, altoInt, anchoInt);
-	}
-	
-//TODO Nota: deberiamos controlar repeticiones y más casos raros
+	//TODO Nota: deberiamos controlar repeticiones y más casos raros
 	private Vector listaValores(){
 		Vector v = new Vector();
 		String s = this.cajaValores.getText();
@@ -277,19 +190,12 @@ public class GUI_InsertarDominio extends javax.swing.JDialog  implements KeyList
 		int comilla1 = s.indexOf("'");
 		int comilla2 = s.indexOf("'", comilla1+1);
 		int pos1;
-		if (comilla2!= -1){//tener en cuenta las comas que no esten entre comillas
-			pos1 = s.indexOf(",", comilla2);
-		}
-		else
-			pos1 = s.indexOf(",");
+		if (comilla2!= -1) pos1 = s.indexOf(",", comilla2);
+		else pos1 = s.indexOf(",");
 		while(pos0 != -1 ){
 			String subS;
-			if (pos1 !=-1){ 
-				subS = s.substring(pos0, pos1);
-			}
-			else{
-				subS = s.substring(pos0, s.length());
-			}
+			if (pos1 !=-1) subS = s.substring(pos0, pos1);
+			else subS = s.substring(pos0, s.length());
 			pos0 = pos1;
 			pos1 = s.indexOf (",",pos1+1);
 			if (subS.contains("'")){
@@ -303,17 +209,14 @@ public class GUI_InsertarDominio extends javax.swing.JDialog  implements KeyList
 				subS = subS.replaceAll(" ","");
 				subS = subS.replaceAll(",","");
 			}
-			
 			v.add(subS);
 		}
 		return v;
 	}
-
 	
 	/*
 	 * Getters y Setters
 	 */
-		
 	public Controlador getControlador() {
 		return controlador;
 	}
@@ -321,5 +224,4 @@ public class GUI_InsertarDominio extends javax.swing.JDialog  implements KeyList
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
 	}
-
 }

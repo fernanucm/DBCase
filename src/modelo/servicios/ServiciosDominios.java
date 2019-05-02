@@ -413,7 +413,7 @@ public class ServiciosDominios {
 							    	Vector v = new Vector();
 									v.add(td);									
 									v.add(Lenguaje.text(Lenguaje.INCORRECT_VALUE_EX) +
-											" '20081125','281125 12','281125 12:34:00','281125 12:34:00.200' ");
+											" '20201125','281125 12','281125 12:34:00','281125 12:34:00.200' ");
 									controlador.mensajeDesde_SD(TC.SD_InsertarDominio_ERROR_ValorNoValido, v);
 									return false;
 							    }
@@ -428,7 +428,7 @@ public class ServiciosDominios {
 								   	Vector v = new Vector();
 							    	v.add(td);							
 							    	v.add(Lenguaje.text(Lenguaje.INCORRECT_VALUE_EX) +
-											" '20081125','20081125 12','20081125 12:34:00','20081125 12:34:00.200' ");
+											" '20231125','20231125 12','20201125 12:34:00','20191125 12:34:00.200' ");
 							    	controlador.mensajeDesde_SD(TC.SD_InsertarDominio_ERROR_ValorNoValido, v);
 							    	return false;
 							    }	
@@ -438,7 +438,7 @@ public class ServiciosDominios {
 						Vector v = new Vector();
 				    	v.add(td);		
 				    	v.add(Lenguaje.text(Lenguaje.INCORRECT_VALUE_EX) +
-								" '20081125','20081125 12','20081125 12:34:00','20081125 12:34:00.200' ");
+								" '20191125','20251125 12','20121125 12:34:00','20081125 12:34:00.200' ");
 				    	controlador.mensajeDesde_SD(TC.SD_InsertarDominio_ERROR_ValorNoValido, v);
 				    	return false;
 					}

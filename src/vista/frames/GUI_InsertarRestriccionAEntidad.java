@@ -1,55 +1,37 @@
 package vista.frames;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Vector;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-
 import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
 import modelo.tools.ImagePath;
 import modelo.transfers.TransferEntidad;
+import vista.components.CustomCellEditor;
 
-/**
- * This code was edited or generated using CloudGarden's Jigloo
- * SWT/Swing GUI Builder, which is free for non-commercial
- * use. If Jigloo is being used commercially (ie, by a corporation,
- * company or business for any purpose whatever) then you
- * should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details.
- * Use of Jigloo implies acceptance of these licensing terms.
- * A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
- * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
- * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
- */
-public class GUI_InsertarRestriccionAEntidad extends javax.swing.JDialog  implements KeyListener, MouseListener {
+@SuppressWarnings("serial")
+public class GUI_InsertarRestriccionAEntidad extends Parent_GUI {
 
-	private static final long serialVersionUID = 1L;
 	private Controlador controlador;
 	private TransferEntidad entidad;
-	// Variables declaration - do not modify
-	private JButton botonCancelar;
-	private JLabel labelIcono;
 	private JScrollPane jScrollPane1;
 	private JButton botonNueva;
 	private JButton botonEliminar;
 	private JButton botonAceptar;
 	private JTable tabla;
-	// End of variables declaration
 
 	public GUI_InsertarRestriccionAEntidad() {
 		initComponents();
@@ -62,34 +44,15 @@ public class GUI_InsertarRestriccionAEntidad extends javax.swing.JDialog  implem
 		setResizable(false);
 		setModal(true);
 		getContentPane().setLayout(null);
-		this.setSize(497, 367);
-		{
-			labelIcono = new JLabel();
-			getContentPane().add(labelIcono);
-			labelIcono.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.TECLADO)));
-			labelIcono.setBounds(12, 60, 100, 100);
-		}
+		this.setSize(400, 350);
 		{
 			jScrollPane1 = new JScrollPane();
 			getContentPane().add(jScrollPane1);
-			jScrollPane1.setBounds(130, 34, 310, 182);
-			{
-				TableModel tablaModel = 
-					new DefaultTableModel(
-							new String[][] { { "" } },
-							new String[] { Lenguaje.text(Lenguaje.RESTRICTIONS)+":" });
-				tabla = new JTable();
-				jScrollPane1.setViewportView(tabla);
-				tabla.setModel(tablaModel);
-				tabla.setBounds(58, 16, 307, 81);
-				tabla.setPreferredSize(new java.awt.Dimension(307, 139));
-			}
+			jScrollPane1.setBounds(0, 0, 340, 250);
 		}
 		{
-			botonAceptar = new JButton();
+			botonAceptar = boton(235, 275,Lenguaje.text(Lenguaje.ACCEPT));
 			getContentPane().add(botonAceptar);
-			botonAceptar.setText(Lenguaje.text(Lenguaje.ACCEPT));
-			botonAceptar.setBounds(288, 291, 80, 25);
 			botonAceptar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					botonAceptarActionPerformed(evt);
@@ -99,39 +62,16 @@ public class GUI_InsertarRestriccionAEntidad extends javax.swing.JDialog  implem
 				public void keyPressed(KeyEvent e) {
 					if(e.getKeyCode()==10){botonCancelarActionPerformed(null);}
 					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==39){botonCancelar.grabFocus();}
 				}
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonAceptar.setMnemonic(Lenguaje.text(Lenguaje.ACCEPT).charAt(0));
-		}
-		{
-			botonCancelar = new JButton();
-			getContentPane().add(botonCancelar);
-			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
-			botonCancelar.setBounds(379, 291, 80, 25);
-			botonCancelar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent evt) {
-					botonCancelarActionPerformed(evt);
-				}
-			});
-			botonCancelar.addKeyListener(new KeyListener() {
-				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==37){botonAceptar.grabFocus();}
-				}
-				public void keyReleased(KeyEvent e) {}
-				public void keyTyped(KeyEvent e) {}
-			});
-			botonCancelar.setMnemonic(Lenguaje.text(Lenguaje.CANCEL).charAt(0));
 		}
 		{
 			botonNueva = new JButton();
 			getContentPane().add(botonNueva);
-			botonNueva.setText(Lenguaje.text(Lenguaje.NEW));
-			botonNueva.setBounds(288, 237, 80, 25);
+			botonNueva.setText("+");
+			botonNueva.setBounds(350, 10, 45, 45);
 			botonNueva.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyTyped(KeyEvent e) {}
@@ -148,13 +88,12 @@ public class GUI_InsertarRestriccionAEntidad extends javax.swing.JDialog  implem
 					botonNuevaActionPerformed(evt);
 				}
 			});
-			botonNueva.setMnemonic(Lenguaje.text(Lenguaje.NEW).charAt(0));
 		}
 		{
 			botonEliminar = new JButton();
 			getContentPane().add(botonEliminar);
-			botonEliminar.setText(Lenguaje.text(Lenguaje.DELETE));
-			botonEliminar.setBounds(379, 237, 80, 25);
+			botonEliminar.setText("-");
+			botonEliminar.setBounds(350, 55, 45, 45);
 			botonEliminar.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyTyped(KeyEvent e) {}
@@ -162,8 +101,8 @@ public class GUI_InsertarRestriccionAEntidad extends javax.swing.JDialog  implem
 				public void keyReleased(KeyEvent e) {}
 				@Override
 				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==37){botonNueva.grabFocus();}
+					if(e.getKeyCode()==27) botonCancelarActionPerformed(null);
+					else if(e.getKeyCode()==37) botonNueva.grabFocus();
 				}
 			});
 			botonEliminar.addActionListener(new ActionListener() {
@@ -171,17 +110,27 @@ public class GUI_InsertarRestriccionAEntidad extends javax.swing.JDialog  implem
 					botonEliminarActionPerformed(evt);
 				}
 			});
-			botonEliminar.setMnemonic(Lenguaje.text(Lenguaje.DELETE).charAt(0));
 		}
-
 		this.addMouseListener(this);
-		TableModel tablaModel = 
-			new DefaultTableModel(
-					new String[][] { { "" } },
-					new String[] { Lenguaje.text(Lenguaje.RESTRICTIONS)+":" });
+		TableModel tablaModel = new DefaultTableModel(new String[][] {{""}},new String[]{ Lenguaje.text(Lenguaje.RESTRICTIONS)+":"});
 		tabla = new JTable();
 		jScrollPane1.setViewportView(tabla);
 		tabla.setModel(tablaModel);
+		tabla.setFont(theme.font());
+		tabla.setBackground(theme.background());
+		DefaultTableCellRenderer r = new DefaultTableCellRenderer() {
+		    @Override
+		    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
+		        super.getTableCellRendererComponent(table, value, isSelected, hasFocus,row, column);
+		        setFont(theme.font());
+		        return this;
+		    }
+		};
+        setForeground(theme.background());
+        tabla.setDefaultEditor(Object.class, CustomCellEditor.make());
+		tabla.getColumnModel().getColumn(0).setCellRenderer(r);
+		tabla.setRowHeight(25);
+		tabla.getTableHeader().setReorderingAllowed(false);//columnas fijadas
 		this.addKeyListener(this);
 	}
 
@@ -238,9 +187,7 @@ public class GUI_InsertarRestriccionAEntidad extends javax.swing.JDialog  implem
 				}
 				i++;
 			}
-			TableModel tablaModel = 
-				new DefaultTableModel(
-						items,
+			TableModel tablaModel = new DefaultTableModel(items,
 						new String[] { Lenguaje.text(Lenguaje.RESTRICTIONS)+":" });
 			tabla.setModel(tablaModel);
 			
@@ -262,23 +209,6 @@ public class GUI_InsertarRestriccionAEntidad extends javax.swing.JDialog  implem
 			}
 		}
 	} 
-	public void keyReleased(KeyEvent arg0) {}
-
-	public void keyTyped(KeyEvent arg0) {}
-
-	public void mouseEntered( MouseEvent e ) {} 
-	
-	public void mouseClicked(MouseEvent arg0) {
-		this.requestFocus();
-	}
-
-	public void mouseExited(MouseEvent arg0) {}
-
-	public void mousePressed(MouseEvent arg0) {}
-
-	public void mouseReleased(MouseEvent arg0) {}
-	
-	
 		
 	/*
 	 * Activar y desactivar el dialogo
@@ -304,21 +234,6 @@ public class GUI_InsertarRestriccionAEntidad extends javax.swing.JDialog  implem
 	/*
 	 * Utilidades
 	 */
-	private void centraEnPantalla(){
-		// Tamano de la pantalla
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		// Alto
-		String altoString = String.valueOf(this.getSize().getWidth());
-		altoString = altoString.substring(0,altoString.indexOf("."));
-		int altoInt = Integer.parseInt(altoString);
-		// Ancho
-		String anchoString = String.valueOf(this.getSize().getHeight());
-		anchoString = anchoString.substring(0,anchoString.indexOf("."));
-		int anchoInt = Integer.parseInt(anchoString);
-
-		setBounds((screenSize.width-altoInt)/2, (screenSize.height-anchoInt)/2, altoInt, anchoInt);
-	}
-	
 	private void muestraRestricciones(){
 		String[][] items = new String[entidad.getListaRestricciones().size()][1];
 		int i=0;
@@ -326,19 +241,14 @@ public class GUI_InsertarRestriccionAEntidad extends javax.swing.JDialog  implem
 			items[i][0]=entidad.getListaRestricciones().get(i).toString();
 			i++;
 		}
-		TableModel tablaModel = 
-			new DefaultTableModel(
-					items,
+		TableModel tablaModel = new DefaultTableModel(items,
 					new String[] { Lenguaje.text(Lenguaje.RESTRICTIONS)+":" });
 		tabla.setModel(tablaModel);
 	}
 	
-
-	
 	/*
 	 * Getters y Setters
 	 */
-		
 	public Controlador getControlador() {
 		return controlador;
 	}
@@ -350,6 +260,4 @@ public class GUI_InsertarRestriccionAEntidad extends javax.swing.JDialog  implem
 	public void setEntidad(TransferEntidad entidad){
 		this.entidad = entidad;
 	}
-	
-	
 }

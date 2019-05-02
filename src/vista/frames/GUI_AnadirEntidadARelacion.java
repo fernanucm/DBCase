@@ -4,10 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Vector;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -15,9 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
-
 import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
@@ -26,40 +21,25 @@ import modelo.tools.ImagePath;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
 
-/**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
 @SuppressWarnings({"rawtypes" ,"unchecked", "serial"})
-public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements KeyListener, MouseListener{
+public class GUI_AnadirEntidadARelacion extends Parent_GUI{
 
 	private Controlador controlador;
 	private Vector<TransferEntidad> listaEntidades;
-	// Variables declaration - do not modify
 	private JComboBox comboEntidades;
-	private JButton botonCancelar;
 	private JLabel jLabel1;
 	private JTextField cajaFinal;
 	private JRadioButton buttonMaxN;
 	private JRadioButton buttonMax1;
 	private JRadioButton buttonMinMax;
-	private JButton botonAnadir;
+	private JButton botonInsertar;
 	private JTextField cajaInicio;
-	private JTextPane explicacion2;
-	private JTextPane explicacion;
+	private JLabel explicacion2;
+	private JLabel explicacion;
 	private TransferRelacion relacion;
-	private JTextPane explicacion3;
+	private JLabel explicacion3;
 	private JTextField cajaRol;
 	private Vector<String> items;
-	
 	
 	public GUI_AnadirEntidadARelacion() {
 		initComponents();
@@ -80,12 +60,11 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
         getContentPane().add(getJLabel1());
         getContentPane().add(getExplicacion3());
         getContentPane().add(getCajaRol());
-        getContentPane().add(getBotonCancelar());
-        getContentPane().add(getBotonAnadir());
+        getContentPane().add(getBotonInsertar());
         getContentPane().add(getButton1a1());
         getContentPane().add(getButtonNaN());
         getContentPane().add(getButtonMinMax());
-        this.setSize(369, 342);
+        this.setSize(300,350);
         this.addMouseListener(this);
 		this.addKeyListener(this);
     }
@@ -100,7 +79,6 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 		// Generamos los items del comboEntidades
 		items = this.generaItems();
 		//Los ordenamos alfabéticamente
-		quicksort((Vector<String>)items);
 		if(items.size() == 0)
 			JOptionPane.showMessageDialog(
 				null,
@@ -109,18 +87,18 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 				(Lenguaje.text(Lenguaje.IMPOSIBLE_TO_INSERT_ENTITY))+"\n" +
 				(Lenguaje.text(Lenguaje.NO_ENTITY))+"\n",
 				(Lenguaje.text(Lenguaje.INSERT_ATTRIBUTE)),
-				JOptionPane.PLAIN_MESSAGE,
-				new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));	
+				JOptionPane.PLAIN_MESSAGE);	
 		else{
 			this.cajaInicio.setText("");
 			this.cajaFinal.setText("");
-			this.cajaFinal.setEditable(false);
 			this.buttonMax1.setEnabled(true);
 			this.buttonMax1.setSelected(false);
 			this.buttonMaxN.setEnabled(true);
 			this.buttonMaxN.setSelected(true);
 			this.buttonMinMax.setEnabled(true);
 			this.buttonMinMax.setSelected(false);
+			this.cajaInicio.setEnabled(false);
+			this.cajaFinal.setEnabled(false);
 			this.comboEntidades.setModel(new javax.swing.DefaultComboBoxModel(items));
 			this.comboEntidades.setSelectedItem(primerItem());
 			this.cajaRol.setText("");
@@ -136,7 +114,6 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 	     }
 	 };
 
-	//@SuppressWarnings("unchecked")
 	private Vector<String> generaItems(){
 		// Generamos los items
 		int cont = 0;
@@ -245,21 +222,6 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 			}
 		}
 	} 
-	public void keyReleased(KeyEvent arg0) {}
-
-	public void keyTyped(KeyEvent arg0) {}
-
-	public void mouseEntered( MouseEvent e ) {} 
-	
-	public void mouseClicked(MouseEvent arg0) {
-		this.requestFocus();
-	}
-
-	public void mouseExited(MouseEvent arg0) {}
-
-	public void mousePressed(MouseEvent arg0) {}
-
-	public void mouseReleased(MouseEvent arg0) {}
 	
 	//Oyente para todos los elementos
 	private KeyListener general = new KeyListener() {
@@ -274,12 +236,11 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 	/*
 	 * Interfaz
 	 */
-	
-	private JTextPane getExplicacion() {
+	private JLabel getExplicacion() {
 		if(explicacion == null) {
-			explicacion = new JTextPane();
+			explicacion = new JLabel();
+			explicacion.setFont(theme.font());
 			explicacion.setText(Lenguaje.text(Lenguaje.SELECT_ENTITY));
-			explicacion.setEditable(false);
 			explicacion.setOpaque(false);
 			explicacion.setBounds(25, 8, 115, 24);
 			explicacion.setFocusable(false);
@@ -287,34 +248,35 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 		return explicacion;
 	}
 	
-
-	
 	private JComboBox getComboEntidades() {
 		if(comboEntidades == null) {
 			comboEntidades = new JComboBox();
-			comboEntidades.setBounds(25, 35, 208, 21);
+			comboEntidades.setFont(theme.font());
+			comboEntidades.setBounds(25, 35, 231, 27);
 		}
 		comboEntidades.addKeyListener(general);
 		return comboEntidades;
 	}
 	
-	private JTextPane getExplicacion2() {
+	private JLabel getExplicacion2() {
 		if(explicacion2 == null) {
-			explicacion2 = new JTextPane();
+			explicacion2 = new JLabel();
+			explicacion2.setFont(theme.font());
 			explicacion2.setText(Lenguaje.text(Lenguaje.WRITE_NUMBERS_RELATION));
-			explicacion2.setEditable(false);
 			explicacion2.setOpaque(false);
-			explicacion2.setBounds(25, 63, 107, 24);
+			explicacion2.setBounds(25, 65, 107, 24);
 			explicacion2.setFocusable(false);
 		}
 		return explicacion2;
 	}
 	
-	
 	private JTextField getCajaInicio() {
 		if(cajaInicio == null) {
 			cajaInicio = new JTextField();
-			cajaInicio.setEditable(false);
+			cajaInicio.setEditable(true);
+			cajaInicio.setEnabled(true);
+			cajaInicio.setFont(theme.font());
+			cajaInicio.setForeground(theme.labelFontColorDark());
 			cajaInicio.setBounds(86, 160, 40, 25);
 			cajaInicio.addKeyListener(general);
 		}
@@ -324,8 +286,11 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 	private JTextField getCajaFinal() {
 		if(cajaFinal == null) {
 			cajaFinal = new JTextField();
-			cajaFinal.setBounds(174, 160, 40, 25);
-			cajaFinal.setEnabled(false);
+			cajaFinal.setBounds(176, 160, 40, 25);
+			cajaFinal.setFont(theme.font());
+			cajaFinal.setForeground(theme.labelFontColorDark());
+			cajaFinal.setEnabled(true);
+			cajaFinal.setEditable(true);
 			cajaFinal.addKeyListener(general);
 		}
 		return cajaFinal;
@@ -334,18 +299,19 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 	private JLabel getJLabel1() {
 		if(jLabel1 == null) {
 			jLabel1 = new JLabel();
-			jLabel1.setEnabled(false);
+			jLabel1.setEnabled(true);
+			jLabel1.setFont(theme.font());
 			jLabel1.setText(Lenguaje.text(Lenguaje.TO));
-			jLabel1.setBounds(140, 160, 60, 25);
+			jLabel1.setBounds(138, 160, 60, 25);
 		}
 		return jLabel1;
 	}
 	
-	private JTextPane getExplicacion3() {
+	private JLabel getExplicacion3() {
 		if(explicacion3 == null) {
-			explicacion3 = new JTextPane();
+			explicacion3 = new JLabel();
+			explicacion3.setFont(theme.font());
 			explicacion3.setText(Lenguaje.text(Lenguaje.WRITE_ROLL));
-			explicacion3.setEditable(false);
 			explicacion3.setOpaque(false);
 			explicacion3.setBounds(25, 194, 147, 24);
 			explicacion3.setFocusable(false);
@@ -356,119 +322,36 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 	private JTextField getCajaRol() {
 		if(cajaRol == null) {
 			cajaRol = new JTextField();
-			cajaRol.setBounds(25, 227, 208, 24);
+			cajaRol.setFont(theme.font());
+			cajaRol.setForeground(theme.labelFontColorDark());
+			cajaRol.setBounds(25, 227, 232, 27);
 		}
 		cajaRol.addKeyListener(general);
 		return cajaRol;
 	}
 	
-	
-	private JButton getBotonCancelar() {
-		if(botonCancelar == null) {
-			botonCancelar = new JButton();
-			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
-			botonCancelar.setBounds(237, 269, 80, 25);
-			botonCancelar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent evt) {
-					botonCancelarActionPerformed(evt);
-				}
-			});
-			botonCancelar.addKeyListener(new KeyListener() {
-				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==37){botonAnadir.grabFocus();}
-				}
-				public void keyReleased(KeyEvent e) {}
-				public void keyTyped(KeyEvent e) {}
-			});
-			botonCancelar.setMnemonic(	Lenguaje.text(Lenguaje.CANCEL).charAt(0));
-		}
-		return botonCancelar;
-	}
-	
-	private JButton getBotonAnadir() {
-		if(botonAnadir == null) {
-			botonAnadir = new JButton();
-			botonAnadir.setText(Lenguaje.text(Lenguaje.INSERT));
-			botonAnadir.setBounds(146, 269, 80, 25);
-			botonAnadir.addActionListener(new ActionListener() {
+	private JButton getBotonInsertar() {
+		if(botonInsertar == null) {
+			botonInsertar = this.botonInsertar(160,280);
+			botonInsertar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					botonAnadirActionPerformed(evt);
 				}
 			});
-			botonAnadir.addKeyListener(new KeyListener() {
+			botonInsertar.addKeyListener(new KeyListener() {
 				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){botonAnadirActionPerformed(null);}
-					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==39){botonCancelar.grabFocus();}
+					if(e.getKeyCode()==10) botonAnadirActionPerformed(null);
 				}
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonAnadir.setMnemonic(Lenguaje.text(Lenguaje.INSERT).charAt(0));
 		}
-		return botonAnadir;
+		return botonInsertar;
 	}
-	
-	/*
-	 * Utilidades
-	 */
-	private void centraEnPantalla(){
-		// Tamano de la pantalla
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		// Alto
-		String altoString = String.valueOf(this.getSize().getWidth());
-		altoString = altoString.substring(0,altoString.indexOf("."));
-		int altoInt = Integer.parseInt(altoString);
-		// Ancho
-		String anchoString = String.valueOf(this.getSize().getHeight());
-		anchoString = anchoString.substring(0,anchoString.indexOf("."));
-		int anchoInt = Integer.parseInt(anchoString);
-
-		setBounds((screenSize.width-altoInt)/2, (screenSize.height-anchoInt)/2, altoInt, anchoInt);
-	}
-	
-//	Utilidades
-	private static void quicksort(Vector<String> a) {
-        quicksort(a, 0, a.size() - 1);
-    }
-
-    // quicksort a[left] to a[right]
-    private static void quicksort(Vector<String> a, int left, int right) {
-        if (right <= left) return;
-        int i = partition(a, left, right);
-        quicksort(a, left, i-1);
-        quicksort(a, i+1, right);
-    }
-
-    // partition a[left] to a[right], assumes left < right
-    private static int partition(Vector<String> a, int left, int right) {
-        int i = left - 1;
-        int j = right;
-        while (true) {
-            while ((a.get(++i).compareToIgnoreCase(a.get(right))<0))      // find item on left to swap
-                ;                               // a[right] acts as sentinel
-            while ((a.get(right).compareToIgnoreCase(a.get(--j))<0))      // find item on right to swap
-                if (j == left) break;           // don't go out-of-bounds
-            if (i >= j) break;                  // check if pointers cross
-            exch(a, i, j);                      // swap two elements into place
-        }
-        exch(a, i, right);                      // swap with partition element
-        return i;
-    }
-    private static void exch(Vector<String> a, int i, int j) {
-        //exchanges++;
-        String swap = a.get(i);
-        a.set(i,a.get(j));
-        a.set(j,swap);
-    }
-	
 
 	/*
 	 * Getters y setters
 	 */
-
 	public Controlador getControlador() {
 		return controlador;
 	}
@@ -497,27 +380,20 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 	 * al desseleccionar*/
 	private void button1a1ItemStateChanged(java.awt.event.ItemEvent evt) {
 		if(this.buttonMax1.isSelected()){
-			//this.button1aN.setEnabled(false);
-			//this.buttonNaN.setEnabled(false);
 			this.buttonMaxN.setSelected(false);
-			//this.buttonMinMax.setEnabled(false);
 			this.buttonMinMax.setSelected(false);
-			this.cajaFinal.setEditable(false);
+			this.cajaInicio.setEnabled(false);
+			this.cajaFinal.setEnabled(false);
 			this.cajaFinal.setText("");
 			this.cajaInicio.setText("");
-			this.cajaInicio.setEditable(false);
-			this.jLabel1.setEnabled(false);
 		}
 		else{
 			if(!this.buttonMax1.isSelected()){
 				this.buttonMaxN.setEnabled(true);
 				this.buttonMinMax.setEnabled(true);
-				this.jLabel1.setEnabled(true);
 			}
 		}
 	}
-	
-
 	
 	/*Al seleccionar la cardinalidad N a N deshabilito el resto de botones  y los habilito 
 	 * al desseleccionar*/
@@ -525,17 +401,15 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 		if(this.buttonMaxN.isSelected()){
 			this.buttonMax1.setSelected(false);
 			this.buttonMinMax.setSelected(false);
-			this.cajaFinal.setEditable(false);
+			this.cajaInicio.setEnabled(false);
+			this.cajaFinal.setEnabled(false);
 			this.cajaFinal.setText("");
 			this.cajaInicio.setText("");
-			this.cajaInicio.setEditable(false);
-			this.jLabel1.setEnabled(false);
 		}
 		else{
 			if(!this.buttonMaxN.isSelected()){
 				this.buttonMax1.setEnabled(true);
 				this.buttonMinMax.setEnabled(true);
-				this.jLabel1.setEnabled(true);
 			}
 		}
 	}
@@ -546,17 +420,13 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 		if(this.buttonMinMax.isSelected()){
 			this.buttonMax1.setSelected(false);
 			this.buttonMaxN.setSelected(false);
-			this.cajaFinal.setEnabled(true);
 			this.cajaInicio.setEnabled(true);
-			this.cajaFinal.setEditable(true);
-			this.cajaInicio.setEditable(true);
+			this.cajaFinal.setEnabled(true);
 		}
 		else{
 			if(!this.buttonMinMax.isSelected()){
-				this.cajaFinal.setEditable(false);
 				this.cajaFinal.setText("");
 				this.cajaInicio.setText("");
-				this.cajaInicio.setEditable(false);
 			}
 		}
 	}
@@ -566,7 +436,7 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 			buttonMax1 = new JRadioButton();
 			buttonMax1.setOpaque(false);
 			buttonMax1.setEnabled(false);
-			//internacionalizar mensaje
+			buttonMax1.setFont(theme.font());
 			buttonMax1.setText(Lenguaje.text(Lenguaje.LABEL1A1));
 			buttonMax1.setBounds(25, 100, 127, 24);
 			buttonMax1.addItemListener(new java.awt.event.ItemListener() {
@@ -589,6 +459,7 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 	private JRadioButton getButtonNaN() {
 		if(buttonMaxN == null) {
 			buttonMaxN = new JRadioButton();
+			buttonMaxN.setFont(theme.font());
 			buttonMaxN.setOpaque(false);
 			buttonMaxN.setSelected(true);
 			buttonMaxN.setText(Lenguaje.text(Lenguaje.LABELNAN));
@@ -600,8 +471,7 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 			});
 			buttonMaxN.addKeyListener(new KeyListener() {
 				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){buttonMaxN.setSelected(
-												!buttonMaxN.isSelected());}
+					if(e.getKeyCode()==10){buttonMaxN.setSelected(!buttonMaxN.isSelected());}
 				}
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
@@ -613,10 +483,11 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 	private JRadioButton getButtonMinMax() {
 		if(buttonMinMax == null) {
 			buttonMinMax = new JRadioButton();
+			buttonMinMax.setFont(theme.font());
 			buttonMinMax.setOpaque(false);
 			buttonMinMax.setEnabled(false);
 			buttonMinMax.setText(Lenguaje.text(Lenguaje.THE));
-			buttonMinMax.setBounds(25, 162, 127, 24);
+			buttonMinMax.setBounds(25, 160, 127, 24);
 			buttonMinMax.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent evt) {
 					buttonMinMaxItemStateChanged(evt);
@@ -624,8 +495,7 @@ public class GUI_AnadirEntidadARelacion extends javax.swing.JDialog implements K
 			});
 			buttonMinMax.addKeyListener(new KeyListener() {
 				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){buttonMinMax.setSelected(
-												!buttonMinMax.isSelected());}
+					if(e.getKeyCode()==10){buttonMinMax.setSelected(!buttonMinMax.isSelected());}
 				}
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}

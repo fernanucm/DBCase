@@ -6,18 +6,13 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Vector;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
-
 import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
@@ -25,36 +20,16 @@ import modelo.tools.ImagePath;
 import modelo.tools.TipoDominio;
 import modelo.transfers.TransferDominio;
 
-/**
- * This code was edited or generated using CloudGarden's Jigloo
- * SWT/Swing GUI Builder, which is free for non-commercial
- * use. If Jigloo is being used commercially (ie, by a corporation,
- * company or business for any purpose whatever) then you
- * should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details.
- * Use of Jigloo implies acceptance of these licensing terms.
- * A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
- * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
- * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
- */
-@SuppressWarnings("rawtypes")
-public class GUI_ModificarDominio extends javax.swing.JDialog implements KeyListener, MouseListener {
+@SuppressWarnings({ "rawtypes", "serial" , "unchecked"})
+public class GUI_ModificarDominio extends Parent_GUI {
 
-	private static final long serialVersionUID = 1L;
 	private Controlador controlador;
 	private TransferDominio dominio;
-	// Variables declaration - do not modify
 	private JTextField cajaValores;
-	private JTextPane explicacion;
-	private JTextPane textoTipo;
-	
+	private JLabel explicacion;
+	private JLabel textoTipo;
 	private JComboBox comboDominios;
-	private JLabel labelIcono;
 	private JButton botonEditar;
-	private JButton botonCancelar;
-	// End of variables declaration
-	
-	
 	
 	public GUI_ModificarDominio() {
 		initComponents();
@@ -68,14 +43,12 @@ public class GUI_ModificarDominio extends javax.swing.JDialog implements KeyList
 		setResizable(false);
 		setModal(true);
 		getContentPane().setLayout(null);
-		getContentPane().add(getBotonCancelar());
 		getContentPane().add(getBotonEditar());
 		getContentPane().add(getCajaValores());
 		getContentPane().add(getComboDominios());
-		getContentPane().add(getLabelIcono());
 		getContentPane().add(getExplicacion());
 		getContentPane().add(getTextoTipo());
-		this.setSize(380, 220);
+		this.setSize(300, 250);
 		this.addMouseListener(this);
 		this.addKeyListener(this);
 	}
@@ -92,135 +65,12 @@ public class GUI_ModificarDominio extends javax.swing.JDialog implements KeyList
 
 	}
 
-	private Runnable doFocus = new Runnable() {
-	     public void run() {
-	         cajaValores.grabFocus();
-	     }
-	 };
-	
-	public void setInactiva(){
-		this.setVisible(false);
-	}
-
-	/*
-	 * Oyentes de los botones
-	 */
-
-
-	private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {
-		// Obtenemos los nuevos valores
-		Vector nuevosValores = this.listaValores();
-		TipoDominio nuevoDominio = (TipoDominio) this.comboDominios.getSelectedItem();
-		
-		// Mandamos el dominio, con sus nuevos valores
-		Vector<Object> v = new Vector<Object>();
-		v.add(this.getDominio());
-		v.add(nuevosValores);
-		v.add(nuevoDominio);
-		/*if(!nuevoTamano.isEmpty())
-			v.add(nuevoTamano);*/
-		
-		controlador.mensajeDesde_GUI(TC.GUIModificarDominio_Click_BotonEditar, v);
-	}
-
-	private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {                                              
-		this.setVisible(false);
-	}
-
-	private void comboDominiosItemStateChanged(java.awt.event.ItemEvent evt) {                                               
-		
-	}
-	public void keyPressed( KeyEvent e ) {
-		switch (e.getKeyCode()){
-			case 27: {
-				this.setInactiva();
-				break;
-			}
-			case 10:{
-				this.botonEditarActionPerformed(null);
-				break;
-			}
-		}
-	} 
-	public void keyReleased(KeyEvent arg0) {}
-
-	public void keyTyped(KeyEvent arg0) {}
-
-	public void mouseEntered( MouseEvent e ) {} 
-	
-	public void mouseClicked(MouseEvent arg0) {
-		this.requestFocus();
-	}
-
-	public void mouseExited(MouseEvent arg0) {}
-
-	public void mousePressed(MouseEvent arg0) {}
-
-	public void mouseReleased(MouseEvent arg0) {}
-	
-	//Oyente para todos los elementos
-	private KeyListener general = new KeyListener() {
-		public void keyPressed(KeyEvent e) {
-			if(e.getKeyCode()==10){botonEditarActionPerformed(null);}
-			if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-		}
-		public void keyReleased(KeyEvent e) {}
-		public void keyTyped(KeyEvent e) {}
-	};
-	
-	/*
-	 * Getters y Setters
-	 */
-
-	public TransferDominio getDominio() {
-		return dominio;
-	}
-
-	public void setDominio(TransferDominio dominio) {
-		this.dominio = dominio;
-	}
-
-	public Controlador getControlador() {
-		return controlador;
-	}
-
-	public void setControlador(Controlador controlador) {
-		this.controlador = controlador;
-	}                
-
 	/*
 	 * Metodos privados
 	 */
-
-	private JButton getBotonCancelar() {
-		if(botonCancelar == null) {
-			botonCancelar = new JButton();
-			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
-			botonCancelar.setBounds(280, 152, 80, 25);
-			botonCancelar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent evt) {
-					botonCancelarActionPerformed(evt);
-				}
-			});
-			botonCancelar.addKeyListener(new KeyListener() {
-				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==37){botonEditar.grabFocus();}
-				}
-				public void keyReleased(KeyEvent e) {}
-				public void keyTyped(KeyEvent e) {}
-			});
-			botonCancelar.setMnemonic(Lenguaje.text(Lenguaje.CANCEL).charAt(0));
-		}
-		return botonCancelar;
-	}
-
 	private JButton getBotonEditar() {
 		if(botonEditar == null) {
-			botonEditar = new JButton();
-			botonEditar.setText(Lenguaje.text(Lenguaje.ACCEPT));
-			botonEditar.setBounds(189, 152, 80, 25);
+			botonEditar = boton(150, 150,Lenguaje.text(Lenguaje.ACCEPT));
 			botonEditar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					botonEditarActionPerformed(evt);
@@ -230,7 +80,6 @@ public class GUI_ModificarDominio extends javax.swing.JDialog implements KeyList
 				public void keyPressed(KeyEvent e) {
 					if(e.getKeyCode()==10){botonEditarActionPerformed(null);}
 					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==39){botonCancelar.grabFocus();}
 				}
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
@@ -249,45 +98,36 @@ public class GUI_ModificarDominio extends javax.swing.JDialog implements KeyList
 		
 		return valores;
 	}
-
-	private JLabel getLabelIcono() {
-		if(labelIcono == null) {
-			labelIcono = new JLabel();
-			labelIcono.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.RATON)));
-			labelIcono.setBounds(18, 49, 102, 107);
-		}
-		return labelIcono;
-	}
 	
 	private JTextField getCajaValores() {
 		if(cajaValores == null) {
 			cajaValores = new JTextField();
+			cajaValores.setFont(theme.font());
+			cajaValores.setForeground(theme.labelFontColorDark());
 			getContentPane().add(cajaValores);
-			cajaValores.setBounds(124, 85, 236, 20);
+			cajaValores.setBounds(25, 110, 236, 30);
 		}
-		cajaValores.addKeyListener(general);
 		return cajaValores;
 	}
 
-	private JTextPane getExplicacion() {
+	private JLabel getExplicacion() {
 		if(explicacion == null) {
-			explicacion = new JTextPane();
+			explicacion = new JLabel();
+			explicacion.setFont(theme.font());
 			explicacion.setText(Lenguaje.text(Lenguaje.VALUES));
-			explicacion.setEditable(false);
 			explicacion.setOpaque(false);
-			explicacion.setBounds(124, 65, 353, 37);
+			explicacion.setBounds(25, 80, 353, 25);
 			explicacion.setFocusable(false);
 		}
 		return explicacion;
 	}
 	
-	private JTextPane getTextoTipo() {
+	private JLabel getTextoTipo() {
 		if(textoTipo == null) {
-			textoTipo = new JTextPane();
+			textoTipo = new JLabel();
 			textoTipo.setText(Lenguaje.text(Lenguaje.TYPE));
-			textoTipo.setEditable(false);
 			textoTipo.setOpaque(false);
-			textoTipo.setBounds(124, 15, 353, 37);
+			textoTipo.setBounds(25, 10, 353, 25);
 			textoTipo.setFocusable(false);
 		}
 		return textoTipo;
@@ -297,14 +137,13 @@ public class GUI_ModificarDominio extends javax.swing.JDialog implements KeyList
 	private JComboBox getComboDominios() {
 		if(comboDominios == null) {
 			comboDominios = new JComboBox();
-			//.setModel(new javax.swing.DefaultComboBoxModel(TipoDominio.values()));
-			comboDominios.setBounds(124, 35, 236, 20);
+			comboDominios.setFont(theme.font());
+			comboDominios.setBounds(25, 40, 236, 25);
 			comboDominios.addItemListener(new ItemListener() {
 				public void itemStateChanged(ItemEvent evt) {
 					comboDominiosItemStateChanged(evt);
 				}
 			});
-			comboDominios.addKeyListener(general);
 		}
 		return comboDominios;
 	}
@@ -312,22 +151,6 @@ public class GUI_ModificarDominio extends javax.swing.JDialog implements KeyList
 	/*
 	 * Utilidades
 	 */
-	private void centraEnPantalla(){
-		// Tamano de la pantalla
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		// Alto
-		String altoString = String.valueOf(this.getSize().getWidth());
-		altoString = altoString.substring(0,altoString.indexOf("."));
-		int altoInt = Integer.parseInt(altoString);
-		// Ancho
-		String anchoString = String.valueOf(this.getSize().getHeight());
-		anchoString = anchoString.substring(0,anchoString.indexOf("."));
-		int anchoInt = Integer.parseInt(anchoString);
-
-		setBounds((screenSize.width-altoInt)/2, (screenSize.height-anchoInt)/2, altoInt, anchoInt);
-	}
-
-	@SuppressWarnings("unchecked")
 	private void actualizaComboDominios() {
 		Object[] items = modelo.tools.TipoDominio.values();
 		Object[] items2 = new Object[items.length-1];
@@ -352,7 +175,6 @@ public class GUI_ModificarDominio extends javax.swing.JDialog implements KeyList
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	private Vector listaValores(){
 		Vector v = new Vector();
 		String s = this.cajaValores.getText();
@@ -392,4 +214,69 @@ public class GUI_ModificarDominio extends javax.swing.JDialog implements KeyList
 		return v;
 	}
 
+	private Runnable doFocus = new Runnable() {
+	     public void run() {
+	         cajaValores.grabFocus();
+	     }
+	 };
+	
+	public void setInactiva(){
+		this.setVisible(false);
+	}
+
+	/*
+	 * Oyentes de los botones
+	 */
+	private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {
+		// Obtenemos los nuevos valores
+		Vector nuevosValores = this.listaValores();
+		TipoDominio nuevoDominio = (TipoDominio) this.comboDominios.getSelectedItem();
+		
+		// Mandamos el dominio, con sus nuevos valores
+		Vector<Object> v = new Vector<Object>();
+		v.add(this.getDominio());
+		v.add(nuevosValores);
+		v.add(nuevoDominio);
+		
+		controlador.mensajeDesde_GUI(TC.GUIModificarDominio_Click_BotonEditar, v);
+	}
+
+	private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {                                              
+		this.setVisible(false);
+	}
+
+	private void comboDominiosItemStateChanged(java.awt.event.ItemEvent evt) {                                               
+		
+	}
+	public void keyPressed( KeyEvent e ) {
+		switch (e.getKeyCode()){
+			case 27: {
+				this.setInactiva();
+				break;
+			}
+			case 10:{
+				this.botonEditarActionPerformed(null);
+				break;
+			}
+		}
+	} 
+	
+	/*
+	 * Getters y Setters
+	 */
+	public TransferDominio getDominio() {
+		return dominio;
+	}
+
+	public void setDominio(TransferDominio dominio) {
+		this.dominio = dominio;
+	}
+
+	public Controlador getControlador() {
+		return controlador;
+	}
+
+	public void setControlador(Controlador controlador) {
+		this.controlador = controlador;
+	}      
 }

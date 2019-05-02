@@ -4,10 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Vector;
-
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -15,9 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
-
 import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
@@ -26,34 +21,16 @@ import modelo.transfers.Transfer;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
 
-/**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
-@SuppressWarnings({"rawtypes" ,"unchecked"})
-public class GUI_EstablecerEntidadPadre extends javax.swing.JDialog  implements KeyListener, MouseListener {
 
-	private static final long serialVersionUID = 1L;
-	// Variables declaration - do not modify
-	
-	// End of variables declaration
+@SuppressWarnings({"rawtypes" ,"unchecked", "serial"})
+public class GUI_EstablecerEntidadPadre extends Parent_GUI{
+
 	private Controlador controlador;
 	private Vector<TransferEntidad> listaEntidades;
 	private JComboBox comboEntidades;
-	private JTextPane textoExplicacion;
-	private JLabel labelIcono;
-	private JButton botonCancelar;
-	private JButton botonAceptar;
+	private JLabel textoExplicacion;
+	private JButton botonInsertar;
 	private TransferRelacion relacion;
-
 
 	public GUI_EstablecerEntidadPadre() {
 		initComponents();
@@ -65,12 +42,10 @@ public class GUI_EstablecerEntidadPadre extends javax.swing.JDialog  implements 
 		getContentPane().setLayout(null);
 		setModal(true);
 		this.setResizable(false);
-		getContentPane().add(getBotonAceptar());
-		getContentPane().add(getBotonCancelar());
+		getContentPane().add(getBotonInsertar());
 		getContentPane().add(getComboEntidades());
-		getContentPane().add(getLabelIcono());
 		getContentPane().add(getTextoExplicacion());
-		this.setSize(385, 179);
+		this.setSize(300,180);
 		this.addMouseListener(this);
 		this.addKeyListener(this);
 	}
@@ -78,18 +53,15 @@ public class GUI_EstablecerEntidadPadre extends javax.swing.JDialog  implements 
 	/*
 	 * Activar y desactivar el dialogo
 	 */
-	
 	public void setActiva(){
 		// Si ya tiene establecida la entidad padre, lanzamos un error
 		if(!this.getRelacion().getListaEntidadesYAridades().isEmpty())
 			JOptionPane.showMessageDialog(
-					null,
-					(Lenguaje.text(Lenguaje.ERROR))+"\n" +
+					null, (Lenguaje.text(Lenguaje.ERROR))+"\n" +
 					(Lenguaje.text(Lenguaje.IMPOSIBLE_SET_PARENT))+"\n" +
 					(Lenguaje.text(Lenguaje.OTHER_PARENT))+"\n",
 					Lenguaje.text(Lenguaje.SET_PARENT_ENTITY),
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
+					JOptionPane.PLAIN_MESSAGE);
 		else{
 			this.controlador.mensajeDesde_GUI(TC.GUIEstablecerEntidadPadre_ActualizameListaEntidades, null);
 			// Generamos los items
@@ -101,8 +73,7 @@ public class GUI_EstablecerEntidadPadre extends javax.swing.JDialog  implements 
 						(Lenguaje.text(Lenguaje.IMPOSIBLE_SET_PARENT_IN_ISA))+"\n" +
 						(Lenguaje.text(Lenguaje.NO_ENTITIES_AVAILABLES))+"\n",
 						Lenguaje.text(Lenguaje.SET_PARENT_ENTITY),
-						JOptionPane.PLAIN_MESSAGE,
-						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
+						JOptionPane.PLAIN_MESSAGE);
 			else{
 				comboEntidades.setModel(new javax.swing.DefaultComboBoxModel(items));
 				comboEntidades.setSelectedIndex(0);
@@ -126,7 +97,6 @@ public class GUI_EstablecerEntidadPadre extends javax.swing.JDialog  implements 
 	/*
 	 * Oyentes de los botones
 	 */
-	
 	private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {
 		this.setVisible(false);
 
@@ -154,21 +124,6 @@ public class GUI_EstablecerEntidadPadre extends javax.swing.JDialog  implements 
 			}
 		}
 	} 
-	public void keyReleased(KeyEvent arg0) {}
-
-	public void keyTyped(KeyEvent arg0) {}
-
-	public void mouseEntered( MouseEvent e ) {} 
-	
-	public void mouseClicked(MouseEvent arg0) {
-		this.requestFocus();
-	}
-
-	public void mouseExited(MouseEvent arg0) {}
-
-	public void mousePressed(MouseEvent arg0) {}
-
-	public void mouseReleased(MouseEvent arg0) {}
 	
 	//Oyente para todos los elementos
 	private KeyListener general = new KeyListener() {
@@ -183,83 +138,45 @@ public class GUI_EstablecerEntidadPadre extends javax.swing.JDialog  implements 
 	/*
 	 * Interfaz
 	 */
-	
-	private JButton getBotonAceptar() {
-		if(botonAceptar == null) {
-			botonAceptar = new JButton();
-			botonAceptar.setText(Lenguaje.text(Lenguaje.SELECT));
-			botonAceptar.setBounds(186, 95, 80, 25);
-			botonAceptar.addActionListener(new ActionListener() {
+	private JButton getBotonInsertar() {
+		if(botonInsertar == null) {
+			botonInsertar = botonInsertar(165,100);
+			botonInsertar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					botonAceptarActionPerformed(evt);
 				}
 			});
-			botonAceptar.addKeyListener(new KeyListener() {
+			botonInsertar.addKeyListener(new KeyListener() {
 				public void keyPressed(KeyEvent e) {
 					if(e.getKeyCode()==10){botonAceptarActionPerformed(null);}
 					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==39){botonCancelar.grabFocus();}
 				}
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonAceptar.setMnemonic(Lenguaje.text(Lenguaje.SELECT).charAt(0));
 		}
-		return botonAceptar;
+		return botonInsertar;
 	}
 	
-	private JButton getBotonCancelar() {
-		if(botonCancelar == null) {
-			botonCancelar = new JButton();
-			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
-			botonCancelar.setBounds(277, 95, 80, 25);
-			botonCancelar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent evt) {
-					botonCancelarActionPerformed(evt);
-				}
-			});
-			botonCancelar.addKeyListener(new KeyListener() {
-				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==37){botonAceptar.grabFocus();}
-				}
-				public void keyReleased(KeyEvent e) {}
-				public void keyTyped(KeyEvent e) {}
-			});
-			botonCancelar.setMnemonic(Lenguaje.text(Lenguaje.CANCEL).charAt(0));
-		}
-		return botonCancelar;
-	}
+	
 	
 	private JComboBox getComboEntidades() {
 		if(comboEntidades == null) {
-			ComboBoxModel comboEntidadesModel = 
-				new DefaultComboBoxModel(
-						new String[] { "Item One", "Item Two" });
+			ComboBoxModel comboEntidadesModel = new DefaultComboBoxModel(new String[] { "Item One", "Item Two" });
 			comboEntidades = new JComboBox();
 			comboEntidades.setModel(comboEntidadesModel);
-			comboEntidades.setBounds(132, 47, 228, 21);
+			comboEntidades.setBounds(25, 40, 231, 27);
 			comboEntidades.addKeyListener(general);
 		}
 		return comboEntidades;
 	}
+
 	
-	private JLabel getLabelIcono() {
-		if(labelIcono == null) {
-			labelIcono = new JLabel();
-			labelIcono.setBounds(18, 22, 102, 98);
-			labelIcono.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.RATON)));
-		}
-		return labelIcono;
-	}
-	
-	private JTextPane getTextoExplicacion() {
+	private JLabel getTextoExplicacion() {
 		if(textoExplicacion == null) {
-			textoExplicacion = new JTextPane();
+			textoExplicacion = new JLabel();
 			textoExplicacion.setText(Lenguaje.text(Lenguaje.SELECT_PARENT_ENTITY));
-			textoExplicacion.setBounds(132, 10, 233, 25);
-			textoExplicacion.setEditable(false);
+			textoExplicacion.setBounds(25, 10, 233, 25);
 			textoExplicacion.setOpaque(false);
 			textoExplicacion.setFocusable(false);
 		}
@@ -269,7 +186,6 @@ public class GUI_EstablecerEntidadPadre extends javax.swing.JDialog  implements 
 	/*
 	 * Metodos de la clase
 	 */
-	
 	private String[] generaItems(){
 		int cont = 0;
 		String[] items = new String[this.listaEntidades.size()];
@@ -282,27 +198,8 @@ public class GUI_EstablecerEntidadPadre extends javax.swing.JDialog  implements 
 	}
 	
 	/*
-	 * Utilidades
-	 */
-	private void centraEnPantalla(){
-		// Tamano de la pantalla
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		// Alto
-		String altoString = String.valueOf(this.getSize().getWidth());
-		altoString = altoString.substring(0,altoString.indexOf("."));
-		int altoInt = Integer.parseInt(altoString);
-		// Ancho
-		String anchoString = String.valueOf(this.getSize().getHeight());
-		anchoString = anchoString.substring(0,anchoString.indexOf("."));
-		int anchoInt = Integer.parseInt(anchoString);
-		
-        setBounds((screenSize.width-altoInt)/2, (screenSize.height-anchoInt)/2, altoInt, anchoInt);
-	}
-	
-	/*
 	 * Getters y setters
 	 */
-	
 	public Controlador getControlador() {
 		return controlador;
 	}
@@ -326,8 +223,5 @@ public class GUI_EstablecerEntidadPadre extends javax.swing.JDialog  implements 
 	public void setRelacion(TransferRelacion relacion) {
 		this.relacion = relacion;
 	}
-	
-	
-
 }
 

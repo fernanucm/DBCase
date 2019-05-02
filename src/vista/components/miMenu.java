@@ -273,8 +273,7 @@ public class miMenu extends JMenuBar{
 				Lenguaje.text(Lenguaje.OK_EXPORT)+".\n" +
 				Lenguaje.text(Lenguaje.FILE)+": "+ruta,
 				Lenguaje.text(Lenguaje.DBCASE),
-				JOptionPane.PLAIN_MESSAGE,
-				new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
+				JOptionPane.PLAIN_MESSAGE);
 		}
 	}
 	

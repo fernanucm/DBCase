@@ -1,4 +1,4 @@
-package vista.components.GUIPanels;
+package vista.components;
 
 import java.awt.Component;
 import javax.swing.JTree;

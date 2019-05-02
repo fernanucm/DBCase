@@ -7,10 +7,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Vector;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -18,9 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
-
 import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
@@ -28,26 +23,10 @@ import modelo.persistencia.EntidadYAridad;
 import modelo.tools.ImagePath;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
-import vista.tema.Theme;
 
-/**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
-@SuppressWarnings({"rawtypes" ,"unchecked"})
-public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implements KeyListener, MouseListener{
+@SuppressWarnings({"rawtypes" ,"unchecked", "serial"})
+public class GUI_EditarCardinalidadEntidad extends Parent_GUI{
 
-
-	private static final long serialVersionUID = 1L;
-	// Variables declaration - do not modify
 	private Controlador controlador;
 	private Vector<TransferEntidad> listaEntidades;
 	private JComboBox comboEntidades;
@@ -56,18 +35,16 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 	private JTextField cajaFinal;
 	private JRadioButton buttonMinMax;
 	private JComboBox comboRoles;
-	private JTextPane jTextPane1;
+	private JLabel jTextPane1;
 	private JTextField cajaRol;
-	private JTextPane jTextRol;
-	private JTextPane explicacion2;
-	private JTextPane explicacion;
+	private JLabel jTextRol;
+	private JLabel explicacion2;
+	private JLabel explicacion;
 	private JButton botonEditar;
-	private JButton botonCancelar;
 	private TransferRelacion relacion;
 	private String rolViejo;
 	private JRadioButton buttonMaxN;
 	private JRadioButton buttonMax1;
-	private Theme theme = Theme.getInstancia();
 	
 	public GUI_EditarCardinalidadEntidad() {
 		initComponents();
@@ -81,7 +58,6 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
         setResizable(false);
         setModal(true);
         getContentPane().setLayout(null);
-        getContentPane().add(getBotonCancelar());
         getContentPane().add(getBotonEditar());
         getContentPane().add(getComboEntidades());
         getContentPane().add(getExplicacion());
@@ -96,11 +72,10 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
         getContentPane().add(getButton1a1());
         getContentPane().add(getButtonMinMax());
         getContentPane().add(getButtonNaN());
-        this.setSize(394, 418);
+        this.setSize(300, 385);
         this.addMouseListener(this);
 		this.addKeyListener(this);
     }
-	
 
 	/*
 	 * Activar y desactivar el dialogo
@@ -113,13 +88,11 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 	public void setActiva(){
 		if(this.getRelacion().getListaEntidadesYAridades().isEmpty())
 			JOptionPane.showMessageDialog(
-				null,
-				(Lenguaje.text(Lenguaje.ERROR))+"\n" +
+				null,(Lenguaje.text(Lenguaje.ERROR))+"\n" +
 				(Lenguaje.text(Lenguaje.IMPOSIBLE_EDIT_ROLLE))+"\n" +
 				(Lenguaje.text(Lenguaje.NO_ENTITIES_IN_RELATION))+"\n",
 				(Lenguaje.text(Lenguaje.EDIT_ARITY)),
-				JOptionPane.PLAIN_MESSAGE,
-				new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
+				JOptionPane.PLAIN_MESSAGE);
 		else{
 			this.controlador.mensajeDesde_GUI(TC.GUIEditarCardinalidadEntidad_ActualizameListaEntidades, null);
 			this.cajaInicio.setText("");
@@ -203,9 +176,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 						rol=eya.getRol();
 						salir = true;	
 					}
-					else
-						numRolVisitados++;
-					
+					else numRolVisitados++;
 				}
 			}
 			cont++;
@@ -256,20 +227,15 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 		int cont = 0;
 		while(cont<veya.size()){
 			EntidadYAridad eya = (EntidadYAridad) veya.get(cont);
-			if(eya.getEntidad()==idEntidad){
-				v.add(eya.getRol());
-			}
+			if(eya.getEntidad()==idEntidad) v.add(eya.getRol());
 			cont++;
 		}
 		return v;
 	}
 
-
-
 	/*
 	 * Oyentes
 	 */
-
 	private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {                                           
 		this.setVisible(false);
 	}                                          
@@ -278,7 +244,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 		Vector<Object> v = new Vector<Object>();
 		v.add(this.getRelacion());
 		v.add(this.listaEntidades.get(this.comboEntidades.getSelectedIndex()));
-//		En función de que boton de la cardinalidad haya seleccionado se guardará una u otra:
+		//En función de que boton de la cardinalidad haya seleccionado se guardará una u otra:
 		if (this.buttonMax1.isSelected()){
 			v.add(String.valueOf(0));
 			v.add(String.valueOf(1));
@@ -317,6 +283,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 		comboRoles.setModel(new javax.swing.DefaultComboBoxModel(itemsRoles));
 		comboRoles.grabFocus();	
 	}
+	
 	public void keyPressed( KeyEvent e ) {
 		switch (e.getKeyCode()){
 			case 27: {
@@ -329,83 +296,20 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 			}
 		}
 	} 
-	
-	
-	public void mouseClicked(MouseEvent arg0) {
-		this.requestFocus();
-	}
 
-
-	
 	//Oyente para todos los elementos
 	private KeyListener general = new KeyListener() {
 		public void keyPressed(KeyEvent e) {
-			if(e.getKeyCode()==10){botonEditarActionPerformed(null);}
-			if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
+			if(e.getKeyCode()==10) botonEditarActionPerformed(null);
+			if(e.getKeyCode()==27) botonCancelarActionPerformed(null);
 		}
 		public void keyReleased(KeyEvent e) {}
 		public void keyTyped(KeyEvent e) {}
 	};
-	
-	/*
-	 * Getters y Setters
-	 */
-
-	public Controlador getControlador() {
-		return controlador;
-	}
-
-	public void setControlador(Controlador controlador) {
-		this.controlador = controlador;
-	}
-
-	public Vector<TransferEntidad> getListaEntidades() {
-		return listaEntidades;
-	}
-
-	public void setListaEntidades(Vector<TransferEntidad> listaEntidades) {
-		this.listaEntidades = listaEntidades;
-	}
-
-	public TransferRelacion getRelacion() {
-		return relacion;
-	}
-
-	public void setRelacion(TransferRelacion relacion) {
-		this.relacion = relacion;
-	}
-	
-	private JButton getBotonCancelar() {
-		if(botonCancelar == null) {
-			botonCancelar = new JButton();
-			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
-			botonCancelar.setFont(theme.font());
-			botonCancelar.setBounds(279, 347, 80, 25);
-			botonCancelar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent evt) {
-					botonCancelarActionPerformed(evt);
-				}
-			});
-			botonCancelar.addKeyListener(new KeyListener() {
-				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==37){botonEditar.grabFocus();}
-				}
-				public void keyReleased(KeyEvent e) {}
-				public void keyTyped(KeyEvent e) {}
-			});
-			botonCancelar.setMnemonic(Lenguaje.text(Lenguaje.CANCEL).charAt(0));
-		}
-		return botonCancelar;
-	}
-	
+			
 	private JButton getBotonEditar() {
 		if(botonEditar == null) {
-			botonEditar = new JButton();
-			botonEditar.setText(Lenguaje.text(Lenguaje.ACCEPT));
-			botonEditar.setFont(theme.font());
-			botonEditar.setBounds(188, 347, 80, 25);
+			botonEditar = boton(155, 325,Lenguaje.text(Lenguaje.ACCEPT));
 			botonEditar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					botonEditarActionPerformed(evt);
@@ -413,14 +317,12 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 			});
 			botonEditar.addKeyListener(new KeyListener() {
 				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){botonEditarActionPerformed(null);}
-					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==39){botonCancelar.grabFocus();}
+					if(e.getKeyCode()==10) botonEditarActionPerformed(null);
+					else if(e.getKeyCode()==27) botonCancelarActionPerformed(null);
 				}
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonEditar.setMnemonic(Lenguaje.text(Lenguaje.ACCEPT).charAt(0));
 		}
 		return botonEditar;
 	}
@@ -428,7 +330,8 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 	private JComboBox getComboEntidades() {
 		if(comboEntidades == null) {
 			comboEntidades = new JComboBox();
-			comboEntidades.setBounds(25, 52, 238, 21);
+			comboEntidades.setBounds(25, 52, 238, 25);
+			comboEntidades.setFont(theme.font());
 			comboEntidades.addItemListener(new ItemListener() {
 				public void itemStateChanged(ItemEvent evt) {
 					comboEntidadesItemStateChanged(evt);
@@ -439,11 +342,11 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 		return comboEntidades;
 	}
 	
-	private JTextPane getExplicacion() {
+	private JLabel getExplicacion() {
 		if(explicacion == null) {
-			explicacion = new JTextPane();
+			explicacion = new JLabel();
+			explicacion.setFont(theme.font());
 			explicacion.setText(Lenguaje.text(Lenguaje.SELECT_ENTITY_TO_CHANGE));
-			explicacion.setEditable(false);
 			explicacion.setOpaque(false);
 			explicacion.setBounds(25, 21, 238, 25);
 			explicacion.setFocusable(false);
@@ -451,22 +354,39 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 		return explicacion;
 	}
 	
-	private JTextPane getExplicacion2() {
+	private JLabel getExplicacion2() {
 		if(explicacion2 == null) {
-			explicacion2 = new JTextPane();
+			explicacion2 = new JLabel();
+			explicacion2.setFont(theme.font());
 			explicacion2.setText(Lenguaje.text(Lenguaje.WRITE_NEW_ARITY));
-			explicacion2.setEditable(false);
 			explicacion2.setOpaque(false);
-			explicacion2.setBounds(25, 133, 238, 25);
+			explicacion2.setBounds(25, 140, 238, 25);
 			explicacion2.setFocusable(false);
 		}
 		return explicacion2;
 	}
 	
+	private JTextField getCajaInicio() {
+		if(cajaInicio == null) {
+			cajaInicio = new JTextField();
+			cajaInicio.setEditable(true);
+			cajaInicio.setEnabled(true);
+			cajaInicio.setFont(theme.font());
+			cajaInicio.setForeground(theme.labelFontColorDark());
+			cajaInicio.setBounds(86, 230, 40, 25);
+			cajaInicio.addKeyListener(general);
+		}
+		return cajaInicio;
+	}
+	
 	private JTextField getCajaFinal() {
 		if(cajaFinal == null) {
 			cajaFinal = new JTextField();
-			cajaFinal.setBounds(174, 230, 40, 25);
+			cajaFinal.setBounds(176, 230, 40, 25);
+			cajaFinal.setFont(theme.font());
+			cajaFinal.setForeground(theme.labelFontColorDark());
+			cajaFinal.setEnabled(true);
+			cajaFinal.setEditable(true);
 			cajaFinal.addKeyListener(general);
 		}
 		return cajaFinal;
@@ -475,29 +395,22 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 	private JLabel getJLabel1() {
 		if(jLabel1 == null) {
 			jLabel1 = new JLabel();
+			jLabel1.setEnabled(true);
+			jLabel1.setFont(theme.font());
 			jLabel1.setText(Lenguaje.text(Lenguaje.TO));
-			jLabel1.setBounds(140, 230, 60, 25);
+			jLabel1.setBounds(138, 230, 60, 25);
 		}
 		return jLabel1;
 	}
 	
-	private JTextField getCajaInicio() {
-		if(cajaInicio == null) {
-			cajaInicio = new JTextField();
-			cajaInicio.setBounds(86, 230, 40, 25);
-			cajaInicio.addKeyListener(general);
-		}
-		return cajaInicio;
-	}
 	
-	
-	private JTextPane getJTextRol() {
+	private JLabel getJTextRol() {
 		if(jTextRol == null) {
-			jTextRol = new JTextPane();
+			jTextRol = new JLabel();
+			jTextRol.setFont(theme.font());
 			jTextRol.setText(Lenguaje.text(Lenguaje.WRITE_NEW_ROLLE));
 			jTextRol.setBounds(25, 261, 239, 25);
 			jTextRol.setOpaque(false);
-			jTextRol.setEditable(false);
 			jTextRol.setFocusable(false);
 		}
 		return jTextRol;
@@ -506,17 +419,18 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 	private JTextField getcajaRol() {
 		if(cajaRol == null) {
 			cajaRol = new JTextField();
-			cajaRol.setBounds(25, 299, 239, 21);
+			cajaRol.setFont(theme.font());
+			cajaRol.setBounds(25, 290, 239, 25);
 		}
 		cajaRol.addKeyListener(general);
 		return cajaRol;
 	}
 	
-	private JTextPane getJTextPane1() {
+	private JLabel getJTextPane1() {
 		if(jTextPane1 == null) {
-			jTextPane1 = new JTextPane();
+			jTextPane1 = new JLabel();
+			jTextPane1.setFont(theme.font());
 			jTextPane1.setText(Lenguaje.text(Lenguaje.IF_ENTITY_HAS_ROLLE));
-			jTextPane1.setEditable(false);
 			jTextPane1.setOpaque(false);
 			jTextPane1.setBounds(25, 77, 238, 25);
 			jTextPane1.setFocusable(false);
@@ -527,7 +441,8 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 	private JComboBox getComboRoles() {
 		if(comboRoles == null) {
 			comboRoles = new JComboBox();
-			comboRoles.setBounds(25, 110, 238, 21);
+			comboRoles.setFont(theme.font());
+			comboRoles.setBounds(25, 110, 238, 25);
 			comboRoles.addItemListener(new ItemListener() {
 				public void itemStateChanged(ItemEvent evt) {
 					comboRolesItemStateChanged(evt);
@@ -541,8 +456,6 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 	private void comboRolesItemStateChanged(java.awt.event.ItemEvent evt) {
 		//Se llama a generaInicioFin con un valor cualquiera >1 
 		Vector<String> v = this.generaInicioFin(13);
-		/*cajaInicio.setText(v.get(0));
-		cajaFinal.setText(v.get(1));*/
 		if(this.buttonMinMax.isSelected()){
 			cajaInicio.setText(v.get(0));
 			cajaFinal.setText(v.get(1));
@@ -558,24 +471,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 		cajaRol.setText(v.get(2));
 		rolViejo=v.get(2);
 	}
-	
-	/*
-	 * Utilidades
-	 */
-	private void centraEnPantalla(){
-		// Tamano de la pantalla
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		// Alto
-		String altoString = String.valueOf(this.getSize().getWidth());
-		altoString = altoString.substring(0,altoString.indexOf("."));
-		int altoInt = Integer.parseInt(altoString);
-		// Ancho
-		String anchoString = String.valueOf(this.getSize().getHeight());
-		anchoString = anchoString.substring(0,anchoString.indexOf("."));
-		int anchoInt = Integer.parseInt(anchoString);
 
-		setBounds((screenSize.width-altoInt)/2, (screenSize.height-anchoInt)/2, altoInt, anchoInt);
-	}
 	
 	/*Al seleccionar la cardinalidad 1 a 1 deshabilito el resto de botones  y los habilito 
 	 * al desseleccionar*/
@@ -649,8 +545,9 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 			buttonMax1 = new JRadioButton();
 			buttonMax1.setOpaque(false);
 			buttonMax1.setEnabled(false);
+			buttonMax1.setFont(theme.font());
 			buttonMax1.setText(Lenguaje.text(Lenguaje.LABEL1A1));
-			buttonMax1.setBounds(25, 159, 127, 30);
+			buttonMax1.setBounds(25, 170, 127, 25);
 			buttonMax1.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent evt) {
 					button1a1ItemStateChanged(evt);
@@ -658,8 +555,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 			});
 			buttonMax1.addKeyListener(new KeyListener() {
 				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){buttonMax1.setSelected(
-												!buttonMax1.isSelected());}
+					if(e.getKeyCode()==10)buttonMax1.setSelected(!buttonMax1.isSelected());
 				}
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
@@ -668,15 +564,14 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 		return buttonMax1;
 	}
 	
-	
-	
 	private JRadioButton getButtonNaN() {
 		if(buttonMaxN == null) {
 			buttonMaxN = new JRadioButton();
+			buttonMaxN.setFont(theme.font());
 			buttonMaxN.setOpaque(false);
 			buttonMaxN.setSelected(true);
 			buttonMaxN.setText(Lenguaje.text(Lenguaje.LABELNAN));
-			buttonMaxN.setBounds(25, 195, 127, 30);
+			buttonMaxN.setBounds(25, 200, 127, 25);
 			buttonMaxN.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent evt) {
 					buttonNaNItemStateChanged(evt);
@@ -684,8 +579,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 			});
 			buttonMaxN.addKeyListener(new KeyListener() {
 				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){buttonMaxN.setSelected(
-												!buttonMaxN.isSelected());}
+					if(e.getKeyCode()==10){buttonMaxN.setSelected(!buttonMaxN.isSelected());}
 				}
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
@@ -697,10 +591,11 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 	private JRadioButton getButtonMinMax() {
 		if(buttonMinMax == null) {
 			buttonMinMax = new JRadioButton();
+			buttonMinMax.setFont(theme.font());
 			buttonMinMax.setOpaque(false);
 			buttonMinMax.setEnabled(false);
 			buttonMinMax.setText(Lenguaje.text(Lenguaje.THE));
-			buttonMinMax.setBounds(25, 230, 70, 25);
+			buttonMinMax.setBounds(25, 230, 127, 25);
 			buttonMinMax.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent evt) {
 					buttonMinMaxItemStateChanged(evt);
@@ -708,8 +603,7 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 			});
 			buttonMinMax.addKeyListener(new KeyListener() {
 				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){buttonMinMax.setSelected(
-												!buttonMinMax.isSelected());}
+					if(e.getKeyCode()==10){buttonMinMax.setSelected(!buttonMinMax.isSelected());}
 				}
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
@@ -718,21 +612,31 @@ public class GUI_EditarCardinalidadEntidad extends javax.swing.JDialog  implemen
 		return buttonMinMax;
 	}
 
-	@Override
-	public void mousePressed(MouseEvent e) {}
+	/*
+	 * Getters y Setters
+	 */
 
-	@Override
-	public void mouseReleased(MouseEvent e) {}
+	public Controlador getControlador() {
+		return controlador;
+	}
 
-	@Override
-	public void mouseEntered(MouseEvent e) {}
+	public void setControlador(Controlador controlador) {
+		this.controlador = controlador;
+	}
 
-	@Override
-	public void mouseExited(MouseEvent e) {}
+	public Vector<TransferEntidad> getListaEntidades() {
+		return listaEntidades;
+	}
 
-	@Override
-	public void keyTyped(KeyEvent e) {}
+	public void setListaEntidades(Vector<TransferEntidad> listaEntidades) {
+		this.listaEntidades = listaEntidades;
+	}
 
-	@Override
-	public void keyReleased(KeyEvent e) {}
+	public TransferRelacion getRelacion() {
+		return relacion;
+	}
+
+	public void setRelacion(TransferRelacion relacion) {
+		this.relacion = relacion;
+	}
 }

@@ -4,90 +4,62 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
-
 import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
 import modelo.tools.ImagePath;
 import modelo.transfers.TransferRelacion;
+import vista.components.GUIPanels.reportPanel;
 
-/**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
-public class GUI_QuitarEntidadPadre extends javax.swing.JDialog  implements KeyListener, MouseListener {
-
-	private static final long serialVersionUID = 1L;
-	
-
+@SuppressWarnings("serial")
+public class GUI_QuitarEntidadPadre extends Parent_GUI {
 	private Controlador controlador;
 	private TransferRelacion relacion;
-	// Variables declaration - do not modify
-	private JTextPane pregunta;
+	private JLabel pregunta;
+	private reportPanel explicacion;
 	private JButton botonNo;
 	private JButton botonSi;
-	private JTextPane explicacion;
-	private JLabel labelIcono;
-	// End of variables declaration
 
 	public GUI_QuitarEntidadPadre() {
 		initComponents();
 	}
 
 	private void initComponents() {
-
 		getContentPane().setLayout(null);
 		setTitle(Lenguaje.text(Lenguaje.QUIT_PARENT_ENTITY));
 		setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
 		setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 		setModal(true);
 		setResizable(false);
+		this.setSize(400, 300);
 		{
-			labelIcono = new JLabel();
-			getContentPane().add(labelIcono);
-			labelIcono.setBounds(12, 24, 64, 69);
-			labelIcono.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.WARNING)));
-		}
-		{
-			explicacion = new JTextPane();
+			explicacion = new reportPanel();
+			explicacion.setBorder(null);
 			getContentPane().add(explicacion);
-			explicacion.setText(Lenguaje.text(Lenguaje.EXPLICATION_QUIT_PARENT));
-			explicacion.setBounds(88, 12, 228, 50);
-			explicacion.setOpaque(false);
 			explicacion.setEditable(false);
+			explicacion.setText("<p>"+Lenguaje.text(Lenguaje.EXPLICATION_QUIT_PARENT)+"</p>");
+			explicacion.setBounds(0, 0, 400, 150);
+			explicacion.setFont(theme.font());
+			explicacion.setOpaque(false);
 			explicacion.setFocusable(false);
 		}
 		{
-			pregunta = new JTextPane();
+			pregunta = new JLabel();
+			pregunta.setFont(theme.font());
 			getContentPane().add(pregunta);
 			pregunta.setText(Lenguaje.text(Lenguaje.DO_YOU_WISH_QUIT_PARENT));
-			pregunta.setBounds(88, 68, 183, 20);
-			pregunta.setEditable(false);
+			pregunta.setBounds(25, 160, 400, 30);
 			pregunta.setOpaque(false);
 			pregunta.setFocusable(false);
 		}
 		{
-			botonSi = new JButton();
+			botonSi = boton(250, 210,Lenguaje.text(Lenguaje.YES));
 			getContentPane().add(botonSi);
-			botonSi.setText(Lenguaje.text(Lenguaje.YES));
-			botonSi.setBounds(106, 105, 80, 25);
 			botonSi.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					botonSiActionPerformed(evt);
@@ -105,10 +77,8 @@ public class GUI_QuitarEntidadPadre extends javax.swing.JDialog  implements KeyL
 			botonSi.setMnemonic(Lenguaje.text(Lenguaje.YES).charAt(0));
 		}
 		{
-			botonNo = new JButton();
+			botonNo = boton(130, 210,Lenguaje.text(Lenguaje.NO));
 			getContentPane().add(botonNo);
-			botonNo.setText(Lenguaje.text(Lenguaje.NO));
-			botonNo.setBounds(202, 105, 80, 25);
 			botonNo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					botonNoActionPerformed(evt);
@@ -125,73 +95,37 @@ public class GUI_QuitarEntidadPadre extends javax.swing.JDialog  implements KeyL
 			});
 			botonNo.setMnemonic(Lenguaje.text(Lenguaje.NO).charAt(0));
 		}
-
-		this.setSize(349, 182);
 		this.addMouseListener(this);
 		this.addKeyListener(this);
-
 	}
 
 	/*
 	 * Oyentes de los botones
 	 */
-	
 	private void botonNoActionPerformed(java.awt.event.ActionEvent evt) {
 		this.setVisible(false);
 	}
 
 	private void botonSiActionPerformed(java.awt.event.ActionEvent evt) {
-		// Mandamos el mensaje al controlador con los datos
 		this.controlador.mensajeDesde_GUI(TC.GUIQuitarEntidadPadre_ClickBotonSi, this.getRelacion());
 	}
-	public void keyPressed( KeyEvent e ) {
-		switch (e.getKeyCode()){
-			case 27: {
-				this.setInactiva();
-				break;
-			}
-			case 10:{
-				this.botonSiActionPerformed(null);
-				break;
-			}
-		}
-	} 
-	public void keyReleased(KeyEvent arg0) {}
 
-	public void keyTyped(KeyEvent arg0) {}
-
-	public void mouseEntered( MouseEvent e ) {} 
-	
-	public void mouseClicked(MouseEvent arg0) {
-		this.requestFocus();
-	}
-
-	public void mouseExited(MouseEvent arg0) {}
-
-	public void mousePressed(MouseEvent arg0) {}
-
-	public void mouseReleased(MouseEvent arg0) {}
-	
 	/*
 	 * Activar y desactivar el dialogo
 	 */
-	
 	public void setActiva(){
 		// Si no esta establecida la entidad padre lanzamos el error 
 		if(this.getRelacion().getListaEntidadesYAridades().isEmpty())
 			JOptionPane.showMessageDialog(
-				null,
-				(Lenguaje.text(Lenguaje.ERROR))+"\n" +
+				null, (Lenguaje.text(Lenguaje.ERROR))+"\n" +
 				(Lenguaje.text(Lenguaje.IMPOSIBLE_QUIT_PARENT))+"\n" +
 				(Lenguaje.text(Lenguaje.NO_FATHER))+"\n",
 				Lenguaje.text(Lenguaje.QUIT_PARENT_ENTITY),
-				JOptionPane.PLAIN_MESSAGE,
-				new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
+				JOptionPane.PLAIN_MESSAGE);
 		else{
 			this.centraEnPantalla();
 			SwingUtilities.invokeLater(doFocus);
 			this.setVisible(true);
-			
 		}	
 	}
 	
@@ -205,28 +139,22 @@ public class GUI_QuitarEntidadPadre extends javax.swing.JDialog  implements KeyL
 		this.setVisible(false);
 	}
 	
-	/*
-	 * Utilidades
-	 */
-	private void centraEnPantalla(){
-		// Tamano de la pantalla
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		// Alto
-		String altoString = String.valueOf(this.getSize().getWidth());
-		altoString = altoString.substring(0,altoString.indexOf("."));
-		int altoInt = Integer.parseInt(altoString);
-		// Ancho
-		String anchoString = String.valueOf(this.getSize().getHeight());
-		anchoString = anchoString.substring(0,anchoString.indexOf("."));
-		int anchoInt = Integer.parseInt(anchoString);
-		
-        setBounds((screenSize.width-altoInt)/2, (screenSize.height-anchoInt)/2, altoInt, anchoInt);
+	public void keyPressed( KeyEvent e ) {
+		switch (e.getKeyCode()){
+			case 27: {
+				this.setInactiva();
+				break;
+			}
+			case 10:{
+				this.botonSiActionPerformed(null);
+				break;
+			}
+		}
 	}
 	
 	/*
 	 * Getters y setters
 	 */
-	
 	public Controlador getControlador() {
 		return controlador;
 	}
@@ -242,6 +170,4 @@ public class GUI_QuitarEntidadPadre extends javax.swing.JDialog  implements KeyL
 	public void setRelacion(TransferRelacion relacion) {
 		this.relacion = relacion;
 	}
-
 }
-

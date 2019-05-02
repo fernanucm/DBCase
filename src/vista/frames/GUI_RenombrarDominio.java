@@ -4,48 +4,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Vector;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
-
 import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
 import modelo.tools.ImagePath;
 import modelo.transfers.TransferDominio;
 
-/**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
-public class GUI_RenombrarDominio extends javax.swing.JDialog implements KeyListener, MouseListener {
+@SuppressWarnings("serial")
+public class GUI_RenombrarDominio extends Parent_GUI{
 
-	private static final long serialVersionUID = 1L;
 	private Controlador controlador;
 	private TransferDominio dominio;
-	// Variables declaration - do not modify
-	private JButton botonCancelar;
 	private JButton botonRenombrar;
-	private JTextField cajaNombre;
-	private JTextPane explicacion;
-	private JLabel labelIcono;
-	// End of variables declaration	
-
+	private JTextField cajaNombre = this.getCajaNombre(25, 40);
+	private JLabel explicacion;
 
 	public GUI_RenombrarDominio() {
 		initComponents();
@@ -59,33 +37,10 @@ public class GUI_RenombrarDominio extends javax.swing.JDialog implements KeyList
 		setResizable(false);
 		setModal(true);
 		getContentPane().setLayout(null);
-		this.setSize(380, 174);
+		this.setSize(300, 170);
 		{
-			botonCancelar = new JButton();
-			getContentPane().add(botonCancelar);
-			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
-			botonCancelar.setBounds(278, 90, 80, 25);
-			botonCancelar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent evt) {
-					botonCancelarActionPerformed(evt);
-				}
-			});
-			botonCancelar.addKeyListener(new KeyListener() {
-				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==37){botonRenombrar.grabFocus();}
-				}
-				public void keyReleased(KeyEvent e) {}
-				public void keyTyped(KeyEvent e) {}
-			});
-			botonCancelar.setMnemonic(Lenguaje.text(Lenguaje.CANCEL).charAt(0));
-		}
-		{
-			botonRenombrar = new JButton();
+			botonRenombrar = boton(120, 90,Lenguaje.text(Lenguaje.RENAME));
 			getContentPane().add(botonRenombrar);
-			botonRenombrar.setText(Lenguaje.text(Lenguaje.RENAME));
-			botonRenombrar.setBounds(193, 90, 80, 25);
 			botonRenombrar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					botonRenombrarActionPerformed(evt);
@@ -93,35 +48,21 @@ public class GUI_RenombrarDominio extends javax.swing.JDialog implements KeyList
 			});
 			botonRenombrar.addKeyListener(new KeyListener() {
 				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){botonRenombrarActionPerformed(null);}
-					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==39){botonCancelar.grabFocus();}
+					if(e.getKeyCode()==10) botonRenombrarActionPerformed(null);
+					else if(e.getKeyCode()==27) botonCancelarActionPerformed(null);
 				}
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonRenombrar.setMnemonic(Lenguaje.text(Lenguaje.RENAME).charAt(0));
 		}
+		getContentPane().add(cajaNombre);
 		{
-			cajaNombre = new JTextField();
-			getContentPane().add(cajaNombre);
-			cajaNombre.setText("");
-			cajaNombre.setBounds(126, 42, 236, 20);
-			cajaNombre.addKeyListener(general);
-		}
-		{
-			labelIcono = new JLabel();
-			getContentPane().add(labelIcono);
-			labelIcono.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.TECLADO)));
-			labelIcono.setBounds(12, 21, 100, 100);
-		}
-		{
-			explicacion = new JTextPane();
+			explicacion = new JLabel();
 			getContentPane().add(explicacion);
+			explicacion.setFont(theme.font());
 			explicacion.setText(Lenguaje.text(Lenguaje.WRITE_NEW_DOMAIN_NAME));
-			explicacion.setEditable(false);
 			explicacion.setOpaque(false);
-			explicacion.setBounds(124, 12, 236, 24);
+			explicacion.setBounds(25, 10, 236, 25);
 			explicacion.setFocusable(false);
 		}
 		this.addMouseListener(this);
@@ -175,36 +116,10 @@ public class GUI_RenombrarDominio extends javax.swing.JDialog implements KeyList
 			}
 		}
 	} 
-	public void keyReleased(KeyEvent arg0) {}
-
-	public void keyTyped(KeyEvent arg0) {}
-
-	public void mouseEntered( MouseEvent e ) {} 
-	
-	public void mouseClicked(MouseEvent arg0) {
-		this.requestFocus();
-	}
-
-	public void mouseExited(MouseEvent arg0) {}
-
-	public void mousePressed(MouseEvent arg0) {}
-
-	public void mouseReleased(MouseEvent arg0) {}
-	
-	//Oyente para todos los elementos
-	private KeyListener general = new KeyListener() {
-		public void keyPressed(KeyEvent e) {
-			if(e.getKeyCode()==10){botonRenombrarActionPerformed(null);}
-			if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-		}
-		public void keyReleased(KeyEvent e) {}
-		public void keyTyped(KeyEvent e) {}
-	};
 	
 	/*
 	 * Getters y Setters
 	 */
-
 	public TransferDominio getDominio() {
 		return dominio;
 	}
@@ -219,23 +134,5 @@ public class GUI_RenombrarDominio extends javax.swing.JDialog implements KeyList
 
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
-	}
-	
-	/*
-	 * Utilidades
-	 */
-	private void centraEnPantalla(){
-		// Tamano de la pantalla
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		// Alto
-		String altoString = String.valueOf(this.getSize().getWidth());
-		altoString = altoString.substring(0,altoString.indexOf("."));
-		int altoInt = Integer.parseInt(altoString);
-		// Ancho
-		String anchoString = String.valueOf(this.getSize().getHeight());
-		anchoString = anchoString.substring(0,anchoString.indexOf("."));
-		int anchoInt = Integer.parseInt(anchoString);
-
-		setBounds((screenSize.width-altoInt)/2, (screenSize.height-anchoInt)/2, altoInt, anchoInt);
 	}
 }

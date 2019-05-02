@@ -4,20 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Vector;
-
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
-
 import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
@@ -27,34 +20,15 @@ import modelo.transfers.Transfer;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
 
-/**
- * This code was edited or generated using CloudGarden's Jigloo
- * SWT/Swing GUI Builder, which is free for non-commercial
- * use. If Jigloo is being used commercially (ie, by a corporation,
- * company or business for any purpose whatever) then you
- * should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details.
- * Use of Jigloo implies acceptance of these licensing terms.
- * A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
- * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
- * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
- */
-@SuppressWarnings({"rawtypes" ,"unchecked"})
-public class GUI_AnadirEntidadHija extends javax.swing.JDialog  implements KeyListener, MouseListener {
+@SuppressWarnings({"rawtypes" ,"unchecked", "serial"})
+public class GUI_AnadirEntidadHija extends Parent_GUI {
 
-	private static final long serialVersionUID = 1L;
-	// Variables declaration - do not modify
-	// End of variables declaration
 	private Controlador controlador;
 	private Vector<TransferEntidad> listaEntidades;
 	private JComboBox comboEntidades;
-	private JButton botonAnadir;
-	private JButton botonSalir;
-	private JLabel labelIcono;
-	private JTextPane explicacion;
+	private JButton botonInsertar;
+	private JLabel explicacion;
 	private TransferRelacion relacion;
-
-
 
 	public GUI_AnadirEntidadHija() {
 		initComponents();
@@ -68,11 +42,9 @@ public class GUI_AnadirEntidadHija extends javax.swing.JDialog  implements KeyLi
 		setModal(true);
 		setResizable(false);
 		getContentPane().add(getExplicacion());
-		getContentPane().add(getLabelIcono());
 		getContentPane().add(getComboEntidades());
-		getContentPane().add(getBotonSalir());
-		getContentPane().add(getBotonAnadir());
-		this.setSize(382, 183);
+		getContentPane().add(getBotonInsertar());
+		this.setSize(300, 180);
 		this.addMouseListener(this);
 		this.addKeyListener(this);
 	}
@@ -110,18 +82,6 @@ public class GUI_AnadirEntidadHija extends javax.swing.JDialog  implements KeyLi
 	public void keyReleased(KeyEvent arg0) {}
 
 	public void keyTyped(KeyEvent arg0) {}
-
-	public void mouseEntered( MouseEvent e ) {} 
-	
-	public void mouseClicked(MouseEvent arg0) {
-		this.requestFocus();
-	}
-
-	public void mouseExited(MouseEvent arg0) {}
-
-	public void mousePressed(MouseEvent arg0) {}
-
-	public void mouseReleased(MouseEvent arg0) {}
 	
 	//Oyente para todos los elementos
 	private KeyListener general = new KeyListener() {
@@ -145,8 +105,7 @@ public class GUI_AnadirEntidadHija extends javax.swing.JDialog  implements KeyLi
 					(Lenguaje.text(Lenguaje.IMPOSIBLE_TO_INSERT_DAUGHTER))+"\n" +
 					(Lenguaje.text(Lenguaje.NO_FATHER))+"\n",
 					Lenguaje.text(Lenguaje.INSERT_NEW_DAUGTHER),
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
+					JOptionPane.PLAIN_MESSAGE);
 		else{
 			this.controlador.mensajeDesde_GUI(TC.GUIAnadirEntidadHija_ActualizameListaEntidades, null);
 			// Generamos los items (ya filtrados)
@@ -158,8 +117,7 @@ public class GUI_AnadirEntidadHija extends javax.swing.JDialog  implements KeyLi
 						(Lenguaje.text(Lenguaje.IMPOSIBLE_TO_INSERT_DAUGHTER))+"\n" +
 						(Lenguaje.text(Lenguaje.NO_ENTITIES_AVAILABLES))+"\n",
 						Lenguaje.text(Lenguaje.INSERT_NEW_DAUGTHER),
-						JOptionPane.PLAIN_MESSAGE,
-						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
+						JOptionPane.PLAIN_MESSAGE);
 
 			else{
 				comboEntidades.setModel(new javax.swing.DefaultComboBoxModel(items));
@@ -241,105 +199,47 @@ public class GUI_AnadirEntidadHija extends javax.swing.JDialog  implements KeyLi
 	/*
 	 * Interfaz
 	 */
-	
-	private JTextPane getExplicacion() {
+	private JLabel getExplicacion() {
 		if(explicacion == null) {
-			explicacion = new JTextPane();
+			explicacion = new JLabel();
+			explicacion.setFont(theme.font());
 			explicacion.setText(Lenguaje.text(Lenguaje.SELECT_ENTITY_DAUTHTER));
-			explicacion.setBounds(136, 12, 224, 22);
 			explicacion.setOpaque(false);
-			explicacion.setEditable(false);
+			explicacion.setBounds(25, 10, 115, 24);
 			explicacion.setFocusable(false);
 		}
 		return explicacion;
 	}
 
-	private JLabel getLabelIcono() {
-		if(labelIcono == null) {
-			labelIcono = new JLabel();
-			labelIcono.setBounds(18, 19, 100, 100);
-			labelIcono.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.RATON)));
-		}
-		return labelIcono;
-	}
-
 	private JComboBox getComboEntidades() {
 		if(comboEntidades == null) {
-			ComboBoxModel comboEntidadesModel = 
-				new DefaultComboBoxModel(
-						new String[] { "Item One", "Item Two" });
 			comboEntidades = new JComboBox();
-			comboEntidades.setModel(comboEntidadesModel);
-			comboEntidades.setBounds(138, 46, 224, 21);
+			comboEntidades.setFont(theme.font());
+			comboEntidades.setBounds(25, 40, 231, 27);
 		}
 		comboEntidades.addKeyListener(general);
 		return comboEntidades;
 	}
 
-	private JButton getBotonSalir() {
-		if(botonSalir == null) {
-			botonSalir = new JButton();
-			botonSalir.setText(Lenguaje.text(Lenguaje.EXIT));
-			botonSalir.setBounds(275, 99, 80, 25);
-			botonSalir.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent evt) {
-					botonSalirActionPerformed(evt);
-				}
-			});
-			botonSalir.addKeyListener(new KeyListener() {
-				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){botonSalirActionPerformed(null);}
-					else if(e.getKeyCode()==27){botonSalirActionPerformed(null);}
-				}
-				public void keyReleased(KeyEvent e) {}
-				public void keyTyped(KeyEvent e) {}
-			});
-			botonSalir.setMnemonic(Lenguaje.text(Lenguaje.EXIT).charAt(0));
-		}
-		return botonSalir;
-	}
-
-	private JButton getBotonAnadir() {
-		if(botonAnadir == null) {
-			botonAnadir = new JButton();
-			botonAnadir.setText(Lenguaje.text(Lenguaje.INSERT));
-			botonAnadir.setBounds(190, 99, 80, 25);
-			botonAnadir.addActionListener(new ActionListener() {
+	private JButton getBotonInsertar() {
+		if(botonInsertar == null) {
+			botonInsertar = botonInsertar(165,100);
+			botonInsertar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					botonAnadirActionPerformed(evt);
 				}
 			});
-			botonAnadir.addKeyListener(new KeyListener() {
+			botonInsertar.addKeyListener(new KeyListener() {
 				public void keyPressed(KeyEvent e) {
 					if(e.getKeyCode()==10){botonAnadirActionPerformed(null);}
 					else if(e.getKeyCode()==27){botonSalirActionPerformed(null);}
-					else if(e.getKeyCode()==37){botonAnadir.grabFocus();}
-					else if(e.getKeyCode()==39){botonSalir.grabFocus();}
+					else if(e.getKeyCode()==37){botonInsertar.grabFocus();}
 				}
 				public void keyReleased(KeyEvent e) {}
 				public void keyTyped(KeyEvent e) {}
 			});
-			botonAnadir.setMnemonic(Lenguaje.text(Lenguaje.INSERT).charAt(0));
 		}
-		return botonAnadir;
-	}
-
-	/*
-	 * Utilidades
-	 */
-	private void centraEnPantalla(){
-		// Tamano de la pantalla
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		// Alto
-		String altoString = String.valueOf(this.getSize().getWidth());
-		altoString = altoString.substring(0,altoString.indexOf("."));
-		int altoInt = Integer.parseInt(altoString);
-		// Ancho
-		String anchoString = String.valueOf(this.getSize().getHeight());
-		anchoString = anchoString.substring(0,anchoString.indexOf("."));
-		int anchoInt = Integer.parseInt(anchoString);
-
-		setBounds((screenSize.width-altoInt)/2, (screenSize.height-anchoInt)/2, altoInt, anchoInt);
+		return botonInsertar;
 	}
 
 }

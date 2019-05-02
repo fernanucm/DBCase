@@ -4,10 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Vector;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -15,10 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import controlador.ConfiguradorInicial;
 import controlador.Controlador;
 import controlador.TC;
@@ -29,27 +24,12 @@ import modelo.transfers.TransferConexion;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
 
-/**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
-public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, MouseListener{
+@SuppressWarnings("serial")
+public class GUI_Conexion extends Parent_GUI{
  
-
-	private static final long serialVersionUID = 1L;
 	private Controlador controlador;
 	private Vector<TransferEntidad> listaEntidades;
 	private boolean _crear;
-	// Variables declaration - do not modify
-	private JButton botonCancelar;
 	private JLabel usuario;
 	private JTextField cajaPuerto;
 	private JLabel password;
@@ -57,19 +37,16 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 	private JButton botonAnadir;
 	private JTextField cajaServer;
 	private JLabel puerto;
-	private JLabel labelIcono;
-	private JTextPane server;
+	private JLabel server;
 	private TransferRelacion relacion;
-	private JTextPane base;
+	private JLabel base;
 	private JTextField cajaUsuario;
 	private JButton btnExaminar;
 	private JButton btnComprobar;
-	private JButton btnLimpiar;
 	private JButton btnPista;
 	private JTextField textoNombre;
 	private JLabel nombre;
 	private JPasswordField cajaPass;
-	
 	protected TransferConexion _conexion;
 
 	public GUI_Conexion() {
@@ -84,14 +61,12 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
         setModal(true);
         getContentPane().setLayout(null);
         getContentPane().add(getserver());
-        getContentPane().add(getLabelIcono());
         getContentPane().add(getpuerto());
         getContentPane().add(getcajaServer());
         getContentPane().add(getcajaPuerto());
         getContentPane().add(getusuario());
         getContentPane().add(getbase());
         getContentPane().add(getcajaUsuario());
-        getContentPane().add(getBotonCancelar());
         getContentPane().add(getBotonAnadir());
         getContentPane().add(getcajaBase());
         getContentPane().add(getpassword());
@@ -99,10 +74,9 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
         getContentPane().add(getNombre());
         getContentPane().add(getTextoNombre());
         getContentPane().add(getBtnPista());
-        getContentPane().add(getBtnLimpiar());
         getContentPane().add(getBtnComprobar());
         getContentPane().add(getBtnExaminar());
-        this.setSize(682, 339);
+        this.setSize(550, 350);
         this.addMouseListener(this);
 		this.addKeyListener(this);
     }
@@ -110,7 +84,6 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 	/*
 	 * Activar y desactivar el dialogo
 	 */
-	
 	public void setActiva(boolean crear, String nombre, TransferConexion tc){
 		this._crear = crear;
 		if (crear) {
@@ -121,13 +94,11 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 			this.cajaPuerto.setText("");
 			this.cajaUsuario.setText("");
 			this.cajaBase.setText("");
-		
 			if (_conexion.getTipoConexion() == FactoriaConectores.CONECTOR_MSACCESS_MDB){
 				this.server.setEnabled(false);
 				this.puerto.setEnabled(false);
 				this.usuario.setEnabled(false);
 				this.password.setEnabled(false);
-				
 				this.cajaServer.setEnabled(false);
 				this.cajaPuerto.setEnabled(false);
 				this.cajaBase.setEnabled(true);
@@ -140,7 +111,6 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 				this.puerto.setEnabled(true);
 				this.usuario.setEnabled(true);
 				this.password.setEnabled(true);
-				
 				this.cajaServer.setEnabled(true);
 				this.cajaPuerto.setEnabled(true);
 				this.cajaBase.setEnabled(true);
@@ -189,7 +159,6 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 				this.cajaPass.setText(tc.getPassword());
 				this.cajaPass.setEnabled(true);
 			}
-			
 			_conexion = tc;
 		}
 		
@@ -221,20 +190,13 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 		String txtPassword = new String(this.cajaPass.getPassword());
 		
 		if (_crear){
-			// CREAR
-	
-			// Comprobar datos
 			ConfiguradorInicial conf = new ConfiguradorInicial();
 			conf.leerFicheroConfiguracion();
 			if (!conf.estaDisponibleNombreConexion(textoNombre.getText())){
-				// Notificar error
 				JOptionPane.showMessageDialog(
-						null,
-						(Lenguaje.text(Lenguaje.ERROR))+"\n" +
-						"Ya existe una conexión con ese nombre",
-						(Lenguaje.text(Lenguaje.DBDT)),
-						JOptionPane.PLAIN_MESSAGE,
-						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
+						null, (Lenguaje.text(Lenguaje.ERROR))+"\n" +
+						"Ya existe una conexión con ese nombre", (Lenguaje.text(Lenguaje.DBDT)),
+						JOptionPane.PLAIN_MESSAGE);
 				return;
 			}
 			
@@ -244,14 +206,10 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 			if (faltanDatos){
 				// Notificar error
 				JOptionPane.showMessageDialog(
-					null,
-					(Lenguaje.text(Lenguaje.ERROR))+"\n" +
+					null,(Lenguaje.text(Lenguaje.ERROR))+"\n" +
 					(Lenguaje.text(Lenguaje.INFORMATION_INCOMPLETE)),
-					(Lenguaje.text(Lenguaje.DBDT)),
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
+					(Lenguaje.text(Lenguaje.DBDT)),JOptionPane.PLAIN_MESSAGE);
 				return;
-				
 			}else{
 				// Guardar conexion
 				TransferConexion guardada = new TransferConexion(			
@@ -278,12 +236,10 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 			if (faltanDatos){
 				// Notificar error
 				JOptionPane.showMessageDialog(
-					null,
-					(Lenguaje.text(Lenguaje.ERROR))+"\n" +
+					null,(Lenguaje.text(Lenguaje.ERROR))+"\n" +
 					(Lenguaje.text(Lenguaje.INFORMATION_INCOMPLETE)),
 					(Lenguaje.text(Lenguaje.DBDT)),
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
+					JOptionPane.PLAIN_MESSAGE);
 				return;
 				
 			}else{
@@ -302,9 +258,7 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 				conf.anadeConexion(textoNombre.getText(), guardada);
 				conf.guardarFicheroCofiguracion();
 			}
-			
 			controlador.getTheGuiSeleccionarConexion().rellenaTabla();
-			
 			this.setInactiva();
 		}
 	}
@@ -324,21 +278,6 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 			}
 		}
 	} 
-	public void keyReleased(KeyEvent arg0) {}
-
-	public void keyTyped(KeyEvent arg0) {}
-
-	public void mouseEntered( MouseEvent e ) {} 
-	
-	public void mouseClicked(MouseEvent arg0) {
-		this.requestFocus();
-	}
-
-	public void mouseExited(MouseEvent arg0) {}
-
-	public void mousePressed(MouseEvent arg0) {}
-
-	public void mouseReleased(MouseEvent arg0) {}
 	
 	//Oyente para todos los elementos
 	private KeyListener general = new KeyListener() {
@@ -353,37 +292,25 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 	/*
 	 * Interfaz
 	 */
-	
-	private JTextPane getserver() {
+	private JLabel getserver() {
 		if(server == null) {
-			server = new JTextPane();
+			server = new JLabel();
 			server.setText(Lenguaje.text(Lenguaje.SERVER));
-			//server.setText("Servidor");
-			server.setEditable(false);
+			server.setFont(theme.font());
 			server.setOpaque(false);
-			server.setBounds(118, 51, 89, 21);
+			server.setBounds(25, 65, 100, 25);
 			server.setFocusable(false);
 		}
 		return server;
 	}
-	
-	private JLabel getLabelIcono() {
-		if(labelIcono == null) {
-			labelIcono = new JLabel();
-			labelIcono.setIcon(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.TECLADO)));
-			labelIcono.setBounds(12, 15, 100, 87);
-		}
-		return labelIcono;
-	}
-
-	
+		
 	
 	private JLabel getpuerto() {
 		if(puerto == null) {
 			puerto = new JLabel();
+			puerto.setFont(theme.font());
 			puerto.setText(Lenguaje.text(Lenguaje.PORT));
-			//puerto.setText("Puerto");
-			puerto.setBounds(122, 96, 75, 21);
+			puerto.setBounds(25, 105, 100, 25);
 		}
 		return puerto;
 	}
@@ -391,7 +318,9 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 	private JTextField getcajaServer() {
 		if(cajaServer == null) {
 			cajaServer = new JTextField();
-			cajaServer.setBounds(219, 52, 321, 21);
+			cajaServer.setBounds(180, 65, 320, 25);
+			cajaServer.setFont(theme.font());
+			cajaServer.setForeground(theme.labelFontColorDark());
 			cajaServer.addKeyListener(general);
 		}
 		return cajaServer;
@@ -400,7 +329,9 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 	private JTextField getcajaPuerto() {
 		if(cajaPuerto == null) {
 			cajaPuerto = new JTextField();
-			cajaPuerto.setBounds(220, 92, 320, 21);
+			cajaPuerto.setBounds(180, 105, 320, 25);
+			cajaPuerto.setFont(theme.font());
+			cajaPuerto.setForeground(theme.labelFontColorDark());
 			cajaPuerto.addKeyListener(general);
 		}
 		return cajaPuerto;
@@ -409,21 +340,20 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 	private JLabel getusuario() {
 		if(usuario == null) {
 			usuario = new JLabel();
+			usuario.setFont(theme.font());
 			usuario.setText(Lenguaje.text(Lenguaje.USER));
-			//usuario.setText("Usuario");
-			usuario.setBounds(122, 178, 79, 21);
+			usuario.setBounds(25, 185, 100, 25);
 		}
 		return usuario;
 	}
 	
-	private JTextPane getbase() {
+	private JLabel getbase() {
 		if(base == null) {
-			base = new JTextPane();
+			base = new JLabel();
 			base.setText(Lenguaje.text(Lenguaje.DATA_BASE));
-			//base.setText("Base de datos");
-			base.setEditable(false);
+			base.setFont(theme.font());
 			base.setOpaque(false);
-			base.setBounds(118, 129, 102, 21);
+			base.setBounds(25, 145, 150, 25);
 			base.setFocusable(false);
 		}
 		return base;
@@ -432,111 +362,20 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 	private JTextField getcajaUsuario() {
 		if(cajaUsuario == null) {				
 			cajaUsuario = new JTextField();
-			cajaUsuario.setBounds(219, 175, 320, 21);
+			cajaUsuario.setFont(theme.font());
+			cajaUsuario.setForeground(theme.labelFontColorDark());
+			cajaUsuario.setBounds(180, 185, 320, 25);
 		}
 		cajaUsuario.addKeyListener(general);
 		return cajaUsuario;
 	}
-	
-	
-	private JButton getBotonCancelar() {
-		if(botonCancelar == null) {
-			botonCancelar = new JButton();
-			botonCancelar.setText(Lenguaje.text(Lenguaje.CANCEL));
-			botonCancelar.setBounds(459, 274, 80, 25);
-			botonCancelar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent evt) {
-					botonCancelarActionPerformed(evt);
-				}
-			});
-			botonCancelar.addKeyListener(new KeyListener() {
-				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==37){botonAnadir.grabFocus();}
-				}
-				public void keyReleased(KeyEvent e) {}
-				public void keyTyped(KeyEvent e) {}
-			});
-			botonCancelar.setMnemonic(	Lenguaje.text(Lenguaje.CANCEL).charAt(0));
-		}
-		return botonCancelar;
-	}
-	
-	private JButton getBotonAnadir() {
-		if(botonAnadir == null) {
-			botonAnadir = new JButton();
-			botonAnadir.setText(Lenguaje.text(Lenguaje.ACCEPT));
-			botonAnadir.setBounds(358, 274, 80, 25);
-			botonAnadir.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent evt) {
-					botonConnectActionPerformed(evt);
-				}
-			});
-			botonAnadir.addKeyListener(new KeyListener() {
-				public void keyPressed(KeyEvent e) {
-					if(e.getKeyCode()==10){botonConnectActionPerformed(null);}
-					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
-					else if(e.getKeyCode()==39){botonCancelar.grabFocus();}
-				}
-				public void keyReleased(KeyEvent e) {}
-				public void keyTyped(KeyEvent e) {}
-			});
-			botonAnadir.setMnemonic(Lenguaje.text(Lenguaje.ACCEPT).charAt(0));
-		}
-		return botonAnadir;
-	}
-	
-	/*
-	 * Utilidades
-	 */
-	private void centraEnPantalla(){
-		// Tamano de la pantalla
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		// Alto
-		String altoString = String.valueOf(this.getSize().getWidth());
-		altoString = altoString.substring(0,altoString.indexOf("."));
-		int altoInt = Integer.parseInt(altoString);
-		// Ancho
-		String anchoString = String.valueOf(this.getSize().getHeight());
-		anchoString = anchoString.substring(0,anchoString.indexOf("."));
-		int anchoInt = Integer.parseInt(anchoString);
-
-		setBounds((screenSize.width-altoInt)/2, (screenSize.height-anchoInt)/2, altoInt, anchoInt);
-	}
-
-	/*
-	 * Getters y setters
-	 */
-
-	public Controlador getControlador() {
-		return controlador;
-	}
-
-	public void setControlador(Controlador controlador) {
-		this.controlador = controlador;
-	}
-
-	public Vector<TransferEntidad> getListaEntidades() {
-		return listaEntidades;
-	}
-
-	public void setListaEntidades(Vector<TransferEntidad> listaEntidades) {
-		this.listaEntidades = listaEntidades;
-	}
-
-	public TransferRelacion getRelacion() {
-		return relacion;
-	}
-
-	public void setRelacion(TransferRelacion relacion) {
-		this.relacion = relacion;
-	}
-	
+		
 	private JTextField getcajaBase() {
 		if(cajaBase == null) {
 			cajaBase = new JTextField();
-			cajaBase.setBounds(219, 133, 320, 21);
+			cajaBase.setFont(theme.font());
+			cajaBase.setForeground(theme.labelFontColorDark());
+			cajaBase.setBounds(180, 145, 320, 25);
 		}
 		return cajaBase;
 	}
@@ -545,8 +384,8 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 		if(password == null) {
 			password = new JLabel();
 			password.setText(Lenguaje.text(Lenguaje.PASSWORD));
-			//password.setText("Contraseña");
-			password.setBounds(119, 225, 88, 16);
+			password.setFont(theme.font());
+			password.setBounds(25, 225, 100, 25);
 		}
 		return password;
 	}
@@ -554,11 +393,12 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 	private JPasswordField getCajaPass() {
 		if(cajaPass == null) {
 			cajaPass = new JPasswordField();
-			cajaPass.setBounds(219, 219, 320, 21);
+			cajaPass.setFont(theme.font());
+			cajaPass.setForeground(theme.labelFontColorDark());
+			cajaPass.setBounds(180, 225, 320, 25);
 		}
 		return cajaPass;
 	}
-	
 
 	public void setConexion(TransferConexion con){
 		this._conexion = con;
@@ -567,9 +407,9 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 	private JLabel getNombre() {
 		if(nombre == null) {
 			nombre = new JLabel();
-			//nombre.setText("Nombre");
 			nombre.setText(Lenguaje.text(Lenguaje.NAME));
-			nombre.setBounds(124, 19, 49, 27);
+			nombre.setFont(theme.font());
+			nombre.setBounds(25, 25, 100, 25);
 		}
 		return nombre;
 	}
@@ -577,17 +417,15 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 	private JTextField getTextoNombre() {
 		if(textoNombre == null) {
 			textoNombre = new JTextField();
-			textoNombre.setBounds(219, 12, 321, 23);
+			textoNombre.setFont(theme.font());
+			textoNombre.setForeground(theme.labelFontColorDark());
+			textoNombre.setBounds(180, 25, 320, 25);
 		}
 		return textoNombre;
 	}
 	
 	private JButton getBtnPista() {
-		if(btnPista == null) {
-			btnPista = new JButton();
-			btnPista.setText(Lenguaje.text(Lenguaje.HINT));
-			btnPista.setBounds(12, 274, 81, 26);
-		}
+		if(btnPista == null) btnPista = boton(25, 275,Lenguaje.text(Lenguaje.HINT));
 		
 		btnPista.addActionListener(new ActionListener() {
 			// Completar los cuadros con información de ejemplo
@@ -621,34 +459,28 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 		return btnPista;
 	}
 	
-	private JButton getBtnLimpiar() {
-		if(btnLimpiar == null) {
-			btnLimpiar = new JButton();
-			btnLimpiar.setText(Lenguaje.text(Lenguaje.CLEAN_FIELDS));
-			btnLimpiar.setBounds(112, 273, 81, 27);
+	private JButton getBotonAnadir() {
+		if(botonAnadir == null) {
+			botonAnadir = boton(390, 275,Lenguaje.text(Lenguaje.ACCEPT));
+			botonAnadir.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent evt) {
+					botonConnectActionPerformed(evt);
+				}
+			});
+			botonAnadir.addKeyListener(new KeyListener() {
+				public void keyPressed(KeyEvent e) {
+					if(e.getKeyCode()==10){botonConnectActionPerformed(null);}
+					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
+				}
+				public void keyReleased(KeyEvent e) {}
+				public void keyTyped(KeyEvent e) {}
+			});
 		}
-		
-		btnLimpiar.addActionListener(new ActionListener() {
-			// Limpiar los cuadros de texto
-			public void actionPerformed(ActionEvent evt) {
-				textoNombre.setText("");
-				cajaServer.setText("");
-				cajaPuerto.setText("");
-				cajaBase.setText("");
-				cajaUsuario.setText("");
-				cajaPass.setText("");
-			}
-		});
-		
-		return btnLimpiar;
+		return botonAnadir;
 	}
 	
 	private JButton getBtnComprobar() {
-		if(btnComprobar == null) {
-			btnComprobar = new JButton();
-			btnComprobar.setText(Lenguaje.text(Lenguaje.TEST_DATA));
-			btnComprobar.setBounds(212, 274, 129, 25);
-		}
+		if(btnComprobar == null) btnComprobar = boton(140, 275,Lenguaje.text(Lenguaje.TEST_DATA));
 		
 		btnComprobar.addActionListener(new ActionListener() {
 			// Comprueba si los datos de conexión son correctos
@@ -671,8 +503,7 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 						(Lenguaje.text(Lenguaje.ERROR))+"\n" +
 						(Lenguaje.text(Lenguaje.INFORMATION_INCOMPLETE)),
 						(Lenguaje.text(Lenguaje.DBDT)),
-						JOptionPane.PLAIN_MESSAGE,
-						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
+						JOptionPane.PLAIN_MESSAGE);
 					return;
 					
 				}else{
@@ -692,29 +523,17 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 					}
 					
 					connectionString += txtServer;
-					if (!txtPuerto.equalsIgnoreCase("")){
-						connectionString += ":" + txtPuerto;
-					}
+					if (!txtPuerto.equalsIgnoreCase("")) connectionString += ":" + txtPuerto;
 					
-					if (_conexion.getTipoConexion() != FactoriaConectores.CONECTOR_ORACLE){
-						connectionString += "/";
-					}else{
-						connectionString += "#" + txtDatabase;
-					}
+					if (_conexion.getTipoConexion() != FactoriaConectores.CONECTOR_ORACLE) connectionString += "/";
+					else connectionString += "#" + txtDatabase;
 					
-					if (_conexion.getTipoConexion() == 
-									FactoriaConectores.CONECTOR_MSACCESS_MDB){
+					if (_conexion.getTipoConexion() == FactoriaConectores.CONECTOR_MSACCESS_MDB)
 						connectionString = _conexion.getDatabase();
-					}
 					
 					// Probar conexion
 					TransferConexion con = new TransferConexion(			
-							_conexion.getTipoConexion(), 
-							connectionString,
-							false,
-							txtDatabase,
-							txtUsuario,
-							txtPassword);
+							_conexion.getTipoConexion(), connectionString,false,txtDatabase,txtUsuario,txtPassword);
 					
 					controlador.mensajeDesde_GUI(TC.GUIConexionDBMS_PruebaConexion, con);
 				}
@@ -725,28 +544,48 @@ public class GUI_Conexion extends javax.swing.JDialog implements KeyListener, Mo
 	}
 	
 	private JButton getBtnExaminar() {
-		if(btnExaminar == null) {
-			btnExaminar = new JButton();
-			btnExaminar.setText(Lenguaje.text(Lenguaje.EXPLORE));
-			btnExaminar.setBounds(558, 131, 92, 26);
-		}
+		if(btnExaminar == null) btnExaminar = boton(558, 131,Lenguaje.text(Lenguaje.EXPLORE));
 		
 		btnExaminar.addActionListener(new ActionListener() {
 			// Comprueba si los datos de conexión son correctos
 			public void actionPerformed(ActionEvent evt) {
 				JFileChooser chooser = new JFileChooser();
-			    FileNameExtensionFilter filter = new FileNameExtensionFilter(
-			        "Access databases (*.mdb)", "mdb");
+			    FileNameExtensionFilter filter = new FileNameExtensionFilter("Access databases (*.mdb)", "mdb");
 			    chooser.setFileFilter(filter);
 			    int returnVal = chooser.showOpenDialog(null);
 			    if(returnVal == JFileChooser.APPROVE_OPTION) {
 			       cajaBase.setText(chooser.getSelectedFile().getPath());
 			    }
 			}
-		});	
-		
+		});
 		return btnExaminar;
 	}
+	
+	/*
+	 * Getters y setters
+	 */
+	public Controlador getControlador() {
+		return controlador;
+	}
 
+	public void setControlador(Controlador controlador) {
+		this.controlador = controlador;
+	}
+
+	public Vector<TransferEntidad> getListaEntidades() {
+		return listaEntidades;
+	}
+
+	public void setListaEntidades(Vector<TransferEntidad> listaEntidades) {
+		this.listaEntidades = listaEntidades;
+	}
+
+	public TransferRelacion getRelacion() {
+		return relacion;
+	}
+
+	public void setRelacion(TransferRelacion relacion) {
+		this.relacion = relacion;
+	}
 }
 

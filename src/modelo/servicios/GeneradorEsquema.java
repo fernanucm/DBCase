@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Vector;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -22,7 +21,6 @@ import modelo.persistencia.DAODominios;
 import modelo.persistencia.DAOEntidades;
 import modelo.persistencia.DAORelaciones;
 import modelo.persistencia.EntidadYAridad;
-import modelo.tools.ImagePath;
 import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferConexion;
 import modelo.transfers.TransferDominio;
@@ -359,8 +357,7 @@ public class GeneradorEsquema {
 					Lenguaje.text(Lenguaje.ERROR)+".\n" +
 					Lenguaje.text(Lenguaje.MUST_GENERATE_SCRIPT),
 					Lenguaje.text(Lenguaje.DBCASE),
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
+					JOptionPane.PLAIN_MESSAGE);
 			return;
 		}
 		// Si ya se ha generado el Script
@@ -387,16 +384,14 @@ public class GeneradorEsquema {
 						Lenguaje.text(Lenguaje.OK_FILE)+"\n" +
 						Lenguaje.text(Lenguaje.FILE)+": "+ruta,
 						Lenguaje.text(Lenguaje.DBCASE),
-						JOptionPane.PLAIN_MESSAGE,
-						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
+						JOptionPane.PLAIN_MESSAGE);
 
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null,
 						Lenguaje.text(Lenguaje.ERROR)+".\n" +
 						Lenguaje.text(Lenguaje.SCRIPT_ERROR),
 						Lenguaje.text(Lenguaje.DBCASE),
-						JOptionPane.PLAIN_MESSAGE,
-						new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
+						JOptionPane.PLAIN_MESSAGE);
 			}	
 		}
 	}
@@ -427,8 +422,7 @@ public class GeneradorEsquema {
 					Lenguaje.text(Lenguaje.CONTINUE_ANYWAY),
 					Lenguaje.text(Lenguaje.DBCASE),
 					JOptionPane.OK_CANCEL_OPTION,
-					JOptionPane.WARNING_MESSAGE,
-					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.PREGUNTA)));
+					JOptionPane.WARNING_MESSAGE);
 			if (respuesta == JOptionPane.CANCEL_OPTION) return;
 		}
 		
@@ -455,8 +449,7 @@ public class GeneradorEsquema {
 					Lenguaje.text(Lenguaje.NO_DB_CONEXION)+" \n" +
 					Lenguaje.text(Lenguaje.REASON)+": \n" + e.getMessage(),
 					Lenguaje.text(Lenguaje.DBCASE),
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
+					JOptionPane.PLAIN_MESSAGE);
 			// Terminar
 			return;
 		}
@@ -487,8 +480,7 @@ public class GeneradorEsquema {
 					Lenguaje.text(Lenguaje.ENQUIRY_ERROR)+": \n" + ordenActual + "\n" + 
 					Lenguaje.text(Lenguaje.REASON)+": \n" + e.getMessage(),
 					Lenguaje.text(Lenguaje.DBCASE),
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
+					JOptionPane.PLAIN_MESSAGE);
 			
 			// Terminar
 			return;
@@ -501,8 +493,7 @@ public class GeneradorEsquema {
 					Lenguaje.text(Lenguaje.CANT_CLOSE_CONEXION)+" \n" +
 					Lenguaje.text(Lenguaje.REASON)+" \n" + e.getMessage(),
 					Lenguaje.text(Lenguaje.DBCASE),
-					JOptionPane.PLAIN_MESSAGE,
-					new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
+					JOptionPane.PLAIN_MESSAGE);
 			return;
 		}
 		System.out.println("Conexion cerrada correctamente");
@@ -510,8 +501,7 @@ public class GeneradorEsquema {
 				Lenguaje.text(Lenguaje.INFO)+"\n" +
 				Lenguaje.text(Lenguaje.OK_SCRIPT_EXECUT),
 				Lenguaje.text(Lenguaje.DBCASE),
-				JOptionPane.PLAIN_MESSAGE,
-				new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
+				JOptionPane.PLAIN_MESSAGE);
 	}
 	
 	private void creaTablas(TransferConexion conexion){
@@ -823,15 +813,13 @@ public class GeneradorEsquema {
 				Lenguaje.text(Lenguaje.NO_DB_CONEXION)+" \n" +
 				Lenguaje.text(Lenguaje.REASON)+": \n" + e.getMessage(),
 				Lenguaje.text(Lenguaje.DBCASE),
-				JOptionPane.PLAIN_MESSAGE,
-				new ImageIcon(getClass().getClassLoader().getResource(ImagePath.ERROR)));
+				JOptionPane.PLAIN_MESSAGE);
 			return;
 		}
 		JOptionPane.showMessageDialog(null,
 			Lenguaje.text(Lenguaje.OK_SCRIPT_EXECUT),
 			Lenguaje.text(Lenguaje.DBCASE),
-			JOptionPane.PLAIN_MESSAGE,
-			new ImageIcon(getClass().getClassLoader().getResource(ImagePath.OK)));
+			JOptionPane.PLAIN_MESSAGE);
 		return;
 	}
 

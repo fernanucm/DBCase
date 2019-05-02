@@ -13,7 +13,8 @@ import vista.tema.Theme;
 public class reportPanel extends JTextPane{
 
 	private JScrollPane scroll;
-	public reportPanel(Theme theme) {
+	private Theme theme = Theme.getInstancia();
+	public reportPanel() {
 		setContentType("text/html");
 		setBorder(null);
 		//css
