@@ -233,7 +233,7 @@ public class GUI_EditarDominioAtributo extends Parent_GUI {
 
 	private JButton getBotonEditar() {
 		if(botonEditar == null) {
-			botonEditar = boton(170, 120,Lenguaje.text(Lenguaje.ACCEPT));
+			botonEditar = boton(200, 120,Lenguaje.text(Lenguaje.ACCEPT));
 			botonEditar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					botonEditarActionPerformed(evt);

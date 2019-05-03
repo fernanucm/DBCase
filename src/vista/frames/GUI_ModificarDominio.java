@@ -2,8 +2,6 @@ package vista.frames;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Vector;
@@ -37,7 +35,6 @@ public class GUI_ModificarDominio extends Parent_GUI {
 	}
 
 	private void initComponents() {
-
 		setTitle(Lenguaje.text(Lenguaje.EDIT_DOMAIN));
 		setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
 		setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
@@ -63,7 +60,6 @@ public class GUI_ModificarDominio extends Parent_GUI {
 		this.centraEnPantalla();
 		SwingUtilities.invokeLater(doFocus);
 		this.setVisible(true);
-
 	}
 
 	/*
@@ -71,7 +67,7 @@ public class GUI_ModificarDominio extends Parent_GUI {
 	 */
 	private JButton getBotonEditar() {
 		if(botonEditar == null) {
-			botonEditar = boton(150, 150,Lenguaje.text(Lenguaje.ACCEPT));
+			botonEditar = boton(180, 170,Lenguaje.text(Lenguaje.ACCEPT));
 			botonEditar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					botonEditarActionPerformed(evt);
@@ -96,7 +92,6 @@ public class GUI_ModificarDominio extends Parent_GUI {
 			valores =valores.concat((String)dominio.getListaValores().get(i));
 			if(i<dominio.getListaValores().size()-1) valores = valores.concat(", ");
 		} 
-		
 		return valores;
 	}
 	
@@ -126,6 +121,7 @@ public class GUI_ModificarDominio extends Parent_GUI {
 	private JLabel getTextoTipo() {
 		if(textoTipo == null) {
 			textoTipo = new JLabel();
+			textoTipo.setFont(theme.font());
 			textoTipo.setText(Lenguaje.text(Lenguaje.TYPE));
 			textoTipo.setOpaque(false);
 			textoTipo.setBounds(25, 10, 353, 25);
@@ -141,11 +137,6 @@ public class GUI_ModificarDominio extends Parent_GUI {
 			comboDominios.setRenderer(new MyComboBoxRenderer());
 			comboDominios.setFont(theme.font());
 			comboDominios.setBounds(25, 40, 236, 25);
-			comboDominios.addItemListener(new ItemListener() {
-				public void itemStateChanged(ItemEvent evt) {
-					comboDominiosItemStateChanged(evt);
-				}
-			});
 		}
 		return comboDominios;
 	}
@@ -162,19 +153,14 @@ public class GUI_ModificarDominio extends Parent_GUI {
 			items2[i]=items[i];
 			i++;
 		}
-		for (int j=i+1; j<items.length;j++){
+		for (int j=i+1; j<items.length;j++)
 			items2[j-1]=items[j];
-		}
 		this.comboDominios.setModel(new javax.swing.DefaultComboBoxModel(items2));
 		// Si se puede, ponemos el dominio que tiene en el combo y tamano en caso de tenerlo
 		String dominio = this.getDominio().getTipoBase().toString();
 		// Si el dominio es null por defecto seleccionamos el tipo INTEGER
-		if (dominio.equals("null")){
-			this.comboDominios.setSelectedItem(TipoDominio.INTEGER);
-		}
-		else{
-			this.comboDominios.setSelectedItem(TipoDominio.valueOf(dominio));
-		}
+		if (dominio.equals("null")) this.comboDominios.setSelectedItem(TipoDominio.INTEGER);
+		else this.comboDominios.setSelectedItem(TipoDominio.valueOf(dominio));
 	}
 	
 	private Vector listaValores(){
@@ -184,33 +170,27 @@ public class GUI_ModificarDominio extends Parent_GUI {
 		int comilla1 = s.indexOf("'");
 		int comilla2 = s.indexOf("'", comilla1+1);
 		int pos1;
-		if (comilla2!= -1){//tener en cuenta las comas que no esten entre comillas
-			pos1 = s.indexOf(",", comilla2);
-		}
-		else
-			pos1 = s.indexOf(",");
+		
+		if (comilla2!= -1) pos1 = s.indexOf(",", comilla2);
+		else pos1 = s.indexOf(",");
+		
 		while(pos0 != -1 ){
 			String subS;
-			if (pos1 !=-1){ 
-				subS = s.substring(pos0, pos1);
-			}
-			else{
-				subS = s.substring(pos0, s.length());
-			}
+			if (pos1 !=-1) subS = s.substring(pos0, pos1);
+			else subS = s.substring(pos0, s.length());
+			
 			pos0 = pos1;
 			pos1 = s.indexOf (",",pos1+1);
 			if (subS.contains("'")){
 				//eliminamos todos lo que este fuera de las comillas
 				int primeraComilla = subS.indexOf("'");
 				int segundaComilla= subS.indexOf("'", primeraComilla+1);
-				if (segundaComilla!= -1){
-				subS = subS.substring(primeraComilla, segundaComilla+1);
-				}
+				if (segundaComilla!= -1)
+					subS = subS.substring(primeraComilla, segundaComilla+1);
 			}else{
 				subS = subS.replaceAll(" ","");
 				subS = subS.replaceAll(",","");
 			}
-			
 			v.add(subS);
 		}
 		return v;
@@ -247,9 +227,6 @@ public class GUI_ModificarDominio extends Parent_GUI {
 		this.setVisible(false);
 	}
 
-	private void comboDominiosItemStateChanged(java.awt.event.ItemEvent evt) {                                               
-		
-	}
 	public void keyPressed( KeyEvent e ) {
 		switch (e.getKeyCode()){
 			case 27: {
@@ -272,6 +249,7 @@ public class GUI_ModificarDominio extends Parent_GUI {
 
 	public void setDominio(TransferDominio dominio) {
 		this.dominio = dominio;
+		setTitle(Lenguaje.text(Lenguaje.EDIT)+" "+dominio);
 	}
 
 	public Controlador getControlador() {

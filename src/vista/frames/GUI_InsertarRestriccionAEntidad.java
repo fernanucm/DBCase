@@ -51,7 +51,7 @@ public class GUI_InsertarRestriccionAEntidad extends Parent_GUI {
 			jScrollPane1.setBounds(0, 0, 340, 250);
 		}
 		{
-			botonAceptar = boton(235, 275,Lenguaje.text(Lenguaje.ACCEPT));
+			botonAceptar = boton(270, 275,Lenguaje.text(Lenguaje.ACCEPT));
 			getContentPane().add(botonAceptar);
 			botonAceptar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {

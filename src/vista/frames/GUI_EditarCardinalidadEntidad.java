@@ -310,7 +310,7 @@ public class GUI_EditarCardinalidadEntidad extends Parent_GUI{
 			
 	private JButton getBotonEditar() {
 		if(botonEditar == null) {
-			botonEditar = boton(155, 325,Lenguaje.text(Lenguaje.ACCEPT));
+			botonEditar = boton(190, 325,Lenguaje.text(Lenguaje.ACCEPT));
 			botonEditar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					botonEditarActionPerformed(evt);

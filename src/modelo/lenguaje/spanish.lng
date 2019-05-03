@@ -368,7 +368,7 @@ dataBase=Base de datos:
 create=Crear
 user=Usuario:
 password=Contraseña:
-connect=Conectar
+connect=Enviar
 
 #"GUI_SeleccionarConexion" window
 selectConnection=Seleccionar Conexión
@@ -473,6 +473,8 @@ testData=Comprobar datos
 cleanFields=Limpiar
 hint=Ejemplo
 explore=Examinar...
+scriptGenerated=SCRIPT GENERADO POR DBCASE
+syntax=Sintaxis
 
 #restricciones
 restrictions=Restricciones

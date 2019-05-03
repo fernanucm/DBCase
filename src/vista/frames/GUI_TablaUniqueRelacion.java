@@ -64,7 +64,7 @@ public class GUI_TablaUniqueRelacion extends Parent_GUI {
 			jScrollPane2.setBounds(0, 200, 340, 70);
 		}
 		{
-			botonAceptar = boton(230, 280,Lenguaje.text(Lenguaje.ACCEPT));
+			botonAceptar = boton(280, 280,Lenguaje.text(Lenguaje.ACCEPT));
 			getContentPane().add(botonAceptar);
 			botonAceptar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {

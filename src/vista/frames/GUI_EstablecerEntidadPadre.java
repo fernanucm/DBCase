@@ -141,7 +141,7 @@ public class GUI_EstablecerEntidadPadre extends Parent_GUI{
 	 */
 	private JButton getBotonInsertar() {
 		if(botonInsertar == null) {
-			botonInsertar = botonInsertar(165,100);
+			botonInsertar = boton(180,100,Lenguaje.text(Lenguaje.ACCEPT));
 			botonInsertar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					botonAceptarActionPerformed(evt);
@@ -165,6 +165,7 @@ public class GUI_EstablecerEntidadPadre extends Parent_GUI{
 		if(comboEntidades == null) {
 			ComboBoxModel comboEntidadesModel = new DefaultComboBoxModel(new String[] { "Item One", "Item Two" });
 			comboEntidades = new JComboBox();
+			comboEntidades.setFont(theme.font());
 			comboEntidades.setRenderer(new MyComboBoxRenderer());
 			comboEntidades.setModel(comboEntidadesModel);
 			comboEntidades.setBounds(25, 40, 231, 27);
@@ -177,6 +178,7 @@ public class GUI_EstablecerEntidadPadre extends Parent_GUI{
 	private JLabel getTextoExplicacion() {
 		if(textoExplicacion == null) {
 			textoExplicacion = new JLabel();
+			textoExplicacion.setFont(theme.font());
 			textoExplicacion.setText(Lenguaje.text(Lenguaje.SELECT_PARENT_ENTITY));
 			textoExplicacion.setBounds(25, 10, 233, 25);
 			textoExplicacion.setOpaque(false);

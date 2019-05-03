@@ -515,6 +515,8 @@ public class Lenguaje {
 	public static final int THE_RELATION = 4322;
 	public static final int THE_ENTITY = 4323;
 	public static final int EMPTY_DIAGRAM = 4324;
+	public static final int SCRIPT_GENERATED = 4325;
+	public static final int SYNTAX = 4326;
 		
 	// Mensaje por defecto
 	private static String notExistingMessage = "Asked message does not exist";
@@ -1120,6 +1122,8 @@ public class Lenguaje {
 		case THE_ENTITY: texto = _textos.get("theentity"); break;
 		case THE_DOMAIN: texto = _textos.get("thedomain"); break;
 		case EMPTY_DIAGRAM: texto = _textos.get("emptyDiagram"); break;
+		case SCRIPT_GENERATED: texto = _textos.get("scriptGenerated"); break;
+		case SYNTAX: texto = _textos.get("syntax"); break;
 		default: texto = Lenguaje.notExistingMessage;
 		}
 		return corrigeCaracteres(texto);

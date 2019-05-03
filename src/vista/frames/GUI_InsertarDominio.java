@@ -36,14 +36,14 @@ public class GUI_InsertarDominio extends Parent_GUI {
 
 	private void initComponents() {
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		setTitle(Lenguaje.text(Lenguaje.INSERT_NEW_DOMAIN));
+		setTitle(Lenguaje.text(Lenguaje.ADD_DOMAIN));
 		setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
 		setResizable(false);
 		setModal(true);
 		getContentPane().setLayout(null);
 		setSize(300, 250);
 		{
-			botonInsertar = botonInsertar(160,180);
+			botonInsertar = boton(120,180,Lenguaje.text(Lenguaje.ADD_DOMAIN));
 			getContentPane().add(botonInsertar);
 			botonInsertar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {

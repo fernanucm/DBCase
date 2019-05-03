@@ -318,7 +318,7 @@ public class GUI_Conexion extends Parent_GUI{
 	private JTextField getcajaServer() {
 		if(cajaServer == null) {
 			cajaServer = new JTextField();
-			cajaServer.setBounds(180, 65, 320, 25);
+			cajaServer.setBounds(180, 65, 320, 30);
 			cajaServer.setFont(theme.font());
 			cajaServer.setForeground(theme.labelFontColorDark());
 			cajaServer.addKeyListener(general);
@@ -329,7 +329,7 @@ public class GUI_Conexion extends Parent_GUI{
 	private JTextField getcajaPuerto() {
 		if(cajaPuerto == null) {
 			cajaPuerto = new JTextField();
-			cajaPuerto.setBounds(180, 105, 320, 25);
+			cajaPuerto.setBounds(180, 105, 320, 30);
 			cajaPuerto.setFont(theme.font());
 			cajaPuerto.setForeground(theme.labelFontColorDark());
 			cajaPuerto.addKeyListener(general);
@@ -364,7 +364,7 @@ public class GUI_Conexion extends Parent_GUI{
 			cajaUsuario = new JTextField();
 			cajaUsuario.setFont(theme.font());
 			cajaUsuario.setForeground(theme.labelFontColorDark());
-			cajaUsuario.setBounds(180, 185, 320, 25);
+			cajaUsuario.setBounds(180, 185, 320, 30);
 		}
 		cajaUsuario.addKeyListener(general);
 		return cajaUsuario;
@@ -375,7 +375,7 @@ public class GUI_Conexion extends Parent_GUI{
 			cajaBase = new JTextField();
 			cajaBase.setFont(theme.font());
 			cajaBase.setForeground(theme.labelFontColorDark());
-			cajaBase.setBounds(180, 145, 320, 25);
+			cajaBase.setBounds(180, 145, 320, 30);
 		}
 		return cajaBase;
 	}
@@ -395,7 +395,7 @@ public class GUI_Conexion extends Parent_GUI{
 			cajaPass = new JPasswordField();
 			cajaPass.setFont(theme.font());
 			cajaPass.setForeground(theme.labelFontColorDark());
-			cajaPass.setBounds(180, 225, 320, 25);
+			cajaPass.setBounds(180, 225, 320, 30);
 		}
 		return cajaPass;
 	}
@@ -419,7 +419,7 @@ public class GUI_Conexion extends Parent_GUI{
 			textoNombre = new JTextField();
 			textoNombre.setFont(theme.font());
 			textoNombre.setForeground(theme.labelFontColorDark());
-			textoNombre.setBounds(180, 25, 320, 25);
+			textoNombre.setBounds(180, 25, 320, 30);
 		}
 		return textoNombre;
 	}
@@ -461,7 +461,7 @@ public class GUI_Conexion extends Parent_GUI{
 	
 	private JButton getBotonAnadir() {
 		if(botonAnadir == null) {
-			botonAnadir = boton(390, 275,Lenguaje.text(Lenguaje.ACCEPT));
+			botonAnadir = boton(450, 275,Lenguaje.text(Lenguaje.ACCEPT));
 			botonAnadir.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					botonConnectActionPerformed(evt);
