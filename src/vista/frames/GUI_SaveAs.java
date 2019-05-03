@@ -1,8 +1,6 @@
 package vista.frames;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -23,21 +21,10 @@ import controlador.TC;
 import modelo.lenguaje.Lenguaje;
 import vista.imagenes.ImagePath;
 
-/**
- * This code was edited or generated using CloudGarden's Jigloo
- * SWT/Swing GUI Builder, which is free for non-commercial
- * use. If Jigloo is being used commercially (ie, by a corporation,
- * company or business for any purpose whatever) then you
- * should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details.
- * Use of Jigloo implies acceptance of these licensing terms.
- * A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
- * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
- * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
- */
-public class GUI_WorkSpace extends javax.swing.JDialog{
 
-	private static final long serialVersionUID = 1L;
+@SuppressWarnings("serial")
+public class GUI_SaveAs extends Parent_GUI{
+
 	private Controlador controlador;
 	private JPanel panelPrincipal;
 	private JFileChooser jfc;
@@ -45,7 +32,7 @@ public class GUI_WorkSpace extends javax.swing.JDialog{
 	private int abrir;
 	private boolean actuado; //vale true tras guardar o abrir, false si pulsa en cancelar o cierra la ventana
 	
-	public GUI_WorkSpace() {
+	public GUI_SaveAs() {
 		this.initComponents();
 	}
 
@@ -60,9 +47,11 @@ public class GUI_WorkSpace extends javax.swing.JDialog{
 		getContentPane().add(panelPrincipal, BorderLayout.CENTER);
 		panelPrincipal.setPreferredSize(new java.awt.Dimension(545, 318));
 		jLabel1 = new JLabel();
+		jLabel1.setFont(theme.font());
 		panelPrincipal.add(jLabel1);
 		jLabel1.setBounds(12, 12, 521, 14);
 		jfc = new JFileChooser();
+		jfc.setFont(theme.font());
 		jfc.setCurrentDirectory(new File(System.getProperty("user.dir")+"/projects"));
 		panelPrincipal.add(jfc);
 		jfc.setBounds(0, 32, 547, 286);
@@ -211,24 +200,15 @@ public class GUI_WorkSpace extends javax.swing.JDialog{
 		controlador.setFileguardar(null);
 	}
 	
-	/*
-	 * Utilidades
-	 */
-	private void centraEnPantalla(){
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-	}
 
 	/*
 	 * METODOS PARA MANEJAR LOS FICHEROS XML
 	 */
 	class XMLFileFilter extends FileFilter {
-
 		@Override
 		public boolean accept(File f) {
 			return f.isDirectory() || f.getName().toLowerCase().endsWith(".xml");
 		}
-
 		@Override
 		public String getDescription() {
 			return "xml files";

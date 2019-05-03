@@ -112,7 +112,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	 * Activar y desctivar la ventana
 	 */
 	public void setActiva(int modo){
-		com.apple.eawt.Application.getApplication().setDockIconImage( new ImageIcon(getClass().getResource( "/vista/imagenes/DBCase_logo.png" )).getImage());
+		if (System.getProperty("os.name").toLowerCase().indexOf("mac") >= 0)
+			com.apple.eawt.Application.getApplication().setDockIconImage(new ImageIcon(getClass().getResource( "/vista/imagenes/DBCase_logo.png" )).getImage());
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		int xSize = ((int) tk.getScreenSize().getWidth());
 		int ySize = ((int) tk.getScreenSize().getHeight());

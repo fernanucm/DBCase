@@ -54,14 +54,14 @@ import vista.frames.GUI_RenombrarRelacion;
 import vista.frames.GUI_SeleccionarConexion;
 import vista.frames.GUI_TablaUniqueEntidad;
 import vista.frames.GUI_TablaUniqueRelacion;
-import vista.frames.GUI_WorkSpace;
+import vista.frames.GUI_SaveAs;
 import vista.tema.Theme;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class Controlador {
 	// GUIs
 	private GUIPrincipal theGUIPrincipal;
-	private GUI_WorkSpace theGUIWorkSpace;
+	private GUI_SaveAs theGUIWorkSpace;
 	// Fuera
 	private GUI_InsertarEntidad theGUIInsertarEntidad;
 	private GUI_InsertarRelacion theGUIInsertarRelacion;
@@ -188,7 +188,7 @@ public class Controlador {
 		theGUIModificarElementosDominio.setControlador(this);
 		
 		// Otras
-		theGUIWorkSpace = new GUI_WorkSpace();
+		theGUIWorkSpace = new GUI_SaveAs();
 		theGUIWorkSpace.setControlador(this);
 		cambios = false;
 		panelOpciones= new GUI_Pregunta();
@@ -1144,7 +1144,7 @@ public class Controlador {
 						Lenguaje.text(Lenguaje.DBCASE),true);
 				if (respuesta==1) guardarYSalir();
 				else if (respuesta==0) {
-						theGUIWorkSpace = new GUI_WorkSpace();
+						theGUIWorkSpace = new GUI_SaveAs();
 						theGUIWorkSpace.setControlador(this);
 						if (this.getTheGUIWorkSpace().setActiva(2)) salir();
 				}		
@@ -1167,7 +1167,7 @@ public class Controlador {
 						Lenguaje.text(Lenguaje.DBCASE),true);
 				if (respuesta==1) guardarYSalir();
 				else if (respuesta==0) {
-						theGUIWorkSpace = new GUI_WorkSpace();
+						theGUIWorkSpace = new GUI_SaveAs();
 						theGUIWorkSpace.setControlador(this);
 						if (this.getTheGUIWorkSpace().setActiva(2)) guardarYSalir();
 				}		
@@ -1180,34 +1180,34 @@ public class Controlador {
 						Lenguaje.text(Lenguaje.WISH_SAVE),
 						Lenguaje.text(Lenguaje.DBCASE),true);
 				if (respuesta==1) {
-						theGUIWorkSpace = new GUI_WorkSpace();
+						theGUIWorkSpace = new GUI_SaveAs();
 						theGUIWorkSpace.setControlador(this);
 						this.getTheGUIWorkSpace().setActiva(1);
 				}else if (respuesta==0) {
-						theGUIWorkSpace = new GUI_WorkSpace();
+						theGUIWorkSpace = new GUI_SaveAs();
 						theGUIWorkSpace.setControlador(this);
 						boolean guardado = this.getTheGUIWorkSpace().setActiva(2);
 						if (guardado){
-							theGUIWorkSpace = new GUI_WorkSpace();
+							theGUIWorkSpace = new GUI_SaveAs();
 							theGUIWorkSpace.setControlador(this);
 							this.getTheGUIWorkSpace().setActiva(1);
 						}
 				}		
 			}else{
-				theGUIWorkSpace = new GUI_WorkSpace();
+				theGUIWorkSpace = new GUI_SaveAs();
 				theGUIWorkSpace.setControlador(this);
 				this.getTheGUIWorkSpace().setActiva(1);
 			}
 			break;
 		}
 		case GUI_Principal_Click_Submenu_Guardar:{
-			theGUIWorkSpace = new GUI_WorkSpace();
+			theGUIWorkSpace = new GUI_SaveAs();
 			theGUIWorkSpace.setControlador(this);
 			this.getTheGUIWorkSpace().setActiva(2);
 			break;
 		}
 		case GUI_Principal_Click_Submenu_GuardarComo:{
-			theGUIWorkSpace = new GUI_WorkSpace();
+			theGUIWorkSpace = new GUI_SaveAs();
 			theGUIWorkSpace.setControlador(this);
 			this.getTheGUIWorkSpace().setActiva(3);
 			break;
@@ -1222,7 +1222,7 @@ public class Controlador {
 						this.getTheGUIWorkSpace().nuevoTemp();
 						setCambios(false);
 				}else if (respuesta==0) {
-						theGUIWorkSpace = new GUI_WorkSpace();
+						theGUIWorkSpace = new GUI_SaveAs();
 						theGUIWorkSpace.setControlador(this);
 						if (this.getTheGUIWorkSpace().setActiva(2)){
 							filetemp.delete();
@@ -3370,11 +3370,11 @@ public class Controlador {
 		this.theServiciosSistema = theServiciosSistema;
 	}
 
-	public GUI_WorkSpace getTheGUIWorkSpace() {
+	public GUI_SaveAs getTheGUIWorkSpace() {
 		return theGUIWorkSpace;
 	}
 
-	public void setTheGUIWorkSpace(GUI_WorkSpace theGUIWorkSpace) {
+	public void setTheGUIWorkSpace(GUI_SaveAs theGUIWorkSpace) {
 		this.theGUIWorkSpace = theGUIWorkSpace;
 	}
 
