@@ -20,6 +20,7 @@ import modelo.lenguaje.Lenguaje;
 import modelo.tools.TipoDominio;
 import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferDominio;
+import vista.components.MyComboBoxRenderer;
 import vista.imagenes.ImagePath;
 
 @SuppressWarnings({"rawtypes" ,"unchecked", "serial"})
@@ -254,6 +255,7 @@ public class GUI_EditarDominioAtributo extends Parent_GUI {
 	private JComboBox getComboDominios() {
 		if(comboDominios == null) {
 			comboDominios = new JComboBox();
+			comboDominios.setRenderer(new MyComboBoxRenderer());
 			comboDominios.setBounds(25, 25, 228, 25);
 			comboDominios.setFont(theme.font());
 			comboDominios.addItemListener(new ItemListener() {

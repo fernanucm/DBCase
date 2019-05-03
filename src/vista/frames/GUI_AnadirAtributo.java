@@ -22,6 +22,7 @@ import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferDominio;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
+import vista.components.MyComboBoxRenderer;
 import vista.imagenes.ImagePath;
 
 @SuppressWarnings({"rawtypes" ,"unchecked", "serial"})
@@ -300,6 +301,7 @@ public class GUI_AnadirAtributo extends Parent_GUI{
 	private JComboBox getComboTransfers() {
 		if(comboTransfers == null) {
 			comboTransfers = new JComboBox();
+			comboTransfers.setRenderer(new MyComboBoxRenderer());
 			comboTransfers.setFont(theme.font());
 			comboTransfers.setBackground(theme.background());
 			comboTransfers.setBounds(25, 40, 231, 21);
@@ -439,6 +441,7 @@ public class GUI_AnadirAtributo extends Parent_GUI{
 	private JComboBox getComboDominios() {
 		if(comboDominios == null) {
 			comboDominios = new JComboBox();
+			comboDominios.setRenderer(new MyComboBoxRenderer());
 			comboDominios.setFont(theme.font());
 			comboDominios.setBounds(25, 230, 231, 27);
 			comboDominios.addItemListener(new java.awt.event.ItemListener() {

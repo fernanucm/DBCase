@@ -18,6 +18,7 @@ import controlador.TC;
 import modelo.lenguaje.Lenguaje;
 import modelo.tools.TipoDominio;
 import modelo.transfers.TransferDominio;
+import vista.components.MyComboBoxRenderer;
 import vista.imagenes.ImagePath;
 
 @SuppressWarnings({ "rawtypes", "serial" , "unchecked"})
@@ -137,6 +138,7 @@ public class GUI_ModificarDominio extends Parent_GUI {
 	private JComboBox getComboDominios() {
 		if(comboDominios == null) {
 			comboDominios = new JComboBox();
+			comboDominios.setRenderer(new MyComboBoxRenderer());
 			comboDominios.setFont(theme.font());
 			comboDominios.setBounds(25, 40, 236, 25);
 			comboDominios.addItemListener(new ItemListener() {

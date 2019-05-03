@@ -150,10 +150,10 @@ public class Tabla {
 			if (this.estaRepe(atributos.elementAt(i)[0], atributos)) 
 				repe +=atributos.elementAt(i)[2]+"_";
 			t.aniadeAtributo(ponGuionesBajos(repe+atributos.elementAt(i)[0]), 
-							atributos.elementAt(i)[1], 
-							ponGuionesBajos(atributos.elementAt(i)[2]),
-							atributos.elementAt(i)[3].equalsIgnoreCase("1"),
-							atributos.elementAt(i)[4].equalsIgnoreCase("1"));
+				atributos.elementAt(i)[1], 
+				ponGuionesBajos(atributos.elementAt(i)[2]),
+				atributos.elementAt(i)[3].equalsIgnoreCase("1"),
+				atributos.elementAt(i)[4].equalsIgnoreCase("1"));
 		}
 		
 		//Anade las claves primarias
@@ -303,7 +303,7 @@ public class Tabla {
 	}
 	
 	public String getNombreConstraint() {
-		String s = "constraint_name" + (constraintNumber!=0 ? "("+constraintNumber+")":"");
+		String s = "ctr" + (constraintNumber!=0 ? "_"+ (constraintNumber<10?"0":"") + constraintNumber:"");
 		constraintNumber++;
 		return s;
 	}

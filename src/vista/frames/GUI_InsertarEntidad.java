@@ -23,6 +23,7 @@ import controlador.TC;
 import modelo.lenguaje.Lenguaje;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
+import vista.components.MyComboBoxRenderer;
 import vista.imagenes.ImagePath;
 
 
@@ -160,8 +161,9 @@ public class GUI_InsertarEntidad extends Parent_GUI{
 			selecFuerte.setVisible(false);
 		}
 		{
-			if(comboEntidadesFuertes == null) comboEntidadesFuertes = new JComboBox();
-			getContentPane().add(comboEntidadesFuertes);
+			if(comboEntidadesFuertes == null)
+				comboEntidadesFuertes = new JComboBox();
+			comboEntidadesFuertes.setRenderer(new MyComboBoxRenderer());
 			getContentPane().add(comboEntidadesFuertes);
 			comboEntidadesFuertes.setEnabled(false);
 			comboEntidadesFuertes.setBounds(100, 105, 200, 25);

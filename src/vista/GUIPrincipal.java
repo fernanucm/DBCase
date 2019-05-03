@@ -50,7 +50,7 @@ import javax.swing.tree.TreePath;
 import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
-import modelo.tools.AccionMenu;
+import modelo.tools.TipoDominio;
 import modelo.transfers.Transfer;
 import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferConexion;
@@ -58,6 +58,7 @@ import modelo.transfers.TransferDominio;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
 import vista.components.ArbolElementos;
+import vista.components.MyComboBoxRenderer;
 import vista.components.miMenu;
 import vista.components.GUIPanels.TablaVolumenes;
 import vista.components.GUIPanels.addTransfersPanel;
@@ -240,6 +241,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		splitDisenoInfo.setOneTouchExpandable(false);
 		
 		infoTabPane = new JTabbedPane();
+		infoTabPane.setFont(theme.font());
 		JSplitPane splitTabMapa = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		splitTabMapa.add(infoTabPane, JSplitPane.RIGHT);
 		infoTabPane.setFocusable(false);
@@ -292,6 +294,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		panelTablas.setLayout(new BorderLayout());
 		panelTablas.setBackground(theme.background());
 		tablaVolumenes = new TablaVolumenes();
+		tablaVolumenes.setFont(theme.font());
 		tablaVolumenes.getModel().addTableModelListener(new TableModelListener() {
 			@Override
 			public void tableChanged(TableModelEvent e) {
@@ -372,8 +375,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		
 		cboSeleccionDBMS = new JComboBox();
 		for (int i=0; i < listaConexiones.size(); i++)
-			cboSeleccionDBMS.insertItemAt(listaConexiones.get(i).getRuta(),
-					listaConexiones.get(i).getTipoConexion());
+			cboSeleccionDBMS.insertItemAt(listaConexiones.get(i).getRuta(),listaConexiones.get(i).getTipoConexion());
 		
 		cboSeleccionDBMS.setSelectedIndex(0);
 		cboSeleccionDBMS.addActionListener(new ActionListener(){
@@ -383,7 +385,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 			}
 		});
 		cboSeleccionDBMS.setMaximumSize(new Dimension(500,40));
-		
+		cboSeleccionDBMS.setFont(theme.font());
+		cboSeleccionDBMS.setRenderer(new MyComboBoxRenderer());
 		JPanel textPanel2 = new JPanel();
 		textPanel2.setLayout(new BoxLayout(textPanel2,BoxLayout.X_AXIS));
 		JLabel text2 = new JLabel("<html><span style='font-size:20px'>"+Lenguaje.text(Lenguaje.PHYS_MODEL)+"</span></html>");
@@ -1095,65 +1098,122 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	         }
 	         else{
 	        	 if (javax.swing.SwingUtilities.isRightMouseButton(e)) {
-	        		 popup.removeAll();
-		 			 GUIPrincipal p = getThePrincipal();
-		        	 popup.add(new AccionMenu(Lenguaje.text(Lenguaje.DOM_MENU_ADD),p,null));
-		        	 popup.setLocation(e.getLocationOnScreen());
-		        	 getPopUp().setVisible(true);
+	        		popup.removeAll();
+					JMenuItem m4 = new JMenuItem(Lenguaje.text(Lenguaje.DOM_MENU_ADD));
+					m4.setFont(theme.font());
+					m4.setForeground(theme.fontColor());
+					m4.addActionListener(new java.awt.event.ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							getPopUp().setVisible(false);
+							getControlador().mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_CrearDominio, null);
+							actualizaArbolDominio(null);
+						}
+					});
+					popup.add(m4);
+		        	popup.setLocation(e.getLocationOnScreen());
+		        	getPopUp().setVisible(true);
 	             }
 	        	 else{
 		        	 getPopUp().setVisible(false);
 		         }
-	        	 
 	         }
-	         
-	         
-	     }		
+	     }
+	     
 		 private void muestraMenu(MouseEvent e, TreePath selPath) {
 			popup.removeAll();
-			GUIPrincipal p = getThePrincipal();
 			if(selPath.getPathCount()==2){//Nodo principal de un dominio
-				//buscamos el transfer
 				String nombre= selPath.getLastPathComponent().toString();
-				nombre= nombre.replace('"', '*');
-				nombre= nombre.replaceAll(Lenguaje.text(Lenguaje.DOMAIN)+" ", "");
-				nombre= nombre.replace("*", "");
-				
-				int index=-1;
-				for (int i=0; i<listaDominios.size();i++){
-					if(listaDominios.get(i).getNombre().equals(nombre)){
-					 index=i;	
-					}
+				if(!esDominioDefecto(nombre)) {
+					//buscamos el transfer
 					
+					nombre= nombre.replace('"', '*');
+					nombre= nombre.replaceAll(Lenguaje.text(Lenguaje.DOMAIN)+" ", "");
+					nombre= nombre.replace("*", "");
+					
+					int index=-1;
+					for (int i=0; i<listaDominios.size();i++)
+						if(listaDominios.get(i).getNombre().equals(nombre)) index=i;
+	
+					TransferDominio dominio = listaDominios.get(index);
+					JMenuItem m1 = new JMenuItem(Lenguaje.text(Lenguaje.DOM_MENU_RENAME));
+					m1.setFont(theme.font());
+					m1.setForeground(theme.fontColor());
+					m1.addActionListener(new java.awt.event.ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							TransferDominio clon_dominio = dominio.clonar();
+							getPopUp().setVisible(false);
+							getControlador().mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_RenombrarDominio,clon_dominio);
+							actualizaArbolDominio(clon_dominio.getNombre());
+						}
+					});
+					JMenuItem m2 = new JMenuItem(Lenguaje.text(Lenguaje.DOM_MENU_DELETE));
+					m2.setFont(theme.font());
+					m2.setForeground(theme.fontColor());
+					m2.addActionListener(new java.awt.event.ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							TransferDominio clon_dominio = dominio.clonar();
+							getPopUp().setVisible(false);
+							getControlador().mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EliminarDominio,clon_dominio);
+							actualizaArbolDominio(null);
+						}
+					});
+					JMenuItem m3 = new JMenuItem(Lenguaje.text(Lenguaje.DOM_MENU_MODIFY));
+					m3.setFont(theme.font());
+					m3.setForeground(theme.fontColor());
+					m3.addActionListener(new java.awt.event.ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							TransferDominio clon_dominio = dominio.clonar();
+							getPopUp().setVisible(false);
+							getControlador().mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_ModificarDominio,clon_dominio);
+							actualizaArbolDominio(clon_dominio.getNombre());
+						}
+					});
+					popup.add(m1);
+					popup.addSeparator();
+					popup.add(m2);
+					popup.addSeparator();
+					popup.add(m3);
 				}
-				TransferDominio dominio = listaDominios.get(index);
-				
-				popup.add(new AccionMenu(Lenguaje.text(Lenguaje.DOM_MENU_RENAME),p, dominio));
-				popup.addSeparator();
-				popup.add(new AccionMenu(Lenguaje.text(Lenguaje.DOM_MENU_DELETE),p,dominio));
-				popup.addSeparator();
-				popup.add(new AccionMenu(Lenguaje.text(Lenguaje.DOM_MENU_MODIFY),p,dominio));
-				
 			}
 			else if(selPath.getPathCount()==1){//Nodo "Dominios"
-				popup.add(new AccionMenu(Lenguaje.text(Lenguaje.DOM_MENU_ADD),p,null));
+				JMenuItem m4 = new JMenuItem(Lenguaje.text(Lenguaje.DOM_MENU_ADD));
+				m4.setFont(theme.font());
+				m4.setForeground(theme.fontColor());
+				m4.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						getPopUp().setVisible(false);
+						getControlador().mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_CrearDominio, null);
+						actualizaArbolDominio(null);
+					}
+				});
+				popup.add(m4);
 			}
 			else if(selPath.getLastPathComponent().toString().startsWith(Lenguaje.text(Lenguaje.DOM_TREE_TYPE)+" ") && (selPath.getPathCount()==3)){
 				//buscamos el transfer
 				String nombre= selPath.getParentPath().getLastPathComponent().toString();
-				nombre= nombre.replace('"', '*');
-				nombre= nombre.replaceAll(Lenguaje.text(Lenguaje.DOMAIN)+" ", "");
-				nombre= nombre.replace("*", "");
-				
-				int index=-1;
-				for (int i=0; i<listaDominios.size();i++){
-					if(listaDominios.get(i).getNombre().equals(nombre)){
-					 index=i;	
-					}
+				if(!esDominioDefecto(nombre)) {
+					nombre= nombre.replace('"', '*');
+					nombre= nombre.replaceAll(Lenguaje.text(Lenguaje.DOMAIN)+" ", "");
+					nombre= nombre.replace("*", "");
 					
+					int index=-1;
+					for (int i=0; i<listaDominios.size();i++)
+						if(listaDominios.get(i).getNombre().equals(nombre)) index=i;
+					
+					TransferDominio dominio = listaDominios.get(index);
+					JMenuItem m5 = new JMenuItem(Lenguaje.text(Lenguaje.DOM_MENU_MODIFY));
+					m5.setFont(theme.font());
+					m5.setForeground(theme.fontColor());
+					m5.addActionListener(new java.awt.event.ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							TransferDominio clon_dominio = dominio.clonar();
+							getPopUp().setVisible(false);
+							getControlador().mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_ModificarDominio,clon_dominio);
+							actualizaArbolDominio(clon_dominio.getNombre());
+						}
+					});
+					popup.add(m5);
 				}
-				TransferDominio dominio = listaDominios.get(index);
-				popup.add(new AccionMenu(Lenguaje.text(Lenguaje.DOM_MENU_MODIFY),p,dominio));
 			}
 			else if(selPath.getLastPathComponent().toString().equals(Lenguaje.text(Lenguaje.DOM_TREE_TYPE)) && (selPath.getPathCount()==3)){
 				//buscamos el transfer
@@ -1163,16 +1223,35 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				nombre= nombre.replace("*", "");
 				
 				int index=-1;
-				for (int i=0; i<listaDominios.size();i++){
-					if(listaDominios.get(i).getNombre().equals(nombre)){
-					 index=i;	
-					}
-					
-				}
+				for (int i=0; i<listaDominios.size();i++)
+					if(listaDominios.get(i).getNombre().equals(nombre)) index=i;
+				
 				TransferDominio dominio = listaDominios.get(index);
-				popup.add(new AccionMenu(Lenguaje.text(Lenguaje.DOM_MENU_MODIFY),p,dominio));
+				JMenuItem m6 = new JMenuItem(Lenguaje.text(Lenguaje.DOM_MENU_MODIFY));
+				m6.setFont(theme.font());
+				m6.setForeground(theme.fontColor());
+				m6.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						TransferDominio clon_dominio = dominio.clonar();
+						getPopUp().setVisible(false);
+						getControlador().mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_ModificarDominio,clon_dominio);
+						actualizaArbolDominio(clon_dominio.getNombre());
+					}
+				});
+				popup.add(m6);
 				popup.addSeparator();
-				popup.add(new AccionMenu(Lenguaje.text(Lenguaje.DOM_MENU_IN_ORDER),p,dominio));
+				JMenuItem m8 = new JMenuItem(Lenguaje.text(Lenguaje.DOM_MENU_IN_ORDER));
+				m8.setFont(theme.font());
+				m8.setForeground(theme.fontColor());
+				m8.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						TransferDominio clon_dominio = dominio.clonar();
+						getPopUp().setVisible(false);
+						getControlador().mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_OrdenarValoresDominio,clon_dominio);
+						actualizaArbolDominio(clon_dominio.getNombre());
+					}
+				});
+				popup.add(m8);
 			}
 			else if(selPath.getParentPath().getLastPathComponent().toString().equals(Lenguaje.text(Lenguaje.DOM_TREE_VALUES)) && (selPath.getPathCount()==4)){
 				//buscamos el transfer
@@ -1182,38 +1261,60 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				nombre= nombre.replace("*", "");
 				
 				int index=-1;
-				for (int i=0; i<listaDominios.size();i++){
-					if(listaDominios.get(i).getNombre().equals(nombre)){
-					 index=i;	
-					}
-					
-				}
+				for (int i=0; i<listaDominios.size();i++)
+					if(listaDominios.get(i).getNombre().equals(nombre)) index=i;
 				TransferDominio dominio = listaDominios.get(index);
-				popup.add(new AccionMenu(Lenguaje.text(Lenguaje.DOM_MENU_MODIFY),p,dominio));
+				JMenuItem m7 = new JMenuItem(Lenguaje.text(Lenguaje.DOM_MENU_MODIFY));
+				m7.setFont(theme.font());
+				m7.setForeground(theme.fontColor());
+				m7.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						TransferDominio clon_dominio = dominio.clonar();
+						getPopUp().setVisible(false);
+						getControlador().mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_ModificarDominio,clon_dominio);
+						actualizaArbolDominio(clon_dominio.getNombre());
+					}
+				});
+				popup.add(m7);
 				popup.addSeparator();
-				popup.add(new AccionMenu(Lenguaje.text(Lenguaje.DOM_MENU_IN_ORDER),p,dominio));
-			}
-						
+				JMenuItem m8 = new JMenuItem(Lenguaje.text(Lenguaje.DOM_MENU_IN_ORDER));
+				m8.setFont(theme.font());
+				m8.setForeground(theme.fontColor());
+				m8.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						TransferDominio clon_dominio = dominio.clonar();
+						getPopUp().setVisible(false);
+						getControlador().mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_OrdenarValoresDominio,clon_dominio);
+						actualizaArbolDominio(clon_dominio.getNombre());
+					}
+				});
+				popup.add(m8);
+			}		
 			popup.setLocation(e.getLocationOnScreen());
 			popup.setVisible(true);
 		}
-		 
 	 };
 	 
+	 private boolean esDominioDefecto(String name) {
+		 for(TipoDominio t:TipoDominio.values())
+			 if(t.toString().equals(name)) return true;
+		 return false;
+	 }
 	 
 	/*
 	* LISTENER DEL ARBOL INFORMACION
 	* */
 	MouseListener mls = new MouseAdapter() {
-    @Override
-	public void mousePressed(MouseEvent e){
-         int selRow = arbol.getRowForLocation(e.getX(), e.getY());
-         TreePath selPath = arbol.getPathForLocation(e.getX(), e.getY());
-         if(selRow != -1) 
-        	 if (javax.swing.SwingUtilities.isRightMouseButton(e)) muestraMenu(e, selPath);
-        	 else getPopUp().setVisible(false);
-         else getPopUp().setVisible(false);
-     }		
+	    @Override
+		public void mousePressed(MouseEvent e){
+	         int selRow = arbol.getRowForLocation(e.getX(), e.getY());
+	         TreePath selPath = arbol.getPathForLocation(e.getX(), e.getY());
+	         if(selRow != -1) 
+	        	 if (javax.swing.SwingUtilities.isRightMouseButton(e)) muestraMenu(e, selPath);
+	        	 else getPopUp().setVisible(false);
+	         else getPopUp().setVisible(false);
+     }
+    
 	private void muestraMenu(MouseEvent e, TreePath selPath) {
 		popup.removeAll();
 		controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeEntidades, null);
@@ -1380,7 +1481,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				}
 				
 				final TransferAtributo atributo = listaAtributos.get(numAtributo);
-				
 				if (pertenece==0)//si es atributo de entidad miramos si es clave primaria
 					for (int j=0; j<listaEntidades.get(index).getListaClavesPrimarias().size();j++){ 
 						System.out.println(listaEntidades.get(index).getListaClavesPrimarias().get(j).toString());
@@ -1391,6 +1491,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					}
 				// Editar el dominio del atributo
 				JMenuItem j2 = new JMenuItem(Lenguaje.text(Lenguaje.EDIT_DOMAIN));
+				j2.setFont(theme.font());
+				j2.setForeground(theme.fontColor());
 				j2.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						popup.setVisible(false);
@@ -1403,6 +1505,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				
 				// Renombrar un atributo
 				JMenuItem j1 = new JMenuItem(Lenguaje.text(Lenguaje.RENAME_ATTRIB));
+				j1.setFont(theme.font());
+				j1.setForeground(theme.fontColor());
 				j1.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						popup.setVisible(false);
@@ -1415,6 +1519,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 
 				// Eliminar un atributo
 				JMenuItem j7 = new JMenuItem(Lenguaje.text(Lenguaje.DELETE_ATTRIB));
+				j7.setFont(theme.font());
+				j7.setForeground(theme.fontColor());
 				j7.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						popup.setVisible(false);

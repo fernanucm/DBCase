@@ -16,6 +16,7 @@ import controlador.TC;
 import modelo.lenguaje.Lenguaje;
 import modelo.tools.TipoDominio;
 import modelo.transfers.TransferDominio;
+import vista.components.MyComboBoxRenderer;
 import vista.imagenes.ImagePath;
 
 @SuppressWarnings({"rawtypes" ,"unchecked", "serial"})
@@ -90,6 +91,7 @@ public class GUI_InsertarDominio extends Parent_GUI {
 		}
 		{
 			comboTipo = new JComboBox();
+			comboTipo.setRenderer(new MyComboBoxRenderer());
 			getContentPane().add(comboTipo);
 			comboTipo.setFont(theme.font());
 			comboTipo.setBounds(25, 90, 236, 25);

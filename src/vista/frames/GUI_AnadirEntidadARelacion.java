@@ -19,6 +19,7 @@ import modelo.lenguaje.Lenguaje;
 import modelo.persistencia.EntidadYAridad;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
+import vista.components.MyComboBoxRenderer;
 import vista.imagenes.ImagePath;
 
 @SuppressWarnings({"rawtypes" ,"unchecked", "serial"})
@@ -251,6 +252,7 @@ public class GUI_AnadirEntidadARelacion extends Parent_GUI{
 	private JComboBox getComboEntidades() {
 		if(comboEntidades == null) {
 			comboEntidades = new JComboBox();
+			comboEntidades.setRenderer(new MyComboBoxRenderer());
 			comboEntidades.setFont(theme.font());
 			comboEntidades.setBounds(25, 35, 231, 27);
 		}

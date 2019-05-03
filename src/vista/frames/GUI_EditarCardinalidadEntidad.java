@@ -22,6 +22,7 @@ import modelo.lenguaje.Lenguaje;
 import modelo.persistencia.EntidadYAridad;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
+import vista.components.MyComboBoxRenderer;
 import vista.imagenes.ImagePath;
 
 @SuppressWarnings({"rawtypes" ,"unchecked", "serial"})
@@ -330,6 +331,7 @@ public class GUI_EditarCardinalidadEntidad extends Parent_GUI{
 	private JComboBox getComboEntidades() {
 		if(comboEntidades == null) {
 			comboEntidades = new JComboBox();
+			comboEntidades.setRenderer(new MyComboBoxRenderer());
 			comboEntidades.setBounds(25, 52, 238, 25);
 			comboEntidades.setFont(theme.font());
 			comboEntidades.addItemListener(new ItemListener() {
@@ -441,6 +443,7 @@ public class GUI_EditarCardinalidadEntidad extends Parent_GUI{
 	private JComboBox getComboRoles() {
 		if(comboRoles == null) {
 			comboRoles = new JComboBox();
+			comboRoles.setRenderer(new MyComboBoxRenderer());
 			comboRoles.setFont(theme.font());
 			comboRoles.setBounds(25, 110, 238, 25);
 			comboRoles.addItemListener(new ItemListener() {

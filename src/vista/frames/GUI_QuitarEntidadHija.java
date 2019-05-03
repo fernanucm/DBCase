@@ -20,6 +20,7 @@ import modelo.persistencia.EntidadYAridad;
 import modelo.transfers.Transfer;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
+import vista.components.MyComboBoxRenderer;
 import vista.imagenes.ImagePath;
 
 @SuppressWarnings({ "rawtypes", "serial" , "unchecked"})
@@ -176,6 +177,7 @@ public class GUI_QuitarEntidadHija extends Parent_GUI {
 		if(comboEntidades == null) {
 			ComboBoxModel comboEntidadesModel = new DefaultComboBoxModel(new String[] { "Item One", "Item Two" });
 			comboEntidades = new JComboBox();
+			comboEntidades.setRenderer(new MyComboBoxRenderer());
 			comboEntidades.setFont(theme.font());
 			comboEntidades.setModel(comboEntidadesModel);
 			comboEntidades.setBounds(25, 38, 230, 25);

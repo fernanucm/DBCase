@@ -19,6 +19,7 @@ import modelo.lenguaje.Lenguaje;
 import modelo.transfers.Transfer;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
+import vista.components.MyComboBoxRenderer;
 import vista.imagenes.ImagePath;
 
 
@@ -164,6 +165,7 @@ public class GUI_EstablecerEntidadPadre extends Parent_GUI{
 		if(comboEntidades == null) {
 			ComboBoxModel comboEntidadesModel = new DefaultComboBoxModel(new String[] { "Item One", "Item Two" });
 			comboEntidades = new JComboBox();
+			comboEntidades.setRenderer(new MyComboBoxRenderer());
 			comboEntidades.setModel(comboEntidadesModel);
 			comboEntidades.setBounds(25, 40, 231, 27);
 			comboEntidades.addKeyListener(general);

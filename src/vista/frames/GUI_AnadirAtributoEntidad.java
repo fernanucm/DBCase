@@ -20,6 +20,7 @@ import modelo.tools.TipoDominio;
 import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferDominio;
 import modelo.transfers.TransferEntidad;
+import vista.components.MyComboBoxRenderer;
 import vista.imagenes.ImagePath;
 
 @SuppressWarnings({"rawtypes" ,"unchecked", "serial"})
@@ -425,6 +426,7 @@ public class GUI_AnadirAtributoEntidad extends Parent_GUI{
 	private JComboBox getComboDominios() {
 		if(comboDominios == null) {
 			comboDominios = new JComboBox();
+			comboDominios.setRenderer(new MyComboBoxRenderer());
 			comboDominios.setFont(theme.font());
 			comboDominios.setBounds(25, 190, 231, 27);
 			comboDominios.addItemListener(new java.awt.event.ItemListener() {
