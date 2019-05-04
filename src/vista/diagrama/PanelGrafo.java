@@ -45,6 +45,7 @@ import edu.uci.ics.jung.visualization.control.PickingGraphMousePlugin;
 import edu.uci.ics.jung.visualization.decorators.EdgeShape;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import edu.uci.ics.jung.visualization.picking.PickedState;
+import modelo.lenguaje.Lenguaje;
 import modelo.persistencia.EntidadYAridad;
 import modelo.persistencia.NodoEntidad;
 import modelo.transfers.Transfer;
@@ -510,8 +511,8 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 	public JTree generaArbolInformacion() {
 		JTree arbolInformacion;
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode();
-		DefaultMutableTreeNode arbolEntidades = new DefaultMutableTreeNode("Entidades");
-		DefaultMutableTreeNode arbolRelaciones = new DefaultMutableTreeNode("Relaciones");
+		DefaultMutableTreeNode arbolEntidades = new DefaultMutableTreeNode(Lenguaje.text(Lenguaje.ENTITIES));
+		DefaultMutableTreeNode arbolRelaciones = new DefaultMutableTreeNode(Lenguaje.text(Lenguaje.RELATIONS));
 		for (HashMap.Entry<Integer, TransferEntidad> ent : this.entidades.entrySet()) {
 			DefaultMutableTreeNode nodoEntidad = new DefaultMutableTreeNode(ent.getValue());
 			Vector lista = (ent.getValue().getListaAtributos());
