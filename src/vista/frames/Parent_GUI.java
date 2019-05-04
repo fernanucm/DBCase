@@ -40,7 +40,7 @@ public class Parent_GUI extends javax.swing.JDialog implements KeyListener, Mous
 		JButton boton = new JButton();
 		boton.setFont(theme.font());
 		boton.setText(name);
-		boton.setBounds(x,y, name.length()>8 ? 110+name.length()*4: name.length()<3 ?50:110, 30);
+		boton.setBounds(x,y, name.length()>8 ? 110+name.length()*4: name.length()<4 ?50:110, 30);
 		return boton;
 	}
 	

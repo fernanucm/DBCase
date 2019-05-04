@@ -29,13 +29,15 @@ public class ViewDealer {
 		this.splitCodigos = ((JSplitPane) codigos.getComponent(0));
 		this.infoSplitMapa = (JSplitPane) (((JSplitPane) diagrama.getComponent(0)).getComponent(2));
 		this.diagramaSplitCode = new JSplitPane();
+		this.diagramaSplitCode.setBorder(null);
 		this.programmerSplit = new JSplitPane();
+		this.programmerSplit.setBorder(null);
 	}
 	
 	public void loadDefaultView() {
-		if(modo==0)modoVerTodo();
-		else if(modo==1)modoDiseno();
-		else if(modo==2)modoProgramador();
+		if(modo==0) modoVerTodo();
+		else if(modo==1) modoDiseno();
+		else if(modo==2) modoProgramador();
 		else modoVerTodo();
 	}
 	/*
@@ -44,17 +46,16 @@ public class ViewDealer {
 	public void modoVerTodo() {
 		mainPanel.removeAll();
 		infoSplitMapa.add(infoPanel, JSplitPane.RIGHT);
-		infoSplitMapa.setResizeWeight(0.9);
 		mainPanel.add(diagramaSplitCode);
 		splitCodigos.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		diagramaSplitCode.add(codigos, JSplitPane.RIGHT);
 		diagramaSplitCode.add(diagrama, JSplitPane.LEFT);
-		diagramaSplitCode.setResizeWeight(0.9);
+		infoSplitMapa.setResizeWeight(0.2);
+		diagramaSplitCode.setResizeWeight(0.1);
 		diagramaSplitCode.setVisible(true);
 		programmerSplit.setVisible(false);
 		mainPanel.revalidate();		
 		mainPanel.repaint();
-		
 		modo = 0;
 	}
 	
@@ -65,6 +66,8 @@ public class ViewDealer {
 		mainPanel.removeAll();
 		infoSplitMapa.add(infoPanel, JSplitPane.RIGHT);
 		mainPanel.add(diagrama);
+		infoSplitMapa.setResizeWeight(0.2);
+		diagramaSplitCode.setResizeWeight(0.1);
 		diagramaSplitCode.setVisible(false);
 		programmerSplit.setVisible(false);
 		mainPanel.revalidate();

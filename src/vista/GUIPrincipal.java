@@ -232,7 +232,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	}//initMenu
 	
 	private void initDiagrama() {
-		
 		BorderLayout panelDiagramaLayout = new BorderLayout();
 		panelDiagrama.setLayout(panelDiagramaLayout);
 		
@@ -324,10 +323,12 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		JPanel botonesAnadir = new addTransfersPanel(controlador, listaTransfers);
 		
 		splitDisenoInfo.setBorder(null);
+		splitDisenoInfo.setResizeWeight(0.2);
 		diagrama.add(botonesAnadir, BorderLayout.WEST);
 		diagrama.add(tituloDiseno, BorderLayout.NORTH);
 		splitDisenoInfo.add(diagrama, JSplitPane.LEFT);
 		splitDisenoInfo.add(splitTabMapa,JSplitPane.RIGHT);
+		splitDisenoInfo.setResizeWeight(1);
 	}
 	
 	private void initCodes() {
