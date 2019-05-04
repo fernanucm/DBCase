@@ -9,7 +9,7 @@ import modelo.persistencia.DAODominios;
 import modelo.persistencia.DAOEntidades;
 import modelo.persistencia.DAORelaciones;
 import modelo.persistencia.EntidadYAridad;
-import modelo.tools.TipoDominio;
+import modelo.transfers.TipoDominio;
 import modelo.transfers.Transfer;
 import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferDominio;

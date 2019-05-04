@@ -32,6 +32,7 @@ public enum TC {
 	GUI_Principal_Click_BotonValidar,
 	GUI_Principal_Click_BotonGenerarScriptSQL,
 	GUI_Principal_Click_BotonGenerarArchivoScriptSQL,
+	GUI_Principal_Click_BotonGenerarArchivoModelo,
 	GUI_Principal_Click_BotonGenerarModeloRelacional,
 	GUI_Principal_Click_BotonEjecutarEnDBMS,
 	

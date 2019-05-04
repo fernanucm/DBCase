@@ -14,7 +14,7 @@ import javax.swing.SwingUtilities;
 import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
-import modelo.tools.TipoDominio;
+import modelo.transfers.TipoDominio;
 import modelo.transfers.TransferDominio;
 import vista.components.MyComboBoxRenderer;
 import vista.imagenes.ImagePath;
@@ -96,7 +96,7 @@ public class GUI_InsertarDominio extends Parent_GUI {
 			comboTipo.setFont(theme.font());
 			comboTipo.setBounds(25, 90, 236, 25);
 			//Creamos lista de tipos básicos
-			Object[] items = modelo.tools.TipoDominio.values();
+			Object[] items = modelo.transfers.TipoDominio.values();
 			Object[] items2 = new Object[items.length-1];
 			//quitamos BLOB
 			int i=0;

@@ -50,7 +50,7 @@ import javax.swing.tree.TreePath;
 import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
-import modelo.tools.TipoDominio;
+import modelo.transfers.TipoDominio;
 import modelo.transfers.Transfer;
 import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferConexion;
@@ -112,6 +112,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	 * Activar y desctivar la ventana
 	 */
 	public void setActiva(int modo){
+		//Miniatura de aplicacion para macOS
 		if (System.getProperty("os.name").toLowerCase().indexOf("mac") >= 0)
 			com.apple.eawt.Application.getApplication().setDockIconImage(new ImageIcon(getClass().getResource( "/vista/imagenes/DBCase_logo.png" )).getImage());
 		Toolkit tk = Toolkit.getDefaultToolkit();
@@ -466,10 +467,11 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	 * false: panel de modelo
 	 * true: panel de codigo
 	 * */
-	private void botonExportarArchivoActionPerformed(ActionEvent evt, boolean texto) {
+	private void botonExportarArchivoActionPerformed(ActionEvent evt, boolean sql) {
 		Thread hilo = new Thread(new Runnable(){
 			public void run() {
-				controlador.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_BotonGenerarArchivoScriptSQL, texto);
+				if(sql) controlador.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_BotonGenerarArchivoScriptSQL, codigoText.getText());
+				else controlador.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_BotonGenerarArchivoModelo, modeloText.getText());
 			}
 		});
 		hilo.start();
@@ -1794,23 +1796,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					popup.add(j9);
 					
 				} else {// if no Isa
-				//buscamos el transfer
-				
-				/*nombre= nombre.replace(Lenguaje.getMensaje(Lenguaje.ISA_RELATION)+" (", "");
-				nombre= nombre.replace(")", "");
-				int id=0;
-				try{
-					id= Integer.parseInt(nombre);
-				}catch(Exception e1){}
-				
-				int index=-1;
-				for (int i=0; i<listaRelaciones.size();i++){
-					if(listaRelaciones.get(i).getIdRelacion()==id){
-					 index=i;	
-					}
-					
-				}
-				final TransferRelacion relacion= listaRelaciones.get(index);*/
 				
 				popup.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.SET_PARENT_ENT)){
 					private static final long serialVersionUID = 8766595520619916135L;
@@ -1961,5 +1946,9 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		if(modo==0)dealer.modoVerTodo();
 		else if(modo==1)dealer.modoDiseno();
 		else if(modo==2)dealer.modoProgramador();
+	}
+
+	public String getInstrucciones() {
+		return codigoText.getInstrucciones();
 	}
 }

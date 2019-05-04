@@ -31,7 +31,6 @@ import modelo.transfers.TransferRelacion;
 public class GeneradorEsquema {
 	protected Controlador controlador;
 	//atributos para la generacion de los modelos
-	private String sql="";
 	private String sqlHTML="";
 	private String mr="";
 	private TransferConexion conexionScriptGenerado = null;
@@ -315,7 +314,6 @@ public class GeneradorEsquema {
 		tiposEnumerados.clear();
 		
 		conexionScriptGenerado = null;
-		sql="";
 		sqlHTML="";
 	}
 
@@ -328,8 +326,6 @@ public class GeneradorEsquema {
 		conexionScriptGenerado = conexion;
 		
 		// Cabeceras de los documentos
-		sql="-- "+Lenguaje.text(Lenguaje.SCRIPT_GENERATED)+"\n";
-		sql+="-- "+ Lenguaje.text(Lenguaje.SYNTAX) + conexion.getRuta() + "\n"; 
 		sqlHTML=warnings.toString();
 	
 		// Creamos las tablas
@@ -344,26 +340,22 @@ public class GeneradorEsquema {
 		controlador.mensajeDesde_SS(TC.SS_GeneracionScriptSQL,sqlHTML);
 	}
 
-	public void generaFicheroSQL(boolean texto){
-		String text = (texto)?sql:mr;
-		text = text.replaceAll("<h2>","\n");
-		text = text.replaceAll("</h2>", "\n-----------------\n");
-		text = text.replaceAll("</p>", "\n");
-		text = text.replaceAll("\\<.*?>","");
-		text = text.replaceAll("&rarr;","\u2192");
+	public void exportarCodigo(String text, boolean sql){
+		text="#"+Lenguaje.text(Lenguaje.SCRIPT_GENERATED)+"\n"+
+		(sql?"#"+Lenguaje.text(Lenguaje.SYNTAX) + ": " +conexionScriptGenerado.getRuta()+ "\n":"")+text; 
 		// Si no se ha generado antes el script lanzamos un error
 		if (text.isEmpty()){
 			JOptionPane.showMessageDialog(null,
-					Lenguaje.text(Lenguaje.ERROR)+".\n" +
-					Lenguaje.text(Lenguaje.MUST_GENERATE_SCRIPT),
-					Lenguaje.text(Lenguaje.DBCASE),
-					JOptionPane.PLAIN_MESSAGE);
+				Lenguaje.text(Lenguaje.ERROR)+".\n" +
+				Lenguaje.text(Lenguaje.MUST_GENERATE_SCRIPT),
+				Lenguaje.text(Lenguaje.DBCASE),
+				JOptionPane.PLAIN_MESSAGE);
 			return;
 		}
 		// Si ya se ha generado el Script
 		JFileChooser jfc = new JFileChooser();
 		jfc.setDialogTitle(Lenguaje.text(Lenguaje.DBCASE));
-		if(texto)jfc.setFileFilter(new FileNameExtensionFilter(Lenguaje.text(Lenguaje.SQL_FILES), "sql"));
+		if(sql)jfc.setFileFilter(new FileNameExtensionFilter(Lenguaje.text(Lenguaje.SQL_FILES), "sql"));
 		jfc.setFileFilter(new FileNameExtensionFilter("Text", "txt"));
 		int resul = jfc.showSaveDialog(null);
 		if (resul == 0){
@@ -406,7 +398,7 @@ public class GeneradorEsquema {
 		return conexiones;
 	}
 
-	public void ejecutarScriptEnDBMS(TransferConexion tc) {
+	public void ejecutarScriptEnDBMS(TransferConexion tc, String sql) {
 
 		// Comprobaciones previas
 		if (tc.getTipoConexion() != conexionScriptGenerado.getTipoConexion()) {
@@ -506,20 +498,17 @@ public class GeneradorEsquema {
 	
 	private void creaTablas(TransferConexion conexion){
 		sqlHTML+="<div class='card'><h2>"+Lenguaje.text(Lenguaje.TABLES_SECTION)+"</h2>";
-		sql+="\n-- "+Lenguaje.text(Lenguaje.TABLES_SECTION)+"\n";
 
 		Iterator tablasM=tablasMultivalorados.iterator();
 		while (tablasM.hasNext()){
 			Tabla t =(Tabla)tablasM.next();
 			sqlHTML+=t.codigoHTMLCreacionDeTabla(conexion);
-			sql+=t.codigoEstandarCreacionDeTabla(conexion);
 		}
 	
 		Iterator tablasR=tablasRelaciones.values().iterator();
 		while (tablasR.hasNext()){
 			Tabla t =(Tabla)tablasR.next();
 			sqlHTML+=t.codigoHTMLCreacionDeTabla(conexion);
-			sql+=t.codigoEstandarCreacionDeTabla(conexion);
 		}
 		
 		String tablasEntidad = "";
@@ -536,7 +525,6 @@ public class GeneradorEsquema {
 				tablasEntidad+=t.codigoEstandarCreacionDeTabla(conexion);
 			}
 		}
-		sql += tablasEntidad;
 		sqlHTML += tablasEntidadHTML;
 		sqlHTML+="<p></p></div>";
 	}
@@ -572,26 +560,22 @@ public class GeneradorEsquema {
 	
 	private void creaEnums(TransferConexion conexion){
 		sqlHTML+="<div class='card'><h2>"+Lenguaje.text(Lenguaje.TYPES_SECTION)+"</h2>";
-		sql+="\n-- "+Lenguaje.text(Lenguaje.TYPES_SECTION)+"\n";
 		
 		Iterator<Enumerado> tablasD=tiposEnumerados.values().iterator();
 		while (tablasD.hasNext()){
 			Enumerado e =tablasD.next();
 			sqlHTML+=e.codigoHTMLCreacionDeEnum(conexion);
-			sql+=e.codigoEstandarCreacionDeEnum(conexion);
 		}
 		sqlHTML+="<p></p></div>";
 	}
 	
 	private void ponRestricciones(TransferConexion conexion){
 		sqlHTML+="<div class='card'><h2>"+Lenguaje.text(Lenguaje.CONSTRAINTS_SECTION)+"</h2>";
-		sql+="\n-- "+Lenguaje.text(Lenguaje.CONSTRAINTS_SECTION)+"\n";
 		
 		Iterator tablasE=tablasEntidades.values().iterator();
 		while (tablasE.hasNext()){
 			Tabla t =(Tabla)tablasE.next();
 			sqlHTML += t.codigoHTMLRestriccionesDeTabla(conexion);
-			sql += t.codigoEstandarRestriccionesDeTabla(conexion);	
 		}
 		
 		// Escribir restricciones de relacion
@@ -599,7 +583,6 @@ public class GeneradorEsquema {
 		while (tablasR.hasNext()){
 			Tabla t =(Tabla)tablasR.next();
 			sqlHTML += t.codigoHTMLRestriccionesDeTabla(conexion);
-			sql += t.codigoEstandarRestriccionesDeTabla(conexion);	
 		}
 		
 		// Escribir restricciones de atributo
@@ -607,14 +590,12 @@ public class GeneradorEsquema {
 		while (tablasA.hasNext()){
 			Tabla t =(Tabla)tablasA.next();
 			sqlHTML += t.codigoHTMLRestriccionesDeTabla(conexion);
-			sql += t.codigoEstandarRestriccionesDeTabla(conexion);	
 		}
 		sqlHTML+="<p></p></div>";
 	}
 	
 	private void ponClaves(TransferConexion conexion){
 		sqlHTML+="<div class='card'><h2>"+Lenguaje.text(Lenguaje.KEYS_SECTION)+"</h2>";
-		sql+="\n-- "+Lenguaje.text(Lenguaje.KEYS_SECTION)+"\n";
 		
 		String restEntidad = "";
 		String restEntidadHTML = "";
@@ -631,21 +612,18 @@ public class GeneradorEsquema {
 			}
 		}
 		
-		sql += restEntidad;
 		sqlHTML += restEntidadHTML;
 		
 		Iterator tablasR=tablasRelaciones.values().iterator();
 		while (tablasR.hasNext()){
 			Tabla t =(Tabla)tablasR.next();
 			sqlHTML+=t.codigoHTMLClavesDeTabla(conexion);
-			sql+=t.codigoEstandarClavesDeTabla(conexion);
 		}
 		
 		Iterator tablasM=tablasMultivalorados.iterator();
 		while (tablasM.hasNext()){
 			Tabla t =(Tabla)tablasM.next();
 			sqlHTML+=t.codigoHTMLClavesDeTabla(conexion);
-			sql+=t.codigoEstandarClavesDeTabla(conexion);
 		}
 		sqlHTML+="<p></p></div>";
 	}

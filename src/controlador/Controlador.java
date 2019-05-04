@@ -1040,7 +1040,7 @@ public class Controlador {
 					Lenguaje.text(Lenguaje.WISH_CONTINUE),
 					Lenguaje.text(Lenguaje.DELETE_DOMAIN));
 			if (respuesta == 0){
-				modelo.tools.TipoDominio valorBase = td.getTipoBase();
+				modelo.transfers.TipoDominio valorBase = td.getTipoBase();
 				String dominioEliminado = td.getNombre();
 				this.getTheServiciosAtributos().ListaDeAtributos();
 				int cont = 0;
@@ -1305,8 +1305,13 @@ public class Controlador {
 			break;
 		}
 		case GUI_Principal_Click_BotonGenerarArchivoScriptSQL:{
-			boolean texto = (boolean) datos;
-			this.getTheServiciosSistema().generaFicheroSQL(texto);
+			String texto = (String) datos;
+			this.getTheServiciosSistema().exportarCodigo(texto, true);
+			break;
+		}
+		case GUI_Principal_Click_BotonGenerarArchivoModelo:{
+			String texto = (String) datos;
+			this.getTheServiciosSistema().exportarCodigo(texto, false);
 			break;
 		}
 		case GUI_Principal_Click_BotonEjecutarEnDBMS:{
@@ -1316,9 +1321,7 @@ public class Controlador {
 			//this.getTheGUIConfigurarConexionDBMS().setConexion(tc);
 			//this.getTheGUIConfigurarConexionDBMS().setActiva();
 		}
-		default:
-			break;
-
+		default:break;
 		} // switch
 	}
 
@@ -1692,7 +1695,7 @@ public class Controlador {
 		 */
 		case GUIConfigurarConexionDBMS_Click_BotonEjecutar:{
 			TransferConexion tc = (TransferConexion)datos;
-			this.getTheServiciosSistema().ejecutarScriptEnDBMS(tc);
+			this.getTheServiciosSistema().ejecutarScriptEnDBMS(tc, this.theGUIPrincipal.getInstrucciones());
 			break;
 		}
 		

@@ -17,7 +17,7 @@ import javax.swing.SwingUtilities;
 import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
-import modelo.tools.TipoDominio;
+import modelo.transfers.TipoDominio;
 import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferDominio;
 import vista.components.MyComboBoxRenderer;

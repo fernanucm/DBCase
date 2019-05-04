@@ -1,4 +1,4 @@
-package modelo.tools;
+package modelo.transfers;
 
 /**
  * Tipo enumerado para los dominios de los atributos

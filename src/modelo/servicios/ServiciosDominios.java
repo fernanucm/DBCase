@@ -11,7 +11,7 @@ import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
 import modelo.persistencia.DAODominios;
-import modelo.tools.TipoDominio;
+import modelo.transfers.TipoDominio;
 import modelo.transfers.TransferDominio;
 
 public class ServiciosDominios {
@@ -26,7 +26,7 @@ public class ServiciosDominios {
 	
 
 	public void ListaDeDominios(){
-		Object[] items = modelo.tools.TipoDominio.values();
+		Object[] items = modelo.transfers.TipoDominio.values();
 		DAODominios dao = new DAODominios(this.controlador.getPath());
 		Vector <TransferDominio> lista_dominios = dao.ListaDeDominios();
 		for(int i = 0; i < items.length;i++){
@@ -151,8 +151,8 @@ public class ServiciosDominios {
 		TransferDominio td = (TransferDominio) v.get(0);
 		Vector<String> nuevosValores = (Vector<String>)v.get(1); 
 		Vector<String> antiguosValores = td.getListaValores();
-		modelo.tools.TipoDominio nuevoTipoB = (modelo.tools.TipoDominio)v.get(2);
-		modelo.tools.TipoDominio antiguoTipoB = td.getTipoBase();
+		modelo.transfers.TipoDominio nuevoTipoB = (modelo.transfers.TipoDominio)v.get(2);
+		modelo.transfers.TipoDominio antiguoTipoB = td.getTipoBase();
 		// Si nombre es vacio -> ERROR
 		if (nuevosValores == null){
 			controlador.mensajeDesde_SD(TC.SD_ModificarElementosDominio_ERROR_ElementosDominioEsVacio, v);
@@ -239,7 +239,7 @@ public class ServiciosDominios {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private boolean comprobarTipoBase(TransferDominio td){
 		Vector listaValores = td.getListaValores();
-		modelo.tools.TipoDominio tipoBase = td.getTipoBase();
+		modelo.transfers.TipoDominio tipoBase = td.getTipoBase();
 		switch (tipoBase){
 			case INTEGER:{
 				for (int i=0; i<listaValores.size();i++){

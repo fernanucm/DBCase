@@ -3,8 +3,6 @@ package modelo.transfers;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.util.Vector;
-
-import modelo.tools.TipoDominio;
 @SuppressWarnings("rawtypes")
 public class TransferDominio extends Transfer{
 	private int idDominio;

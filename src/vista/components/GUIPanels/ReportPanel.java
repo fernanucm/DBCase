@@ -30,10 +30,36 @@ public class ReportPanel extends JTextPane{
 				+ "</style><p></p>");
 		scroll = new JScrollPane(this);
 	}
+	
 	public JScrollPane getPanel() {
 		return scroll;
 	}
+	
 	public void goToTop() {
 		this.setCaretPosition(0);
+	}
+	
+	@Override
+	public String getText() {
+		String text = super.getText();
+		text = text.replaceAll("\n","");
+		text = text.replaceAll("<h2>","\n#");
+		text = text.replaceAll("</h2>", "\n");
+		text = text.replaceAll("</p>", "\n");
+		text = text.replaceAll("\\<.*?>","");
+		text = text.replaceAll("&gt;",">");
+		text = text.replaceAll("(?s)<!--.*?-->", "");
+		text = text.replaceAll("[ ]{2,}","");
+		text = text.trim();
+		text = text.replaceAll("\\v\\v","");
+		return text;
+	}
+	
+	public String getInstrucciones() {
+		String text = getText();
+		text = text.replaceAll("#[^\n]*","");
+		text = text.replaceAll("\n","");
+		text = text.replaceAll(";",";\n");
+		return text;
 	}
 }
