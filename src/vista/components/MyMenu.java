@@ -3,6 +3,8 @@ package vista.components;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.Vector;
 import javax.swing.AbstractButton;
@@ -16,16 +18,21 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSeparator;
+import javax.swing.JToolBar;
 import javax.swing.event.MenuListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
+import vista.icons.IconLabel;
+import vista.icons.perspective.allIcon;
+import vista.icons.perspective.codeIcon;
+import vista.icons.perspective.diagramIcon;
 import vista.imagenes.ImagePath;
 import vista.tema.Theme;
 
 @SuppressWarnings("serial")
-public class miMenu extends JMenuBar{
+public class MyMenu extends JMenuBar{
 
 	private JMenu menuSistema;
 	private JMenuItem submenuNuevo;
@@ -43,10 +50,11 @@ public class miMenu extends JMenuBar{
 	private AbstractButton submenuAcercaDe;
 	private Theme theme;
 	private MenuListener a;
-	private JRadioButtonMenuItem toggleDiseno;
-	private JRadioButtonMenuItem toggleCodigo;
+	private diagramIcon diagramIcon;
+	private codeIcon codeIcon;
+	private allIcon allIcon;
 
-	public miMenu(Controlador c) {
+	public MyMenu(Controlador c) {
 		this.theme = Theme.getInstancia();
 		add(Box.createRigidArea(new Dimension(0,30)));
 		setOpaque(true);
@@ -154,13 +162,44 @@ public class miMenu extends JMenuBar{
 		menuOpciones = new JMenu();
 		menuOpciones.setForeground(theme.fontColor());
 		menuOpciones.setFont(theme.font());
+		JToolBar iconosPerspectiva = new JToolBar();
+		diagramIcon = new diagramIcon(false);
+		IconLabel diagramLabel = new IconLabel(diagramIcon);
+		diagramLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+            	c.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_ModoDiseno, null);
+            }
+        });
+		allIcon = new allIcon(false);
+		IconLabel allLabel = new IconLabel(allIcon);
+		allLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+            	c.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_ModoVerTodo, null);
+            }
+        });
+		codeIcon = new codeIcon(false);
+		IconLabel codeLabel = new IconLabel(codeIcon);
+		codeLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+            	c.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_ModoProgramador, null);
+            }
+        });
+		iconosPerspectiva.add(Box.createRigidArea(new Dimension(4,0)));
+		iconosPerspectiva.add(diagramLabel);
+		iconosPerspectiva.add(Box.createRigidArea(new Dimension(14,0)));
+		iconosPerspectiva.add(allLabel);
+		iconosPerspectiva.add(Box.createRigidArea(new Dimension(14,0)));
+		iconosPerspectiva.add(codeLabel);
+		iconosPerspectiva.add(Box.createRigidArea(new Dimension(4,0)));
+		iconosPerspectiva.setBounds(0, 0, 60, 80);
+		iconosPerspectiva.setFloatable(false);
+	    menuOpciones.add(iconosPerspectiva);
 		add(menuOpciones);
 		menuOpciones.setText(Lenguaje.text(Lenguaje.VIEW));
 		menuOpciones.setMnemonic(Lenguaje.text(Lenguaje.VIEW).charAt(0));
-		toggleDiseno = new JRadioButtonMenuItem();
-		toggleDiseno.setForeground(theme.fontColor());
-		toggleCodigo = new JRadioButtonMenuItem();
-		toggleCodigo.setForeground(theme.fontColor());
 		themeMenu = new JMenu();
 		themeMenu.setForeground(theme.fontColor());
 		for(String s : this.theme.getAvaiableThemes()) {
@@ -185,27 +224,7 @@ public class miMenu extends JMenuBar{
 			themeMenu.add(item);
 		}
 		themeMenu.setFont(theme.font());
-		menuOpciones.add(toggleDiseno);
-		menuOpciones.add(toggleCodigo);
-		menuOpciones.add(new JSeparator());
 		menuOpciones.add(themeMenu);
-		menuOpciones.add(new JSeparator());
-		toggleDiseno.setText(Lenguaje.text(Lenguaje.CONC_MODEL));
-		toggleDiseno.setFont(theme.font());
-		toggleDiseno.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				c.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_ToggleDiseno, null);
-			}
-		});
-		toggleCodigo.setText("Logical + physical");
-		toggleCodigo.setFont(theme.font());
-		toggleCodigo.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				c.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_ToggleCodigos, null);
-			}
-		});
 		themeMenu.setText(Lenguaje.text(Lenguaje.THEME));
 		//Opciones/Lenguaje
 		menuLenguajes = new JMenu();
@@ -300,17 +319,8 @@ public class miMenu extends JMenuBar{
 	 * Modifiers
 	 ************/
 	public void setModoVista(int m) {
-		if(m==0) {
-			toggleDiseno.setSelected(true);
-			toggleCodigo.setSelected(true);
-		}
-		else if(m==1) {
-			toggleDiseno.setSelected(true);
-			toggleCodigo.setSelected(false);
-		}
-		else if(m==2){
-			toggleDiseno.setSelected(false);
-			toggleCodigo.setSelected(true);
-		}
+		diagramIcon.setSelected(m==1);
+		allIcon.setSelected(m==0);
+		codeIcon.setSelected(m==2);
 	}
 }

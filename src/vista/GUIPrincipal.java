@@ -59,7 +59,7 @@ import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
 import vista.components.ArbolElementos;
 import vista.components.MyComboBoxRenderer;
-import vista.components.miMenu;
+import vista.components.MyMenu;
 import vista.components.GUIPanels.TablaVolumenes;
 import vista.components.GUIPanels.addTransfersPanel;
 import vista.components.GUIPanels.ReportPanel;
@@ -99,7 +99,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private JSplitPane splitDisenoInfo;
 	private JPanel panelGeneracion;
 	private JPanel panelDiagrama;
-	private miMenu barraDeMenus;
+	private MyMenu barraDeMenus;
 	private static JPopupMenu popup;
 	private Theme theme = Theme.getInstancia();
 	private JScrollPane scrollPanelTablas;
@@ -227,7 +227,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	}
 	
 	private void initMenu() {
-		barraDeMenus = new miMenu(controlador);
+		barraDeMenus = new MyMenu(controlador);
 		setJMenuBar(barraDeMenus);
 	}//initMenu
 	
@@ -1941,13 +1941,18 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		return this.dealer.getPanelsMode();
 	}
 	
-	public void toggleCodigos() {
-		this.dealer.toggleCodigos();
+	public void modoProgramador() {
+		this.dealer.modoProgramador();
 		this.barraDeMenus.setModoVista(getPanelsMode());
 	}
 	
-	public void toggleDiseno() {
-		this.dealer.toggleDiseno();
+	public void modoDiseno() {
+		this.dealer.modoDiseno();
+		this.barraDeMenus.setModoVista(getPanelsMode());
+	}
+	
+	public void modoVerTodo() {
+		this.dealer.modoVerTodo();
 		this.barraDeMenus.setModoVista(getPanelsMode());
 	}
 	

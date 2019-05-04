@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
 
 import vista.tema.Theme;
@@ -21,6 +22,7 @@ public class relationIcon extends icon{
     public void paintIcon(Component c, Graphics g, int x, int y) {
     	Graphics2D g2d = (Graphics2D) g;
     	Theme theme = Theme.getInstancia();
+    	g2d.setRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
     	g2d.setColor(theme.relation());
     	Polygon s = new Polygon();
         s.addPoint((int) (getIconWidth()*.1), (int) (getIconHeight()*.6));

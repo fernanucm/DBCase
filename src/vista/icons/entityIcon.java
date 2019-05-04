@@ -3,6 +3,7 @@ package vista.icons;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
 import java.awt.geom.RoundRectangle2D;
 
@@ -21,6 +22,7 @@ public class entityIcon extends icon{
     	Graphics2D g2d = (Graphics2D) g;
     	RoundRectangle2D rect = new RoundRectangle2D.Double(x, y,getIconWidth()*.9, getIconHeight()*.8, 10, 10);
     	Theme theme = Theme.getInstancia();
+    	g2d.setRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
     	g2d.setColor(theme.entity());
     	g2d.fill(rect);
     	g2d.setColor(theme.labelFontColorDark());

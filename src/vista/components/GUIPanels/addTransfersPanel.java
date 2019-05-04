@@ -83,7 +83,7 @@ public class addTransfersPanel extends JPanel{
 				controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_InsertarEntidad,p);
 				aumentaCoords();
             }
-        });	
+        });
 		anadirRelacion.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {

@@ -4,3 +4,6 @@ dbcase.config
 *.config
 bin/Controlador/Controlador.class
 *.class
+*.class
+bin/Controlador/Controlador.class
+bin/Controlador/TC.class

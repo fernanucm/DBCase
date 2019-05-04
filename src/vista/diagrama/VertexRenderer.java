@@ -128,8 +128,8 @@ public class VertexRenderer<V,E> implements Renderer.Vertex<V,E> {
         }
         
         Paint fillPaint = null;
-       	if (v instanceof TransferAtributo) fillPaint = new GradientPaint((float)r.getMinX(), (float)r.getMinY(), this.theme.atribute(),
-        		(float)r.getMinX(), y2, this.theme.atribute(), cyclic);
+       	if (v instanceof TransferAtributo) fillPaint = new GradientPaint((float)r.getMinX(), (float)r.getMinY(), this.theme.attribute(),
+        		(float)r.getMinX(), y2, this.theme.attribute(), cyclic);
         else if(v instanceof TransferRelacion) fillPaint = new GradientPaint((float)r.getMinX(), (float)r.getMinY(), this.theme.relation(),
             		(float)r.getMinX(), y2, this.theme.relation(), cyclic);
        	else fillPaint = new GradientPaint((float)r.getMinX(), (float)r.getMinY(), this.theme.entity(),

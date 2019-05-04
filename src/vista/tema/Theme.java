@@ -88,7 +88,7 @@ public class Theme {
 	public myColor entity() {
 		return colors.get("entity");
 	}
-	public myColor atribute() {
+	public myColor attribute() {
 		return colors.get("atribute");
 	}
 	public myColor relation() {

@@ -16,8 +16,9 @@ public enum TC {
 	// Click en la barra de menus y submenus
 	GUI_Principal_Click_Submenu_Salir,
 	GUI_Principal_Click_Imprimir,
-	GUI_Principal_Click_ToggleCodigos,
-	GUI_Principal_Click_ToggleDiseno,
+	GUI_Principal_Click_ModoProgramador,
+	GUI_Principal_Click_ModoDiseno,
+	GUI_Principal_Click_ModoVerTodo,
 	GUI_Principal_Click_Salir,
 	//GUI_Principal_Click_Submenu_SeleccionarWorkSpace,
 	GUI_Principal_Click_Submenu_Abrir,

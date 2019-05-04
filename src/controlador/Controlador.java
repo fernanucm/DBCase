@@ -1154,11 +1154,14 @@ public class Controlador {
 		case GUI_Principal_Click_Imprimir:{
 			this.getTheGUIPrincipal().imprimir();break;
 		}
-		case GUI_Principal_Click_ToggleCodigos:{
-			this.getTheGUIPrincipal().toggleCodigos();break;
+		case GUI_Principal_Click_ModoProgramador:{
+			this.getTheGUIPrincipal().modoProgramador();break;
 		}
-		case GUI_Principal_Click_ToggleDiseno:{
-			this.getTheGUIPrincipal().toggleDiseno();break;
+		case GUI_Principal_Click_ModoDiseno:{
+			this.getTheGUIPrincipal().modoDiseno();break;
+		}
+		case GUI_Principal_Click_ModoVerTodo:{
+			this.getTheGUIPrincipal().modoVerTodo();break;
 		}
 		case GUI_Principal_Click_Salir:{
 			if (cambios){

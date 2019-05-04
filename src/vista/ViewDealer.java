@@ -91,22 +91,6 @@ public class ViewDealer {
 		modo = 2;
 	}
 	
-	/*
-	 * Muestra / oculta el panel de diseño
-	 * */
-	public void toggleDiseno() {
-		if(modo == 2) modoVerTodo();
-		else if(modo == 0) modoProgramador();
-	}
-	
-	/*
-	 * Muestra / oculta el panel de codigos
-	 * */
-	public void toggleCodigos() {
-		if(modo == 1) modoVerTodo();
-		else if(modo == 0) modoDiseno();
-	}
-
 	public int getPanelsMode() {
 		return modo;
 	}
