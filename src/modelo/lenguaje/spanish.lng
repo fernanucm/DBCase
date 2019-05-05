@@ -416,7 +416,7 @@ editCardRol=Editar la cardinalidad o rol de una entidad
 #GUIPrincipal + utilidades.AccionMenu 
 domMenuRename=Renombrar
 domMenuDelete=Eliminar
-domMenuModify=Modificar dominio
+domMenuModify=Editar dominio
 domMenuAdd=Añadir nuevo dominio
 domMenuRenameInOrder=Ordenar valores
 domTreeCreatedDoms=Dominios creados

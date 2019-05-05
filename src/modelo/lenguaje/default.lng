@@ -407,9 +407,9 @@ editCardRol=Edit entity cardinality or role
 #GUIPrincipal + utilidades.AccionMenu 
 domMenuRename=Rename
 domMenuDelete=Remove
-domMenuModify=Modify domain
+domMenuModify=Edit domain
 domMenuAdd=Add new domain
-domMenuRenameInOrder=Put values in order 
+domMenuRenameInOrder=Sort values
 domTreeCreatedDoms=Available domains
 domTreeTypes=Base type
 domTreeValues=Values

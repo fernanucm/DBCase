@@ -296,7 +296,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 								Point2D actual = layout.getLocation(t);
 								// Ha pulsado en un nodo -> Obtenemos la información primero
 								if (ps.getSelectedObjects().length == 1) {
-									System.out.println("Se ha pulsado en el nodo " + t);
 									EnviaInformacionNodo(t);
 								}
 								// Si se ha movido lo guardamos
@@ -322,7 +321,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 								}
 							}
 						} else { // Si se ha pulsado en el vacío
-							System.out.println("Se ha pulsado en espacio vacío");
 							EnviaInformacionNodo(null);
 						}
 					}
@@ -342,7 +340,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 			}
 
 			private boolean heyThatsTooClose(Point2D p, Point2D q, double min) {
-				System.out.println(min);
 				return Math.abs(p.getX() - q.getX()) < min && Math.abs(p.getY() - q.getY()) < min;
 			}
 		});

@@ -45,7 +45,6 @@ import javax.swing.WindowConstants;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
 import controlador.Controlador;
 import controlador.TC;
@@ -57,7 +56,8 @@ import modelo.transfers.TransferConexion;
 import modelo.transfers.TransferDominio;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
-import vista.components.ArbolElementos;
+import vista.components.ArbolDominiosRender;
+import vista.components.ArbolElementosRender;
 import vista.components.MyComboBoxRenderer;
 import vista.components.MyMenu;
 import vista.components.GUIPanels.TablaVolumenes;
@@ -83,9 +83,9 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private JPanel panelTablas;
 	private JButton botonLimpiarPantalla;
 	private PanelThumbnail panelGrafo;
-	private JTree arbol;
+	private JTree arbolElems;
 	private JTree arbolDom;
-	private JScrollPane panelArbol;
+	private JScrollPane panelArbolElems;
 	private JPanel panelInfo;
 	private PanelGrafo panelDiseno;
 	private JScrollPane panelArbolDom;
@@ -254,32 +254,32 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		panelDiseno = new PanelGrafo(listaEntidades,listaAtributos,listaRelaciones);
 		panelDiseno.setControlador(this.getControlador());
 
-		panelInfo = new JPanel();
-		BorderLayout panelInfoLayout = new BorderLayout();
-		panelInfo.setLayout(panelInfoLayout);
+		panelInfo = new JPanel();;
+		panelInfo.setLayout(new BorderLayout());
 		panelInfo.addMouseListener(mls);
 		infoTabPane.addTab(Lenguaje.text(Lenguaje.ELEMENTS), null, panelInfo ,null);
 		
-		panelArbol = new JScrollPane();
-		panelArbol.setBackground(theme.background());
-		panelInfo.add(panelArbol, BorderLayout.CENTER);
-		panelArbol.setBorder(null);
-		panelArbol.setVisible(false);
+		panelArbolElems = new JScrollPane();
+		panelArbolElems.setBackground(theme.background());
+		panelInfo.add(panelArbolElems, BorderLayout.CENTER);
+		panelArbolElems.setBorder(null);
+		panelArbolElems.setVisible(false);
 
 		panelDom = new JPanel();
 		panelDom.setLayout(new BorderLayout());
-		panelDom.setBackground(theme.background());
+		panelDom.addMouseListener(ml);
 		infoTabPane.addTab(Lenguaje.text(Lenguaje.DOM_PANEL), null, panelDom ,null);
 		
 		panelArbolDom = new JScrollPane();
 		panelArbolDom.setBackground(theme.background());
 		panelDom.add(panelArbolDom, BorderLayout.CENTER);
 		panelArbolDom.setBorder(null);
-		panelArbolDom.addMouseListener(ml);
 		panelArbolDom.setVisible(false);
-		JButton nuevoDom = new JButton(Lenguaje.text(Lenguaje.ADD_DOMAIN));
+		
+		JButton nuevoDom = new JButton(Lenguaje.text(Lenguaje.NEW));
 		nuevoDom.setFont(theme.font());
 		JPanel panelBoton = new JPanel();
+		panelBoton.setBackground(theme.background());
 		nuevoDom.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -532,12 +532,10 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		case Controlador_EliminarEntidad:{
 			TransferEntidad te = (TransferEntidad) ((Vector)datos).get(0);
 			Vector<TransferRelacion> vectorRelacionesModificadas = (Vector<TransferRelacion>) ((Vector)datos).get(1);
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha eliminado la entidad "+te.getNombre()+".");
 			panelDiseno.eliminaNodo(te);
 			int cont = 0;
 			while (cont < vectorRelacionesModificadas.size()){
 				TransferRelacion tr = vectorRelacionesModificadas.get(cont);
-				System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha modificado la relacion "+tr.getNombre()+".");
 				panelDiseno.ModificaValorInterno(tr);
 				cont++;
 			}
@@ -633,8 +631,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 			Vector<Transfer> vectorAtributoYElemMod = (Vector<Transfer>)datos;
 			TransferAtributo ta = (TransferAtributo) vectorAtributoYElemMod.get(0);
 			Transfer t_elemMod = (Transfer) vectorAtributoYElemMod.get(1);
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha eliminado el atributo "+ta.getNombre()+
-					" y que se ha modificado el elemento "+t_elemMod.toString());
 			panelDiseno.eliminaNodo(ta);
 			panelDiseno.ModificaValorInterno(t_elemMod);
 			loadInfo();
@@ -644,53 +640,37 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 			Vector<Transfer> vt = (Vector<Transfer>) datos;
 			TransferEntidad te = (TransferEntidad) vt.get(0);
 			TransferAtributo ta = (TransferAtributo) vt.get(1);
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha añadido el atributo "+ta.getNombre()+".");
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha modificado la entidad "+te.getNombre()+
-					" añadiendole la referencia al atributo "+ta.getNombre()+".");
-
 			panelDiseno.anadirNodo(ta);
 			panelDiseno.ModificaValorInterno(te);
 			break;
 		}
 		case Controlador_RenombrarAtributo:{
 			TransferAtributo ta = (TransferAtributo) datos;
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha renombrado el atributo "+ta.getNombre()+".");
 			panelDiseno.ModificaValorInterno(ta);
 			break;
 		}
 		case Controlador_EditarDominioAtributo:{
 			TransferAtributo ta = (TransferAtributo) datos;
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha editado el dominio del atributo "+ta.getNombre()+"." +
-					" Ahora es "+ ta.getDominio());
-
 			panelDiseno.ModificaValorInterno(ta);
 			break;	
 		}
 		case Controlador_EditarCompuestoAtributo:{
 			TransferAtributo ta = (TransferAtributo) datos;
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha editado el caracter compuesto del atributo "+ta.getNombre()+"." +
-					" Ahora es "+ ta.getCompuesto());
 			panelDiseno.ModificaValorInterno(ta);
 			break;
 		}
 		case Controlador_EditarMultivaloradoAtributo:{
 			TransferAtributo ta = (TransferAtributo) datos;
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha editado el caracter multivalorado del atributo "+ta.getNombre()+"." +
-					" Ahora es "+ ta.isMultivalorado());
 			panelDiseno.ModificaValorInterno(ta);
 			break;
 		}
 		case Controlador_EditarNotNullAtributo:{
 			TransferAtributo ta = (TransferAtributo) datos;
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha editado el caracter not null del atributo "+ta.getNombre()+"." +
-					" Ahora es "+ ta.getNotnull());
 			panelDiseno.ModificaValorInterno(ta);
 			break;
 		}
 		case Controlador_EditarUniqueAtributo:{
 			TransferAtributo ta = (TransferAtributo) datos;
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha editado el caracter unique del atributo "+ta.getNombre()+"." +
-					" Ahora es "+ ta.getUnique());
 			panelDiseno.ModificaValorInterno(ta);
 			break;
 		}
@@ -699,9 +679,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 			Vector<Transfer> vt = (Vector<Transfer>) datos;
 			TransferAtributo ta_padre = (TransferAtributo) vt.get(0);
 			TransferAtributo ta_hijo = (TransferAtributo) vt.get(1);
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha añadido el atributo "+ta_hijo.getNombre()+".");
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha modificado el atributo "+ta_padre.getNombre()+
-					" añadiendole la referencia al atributo "+ta_hijo.getNombre()+".");
 			panelDiseno.anadirNodo(ta_hijo);
 			panelDiseno.ModificaValorInterno(ta_padre);
 			break;	
@@ -709,40 +686,32 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 
 		case Controlador_InsertarRelacion:{
 			TransferRelacion tr = (TransferRelacion) datos;
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha añadido la nueva relacion "+tr.getNombre()+".");
 			panelDiseno.anadirNodo(tr);
 			break;
 		}
 
 		case Controlador_MoverEntidad_HECHO:{
 			TransferEntidad te = (TransferEntidad) datos;
-
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha movido la entidad "+ te.getNombre() +".");
 			panelDiseno.ModificaValorInterno(te);
 			break;
 		}
 		case Controlador_MoverAtributo_HECHO:{
 			TransferAtributo ta = (TransferAtributo) datos;
-
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha movido el atributo "+ ta.getNombre() +".");
 			panelDiseno.ModificaValorInterno(ta);
 			break;
 		}
 		case Controlador_MoverRelacion_HECHO:{
 			TransferRelacion tr = (TransferRelacion) datos;
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha movido la relacion "+ tr.getNombre() +".");
 			panelDiseno.ModificaValorInterno(tr);
 			break;
 		}
 		case Controlador_RenombrarRelacion:{
 			TransferRelacion tr = (TransferRelacion) datos;
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha renombrado la relacion "+ tr.getNombre() +".");
 			panelDiseno.ModificaValorInterno(tr);
 			break;	
 		}
 		case Controlador_DebilitarRelacion:{
 			TransferRelacion tr = (TransferRelacion) datos;
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha debilitado/fortalecido la relacion "+ tr.getNombre() +".");
 			panelDiseno.ModificaValorInterno(tr);
 			break;
 		}
@@ -756,9 +725,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 			Vector<Transfer> vt = (Vector<Transfer>) datos;
 			TransferAtributo ta = (TransferAtributo) vt.get(0);
 			TransferEntidad te = (TransferEntidad) vt.get(1);
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha modidicado el atributo "+ta.getNombre()+".");
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha modificado la entidad "+te.getNombre()+
-					" añadiendo o quitando el atributo "+ta.getNombre()+" de su lista de claves primarias.");
 			panelDiseno.ModificaValorInterno(ta);
 			panelDiseno.ModificaValorInterno(te);
 			break;
@@ -766,96 +732,63 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		case Controlador_EstablecerEntidadPadre:{
 			Vector<Transfer> vt = (Vector<Transfer>) datos;
 			TransferRelacion tr = (TransferRelacion) vt.get(0);
-			TransferEntidad te = (TransferEntidad) vt.get(1);
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha modidicado el la relacion IsA con id="+tr.getIdRelacion()+"" +
-					" estableciendole como entidad padre la entidad \""+te.getNombre()+"\".");
 			panelDiseno.ModificaValorInterno(tr);
 			break;
 		}
 		case Controlador_QuitarEntidadPadre:{
 			TransferRelacion tr = (TransferRelacion) datos;
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha modidicado el la relacion IsA con id="+tr.getIdRelacion()+"" +
-			" quitandole la entidad padre y las posibles entidades hijas que tuviera");
 			panelDiseno.ModificaValorInterno(tr);
 			break;
 		}
 		case Controlador_AnadirEntidadHija:{
 			Vector<Transfer> vt = (Vector<Transfer>) datos;
 			TransferRelacion tr = (TransferRelacion) vt.get(0);
-			TransferEntidad te = (TransferEntidad) vt.get(1);
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha modidicado el la relacion IsA con id="+tr.getIdRelacion()+"" +
-					" estableciendole como nueva entidad hija la entidad \""+te.getNombre()+"\".");
 			panelDiseno.ModificaValorInterno(tr);
 			break;
 		}
 		case Controlador_QuitarEntidadHija:{
 			Vector<Transfer> vt = (Vector<Transfer>) datos;
 			TransferRelacion tr = (TransferRelacion) vt.get(0);
-			TransferEntidad te = (TransferEntidad) vt.get(1);
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha quitado de la relacion IsA con id="+tr.getIdRelacion()+"" +
-					" la entidad hija \""+te.getNombre()+"\".");
 			panelDiseno.ModificaValorInterno(tr);
 			break;
 		}
 		case Controlador_EliminarRelacionIsA:{
 			TransferRelacion tr = (TransferRelacion) datos;
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha eliminado la relacion IsA con id="+tr.getIdRelacion()+".");
 			panelDiseno.eliminaNodo(tr);
 			loadInfo();
 			break;
 		}
 		case Controlador_EliminarRelacionNormal:{
 			TransferRelacion tr = (TransferRelacion) datos;
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha eliminado la relacion "+tr.getNombre()+".");
 			panelDiseno.eliminaNodo(tr);
 			loadInfo();
 			break;
 		}
 		case Controlador_InsertarRelacionIsA:{
 			TransferRelacion tr = (TransferRelacion) datos;
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha insertado una relacion IsA con id="+tr.getIdRelacion()+".");
 			panelDiseno.anadirNodo(tr);
 			break;
 		}
 		case Controlador_AnadirEntidadARelacion:{
 			Vector v = (Vector) datos;
 			TransferRelacion tr = (TransferRelacion) v.get(0);
-			TransferEntidad te = (TransferEntidad) v.get(1);
-			String inicio = String.valueOf(v.get(2));
-			String fin = String.valueOf(v.get(3));
-			String rol = String.valueOf(v.get(4));
-			if (rol.equals(""))
-				System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha añadido a la relacion \""+tr.getNombre()+"\" la entidad \"" 
-						+ te.getNombre()+"\" con una aridad de "+inicio+" a "+fin+"\".");
-				
-			else
-				System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha añadido a la relacion \""+tr.getNombre()+"\" la entidad \"" 
-						+ te.getNombre()+"\" con una aridad de "+inicio+" a "+fin+" cuyo rol es \""+rol+"\".");
-			
 			panelDiseno.ModificaValorInterno(tr);
 			break;
 		}
 		case Controlador_QuitarEntidadARelacion:{
 			Vector v = (Vector) datos;
 			TransferRelacion tr = (TransferRelacion) v.get(0);
-			TransferEntidad te = (TransferEntidad) v.get(1);
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha modificado la relacion \""+tr.getNombre()+"\" quitandole" +
-					" la entidad \"" + te.getNombre()+"\".");
 			panelDiseno.ModificaValorInterno(tr);
 			break; 
 		}
 		case Controlador_EditarCardinalidadEntidad:{
 			Vector v = (Vector) datos;
 			TransferRelacion tr = (TransferRelacion) v.get(0);
-			TransferEntidad te = (TransferEntidad) v.get(1);
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha modificado la relacion \""+tr.getNombre()+"\" editando la aridad " +
-					" de la entidad \"" + te.getNombre()+"\".");
 			panelDiseno.ModificaValorInterno(tr);
 			break;
 		}
 		case Controlador_CardinalidadUnoUno:{
 			Vector v = (Vector) datos;
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha fijado la aridad de la entidad a 1 1\".");
 			panelDiseno.ModificaValorInterno1a1(v);
 			break;
 		}
@@ -864,25 +797,18 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 			Vector<Transfer> v = (Vector<Transfer>) datos;
 			TransferRelacion tr = (TransferRelacion) v.get(0);
 			TransferAtributo ta = (TransferAtributo) v.get(1);
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha añadido el atributo "+ta.getNombre()+".");
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha modificado la relacion "+tr.getNombre()+
-					" añadiendole la referencia al atributo "+ta.getNombre()+".");
 			panelDiseno.anadirNodo(ta);
 			panelDiseno.ModificaValorInterno(tr);
 			break;
 		}
 		case Controlador_MostrarDatosEnPanelDeInformacion:{
-			this.panelArbol.setVisible(true);
-			this.arbol = (JTree) datos;
-			this.arbol.addMouseListener(mls);
-			DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
-		    renderer.setOpenIcon(null);
-		    renderer.setClosedIcon(null);
-		    renderer.setLeafIcon(null);
-		    arbol.setCellRenderer(new ArbolElementos());
-			this.arbol.setFont(theme.font());
-			this.arbol.setBackground(theme.background());
-			this.panelArbol.setViewportView(arbol);
+			this.panelArbolElems.setVisible(true);
+			this.arbolElems = (JTree) datos;
+			this.arbolElems.addMouseListener(mls);
+		    this.arbolElems.setCellRenderer(new ArbolElementosRender());
+			this.arbolElems.setFont(theme.font());
+			this.arbolElems.setBackground(theme.background());
+			this.panelArbolElems.setViewportView(arbolElems);
 			this.repaint();
 			break;
 		}
@@ -895,9 +821,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 			break;
 		}
 		case Controlador_LimpiarPanelDominio:{
-			if (this.arbolDom != null){
-				this.panelArbolDom.setVisible(false);
-			}
+			if (this.arbolDom != null) this.panelArbolDom.setVisible(false);
 			break;
 		}
 		case Controlador_MostrarDatosEnPanelDominio:{
@@ -915,28 +839,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 			this.actualizaArbolDominio(nombre);
 			break;
 		}
-		case Controlador_EliminarDominio:{
-			TransferDominio td = (TransferDominio) datos;
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha eliminado el dominio "+td.getNombre()+".");
-			break;
-		}
-		case Controlador_RenombrarDominio:{
-			TransferDominio td = (TransferDominio) datos;
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha renombrado el dominio "+ td.getNombre() +".");
-			break;	
-		}
-		case Controlador_ModificarTipoBaseDominio:{
-			TransferDominio td = (TransferDominio) datos;
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha modificado el dominio "+ td.getNombre() +".");
-			break;	
-		}
-		case Controlador_ModificarValoresDominio:{
-			TransferDominio td = (TransferDominio) datos;
-			System.out.println("GUIPrincipal dice: El controlador me ha dicho que se ha modificado el dominio "+ td.getNombre() +".");
-			break;	
-		}
 		default: break;
-		} // mensajesDesde_Controlador
+		}
 	}
 
 	/*
@@ -1027,7 +931,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	/*
 	 * ARBOL DOMINIOS
 	 */
-	
 	public void actualizaArbolDominio(String expandir){
 		controlador.mensajeDesde_GUIPrincipal(TC.GUIPrincipal_ActualizameLaListaDeDominios, null);
 		this.panelArbolDom.setVisible(true);
@@ -1037,7 +940,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	}
 	
 	private JTree generaArbolDominio(Vector<TransferDominio> listaDominios, String expandir){
-		
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode(Lenguaje.text(Lenguaje.DOM_TREE_CREATED_DOMS));
 		for (Iterator<TransferDominio> it = listaDominios.iterator(); it.hasNext();){
 			TransferDominio td = it.next();
@@ -1045,7 +947,9 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 			DefaultMutableTreeNode nodoNombre = new DefaultMutableTreeNode(td.getNombre());
 			root.add(nodoNombre);
 			//TipoBase
-			nodoNombre.add(new DefaultMutableTreeNode(Lenguaje.text(Lenguaje.DOM_TREE_TYPE)+" \""+td.getTipoBase()+"\""));
+			if(!esDominioDefecto(nodoNombre.toString()))
+				nodoNombre.add(new DefaultMutableTreeNode(Lenguaje.text(Lenguaje.DOM_TREE_TYPE)+" \""+td.getTipoBase()+"\""));
+			else nodoNombre.setAllowsChildren(false);
 			// Valores
 			if (td.getListaValores()!=null && td.getListaValores().size()>0){
 				DefaultMutableTreeNode nodo_valores = new DefaultMutableTreeNode(Lenguaje.text(Lenguaje.DOM_TREE_VALUES));
@@ -1053,7 +957,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				Vector lista = td.getListaValores();
 				for (int cont=0; cont<lista.size(); cont++ )
 					nodo_valores.add(new DefaultMutableTreeNode(lista.get(cont)));
-
 			}
 		}
 		
@@ -1063,11 +966,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		arbolDom.setToggleClickCount(1);
 		arbolDom.addMouseListener(ml);
 		arbolDom.setBackground(theme.background());
-		DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
-	    renderer.setOpenIcon(null);
-	    renderer.setClosedIcon(null);
-	    renderer.setLeafIcon(null);
-	    arbolDom.setCellRenderer(renderer);
+	    arbolDom.setCellRenderer(new ArbolDominiosRender());
 		// Expandimos todas las ramas
 		 for(int cont=0; cont<arbolDom.getRowCount(); cont++){
 			 try{ 
@@ -1077,9 +976,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				 else if(arbolDom.getPathForRow(cont).getParentPath().getLastPathComponent().toString().contains(Lenguaje.text(Lenguaje.DOMAIN)+" "+'"'+expandir+'"')){
 					 arbolDom.expandRow(cont);
 				 }
-			 }catch(Exception e){
-				 //expandir== null o getParentPath == null
-			 }
+			 }catch(Exception e){}
 		 }
 		return arbolDom;
 	}
@@ -1311,8 +1208,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	MouseListener mls = new MouseAdapter() {
 	    @Override
 		public void mousePressed(MouseEvent e){
-	         int selRow = arbol.getRowForLocation(e.getX(), e.getY());
-	         TreePath selPath = arbol.getPathForLocation(e.getX(), e.getY());
+	         int selRow = arbolElems.getRowForLocation(e.getX(), e.getY());
+	         TreePath selPath = arbolElems.getPathForLocation(e.getX(), e.getY());
 	         if(selRow != -1) 
 	        	 if (javax.swing.SwingUtilities.isRightMouseButton(e)) muestraMenu(e, selPath);
 	        	 else getPopUp().setVisible(false);
@@ -1348,7 +1245,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				j3.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						popup.setVisible(false);
-						System.out.println("Añadir un nuevo atributo a la entidad: " + entidad);
 						TransferEntidad clon_entidad = entidad.clonar();
 						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirAtributoEntidad,clon_entidad);
 					}	
@@ -1360,7 +1256,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				j1.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						popup.setVisible(false);
-						System.out.println("Cambiar nombre a entidad: " + entidad);
 						TransferEntidad clon_entidad = entidad.clonar();
 						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_RenombrarEntidad,clon_entidad);
 						
@@ -1372,7 +1267,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				j4.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
-							System.out.println("Eliminar la entidad: " + entidad);
 							TransferEntidad clon_entidad = entidad.clonar();
 							Vector<Object> v = new Vector<Object>();
 							v.add(clon_entidad);
@@ -1387,7 +1281,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				j5.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						popup.setVisible(false);
-						System.out.println("Añadir una restriccion a la entidad: " + entidad);
 						TransferEntidad clon_entidad = entidad.clonar();
 						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirRestriccionAEntidad,clon_entidad);
 					}	
@@ -1398,7 +1291,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				j6.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						popup.setVisible(false);
-						System.out.println("Tabla 'unique' entidad: " + entidad);
 						TransferEntidad clon_entidad = entidad.clonar();
 						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_TablaUniqueAEntidad,clon_entidad);
 					}	
@@ -1487,8 +1379,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				final TransferAtributo atributo = listaAtributos.get(numAtributo);
 				if (pertenece==0)//si es atributo de entidad miramos si es clave primaria
 					for (int j=0; j<listaEntidades.get(index).getListaClavesPrimarias().size();j++){ 
-						System.out.println(listaEntidades.get(index).getListaClavesPrimarias().get(j).toString());
-						System.out.println(idAtributo);
 						if(Integer.parseInt(listaEntidades.get(index).getListaClavesPrimarias().get(j).toString())==idAtributo){
 							atributo.setClavePrimaria(true);
 						}
@@ -1500,7 +1390,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				j2.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						popup.setVisible(false);
-						System.out.println("Cambiar el dominio del atributo: " + atributo);
 						TransferAtributo clon_atributo = atributo.clonar();
 						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarDominioAtributo,clon_atributo);
 					}	
@@ -1514,7 +1403,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				j1.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						popup.setVisible(false);
-						System.out.println("Cambiar nombre del atributo: " + atributo);
 						TransferAtributo clon_atributo = atributo.clonar();
 						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_RenombrarAtributo,clon_atributo);
 					}	
@@ -1528,7 +1416,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				j7.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						popup.setVisible(false);
-						System.out.println("Eliminar atributo: " + atributo);
 						TransferAtributo clon_atributo = atributo.clonar();
 						Vector<Object> v = new Vector<Object>();
 						v.add(clon_atributo);
@@ -1548,7 +1435,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					j6.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
-							System.out.println("Editar clave primaria etributo: " + atributo);
 							TransferAtributo clon_atributo = atributo.clonar();
 							TransferEntidad clon_entidad = ent.clonar();
 							Vector<Transfer> vector = new Vector<Transfer>();
@@ -1569,7 +1455,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				j3.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						popup.setVisible(false);
-						System.out.println("Cambiar el carácter de compuesto del atributo: " + atributo);
 						TransferAtributo clon_atributo = atributo.clonar();
 						if (notnul){
 						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarNotNullAtributo,clon_atributo);
@@ -1588,7 +1473,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					j4.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
-							System.out.println("Anadir subatributo: " + atributo);
 							TransferAtributo clon_atributo = atributo.clonar();
 							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirSubAtributoAAtributo,clon_atributo);
 						}	
@@ -1605,7 +1489,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					j3a.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
-							System.out.println("Cambiar el carácter de 'Not Null' del atributo: " + atributo);
 							TransferAtributo clon_atributo = atributo.clonar();
 							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarNotNullAtributo,clon_atributo);	
 						}	
@@ -1621,7 +1504,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				j3b.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						popup.setVisible(false);
-						System.out.println("Cambiar el carácter de 'Unique' del atributo: " + atributo);
 						TransferAtributo clon_atributo = atributo.clonar();
 						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarUniqueAtributo,clon_atributo);	
 					}	
@@ -1638,7 +1520,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				j5.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						popup.setVisible(false);
-						System.out.println("Cambiar el carácter de multivalorado: " + atributo);
 						TransferAtributo clon_atributo = atributo.clonar();
 						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarMultivaloradoAtributo,clon_atributo);	
 					}	
@@ -1654,7 +1535,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				j8.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						popup.setVisible(false);
-						System.out.println("Añadir una restriccion al atributo: " + atributo);
 						TransferAtributo clon_atributo = atributo.clonar();
 						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirRestriccionAAtributo,clon_atributo);
 					}	
@@ -1694,7 +1574,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					j3.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
-							System.out.println("Añadir una entidad a la relación: " + relacion);
 							TransferRelacion clon_relacion = relacion.clonar();
 							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirEntidadARelacion,clon_relacion);	
 						}	
@@ -1706,7 +1585,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					j4.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
-							System.out.println("Quitar una entidad a la relación: " + relacion);
 							TransferRelacion clon_relacion = relacion.clonar();
 							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_QuitarEntidadARelacion,clon_relacion);	
 						}	
@@ -1718,7 +1596,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					j5.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
-							System.out.println("Editar aridad de entidad de la relación: " + relacion);
 							TransferRelacion clon_relacion = relacion.clonar();
 							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarCardinalidadEntidad,clon_relacion);	
 						}	
@@ -1735,7 +1612,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						j6.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								popup.setVisible(false);
-								System.out.println("Añadir atributo a la relación: " + relacion);
 								TransferRelacion clon_relacion = relacion.clonar();
 								controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirAtributoRelacion,clon_relacion);	
 							}	
@@ -1749,7 +1625,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					j1.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
-							System.out.println("Renombrar la relación: " + relacion);
 							TransferRelacion clon_relacion = relacion.clonar();
 							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_RenombrarRelacion,clon_relacion);	
 						}	
@@ -1761,7 +1636,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 						j7.addActionListener(new java.awt.event.ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								popup.setVisible(false);
-								System.out.println("Eliminar la relación: " + relacion);
 								TransferRelacion clon_relacion = relacion.clonar();
 								Vector<Object> v = new Vector<Object>();
 								v.add(clon_relacion);
@@ -1777,7 +1651,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					j8.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
-							System.out.println("Añadir una restriccion a la relación: " + relacion);
 							TransferRelacion clon_relacion = relacion.clonar();
 							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirRestriccionARelacion,clon_relacion);
 						}	
@@ -1788,7 +1661,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 					j9.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
-							System.out.println("Tabla 'unique' relacion: " + relacion);
 							TransferRelacion clon_relacion = relacion.clonar();
 							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_TablaUniqueARelacion,clon_relacion);
 						}	
@@ -1798,19 +1670,15 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				} else {// if no Isa
 				
 				popup.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.SET_PARENT_ENT)){
-					private static final long serialVersionUID = 8766595520619916135L;
 					public void actionPerformed(ActionEvent e) {
 						popup.setVisible(false);
-						System.out.println("Establecer entidad padre: " + relacion);
 						TransferRelacion clon_relacion = relacion.clonar();
 						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EstablecerEntidadPadre,clon_relacion);
 					}
 				}));
 				popup.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.REMOVE_PARENT_ENT)){
-					private static final long serialVersionUID = 8766595520619916135L;
 					public void actionPerformed(ActionEvent e) {
 						popup.setVisible(false);
-						System.out.println("Quitar entidad padre: " + relacion);
 						TransferRelacion clon_relacion = relacion.clonar();
 						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_QuitarEntidadPadre,clon_relacion);
 					}
@@ -1819,20 +1687,16 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				popup.add(new JSeparator());
 
 				popup.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.ADD_CHILD_ENT)){
-					private static final long serialVersionUID = 8766595520619916135L;
 					public void actionPerformed(ActionEvent e) {
 						popup.setVisible(false);
-						System.out.println("Añadir entidad hija: " + relacion);
 						TransferRelacion clon_relacion = relacion.clonar();
 						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_AnadirEntidadHija,clon_relacion);
 					}
 				}));
 
 				popup.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.REMOVE_CHILD_ENT)){
-					private static final long serialVersionUID = 8766595520619916135L;
 					public void actionPerformed(ActionEvent e) {
 						popup.setVisible(false);
-						System.out.println("Quitar entidad hija: " + relacion);
 						TransferRelacion clon_relacion = relacion.clonar();
 						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_QuitarEntidadHija,clon_relacion);
 					}
@@ -1842,10 +1706,8 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				//Eliminal la relacion
 				
 					popup.add(new JMenu().add(new AbstractAction(Lenguaje.text(Lenguaje.DELETE_REL)){
-						private static final long serialVersionUID = -218800914185538588L;
 						public void actionPerformed(ActionEvent e) {
 							popup.setVisible(false);
-							System.out.println("Eliminar la relación: " + relacion);
 							TransferRelacion clon_relacion = relacion.clonar();
 							Vector<Object> v = new Vector<Object>();
 							v.add(clon_relacion);
@@ -1860,12 +1722,12 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	}
 	};
 	private TransferEntidad esAtributoDirecto(TransferAtributo ta){
-				//Collection<TransferEntidad> listaEntidades = this.entidades.values();
-				for (Iterator<TransferEntidad> it = listaEntidades.iterator(); it.hasNext();){
-					TransferEntidad te = it.next();
-					if (te.getListaAtributos().contains(String.valueOf(ta.getIdAtributo()))) return te;
-				}
-				return null;
+		//Collection<TransferEntidad> listaEntidades = this.entidades.values();
+		for (Iterator<TransferEntidad> it = listaEntidades.iterator(); it.hasNext();){
+			TransferEntidad te = it.next();
+			if (te.getListaAtributos().contains(String.valueOf(ta.getIdAtributo()))) return te;
+		}
+		return null;
 	}
  
 	public void activaBotones(){

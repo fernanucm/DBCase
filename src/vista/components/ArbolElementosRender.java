@@ -20,7 +20,7 @@ import vista.tema.Theme;
  * Clase para representar el arbol de elementos del panel de informacion
  * */
 @SuppressWarnings("serial")
-public class ArbolElementos extends DefaultTreeCellRenderer {
+public class ArbolElementosRender extends DefaultTreeCellRenderer {
 
 	private static final String SPAN_FORMAT = "<span style='color:%s;'>%s</span>";
 	private static final String SUBSPAN_FORMAT = "<span style='color:%s;font-size:9px'>%s</span>";
