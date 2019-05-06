@@ -103,7 +103,7 @@ public class Tabla {
 			String []par=listado.elementAt(i);
 			trio[0]=par[0];
 			trio[1]=par[1];
-			trio[2]=nombreEntidad + "(" + atributosReferenciados[i] + ")";
+			trio[2]=nombreEntidad + "." + atributosReferenciados[i];
 			trio[3]=nombreEntidad;
 			foreigns.add(trio);
 		}

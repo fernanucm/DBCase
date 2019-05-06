@@ -646,7 +646,7 @@ public class GeneradorEsquema {
 			Vector<String[]> foreigns = t.getForeigns();
 			if(!foreigns.isEmpty())
 				for (int j=0;j<foreigns.size();j++)
-					mr+="<p>" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[3]+"_"+foreigns.elementAt(j)[0]+") "+ "-> " + foreigns.elementAt(j)[2]+"</p>";
+					mr+="<p>" + t.getNombreTabla()+"."+foreigns.elementAt(j)[3]+"_"+foreigns.elementAt(j)[0]+" "+ "-> " + foreigns.elementAt(j)[2]+"</p>";
 		}
 		
 		Iterator<Tabla> tablasR=tablasRelaciones.values().iterator();
@@ -655,7 +655,7 @@ public class GeneradorEsquema {
 			Vector<String[]> foreigns = t.getForeigns();
 			if(!foreigns.isEmpty())
 				for (int j=0;j<foreigns.size();j++)
-					mr+="<p>" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[3]+"_"+foreigns.elementAt(j)[0]+") "+ "-> " + foreigns.elementAt(j)[2]+"</p>";
+					mr+="<p>" + t.getNombreTabla()+"."+foreigns.elementAt(j)[3]+"_"+foreigns.elementAt(j)[0]+" "+ "-> " + foreigns.elementAt(j)[2]+"</p>";
 		}
 		
 		Iterator<Tabla> tablasM=tablasMultivalorados.iterator();
@@ -664,7 +664,7 @@ public class GeneradorEsquema {
 			Vector<String[]> foreigns = t.getForeigns();
 			if(!foreigns.isEmpty())
 				for (int j=0;j<foreigns.size();j++)
-					mr+="<p>" + t.getNombreTabla()+" ("+foreigns.elementAt(j)[3]+"_"+foreigns.elementAt(j)[0]+") "+ "-> " + foreigns.elementAt(j)[2]+"</p>";
+					mr+="<p>" + t.getNombreTabla()+"."+foreigns.elementAt(j)[3]+"_"+foreigns.elementAt(j)[0]+" "+ "-> " + foreigns.elementAt(j)[2]+"</p>";
 		}
 		return mr;
 	}
