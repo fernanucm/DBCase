@@ -179,11 +179,11 @@
             <Position>56,384</Position>
         </Attribute>
         <Attribute AttributeId="4">
-            <Name>qq</Name>
+            <Name>qqáÉ</Name>
             <Dom>VARCHAR(10)</Dom>
             <Composed>false</Composed>
             <NotNull>false</NotNull>
-            <Unique>false</Unique>
+            <Unique>true</Unique>
             <ComponentList/>
             <Multivalued>false</Multivalued>
             <AssertionList>
@@ -238,11 +238,11 @@
             <Position>316,85</Position>
         </Attribute>
         <Attribute AttributeId="9">
-            <Name>a</Name>
+            <Name>açÇ</Name>
             <Dom>null</Dom>
             <Composed>true</Composed>
             <NotNull>false</NotNull>
-            <Unique>false</Unique>
+            <Unique>true</Unique>
             <ComponentList>
                 <SubAttribute>12</SubAttribute>
             </ComponentList>

@@ -78,7 +78,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private Vector<TransferAtributo> listaAtributos;
 	private Vector<TransferRelacion> listaRelaciones;
 	private Vector<TransferDominio> listaDominios;
-	private String acumulador="";
 	private TablaVolumenes tablaVolumenes;
 	private JPanel panelTablas;
 	private JButton botonLimpiarPantalla;
@@ -159,59 +158,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	        	changeFont (child, font);
 	}
 	
-	private void setLookAndFeel(){
-		UIManager.put("Button.defaultButtonFollowsFocus", Boolean.TRUE);
-		UIManager.put("Button.font",  theme.font());
-		UIManager.put("ToggleButton.font",  theme.font());
-		UIManager.put("RadioButton.font",  theme.font());
-		UIManager.put("CheckBox.font",  theme.font());
-		UIManager.put("ColorChooser.font",  theme.font());
-		UIManager.put("ComboBox.font",  theme.font());
-		UIManager.put("Label.font",  theme.font());
-		UIManager.put("List.font",  theme.font());
-		UIManager.put("MenuBar.font",  theme.font());
-		UIManager.put("MenuItem.font",  theme.font());
-		UIManager.put("RadioButtonMenuItem.font",  theme.font());
-		UIManager.put("CheckBoxMenuItem.font",  theme.font());
-		UIManager.put("Menu.font",  theme.font());
-		UIManager.put("PopupMenu.font",  theme.font());
-		UIManager.put("OptionPane.font",  theme.font());
-		UIManager.put("Panel.font",  theme.font());
-		UIManager.put("ProgressBar.font",  theme.font());
-		UIManager.put("ScrollPane.font",  theme.font());
-		UIManager.put("Viewport.font",  theme.font());
-		UIManager.put("TabbedPane.font",  theme.font());
-		UIManager.put("Table.font",  theme.font());
-		UIManager.put("TableHeader.font",  theme.font());
-		UIManager.put("TextField.font",  theme.font());
-		UIManager.put("PasswordField.font",  theme.font());
-		UIManager.put("TextArea.font",  theme.font());
-		UIManager.put("TextPane.font",  theme.font());
-		UIManager.put("EditorPane.font",  theme.font());
-		UIManager.put("TitledBorder.font",  theme.font());
-		UIManager.put("ToolBar.font",  theme.font());
-		UIManager.put("ToolTip.font",  theme.font());
-		UIManager.put("Tree.font",  theme.font());
-		UIManager.put("nimbusBase", theme.main());
-		UIManager.put("control", theme.control());
-		UIManager.put("nimbusSelectionBackground", theme.SelectionBackground());
-		UIManager.put("text", theme.fontColor());
-		UIManager.put("nimbusSelectedText", theme.fontColor());
-		UIManager.put("nimbusFocus", theme.SelectionBackground());
-		UIManager.put("menu", theme.background());
-		UIManager.put("menuText", theme.background());
-		UIManager.put("nimbusBlueGrey", theme.background());
-		UIManager.put("nimbusBorder", theme.background());
-		UIManager.put("nimbusSelection", theme.SelectionBackground());
-		UIManager.put("Tree.collapsedIcon", false);
-		UIManager.put("Tree.expandedIcon", false);
-        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) 
-            if ("Nimbus".equals(info.getName())) {
-            	try { javax.swing.UIManager.setLookAndFeel(info.getClassName());} 
-            	catch (ClassNotFoundException | InstantiationException | IllegalAccessException| UnsupportedLookAndFeelException e) {e.printStackTrace();}
-            break;
-        }
-	}
+	
 	
 	private void initComponents() {
 		try{
@@ -352,7 +299,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		generaModelo.setToolTipText("Genera el modelo relacional a partir del diagrama entidad relacion.");
 		generaModelo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				acumulador = "";
 				botonModeloRelacionalActionPerformed(evt);
 			}
 		});
@@ -397,7 +343,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		generaCodigo.setFont(theme.font());
 		generaCodigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				acumulador = "";
 				botonScriptSQLActionPerformed(evt);
 			}
 		});
@@ -903,11 +848,10 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	}
 	
 	public void escribeEnModelo(String mensaje){
-		acumulador+=mensaje;
 		try {
 			SwingUtilities.invokeAndWait(new Runnable(){
 				public void run() {
-					modeloText.setText(acumulador);
+					modeloText.setText(mensaje);
 				}});
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -918,14 +862,12 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	}
 	
 	public void escribeEnCodigo(String mensaje){
-		acumulador+=mensaje;
 		try {
 			SwingUtilities.invokeAndWait(new Runnable(){
-			public void run() {codigoText.setText(acumulador);}
+			public void run() {codigoText.setText(mensaje);}
 		});} 
 		catch (InterruptedException e) {e.printStackTrace();} 
 		catch (InvocationTargetException e) {e.printStackTrace();}
-		
 	}
 	
 	/*
@@ -1812,5 +1754,59 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 
 	public String getInstrucciones() {
 		return codigoText.getInstrucciones();
+	}
+	
+	private void setLookAndFeel(){
+		UIManager.put("Button.defaultButtonFollowsFocus", Boolean.TRUE);
+		UIManager.put("Button.font",  theme.font());
+		UIManager.put("ToggleButton.font",  theme.font());
+		UIManager.put("RadioButton.font",  theme.font());
+		UIManager.put("CheckBox.font",  theme.font());
+		UIManager.put("ColorChooser.font",  theme.font());
+		UIManager.put("ComboBox.font",  theme.font());
+		UIManager.put("Label.font",  theme.font());
+		UIManager.put("List.font",  theme.font());
+		UIManager.put("MenuBar.font",  theme.font());
+		UIManager.put("MenuItem.font",  theme.font());
+		UIManager.put("RadioButtonMenuItem.font",  theme.font());
+		UIManager.put("CheckBoxMenuItem.font",  theme.font());
+		UIManager.put("Menu.font",  theme.font());
+		UIManager.put("PopupMenu.font",  theme.font());
+		UIManager.put("OptionPane.font",  theme.font());
+		UIManager.put("Panel.font",  theme.font());
+		UIManager.put("ProgressBar.font",  theme.font());
+		UIManager.put("ScrollPane.font",  theme.font());
+		UIManager.put("Viewport.font",  theme.font());
+		UIManager.put("TabbedPane.font",  theme.font());
+		UIManager.put("Table.font",  theme.font());
+		UIManager.put("TableHeader.font",  theme.font());
+		UIManager.put("TextField.font",  theme.font());
+		UIManager.put("PasswordField.font",  theme.font());
+		UIManager.put("TextArea.font",  theme.font());
+		UIManager.put("TextPane.font",  theme.font());
+		UIManager.put("EditorPane.font",  theme.font());
+		UIManager.put("TitledBorder.font",  theme.font());
+		UIManager.put("ToolBar.font",  theme.font());
+		UIManager.put("ToolTip.font",  theme.font());
+		UIManager.put("Tree.font",  theme.font());
+		UIManager.put("nimbusBase", theme.main());
+		UIManager.put("control", theme.control());
+		UIManager.put("nimbusSelectionBackground", theme.SelectionBackground());
+		UIManager.put("text", theme.fontColor());
+		UIManager.put("nimbusSelectedText", theme.fontColor());
+		UIManager.put("nimbusFocus", theme.SelectionBackground());
+		UIManager.put("menu", theme.background());
+		UIManager.put("menuText", theme.background());
+		UIManager.put("nimbusBlueGrey", theme.background());
+		UIManager.put("nimbusBorder", theme.background());
+		UIManager.put("nimbusSelection", theme.SelectionBackground());
+		UIManager.put("Tree.collapsedIcon", false);
+		UIManager.put("Tree.expandedIcon", false);
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) 
+            if ("Nimbus".equals(info.getName())) {
+            	try { javax.swing.UIManager.setLookAndFeel(info.getClassName());} 
+            	catch (ClassNotFoundException | InstantiationException | IllegalAccessException| UnsupportedLookAndFeelException e) {e.printStackTrace();}
+            break;
+        }
 	}
 }

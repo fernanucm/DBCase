@@ -341,9 +341,14 @@ public class GeneradorEsquema {
 	}
 
 	public void exportarCodigo(String text, boolean sql){
-		text="#"+Lenguaje.text(Lenguaje.SCRIPT_GENERATED)+"\n"+
-		(sql?"#"+Lenguaje.text(Lenguaje.SYNTAX) + ": " +conexionScriptGenerado.getRuta()+ "\n":"")+text; 
-		// Si no se ha generado antes el script lanzamos un error
+		if (!validadorBD.validaBaseDeDatos(false, new StringBuilder())){
+			JOptionPane.showMessageDialog(null,
+					Lenguaje.text(Lenguaje.ERROR)+".\n" +
+					Lenguaje.text(Lenguaje.SCRIPT_ERROR),
+					Lenguaje.text(Lenguaje.DBCASE),
+					JOptionPane.PLAIN_MESSAGE);
+				return;
+			}
 		if (text.isEmpty()){
 			JOptionPane.showMessageDialog(null,
 				Lenguaje.text(Lenguaje.ERROR)+".\n" +
@@ -352,6 +357,8 @@ public class GeneradorEsquema {
 				JOptionPane.PLAIN_MESSAGE);
 			return;
 		}
+		text="# "+Lenguaje.text(Lenguaje.SCRIPT_GENERATED)+"\n"+
+		(sql?"# "+Lenguaje.text(Lenguaje.SYNTAX) + ": " +conexionScriptGenerado.getRuta()+ "\n\n":"")+text;
 		// Si ya se ha generado el Script
 		JFileChooser jfc = new JFileChooser();
 		jfc.setDialogTitle(Lenguaje.text(Lenguaje.DBCASE));
@@ -369,7 +376,6 @@ public class GeneradorEsquema {
 				FileWriter file = new FileWriter(ruta);
 				file.write(text);
 				file.close();
-
 				JOptionPane.showMessageDialog(
 						null,
 						Lenguaje.text(Lenguaje.INFO)+"\n"+    
