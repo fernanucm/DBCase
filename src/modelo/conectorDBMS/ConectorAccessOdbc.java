@@ -48,7 +48,7 @@ public class ConectorAccessOdbc extends ConectorDBMS {
 	@Override
 	public String obtenerCodigoCreacionTabla(Tabla t) {
 		// Crear la tabla
-		String codigo = "CREATE TABLE "+t.getNombreTabla()+"(";
+		String codigo = "CREATE TABLE "+t.getNombreTabla()+" (";
 		
 		// Para cada atributo...
 		Vector<String[]> atributos = t.getAtributos();
@@ -71,7 +71,7 @@ public class ConectorAccessOdbc extends ConectorDBMS {
 	@Override
 	public String obtenerCodigoCreacionTablaHTML(Tabla t) {
 		// Crear la tabla
-		String codigo="<p><strong>CREATE TABLE </strong>"+t.getNombreTabla()+"(";
+		String codigo="<p><strong>CREATE TABLE </strong>"+t.getNombreTabla()+" (";
 		
 		// Para cada atributo...
 		Vector<String[]> atributos = t.getAtributos();
@@ -190,7 +190,7 @@ String codigo="";
 	@Override
 	public String obtenerCodigoEnumerado(Enumerado e) {
 		// Crear la tabla
-		String codigo ="CREATE TABLE "+e.getNombre()+"(";
+		String codigo ="CREATE TABLE "+e.getNombre()+" (";
 		codigo += "value_list VARCHAR(" + e.getLongitud() + ")";
 		codigo+=");\n";
 		
@@ -215,7 +215,7 @@ String codigo="";
 	@Override
 	public String obtenerCodigoEnumeradoHTML(Enumerado e) {
 		// Crear la tabla
-		String codigo ="<p><strong>CREATE TABLE </strong>"+e.getNombre()+"(";
+		String codigo ="<p><strong>CREATE TABLE </strong>"+e.getNombre()+" (";
 		codigo += "value_list " + "<strong>VARCHAR(" + e.getLongitud() + ")</strong>";
 		codigo+=")" + ";</p>";
 

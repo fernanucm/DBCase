@@ -54,7 +54,7 @@ public class ConectorMySQL extends ConectorDBMS {
 		String codigo="DROP TABLE IF EXISTS "+t.getNombreTabla()+";\n";
 		
 		// Crear la tabla
-		codigo+="CREATE TABLE "+t.getNombreTabla()+"(";
+		codigo+="CREATE TABLE "+t.getNombreTabla()+" (";
 		
 		// Para cada atributo...
 		Vector<String[]> atributos = t.getAtributos();
@@ -81,7 +81,7 @@ public class ConectorMySQL extends ConectorDBMS {
 		String codigo="<p><strong>DROP TABLE IF EXISTS </strong>"+t.getNombreTabla()+";</p>";
 		
 		// Crear la tabla
-		codigo+="<p><strong>CREATE TABLE </strong>"+t.getNombreTabla()+"(";
+		codigo+="<p><strong>CREATE TABLE </strong>"+t.getNombreTabla()+" (";
 		
 		// Para cada atributo...
 		Vector<String[]> atributos = t.getAtributos();
@@ -138,7 +138,6 @@ public class ConectorMySQL extends ConectorDBMS {
 			}
 				
 		}
-		
 		return codigo;
 	}
 
@@ -185,7 +184,7 @@ public class ConectorMySQL extends ConectorDBMS {
 		String codigo="DROP TABLE IF EXISTS "+e.getNombre()+";\n";
 		
 		// Crear la tabla
-		codigo+="CREATE TABLE "+e.getNombre()+"(";
+		codigo+="CREATE TABLE "+e.getNombre()+" (";
 		codigo += "value_list VARCHAR(" + e.getLongitud() + ")";
 		codigo+=") ENGINE=InnoDB;\n";
 		
@@ -212,7 +211,7 @@ public class ConectorMySQL extends ConectorDBMS {
 		String codigo="<p><strong>DROP TABLE IF EXISTS </strong>"+e.getNombre()+";</p>";
 		
 		// Crear la tabla
-		codigo+="<p><strong>CREATE TABLE </strong>"+e.getNombre()+"(";
+		codigo+="<p><strong>CREATE TABLE </strong>"+e.getNombre()+" (";
 		codigo += "value_list " + "<strong>VARCHAR(" + e.getLongitud() + ")</strong>";
 		codigo+=")<strong> ENGINE = InnoDB</strong>;</p>";
 
