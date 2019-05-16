@@ -1,5 +1,6 @@
 package vista.components;
 
+import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -56,7 +57,6 @@ public class MyMenu extends JMenuBar{
 
 	public MyMenu(Controlador c) {
 		this.theme = Theme.getInstancia();
-		add(Box.createRigidArea(new Dimension(0,30)));
 		setOpaque(true);
 		setBorder(BorderFactory.createCompoundBorder(null,null));
 		//File
@@ -162,41 +162,9 @@ public class MyMenu extends JMenuBar{
 		menuOpciones = new JMenu();
 		menuOpciones.setForeground(theme.fontColor());
 		menuOpciones.setFont(theme.font());
-		JToolBar iconosPerspectiva = new JToolBar();
-		diagramIcon = new diagramIcon(false);
-		IconLabel diagramLabel = new IconLabel(diagramIcon);
-		diagramLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-            	c.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_ModoDiseno, null);
-            }
-        });
-		allIcon = new allIcon(false);
-		IconLabel allLabel = new IconLabel(allIcon);
-		allLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-            	c.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_ModoVerTodo, null);
-            }
-        });
-		codeIcon = new codeIcon(false);
-		IconLabel codeLabel = new IconLabel(codeIcon);
-		codeLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-            	c.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_ModoProgramador, null);
-            }
-        });
-		iconosPerspectiva.add(Box.createRigidArea(new Dimension(4,0)));
-		iconosPerspectiva.add(diagramLabel);
-		iconosPerspectiva.add(Box.createRigidArea(new Dimension(14,0)));
-		iconosPerspectiva.add(allLabel);
-		iconosPerspectiva.add(Box.createRigidArea(new Dimension(14,0)));
-		iconosPerspectiva.add(codeLabel);
-		iconosPerspectiva.add(Box.createRigidArea(new Dimension(4,0)));
-		iconosPerspectiva.setBounds(0, 0, 60, 80);
-		iconosPerspectiva.setFloatable(false);
-	    menuOpciones.add(iconosPerspectiva);
+		
+		
+	    //menuOpciones.add(iconosPerspectiva);
 		add(menuOpciones);
 		menuOpciones.setText(Lenguaje.text(Lenguaje.VIEW));
 		menuOpciones.setMnemonic(Lenguaje.text(Lenguaje.VIEW).charAt(0));
@@ -274,6 +242,43 @@ public class MyMenu extends JMenuBar{
 					acercaDe(evt);
 				}
 			});
+			JToolBar iconosPerspectiva = new JToolBar();
+			diagramIcon = new diagramIcon(false);
+			IconLabel diagramLabel = new IconLabel(diagramIcon);
+			diagramLabel.addMouseListener(new MouseAdapter() {
+	            @Override
+	            public void mousePressed(MouseEvent e) {
+	            	c.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_ModoDiseno, null);
+	            }
+	        });
+			allIcon = new allIcon(false);
+			IconLabel allLabel = new IconLabel(allIcon);
+			allLabel.addMouseListener(new MouseAdapter() {
+	            @Override
+	            public void mousePressed(MouseEvent e) {
+	            	c.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_ModoVerTodo, null);
+	            }
+	        });
+			codeIcon = new codeIcon(false);
+			IconLabel codeLabel = new IconLabel(codeIcon);
+			codeLabel.addMouseListener(new MouseAdapter() {
+	            @Override
+	            public void mousePressed(MouseEvent e) {
+	            	c.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_ModoProgramador, null);
+	            }
+	        });
+			iconosPerspectiva.add(Box.createRigidArea(new Dimension(4,0)));
+			iconosPerspectiva.add(diagramLabel);
+			iconosPerspectiva.add(Box.createRigidArea(new Dimension(14,0)));
+			iconosPerspectiva.add(allLabel);
+			iconosPerspectiva.add(Box.createRigidArea(new Dimension(14,0)));
+			iconosPerspectiva.add(codeLabel);
+			iconosPerspectiva.add(Box.createRigidArea(new Dimension(4,0)));
+			iconosPerspectiva.setBounds(0, 0, 60, 80);
+			iconosPerspectiva.setFloatable(false);
+			iconosPerspectiva.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT); 
+			add(iconosPerspectiva);
+			add(Box.createRigidArea(new Dimension(50,0)));
 	}
 	
 	/******************
@@ -322,5 +327,6 @@ public class MyMenu extends JMenuBar{
 		diagramIcon.setSelected(m==1);
 		allIcon.setSelected(m==0);
 		codeIcon.setSelected(m==2);
+		this.repaint();
 	}
 }

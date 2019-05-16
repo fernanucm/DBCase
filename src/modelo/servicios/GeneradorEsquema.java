@@ -503,7 +503,7 @@ public class GeneradorEsquema {
 	}
 	
 	private void creaTablas(TransferConexion conexion){
-		sqlHTML+="<div class='card'><h2>"+Lenguaje.text(Lenguaje.TABLES_SECTION)+"</h2>";
+		sqlHTML+="<div class='card'><h2>"+Lenguaje.text(Lenguaje.ANALYSIS)+"</h2>";
 
 		Iterator tablasM=tablasMultivalorados.iterator();
 		while (tablasM.hasNext()){

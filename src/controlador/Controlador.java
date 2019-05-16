@@ -402,7 +402,7 @@ public class Controlador {
 				String tieneRelacion="";
 				if (te.isDebil()) tieneRelacion = Lenguaje.text(Lenguaje.WARNING_DELETE_WEAK_RELATION)+"\n";
 				respuesta = panelOpciones.setActiva(
-						Lenguaje.text(Lenguaje.ENTITY)+" \""+te.getNombre()+"\"" +Lenguaje.text(Lenguaje.REMOVE_FROM_SYSTEM)+"\n"+
+						Lenguaje.text(Lenguaje.ENTITY)+" \""+te.getNombre()+"\" " +Lenguaje.text(Lenguaje.REMOVE_FROM_SYSTEM)+"\n"+
 						tieneAtributos+tieneRelacion + Lenguaje.text(Lenguaje.WISH_CONTINUE),
 						Lenguaje.text(Lenguaje.DELETE_ENTITY));	
 			}
@@ -509,7 +509,7 @@ public class Controlador {
 				if (!ta.getListaComponentes().isEmpty())
 					eliminarSubatributos = Lenguaje.text(Lenguaje.DELETE_ATTRIBUTES_WARNING)+"\n";
 				respuesta = panelOpciones.setActiva(
-						Lenguaje.text(Lenguaje.ATTRIBUTE)+" \""+ta.getNombre()+"\""+Lenguaje.text(Lenguaje.REMOVE_FROM_SYSTEM)+"\n" +
+						Lenguaje.text(Lenguaje.ATTRIBUTE)+" \""+ta.getNombre()+"\" "+Lenguaje.text(Lenguaje.REMOVE_FROM_SYSTEM)+"\n" +
 						eliminarSubatributos + Lenguaje.text(Lenguaje.WISH_CONTINUE),
 						Lenguaje.text(Lenguaje.DELETE_ATTRIB));	
 			}
@@ -946,7 +946,7 @@ public class Controlador {
 				if(tr.getTipo().equals("Debil"))
 					tieneEntidad = Lenguaje.text(Lenguaje.WARNING_DELETE_WEAK_ENTITY)+"\n";
 				respuesta = panelOpciones.setActiva(
-						Lenguaje.text(Lenguaje.THE_RELATION)+" \""+tr.getNombre()+"\""+
+						Lenguaje.text(Lenguaje.THE_RELATION)+" \""+tr.getNombre()+"\" "+
 						Lenguaje.text(Lenguaje.REMOVE_FROM_SYSTEM)+"\n" +
 						tieneAtributos + tieneEntidad+
 						Lenguaje.text(Lenguaje.WISH_CONTINUE),
@@ -1035,7 +1035,7 @@ public class Controlador {
 		case PanelDiseno_Click_EliminarDominio:{
 			TransferDominio td = (TransferDominio) datos;
 			int respuesta = panelOpciones.setActiva(
-					Lenguaje.text(Lenguaje.DOMAIN)+" \""+td.getNombre()+"\""+ Lenguaje.text(Lenguaje.REMOVE_FROM_SYSTEM)+"\n" +
+					Lenguaje.text(Lenguaje.DOMAIN)+" \""+td.getNombre()+"\" "+ Lenguaje.text(Lenguaje.REMOVE_FROM_SYSTEM)+"\n" +
 					Lenguaje.text(Lenguaje.MODIFYING_ATTRIBUTES_WARNING4)+"\n" +
 					Lenguaje.text(Lenguaje.WISH_CONTINUE),
 					Lenguaje.text(Lenguaje.DELETE_DOMAIN));
@@ -1051,17 +1051,13 @@ public class Controlador {
 						Vector<Object> v = new Vector();
 						v.add(ta);
 						String valorB = new String();
-						if(valorBase.name().equals("TEXT")||valorBase.name().equals("VARCHAR")){
+						if(valorBase.name().equals("TEXT")||valorBase.name().equals("VARCHAR"))
 							valorB = valorBase.toString() + "(20)";
-						}
-						else{
-							valorB= valorBase.toString();
-						}
+						else valorB= valorBase.toString();
+						
 						v.add(valorB);
-						if(valorBase.name().equals("TEXT")||
-								valorBase.name().equals("VARCHAR")){
-							v.add("20");
-						}
+						
+						if(valorBase.name().equals("TEXT")||valorBase.name().equals("VARCHAR")) v.add("20");
 						this.getTheServiciosAtributos().editarDomnioAtributo(v);
 					}
 					cont++;

@@ -252,7 +252,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		scrollPanelTablas = new JScrollPane(tablaVolumenes);
 		scrollPanelTablas.setBackground(theme.background());
 		panelTablas.add(scrollPanelTablas);
-		infoTabPane.addTab(Lenguaje.text(Lenguaje.TABLES_SECTION), null, panelTablas ,null);
+		infoTabPane.addTab(Lenguaje.text(Lenguaje.ANALYSIS), null, panelTablas ,null);
 		panelGrafo = new PanelThumbnail(panelDiseno);
 		splitTabMapa.add(panelGrafo, JSplitPane.LEFT);
 		JPanel diagrama = new JPanel();

@@ -375,7 +375,7 @@ public class Lenguaje {
 	public static final int CANT_CLOSE_CONEXION = 1688;//"No se pudo cerrar la conexión."
 	public static final int OK_SCRIPT_EXECUT = 1689;//"El script se ha ejecutado correctamente."
 	
-	public static final int TABLES_SECTION = 1690;//"SECCIÓN DE CREACIÓN DE TABLAS"
+	public static final int ANALYSIS = 1690;//"SECCIÓN DE CREACIÓN DE TABLAS"
 	public static final int TYPES_SECTION = 1691;//"SECCIÓN DE CREACIÓN DE TIPOS ENUERADOS"
 	public static final int KEYS_SECTION = 1692;//"SECCIÓN DE ESTABLECIMIENTO DE CLAVES"
 	public static final int CONSTRAINTS_SECTION = 1695;
@@ -847,7 +847,7 @@ public class Lenguaje {
 		case CANT_CLOSE_CONEXION: texto = _textos.get("cantCloseConexion"); break;//"No se pudo cerrar la conexión."
 		case OK_SCRIPT_EXECUT: texto = _textos.get("okScriptExecut"); break;//"El script se ha ejecutado correctamente."
 		
-		case TABLES_SECTION : texto = _textos.get("tablesSection"); break;//"SECCIÓN DE CREACIÓN DE TABLAS"
+		case ANALYSIS : texto = _textos.get("analysis"); break;//"SECCIÓN DE CREACIÓN DE TABLAS"
 		case TYPES_SECTION: texto = _textos.get("typesSection"); break;//"SECCIÓN DE CREACIÓN DE TIPOS ENUERADOS"
 		case KEYS_SECTION: texto = _textos.get("keysSection"); break;//"SECCIÓN DE ESTABLECIMIENTO DE CLAVES"
 		case CONSTRAINTS_SECTION: texto = _textos.get("constraintsSection"); break;

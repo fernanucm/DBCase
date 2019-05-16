@@ -7,3 +7,8 @@ bin/Controlador/Controlador.class
 *.class
 bin/Controlador/Controlador.class
 bin/Controlador/TC.class
+*.class
+bin/Controlador/Controlador.class
+/projects/
+bin/Controlador/Controlador.class
+dbcase.config

@@ -9,7 +9,8 @@ public abstract class icon implements Icon{
 	private boolean selected;
 	private final int DEFAULTSIZE = 60;
 	private final int MINISIZE = 30;
-	private final int PERSPECTIVESIZE = 90;
+	private final int PERSPECTIVESIZE = 50;
+	protected double offset = .1;
 	
 	public icon() {
 		super();
@@ -43,10 +44,10 @@ public abstract class icon implements Icon{
 	}
 	@Override
     public int getIconWidth() {
-      return size == PERSPECTIVESIZE ? 50 :size;
+      return size;
     }
     @Override
     public int getIconHeight() {
-      return size/2;
+      return size == PERSPECTIVESIZE ? size :size/2;
     }
 }

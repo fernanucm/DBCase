@@ -19,10 +19,10 @@ public class codeIcon extends icon{
     public void paintIcon(Component c, Graphics g, int x, int y) {
     	Graphics2D g2d = (Graphics2D) g;
     	RoundRectangle2D rect = new RoundRectangle2D.Double(
-    			x+getIconWidth()*.05, 
-    			y+getIconHeight()*.05,
-    			getIconWidth()*.9, 
-    			getIconHeight()-getIconHeight()*.2, 15, 15);
+    			x+getIconWidth()*offset, 
+    			y+getIconHeight()*offset,
+    			getIconWidth()-getIconWidth()*offset*3, 
+    			getIconHeight()-getIconHeight()*offset*3, 15, 15);
     	Theme theme = Theme.getInstancia();
     	g2d.setRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)); 
     	g2d.setColor(theme.toolBar());
@@ -30,7 +30,7 @@ public class codeIcon extends icon{
     	g2d.setStroke(new BasicStroke(3));
     	g2d.setColor(isSelected()?theme.attribute():theme.lines());
     	g2d.draw(rect);
-    	g2d.draw(new Line2D.Double(getIconWidth()*.35,getIconHeight()*.05,getIconWidth()*.35,getIconHeight()*.85));
-    	g2d.draw(new Line2D.Double(getIconWidth()*.65,getIconHeight()*.05,getIconWidth()*.65,getIconHeight()*.85));
+    	g2d.draw(new Line2D.Double(getIconWidth()*.35,getIconHeight()*offset,getIconWidth()*.35,getIconHeight()*offset*8));
+    	g2d.draw(new Line2D.Double(getIconWidth()*.6,getIconHeight()*offset,getIconWidth()*.6,getIconHeight()*offset*8));
     }	
 }
