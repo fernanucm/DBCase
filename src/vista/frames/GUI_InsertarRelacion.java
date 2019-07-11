@@ -38,7 +38,14 @@ public class GUI_InsertarRelacion extends Parent_GUI{
 		setModal(true);
 		setResizable(false);
 		getContentPane().setLayout(null);
-		
+		cajaNombre.addKeyListener(new KeyListener() {
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode()==10){botonInsertarActionPerformed(null);}
+				else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
+			}
+			public void keyReleased(KeyEvent e) {}
+			public void keyTyped(KeyEvent e) {}
+		});
 		{
 			botonInsertar = botonInsertar(150, 90);
 			getContentPane().add(botonInsertar);

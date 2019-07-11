@@ -40,7 +40,7 @@ public class GUI_SaveAs extends Parent_GUI{
 		this.setTitle(Lenguaje.text(Lenguaje.DBCASE));
 		this.setModal(true);
 		this.setResizable(false);
-		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
 		panelPrincipal = new JPanel();
 		panelPrincipal.setLayout(null);

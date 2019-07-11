@@ -102,6 +102,14 @@ public class GUI_ModificarDominio extends Parent_GUI {
 			cajaValores.setForeground(theme.labelFontColorDark());
 			getContentPane().add(cajaValores);
 			cajaValores.setBounds(25, 110, 236, 30);
+			cajaValores.addKeyListener(new KeyListener() {
+				public void keyPressed(KeyEvent e) {
+					if(e.getKeyCode()==10){botonEditarActionPerformed(null);}
+					else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
+				}
+				public void keyReleased(KeyEvent e) {}
+				public void keyTyped(KeyEvent e) {}
+			});
 		}
 		return cajaValores;
 	}

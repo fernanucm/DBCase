@@ -42,6 +42,14 @@ public class GUI_InsertarDominio extends Parent_GUI {
 		setModal(true);
 		getContentPane().setLayout(null);
 		setSize(300, 250);
+		cajaNombre.addKeyListener(new KeyListener() {
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode()==10){botonInsertarActionPerformed(null);}
+				else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
+			}
+			public void keyReleased(KeyEvent e) {}
+			public void keyTyped(KeyEvent e) {}
+		});
 		{
 			botonInsertar = boton(120,180,Lenguaje.text(Lenguaje.ADD_DOMAIN));
 			getContentPane().add(botonInsertar);

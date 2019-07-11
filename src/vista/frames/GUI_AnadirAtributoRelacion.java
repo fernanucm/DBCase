@@ -52,6 +52,13 @@ public class GUI_AnadirAtributoRelacion extends Parent_GUI {
 		setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 		setResizable(false);
 		setModal(true);
+		cajaNombre.addKeyListener(new KeyListener() {
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode()==10){botonAnadirActionPerformed(null);}
+			}
+			public void keyReleased(KeyEvent e) {}
+			public void keyTyped(KeyEvent e) {}
+		});
 		getContentPane().setLayout(null);
 		getContentPane().add(getExplicacion());
 		getContentPane().add(getOpcionCompuesto());

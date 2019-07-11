@@ -47,6 +47,13 @@ public class GUI_AnadirSubAtributoAtributo extends Parent_GUI {
 
 	private void initComponents() {
 		setTitle(Lenguaje.text(Lenguaje.INSERT_NEW_SUBATTRIBUTE));
+		cajaNombre.addKeyListener(new KeyListener() {
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode()==10){botonAnadirActionPerformed(null);}
+			}
+			public void keyReleased(KeyEvent e) {}
+			public void keyTyped(KeyEvent e) {}
+		});
 		setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
 		setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
 		setResizable(false);

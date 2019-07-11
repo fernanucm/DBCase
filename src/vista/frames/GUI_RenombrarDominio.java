@@ -38,6 +38,14 @@ public class GUI_RenombrarDominio extends Parent_GUI{
 		setModal(true);
 		getContentPane().setLayout(null);
 		this.setSize(300, 170);
+		cajaNombre.addKeyListener(new KeyListener() {
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode()==10){botonRenombrarActionPerformed(null);}
+				else if(e.getKeyCode()==27){botonCancelarActionPerformed(null);}
+			}
+			public void keyReleased(KeyEvent e) {}
+			public void keyTyped(KeyEvent e) {}
+		});
 		{
 			botonRenombrar = boton(120, 90,Lenguaje.text(Lenguaje.RENAME));
 			getContentPane().add(botonRenombrar);
