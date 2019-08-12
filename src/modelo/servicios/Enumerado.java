@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import modelo.conectorDBMS.ConectorDBMS;
 import modelo.conectorDBMS.FactoriaConectores;
+import modelo.transfers.TipoDominio;
 import modelo.transfers.TransferConexion;
 
 /**
@@ -11,6 +12,11 @@ import modelo.transfers.TransferConexion;
  */
 public class Enumerado {
 	// --- --- --- ATRIBUTOS --- --- ---
+	
+	/**
+	 * Tipo
+	 */
+	private TipoDominio _tipo;
 	/**
 	 * Nombre del dominio
 	 */
@@ -26,8 +32,9 @@ public class Enumerado {
 	
 	
 	// --- --- --- CONSTRUCTORES --- --- ---
-	public Enumerado(String nombre){
+	public Enumerado(String nombre, TipoDominio tipo){
 		_nombre = nombre;
+		_tipo = tipo;
 		_valores = new Vector<String>(0,1);
 		_longitudVarchar = -1;
 	}
@@ -40,6 +47,10 @@ public class Enumerado {
 	
 	public int getNumeroValores(){
 		return _valores.size();
+	}
+	
+	public TipoDominio getTipo(){
+		return _tipo;
 	}
 	
 	/**

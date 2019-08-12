@@ -8,6 +8,7 @@ import java.util.Vector;
 import modelo.lenguaje.Lenguaje;
 import modelo.servicios.Enumerado;
 import modelo.servicios.Tabla;
+import modelo.transfers.TipoDominio;
 
 /**
  * Conecta la aplicación con un gestor de bases de datos MySQL
@@ -185,7 +186,9 @@ public class ConectorMySQL extends ConectorDBMS {
 		
 		// Crear la tabla
 		codigo+="CREATE TABLE "+e.getNombre()+" (";
-		codigo += "value_list VARCHAR(" + e.getLongitud() + ")";
+		if(e.getTipo()==TipoDominio.VARCHAR)
+			codigo += "value_list "+e.getTipo()+"(" + e.getLongitud() + ")";
+		else codigo += "value_list " + e.getTipo();
 		codigo+=") ENGINE=InnoDB;\n";
 		
 		// Establecer la clave primaria
@@ -212,7 +215,9 @@ public class ConectorMySQL extends ConectorDBMS {
 		
 		// Crear la tabla
 		codigo+="<p><strong>CREATE TABLE </strong>"+e.getNombre()+" (";
-		codigo += "value_list " + "<strong>VARCHAR(" + e.getLongitud() + ")</strong>";
+		if(e.getTipo()==TipoDominio.VARCHAR)
+			codigo += "value_list " + "<strong>"+e.getTipo()+"(" + e.getLongitud() + ")</strong>";
+		else codigo += "value_list " + "<strong>"+e.getTipo()+"</strong>";
 		codigo+=")<strong> ENGINE = InnoDB</strong>;</p>";
 
 		// Establecer la clave primaria
@@ -222,7 +227,9 @@ public class ConectorMySQL extends ConectorDBMS {
 		for (int i=0; i<e.getNumeroValores(); i++){
 			String valor = e.getValor(i);
 			if (valor.startsWith("'")) valor = valor.substring(1, valor.length() - 1);
-			codigo += "<p><strong>INSERT INTO </strong>" + e.getNombre() + "<strong> VALUES </strong>(" + "'" + valor + "'" + ");</p>";
+			if(e.getTipo()==TipoDominio.VARCHAR || e.getTipo()==TipoDominio.CHAR || e.getTipo()==TipoDominio.TEXT)
+				codigo += "<p><strong>INSERT INTO </strong>" + e.getNombre() + "<strong> VALUES </strong>(" + "'" + valor + "'" + ");</p>";
+			else codigo += "<p><strong>INSERT INTO </strong>" + e.getNombre() + "<strong> VALUES </strong>(" + valor + ");</p>";
 		}
 		codigo += "</p>";
 		return codigo;

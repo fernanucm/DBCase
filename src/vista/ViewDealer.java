@@ -91,7 +91,7 @@ public class ViewDealer {
 		modo = 2;
 	}
 	
-	public int getPanelsMode() {
+	public byte getPanelsMode() {
 		return modo;
 	}
 }

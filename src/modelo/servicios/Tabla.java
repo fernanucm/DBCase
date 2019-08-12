@@ -223,7 +223,7 @@ public class Tabla {
 		Vector<String[]>definitivo= new Vector<String[]>();
 		//dejamos los elementos en las 3 listas sin duplicados.
 		definitivo=this.filtra(atributos, primaries);
-		int i=0,k=0;
+		int i=0;
 		if(!primaries.isEmpty())
 			for (i=0;i<primaries.size();i++){
 				String repe="";
@@ -232,7 +232,7 @@ public class Tabla {
 				mr+=this.ponGuionesBajos("<u>"+repe+primaries.elementAt(i)[0]+"</u>");
 			}
 		for (int j=0;j<definitivo.size();j++){
-			if (i>0||k>0) mr+=", ";
+			if (i>0||j>0) mr+=", ";
 			String repe="";
 			if (this.estaRepe(definitivo.elementAt(j)[0], atributos) && nombreTabla != definitivo.elementAt(j)[2]) repe +=definitivo.elementAt(j)[2]+"_";
 			mr+=this.ponGuionesBajos(repe+definitivo.elementAt(j)[0]);

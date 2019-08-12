@@ -1731,16 +1731,19 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	}
 	
 	public void modoProgramador() {
+		if(this.dealer.getPanelsMode() == 2) return;
 		this.dealer.modoProgramador();
 		this.barraDeMenus.setModoVista(getPanelsMode());
 	}
 	
 	public void modoDiseno() {
+		if(this.dealer.getPanelsMode() == 1) return;
 		this.dealer.modoDiseno();
 		this.barraDeMenus.setModoVista(getPanelsMode());
 	}
 	
 	public void modoVerTodo() {
+		if(this.dealer.getPanelsMode() == 0) return;
 		this.dealer.modoVerTodo();
 		this.barraDeMenus.setModoVista(getPanelsMode());
 	}

@@ -9,6 +9,7 @@ import java.util.Vector;
 import modelo.lenguaje.Lenguaje;
 import modelo.servicios.Enumerado;
 import modelo.servicios.Tabla;
+import modelo.transfers.TipoDominio;
 
 /**
  * Conecta la aplicación con un gestor de bases de datos Oracle
@@ -204,7 +205,9 @@ public class ConectorOracle extends ConectorDBMS {
 	public String obtenerCodigoEnumerado(Enumerado e) {
 		// Crear la tabla
 		String codigo ="CREATE TABLE "+e.getNombre()+" (";
-		codigo += "value_list VARCHAR2(" + e.getLongitud() + ")";
+		if(e.getTipo()==TipoDominio.VARCHAR)
+			codigo += "value_list "+e.getTipo()+"(" + e.getLongitud() + ")";
+		else codigo += "value_list " + e.getTipo();
 		codigo+=");\n";
 		
 		// Establecer la clave primaria
@@ -214,7 +217,9 @@ public class ConectorOracle extends ConectorDBMS {
 		for (int i=0; i<e.getNumeroValores(); i++){
 			String valor = e.getValor(i);
 			if (valor.startsWith("'")) valor = valor.substring(1, valor.length() - 1);
-			codigo += "INSERT INTO " + e.getNombre() + " values ('" + valor + "');\n";
+			if(e.getTipo()==TipoDominio.VARCHAR || e.getTipo()==TipoDominio.CHAR || e.getTipo()==TipoDominio.TEXT)
+				codigo += "INSERT INTO " + e.getNombre() + " values ('" + valor + "');\n";
+			else codigo += "INSERT INTO " + e.getNombre() + " values (" + valor + ");\n";
 		}
 		codigo += "\n";
 		return codigo;
@@ -224,7 +229,9 @@ public class ConectorOracle extends ConectorDBMS {
 	public String obtenerCodigoEnumeradoHTML(Enumerado e) {
 		// Crear la tabla
 		String codigo ="<p><strong>CREATE TABLE </strong>"+e.getNombre()+" (";
-		codigo += "value_list " + "<strong>VARCHAR2(" + e.getLongitud() + ")</strong>";
+		if(e.getTipo()==TipoDominio.VARCHAR)
+			codigo += "value_list " + "<strong>"+e.getTipo()+"(" + e.getLongitud() + ")</strong>";
+		else codigo += "value_list " + "<strong>" + e.getTipo() + "</strong>";
 		codigo+=")" + ";</p>";
 
 		// Establecer la clave primaria
@@ -235,9 +242,11 @@ public class ConectorOracle extends ConectorDBMS {
 		// Insertar los valores
 		for (int i=0; i<e.getNumeroValores(); i++){
 			String valor = e.getValor(i);
-			if (valor.startsWith("'")) valor = valor.substring(1, valor.length() - 1);			
-			codigo += "<p><strong>INSERT INTO </strong>" + e.getNombre() + "<strong> VALUES </strong>" + "(" + 
+			if (valor.startsWith("'")) valor = valor.substring(1, valor.length() - 1);
+			if(e.getTipo()==TipoDominio.VARCHAR || e.getTipo()==TipoDominio.CHAR || e.getTipo()==TipoDominio.TEXT)
+				codigo += "<p><strong>INSERT INTO </strong>" + e.getNombre() + "<strong> VALUES </strong>" + "(" + 
 						"'" + valor + "'" + ");" + "</p>";
+			else codigo += "<p><strong>INSERT INTO </strong>" + e.getNombre() + "<strong> VALUES </strong>(" + valor + ");</p>";
 		}
 		return codigo;
 	}

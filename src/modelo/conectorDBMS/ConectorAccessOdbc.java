@@ -8,6 +8,7 @@ import java.util.Vector;
 import modelo.lenguaje.Lenguaje;
 import modelo.servicios.Enumerado;
 import modelo.servicios.Tabla;
+import modelo.transfers.TipoDominio;
 
 /**
  * Conecta la aplicación a una base de datos de Microsoft Access
@@ -141,7 +142,7 @@ public class ConectorAccessOdbc extends ConectorDBMS {
 
 	@Override
 	public String obtenerCodigoClavesTablaHTML(Tabla t) {
-String codigo="";
+		String codigo="";
 		
 		//si tiene claves primarias, las añadimos
 		Vector<String[]> primaries = t.getPrimaries();
@@ -183,7 +184,6 @@ String codigo="";
 				"("+uniques.elementAt(j)+");" + "</p>";
 			}	
 		}
-		
 		return codigo;
 	}
 	
@@ -191,7 +191,9 @@ String codigo="";
 	public String obtenerCodigoEnumerado(Enumerado e) {
 		// Crear la tabla
 		String codigo ="CREATE TABLE "+e.getNombre()+" (";
-		codigo += "value_list VARCHAR(" + e.getLongitud() + ")";
+		if(e.getTipo()==TipoDominio.VARCHAR)
+			codigo += "value_list "+e.getTipo()+"(" + e.getLongitud() + ")";
+		else codigo += "value_list " + e.getTipo();
 		codigo+=");\n";
 		
 		// Establecer la clave primaria
@@ -204,8 +206,9 @@ String codigo="";
 			if (valor.startsWith("'")) {
 				valor = valor.substring(1, valor.length() - 1);
 			}
-			
-			codigo += "INSERT INTO " + e.getNombre() + " (value_list) values ('" + valor + "');\n";
+			if(e.getTipo()==TipoDominio.VARCHAR || e.getTipo()==TipoDominio.CHAR || e.getTipo()==TipoDominio.TEXT)
+				codigo += "INSERT INTO " + e.getNombre() + " (value_list) values ('" + valor + "');\n";
+			else codigo += "INSERT INTO " + e.getNombre() + " (value_list) values (" + valor + ");\n";
 		}
 		
 		codigo += "\n";
@@ -216,7 +219,9 @@ String codigo="";
 	public String obtenerCodigoEnumeradoHTML(Enumerado e) {
 		// Crear la tabla
 		String codigo ="<p><strong>CREATE TABLE </strong>"+e.getNombre()+" (";
-		codigo += "value_list " + "<strong>VARCHAR(" + e.getLongitud() + ")</strong>";
+		if(e.getTipo()==TipoDominio.VARCHAR)
+			codigo += "value_list " + "<strong>"+e.getTipo()+"(" + e.getLongitud() + ")</strong>";
+		else codigo += "value_list " + "<strong>" + e.getTipo() + "</strong>";
 		codigo+=")" + ";</p>";
 
 		// Establecer la clave primaria
@@ -227,9 +232,12 @@ String codigo="";
 		// Insertar los valores
 		for (int i=0; i<e.getNumeroValores(); i++){
 			String valor = e.getValor(i);
-			if (valor.startsWith("'")) valor = valor.substring(1, valor.length() - 1);			
+			if (valor.startsWith("'")) valor = valor.substring(1, valor.length() - 1);	
+			if(e.getTipo()==TipoDominio.VARCHAR || e.getTipo()==TipoDominio.CHAR || e.getTipo()==TipoDominio.TEXT)
 			codigo += "<p><strong>INSERT INTO </strong>" + e.getNombre() + " (value_list) " +
 						"<strong> VALUES </strong>" + "(" + "'" + valor + "'" + ");" + "</p>";
+			else codigo += "<p><strong>INSERT INTO </strong>" + e.getNombre() + " (value_list) " +
+					"<strong> VALUES </strong>(" +valor +");</p>";
 		}
 		return codigo;
 	}
@@ -237,46 +245,23 @@ String codigo="";
 	// METODOS AUXILIARES
 	private String equivalenciaTipoAccess(String tipo) {
 		// Tipos simples que no hay que modificar
-		if (tipo.equalsIgnoreCase("INTEGER") ||
-			tipo.equalsIgnoreCase("DATETIME")){
-				return tipo;
-		}
-		
+		if (tipo.equalsIgnoreCase("INTEGER") || tipo.equalsIgnoreCase("DATETIME")) return tipo;
 		// Tipos simples a modificar
-		if (tipo.equalsIgnoreCase("FLOAT")){
-			return "DOUBLE";
-		}
-		if (tipo.equalsIgnoreCase("BIT")){
-			return "YESNO";
-		}
-		if (tipo.equalsIgnoreCase("DATE")){
-			return "DATETIME";
-		}
-		if (tipo.equalsIgnoreCase("BLOB")){
-			return "IMAGE";
-		}
+		if (tipo.equalsIgnoreCase("FLOAT")) return "DOUBLE";
+		if (tipo.equalsIgnoreCase("BIT")) return "YESNO";
+		if (tipo.equalsIgnoreCase("DATE")) return "DATETIME";
+		if (tipo.equalsIgnoreCase("BLOB")) return "IMAGE";
 		
 		// Tipos compuestos que no hay que modificar
 		if (tipo.indexOf("(") > 0){
 			String tipoSinParam = tipo.substring(0, tipo.indexOf("("));
-			if (tipoSinParam.equalsIgnoreCase("CHAR") ||
-				tipoSinParam.equalsIgnoreCase("VARCHAR")){
-				return tipo;
-			}
-
+			if (tipoSinParam.equalsIgnoreCase("CHAR") || tipoSinParam.equalsIgnoreCase("VARCHAR")) return tipo;
 			// Tipos compuestos que sí hay que modificar
 			String param = tipo.substring(tipo.indexOf("("));
-			if (tipoSinParam.equalsIgnoreCase("TEXT")){
-				return "MEMO" + param;
-			}
-			if (tipoSinParam.equalsIgnoreCase("DECIMAL")){
-				return "CURRENCY";
-			}
-			if (tipoSinParam.equalsIgnoreCase("INTEGER")){
-				return "INTEGER";
-			}
+			if (tipoSinParam.equalsIgnoreCase("TEXT")) return "MEMO" + param;
+			if (tipoSinParam.equalsIgnoreCase("DECIMAL")) return "CURRENCY";
+			if (tipoSinParam.equalsIgnoreCase("INTEGER")) return "INTEGER";
 		}
-		
 		// Tipos pertenecientes a los dominios creados
 		return tipo + "_sinAnalizar";
 	}

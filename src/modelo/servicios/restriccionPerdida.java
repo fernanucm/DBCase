@@ -55,7 +55,7 @@ public class restriccionPerdida {
 				s+= relacion;
 				break;
 			case TABLA:
-				s += entidad + ": ";
+				s += entidad + ".";
 				s += restriccion.replace("<", "&lt;") + " ";
 				break;
 			default:break;

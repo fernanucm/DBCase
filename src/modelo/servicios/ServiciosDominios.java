@@ -18,12 +18,7 @@ public class ServiciosDominios {
 
 
 	// Controlador
-	Controlador controlador;
-	
-	// Constructor vacio
-	public ServiciosDominios() {
-	}
-	
+	Controlador controlador;	
 
 	public void ListaDeDominios(){
 		Object[] items = modelo.transfers.TipoDominio.values();
@@ -120,7 +115,6 @@ public class ServiciosDominios {
 			v.add(antiguoNombre);
 			controlador.mensajeDesde_SD(TC.SD_RenombrarDominio_HECHO, v);
 		}
-			
 		return;
 	}
 	

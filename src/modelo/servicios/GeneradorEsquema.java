@@ -83,7 +83,7 @@ public class GeneradorEsquema {
 			
 			// Anadimos las claves a la relacion
 			
-			//aniadimos las claves primarias o logeneraTablasEntidadess discriminantes si la entidad es debil.
+			//aniadimos las claves primarias o logeneraTablasEntidades discriminantes si la entidad es debil.
 			Vector<TransferAtributo> claves=this.dameAtributosEnTransfer(te.getListaClavesPrimarias());
 			for (int c=0;c<claves.size();c++){
 				TransferAtributo ta=claves.elementAt(c);
@@ -91,6 +91,7 @@ public class GeneradorEsquema {
 				else
 					if (ta.getCompuesto())
 						tabla.aniadeListaClavesPrimarias(this.atributoCompuesto(ta,te.getNombre(),""));
+					//else if(te.isDebil()) tabla.aniadeListaClavesPrimarias(claves);
 					else //si es normal, lo aniadimos como clave primaria.
 						tabla.aniadeClavePrimaria(ta.getNombre(),ta.getDominio(),te.getNombre());
 			}
@@ -177,7 +178,7 @@ public class GeneradorEsquema {
 					tabla.aniadeListaClavesForaneas(primarias, ent.getNombreTabla(), referenciadas);
 					
 					// Si es 0..n poner como clave
-					if (eya.getFinalRango() != 1) tabla.aniadeListaClavesPrimarias(primarias);
+					if (eya.getFinalRango() == 1) tabla.aniadeListaClavesPrimarias(primarias);
 					else{
 						if (soloHayUnos && esLaPrimeraDel1a1){
 							tabla.aniadeListaClavesPrimarias(primarias);
@@ -258,8 +259,7 @@ public class GeneradorEsquema {
 				 * entidades fuertes y las debiles que aparezcan, pues este sera
 				 * el criterio a seguir a la hora de reasignar las claves.
 				 */
-				DAOEntidades daoEntidades = new DAOEntidades(controlador
-						.getPath());
+				DAOEntidades daoEntidades = new DAOEntidades(controlador.getPath());
 				Vector<TransferEntidad> fuertes = new Vector<TransferEntidad>();
 				Vector<TransferEntidad> debiles = new Vector<TransferEntidad>();
 				for (int s = 0; s < veya.size(); s++) {
@@ -267,10 +267,8 @@ public class GeneradorEsquema {
 					EntidadYAridad eya = veya.elementAt(s);
 					aux.setIdEntidad(eya.getEntidad());
 					aux = daoEntidades.consultarEntidad(aux);
-					if (aux.isDebil())
-						debiles.add(aux);
-					else
-						fuertes.add(aux);
+					if (aux.isDebil()) debiles.add(aux);
+					else fuertes.add(aux);
 				}
 				// ahora recorremos las fuertes, sacando sus claves y
 				// metiendolas en las debiles.
@@ -285,6 +283,7 @@ public class GeneradorEsquema {
 						String[] referenciadas = new String[clavesFuerte.size()];
 						for (int q=0; q<clavesFuerte.size(); q++) referenciadas[q] = clavesFuerte.get(q)[0];
 						tDebil.aniadeListaClavesForaneas(tFuerte.getPrimaries(),tFuerte.getNombreTabla(), referenciadas);
+						tDebil.aniadeListaClavesPrimarias(tFuerte.getPrimaries());
 					}
 				}
 			}
@@ -298,7 +297,7 @@ public class GeneradorEsquema {
 		//recorremos los dominios creando sus tipos enumerados
 		for (int i=0;i<dominios.size();i++){
 			TransferDominio td=dominios.elementAt(i);
-			Enumerado enu = new Enumerado(td.getNombre());
+			Enumerado enu = new Enumerado(td.getNombre(), td.getTipoBase());
 			// Obtener todos sus posibles valores
 			Vector<String> valores = td.getListaValores();
 			for (int k=0; k<valores.size(); k++) enu.anadeValor(valores.get(k));
@@ -672,7 +671,7 @@ public class GeneradorEsquema {
 	public void generaModeloRelacional(){
 		reset();
 		StringBuilder warnings = new StringBuilder();
-		if (!validadorBD.validaBaseDeDatos(true, warnings))return;
+		if (!validadorBD.validaBaseDeDatos(true, warnings)) return;
 		restriccionesPerdidas = new RestriccionesPerdidas();
 		generaTablasEntidades();
 		generaTablasRelaciones();
