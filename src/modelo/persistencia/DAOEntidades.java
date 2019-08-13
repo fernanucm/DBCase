@@ -308,7 +308,7 @@ public class DAOEntidades {
 		int cont = 0;
 		while(cont<LD.getLength()){
 			Node aux = LD.item(cont);
-			if (aux.getNodeName()==tipoLista){
+			if (aux.getNodeName()==tipoLista && aux.hasChildNodes()){
 				lista.addElement(dameValorDelElemento(aux));
 			}
 			cont++;

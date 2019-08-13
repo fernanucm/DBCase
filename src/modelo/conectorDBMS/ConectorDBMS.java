@@ -131,4 +131,8 @@ public abstract class ConectorDBMS {
 			+ " ("+u.replace("<", "&lt;")+");</p>";
 		return salida;
 	}
+	
+	protected String nombreColumn(String referencia, String tabla) {
+		return referencia.substring(tabla.length()+1);
+	}
 }

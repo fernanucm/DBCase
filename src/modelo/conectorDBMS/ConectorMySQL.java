@@ -159,11 +159,29 @@ public class ConectorMySQL extends ConectorDBMS {
 		//si tiene claves foraneas:
 		Vector<String[]> foreigns = t.getForeigns();
 		if(!foreigns.isEmpty()){
+			boolean abierto = false;
+			String keys = "", rfrncs = "";
 			for (int j=0;j<foreigns.size();j++){
-				codigo+="<p><strong>ALTER TABLE </strong>"+t.getNombreTabla()+"<strong> ADD FOREIGN KEY </strong>"+
-				"("+foreigns.elementAt(j)[0]+") <strong> REFERENCES </strong>"+foreigns.elementAt(j)[2]+";</p>";
+				if(!abierto) {
+					codigo+="<p><strong>ALTER TABLE </strong>"+t.getNombreTabla()+"<strong> ADD FOREIGN KEY </strong>(";
+					abierto=true;
+				}
+				keys+=foreigns.elementAt(j)[0];
+				rfrncs+=nombreColumn(foreigns.elementAt(j)[2], foreigns.elementAt(j)[3]);
+				if(foreigns.size()-j>1) {
+					if(foreigns.elementAt(j+1)[3]!=foreigns.elementAt(j)[3]) {
+						codigo+=keys+") <strong> REFERENCES </strong>"+foreigns.elementAt(j)[3]+"("+rfrncs+");</p>";
+						abierto = false;keys="";rfrncs="";
+					}
+					else {
+						keys+=",";
+						rfrncs+=",";
+					}
+				}else {
+					codigo+=keys+") <strong> REFERENCES </strong>"+foreigns.elementAt(j)[3]+"("+rfrncs+");</p>";
+					abierto = false;keys="";rfrncs="";
+				}
 			}
-				
 		}
 		
 		// Si tiene uniques, se ponen
@@ -173,7 +191,6 @@ public class ConectorMySQL extends ConectorDBMS {
 				codigo+="<p><strong>ALTER TABLE </strong>"+t.getNombreTabla()+"<strong> ADD UNIQUE KEY </strong>"+
 				"("+uniques.elementAt(j)+");</p>";
 			}
-				
 		}
 		
 		return codigo;

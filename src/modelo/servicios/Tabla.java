@@ -38,6 +38,7 @@ public class Tabla {
 	 * foreigns[i][0] = nombre
 	 * foreigns[i][1] = dominio
 	 * foreigns[i][2] = tabla de referencia
+	 * foreigns[i][3] = nombre de tabla
 	 */
 	private Vector<String[]> foreigns;
 	private ArrayList<String>  constraints;
@@ -82,7 +83,7 @@ public class Tabla {
 			}
 		}
 		atributos.add(trio);
-		if (encontrado) aniadeClaveForanea(trio[0], trio[1], trio[2]);
+		if (encontrado) aniadeClaveForanea(trio[0], trio[1], trio[2] + "." + trio[0], trio[2]);
 	}
 	
 	public void aniadeListaAtributos(Vector<String[]> listado, Vector<String> rest, Hashtable<Integer,Enumerado> dominios){
@@ -117,11 +118,12 @@ public class Tabla {
 		primaries.add(trio);
 	}
 	
-	private void aniadeClaveForanea(String nombre, String dominio,String tablaDeReferencia){
-		String [] trio=new String[3];
+	private void aniadeClaveForanea(String nombre, String dominio,String tablaDeReferencia, String nombreTabla){
+		String [] trio=new String[4];
 		trio[0]=nombre;
 		trio[1]=dominio;
 		trio[2]=tablaDeReferencia;
+		trio[3]=nombreTabla;
 		foreigns.add(trio);
 	}
 	
@@ -174,14 +176,12 @@ public class Tabla {
 		//Anade las claves foráneas
 		if (!foreigns.isEmpty()){
 			for (int i=0;i<foreigns.size();i++){
-				String repe="";
-				if (this.estaRepe(foreigns.elementAt(i)[0], atributos)) {
-					String ref = foreigns.elementAt(i)[2];
-					if (ref.indexOf("(") >= 0) repe +=ref.substring(0, ref.indexOf("("));
-					else repe +=ref;
-				}
-				t.aniadeClaveForanea(ponGuionesBajos(repe+foreigns.elementAt(i)[0]), 
-									foreigns.elementAt(i)[1], ponGuionesBajos(foreigns.elementAt(i)[2]));
+				String nombre="";
+				if (this.estaRepe(foreigns.elementAt(i)[0], atributos)) 
+					nombre =  foreigns.elementAt(i)[3]+"_"+nombreColumn(foreigns.elementAt(i)[2], foreigns.elementAt(i)[3]);
+				else nombre = foreigns.elementAt(i)[0];
+				t.aniadeClaveForanea(ponGuionesBajos(nombre), 
+									foreigns.elementAt(i)[1], ponGuionesBajos(foreigns.elementAt(i)[2]), foreigns.elementAt(i)[3]);
 			}
 		}
 		
@@ -215,6 +215,9 @@ public class Tabla {
 			}
 		}
 		return t;
+	}
+	private String nombreColumn(String referencia, String tabla) {
+		return referencia.substring(tabla.length()+1);
 	}
 	public String modeloRelacionalDeTabla(boolean p){
 		String mr="";
