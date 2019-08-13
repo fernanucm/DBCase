@@ -116,48 +116,6 @@ public class ConectorOracle extends ConectorDBMS {
 	}
 
 	@Override
-	public String obtenerCodigoClavesTabla(Tabla t) {
-		String codigo="";
-		
-		//si tiene claves primarias, las añadimos.
-		Vector<String[]> primaries = t.getPrimaries();
-		if (!primaries.isEmpty()){
-			codigo+="ALTER TABLE " + t.getNombreTabla() + 
-					" ADD CONSTRAINT " + t.getNombreTabla() + "_pk" + " PRIMARY KEY (";
-			for (int i=0;i<primaries.size();i++){
-				if (i>0)codigo+=", ";
-				codigo+=primaries.elementAt(i)[0];
-			}
-			codigo+=");\n";
-		}
-		
-		//si tiene claves foraneas:
-		Vector<String[]> foreigns = t.getForeigns();
-		if(!foreigns.isEmpty()){
-			for (int j=0;j<foreigns.size();j++){
-				String atributo = foreigns.elementAt(j)[0];
-				if (atributo.indexOf("(") >= 0) atributo = atributo.substring(0, atributo.indexOf("("));
-				codigo+="ALTER TABLE " + t.getNombreTabla() +
-						" ADD CONSTRAINT " + t.getNombreTabla() + "_" + atributo +
-						" FOREIGN KEY ("+ foreigns.elementAt(j)[0]+") REFERENCES "+
-						foreigns.elementAt(j)[2]+";\n";
-			}
-		}
-		
-		// Si tiene uniques, se ponen
-		Vector<String> uniques = t.getUniques();
-		if(!uniques.isEmpty()){
-			for (int j=0;j<uniques.size();j++){
-				codigo+="ALTER TABLE "+t.getNombreTabla()+
-				" ADD CONSTRAINT "+t.getNombreTabla() + "_unique_" + j + 
-				" UNIQUE" + "("+uniques.elementAt(j)+");\n";
-			}	
-		}
-		
-		return codigo;
-	}
-
-	@Override
 	public String obtenerCodigoClavesTablaHTML(Tabla t) {
 		String codigo="";
 		
@@ -176,14 +134,29 @@ public class ConectorOracle extends ConectorDBMS {
 		//si tiene claves foraneas:
 		Vector<String[]> foreigns = t.getForeigns();
 		if(!foreigns.isEmpty()){
+			boolean abierto = false;
+			String keys = "", rfrncs = "";
 			for (int j=0;j<foreigns.size();j++){
-				String atributo = foreigns.elementAt(j)[0];
-				if (atributo.indexOf("(") >= 0) atributo = atributo.substring(0, atributo.indexOf("("));
-				codigo+= "<p><strong>ALTER TABLE </strong>" + t.getNombreTabla() +
-						"<strong> ADD CONSTRAINT </strong>" + t.getNombreTabla() + "_" + atributo +
-						"<strong> FOREIGN KEY </strong>"+
-				"("+foreigns.elementAt(j)[0]+") " + "<strong> REFERENCES </strong>"+foreigns.elementAt(j)[2]+";"+
-				"</p>";
+				if(!abierto) {
+					codigo+="<p><strong>ALTER TABLE </strong>"+t.getNombreTabla()+"<strong> ADD CONSTRAINT </strong>" + 
+							t.getNombreTabla() + "_" + foreigns.elementAt(j)[0] + "<strong> FOREIGN KEY </strong>(";
+					abierto=true;
+				}
+				keys+=foreigns.elementAt(j)[0];
+				rfrncs+=nombreColumn(foreigns.elementAt(j)[2], foreigns.elementAt(j)[3]);
+				if(foreigns.size()-j>1) {
+					if(foreigns.elementAt(j+1)[3]!=foreigns.elementAt(j)[3]) {
+						codigo+=keys+") <strong> REFERENCES </strong>"+foreigns.elementAt(j)[3]+"("+rfrncs+");</p>";
+						abierto = false;keys="";rfrncs="";
+					}
+					else {
+						keys+=", ";
+						rfrncs+=", ";
+					}
+				}else {
+					codigo+=keys+") <strong> REFERENCES </strong>"+foreigns.elementAt(j)[3]+"("+rfrncs+");</p>";
+					abierto = false;keys="";rfrncs="";
+				}
 			}
 		}
 		

@@ -106,43 +106,6 @@ public class ConectorMySQL extends ConectorDBMS {
 	}
 
 	@Override
-	public String obtenerCodigoClavesTabla(Tabla t) {
-		String codigo="";
-	
-		//si tiene claves primarias, las añadimos.
-		Vector<String[]> primaries = t.getPrimaries();
-		if (!primaries.isEmpty()){
-			codigo+="ALTER TABLE "+t.getNombreTabla()+" ADD PRIMARY KEY (";
-			for (int i=0;i<primaries.size();i++){
-				if (i>0)codigo+=", ";
-				codigo+=primaries.elementAt(i)[0];
-			}
-			codigo+=");\n";
-		}
-		
-		//si tiene claves foraneas:
-		Vector<String[]> foreigns = t.getForeigns();
-		if(!foreigns.isEmpty()){
-			for (int j=0;j<foreigns.size();j++){
-				codigo+="ALTER TABLE "+t.getNombreTabla()+" ADD FOREIGN KEY ("+
-						foreigns.elementAt(j)[0]+") REFERENCES "+
-						foreigns.elementAt(j)[2]+";\n";
-			}	
-		}
-		
-		// Si tiene uniques, se ponen
-		Vector<String> uniques = t.getUniques();
-		if(!uniques.isEmpty()){
-			for (int j=0;j<uniques.size();j++){
-				codigo+="ALTER TABLE "+t.getNombreTabla()+" ADD UNIQUE KEY ("+
-				uniques.elementAt(j)+");\n";
-			}
-				
-		}
-		return codigo;
-	}
-
-	@Override
 	public String obtenerCodigoClavesTablaHTML(Tabla t) {
 		String codigo="";
 		
@@ -174,8 +137,8 @@ public class ConectorMySQL extends ConectorDBMS {
 						abierto = false;keys="";rfrncs="";
 					}
 					else {
-						keys+=",";
-						rfrncs+=",";
+						keys+=", ";
+						rfrncs+=", ";
 					}
 				}else {
 					codigo+=keys+") <strong> REFERENCES </strong>"+foreigns.elementAt(j)[3]+"("+rfrncs+");</p>";
@@ -290,4 +253,5 @@ public class ConectorMySQL extends ConectorDBMS {
 		ejecutarOrden ("CREATE DATABASE " + nombre +  ";");
 		ejecutarOrden ("USE " + nombre + ";");
 	}
+
 }

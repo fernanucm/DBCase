@@ -66,7 +66,14 @@ public abstract class ConectorDBMS {
 	 * @param t Tabla a traducir. No posee valores ambíguos.
 	 * @return El código SQL válido para el conector.
 	 */
-	public abstract String obtenerCodigoClavesTabla(Tabla t);
+	public String obtenerCodigoClavesTabla(Tabla t) {
+		String codigo=obtenerCodigoClavesTablaHTML(t);
+		codigo.replace("<strong>", "");
+		codigo.replace("</strong>", "");
+		codigo.replace("<p>", "");
+		codigo.replace("</p>", "\n");
+		return codigo;
+	}
 	
 	/**
 	 * Genera el código necesario para añadir a la tabla las claves primarias y
