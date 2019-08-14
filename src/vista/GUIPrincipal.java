@@ -1456,18 +1456,18 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 				
 				// Es un atributo multivalorado
 				if( !atributo.isClavePrimaria()){
-				JCheckBoxMenuItem j5 = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.IS_MULTIVALUATED));
-				if (atributo.isMultivalorado()) j5.setSelected(true);
-				else j5.setSelected(false);
-				j5.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						popup.setVisible(false);
-						TransferAtributo clon_atributo = atributo.clonar();
-						controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarMultivaloradoAtributo,clon_atributo);	
-					}	
-				});
-				popup.add(j5);
-				//popup.add(new JSeparator());
+					JCheckBoxMenuItem j5 = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.IS_MULTIVALUATED));
+					if (atributo.isMultivalorado()) j5.setSelected(true);
+					else j5.setSelected(false);
+					j5.addActionListener(new java.awt.event.ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							popup.setVisible(false);
+							TransferAtributo clon_atributo = atributo.clonar();
+							controlador.mensajeDesde_PanelDiseno(TC.PanelDiseno_Click_EditarMultivaloradoAtributo,clon_atributo);	
+						}	
+					});
+					popup.add(j5);
+					//popup.add(new JSeparator());
 				}
 				
 				

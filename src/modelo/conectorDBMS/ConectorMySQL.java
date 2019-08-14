@@ -150,10 +150,13 @@ public class ConectorMySQL extends ConectorDBMS {
 		// Si tiene uniques, se ponen
 		Vector<String> uniques = t.getUniques();
 		if(!uniques.isEmpty()){
+			codigo+="<p><strong>ALTER TABLE </strong>"+t.getNombreTabla()+
+					"<strong> ADD UNIQUE KEY </strong> (";
 			for (int j=0;j<uniques.size();j++){
-				codigo+="<p><strong>ALTER TABLE </strong>"+t.getNombreTabla()+"<strong> ADD UNIQUE KEY </strong>"+
-				"("+uniques.elementAt(j)+");</p>";
+				codigo+=uniques.elementAt(j);
+				if(uniques.size()-j>1) codigo +=", ";
 			}
+			codigo+=");</p>";
 		}
 		
 		return codigo;

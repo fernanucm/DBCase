@@ -364,7 +364,7 @@ public class MenuDesplegable extends JPopupMenu {
 
 			// Es un atributo multivalorado
 			if (!((TransferAtributo) nodo).isClavePrimaria()) {
-				JCheckBoxMenuItem j5 = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.IS_MULTIVALUATED));
+				JCheckBoxMenuItem j5 = new JCheckBoxMenuItem(Lenguaje.text(Lenguaje.VALUE_ATTRIBUTE));
 				j5.setFont(theme.font());
 				j5.setForeground(theme.fontColor());
 				if (((TransferAtributo) nodo).isMultivalorado()) j5.setSelected(true);

@@ -163,12 +163,14 @@ public class ConectorOracle extends ConectorDBMS {
 		// Si tiene uniques, se ponen
 		Vector<String> uniques = t.getUniques();
 		if(!uniques.isEmpty()){
+			codigo+="<p><strong>ALTER TABLE </strong>"+t.getNombreTabla()+
+					"<strong> ADD CONSTRAINT </strong>"+t.getNombreTabla() + "_unique_"+
+					"<strong> UNIQUE</strong> (";
 			for (int j=0;j<uniques.size();j++){
-				codigo+="<p><strong>ALTER TABLE </strong>"+t.getNombreTabla()+
-				"<strong> ADD CONSTRAINT </strong>"+t.getNombreTabla() + "_unique_" + j + 
-				"<strong> UNIQUE</strong>" + 
-				"("+uniques.elementAt(j)+");" + "</p>";
-			}	
+				codigo+=uniques.elementAt(j);
+				if(uniques.size()-j>1) codigo +=", ";
+			}
+			codigo+=");</p>";
 		}
 		
 		return codigo;
