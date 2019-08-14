@@ -368,7 +368,7 @@ dataBase=Base de datos:
 create=Crear
 user=Usuario:
 password=Contraseña:
-connect=Enviar
+connect=Ejecutar
 
 #"GUI_SeleccionarConexion" window
 selectConnection=Seleccionar Conexión

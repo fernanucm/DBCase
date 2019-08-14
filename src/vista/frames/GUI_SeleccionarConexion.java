@@ -34,6 +34,7 @@ public class GUI_SeleccionarConexion extends Parent_GUI{
 	private JScrollPane jScrollPane1;
 	private JButton botonNueva;
 	private JButton botonAceptar;
+	private JButton botonCancelar;
 	private JTable tablaConjuntos;
 	private JButton botonBorrar;
 	private JButton botonEditar;
@@ -56,7 +57,7 @@ public class GUI_SeleccionarConexion extends Parent_GUI{
 			jScrollPane1.setBounds(0, 0, 340, 250);
 		}
 		{
-			botonAceptar = boton(200, 275,Lenguaje.text(Lenguaje.CONNECT));
+			botonAceptar = boton(270, 275,Lenguaje.text(Lenguaje.CONNECT));
 			getContentPane().add(botonAceptar);
 			botonAceptar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
@@ -74,7 +75,16 @@ public class GUI_SeleccionarConexion extends Parent_GUI{
 			});
 		}
 		{
-			botonEditar = boton(70, 275,Lenguaje.text(Lenguaje.EDIT));
+			botonCancelar = boton(10, 275,Lenguaje.text(Lenguaje.CANCEL));
+			getContentPane().add(botonCancelar);
+			botonCancelar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent evt) {
+					botonCancelarActionPerformed(evt);
+				}
+			});
+		}
+		{
+			botonEditar = boton(140, 275,Lenguaje.text(Lenguaje.EDIT));
 			getContentPane().add(botonEditar);
 			botonEditar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {

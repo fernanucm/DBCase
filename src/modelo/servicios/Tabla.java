@@ -289,7 +289,7 @@ public class Tabla {
 	 * @param v2
 	 * @return Devuelve el vector v1 sin los valores de v2
 	 */
-	private Vector<String[]> filtra(Vector<String[]> v1,Vector<String[]> v2 ){
+	private Vector<String[]> filtra(Vector<String[]> v1,Vector<String[]> v2){
 		Vector<String[]> aux= new Vector<String[]>();		
 		for (int i =0;i<v1.size();i++){
 			String[] par1 = v1.elementAt(i);
@@ -306,7 +306,7 @@ public class Tabla {
 	}
 	
 	public String getNombreConstraint() {
-		String s = "ctr" + (constraintNumber!=0 ? "_"+ (constraintNumber<10?"0":"") + constraintNumber:"");
+		String s = nombreTabla + "_ctr" + (constraintNumber!=0 ? "_"+ (constraintNumber<10?"0":"") + constraintNumber:"");
 		constraintNumber++;
 		return s;
 	}
