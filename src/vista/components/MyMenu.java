@@ -312,14 +312,12 @@ public class MyMenu extends JMenuBar{
 			Lenguaje.text(Lenguaje.TEACHER_NAME)+"\n"+
 			"\n"+Lenguaje.text(Lenguaje.AUTHORS)+"\n" +
 			Lenguaje.text(Lenguaje.AUTHOR1)+"\n" +
-			Lenguaje.text(Lenguaje.AUTHOR2)+"\n" +
-			Lenguaje.text(Lenguaje.AUTHOR3)+"\n"+
-			"\n"+Lenguaje.text(Lenguaje.BASED)+"\n"+
 			"\n"+Lenguaje.text(Lenguaje.CONTACT) +
 			"\n" +"\n",Lenguaje.text(Lenguaje.DBCASE_LABEL),
 			JOptionPane.PLAIN_MESSAGE,
 			new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGOFDI)));
 	}
+	
 	/************
 	 * Modifiers
 	 ************/

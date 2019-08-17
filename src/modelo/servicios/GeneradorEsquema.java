@@ -194,7 +194,10 @@ public class GeneradorEsquema {
 							}
 							uniques += "#" + ent.getNombreTabla();
 							tabla.getUniques().add(uniques);
-						}
+						}else if(eya.getPrincipioRango() == 1 && eya.getFinalRango() == Integer.MAX_VALUE)
+							for(String[] clave : (Vector<String[]>)ent.getPrimaries())
+								restriccionesPerdidas.add(
+										new restriccionPerdida(ent.getNombreTabla()+"_"+clave[0], tr.getNombre(), restriccionPerdida.CANDIDATA));
 					}
 					//crea las restricciones perdidas (cuando rangoIni > 1 o rangoFin < N)
 					if(eya.getPrincipioRango() > 0 && eya.getFinalRango() < Integer.MAX_VALUE && eya.getFinalRango() >1)
