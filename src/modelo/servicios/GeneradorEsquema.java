@@ -364,8 +364,9 @@ public class GeneradorEsquema {
 		// Si ya se ha generado el Script
 		JFileChooser jfc = new JFileChooser();
 		jfc.setDialogTitle(Lenguaje.text(Lenguaje.DBCASE));
-		if(sql)jfc.setFileFilter(new FileNameExtensionFilter(Lenguaje.text(Lenguaje.SQL_FILES), "sql"));
+		
 		jfc.setFileFilter(new FileNameExtensionFilter("Text", "txt"));
+		if(sql)jfc.setFileFilter(new FileNameExtensionFilter(Lenguaje.text(Lenguaje.SQL_FILES), "sql"));
 		int resul = jfc.showSaveDialog(null);
 		if (resul == 0){
 			File ruta = jfc.getSelectedFile();
