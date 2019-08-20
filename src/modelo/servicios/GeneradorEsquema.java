@@ -459,16 +459,16 @@ public class GeneradorEsquema {
 			// Crear la base de datos
 			conector.usarDatabase(tc.getDatabase());
 			// Ejecutar cada orden
+			
 			String[] orden = sql.split(";");
 			for (int i=0; i < orden.length; i++){
-				if ((orden[i] != null) && (!orden[i].equals("")) && (!orden[i].equals("\n"))){
+				if ((orden[i] != null) && (!orden[i].trim().equals("")) && (!orden[i].trim().equals("\n"))){
 					ordenActual = orden[i].trim() + ";";
 					
 					// Eliminar los comentarios y lineas en blanco
 					if (ordenActual.startsWith("--") && !ordenActual.contains("\n")) continue;
 					while (ordenActual.startsWith("--") || ordenActual.startsWith("\n"))
 						ordenActual = ordenActual.substring(ordenActual.indexOf("\n") + 1);
-					
 					// Ejecutar la orden
 					conector.ejecutarOrden(ordenActual);	
 				}
