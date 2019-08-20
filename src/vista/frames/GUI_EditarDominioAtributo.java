@@ -69,7 +69,10 @@ public class GUI_EditarDominioAtributo extends Parent_GUI {
 				this.cajaTamano.setEditable(true);
 				if(s[1]!=null) this.cajaTamano.setText(s[1].split("\\)")[0]);
 			}
-			else this.cajaTamano.setEditable(false);
+			else {
+				this.labelTamano.setText("");
+				this.cajaTamano.setEditable(false);
+			}
 		}
 		this.centraEnPantalla();
 		
@@ -91,6 +94,7 @@ public class GUI_EditarDominioAtributo extends Parent_GUI {
 		if (dominio.equals("null")){
 			this.comboDominios.setSelectedItem(TipoDominio.INTEGER);
 			this.cajaTamano.setText("");
+			this.labelTamano.setText("");
 			this.cajaTamano.setEnabled(false);
 			this.cajaTamano.setEditable(false);
 		}
@@ -107,6 +111,7 @@ public class GUI_EditarDominioAtributo extends Parent_GUI {
 				// Si es un dominio simple
 				else{
 					this.comboDominios.setSelectedItem(TipoDominio.valueOf(dominio));
+					this.labelTamano.setText("");
 					this.cajaTamano.setText("");
 					this.cajaTamano.setEnabled(false);
 					this.cajaTamano.setEditable(false);
@@ -201,10 +206,12 @@ public class GUI_EditarDominioAtributo extends Parent_GUI {
 	private void comboDominiosItemStateChanged(java.awt.event.ItemEvent evt) {                                               
 		if (this.activarTamano()){
 			this.cajaTamano.setText("");
+			this.labelTamano.setText(Lenguaje.text(Lenguaje.SIZE_ATTRIBUTE));
 			this.cajaTamano.setEnabled(true);
 			this.cajaTamano.setEditable(true);
 		}
 		else{
+			this.labelTamano.setText("");
 			this.cajaTamano.setText("");
 			this.cajaTamano.setEnabled(false);
 			this.cajaTamano.setEditable(false);
