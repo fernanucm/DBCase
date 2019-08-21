@@ -124,26 +124,21 @@ public class TransferAtributo extends Transfer{
 	public void setListaRestricciones(Vector listaRestricciones) {
 		this.listaRestricciones = listaRestricciones;
 	}
-	
 	public int getVolumen() {
 		return volumen;
 	}
-
 	public void setVolumen(int volumen) {
 		this.volumen = volumen;
 	}
-
 	public int getFrecuencia() {
 		return frecuencia;
 	}
-
 	public void setFrecuencia(int frecuencia) {
 		this.frecuencia = frecuencia;
 	}
 	public boolean isSubatributo() {
 		return subatributo;
 	}
-
 	public void setSubatributo(boolean subatributo) {
 		this.subatributo = subatributo;
 	}
@@ -151,7 +146,6 @@ public class TransferAtributo extends Transfer{
 	public String toString() {
 		return this.nombre;
 	}
-
 	@Override
 	public Shape toShape() {
 		Ellipse2D figura;
@@ -167,7 +161,6 @@ public class TransferAtributo extends Transfer{
 		
 		return figura;
 	}
-	
 	// Dibuja la segunda elipse externa
 	public Shape outerShape(){
 		Ellipse2D figura;

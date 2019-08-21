@@ -152,10 +152,7 @@ public class GUI_EditarDominioAtributo extends Parent_GUI {
 			// Si es dominio con tamano
 			if (((TipoDominio)nuevoDominio).equals(TipoDominio.CHAR) ||
 				((TipoDominio)nuevoDominio).equals(TipoDominio.VARCHAR) ||
-				((TipoDominio)nuevoDominio).equals(TipoDominio.TEXT) ||
-				((TipoDominio)nuevoDominio).equals(TipoDominio.INTEGER) ||
-				((TipoDominio)nuevoDominio).equals(TipoDominio.DECIMAL) ||
-				((TipoDominio)nuevoDominio).equals(TipoDominio.FLOAT)){
+				((TipoDominio)nuevoDominio).equals(TipoDominio.TEXT)){
 					// Obtenemos el tamano de la caja
 					nuevoTamano = this.cajaTamano.getText();
 					// Si no se ha especificado tamano ponemos un 1 por defecto
@@ -227,10 +224,7 @@ public class GUI_EditarDominioAtributo extends Parent_GUI {
 			TipoDominio dominio = TipoDominio.valueOf(this.comboDominios.getSelectedItem().toString());
 			if (((TipoDominio)dominio).equals(TipoDominio.CHAR) ||
 					((TipoDominio)dominio).equals(TipoDominio.VARCHAR) ||
-					((TipoDominio)dominio).equals(TipoDominio.TEXT) ||
-					((TipoDominio)dominio).equals(TipoDominio.INTEGER) ||
-					((TipoDominio)dominio).equals(TipoDominio.DECIMAL) ||
-					((TipoDominio)dominio).equals(TipoDominio.FLOAT))
+					((TipoDominio)dominio).equals(TipoDominio.TEXT))
 					activo = true;
 			return activo;
 		}catch(Exception e){

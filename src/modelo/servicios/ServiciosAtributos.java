@@ -536,7 +536,6 @@ public class ServiciosAtributos {
 			controlador.mensajeDesde_SA(TC.SA_MoverPosicionAtributo_HECHO, ta);
 	}
 
-
 	/**
 	 * Metodo que pone/quita el atributo ta como clave primaria de la entidad a la que pertence
 	 * En el vector viene el atributo (pos 0) y la entidad (pos 1)
@@ -565,25 +564,18 @@ public class ServiciosAtributos {
 			controlador.mensajeDesde_SA(TC.SA_EditarClavePrimariaAtributo_ERROR_DAOEntidades,vectorDeTransfer);
 		else controlador.mensajeDesde_SA(TC.SA_EditarClavePrimariaAtributo_HECHO,vectorDeTransfer);
 	}
-
 	public String getNombreAtributo(int id){
 		DAOAtributos daoAtributos = new DAOAtributos(this.controlador.getPath());
 		return daoAtributos.nombreDeAtributo(id); 
 	}
-	
 	public boolean idUnique(int id){
 		DAOAtributos daoAtributos = new DAOAtributos(this.controlador.getPath());
 		return daoAtributos.uniqueAtributo(id); 
 	}
-		
 	public Controlador getControlador() {
 		return controlador;
 	}
-
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
 	}
-
-
-
 }

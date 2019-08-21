@@ -14,8 +14,8 @@ import modelo.persistencia.DAODominios;
 import modelo.transfers.TipoDominio;
 import modelo.transfers.TransferDominio;
 
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class ServiciosDominios {
-
 
 	// Controlador
 	Controlador controlador;	
@@ -27,13 +27,12 @@ public class ServiciosDominios {
 		for(int i = 0; i < items.length;i++){
 			TransferDominio td = new TransferDominio();
 			td.setNombre(items[i].toString());
-			td.setTipoBase((TipoDominio)items[i]);
+			td.setTipoBase((TipoDominio) items[i]);
 			td.setListaValores(null);
 			lista_dominios.add(td);
 		}
 		controlador.mensajeDesde_SD(TC.SD_ListarDominios_HECHO, lista_dominios);
 	}
-	
 	
 	/* Anadir Dominio
 	 * Parametros: un TransferDominio que contiene el nombre del nuevo dominio
@@ -43,7 +42,6 @@ public class ServiciosDominios {
 	 * Si el nombre ya existe -> SD_InsertarDominio_ERROR_NombreDeDominioYaExiste
 	 * Si al usar el DAODominio se produce un error -> SD_InsertarDominio_ERROR_DAO
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void anadirDominio(TransferDominio td){
 		if (td.getNombre().isEmpty()){
 			controlador.mensajeDesde_SD(TC.SD_InsertarDominio_ERROR_NombreDeDominioEsVacio, null);
@@ -83,7 +81,6 @@ public class ServiciosDominios {
 	 * Renombrar un dominio
 	 * -> Recibe el dominio y el nuevo nombre
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void renombrarDominio(Vector v){
 		TransferDominio td = (TransferDominio) v.get(0);
 		String nuevoNombre = (String) v.get(1);
@@ -115,7 +112,6 @@ public class ServiciosDominios {
 			v.add(antiguoNombre);
 			controlador.mensajeDesde_SD(TC.SD_RenombrarDominio_HECHO, v);
 		}
-		return;
 	}
 	
 		
@@ -139,8 +135,6 @@ public class ServiciosDominios {
 		return;
 	}
 
-
-	@SuppressWarnings("unchecked")
 	public void modificarDominio(Vector<Object> v) {
 		TransferDominio td = (TransferDominio) v.get(0);
 		Vector<String> nuevosValores = (Vector<String>)v.get(1); 
@@ -183,12 +177,8 @@ public class ServiciosDominios {
 			td.setListaValores(antiguosValores);
 			td.setTipoBase(antiguoTipoB);
 		}
-			
-		return;
-		
 	}
 	
-	@SuppressWarnings("unchecked")
 	//Se usa para ordenar los valores
 	public void modificarElementosDominio(Vector<Object> v) {
 	  		TransferDominio td = (TransferDominio) v.get(0);
@@ -221,16 +211,9 @@ public class ServiciosDominios {
 	   				v.add(antiguosValores);
 	   				controlador.mensajeDesde_SD(TC.SD_ModificarElementosDominio_HECHO, v);
 	   			}
-	   		}else{
-	   			td.setListaValores(antiguosValores);
-	   		}
-	   
-	   		return;
-	   
-	   	}
-
+	   		}else td.setListaValores(antiguosValores);
+	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private boolean comprobarTipoBase(TransferDominio td){
 		Vector listaValores = td.getListaValores();
 		modelo.transfers.TipoDominio tipoBase = td.getTipoBase();
@@ -240,7 +223,7 @@ public class ServiciosDominios {
 					try{
 					 String s = ((String)listaValores.get(i)); 
 					 @SuppressWarnings("unused")
-					int a = Integer.parseInt(s);
+					 int a = Integer.parseInt(s);
 					}catch(Exception e){
 						Vector v = new Vector();
 						v.add(td);
@@ -287,8 +270,7 @@ public class ServiciosDominios {
 								controlador.mensajeDesde_SD(TC.SD_InsertarDominio_ERROR_ValorNoValido, v);
 								return false;
 						 }
-						 @SuppressWarnings("unused")
-						int a = Integer.parseInt(s);
+						 
 						}catch(Exception e){
 							Vector v = new Vector();
 							v.add(td);										
@@ -297,7 +279,6 @@ public class ServiciosDominios {
 							return false;
 						}
 				}
-						
 				break;
 			}
 			case DATE:{
@@ -332,7 +313,6 @@ public class ServiciosDominios {
 						}
 					}
 				}
-				  
 				break;
 			}
 			case TIME:{
@@ -360,7 +340,6 @@ public class ServiciosDominios {
 					    }
 					}
 				}
-			
 				break;
 			}
 			case DATETIME:{
@@ -441,10 +420,10 @@ public class ServiciosDominios {
 				break;
 			}
 			case BLOB:{
-				for (int i=0; i<listaValores.size();i++){
+				/*for (int i=0; i<listaValores.size();i++){
 					
 				}
-				
+				*/
 				break;
 			}
 			case CHAR:{
@@ -458,7 +437,6 @@ public class ServiciosDominios {
 						return false;
 					}
 				}
-				
 				break;
 			}	
 			case VARCHAR:{
@@ -472,7 +450,6 @@ public class ServiciosDominios {
 						return false;
 					}
 				}
-				
 				break;
 			}	
 			case TEXT:{
@@ -486,7 +463,6 @@ public class ServiciosDominios {
 						return false;
 					}
 				}
-				
 				break;
 			}	
 			case DECIMAL:{
@@ -504,10 +480,8 @@ public class ServiciosDominios {
 				    	return false;
 				    }
 				}
-				
 				break;
 			}	
-
 		}
 		return true;
 	} 
@@ -519,7 +493,4 @@ public class ServiciosDominios {
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
 	}
-	
-
-
 }

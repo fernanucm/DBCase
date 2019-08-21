@@ -7,6 +7,7 @@ import java.util.Vector;
 
 import modelo.conectorDBMS.ConectorDBMS;
 import modelo.conectorDBMS.FactoriaConectores;
+import modelo.transfers.TipoDominio;
 import modelo.transfers.TransferConexion;
 //la clase tabla, almacenara las tablas a traducir del disenio al script.
 @SuppressWarnings({"rawtypes","unchecked"})
@@ -76,14 +77,17 @@ public class Tabla {
 		Iterator<Enumerado> doms = dominios.values().iterator();
 		while (!encontrado && doms.hasNext()){
 			Enumerado e = doms.next();
-			if (e.getNombre().equalsIgnoreCase(dominio)){
+			if (e.getNombre().equalsIgnoreCase(dominio.split("[(]")[0])){
 				encontrado = true;
-				trio[1] = "VARCHAR(" + e.getLongitud() + ")";
-				trio[2] = e.getNombre() + "(value_list)";
+				if(e.getTipo()==TipoDominio.VARCHAR || e.getTipo()==TipoDominio.CHAR || e.getTipo()==TipoDominio.TEXT)
+					trio[1] = e.getTipo().name() + "("+e.getLongitud()+")";
+				else trio[1] = e.getTipo().name();
+				trio[2] = tablaReferencia;
 			}
 		}
 		atributos.add(trio);
-		if (encontrado) aniadeClaveForanea(trio[0], trio[1], trio[2] + "." + trio[0], trio[2]);
+		if (encontrado && tablaReferencia == nombreTabla)//Clave foranea para dominios creados
+			aniadeClaveForanea(trio[0], trio[1], dominio + ".value_list", dominio);
 	}
 	
 	public void aniadeListaAtributos(Vector<String[]> listado, Vector<String> rest, Hashtable<Integer,Enumerado> dominios){

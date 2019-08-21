@@ -31,7 +31,7 @@ public class Parent_GUI extends javax.swing.JDialog implements KeyListener, Mous
 	protected JTextField getCajaNombre(int x, int y) {
 		JTextField cajaNombre = new JTextField();
 		cajaNombre.setFont(theme.font());
-		cajaNombre.setBounds(x,y, 232, 27);
+		cajaNombre.setBounds(x,y, 232, 30);
 		cajaNombre.setForeground(theme.labelFontColorDark());
 		return cajaNombre;
 	}

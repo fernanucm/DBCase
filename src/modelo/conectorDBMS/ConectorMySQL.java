@@ -198,7 +198,7 @@ public class ConectorMySQL extends ConectorDBMS {
 		
 		// Crear la tabla
 		codigo+="<p><strong>CREATE TABLE </strong>"+e.getNombre()+" (";
-		if(e.getTipo()==TipoDominio.VARCHAR)
+		if(e.getTipo()==TipoDominio.VARCHAR || e.getTipo()==TipoDominio.CHAR || e.getTipo()==TipoDominio.TEXT)
 			codigo += "value_list " + "<strong>"+e.getTipo()+"(" + e.getLongitud() + ")</strong>";
 		else codigo += "value_list " + "<strong>"+e.getTipo()+"</strong>";
 		codigo+=")<strong> ENGINE = InnoDB</strong>;</p>";
@@ -233,7 +233,6 @@ public class ConectorMySQL extends ConectorDBMS {
 		if (tipo.equalsIgnoreCase("FLOAT")){
 			return "REAL";
 		}
-		
 		// Tipos compuestos que no hay que modificar
 		if (tipo.indexOf("(") > 0){
 			String tipoSinParam = tipo.substring(0, tipo.indexOf("("));

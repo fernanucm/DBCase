@@ -134,12 +134,12 @@ public class GUI_InsertarDominio extends Parent_GUI {
 	private void botonInsertarActionPerformed(java.awt.event.ActionEvent evt) {                                            
 		// Generamos el transfer que mandaremos al controlador
 		TransferDominio td = new TransferDominio();
-		td.setNombre(this.cajaNombre.getText());
+		String name = this.cajaNombre.getText().replace("(", "");
+		td.setNombre(name.replace(")", ""));
 		td.setTipoBase((TipoDominio)this.comboTipo.getSelectedItem());
 		td.setListaValores(listaValores());
 		// Mandamos mensaje + datos al controlador
 		this.getControlador().mensajeDesde_GUI(TC.GUIInsertarDominio_Click_BotonInsertar, td);
-		
 	}                                           
 
 	private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {                                              

@@ -159,7 +159,7 @@ public class ConectorAccessOdbc extends ConectorDBMS {
 	public String obtenerCodigoEnumerado(Enumerado e) {
 		// Crear la tabla
 		String codigo ="CREATE TABLE "+e.getNombre()+" (";
-		if(e.getTipo()==TipoDominio.VARCHAR)
+		if(e.getTipo()==TipoDominio.VARCHAR || e.getTipo()==TipoDominio.CHAR || e.getTipo()==TipoDominio.TEXT)
 			codigo += "value_list "+e.getTipo()+"(" + e.getLongitud() + ")";
 		else codigo += "value_list " + e.getTipo();
 		codigo+=");\n";
