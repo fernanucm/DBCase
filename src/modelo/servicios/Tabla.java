@@ -310,7 +310,7 @@ public class Tabla {
 	}
 	
 	public String getNombreConstraint() {
-		String s = nombreTabla + "_ctr" + (constraintNumber!=0 ? "_"+ (constraintNumber<10?"0":"") + constraintNumber:"");
+		String s = nombreTabla + "_ctr" + "_"+ (constraintNumber<10?"0" + constraintNumber:constraintNumber);
 		constraintNumber++;
 		return s;
 	}

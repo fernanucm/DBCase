@@ -492,6 +492,6 @@ public enum TC {
 	PanelDiseno_MostrarDatosEnTablaDeVolumenes, 
 	Controlador_MostrarDatosEnTablaDeVolumenes,
 	PanelDiseno_ActualizarDatosEnTablaDeVolumenes, 
-	Controlador_ActualizarDatosEnTablaDeVolumenes, 
+	Controlador_ActualizarDatosEnTablaDeVolumenes,
 
 }
