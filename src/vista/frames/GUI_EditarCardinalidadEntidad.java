@@ -52,7 +52,6 @@ public class GUI_EditarCardinalidadEntidad extends Parent_GUI{
 	}
 
 	private void initComponents() {
-
         setTitle(Lenguaje.text(Lenguaje.EDIT_ARITY_AND_ROLLE));
         setIconImage(new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGODBDT)).getImage());
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);

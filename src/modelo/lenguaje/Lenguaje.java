@@ -517,6 +517,16 @@ public class Lenguaje {
 	public static final int EMPTY_DIAGRAM = 4324;
 	public static final int SCRIPT_GENERATED = 4325;
 	public static final int SYNTAX = 4326;
+	public static final int BASED1 = 4327;
+	public static final int BASED1A1 = 4328;
+	public static final int BASED1A2 = 4329;
+	public static final int BASED1A3 = 4330;
+	public static final int BASED2 = 4331;
+	public static final int BASED2A1 = 4332;
+	public static final int BASED2A2 = 4333;
+	public static final int BASED2A3 = 4334;
+	public static final int BASED2P = 4335;
+	public static final int AUTHOR = 4336;
 		
 	// Mensaje por defecto
 	private static String notExistingMessage = "Asked message does not exist";
@@ -1124,6 +1134,16 @@ public class Lenguaje {
 		case EMPTY_DIAGRAM: texto = _textos.get("emptyDiagram"); break;
 		case SCRIPT_GENERATED: texto = _textos.get("scriptGenerated"); break;
 		case SYNTAX: texto = _textos.get("syntax"); break;
+		case BASED1: texto = _textos.get("based1"); break;
+		case BASED1A1: texto = _textos.get("based1a1"); break;
+		case BASED1A2: texto = _textos.get("based1a2"); break;
+		case BASED1A3: texto = _textos.get("based1a3"); break;
+		case BASED2: texto = _textos.get("based2"); break;
+		case BASED2A1: texto = _textos.get("based2a1"); break;
+		case BASED2A2: texto = _textos.get("based2a2"); break;
+		case BASED2A3: texto = _textos.get("based2a3"); break;
+		case BASED2P: texto = _textos.get("based2p"); break;
+		case AUTHOR: texto = _textos.get("author"); break;
 		default: texto = Lenguaje.notExistingMessage;
 		}
 		return corrigeCaracteres(texto);

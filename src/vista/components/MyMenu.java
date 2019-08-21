@@ -11,7 +11,6 @@ import java.util.Vector;
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -29,7 +28,6 @@ import vista.icons.IconLabel;
 import vista.icons.perspective.allIcon;
 import vista.icons.perspective.codeIcon;
 import vista.icons.perspective.diagramIcon;
-import vista.imagenes.ImagePath;
 import vista.tema.Theme;
 
 @SuppressWarnings("serial")
@@ -239,7 +237,7 @@ public class MyMenu extends JMenuBar{
 			submenuAcercaDe.setMnemonic(Lenguaje.text(Lenguaje.ABOUT).charAt(0));
 			submenuAcercaDe.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
-					acercaDe(evt);
+					c.mensajeDesde_GUIPrincipal(TC.GUI_Principal_ABOUT, null);
 				}
 			});
 			JToolBar iconosPerspectiva = new JToolBar();
@@ -299,23 +297,6 @@ public class MyMenu extends JMenuBar{
 				Lenguaje.text(Lenguaje.DBCASE),
 				JOptionPane.PLAIN_MESSAGE);
 		}
-	}
-	
-	private void acercaDe(ActionEvent evt) {
-		JOptionPane.showMessageDialog(
-			null,"\n"+Lenguaje.text(Lenguaje.DB_CASE_TOOL)+"\n" +
-			"\""+Lenguaje.text(Lenguaje.TOOL_FOR_DESING)+"\"\n" +
-			"\n" +Lenguaje.text(Lenguaje.SS_II)+"\n" +
-			Lenguaje.text(Lenguaje.COLLEGE)+"\n" +
-			Lenguaje.text(Lenguaje.UNIVERSITY)+"\n" +
-			"\n" +Lenguaje.text(Lenguaje.DIRECTOR)+"\n" +
-			Lenguaje.text(Lenguaje.TEACHER_NAME)+"\n"+
-			"\n"+Lenguaje.text(Lenguaje.AUTHORS)+"\n" +
-			Lenguaje.text(Lenguaje.AUTHOR1)+"\n" +
-			"\n"+Lenguaje.text(Lenguaje.CONTACT) +
-			"\n" +"\n",Lenguaje.text(Lenguaje.DBCASE_LABEL),
-			JOptionPane.PLAIN_MESSAGE,
-			new ImageIcon(getClass().getClassLoader().getResource(ImagePath.LOGOFDI)));
 	}
 	
 	/************

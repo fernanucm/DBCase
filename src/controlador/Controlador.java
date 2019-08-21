@@ -27,6 +27,7 @@ import modelo.transfers.TransferDominio;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
 import vista.GUIPrincipal;
+import vista.frames.GUI_About;
 import vista.frames.GUI_AnadirAtributo;
 import vista.frames.GUI_AnadirAtributoEntidad;
 import vista.frames.GUI_AnadirAtributoRelacion;
@@ -95,13 +96,15 @@ public class Controlador {
 	// Dominios
 	private GUI_RenombrarDominio theGUIRenombrarDominio;
 	private GUI_ModificarDominio theGUIModificarElementosDominio;
+	//About
+	private GUI_About about;
 	// Servicios
 	private ServiciosEntidades theServiciosEntidades;
 	private ServiciosAtributos theServiciosAtributos;
 	private ServiciosRelaciones theServiciosRelaciones;
 	private ServiciosDominios theServiciosDominios;
 	private GeneradorEsquema theServiciosSistema;
-	// Otros
+	//Otros
 	private String path;
 	private Vector<TransferAtributo> listaAtributos;
 	private boolean cambios;
@@ -188,6 +191,7 @@ public class Controlador {
 		theGUIModificarElementosDominio.setControlador(this);
 		
 		// Otras
+		about = new GUI_About();
 		theGUIWorkSpace = new GUI_SaveAs();
 		theGUIWorkSpace.setControlador(this);
 		cambios = false;
@@ -1128,6 +1132,10 @@ public class Controlador {
 		}
 		case GUIPrincipal_ActualizameLaListaDeDominios:{
 			this.getTheServiciosDominios().ListaDeDominios();
+			break;
+		}
+		case GUI_Principal_ABOUT:{
+			about.setActiva(true);
 			break;
 		}
 		/*

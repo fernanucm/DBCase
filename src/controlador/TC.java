@@ -13,6 +13,8 @@ public enum TC {
 	GUIPrincipal_ActualizameLaListaDeAtributos,
 	GUIPrincipal_ActualizameLaListaDeRelaciones,
 	GUIPrincipal_ActualizameLaListaDeDominios,
+	//about
+	GUI_Principal_ABOUT,
 	// Click en la barra de menus y submenus
 	GUI_Principal_Click_Submenu_Salir,
 	GUI_Principal_Click_Imprimir,

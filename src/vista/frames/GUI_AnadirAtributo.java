@@ -264,7 +264,6 @@ public class GUI_AnadirAtributo extends Parent_GUI{
 		}
 		else this.cajaTamano.setEditable(false);
 		
-		this.centraEnPantalla();
 		SwingUtilities.invokeLater(doFocus);
 		this.setVisible(true);
 	}
