@@ -643,33 +643,45 @@ public class GeneradorEsquema {
 	
 	public String restriccionesIR() {
 		String mr= "";
-		Iterator<Tabla> tablasE=tablasEntidades.values().iterator();
-		while (tablasE.hasNext()){
-			Tabla t =(Tabla)tablasE.next();
-			Vector<String[]> foreigns = t.getForeigns();
-			if(!foreigns.isEmpty())
-				for (int j=0;j<foreigns.size();j++)
-					mr+="<p>" + t.getNombreTabla()+"."+foreigns.elementAt(j)[3]+"_"+foreigns.elementAt(j)[0]+" "+ "-> " + foreigns.elementAt(j)[2]+"</p>";
-		}
-		
-		Iterator<Tabla> tablasR=tablasRelaciones.values().iterator();
-		while (tablasR.hasNext()){
-			Tabla t =(Tabla)tablasR.next();
-			Vector<String[]> foreigns = t.getForeigns();
-			if(!foreigns.isEmpty())
-				for (int j=0;j<foreigns.size();j++)
-					mr+="<p>" + t.getNombreTabla()+"."+foreigns.elementAt(j)[3]+"_"+foreigns.elementAt(j)[0]+" "+ "-> " + foreigns.elementAt(j)[2]+"</p>";
-		}
-		
-		Iterator<Tabla> tablasM=tablasMultivalorados.iterator();
-		while (tablasM.hasNext()){
-			Tabla t =(Tabla)tablasM.next();
-			Vector<String[]> foreigns = t.getForeigns();
-			if(!foreigns.isEmpty())
-				for (int j=0;j<foreigns.size();j++)
-					mr+="<p>" + t.getNombreTabla()+"."+foreigns.elementAt(j)[3]+"_"+foreigns.elementAt(j)[0]+" "+ "-> " + foreigns.elementAt(j)[2]+"</p>";
-		}
+		mr+=generaIR(tablasEntidades.values().iterator());
+		mr+=generaIR(tablasRelaciones.values().iterator());
+		mr+=generaIR(tablasMultivalorados.iterator());
 		return mr;
+	}
+	
+	/*
+	 * Genera las restricciones IR dado un iterador de tabla
+	 * */
+	private String generaIR(Iterator<Tabla> tabla) {
+		String code= "";
+		while (tabla.hasNext()){
+			Tabla t =(Tabla)tabla.next();
+			Vector<String[]> foreigns = t.getForeigns();
+			boolean abierto = false;
+			String claves="", valores = "";
+			for (int j=0;j<foreigns.size();j++) {
+				if(!abierto) {
+					code+="<p>";
+					abierto=true;
+				}
+				claves+= t.getNombreTabla()+"."+foreigns.elementAt(j)[3]+"_"+foreigns.elementAt(j)[0];
+				valores+=foreigns.elementAt(j)[2];
+				if(foreigns.size()-j>1) {
+					if(foreigns.elementAt(j+1)[3]!=foreigns.elementAt(j)[3]) {
+						code+=claves+" -> "+valores+"</p>";
+						abierto = false;claves="";valores="";
+					}
+					else {
+						claves+=", ";
+						valores+=", ";
+					}
+				}else {
+					code+=claves+" -> "+valores+"</p>";
+					abierto = false;claves="";valores="";
+				}
+			}
+		}
+		return code;
 	}
 	
 	public void generaModeloRelacional(){
