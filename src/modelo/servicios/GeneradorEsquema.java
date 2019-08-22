@@ -203,6 +203,11 @@ public class GeneradorEsquema {
 					if(eya.getPrincipioRango() > 0 && eya.getFinalRango() < Integer.MAX_VALUE && eya.getFinalRango() >1)
 						restriccionesPerdidas.add(new restriccionPerdida(tabla.modeloRelacionalDeTabla(false),ent.modeloRelacionalDeTabla(false), 
 										eya.getPrincipioRango(), eya.getFinalRango(), restriccionPerdida.TOTAL));
+					//Crea las restricciones perdidas para participacion total
+					else if(eya.getPrincipioRango()==1)
+						restriccionesPerdidas.add(new restriccionPerdida(tabla.modeloRelacionalDeTabla(false),ent.modeloRelacionalDeTabla(false), 
+								eya.getPrincipioRango(), eya.getFinalRango(), restriccionPerdida.TOTAL));
+					
 				}
 				tablasRelaciones.put(tr.getIdRelacion(), tabla);
 				for (int mul = 0; mul < multivalorados.size(); mul++) {
