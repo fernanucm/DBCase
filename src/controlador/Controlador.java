@@ -1766,14 +1766,12 @@ public class Controlador {
 		case SE_InsertarEntidad_ERROR_DAO:{
 			this.getTheGUIInsertarEntidad().setInactiva();
 			JOptionPane.showMessageDialog(null, Lenguaje.text(Lenguaje.ENTITIES_FILE_ERROR), Lenguaje.text(Lenguaje.ERROR), 0);
-			
 			break;
 		}
 		case SE_InsertarEntidad_HECHO:{
 			this.getTheGUIInsertarEntidad().setInactiva();
 			setCambios(true);
 			TransferEntidad te = (TransferEntidad) datos;
-			
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_InsertarEntidad, te);
 			break;
 		}

@@ -28,6 +28,8 @@ public class addTransfersPanel extends JPanel{
 	private Controlador controlador;
 	private Vector<Transfer> listaTransfers;
 	private int[] coords;
+	private int diagramWidth;
+	
 	public addTransfersPanel(Controlador c, Vector<Transfer> lisTra){
 		super();
 		coords = new int[2];
@@ -94,8 +96,11 @@ public class addTransfersPanel extends JPanel{
 	}
 	
 	private void aumentaCoords() {
-		coords[0]=coords[0]<700?coords[0]+150:70;
+		coords[0]=coords[0]<diagramWidth?coords[0]+150:70;
 		coords[1]=coords[0]==70?coords[1]+70:coords[1];
 	}
-	
+
+	public void setDiagramWidth(int diagramWidth) {
+		this.diagramWidth = diagramWidth<150?0:diagramWidth-150;
+	}
 }

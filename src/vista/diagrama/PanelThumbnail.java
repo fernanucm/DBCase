@@ -12,17 +12,14 @@ import edu.uci.ics.jung.visualization.control.ScalingControl;
 import edu.uci.ics.jung.visualization.decorators.EdgeShape;
 import modelo.transfers.Transfer;
 
+@SuppressWarnings({ "rawtypes", "unchecked", "serial" })
 public class PanelThumbnail extends JPanel{
-
-	private static final long serialVersionUID = -6459573104877244360L;
 	
 	/* Tendrá una referencia al panel de diseño para 
 	 * conocer todos los datos
 	 */
 	PanelGrafo panelDiagrama;
-
 	VisualizationViewer<Transfer,Object> vv;
-
 	
 	public PanelThumbnail(){
 		panelDiagrama = null;
@@ -33,7 +30,6 @@ public class PanelThumbnail extends JPanel{
 		Inicializar();
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void Inicializar(){
 		this.setLayout(new GridLayout(1,1));
 		vv = new SatelliteVisualizationViewer<Transfer, Object>(panelDiagrama.vv);
@@ -48,7 +44,5 @@ public class PanelThumbnail extends JPanel{
 		ScalingControl vv2Scaler = new CrossoverScalingControl();
 		vv2Scaler.scale(vv,0.15f,new Point(0,0));
 		this.add(vv);
-		
 	}
-
 }

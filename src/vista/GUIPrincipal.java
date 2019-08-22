@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -201,7 +203,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		panelDiseno = new PanelGrafo(listaEntidades,listaAtributos,listaRelaciones);
 		panelDiseno.setControlador(this.getControlador());
 
-		panelInfo = new JPanel();;
+		panelInfo = new JPanel();
 		panelInfo.setLayout(new BorderLayout());
 		panelInfo.addMouseListener(mls);
 		infoTabPane.addTab(Lenguaje.text(Lenguaje.ELEMENTS), null, panelInfo ,null);
@@ -271,7 +273,20 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		Vector<Transfer> listaTransfers = new Vector<Transfer>();
 		listaTransfers.addAll(listaEntidades);
 		listaTransfers.addAll(listaRelaciones);
-		JPanel botonesAnadir = new addTransfersPanel(controlador, listaTransfers);
+		addTransfersPanel botonesAnadir = new addTransfersPanel(controlador, listaTransfers);
+		/*Listener del tamano del panel*/
+		panelDiseno.addComponentListener(new ComponentListener() {
+			@Override
+			public void componentShown(ComponentEvent e) {}
+			@Override
+			public void componentResized(ComponentEvent e) {
+				botonesAnadir.setDiagramWidth(e.getComponent().getSize().width);
+			}
+			@Override
+			public void componentMoved(ComponentEvent e) {}
+			@Override
+			public void componentHidden(ComponentEvent e) {}
+		});
 		
 		splitDisenoInfo.setBorder(null);
 		splitDisenoInfo.setResizeWeight(0.2);
