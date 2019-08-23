@@ -339,6 +339,7 @@ public class ServiciosRelaciones {
 			}
 		}
 		// Creamos el atributo
+		ta.setPosicion(tr.nextAttributePos(ta.getPosicion()));
 		//DAOAtributos daoAtributos = new DAOAtributos(this.controlador.getPath());
 		int idNuevoAtributo = daoAtributos.anadirAtributo(ta);
 		if(idNuevoAtributo == -1){this.controlador.mensajeDesde_SR(TC.SR_AnadirAtributoARelacion_ERROR_DAOAtributos, v); return; }

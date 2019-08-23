@@ -1361,10 +1361,6 @@ public class Controlador {
 		}
 		case GUIAnadirAtributoEntidad_Click_BotonAnadir:{
 			Vector<Transfer> vectorTransfers = (Vector<Transfer>)datos;
-			//Vamos a intentar situar el atributo
-			((TransferAtributo)vectorTransfers.get(1)).
-				setPosicion(((TransferEntidad)vectorTransfers.get(0)).
-				nextAttributePos(((TransferAtributo)vectorTransfers.get(1)).getPosicion()));
 			this.getTheServiciosEntidades().anadirAtributo(vectorTransfers);	
 			ActualizaArbol((Transfer)vectorTransfers.get(1));
 			this.getTheServiciosSistema().reset();
@@ -1372,10 +1368,6 @@ public class Controlador {
 		}
 		case GUIAnadirAtributoRelacion_Click_BotonAnadir:{
 			Vector<Transfer> vectorTransfers = (Vector<Transfer>)datos;
-			//Vamos a intentar situar el atributo 
-			((TransferAtributo)vectorTransfers.get(1)).
-				setPosicion(((TransferRelacion)vectorTransfers.get(0)).
-				nextAttributePos(((TransferAtributo)vectorTransfers.get(1)).getPosicion()));
 			this.getTheServiciosRelaciones().anadirAtributo(vectorTransfers);
 			ActualizaArbol((Transfer)vectorTransfers.get(1));
 			this.getTheServiciosSistema().reset();

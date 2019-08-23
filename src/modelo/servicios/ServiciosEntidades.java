@@ -215,6 +215,7 @@ public class ServiciosEntidades {
 			}
 		}
 		// Creamos el atributo
+		ta.setPosicion(te.nextAttributePos(ta.getPosicion()));
 		int idNuevoAtributo = daoAtributos.anadirAtributo(ta);
 		if(idNuevoAtributo == -1){this.controlador.mensajeDesde_SE(TC.SE_AnadirAtributoAEntidad_ERROR_DAOAtributos, v); return; }
 		// Anadimos el atributo a la lista de atributos de la entidad
