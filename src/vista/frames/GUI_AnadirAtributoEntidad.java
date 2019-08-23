@@ -141,7 +141,7 @@ public class GUI_AnadirAtributoEntidad extends Parent_GUI{
 		ta.setNombre(this.cajaNombre.getText());
 		String tamano = "";
 		
-		double x = this.getEntidad().getPosicion().getX() + 100;
+		double x = this.getEntidad().getPosicion().getX();
 		double y = this.getEntidad().getPosicion().getY();
 		ta.setPosicion(new Point2D.Double(x,y));
 		ta.setListaComponentes(new Vector());
@@ -208,7 +208,6 @@ public class GUI_AnadirAtributoEntidad extends Parent_GUI{
 		v.add(ta);
 		if (!tamano.isEmpty()) v.add(tamano);
 		controlador.mensajeDesde_GUI(TC.GUIAnadirAtributoEntidad_Click_BotonAnadir, v);
-		//if(ta.isClavePrimaria()){
 		if (this.opcionClavePrimaria.isSelected()){
 			Vector<Object> v1= new Vector<Object>();
 			TransferAtributo clon_atributo2 = ta.clonar();

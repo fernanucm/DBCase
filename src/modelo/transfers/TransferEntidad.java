@@ -16,6 +16,7 @@ public class TransferEntidad extends Transfer{
 	private Point2D posicion;
 	private int volumen;
 	private int frecuencia;
+	private int offsetAttr=0;
 	
 	public TransferEntidad clonar(){
 		TransferEntidad clon_te = new TransferEntidad();
@@ -29,6 +30,7 @@ public class TransferEntidad extends Transfer{
 		clon_te.setPosicion((Point2D) this.getPosicion().clone());	
 		clon_te.setVolumen(this.getVolumen());
 		clon_te.setFrecuencia(this.getFrecuencia());
+		clon_te.setOffsetAttr(this.getOffsetAttr());
 		return clon_te;
 	}
 	
@@ -42,8 +44,8 @@ public class TransferEntidad extends Transfer{
 		this.listaUniques = arg0.getListaUniques();
 		this.volumen = arg0.getVolumen();
 		this.frecuencia = arg0.getFrecuencia();
-		this.posicion = new Point2D.Double(arg0.getPosicion().getX(),
-										   arg0.getPosicion().getY());
+		this.posicion = new Point2D.Double(arg0.getPosicion().getX(),arg0.getPosicion().getY());
+		this.offsetAttr = arg0.getOffsetAttr();
 	}
 	
 	@Override
@@ -52,6 +54,26 @@ public class TransferEntidad extends Transfer{
 	}
 	public void setPosicion(Point2D posicion) {
 		this.posicion = posicion;
+	}
+	public Point2D nextAttributePos(Point2D p) {
+		int ancho = getNombre().length();
+		//para evitar las esquinas
+		if(p.getX()>0 && p.getX()<(100 + (ancho<8?0:2*ancho)+(((offsetAttr/8+1)*8)/8)*62.5) && offsetAttr%8>4)
+			offsetAttr = (offsetAttr/8+1)*8;
+		if(p.getY()>0 && p.getY()<(100+(offsetAttr/8)*62.5) && (offsetAttr%8==7 || offsetAttr%8<2))
+			offsetAttr = (offsetAttr/8+1)*8 + 2;
+		
+		ancho = 120 + (ancho<8?0:2*ancho)+(offsetAttr/8)*75;
+		int alto = 80+(offsetAttr/8)*50;
+		double constant = 2.4674011002723395;
+		
+		//coloca los atributos en circulos concentricos
+		p.setLocation(
+				Math.round(ancho*Math.sin(offsetAttr/(Math.PI/constant))+p.getX()), 
+				Math.round(alto*Math.sin(offsetAttr/(Math.PI/constant)-(Math.PI/2))+p.getY())
+				);
+		offsetAttr++;
+		return p;
 	}
 	public boolean isDebil() {
 		return debil;
@@ -107,12 +129,16 @@ public class TransferEntidad extends Transfer{
 	public void setFrecuencia(int frecuencia) {
 		this.frecuencia = frecuencia;
 	}
-
+	public int getOffsetAttr() {
+		return offsetAttr;
+	}
+	public void setOffsetAttr(int offsetAttr) {
+		this.offsetAttr = offsetAttr;
+	}
 	@Override
 	public String toString() {
 		return this.nombre;
 	}
-
 	@Override
 	public Shape toShape() {
 		// 	Si el tamaño del nombre es pequeño dibuja rectángulo standard

@@ -121,7 +121,7 @@ public class GUI_AnadirAtributoRelacion extends Parent_GUI {
 		ta.setNombre(this.cajaNombre.getText());
 		String tamano = "";
 		
-		double x = this.getRelacion().getPosicion().getX() + 100;
+		double x = this.getRelacion().getPosicion().getX();
 		double y = this.getRelacion().getPosicion().getY();
 		ta.setPosicion(new Point2D.Double(x,y));
 		ta.setListaComponentes(new Vector());

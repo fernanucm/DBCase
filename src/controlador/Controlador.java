@@ -1361,12 +1361,22 @@ public class Controlador {
 		}
 		case GUIAnadirAtributoEntidad_Click_BotonAnadir:{
 			Vector<Transfer> vectorTransfers = (Vector<Transfer>)datos;
-			//Vamos a intentar situar el atributo 
-			int numAtributos=((TransferEntidad)vectorTransfers.get(0)).getListaAtributos().size();
-			Point2D p =((TransferAtributo)vectorTransfers.get(1)).getPosicion();
-			p.setLocation(p.getX(), p.getY()-80+numAtributos*40);
-			((TransferAtributo)vectorTransfers.get(1)).setPosicion(p);
+			//Vamos a intentar situar el atributo
+			((TransferAtributo)vectorTransfers.get(1)).
+				setPosicion(((TransferEntidad)vectorTransfers.get(0)).
+				nextAttributePos(((TransferAtributo)vectorTransfers.get(1)).getPosicion()));
 			this.getTheServiciosEntidades().anadirAtributo(vectorTransfers);	
+			ActualizaArbol((Transfer)vectorTransfers.get(1));
+			this.getTheServiciosSistema().reset();
+			break;
+		}
+		case GUIAnadirAtributoRelacion_Click_BotonAnadir:{
+			Vector<Transfer> vectorTransfers = (Vector<Transfer>)datos;
+			//Vamos a intentar situar el atributo 
+			((TransferAtributo)vectorTransfers.get(1)).
+				setPosicion(((TransferRelacion)vectorTransfers.get(0)).
+				nextAttributePos(((TransferAtributo)vectorTransfers.get(1)).getPosicion()));
+			this.getTheServiciosRelaciones().anadirAtributo(vectorTransfers);
 			ActualizaArbol((Transfer)vectorTransfers.get(1));
 			this.getTheServiciosSistema().reset();
 			break;
@@ -1459,18 +1469,6 @@ public class Controlador {
 		}
 		case GUIAnadirSubAtributoAtributo_ActualizameLaListaDeDominios: {
 			this.getTheServiciosDominios().ListaDeDominios();
-			break;
-		}
-		case GUIAnadirAtributoRelacion_Click_BotonAnadir:{
-			Vector<Transfer> vectorTransfers = (Vector<Transfer>)datos;
-			//Vamos a intentar situar el atributo 
-			int numAtributos=((TransferRelacion)vectorTransfers.get(0)).getListaAtributos().size();
-			Point2D p =((TransferAtributo)vectorTransfers.get(1)).getPosicion();
-			p.setLocation(p.getX(), p.getY()-60+numAtributos*40);
-			((TransferAtributo)vectorTransfers.get(1)).setPosicion(p);
-			this.getTheServiciosRelaciones().anadirAtributo(vectorTransfers);
-			ActualizaArbol((Transfer)vectorTransfers.get(1));
-			this.getTheServiciosSistema().reset();
 			break;
 		}
 		case GUIAnadirAtributoRelacion_ActualizameLaListaDeDominios:{

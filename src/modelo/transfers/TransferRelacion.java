@@ -20,6 +20,7 @@ public class TransferRelacion extends Transfer {
 	private Point2D posicion;
 	private int volumen;
 	private int frecuencia;
+	private int offsetAttr=0;
 
 	public TransferRelacion() {}
 	public boolean isIsA() {
@@ -41,6 +42,7 @@ public class TransferRelacion extends Transfer {
 		clon_tr.setPosicion((Point2D) this.getPosicion().clone());
 		clon_tr.setVolumen(this.getVolumen());
 		clon_tr.setFrecuencia(this.getFrecuencia());
+		clon_tr.setOffsetAttr(this.getOffsetAttr());
 		return clon_tr;
 	}
 	
@@ -56,6 +58,7 @@ public class TransferRelacion extends Transfer {
 		this.frecuencia = arg0.getFrecuencia();
 		this.listaUniques = arg0.getListaUniques();
 		this.rol=arg0.getRol();
+		this.offsetAttr = arg0.getOffsetAttr();
 		//Si entidad ya está asociada con dicha relación, la línea que las unirá deberá ser diferente a la existente
 		//Filtramos la lista de entidades quitando las entidades que ya estan
 		//Puesto que se van a permitir hacer relaciones circulares no filtramos la lista de entidades
@@ -74,6 +77,27 @@ public class TransferRelacion extends Transfer {
 		}
 		if (repetido) this.posicion = new Point2D.Double(arg0.getPosicion().getX(), arg0.getPosicion().getY());
 		else this.posicion = new Point2D.Double(arg0.getPosicion().getX(), arg0.getPosicion().getY());
+	}
+	
+	public Point2D nextAttributePos(Point2D p) {
+		int ancho = getNombre().length();
+		//para evitar las esquinas
+		if(p.getX()>0 && p.getX()<(100 + (ancho<8?0:2*ancho)+(((offsetAttr/8+1)*8)/8)*62.5) && offsetAttr%8>4)
+			offsetAttr = (offsetAttr/8+1)*8;
+		if(p.getY()>0 && p.getY()<(100+(offsetAttr/8)*62.5) && (offsetAttr%8==7 || offsetAttr%8<2))
+			offsetAttr = (offsetAttr/8+1)*8 + 2;
+		
+		ancho = 120 + (ancho<8?0:2*ancho)+(offsetAttr/8)*75;
+		int alto = 80+(offsetAttr/8)*50;
+		double constant = 2.4674011002723395;
+		
+		//coloca los atributos en circulos concentricos
+		p.setLocation(
+				Math.round(ancho*Math.sin(offsetAttr/(Math.PI/constant))+p.getX()), 
+				Math.round(alto*Math.sin(offsetAttr/(Math.PI/constant)-(Math.PI/2))+p.getY())
+				);
+		offsetAttr++;
+		return p;
 	}
 	
 	public void CopiarRelacionUnoUno(Vector v) {
@@ -168,22 +192,24 @@ public class TransferRelacion extends Transfer {
 	public void setListaEntidadesYAridades(Vector listaEntidadesYAridades) {
 		this.listaEntidadesYAridades = listaEntidadesYAridades;
 	}
-
 	public String getNombre() {
 		return nombre;
 	}
-
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
 	public String getRol() {
 		return rol;
 	}
-	
 	public void setRol(String nuevoRol) {
 		this.rol = nuevoRol;
-	}	
+	}
+	public int getOffsetAttr() {
+		return offsetAttr;
+	}
+	public void setOffsetAttr(int offsetAttr) {
+		this.offsetAttr = offsetAttr;
+	}
 	@Override
 	public Point2D getPosicion() {
 		return posicion;
