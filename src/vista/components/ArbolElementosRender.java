@@ -42,8 +42,10 @@ public class ArbolElementosRender extends DefaultTreeCellRenderer {
        * if - else que crea el texto a mostrar y su icono
        * */
       if(userObject instanceof TransferAtributo){
-    	  text = String.format(SPAN_FORMAT, sel?theme.labelFontColorLight().hexValue():theme.fontColor().hexValue(), userObject + " : ")+
-    			  String.format(SUBSPAN_FORMAT, sel?theme.labelFontColorLight().hexValue():theme.fontColor().hexValue(), ((TransferAtributo) userObject).getDominio() );
+    	  if(!((TransferAtributo) userObject).getCompuesto())
+    		  text = String.format(SPAN_FORMAT, sel?theme.labelFontColorLight().hexValue():theme.fontColor().hexValue(), userObject + " : ")+
+    			  String.format(SUBSPAN_FORMAT, sel?theme.labelFontColorLight().hexValue():theme.fontColor().hexValue(), ((TransferAtributo) userObject).getDominio());
+    	  else text = String.format(SPAN_FORMAT, sel?theme.labelFontColorLight().hexValue():theme.fontColor().hexValue(), userObject);
     	  if(((TransferAtributo) userObject).isSubatributo()) setIcon(new subAttributeIcon("mini"));
     	  else setIcon(new attributeIcon("mini"));
       }

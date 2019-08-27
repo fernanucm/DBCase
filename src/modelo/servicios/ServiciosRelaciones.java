@@ -314,7 +314,7 @@ public class ServiciosRelaciones {
 		// Si nombre de atributo es vacio -> ERROR
 		if (ta.getNombre().isEmpty()){ this.controlador.mensajeDesde_SR(TC.SR_AnadirAtributoARelacion_ERROR_NombreDeAtributoVacio, v); return; }
 		// Si nombre de atributo ya existe en esa entidad-> ERROR
-		DAOAtributos daoAtributos = new DAOAtributos(this.controlador.getPath());
+		DAOAtributos daoAtributos = new DAOAtributos(this.controlador);
 		Vector<TransferAtributo> lista = daoAtributos.ListaDeAtributos(); //lista de todos los atributos
 		if (lista == null){
 			controlador.mensajeDesde_SR(TC.SR_AnadirAtributoARelacion_ERROR_DAOAtributos,v);
@@ -340,7 +340,7 @@ public class ServiciosRelaciones {
 		}
 		// Creamos el atributo
 		ta.setPosicion(tr.nextAttributePos(ta.getPosicion()));
-		//DAOAtributos daoAtributos = new DAOAtributos(this.controlador.getPath());
+		//DAOAtributos daoAtributos = new DAOAtributos(this.controlador);
 		int idNuevoAtributo = daoAtributos.anadirAtributo(ta);
 		if(idNuevoAtributo == -1){this.controlador.mensajeDesde_SR(TC.SR_AnadirAtributoARelacion_ERROR_DAOAtributos, v); return; }
 		// Anadimos el atributo a la lista de atributos de la relacion
@@ -518,7 +518,7 @@ public class ServiciosRelaciones {
 		boolean encontrado=false;
 		int i=0;
 		while(i<uniques.size()){
-			if(uniques.get(i).toString().equals(ta.getNombre())) encontrado=true;
+			if(((TransferAtributo) uniques.get(i)).getNombre().equals(ta.getNombre())) encontrado=true;
 			else uniquesCopia.add(uniques.get(i));
 			i++;
 		}
@@ -540,7 +540,7 @@ public class ServiciosRelaciones {
 		TransferRelacion tr = (TransferRelacion) v.get(0);
 		TransferAtributo ta= (TransferAtributo) v.get(1);
 		Vector uniques = tr.getListaUniques();
-		Vector uniquesCopia= new Vector();; 
+		Vector uniquesCopia= new Vector();
 		int i=0;
 		while(i<uniques.size()){
 			if(uniques.get(i).toString().contains(ta.getNombre())){
@@ -582,10 +582,10 @@ public class ServiciosRelaciones {
 		TransferAtributo ta= (TransferAtributo) v.get(1);
 		String antiguoNombre = (String) v.get(2);
 		Vector uniques = tr.getListaUniques();
-		Vector uniquesCopia= new Vector();; 
+		Vector uniquesCopia= new Vector();
 		int i=0;
 		while(i<uniques.size()){
-			if(uniques.get(i).toString().contains(antiguoNombre)){
+			if(((TransferAtributo) uniques.get(i)).getNombre().contains(antiguoNombre)){
 				String s = uniques.get(i).toString();
 				s= s.replaceAll(antiguoNombre, ta.getNombre());
 				uniquesCopia.add(s);
@@ -857,7 +857,7 @@ public class ServiciosRelaciones {
 	
 	public boolean tieneAtributo(TransferRelacion tr, TransferAtributo ta){
 		for (int i=0; i<tr.getListaAtributos().size(); i++){
-			if(Integer.parseInt(tr.getListaAtributos().get(i).toString())==ta.getIdAtributo())
+			if(Integer.parseInt(((TransferAtributo) tr.getListaAtributos().get(i)).getNombre())==ta.getIdAtributo())
 				return true;
 		}
 		return false;

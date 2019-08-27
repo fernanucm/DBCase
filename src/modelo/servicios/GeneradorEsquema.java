@@ -63,14 +63,14 @@ public class GeneradorEsquema {
 		for (int i=0;i<entidades.size();i++){
 			Vector<TransferAtributo>multivalorados=new Vector<TransferAtributo>();
 			TransferEntidad te=entidades.elementAt(i);
-			Tabla tabla = new Tabla(te.getNombre(),te.getListaRestricciones());
+			Tabla tabla = new Tabla(te.getNombre(),te.getListaRestricciones(), controlador);
 			Vector<TransferAtributo> atribs=this.dameAtributosEnTransfer(te.getListaAtributos());
 			for(String rest : (Vector<String>)te.getListaRestricciones())
 				restriccionesPerdidas.add(new restriccionPerdida(te.getNombre(), rest, restriccionPerdida.TABLA));
 			//recorremos los atributos aniadiendolos a la tabla
 			for (int j=0;j<atribs.size();j++){
 				TransferAtributo ta=atribs.elementAt(j);
-				if(ta.getUnique()) restriccionesPerdidas.add(new restriccionPerdida(te.getNombre(), ta.getNombre()+" "+Lenguaje.text(Lenguaje.IS_UNIQUE), restriccionPerdida.TABLA));
+				if(ta.getUnique()) restriccionesPerdidas.add(new restriccionPerdida(te.getNombre(), ta+" "+Lenguaje.text(Lenguaje.IS_UNIQUE), restriccionPerdida.TABLA));
 				if (ta.getCompuesto()) 
 					tabla.aniadeListaAtributos(this.atributoCompuesto(ta, te.getNombre(),""),te.getListaRestricciones(),tiposEnumerados);
 				else if (ta.isMultivalorado()) multivalorados.add(ta);
@@ -80,7 +80,6 @@ public class GeneradorEsquema {
 						restriccionesPerdidas.add(new restriccionPerdida(te.getNombre(), rest, restriccionPerdida.TABLA));
 				}
 			}
-			
 			// Anadimos las claves a la relacion
 			
 			//aniadimos las claves primarias o logeneraTablasEntidades discriminantes si la entidad es debil.
@@ -124,12 +123,12 @@ public class GeneradorEsquema {
 				restriccionesPerdidas.add(new restriccionPerdida(tr.getNombre(), rest, restriccionPerdida.TABLA));
 			if (tr.getTipo().equalsIgnoreCase("Normal")) {
 				// creamos la tabla
-				Tabla tabla = new Tabla(tr.getNombre(), tr.getListaRestricciones());
+				Tabla tabla = new Tabla(tr.getNombre(), tr.getListaRestricciones(), controlador);
 				// aniadimos los atributos propios.
 				Vector<TransferAtributo> ats = this.dameAtributosEnTransfer(tr.getListaAtributos());
 				for (int a = 0; a < ats.size(); a++) {
 					TransferAtributo ta = ats.elementAt(a);
-					if(ta.getUnique()) restriccionesPerdidas.add(new restriccionPerdida(tr.getNombre(), ta.getNombre()+" "+Lenguaje.text(Lenguaje.IS_UNIQUE), restriccionPerdida.TABLA));
+					if(ta.getUnique()) restriccionesPerdidas.add(new restriccionPerdida(tr.getNombre(), ta+" "+Lenguaje.text(Lenguaje.IS_UNIQUE), restriccionPerdida.TABLA));
 					if (ta.getCompuesto())
 						tabla.aniadeListaAtributos(this.atributoCompuesto(ta, tr.getNombre(), ""), ta.getListaRestricciones(), tiposEnumerados);
 					else if (ta.isMultivalorado()) multivalorados.add(ta);
@@ -562,7 +561,7 @@ public class GeneradorEsquema {
 				te.setIdEntidad(idPadre);
 				te = daoEntidades.consultarEntidad(te);
 				
-				Tabla t = new Tabla(te.getNombre(), te.getListaRestricciones());
+				Tabla t = new Tabla(te.getNombre(), te.getListaRestricciones(), controlador);
 				t = t.creaClonSinAmbiguedadNiEspacios();
 				
 				encontrado = t.getNombreTabla().equalsIgnoreCase(tabla.getNombreTabla());
@@ -765,7 +764,7 @@ public class GeneradorEsquema {
 		Tabla tablaEntidad = tablasEntidades.get(idEntidad);
 		
 		//creamos la tabla.
-		Tabla tablaMulti = new Tabla(tablaEntidad.getNombreTabla() + "_" + ta.getNombre(), ta.getListaRestricciones());
+		Tabla tablaMulti = new Tabla(tablaEntidad.getNombreTabla() + "_" + ta.getNombre(), ta.getListaRestricciones(), controlador);
 
 		// aniadimos el campo del atributo, incluso teniendo en cuenta que sea
 		// compuesto.
@@ -791,9 +790,9 @@ public class GeneradorEsquema {
 	}
 
 	protected  Vector<TransferAtributo> dameAtributosEnTransfer(Vector sinParam){
-		DAOAtributos daoAtributos= new DAOAtributos(this.controlador.getPath());
+		DAOAtributos daoAtributos= new DAOAtributos(controlador);
 		Vector<TransferAtributo> claves= new Vector<TransferAtributo>(); 
-		TransferAtributo aux = new TransferAtributo();
+		TransferAtributo aux = new TransferAtributo(controlador);
 		for (int i=0; i<sinParam.size();i++){
 			aux.setIdAtributo(this.objectToInt(sinParam.elementAt(i)));
 			aux=daoAtributos.consultarAtributo(aux);
@@ -837,4 +836,3 @@ public class GeneradorEsquema {
 		this.validadorBD.setControlador(controlador);
 	}
 }
-

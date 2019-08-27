@@ -18,13 +18,13 @@ public class ServiciosAtributos {
 	private Controlador controlador;
 
 	public void ListaDeAtributos(){
-		DAOAtributos dao = new DAOAtributos(this.controlador.getPath());
+		DAOAtributos dao = new DAOAtributos(this.controlador);
 		Vector <TransferAtributo> lista_atributos = dao.ListaDeAtributos();
 		controlador.mensajeDesde_SA(TC.SA_ListarAtributos_HECHO, lista_atributos);
 	}
 	
 	public Vector<TransferAtributo> DevuelveListaDeAtributos(){
-		DAOAtributos dao = new DAOAtributos(this.controlador.getPath());
+		DAOAtributos dao = new DAOAtributos(this.controlador);
 		Vector <TransferAtributo> lista_atributos = dao.ListaDeAtributos();
 		controlador.mensajeDesde_SA(TC.SA_ListarAtributos_HECHO, lista_atributos);
 		return lista_atributos;
@@ -44,7 +44,7 @@ public class ServiciosAtributos {
 			return; 
 		}
 		// Si nombre de atributo ya existe en esa entidad-> ERROR
-		DAOAtributos daoAtributos = new DAOAtributos(this.controlador.getPath());
+		DAOAtributos daoAtributos = new DAOAtributos(this.controlador);
 		Vector<TransferAtributo> lista = daoAtributos.ListaDeAtributos(); //lista de todos los atributos
 		if (lista == null){
 			controlador.mensajeDesde_SA(TC.SA_AnadirSubAtributoAtributo_ERROR_DAOAtributosHijo,v);
@@ -70,7 +70,7 @@ public class ServiciosAtributos {
 			}
 		}
 		// Creamos el atributo
-		//DAOAtributos daoAtributos = new DAOAtributos(this.controlador.getPath());
+		//DAOAtributos daoAtributos = new DAOAtributos(this.controlador);
 		int idNuevoAtributo = daoAtributos.anadirAtributo(tah);
 		if(idNuevoAtributo == -1){
 			this.controlador.mensajeDesde_SA(TC.SA_AnadirSubAtributoAtributo_ERROR_DAOAtributosHijo, v);
@@ -99,7 +99,7 @@ public class ServiciosAtributos {
 	 * Hay que comprobar primero que el atributo que viene en el transfer exista con un consultar
 	 */
 	public void eliminarAtributo (TransferAtributo ta){
-		DAOAtributos daoAtributos = new DAOAtributos(this.controlador.getPath());
+		DAOAtributos daoAtributos = new DAOAtributos(this.controlador);
 		ta = daoAtributos.consultarAtributo(ta);
 		if (ta == null){
 			//el atributo puede haber sido eliminado al eliminar la entidad o relacion a la que pertenecía
@@ -132,14 +132,14 @@ public class ServiciosAtributos {
 			int cont = 0;
 			while (cont < lista_idSubatributos.size()){
 				int idAtributoHijo = Integer.parseInt((String) lista_idSubatributos.get(cont));
-				TransferAtributo ta_hijo = new TransferAtributo();
+				TransferAtributo ta_hijo = new TransferAtributo(controlador);
 				ta_hijo.setIdAtributo(idAtributoHijo);
 				this.eliminarAtributo(ta_hijo);
 				cont++;
 			}
 			// Ya estan eliminados todos sus subatributos. Ponemos compuesto a falso y eliminamos
 			ta.setCompuesto(false);
-			daoAtributos = new DAOAtributos(this.controlador.getPath());
+			daoAtributos = new DAOAtributos(controlador);
 			daoAtributos.modificarAtributo(ta);
 			System.out.println("asas");
 			this.eliminarAtributo(ta);
@@ -226,7 +226,7 @@ public class ServiciosAtributos {
 
 		if (!enEntidad && !enRelacion){
 			// Buscamos si esta en atributos, es decir es un subatributo de un compuesto.
-			DAOAtributos daoAtributos = new DAOAtributos(this.controlador.getPath());
+			DAOAtributos daoAtributos = new DAOAtributos(this.controlador);
 			Vector listaAtributos = daoAtributos.ListaDeAtributos();
 			j = 0;
 			while (j < listaAtributos.size()&& !enAtributo){
@@ -285,7 +285,7 @@ public class ServiciosAtributos {
 					// Es un atributo de una entidad
 					encontrado=true;
 					// Si nombre de atributo ya existe en esa entidad-> ERROR
-					DAOAtributos daoAtributos = new DAOAtributos(this.controlador.getPath());
+					DAOAtributos daoAtributos = new DAOAtributos(this.controlador);
 					for (int i=0; i<te.getListaAtributos().size();i++)
 						if(daoAtributos.nombreDeAtributo((Integer.parseInt((String)te.getListaAtributos().get(i)))).toLowerCase().equals(nuevoNombre.toLowerCase())
 								&& i!=k){ 
@@ -314,7 +314,7 @@ public class ServiciosAtributos {
 					encontrado=true;
 					
 					// Si nombre de atributo ya existe en esa entidad-> ERROR
-					DAOAtributos daoAtributos = new DAOAtributos(this.controlador.getPath());
+					DAOAtributos daoAtributos = new DAOAtributos(this.controlador);
 					for (int i=0; i<tr.getListaAtributos().size();i++)
 						if(daoAtributos.nombreDeAtributo((Integer.parseInt((String)tr.getListaAtributos().get(i)))).toLowerCase().equals(nuevoNombre.toLowerCase())
 								&& i!=k){ 
@@ -327,7 +327,7 @@ public class ServiciosAtributos {
 			j++;
 		}
 		// Buscamos si esta en atributos, es decir es un subatributo de un compuesto.
-		DAOAtributos daoAtributos = new DAOAtributos(this.controlador.getPath());
+		DAOAtributos daoAtributos = new DAOAtributos(this.controlador);
 		Vector listaAtributos = daoAtributos.ListaDeAtributos();
 		j = 0;
 		while (j < listaAtributos.size()){
@@ -386,7 +386,7 @@ public class ServiciosAtributos {
 			}
 		}
 		// Modificamos el atributo
-		DAOAtributos daoAtributos = new DAOAtributos(this.controlador.getPath());
+		DAOAtributos daoAtributos = new DAOAtributos(this.controlador);
 		ta.setDominio(nuevoDominio);
 		if (daoAtributos.modificarAtributo(ta) == false)
 			controlador.mensajeDesde_SA(TC.SA_EditarDominioAtributo_ERROR_DAOAtributos, ta);
@@ -407,7 +407,7 @@ public class ServiciosAtributos {
 		// Ponemos su dominio a null si es compuesto
 		if (ta.getCompuesto()) ta.setDominio("null");
 		// Persistimos
-		DAOAtributos daoAtributos = new DAOAtributos(this.controlador.getPath());
+		DAOAtributos daoAtributos = new DAOAtributos(this.controlador);
 		if (daoAtributos.modificarAtributo(ta) == false)
 			controlador.mensajeDesde_SA(TC.SA_EditarCompuestoAtributo_ERROR_DAOAtributos, ta);
 		else
@@ -424,7 +424,7 @@ public class ServiciosAtributos {
 	public void editarMultivaloradoAtributo(TransferAtributo ta){
 		// Modificamos el atributo
 		ta.setMultivalorado(!ta.isMultivalorado());
-		DAOAtributos daoAtributos = new DAOAtributos(this.controlador.getPath());
+		DAOAtributos daoAtributos = new DAOAtributos(this.controlador);
 		if (daoAtributos.modificarAtributo(ta) == false)
 			controlador.mensajeDesde_SA(TC.SA_EditarMultivaloradoAtributo_ERROR_DAOAtributos, ta);
 		else
@@ -435,7 +435,7 @@ public class ServiciosAtributos {
 	public void editarNotNullAtributo(TransferAtributo ta){
 		// Modificamos el atributo
 		ta.setNotnull(!ta.getNotnull());
-		DAOAtributos daoAtributos = new DAOAtributos(this.controlador.getPath());
+		DAOAtributos daoAtributos = new DAOAtributos(this.controlador);
 		if (daoAtributos.modificarAtributo(ta) == false)
 			controlador.mensajeDesde_SA(TC.SA_EditarNotNullAtributo_ERROR_DAOAtributos, ta);
 		else
@@ -446,7 +446,7 @@ public class ServiciosAtributos {
 	public void editarUniqueAtributo(TransferAtributo ta){
 		// Modificamos el atributo
 		ta.setUnique(!ta.getUnique());
-		DAOAtributos daoAtributos = new DAOAtributos(this.controlador.getPath());
+		DAOAtributos daoAtributos = new DAOAtributos(this.controlador);
 		if (daoAtributos.modificarAtributo(ta) == false)
 			controlador.mensajeDesde_SA(TC.SA_EditarUniqueAtributo_ERROR_DAOAtributos, ta);
 		else
@@ -460,7 +460,7 @@ public class ServiciosAtributos {
 		// Si nombre es vacio -> ERROR
 		if (restriccion.isEmpty()) return;
 		
-		DAOAtributos daoAtributoes = new DAOAtributos(this.controlador.getPath());
+		DAOAtributos daoAtributoes = new DAOAtributos(this.controlador);
 		Vector<TransferAtributo> lista = daoAtributoes.ListaDeAtributos();
 		if (lista == null){
 			controlador.mensajeDesde_SA(TC.SA_RenombrarAtributo_ERROR_DAOAtributos,v);
@@ -484,7 +484,7 @@ public class ServiciosAtributos {
 		// Si nombre es vacio -> ERROR
 		if (restriccion.isEmpty()) return;
 		
-		DAOAtributos daoAtributoes = new DAOAtributos(this.controlador.getPath());
+		DAOAtributos daoAtributoes = new DAOAtributos(this.controlador);
 		Vector<TransferAtributo> lista = daoAtributoes.ListaDeAtributos();
 		if (lista == null){
 			controlador.mensajeDesde_SA(TC.SA_RenombrarAtributo_ERROR_DAOAtributos,v);
@@ -512,7 +512,7 @@ public class ServiciosAtributos {
 		Vector restricciones = (Vector) v.get(0);
 		TransferAtributo ta = (TransferAtributo) v.get(1);
 		
-		DAOAtributos daoAtributos = new DAOAtributos(this.controlador.getPath());
+		DAOAtributos daoAtributos = new DAOAtributos(this.controlador);
 		Vector<TransferAtributo> lista = daoAtributos.ListaDeAtributos();
 		if (lista == null){
 			controlador.mensajeDesde_SA(TC.SA_RenombrarAtributo_ERROR_DAOAtributos,v);
@@ -529,7 +529,7 @@ public class ServiciosAtributos {
 	 * Mover un atributo (cambiar su posicion)
 	 */
 	public void moverPosicionAtributo(TransferAtributo ta){
-		DAOAtributos daoAtributos = new DAOAtributos(this.controlador.getPath());
+		DAOAtributos daoAtributos = new DAOAtributos(this.controlador);
 		if(daoAtributos.modificarAtributo(ta) == false)
 			controlador.mensajeDesde_SA(TC.SA_MoverPosicionAtributo_ERROR_DAOAtributos, ta);
 		else
@@ -565,11 +565,11 @@ public class ServiciosAtributos {
 		else controlador.mensajeDesde_SA(TC.SA_EditarClavePrimariaAtributo_HECHO,vectorDeTransfer);
 	}
 	public String getNombreAtributo(int id){
-		DAOAtributos daoAtributos = new DAOAtributos(this.controlador.getPath());
+		DAOAtributos daoAtributos = new DAOAtributos(this.controlador);
 		return daoAtributos.nombreDeAtributo(id); 
 	}
 	public boolean idUnique(int id){
-		DAOAtributos daoAtributos = new DAOAtributos(this.controlador.getPath());
+		DAOAtributos daoAtributos = new DAOAtributos(this.controlador);
 		return daoAtributos.uniqueAtributo(id); 
 	}
 	public Controlador getControlador() {

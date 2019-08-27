@@ -4,6 +4,8 @@ import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.Vector;
+
+import controlador.Controlador;
 @SuppressWarnings("rawtypes")
 public class TransferAtributo extends Transfer{
 
@@ -21,9 +23,14 @@ public class TransferAtributo extends Transfer{
 	private boolean multivalorado;
 	private Vector listaRestricciones;
 	private Point2D posicion;
+	private Controlador c;
+	
+	public TransferAtributo(Controlador c) {
+		this.c = c;
+	}
 	
 	public TransferAtributo clonar (){
-		TransferAtributo clon_ta = new TransferAtributo();
+		TransferAtributo clon_ta = new TransferAtributo(c);
 		clon_ta.setIdAtributo(this.getIdAtributo());
 		clon_ta.setNombre(this.getNombre());
 		clon_ta.setDominio(this.getDominio());
@@ -73,6 +80,9 @@ public class TransferAtributo extends Transfer{
 	public boolean getNotnull() {
 		return notnull;
 	}
+	public boolean isNullable() {
+		return c.isNullAttrs() && !notnull && !ClavePrimaria && !compuesto;
+	}
 	public void setNotnull(boolean notnull) {
 		this.notnull = notnull;
 	}
@@ -106,12 +116,6 @@ public class TransferAtributo extends Transfer{
 	public void setMultivalorado(boolean multivalorado) {
 		this.multivalorado = multivalorado;
 	}
-	public String getNombre() {
-		return nombre;
-	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
 	public boolean isClavePrimaria() {
 		return ClavePrimaria;
 	}
@@ -142,9 +146,15 @@ public class TransferAtributo extends Transfer{
 	public void setSubatributo(boolean subatributo) {
 		this.subatributo = subatributo;
 	}
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 	@Override
 	public String toString() {
-		return this.nombre;
+		return isNullable() ? (this.nombre + "*") : this.nombre;
 	}
 	@Override
 	public Shape toShape() {

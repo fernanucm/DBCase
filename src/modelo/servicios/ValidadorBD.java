@@ -37,7 +37,7 @@ public class ValidadorBD extends GeneradorEsquema{
 	private void error(Transfer t, String texto) {
 		if(t instanceof TransferEntidad) texto = Lenguaje.text(Lenguaje.THE_ENTITY)+" "+t.getNombre()+" "+texto;
 		else if(t instanceof TransferRelacion) texto = Lenguaje.text(Lenguaje.THE_RELATION)+" "+t.getNombre()+" "+texto;
-		else if(t instanceof TransferAtributo) texto = Lenguaje.text(Lenguaje.THE_ATRIBUTE)+" "+t.getNombre()+" "+texto;
+		else if(t instanceof TransferAtributo) texto = Lenguaje.text(Lenguaje.THE_ATRIBUTE)+" "+t+" "+texto;
 		else if(t instanceof TransferDominio) texto = Lenguaje.text(Lenguaje.THE_DOMAIN)+" "+t.getNombre()+" "+texto;
 		errores += "<li>"+texto+"</li>";
 	}
@@ -45,7 +45,7 @@ public class ValidadorBD extends GeneradorEsquema{
 	private void warning(Transfer t, String texto) {
 		if(t instanceof TransferEntidad) texto = Lenguaje.text(Lenguaje.THE_ENTITY)+" "+t.getNombre()+" "+texto;
 		else if(t instanceof TransferRelacion) texto = Lenguaje.text(Lenguaje.THE_RELATION)+" "+t.getNombre()+" "+texto;
-		else if(t instanceof TransferAtributo) texto = Lenguaje.text(Lenguaje.THE_ATRIBUTE)+" "+t.getNombre()+" "+texto;
+		else if(t instanceof TransferAtributo) texto = Lenguaje.text(Lenguaje.THE_ATRIBUTE)+" "+t+" "+texto;
 		else if(t instanceof TransferDominio) texto = Lenguaje.text(Lenguaje.THE_DOMAIN)+" "+t.getNombre()+" "+texto;
 		warnings += "<li>"+texto+"</li>";
 	}
@@ -326,7 +326,7 @@ public class ValidadorBD extends GeneradorEsquema{
 				}
 			}
 			// Comprobar si se usa (esto solo da un aviso si falla)
-			DAOAtributos daoAtributos= new DAOAtributos(controlador.getPath());
+			DAOAtributos daoAtributos= new DAOAtributos(controlador);
 			Vector <TransferAtributo> atributos =daoAtributos.ListaDeAtributos();
 			boolean esta=false;
 			int k=0;
@@ -342,7 +342,7 @@ public class ValidadorBD extends GeneradorEsquema{
 	
 	//metodos privados de validacion de entidades
 	private boolean validaKey(TransferEntidad te){
-		DAOAtributos daoAtributos= new DAOAtributos(controlador.getPath());
+		DAOAtributos daoAtributos= new DAOAtributos(controlador);
 		//valida si la entidad tiene clave y si esta dentro de sus atributos.
 		//ademas si la entidad es debil, debe tener un atributo discriminante.
 		boolean valido=true;
@@ -351,7 +351,7 @@ public class ValidadorBD extends GeneradorEsquema{
 		Vector atbs = te.getListaAtributos();
 		Vector keys = te.getListaClavesPrimarias();
 		int contador=0;
-		TransferAtributo aux= new TransferAtributo();
+		TransferAtributo aux= new TransferAtributo(controlador);
 		Vector<int[]> resultados =entidadPerteneceAisA(te);
 		int enIsA = 0;
 
@@ -479,11 +479,11 @@ public class ValidadorBD extends GeneradorEsquema{
 	}
 	
 	private boolean compruebaClaveCompuesto(Vector clavesEntidad,TransferAtributo ta) {
-		DAOAtributos daoAtributos= new DAOAtributos(controlador.getPath());
+		DAOAtributos daoAtributos= new DAOAtributos(controlador);
 		int i=0;
 		boolean todosBien=true;
 		Vector subs = ta.getListaComponentes();
-		TransferAtributo aux= new TransferAtributo();
+		TransferAtributo aux= new TransferAtributo(controlador);
 		if (!ta.getCompuesto()){
 			if (estaEnVectorDeEnteros(clavesEntidad, ta.getIdAtributo())) return true;
 			else return false;
@@ -505,11 +505,11 @@ public class ValidadorBD extends GeneradorEsquema{
 	 * - Los atributos multivalorados no son clave
 	 */
 	private boolean validaAtributos(){
-		DAOAtributos daoAtributos= new DAOAtributos(controlador.getPath());
+		DAOAtributos daoAtributos= new DAOAtributos(controlador);
 		Vector <TransferAtributo> atributos =daoAtributos.ListaDeAtributos();
 		boolean valido=true;
 		int i=0;
-		TransferAtributo t = new TransferAtributo();
+		TransferAtributo t = new TransferAtributo(controlador);
 		while (i<atributos.size()){
 			t=atributos.elementAt(i);
 			valido&=validaFidelidadAtributo(t)&& validaDominioDeAtributo(t);
@@ -520,7 +520,7 @@ public class ValidadorBD extends GeneradorEsquema{
 	}
 	// comprueba si el atributo pertenece solo a una entidad.
 	private boolean validaFidelidadAtributo(TransferAtributo ta){
-		DAOAtributos daoAtributos= new DAOAtributos(controlador.getPath());
+		DAOAtributos daoAtributos= new DAOAtributos(controlador);
 		DAOEntidades daoEntidades= new DAOEntidades(controlador.getPath());
 		DAORelaciones daoRelaciones= new DAORelaciones(controlador.getPath());
 		Vector <TransferAtributo> atributos =daoAtributos.ListaDeAtributos();
@@ -554,7 +554,7 @@ public class ValidadorBD extends GeneradorEsquema{
 			//entonces es un subatributo, comprobamos q no esta repetido entre los subatributos
 			i=0;
 			int contSubAtrib=0;
-			TransferAtributo aux= new TransferAtributo();
+			TransferAtributo aux= new TransferAtributo(controlador);
 			while (i<atributos.size()&& contSubAtrib<=1){
 				aux= atributos.elementAt(i);
 				if(aux.getCompuesto())

@@ -420,7 +420,7 @@ public class Controlador {
 				// Eliminamos sus atributos
 				Vector lista_atributos = te.getListaAtributos();
 				int conta = 0;
-				TransferAtributo ta = new TransferAtributo();
+				TransferAtributo ta = new TransferAtributo(this);
 				while (conta < lista_atributos.size()){
 					String idAtributo = (String) lista_atributos.get(conta);
 					ta.setIdAtributo(Integer.valueOf(idAtributo));
@@ -620,7 +620,7 @@ public class Controlador {
 					// Eliminamos sus atributos
 					Vector lista_atributos = tr.getListaAtributos();
 					int cont = 0;
-					TransferAtributo ta = new TransferAtributo();
+					TransferAtributo ta = new TransferAtributo(this);
 					while (cont < lista_atributos.size()){
 						String idAtributo = (String) lista_atributos.get(cont);
 						ta.setIdAtributo(Integer.valueOf(idAtributo));
@@ -670,7 +670,7 @@ public class Controlador {
 					// Eliminamos sus subatributos
 					Vector lista_atributos = ta.getListaComponentes();
 					int cont = 0;
-					TransferAtributo tah = new TransferAtributo();
+					TransferAtributo tah = new TransferAtributo(this);
 					while (cont < lista_atributos.size()){
 						String idAtributo = (String) lista_atributos.get(cont);
 						tah.setIdAtributo(Integer.valueOf(idAtributo));
@@ -964,7 +964,7 @@ public class Controlador {
 				// Eliminamos sus atributos				
 				Vector lista_atributos = tr.getListaAtributos();
 				int conta = 0;
-				TransferAtributo ta = new TransferAtributo();
+				TransferAtributo ta = new TransferAtributo(this);
 				while (conta < lista_atributos.size()){
 					String idAtributo = (String) lista_atributos.get(conta);
 					ta.setIdAtributo(Integer.valueOf(idAtributo));
@@ -1051,7 +1051,7 @@ public class Controlador {
 				String dominioEliminado = td.getNombre();
 				this.getTheServiciosAtributos().ListaDeAtributos();
 				int cont = 0;
-				TransferAtributo ta = new TransferAtributo();
+				TransferAtributo ta = new TransferAtributo(this);
 				while (cont < listaAtributos.size()){
 					ta = listaAtributos.get(cont);
 					if (ta.getDominio().equals(dominioEliminado)){
@@ -1159,7 +1159,8 @@ public class Controlador {
 			break;
 		}
 		case GUI_Principal_NULLATTR:{
-			nullAttrs = !nullAttrs;
+			setNullAttrs(!nullAttrs);
+			this.getTheGUIPrincipal().loadInfo();
 			break;
 		}
 		case GUI_Principal_Click_Imprimir:{
@@ -1665,7 +1666,7 @@ public class Controlador {
 			String dominioRenombrado = td.getNombre();
 			this.getTheServiciosAtributos().ListaDeAtributos();
 			int cont = 0;
-			TransferAtributo ta = new TransferAtributo();
+			TransferAtributo ta = new TransferAtributo(this);
 			while (cont < listaAtributos.size()){
 				ta = listaAtributos.get(cont);
 				if (ta.getDominio().equals(dominioRenombrado)){
@@ -2286,8 +2287,8 @@ public class Controlador {
 		case SA_EditarNotNullAtributo_HECHO:{
 			setCambios(true);
 			TransferAtributo ta = (TransferAtributo) datos;
-			ActualizaArbol(ta);
 			this.getTheGUIPrincipal().mensajesDesde_Controlador(TC.Controlador_EditarNotNullAtributo, ta);
+			ActualizaArbol(ta);
 			break;
 		}
 		case SA_EditarUniqueAtributo_ERROR_DAOAtributos:{

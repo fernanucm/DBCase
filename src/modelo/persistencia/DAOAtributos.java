@@ -20,6 +20,7 @@ import org.w3c.dom.NodeList;
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
+import controlador.Controlador;
 import modelo.lenguaje.Lenguaje;
 import modelo.transfers.TransferAtributo;
 @SuppressWarnings("rawtypes")
@@ -28,11 +29,12 @@ public class DAOAtributos{
 	// Atributos
 	private Document doc;
 	private String path;
-	
+	private Controlador c;
 	
 	// Constructora del DAO
-	public DAOAtributos(String path){
-		this.path = path;
+	public DAOAtributos(Controlador c){
+		this.c = c;
+		this.path = c.getPath();
 		//this.path += "\\persistencia.xml";
 		this.path = this.path.replace(" ", "%20");
 		this.path = this.path.replace('\\', '/');
@@ -203,8 +205,8 @@ public class DAOAtributos{
 	public Vector<TransferAtributo> ListaDeAtributos() {
 		// Vector que devolveremos
 		Vector<TransferAtributo> vectorDeTransfers = new Vector<TransferAtributo>();
-		TransferAtributo ta= new TransferAtributo();
-		TransferAtributo aux= new TransferAtributo();
+		TransferAtributo ta= new TransferAtributo(c);
+		TransferAtributo aux= new TransferAtributo(c);
 		// Obtenemos los atributos y los vamos anadiendo
 		NodeList lista=doc.getElementsByTagName("Attribute");
 		int numAtributos = lista.getLength(); //vemos cuantos atributoss hay en el XML
@@ -310,7 +312,7 @@ public class DAOAtributos{
 		// Creamos el transfer
 		/*TransferAtributo transfer = SingletonFactoriaTransfers
 				.obtenerInstancia().generaTransferAtributo();*/
-		TransferAtributo transfer = new TransferAtributo();
+		TransferAtributo transfer = new TransferAtributo(c);
 		transfer.setIdAtributo(id);
 		transfer.setNombre(nombre);
 		transfer.setCompuesto(compuesto);

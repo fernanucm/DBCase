@@ -145,7 +145,7 @@ public class GUI_AnadirAtributo extends Parent_GUI{
 	 * Oyentes de los botones
 	 */
 	private void botonAnadirActionPerformed(ActionEvent evt) {
-		TransferAtributo ta = new TransferAtributo();
+		TransferAtributo ta = new TransferAtributo(controlador);
 		ta.setNombre(this.cajaNombre.getText());
 		String tamano = "";
 		

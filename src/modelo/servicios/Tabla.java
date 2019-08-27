@@ -5,6 +5,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Vector;
 
+import controlador.Controlador;
 import modelo.conectorDBMS.ConectorDBMS;
 import modelo.conectorDBMS.FactoriaConectores;
 import modelo.transfers.TipoDominio;
@@ -42,11 +43,12 @@ public class Tabla {
 	 * foreigns[i][3] = nombre de tabla
 	 */
 	private Vector<String[]> foreigns;
-	private ArrayList<String>  constraints;
+	private ArrayList<String> constraints;
 	private Vector<String> uniques;
 	private int constraintNumber;
+	private Controlador c;
 	
-	public Tabla(String nombre, Vector restr){
+	public Tabla(String nombre, Vector restr, Controlador c){
 		nombreTabla=nombre;
 		atributos=new Vector<String[]>();
 		primaries=new Vector<String[]>();
@@ -54,6 +56,7 @@ public class Tabla {
 		uniques = new Vector<String>();
 		constraints = new ArrayList<String>();
 		constraintNumber = 0;
+		this.c = c;
 		setConstraints(restr);
 	}
 	
@@ -148,7 +151,7 @@ public class Tabla {
 	
 	public Tabla creaClonSinAmbiguedadNiEspacios(){
 		//Crea la tabla con el mismo nombre
-		Tabla t = new Tabla(ponGuionesBajos(this.nombreTabla), this.getConstraints());
+		Tabla t = new Tabla(ponGuionesBajos(this.nombreTabla), this.getConstraints(), this.c);
 		
 		//Anade todos los atributos
 		for (int i=0;i<atributos.size();i++){
@@ -242,14 +245,16 @@ public class Tabla {
 			if (i>0||j>0) mr+=", ";
 			String repe="";
 			if (this.estaRepe(definitivo.elementAt(j)[0], atributos) && nombreTabla != definitivo.elementAt(j)[2]) repe +=definitivo.elementAt(j)[2]+"_";
-			mr+=this.ponGuionesBajos(repe+definitivo.elementAt(j)[0]);
+			mr+=this.ponGuionesBajos(repe+definitivo.elementAt(j)[0]+asterisco(definitivo.elementAt(j)));
 		}	
 		mr+=")";
 		if(p)mr+="</p>";
 		return mr;
 	}
 	
-	
+	private String asterisco(String[] a) {
+		return c.isNullAttrs() && a[2]==nombreTabla && a[4]=="0"?"*":"";
+	}
 	public String getNombreTabla() {
 		return nombreTabla;
 	}
