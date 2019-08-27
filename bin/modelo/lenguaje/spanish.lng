@@ -62,6 +62,7 @@ name=Nombre
 type=Tipo
 values=Valores separados por comas
 accept=Ok
+nullableAttr=Indicar atributos posiblemente nulos
 
 #
 # "Selecting workspace" window

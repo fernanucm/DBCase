@@ -56,6 +56,7 @@ name=Name
 type=Type
 values=Values separated by commas
 accept=Ok
+nullableAttr=Mark Nullable Attributes
 
 #
 # "Selecting workspace" window

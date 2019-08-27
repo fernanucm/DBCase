@@ -528,6 +528,7 @@ public class Lenguaje {
 	public static final int BASED2P = 4335;
 	public static final int AUTHOR = 4336;
 	public static final int TABLES = 4337;
+	public static final int NULLATTR = 4338;
 		
 	// Mensaje por defecto
 	private static String notExistingMessage = "Asked message does not exist";
@@ -1146,6 +1147,7 @@ public class Lenguaje {
 		case BASED2P: texto = _textos.get("based2p"); break;
 		case AUTHOR: texto = _textos.get("author"); break;
 		case TABLES: texto = _textos.get("tables"); break;
+		case NULLATTR: texto = _textos.get("nullableAttr"); break;
 		default: texto = Lenguaje.notExistingMessage;
 		}
 		return corrigeCaracteres(texto);

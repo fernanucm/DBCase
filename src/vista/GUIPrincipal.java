@@ -160,8 +160,6 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	        	changeFont (child, font);
 	}
 	
-	
-	
 	private void initComponents() {
 		try{
 			this.setTitle(Lenguaje.text(Lenguaje.DBCASE));

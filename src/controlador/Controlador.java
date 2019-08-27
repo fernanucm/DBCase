@@ -108,6 +108,7 @@ public class Controlador {
 	private String path;
 	private Vector<TransferAtributo> listaAtributos;
 	private boolean cambios;
+	private boolean nullAttrs;
 	private File filetemp;
 	private File fileguardar;
 	private GUI_Pregunta panelOpciones;
@@ -251,12 +252,14 @@ public class Controlador {
         		}
         		String ruta = controlador.getFiletemp().getPath();
         		controlador.setPath(ruta);
+        		controlador.setNullAttrs(conf.obtenNullAttr());
         		
         		// Abrimos el documento guardado últimamente
         		File ultimo = new File(conf.obtenUltimoProyecto());
         		if (ultimo.exists()){
         			controlador.setFileguardar(ultimo);
         			controlador.setModoVista(conf.obtenModoVista());
+        			controlador.setNullAttrs(conf.obtenNullAttr());
         			String abrirPath =conf.obtenUltimoProyecto();
         			String tempPath =controlador.filetemp.getAbsolutePath();
         			FileCopy(abrirPath, tempPath);
@@ -1155,6 +1158,10 @@ public class Controlador {
 			}else guardarYSalir();
 			break;
 		}
+		case GUI_Principal_NULLATTR:{
+			nullAttrs = !nullAttrs;
+			break;
+		}
 		case GUI_Principal_Click_Imprimir:{
 			this.getTheGUIPrincipal().imprimir();break;
 		}
@@ -1322,8 +1329,6 @@ public class Controlador {
 			TransferConexion tc = (TransferConexion)datos;
 			this.getTheGuiSeleccionarConexion().setConexion(tc);
 			this.getTheGuiSeleccionarConexion().setActiva();
-			//this.getTheGUIConfigurarConexionDBMS().setConexion(tc);
-			//this.getTheGUIConfigurarConexionDBMS().setActiva();
 		}
 		default:break;
 		} // switch
@@ -3093,7 +3098,7 @@ public class Controlador {
 		ConfiguradorInicial conf = new ConfiguradorInicial(
 			Lenguaje.getIdiomaActual(),
 			this.getTheGUIPrincipal().getConexionActual().getRuta(),
-			ruta, theme.getThemeName(), this.getTheGUIPrincipal().getPanelsMode()
+			ruta, theme.getThemeName(), this.getTheGUIPrincipal().getPanelsMode(), nullAttrs
 		);
 		conf.guardarFicheroCofiguracion();
     }
@@ -3419,6 +3424,12 @@ public class Controlador {
 	}
 	private void setCambios(boolean b){
 		cambios=b;
+	}
+	public boolean isNullAttrs() {
+		return nullAttrs;
+	}
+	public void setNullAttrs(boolean nullAttrs) {
+		this.nullAttrs = nullAttrs;
 	}
 }
 

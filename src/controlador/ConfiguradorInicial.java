@@ -30,10 +30,15 @@ public class ConfiguradorInicial{
 	 * Tema por defecto
 	 */
 	protected String _tema;
+	
 	/**
-	 * Tema por defecto
+	 * Perspectiva por defecto
 	 */
 	protected int _modoVista;
+	/**
+	 * Perspectiva por defecto
+	 */
+	protected boolean _nullAttr;
 	/**
 	 * Gestor de bases de datos por defecto
 	 */
@@ -61,6 +66,7 @@ public class ConfiguradorInicial{
 		_ultimoProyecto = "";
 		_modoVista = 0;
 		_existe = false;
+		_nullAttr = false;
 		_conexiones = new Hashtable<String, TransferConexion>();
 		_conexiones.clear();
 	}
@@ -72,13 +78,14 @@ public class ConfiguradorInicial{
 	 * @param gestorBBDD Gestor de bases de datos por defecto
 	 * @param ultimoProy Último proyecto abierto
 	 */
-	public ConfiguradorInicial(String lenguaje, String gestorBBDD, String ultimoProy, String theme, int modoVista){
+	public ConfiguradorInicial(String lenguaje, String gestorBBDD, String ultimoProy, String theme, int modoVista, boolean nullAttr){
 		_modoVista = modoVista;
 		_tema = theme;
 		_lenguaje = lenguaje;
 		_gestorBBDD = gestorBBDD;
 		_ultimoProyecto = ultimoProy;
 		_existe = false;
+		_nullAttr = nullAttr;
 		
 		ConfiguradorInicial aux = new ConfiguradorInicial();
 		aux.leerFicheroConfiguracion();
@@ -119,7 +126,8 @@ public class ConfiguradorInicial{
 			out.write("database=\"" + _gestorBBDD + "\" ");
 			out.write("lastProject=\"" + _ultimoProyecto + "\" ");
 			out.write("theme=\"" + _tema + "\" ");
-			out.write("modoVista=\"" + _modoVista + "\"");
+			out.write("modoVista=\"" + _modoVista + "\" ");
+			out.write("nullAttr=\"" + _nullAttr + "\"");
 			out.write(" > \n");
 			
 			// Conexiones
@@ -173,7 +181,7 @@ public class ConfiguradorInicial{
 			_ultimoProyecto = atributos.getNamedItem("lastProject").getNodeValue();
 			_tema = atributos.getNamedItem("theme").getNodeValue();
 			_modoVista = Integer.parseInt(atributos.getNamedItem("modoVista").getNodeValue());
-			
+			_nullAttr = Boolean.parseBoolean(atributos.getNamedItem("nullAttr").getNodeValue());
 			// Obtener conexiones
 			NodeList connections = doc.getElementsByTagName("connection");
 			for (int i=0; i < connections.getLength(); i++){
@@ -229,6 +237,10 @@ public class ConfiguradorInicial{
 	
 	public int obtenModoVista(){
 		return _modoVista;
+	}
+	
+	public boolean obtenNullAttr(){
+		return _nullAttr;
 	}
 	
 	public String obtenGestorBBDD(){

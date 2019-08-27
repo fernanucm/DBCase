@@ -44,7 +44,8 @@ public class MyMenu extends JMenuBar{
 	private AbstractButton menuOpciones;
 	private JMenu menuLenguajes;
 	private Vector<JRadioButtonMenuItem> elementosMenuLenguajes;
-	private JMenu themeMenu;
+	private JRadioButtonMenuItem nullAttr;
+	private JMenu optionsMenu;
 	private JMenu menuAyuda;
 	private AbstractButton submenuAcercaDe;
 	private Theme theme;
@@ -161,13 +162,12 @@ public class MyMenu extends JMenuBar{
 		menuOpciones.setForeground(theme.fontColor());
 		menuOpciones.setFont(theme.font());
 		
-		
 	    //menuOpciones.add(iconosPerspectiva);
 		add(menuOpciones);
-		menuOpciones.setText(Lenguaje.text(Lenguaje.VIEW));
-		menuOpciones.setMnemonic(Lenguaje.text(Lenguaje.VIEW).charAt(0));
-		themeMenu = new JMenu();
-		themeMenu.setForeground(theme.fontColor());
+		menuOpciones.setText(Lenguaje.text(Lenguaje.OPTIONS));
+		menuOpciones.setMnemonic(Lenguaje.text(Lenguaje.OPTIONS).charAt(0));
+		optionsMenu = new JMenu();
+		optionsMenu.setForeground(theme.fontColor());
 		for(String s : this.theme.getAvaiableThemes()) {
 			JRadioButtonMenuItem item = new JRadioButtonMenuItem();
 			item.setText(s);
@@ -181,17 +181,17 @@ public class MyMenu extends JMenuBar{
 					c.mensajeDesde_GUIPrincipal(TC.GUI_Principal_CambiarTema, e.getActionCommand());
 					int i = 0;
 					for(String s : theme.getAvaiableThemes()) {
-						if(theme.getThemeName().equals(s))themeMenu.getItem(i).setSelected(true);
-						else themeMenu.getItem(i).setSelected(false);
+						if(theme.getThemeName().equals(s))optionsMenu.getItem(i).setSelected(true);
+						else optionsMenu.getItem(i).setSelected(false);
 						i++;
 					}
 				}
 			});
-			themeMenu.add(item);
+			optionsMenu.add(item);
 		}
-		themeMenu.setFont(theme.font());
-		menuOpciones.add(themeMenu);
-		themeMenu.setText(Lenguaje.text(Lenguaje.THEME));
+		optionsMenu.setFont(theme.font());
+		menuOpciones.add(optionsMenu);
+		optionsMenu.setText(Lenguaje.text(Lenguaje.THEME));
 		//Opciones/Lenguaje
 		menuLenguajes = new JMenu();
 		menuLenguajes.setForeground(theme.fontColor());
@@ -221,6 +221,17 @@ public class MyMenu extends JMenuBar{
 			menuLenguajes.add(lenguaje);
 			elementosMenuLenguajes.add(lenguaje);
 		}
+		nullAttr = new JRadioButtonMenuItem();
+		menuOpciones.add(nullAttr);
+		nullAttr.setText(Lenguaje.text(Lenguaje.NULLATTR));
+		nullAttr.setSelected(c.isNullAttrs());
+		nullAttr.setForeground(theme.fontColor());
+		nullAttr.setFont(theme.font());
+		nullAttr.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				c.mensajeDesde_GUIPrincipal(TC.GUI_Principal_NULLATTR, null);
+			}
+		});
 		//Ayuda
 		menuAyuda = new JMenu();
 		menuAyuda.setForeground(theme.fontColor());
