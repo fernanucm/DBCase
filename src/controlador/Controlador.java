@@ -1219,12 +1219,14 @@ public class Controlador {
 			theGUIWorkSpace = new GUI_SaveAs();
 			theGUIWorkSpace.setControlador(this);
 			this.getTheGUIWorkSpace().setActiva(2);
+			getTheGUIPrincipal().setTitle(getTitle());
 			break;
 		}
 		case GUI_Principal_Click_Submenu_GuardarComo:{
 			theGUIWorkSpace = new GUI_SaveAs();
 			theGUIWorkSpace.setControlador(this);
 			this.getTheGUIWorkSpace().setActiva(3);
+			getTheGUIPrincipal().setTitle(getTitle());
 			break;
 		}
 		case GUI_Principal_Click_Submenu_Nuevo:{
@@ -3124,15 +3126,12 @@ public class Controlador {
 	private void setListaAtributos(Vector datos) {
 		this.listaAtributos = datos;
 	}
-	
 	public GUI_AnadirAtributoEntidad getTheGUIAnadirAtributoEntidad() {
 		return theGUIAnadirAtributoEntidad;
 	}
-
 	public void setTheGUIAnadirAtributoEntidad(GUI_AnadirAtributoEntidad theGUIAnadirAtributoEntidad) {
 		this.theGUIAnadirAtributoEntidad = theGUIAnadirAtributoEntidad;
 	}
-	
 	public GUI_InsertarRestriccionAEntidad getTheGUIAnadirRestriccionAEntidad() {
 		return theGUIAnadirRestriccionAEntidad;
 	}
@@ -3142,278 +3141,195 @@ public class Controlador {
 	public GUI_InsertarRestriccionARelacion getTheGUIAnadirRestriccionARelacion() {
 		return theGUIAnadirRestriccionARelacion;
 	}
-
-	public void setTheGUIAnadirRestriccionAEntidad(
-			GUI_InsertarRestriccionAEntidad theGUIAnadirRestriccionAEntidad) {
+	public void setTheGUIAnadirRestriccionAEntidad(GUI_InsertarRestriccionAEntidad theGUIAnadirRestriccionAEntidad) {
 		this.theGUIAnadirRestriccionAEntidad = theGUIAnadirRestriccionAEntidad;
 	}
-
 	public GUI_AnadirAtributoRelacion getTheGUIAnadirAtributoRelacion() {
 		return theGUIAnadirAtributoRelacion;
 	}
-
 	public GUI_AnadirAtributo getTheGUIAnadirAtributo() {
 		return theGUIAnadirAtributo;
 	}
-	
-	public void setTheGUIAnadirAtributoRelacion(
-			GUI_AnadirAtributoRelacion theGUIAnadirAtributoRelacion) {
+	public void setTheGUIAnadirAtributoRelacion(GUI_AnadirAtributoRelacion theGUIAnadirAtributoRelacion) {
 		this.theGUIAnadirAtributoRelacion = theGUIAnadirAtributoRelacion;
 	}
-
 	public GUI_AnadirEntidadHija getTheGUIAnadirEntidadHija() {
 		return theGUIAnadirEntidadHija;
 	}
-
-	public void setTheGUIAnadirEntidadHija(
-			GUI_AnadirEntidadHija theGUIAnadirEntidadHija) {
+	public void setTheGUIAnadirEntidadHija(GUI_AnadirEntidadHija theGUIAnadirEntidadHija) {
 		this.theGUIAnadirEntidadHija = theGUIAnadirEntidadHija;
 	}
-
 	public GUI_AnadirSubAtributoAtributo getTheGUIAnadirSubAtributoAtributo() {
 		return theGUIAnadirSubAtributoAtributo;
 	}
-
-	public void setTheGUIAnadirSubAtributoAtributo(
-			GUI_AnadirSubAtributoAtributo theGUIAnadirSubAtributoAtributo) {
+	public void setTheGUIAnadirSubAtributoAtributo(GUI_AnadirSubAtributoAtributo theGUIAnadirSubAtributoAtributo) {
 		this.theGUIAnadirSubAtributoAtributo = theGUIAnadirSubAtributoAtributo;
 	}
-
 	public GUI_EditarDominioAtributo getTheGUIEditarDominioAtributo() {
 		return theGUIEditarDominioAtributo;
 	}
-
-	public void setTheGUIEditarDominioAtributo(
-			GUI_EditarDominioAtributo theGUIEditarDominioAtributo) {
+	public void setTheGUIEditarDominioAtributo(GUI_EditarDominioAtributo theGUIEditarDominioAtributo) {
 		this.theGUIEditarDominioAtributo = theGUIEditarDominioAtributo;
 	}
-
 	public GUI_EstablecerEntidadPadre getTheGUIEstablecerEntidadPadre() {
 		return theGUIEstablecerEntidadPadre;
 	}
-
-	public void setTheGUIEstablecerEntidadPadre(
-			GUI_EstablecerEntidadPadre theGUIEstablecerEntidadPadre) {
+	public void setTheGUIEstablecerEntidadPadre(GUI_EstablecerEntidadPadre theGUIEstablecerEntidadPadre) {
 		this.theGUIEstablecerEntidadPadre = theGUIEstablecerEntidadPadre;
 	}
-
 	public GUI_InsertarEntidad getTheGUIInsertarEntidad() {
 		return theGUIInsertarEntidad;
 	}
-
 	public void setTheGUIInsertarEntidad(GUI_InsertarEntidad theGUIInsertarEntidad) {
 		this.theGUIInsertarEntidad = theGUIInsertarEntidad;
 	}
-
 	public GUI_InsertarRelacion getTheGUIInsertarRelacion() {
 		return theGUIInsertarRelacion;
 	}
-
 	public GUI_InsertarDominio getTheGUIInsertarDominio() {
 		return theGUIInsertarDominio;
 	}
-	
-	public void setTheGUIInsertarRelacion(
-			GUI_InsertarRelacion theGUIInsertarRelacion) {
+	public void setTheGUIInsertarRelacion(GUI_InsertarRelacion theGUIInsertarRelacion) {
 		this.theGUIInsertarRelacion = theGUIInsertarRelacion;
 	}
-
 	public GUI_Conexion getTheGUIConfigurarConexionDBMS(){
 		return theGUIConexion;
 	}
-	
-	public void setTheGUIConfigurarConexionDBMS(
-							GUI_Conexion theGUIConexion){
+	public void setTheGUIConfigurarConexionDBMS(GUI_Conexion theGUIConexion){
 		this.theGUIConexion = theGUIConexion;
 	}
-	
 	public GUI_SeleccionarConexion getTheGuiSeleccionarConexion(){
 		return theGUISeleccionarConexion;
 	}
-	
-	public void setTheGuiSelecceionarConexion(
-					GUI_SeleccionarConexion selector){
+	public void setTheGuiSelecceionarConexion(GUI_SeleccionarConexion selector){
 		this.theGUISeleccionarConexion = selector;
 	}
-
 	public GUIPrincipal getTheGUIPrincipal() {
 		return theGUIPrincipal;
 	}
-
 	public void setTheGUIPrincipal(GUIPrincipal theGUIPrincipal) {
 		this.theGUIPrincipal = theGUIPrincipal;
 	}
-
 	public GUI_QuitarEntidadHija getTheGUIQuitarEntidadHija() {
 		return theGUIQuitarEntidadHija;
 	}
-
-	public void setTheGUIQuitarEntidadHija(
-			GUI_QuitarEntidadHija theGUIQuitarEntidadHija) {
+	public void setTheGUIQuitarEntidadHija(GUI_QuitarEntidadHija theGUIQuitarEntidadHija) {
 		this.theGUIQuitarEntidadHija = theGUIQuitarEntidadHija;
 	}
-
 	public GUI_QuitarEntidadPadre getTheGUIQuitarEntidadPadre() {
 		return theGUIQuitarEntidadPadre;
 	}
-
-	public void setTheGUIQuitarEntidadPadre(
-			GUI_QuitarEntidadPadre theGUIQuitarEntidadPadre) {
+	public void setTheGUIQuitarEntidadPadre(GUI_QuitarEntidadPadre theGUIQuitarEntidadPadre) {
 		this.theGUIQuitarEntidadPadre = theGUIQuitarEntidadPadre;
 	}
-
 	public GUI_RenombrarAtributo getTheGUIRenombrarAtributo() {
 		return theGUIRenombrarAtributo;
 	}
-
-	public void setTheGUIRenombrarAtributo(
-			GUI_RenombrarAtributo theGUIRenombrarAtributo) {
+	public void setTheGUIRenombrarAtributo(GUI_RenombrarAtributo theGUIRenombrarAtributo) {
 		this.theGUIRenombrarAtributo = theGUIRenombrarAtributo;
 	}
-
 	public GUI_RenombrarEntidad getTheGUIRenombrarEntidad() {
 		return theGUIRenombrarEntidad;
 	}
-
-	public void setTheGUIRenombrarEntidad(
-			GUI_RenombrarEntidad theGUIRenombrarEntidad) {
+	public void setTheGUIRenombrarEntidad(GUI_RenombrarEntidad theGUIRenombrarEntidad) {
 		this.theGUIRenombrarEntidad = theGUIRenombrarEntidad;
 	}
-
 	public GUI_RenombrarRelacion getTheGUIRenombrarRelacion() {
 		return theGUIRenombrarRelacion;
 	}
-
-	public void setTheGUIRenombrarRelacion(
-			GUI_RenombrarRelacion theGUIRenombrarRelacion) {
+	public void setTheGUIRenombrarRelacion(GUI_RenombrarRelacion theGUIRenombrarRelacion) {
 		this.theGUIRenombrarRelacion = theGUIRenombrarRelacion;
 	}
-	
 	public GUI_RenombrarDominio getTheGUIRenombrarDominio() {
 		return theGUIRenombrarDominio;
 	}
-	
-	public void setTheGUIRenombrarDominio(
-			GUI_RenombrarDominio theGUIRenombrarDominio) {
+	public void setTheGUIRenombrarDominio(GUI_RenombrarDominio theGUIRenombrarDominio) {
 		this.theGUIRenombrarDominio = theGUIRenombrarDominio;
 	}
-	
 	public GUI_ModificarDominio getTheGUIModificarElementosDominio() {
 		return theGUIModificarElementosDominio;
 	}
-	
-	public void setTheGUIModificarElementosDominio(
-			GUI_ModificarDominio theGUIModificarElementosDominio) {
+	public void setTheGUIModificarElementosDominio(GUI_ModificarDominio theGUIModificarElementosDominio) {
 		this.theGUIModificarElementosDominio = theGUIModificarElementosDominio;
 	}
-
 	public ServiciosAtributos getTheServiciosAtributos() {
 		return theServiciosAtributos;
 	}
-
 	public void setTheServiciosAtributos(ServiciosAtributos theServiciosAtributos) {
 		this.theServiciosAtributos = theServiciosAtributos;
 	}
-
 	public ServiciosEntidades getTheServiciosEntidades() {
 		return theServiciosEntidades;
 	}
-
 	public void setTheServiciosEntidades(ServiciosEntidades theServiciosEntidades) {
 		this.theServiciosEntidades = theServiciosEntidades;
 	}
-
 	public ServiciosRelaciones getTheServiciosRelaciones() {
 		return theServiciosRelaciones;
 	}
-
 	public void setTheServiciosRelaciones(ServiciosRelaciones theServiciosRelaciones) {
 		this.theServiciosRelaciones = theServiciosRelaciones;
 	}
-	
 	public ServiciosDominios getTheServiciosDominios() {
 		return theServiciosDominios;
 	}
-
 	public void setTheServiciosDominios(ServiciosDominios theServiciosDominios) {
 		this.theServiciosDominios = theServiciosDominios;
 	}
-	
 	public GUI_AnadirEntidadARelacion getTheGUIAnadirEntidadARelacion() {
 		return theGUIAnadirEntidadARelacion;
 	}
-
-	public void setTheGUIAnadirEntidadARelacion(
-			GUI_AnadirEntidadARelacion theGUIAnadirEntidadARelacion) {
+	public void setTheGUIAnadirEntidadARelacion(GUI_AnadirEntidadARelacion theGUIAnadirEntidadARelacion) {
 		this.theGUIAnadirEntidadARelacion = theGUIAnadirEntidadARelacion;
 	}
-
 	public GUI_QuitarEntidadARelacion getTheGUIQuitarEntidadARelacion() {
 		return theGUIQuitarEntidadARelacion;
 	}
-
-	public void setTheGUIQuitarEntidadARelacion(
-			GUI_QuitarEntidadARelacion theGUIQuitarEntidadARelacion) {
+	public void setTheGUIQuitarEntidadARelacion(GUI_QuitarEntidadARelacion theGUIQuitarEntidadARelacion) {
 		this.theGUIQuitarEntidadARelacion = theGUIQuitarEntidadARelacion;
 	}
-
 	public GUI_EditarCardinalidadEntidad getTheGUIEditarCardinalidadEntidad() {
 		return theGUIEditarCardinalidadEntidad;
 	}
-
-	public void setTheGUIEditarCardinalidadEntidad(
-			GUI_EditarCardinalidadEntidad theGUIEditarCardinalidadEntidad) {
+	public void setTheGUIEditarCardinalidadEntidad(GUI_EditarCardinalidadEntidad theGUIEditarCardinalidadEntidad) {
 		this.theGUIEditarCardinalidadEntidad = theGUIEditarCardinalidadEntidad;
 	}
-	
 	public GeneradorEsquema getTheServiciosSistema() {
 		return theServiciosSistema;
 	}
-
 	public void setTheServiciosSistema(GeneradorEsquema theServiciosSistema) {
 		this.theServiciosSistema = theServiciosSistema;
 	}
-
 	public GUI_SaveAs getTheGUIWorkSpace() {
 		return theGUIWorkSpace;
 	}
-
 	public void setTheGUIWorkSpace(GUI_SaveAs theGUIWorkSpace) {
 		this.theGUIWorkSpace = theGUIWorkSpace;
 	}
-
 	public String getPath() {
 		return path;
 	}
-
 	public void setPath(String path) {
 		this.path = path;
 	}
-	
 	public File getFiletemp(){
 		return filetemp;
 	}
-
 	public void setFiletemp(File temp){
 		this.filetemp = temp;
 	}
-	
 	public File getFileguardar(){
 		return fileguardar;
 	}
-
 	public void setFileguardar(File guardar){
 		this.fileguardar = guardar;
 	}
-	
 	public GUI_Pregunta getPanelOpciones(){
 		return this.panelOpciones;
 	}
-	
 	private GUI_TablaUniqueEntidad getTheGUITablaUniqueEntidad() {
 		return this.theGUITablaUniqueEntidad;
 	}
-	
 	private GUI_TablaUniqueRelacion getTheGUITablaUniqueRelacion() {
 		return this.theGUITablaUniqueRelacion;
 	}
@@ -3425,6 +3341,7 @@ public class Controlador {
 	}
 	private void setCambios(boolean b){
 		cambios=b;
+		getTheGUIPrincipal().setTitle(getTitle());
 	}
 	public boolean isNullAttrs() {
 		return nullAttrs;
@@ -3432,6 +3349,11 @@ public class Controlador {
 	public void setNullAttrs(boolean nullAttrs) {
 		this.nullAttrs = nullAttrs;
 	}
+	public String getTitle() {
+		try {
+			return Lenguaje.text(Lenguaje.DBCASE)+" - "+getFileguardar().getName() + (cambios?"*":"");
+		}catch(NullPointerException e) {
+			return Lenguaje.text(Lenguaje.DBCASE);
+		}
+	}
 }
-
-
