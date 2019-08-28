@@ -10,7 +10,6 @@ import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import javax.swing.JComponent;
-
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.util.Context;
 import edu.uci.ics.jung.graph.Graph;
@@ -101,7 +100,7 @@ public class VertexRenderer<V,E> implements Renderer.Vertex<V,E> {
         			paintShapeForVertex(rc, v, outer);
             	}
             }
-            if (vertexHit)  paintShapeForVertex(rc, v, shape);            
+            if (vertexHit) paintShapeForVertex(rc, v, shape);            
         }
     }
     
@@ -110,9 +109,7 @@ public class VertexRenderer<V,E> implements Renderer.Vertex<V,E> {
         Rectangle deviceRectangle = null;
         if(vv != null) {
             Dimension d = vv.getSize();
-            deviceRectangle = new Rectangle(
-                    0,0,
-                    d.width,d.height);            
+            deviceRectangle = new Rectangle(0,0,d.width,d.height);            
         }        
         return rc.getMultiLayerTransformer().getTransformer(Layer.VIEW).transform(s).intersects(deviceRectangle);
     }
@@ -123,9 +120,7 @@ public class VertexRenderer<V,E> implements Renderer.Vertex<V,E> {
         Paint oldPaint = g.getPaint();
         Rectangle r = shape.getBounds();
         float y2 = (float)r.getMaxY();
-        if(cyclic) {
-        	y2 = (float)(r.getMinY()+r.getHeight()/2);
-        }
+        if(cyclic) y2 = (float)(r.getMinY()+r.getHeight()/2);
         
         Paint fillPaint = null;
        	if (v instanceof TransferAtributo) fillPaint = new GradientPaint((float)r.getMinX(), (float)r.getMinY(), this.theme.attribute(),
@@ -143,15 +138,11 @@ public class VertexRenderer<V,E> implements Renderer.Vertex<V,E> {
         }
         
         Paint drawPaint = rc.getVertexDrawPaintTransformer().transform(v);
-        if(drawPaint != null) {
-            g.setPaint(drawPaint);
-        }
+        if(drawPaint != null) g.setPaint(drawPaint);
         
         Stroke oldStroke = g.getStroke();
         Stroke stroke = rc.getVertexStrokeTransformer().transform(v);
-        if(stroke != null) {
-            g.setStroke(stroke);
-        }
+        if(stroke != null) g.setStroke(stroke);
         //Color de los bordes de los elementos seleccionados
         g.setColor(this.theme.lines());
         g.draw(shape);

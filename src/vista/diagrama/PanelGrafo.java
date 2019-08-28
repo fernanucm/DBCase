@@ -246,7 +246,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 		vv.getRenderContext().setVertexStrokeTransformer(new Transformer<Transfer, Stroke>() {
 			@Override
 			public Stroke transform(Transfer arg0) {
-				return new BasicStroke(0f);
+				return new BasicStroke(1f);
 			}
 		});
 		vv.getRenderer().setEdgeRenderer(new CreaLineas<Transfer, Object>());
@@ -281,7 +281,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 						// Ancho del borde al seleccionar
 						for (Transfer t : ps.getPicked())
 							if (arg0.equals(t)) return new BasicStroke(3f);
-						return new BasicStroke(0f);// Ancho del borde por defecto
+						return new BasicStroke(1f);// Ancho del borde por defecto
 					}
 				});
 

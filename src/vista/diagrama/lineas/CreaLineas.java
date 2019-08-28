@@ -163,30 +163,26 @@ public class CreaLineas<V,E> implements Renderer.Edge<V, E> {
         //Si es linea de relacion a entidad
         else if(endpoints.getFirst() instanceof TransferRelacion && endpoints.getSecond() instanceof TransferEntidad){
         	EntidadYAridad ent = (EntidadYAridad)((TransferRelacion) endpoints.getFirst()).getEntidadYAridad(((TransferEntidad) endpoints.getSecond()).getIdEntidad());
-    		//cardinalidad 0 .. 1 || 1 .. 1
-    		if((ent.getPrincipioRango()==0 && ent.getFinalRango()==1)||(ent.getPrincipioRango()==1 && ent.getFinalRango()==1)){
+    		//cardinalidad N
+    		if(ent.getFinalRango() == Integer.MAX_VALUE){
     			Flecha miFlecha= new Flecha();
     			miFlecha.createArrow(yEnti,yIsA,xEnti,xIsA,false,anchoRect);
     			miFlecha.paintComponent(graf2d,xIsA,yIsA,xEnti,yEnti,false,anchoRect);
     		}
-    		//cardinalidad a .. b : a>=1
-    		else if(ent.getPrincipioRango()>=1)
-    			new DobleLinea(rc, e, graph, diagonal, thetaRadians, xIsA, yIsA, xEnti, yEnti, g);
-    		else new LineaRecta(rc, layout, e, nombre1, graph, diagonal, nombre2,  numApariciones, vuelta, thetaRadians, v1, v2, xIsA, yIsA, xEnti, yEnti, dx, dy, g);
+    		//cardinalidad a .. b
+    		else new DobleLinea(rc, e, graph, diagonal, thetaRadians, xIsA, yIsA, xEnti, yEnti, g);
     		diagonal=false;
         }
         else if(endpoints.getFirst() instanceof TransferEntidad && endpoints.getSecond() instanceof TransferRelacion){
         	EntidadYAridad ent = (EntidadYAridad)((TransferRelacion) endpoints.getSecond()).getEntidadYAridad(((TransferEntidad) endpoints.getFirst()).getIdEntidad());
-    		//cardinalidad 0 .. 1 || 1 .. 1
-    		if((ent.getPrincipioRango()==0 && ent.getFinalRango()==1)||(ent.getPrincipioRango()==1 && ent.getFinalRango()==1)){
+    		//cardinalidad N
+    		if(ent.getFinalRango() == Integer.MAX_VALUE){
     			Flecha miFlecha= new Flecha();
     			miFlecha.createArrow(yEnti,yIsA,xEnti,xIsA,false,anchoRect);
     			miFlecha.paintComponent(graf2d,xIsA,yIsA,xEnti,yEnti,false,anchoRect);
     		}
-    		//cardinalidad a .. b : a>=1
-    		else if(ent.getPrincipioRango()>=1)
-    			new DobleLinea(rc, e, graph, diagonal, thetaRadians, xIsA, yIsA, xEnti, yEnti, g);
-    		else new LineaRecta(rc, layout, e, nombre1, graph, diagonal, nombre2,  numApariciones, vuelta, thetaRadians, v1, v2, xIsA, yIsA, xEnti, yEnti, dx, dy, g);
+    		//cardinalidad a .. b
+    		else new DobleLinea(rc, e, graph, diagonal, thetaRadians, xIsA, yIsA, xEnti, yEnti, g);
     		diagonal=false;
         }
         //Para el resto se pinta siempre una arista normal no dirigida
