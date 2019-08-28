@@ -61,7 +61,7 @@ public class TransferEntidad extends Transfer{
 		if(p.getX()>0 && p.getX()<(100 + (ancho<8?0:2*ancho)+(((offsetAttr/8+1)*8)/8)*62.5) && offsetAttr%8>4)
 			offsetAttr = (offsetAttr/8+1)*8;
 		if(p.getY()>0 && p.getY()<(100+(offsetAttr/8)*62.5) && (offsetAttr%8==7 || offsetAttr%8<2))
-			offsetAttr = (offsetAttr/8+1)*8 + 2;
+			offsetAttr = (offsetAttr/8)*8 + 2;
 		
 		ancho = 120 + (ancho<8?0:2*ancho)+(offsetAttr/8)*75;
 		int alto = 80+(offsetAttr/8)*50;
