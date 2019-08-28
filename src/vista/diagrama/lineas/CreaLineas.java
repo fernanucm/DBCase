@@ -62,7 +62,6 @@ public class CreaLineas<V,E> implements Renderer.Edge<V, E> {
         	lista.add(par);
         	
         } //Fin del bucle
-        if(numApariciones==2)System.out.println(nom1 + " "+ nom2); 	
         if (!rc.getVertexIncludePredicate().evaluate(Context.<Graph<V,E>,V>getInstance(graph,v1)) || 
             !rc.getVertexIncludePredicate().evaluate(Context.<Graph<V,E>,V>getInstance(graph,v2)))
             return;
@@ -109,83 +108,86 @@ public class CreaLineas<V,E> implements Renderer.Edge<V, E> {
         float xIsA = (float) p1.getX();//Coordenada x de la IsA
        	float yIsA = (float) p1.getY();//Coordenada y de la IsA
        	float xEnti = (float) p2.getX();//Coordenada x de la entidad	        	        
-       	float yEnti= (float) p2.getY();//Coordenada y de la entidad
+       	float yEnti = (float) p2.getY();//Coordenada y de la entidad
        	
        	//Variables para calcular el centro desde donde se pinta la arista, y la inclinación
        	float dx = 0, dy = 0, thetaRadians = 0;
         boolean diagonal=false;
-       
-       	//Si la relacion es IsA en lugar de una arista normal se pintará una flecha	
-        if((endpoints.getFirst() instanceof TransferRelacion) && 
-        		(((TransferRelacion)endpoints.getFirst()).getTipo().equals("IsA")) ){
-	         
-        		TransferRelacion rela =(TransferRelacion)endpoints.getFirst();
-        		EntidadYAridad padre = (EntidadYAridad)rela.getListaEntidadesYAridades().get(0);
-        		int idPadre =padre.getEntidad();        		
-        		TransferEntidad enti =(TransferEntidad)endpoints.getSecond();
-        		//Flecha del padre a la relación IsA
-        		if(enti.getIdEntidad()==idPadre){
-        			Flecha miFlecha= new Flecha();
-        			miFlecha.createArrow(yEnti,yIsA,xEnti,xIsA,true,anchoRect);
-        			miFlecha.paintComponent(graf2d,xIsA,yIsA,xEnti,yEnti,true,anchoRect);
-        		}
-        		//Flecha de la relación IsA al hijo
-        		else{
-        			anchoRect = enti.getNombre().length();
-        			Flecha miFlecha= new Flecha();
-        			miFlecha.createArrow(yEnti,yIsA,xEnti,xIsA,false,anchoRect);
-        			miFlecha.paintComponent(graf2d,xIsA,yIsA,xEnti,yEnti,false,anchoRect);
-        		}
-	        diagonal= false;
-        }
-        //Si la relacion es IsA en lugar de una arista normal se pintará una flecha
-        else if((endpoints.getSecond() instanceof TransferRelacion) && 
-        		(((TransferRelacion)endpoints.getSecond()).getTipo().equals("IsA")) ){	        
-        	TransferRelacion rela =(TransferRelacion)endpoints.getSecond();
-    		EntidadYAridad padre = (EntidadYAridad)rela.getListaEntidadesYAridades().get(0);
-    		int idPadre =padre.getEntidad();
-    		TransferEntidad enti =(TransferEntidad)endpoints.getFirst();
-    		//Flecha del padre a la relación IsA
-    		if(enti.getIdEntidad()==idPadre){
-    			Flecha miFlecha= new Flecha();
-    			miFlecha.createArrow(yEnti,yIsA,xEnti,xIsA,true,anchoRect);
-    			miFlecha.paintComponent(graf2d,xIsA,yIsA,xEnti,yEnti,true,anchoRect);
-    		}
-    		//Flecha de la relación IsA al hijo
-    		else{
-    			anchoRect = enti.getNombre().length();
-    			Flecha miFlecha= new Flecha();
-    			miFlecha.createArrow(yIsA,yEnti,xIsA,xEnti,false,anchoRect);
-    			miFlecha.paintComponent(graf2d,xIsA,yIsA,xEnti,yEnti,false,anchoRect);
-    		}
-    		diagonal=false;
-        }
-        //Si es linea de relacion a entidad
-        else if(endpoints.getFirst() instanceof TransferRelacion && endpoints.getSecond() instanceof TransferEntidad){
-        	EntidadYAridad ent = (EntidadYAridad)((TransferRelacion) endpoints.getFirst()).getEntidadYAridad(((TransferEntidad) endpoints.getSecond()).getIdEntidad());
-    		//cardinalidad N
-    		if(ent.getFinalRango() == Integer.MAX_VALUE){
-    			Flecha miFlecha= new Flecha();
-    			miFlecha.createArrow(yEnti,yIsA,xEnti,xIsA,false,anchoRect);
-    			miFlecha.paintComponent(graf2d,xIsA,yIsA,xEnti,yEnti,false,anchoRect);
-    		}
-    		//cardinalidad a .. b
-    		else new DobleLinea(rc, e, graph, diagonal, thetaRadians, xIsA, yIsA, xEnti, yEnti, g);
-    		diagonal=false;
-        }
-        else if(endpoints.getFirst() instanceof TransferEntidad && endpoints.getSecond() instanceof TransferRelacion){
-        	EntidadYAridad ent = (EntidadYAridad)((TransferRelacion) endpoints.getSecond()).getEntidadYAridad(((TransferEntidad) endpoints.getFirst()).getIdEntidad());
-    		//cardinalidad N
-    		if(ent.getFinalRango() == Integer.MAX_VALUE){
-    			Flecha miFlecha= new Flecha();
-    			miFlecha.createArrow(yEnti,yIsA,xEnti,xIsA,false,anchoRect);
-    			miFlecha.paintComponent(graf2d,xIsA,yIsA,xEnti,yEnti,false,anchoRect);
-    		}
-    		//cardinalidad a .. b
-    		else new DobleLinea(rc, e, graph, diagonal, thetaRadians, xIsA, yIsA, xEnti, yEnti, g);
-    		diagonal=false;
-        }
-        //Para el resto se pinta siempre una arista normal no dirigida
-        else new LineaRecta(rc, layout, e, nombre1, graph, diagonal, nombre2, numApariciones, vuelta, thetaRadians, v1, v2, xIsA, yIsA, xEnti, yEnti, dx, dy, g);
-    }
+        if(numApariciones > 1) //Para el resto se pinta siempre una arista normal no dirigida
+            new LineaRecta(rc, layout, e, nombre1, graph, diagonal, nombre2, numApariciones, vuelta, thetaRadians, v1, v2, xIsA, yIsA, xEnti, yEnti, dx, dy, g);
+        else {
+	       	//Si la relacion es IsA en lugar de una arista normal se pintará una flecha	
+	        if((endpoints.getFirst() instanceof TransferRelacion) && 
+	        		(((TransferRelacion)endpoints.getFirst()).getTipo().equals("IsA"))){
+		         
+	        		TransferRelacion rela =(TransferRelacion)endpoints.getFirst();
+	        		EntidadYAridad padre = (EntidadYAridad)rela.getListaEntidadesYAridades().get(0);
+	        		int idPadre =padre.getEntidad();        		
+	        		TransferEntidad enti =(TransferEntidad)endpoints.getSecond();
+	        		//Flecha del padre a la relación IsA
+	        		if(enti.getIdEntidad()==idPadre){
+	        			Flecha miFlecha= new Flecha();
+	        			miFlecha.createArrow(yEnti,yIsA,xEnti,xIsA,true,anchoRect);
+	        			miFlecha.paintComponent(graf2d,xIsA,yIsA,xEnti,yEnti,true,anchoRect);
+	        		}
+	        		//Flecha de la relación IsA al hijo
+	        		else{
+	        			anchoRect = enti.getNombre().length();
+	        			Flecha miFlecha= new Flecha();
+	        			miFlecha.createArrow(yEnti,yIsA,xEnti,xIsA,false,anchoRect);
+	        			miFlecha.paintComponent(graf2d,xIsA,yIsA,xEnti,yEnti,false,anchoRect);
+	        		}
+		        diagonal= false;
+	        }
+	        //Si la relacion es IsA en lugar de una arista normal se pintará una flecha
+	        else if((endpoints.getSecond() instanceof TransferRelacion) && 
+	        		(((TransferRelacion)endpoints.getSecond()).getTipo().equals("IsA"))){	        
+	        	TransferRelacion rela =(TransferRelacion)endpoints.getSecond();
+	    		EntidadYAridad padre = (EntidadYAridad)rela.getListaEntidadesYAridades().get(0);
+	    		int idPadre =padre.getEntidad();
+	    		TransferEntidad enti =(TransferEntidad)endpoints.getFirst();
+	    		//Flecha del padre a la relación IsA
+	    		if(enti.getIdEntidad()==idPadre){
+	    			Flecha miFlecha= new Flecha();
+	    			miFlecha.createArrow(yEnti,yIsA,xEnti,xIsA,true,anchoRect);
+	    			miFlecha.paintComponent(graf2d,xIsA,yIsA,xEnti,yEnti,true,anchoRect);
+	    		}
+	    		//Flecha de la relación IsA al hijo
+	    		else{
+	    			anchoRect = enti.getNombre().length();
+	    			Flecha miFlecha= new Flecha();
+	    			miFlecha.createArrow(yIsA,yEnti,xIsA,xEnti,false,anchoRect);
+	    			miFlecha.paintComponent(graf2d,xIsA,yIsA,xEnti,yEnti,false,anchoRect);
+	    		}
+	    		diagonal=false;
+	        }
+	        //Si es linea de relacion a entidad
+	        else if(endpoints.getFirst() instanceof TransferRelacion && endpoints.getSecond() instanceof TransferEntidad){
+	        	EntidadYAridad ent = (EntidadYAridad)((TransferRelacion) endpoints.getFirst()).getEntidadYAridad(((TransferEntidad) endpoints.getSecond()).getIdEntidad());
+	    		//cardinalidad N
+	    		if(ent.getFinalRango() == Integer.MAX_VALUE){
+	    			Flecha miFlecha= new Flecha();
+	    			miFlecha.createArrow(yEnti,yIsA,xEnti,xIsA,false,anchoRect);
+	    			miFlecha.paintComponent(graf2d,xIsA,yIsA,xEnti,yEnti,false,anchoRect);
+	    		}
+	    		//cardinalidad a .. b
+	    		else new DobleLinea(rc, e, graph, diagonal, thetaRadians, xIsA, yIsA, xEnti, yEnti, g);
+	    		diagonal=false;
+	        }
+	        else if(endpoints.getFirst() instanceof TransferEntidad && endpoints.getSecond() instanceof TransferRelacion){
+	        	EntidadYAridad ent = (EntidadYAridad)((TransferRelacion) endpoints.getSecond()).getEntidadYAridad(((TransferEntidad) endpoints.getFirst()).getIdEntidad());
+	    		//cardinalidad N
+	    		if(ent.getFinalRango() == Integer.MAX_VALUE){
+	    			Flecha miFlecha= new Flecha();
+	    			miFlecha.createArrow(yEnti,yIsA,xEnti,xIsA,false,anchoRect);
+	    			miFlecha.paintComponent(graf2d,xIsA,yIsA,xEnti,yEnti,false,anchoRect);
+	    		}
+	    		//cardinalidad a .. b
+	    		else new DobleLinea(rc, e, graph, diagonal, thetaRadians, xIsA, yIsA, xEnti, yEnti, g);
+	    		diagonal=false;
+	        }
+	        else //Para el resto se pinta siempre una arista normal no dirigida
+	            new LineaRecta(rc, layout, e, nombre1, graph, diagonal, nombre2, numApariciones, vuelta, thetaRadians, v1, v2, xIsA, yIsA, xEnti, yEnti, dx, dy, g);
+		}
+	}
 }

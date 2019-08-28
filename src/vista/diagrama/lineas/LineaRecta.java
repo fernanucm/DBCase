@@ -84,7 +84,7 @@ public class LineaRecta<V,E> {
         }    
         
         //Dependiendo de la situación relativa entre la 
-       AffineTransform xform = null;
+        AffineTransform xform = null;
        
         //Si no hay que ajustar las líneas de los roles para que se vean correctamente
         if (numApariciones > 1){
@@ -230,7 +230,7 @@ public class LineaRecta<V,E> {
         if(vt instanceof LensTransformer) {
         	vt = ((LensTransformer)vt).getDelegate();
         }
-        edgeHit = vt.transform(edgeShape).intersects(deviceRectangle);	
+        edgeHit = vt.transform(edgeShape).intersects(deviceRectangle);
         if(edgeHit == true) {	            
             Paint oldPaint = g.getPaint();
             
@@ -280,8 +280,7 @@ public class LineaRecta<V,E> {
                     g.draw(arrow);
                 }
                 if (graph.getEdgeType(e) == EdgeType.UNDIRECTED) {
-                    Shape vertexShape = 
-                        rc.getVertexShapeTransformer().transform(graph.getEndpoints(e).getFirst());
+                    Shape vertexShape = rc.getVertexShapeTransformer().transform(graph.getEndpoints(e).getFirst());
                     xf = AffineTransform.getTranslateInstance(xIsA, yIsA);
                     vertexShape = xf.createTransformedShape(vertexShape);
                     
