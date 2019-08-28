@@ -551,7 +551,7 @@ public class ServiciosEntidades {
 	
 	public boolean tieneAtributo(TransferEntidad te, TransferAtributo ta){
 		for (int i=0; i<te.getListaAtributos().size(); i++){
-			if(Integer.parseInt(((TransferAtributo) te.getListaAtributos().get(i)).getNombre())==ta.getIdAtributo())
+			if(Integer.parseInt((String) te.getListaAtributos().get(i))==ta.getIdAtributo())
 				return true;
 		}
 		return false;
