@@ -96,7 +96,8 @@ public class Tabla {
 	public void aniadeListaAtributos(Vector<String[]> listado, Vector<String> rest, Hashtable<Integer,Enumerado> dominios){
 		for (int i=0;i<listado.size();i++){
 			String[] trio = listado.elementAt(i);
-			if (trio.length < 4) aniadeAtributo(trio[0], trio[1], trio[2], dominios, rest, false, false);
+			if (trio.length < 4) 
+				aniadeAtributo(trio[0], trio[1], trio[2], dominios, rest, false, false);
 			else aniadeAtributo(trio[0], trio[1], trio[2], dominios,rest, trio[3].equalsIgnoreCase("1"), trio[4].equalsIgnoreCase("1"));
 		}
 	}
@@ -253,7 +254,7 @@ public class Tabla {
 	}
 	
 	private String asterisco(String[] a) {
-		return c.isNullAttrs() && a[2]==nombreTabla && a[4]=="0"?"*":"";
+		return c.isNullAttrs() && a[4]=="0"?"*":"";
 	}
 	public String getNombreTabla() {
 		return nombreTabla;

@@ -295,7 +295,7 @@ public class EtiquetaSobreLinea<V,E> extends edu.uci.ics.jung.visualization.rend
         			offset = (int) (rc.getParallelEdgeIndexFunction().getIndex(graph, e)*(incrementoX))+5;
         		}
         	}
-        }
+        }else offset= -18;
         double parallelOffset = 1;
         parallelOffset += rc.getParallelEdgeIndexFunction().getIndex(graph, e);
         if(edgeShape instanceof Ellipse2D) {

@@ -165,7 +165,7 @@ public class CreaLineas<V,E> implements Renderer.Edge<V, E> {
 	        else if(endpoints.getFirst() instanceof TransferRelacion && endpoints.getSecond() instanceof TransferEntidad){
 	        	EntidadYAridad ent = (EntidadYAridad)((TransferRelacion) endpoints.getFirst()).getEntidadYAridad(((TransferEntidad) endpoints.getSecond()).getIdEntidad());
 	    		//cardinalidad N
-	    		if(ent.getFinalRango() == Integer.MAX_VALUE){
+	    		if(ent.getFinalRango() == Integer.MAX_VALUE && ent.getPrincipioRango() == 0){
 	    			Flecha miFlecha= new Flecha();
 	    			miFlecha.createArrow(yEnti,yIsA,xEnti,xIsA,false,anchoRect);
 	    			miFlecha.paintComponent(graf2d,xIsA,yIsA,xEnti,yEnti,false,anchoRect);
@@ -177,7 +177,7 @@ public class CreaLineas<V,E> implements Renderer.Edge<V, E> {
 	        else if(endpoints.getFirst() instanceof TransferEntidad && endpoints.getSecond() instanceof TransferRelacion){
 	        	EntidadYAridad ent = (EntidadYAridad)((TransferRelacion) endpoints.getSecond()).getEntidadYAridad(((TransferEntidad) endpoints.getFirst()).getIdEntidad());
 	    		//cardinalidad N
-	    		if(ent.getFinalRango() == Integer.MAX_VALUE){
+	    		if(ent.getFinalRango() == Integer.MAX_VALUE && ent.getPrincipioRango() == 0){
 	    			Flecha miFlecha= new Flecha();
 	    			miFlecha.createArrow(yEnti,yIsA,xEnti,xIsA,false,anchoRect);
 	    			miFlecha.paintComponent(graf2d,xIsA,yIsA,xEnti,yEnti,false,anchoRect);

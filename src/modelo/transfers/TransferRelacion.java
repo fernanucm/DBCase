@@ -168,27 +168,22 @@ public class TransferRelacion extends Transfer {
 		figura.addPoint(0, altura);
 		return figura;
 	}
-
+	
 	public int getIdRelacion() {
 		return idRelacion;
 	}
-
 	public void setIdRelacion(int idRelacion) {
 		this.idRelacion = idRelacion;
 	}
-
 	public Vector getListaAtributos() {
 		return listaAtributos;
 	}
-
 	public void setListaAtributos(Vector listaAtributos) {
 		this.listaAtributos = listaAtributos;
 	}
-
 	public Vector getListaEntidadesYAridades() {
 		return listaEntidadesYAridades;
 	}
-
 	public void setListaEntidadesYAridades(Vector listaEntidadesYAridades) {
 		this.listaEntidadesYAridades = listaEntidadesYAridades;
 	}
@@ -214,51 +209,39 @@ public class TransferRelacion extends Transfer {
 	public Point2D getPosicion() {
 		return posicion;
 	}
-
 	public void setPosicion(Point2D posicion) {
 		this.posicion = posicion;
 	}
-
 	public String getTipo() {
 		return tipo;
 	}
-
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-	
 	public Vector getListaRestricciones() {
 		return listaRestricciones;
 	}
-	
 	public void setListaRestricciones(Vector listaRestricciones) {
 		this.listaRestricciones = listaRestricciones;
 	}
-	
 	public Vector getListaUniques() {
 		return listaUniques;
 	}
-	
 	public void setListaUniques(Vector listaUniques) {
 		this.listaUniques = listaUniques;
 	}
-
 	public int getVolumen() {
 		return volumen;
 	}
-
 	public void setVolumen(int volumen) {
 		this.volumen = volumen;
 	}
-
 	public int getFrecuencia() {
 		return frecuencia;
 	}
-
 	public void setFrecuencia(int frecuencia) {
 		this.frecuencia = frecuencia;
 	}
-
 	public EntidadYAridad getEntidadYAridad(int idEntidad) {
 		for(int i=0;i<listaEntidadesYAridades.size();i++)
     		if(((EntidadYAridad) listaEntidadesYAridades.get(i)).getEntidad() == idEntidad)

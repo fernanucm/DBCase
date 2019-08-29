@@ -164,7 +164,9 @@ public class GeneradorEsquema {
 					String[] referenciadas = new String[previasPrimarias.size()];
 					
 					for (int q=0; q<previasPrimarias.size(); q++){
-						String[] clave = new String[3];
+						String[] clave = new String[5];
+						clave[3]="0";
+						clave[4]=eya.getPrincipioRango()==0?"0":"1";
 						if (!eya.getRol().equals("")) clave[0] = eya.getRol() + "_" + previasPrimarias.get(q)[0];
 						else clave[0] = previasPrimarias.get(q)[0];
 						clave[1] = previasPrimarias.get(q)[1];
@@ -176,7 +178,7 @@ public class GeneradorEsquema {
 					tabla.aniadeListaAtributos(primarias, tr.getListaRestricciones(), tiposEnumerados);
 					tabla.aniadeListaClavesForaneas(primarias, ent.getNombreTabla(), referenciadas);
 					
-					// Si es 0..n poner como clave
+					// Si es 0..1 o 1..1 poner como clave
 					if (eya.getFinalRango() == 1) tabla.aniadeListaClavesPrimarias(primarias);
 					else{
 						if (soloHayUnos && esLaPrimeraDel1a1){
@@ -231,17 +233,13 @@ public class GeneradorEsquema {
 					EntidadYAridad hija = veya.elementAt(e);
 					// aniadimos la informacion de clave a las tablas hijas,
 					// buscandolas en el sistema.
-					tablasEntidades.get(hija.getEntidad()).aniadeListaAtributos(
-							tablasEntidades.get(padre.getEntidad())
+					tablasEntidades.get(hija.getEntidad()).aniadeListaAtributos(tablasEntidades.get(padre.getEntidad())
 									.getPrimaries(), tr.getListaRestricciones(), tiposEnumerados);
 					
-					tablasEntidades.get(hija.getEntidad())
-							.aniadeListaClavesPrimarias(
-									tablasEntidades.get(padre.getEntidad())
-											.getPrimaries());
+					tablasEntidades.get(hija.getEntidad()).aniadeListaClavesPrimarias(
+									tablasEntidades.get(padre.getEntidad()).getPrimaries());
 					
-					Vector<String[]> clavesPadre = tablasEntidades.get(padre.getEntidad()).
-																			getPrimaries();
+					Vector<String[]> clavesPadre = tablasEntidades.get(padre.getEntidad()).getPrimaries();
 					String[] referenciadas = new String[clavesPadre.size()];
 					for (int q=0; q<clavesPadre.size(); q++){
 						referenciadas[q] = clavesPadre.get(q)[0];
@@ -249,11 +247,8 @@ public class GeneradorEsquema {
 					
 					tablasEntidades.get(hija.getEntidad())
 					.aniadeListaClavesForaneas(
-							tablasEntidades.get(padre.getEntidad())
-									.getPrimaries(), 
-							tablasEntidades.get(padre.getEntidad())
-									.getNombreTabla(),
-							referenciadas);
+							tablasEntidades.get(padre.getEntidad()).getPrimaries(), 
+							tablasEntidades.get(padre.getEntidad()).getNombreTabla(),referenciadas);
 				}
 
 			}
@@ -368,7 +363,7 @@ public class GeneradorEsquema {
 		// Si ya se ha generado el Script
 		JFileChooser jfc = new JFileChooser();
 		jfc.setDialogTitle(Lenguaje.text(Lenguaje.DBCASE));
-		
+		jfc.setCurrentDirectory(new File(System.getProperty("user.dir")+"/projects"));
 		jfc.setFileFilter(new FileNameExtensionFilter("Text", "txt"));
 		if(sql)jfc.setFileFilter(new FileNameExtensionFilter(Lenguaje.text(Lenguaje.SQL_FILES), "sql"));
 		int resul = jfc.showSaveDialog(null);
