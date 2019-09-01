@@ -7,9 +7,11 @@
             <AttribList>
                 <Attrib>2</Attrib>
                 <Attrib>3</Attrib>
+                <Attrib>15</Attrib>
             </AttribList>
             <PrimaryKeyList>
                 <PrimaryKey>2</PrimaryKey>
+                <PrimaryKey>15</PrimaryKey>
             </PrimaryKeyList>
             <AssertionList>
                 <Assertion>a&lt;42</Assertion>
@@ -140,7 +142,7 @@
             <Position>315,582</Position>
         </Relation>
     </RelationList>
-    <AttributeList proximoID="15">
+    <AttributeList proximoID="16">
         <Attribute AttributeId="1">
             <Name>a</Name>
             <Dom>VARCHAR(10)</Dom>
@@ -297,6 +299,17 @@
             <Multivalued>false</Multivalued>
             <AssertionList/>
             <Position>691,76</Position>
+        </Attribute>
+        <Attribute AttributeId="15">
+            <Name>drd</Name>
+            <Dom>VARCHAR(10)</Dom>
+            <Composed>false</Composed>
+            <NotNull>false</NotNull>
+            <Unique>false</Unique>
+            <ComponentList/>
+            <Multivalued>false</Multivalued>
+            <AssertionList/>
+            <Position>167,404</Position>
         </Attribute>
     </AttributeList>
     <DomainList proximoID="2">

@@ -48,7 +48,7 @@ public class LineaRecta<V,E> {
         float xCentro;
        	float yCentro;
        	float xNoCentro;
-       	float yNoCentro;	       	
+       	float yNoCentro;
        	
        	int alto = 0,anchoNoCentro=0, altoNoCentro=0;
         //Calculo el ancho mínimo entre la relación y la entidad.
@@ -60,7 +60,6 @@ public class LineaRecta<V,E> {
 		yNoCentro = yEnti;
         if(ancho == nombre1.length()) anchoNoCentro = nombre2.length();
         else anchoNoCentro=nombre2.length();
-       	
         
         //Si el ancho  es menor que 8 la figura tiene un tamaño fijo
         if(ancho < 8){
@@ -227,9 +226,7 @@ public class LineaRecta<V,E> {
         edgeShape = xform.createTransformedShape(edgeShape);
         
         MutableTransformer vt = rc.getMultiLayerTransformer().getTransformer(Layer.VIEW);
-        if(vt instanceof LensTransformer) {
-        	vt = ((LensTransformer)vt).getDelegate();
-        }
+        if(vt instanceof LensTransformer) vt = ((LensTransformer)vt).getDelegate();
         edgeHit = vt.transform(edgeShape).intersects(deviceRectangle);
         if(edgeHit == true) {	            
             Paint oldPaint = g.getPaint();
@@ -262,15 +259,13 @@ public class LineaRecta<V,E> {
                 if (new_stroke != null)
                     g.setStroke(new_stroke);	
                 
-                Shape destVertexShape = 
-                    rc.getVertexShapeTransformer().transform(graph.getEndpoints(e).getSecond());
+                Shape destVertexShape = rc.getVertexShapeTransformer().transform(graph.getEndpoints(e).getSecond());
 
                 AffineTransform xf = AffineTransform.getTranslateInstance(xEnti, yEnti);
                 destVertexShape = xf.createTransformedShape(destVertexShape);                
                 arrowHit = rc.getMultiLayerTransformer().getTransformer(Layer.VIEW).transform(destVertexShape).intersects(deviceRectangle);
                 if(arrowHit) {                    
-                    AffineTransform at = 
-                        getArrowTransform(rc, new GeneralPath(edgeShape), destVertexShape);
+                    AffineTransform at = getArrowTransform(rc, new GeneralPath(edgeShape), destVertexShape);
                     if(at == null) return;
                     Shape arrow = rc.getEdgeArrowTransformer().transform(Context.<Graph<V,E>,E>getInstance(graph, e));
                     arrow = at.createTransformedShape(arrow);
