@@ -1,5 +1,7 @@
 package modelo.servicios;
 
+import modelo.lenguaje.Lenguaje;
+
 public class restriccionPerdida {
 
 	private String relacion;
@@ -48,7 +50,7 @@ public class restriccionPerdida {
 			String s = "<p> ";
 			switch(tipo) {
 			case TOTAL:
-				s += entidad + " -> " + relacion;
+				s += entidad + " -> " + relacion + descTotal();
 				break;
 			case CANDIDATA:
 				s+= clave + " es una clave candidata de la relacion ";
@@ -62,5 +64,17 @@ public class restriccionPerdida {
 			}
 			s += "</p>";
 			return s;
+	}
+	private String descTotal() {
+		String res=" ";
+		boolean c = false;
+		if(card[0]==1) res+=Lenguaje.text(Lenguaje.PART_TOTAL);
+		else if(card[0]>1 && card[0]<Integer.MAX_VALUE) {
+			res+=res.equals(" ") ? (Lenguaje.text(Lenguaje.CARDMINDE) + card[0]) : (Lenguaje.text(Lenguaje.YCARDMINDE) + card[0]);
+			c=true;
+		}
+		if(card[1]>1 && card[1]<Integer.MAX_VALUE)
+			res+=res.equals(" ") ? (Lenguaje.text(Lenguaje.CARDMAXDE) + card[1]) : (c?Lenguaje.text(Lenguaje.YMAXDE)+ card[1] :Lenguaje.text(Lenguaje.YCARDMAXDE) + card[1]);
+		return res+=Lenguaje.text(Lenguaje.OF) + entidad.split("\\(")[0] + Lenguaje.text(Lenguaje.FOR) + relacion.split("\\(")[0];
 	}
 }

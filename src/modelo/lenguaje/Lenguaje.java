@@ -529,6 +529,14 @@ public class Lenguaje {
 	public static final int AUTHOR = 4336;
 	public static final int TABLES = 4337;
 	public static final int NULLATTR = 4338;
+	public static final int PART_TOTAL = 4339;
+	public static final int CARDMINDE = 4340;
+	public static final int YCARDMINDE = 4341;
+	public static final int CARDMAXDE = 4342;
+	public static final int YCARDMAXDE = 4343;
+	public static final int YMAXDE = 4344;
+	public static final int OF = 4345;
+	public static final int FOR = 4346;
 		
 	// Mensaje por defecto
 	private static String notExistingMessage = "Asked message does not exist";
@@ -1148,6 +1156,14 @@ public class Lenguaje {
 		case AUTHOR: texto = _textos.get("author"); break;
 		case TABLES: texto = _textos.get("tables"); break;
 		case NULLATTR: texto = _textos.get("nullableAttr"); break;
+		case PART_TOTAL: texto = _textos.get("partTotal"); break;
+		case CARDMINDE: texto = _textos.get("cardMinde"); break;
+		case YCARDMINDE: texto = _textos.get("yCardMinde"); break;
+		case CARDMAXDE: texto = _textos.get("cardMaxde"); break;
+		case YCARDMAXDE: texto = _textos.get("yCardMaxde"); break;
+		case YMAXDE: texto = _textos.get("yMaxde"); break;
+		case OF: texto = _textos.get("of"); break;
+		case FOR: texto = _textos.get("for"); break;
 		default: texto = Lenguaje.notExistingMessage;
 		}
 		return corrigeCaracteres(texto);

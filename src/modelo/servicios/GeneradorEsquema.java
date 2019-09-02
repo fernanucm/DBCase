@@ -179,7 +179,7 @@ public class GeneradorEsquema {
 					tabla.aniadeListaClavesForaneas(primarias, ent.getNombreTabla(), referenciadas);
 					
 					// Si es 0..1 o 1..1 poner como clave
-					if (eya.getFinalRango() == 1) tabla.aniadeListaClavesPrimarias(primarias);
+					if (eya.getFinalRango() == 1 || eya.getFinalRango() == Integer.MAX_VALUE) tabla.aniadeListaClavesPrimarias(primarias);
 					else{
 						if (soloHayUnos && esLaPrimeraDel1a1){
 							tabla.aniadeListaClavesPrimarias(primarias);
@@ -200,14 +200,12 @@ public class GeneradorEsquema {
 								restriccionesPerdidas.add(
 										new restriccionPerdida(ent.getNombreTabla()+"_"+clave[0], tr.getNombre(), restriccionPerdida.CANDIDATA));
 					}
-					//crea las restricciones perdidas (cuando rangoIni > 1 o rangoFin < N)
-					if(eya.getPrincipioRango() > 0 && eya.getFinalRango() < Integer.MAX_VALUE && eya.getFinalRango() >1)
-						restriccionesPerdidas.add(new restriccionPerdida(tabla.modeloRelacionalDeTabla(false),ent.modeloRelacionalDeTabla(false), 
+					//crea las restricciones perdidas (cuando rangoIni > 1 o rangoFin < N) || rangoIni == 1
+					if((eya.getPrincipioRango() > 0 && eya.getFinalRango() < Integer.MAX_VALUE && eya.getFinalRango() >1)||eya.getPrincipioRango()==1) {
+						restriccionesPerdidas.add(new restriccionPerdida(tabla.restriccionIR(),ent.restriccionIR(), 
 										eya.getPrincipioRango(), eya.getFinalRango(), restriccionPerdida.TOTAL));
-					//Crea las restricciones perdidas para participacion total
-					else if(eya.getPrincipioRango()==1)
-						restriccionesPerdidas.add(new restriccionPerdida(tabla.modeloRelacionalDeTabla(false),ent.modeloRelacionalDeTabla(false), 
-								eya.getPrincipioRango(), eya.getFinalRango(), restriccionPerdida.TOTAL));
+					}
+					
 					
 				}
 				tablasRelaciones.put(tr.getIdRelacion(), tabla);
