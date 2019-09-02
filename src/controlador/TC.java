@@ -494,4 +494,5 @@ public enum TC {
 	PanelDiseno_ActualizarDatosEnTablaDeVolumenes,
 	Controlador_ActualizarDatosEnTablaDeVolumenes,
 	GUI_Principal_NULLATTR,
+	GUI_Principal_IniciaFrames,
 }

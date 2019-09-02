@@ -151,6 +151,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
     	pack();
     	loadInfo();
     	setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+    	c.mensajeDesde_GUIPrincipal(TC.GUI_Principal_IniciaFrames, null);
 	}
 	
 	public static void changeFont (Component component, Font font){

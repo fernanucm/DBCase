@@ -82,7 +82,6 @@ public class DobleLineaYFlecha<V,E> {
 	}
 	
 	private Path2D.Double createArrow(double length) {
-        //this.length = -20;//Longitud de la flecha
         int barb = 10;//Tamaño del pico
         double angle = Math.toRadians(20);
         Path2D.Double path = new Path2D.Double();
