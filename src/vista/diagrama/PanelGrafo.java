@@ -88,6 +88,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 	private PickingGraphMousePlugin picking;
 	private boolean mouseMode = false;
 	private DefaultModalGraphMouse graphMouse;
+	private Theme theme = Theme.getInstancia();
 
 	private boolean esEquis(String n) {
 		return !n.equals("1") && !n.equals("N");
@@ -95,7 +96,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 
 	public PanelGrafo(Vector<TransferEntidad> entidades, Vector<TransferAtributo> atributos, Vector<TransferRelacion> relaciones) {
 		this.setLayout(new GridLayout(1, 1));
-		Theme theme = Theme.getInstancia();
 		// Para que los grafos admitan paralelas el tipo de grafo debe ser este:
 		graph = new UndirectedSparseMultigraph<Transfer, Object>();
 		// Inicializa el layout, el visualizador y el renderer
