@@ -51,7 +51,7 @@ public class ViewDealer {
 		diagramaSplitCode.add(codigos, JSplitPane.RIGHT);
 		diagramaSplitCode.add(diagrama, JSplitPane.LEFT);
 		infoSplitMapa.setResizeWeight(0.2);
-		diagramaSplitCode.setResizeWeight(0.1);
+		diagramaSplitCode.setResizeWeight(0);
 		diagramaSplitCode.setVisible(true);
 		programmerSplit.setVisible(false);
 		mainPanel.revalidate();		

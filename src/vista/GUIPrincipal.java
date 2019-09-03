@@ -148,9 +148,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		initComponents();
 		dealer = new ViewDealer(this.getContentPane(), panelDiagrama, panelGeneracion, infoTabPane);
 		setModoVista(modo);
-    	pack();
     	loadInfo();
-    	setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
     	c.mensajeDesde_GUIPrincipal(TC.GUI_Principal_IniciaFrames, null);
 	}
 	
