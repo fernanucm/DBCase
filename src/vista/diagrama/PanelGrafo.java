@@ -1,6 +1,7 @@
 package vista.diagrama;
 
 import java.awt.BasicStroke;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
@@ -23,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 import javax.imageio.ImageIO;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
@@ -42,6 +44,7 @@ import edu.uci.ics.jung.visualization.control.AbstractPopupGraphMousePlugin;
 import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.PickingGraphMousePlugin;
+import edu.uci.ics.jung.visualization.control.TranslatingGraphMousePlugin;
 import edu.uci.ics.jung.visualization.decorators.EdgeShape;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import edu.uci.ics.jung.visualization.picking.PickedState;
@@ -81,6 +84,10 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 	// guarda los elementos que formaran tablas
 	protected ArrayList<Transfer> tablas;
 	private final MenuDesplegable clickDerecho;
+	private TranslatingGraphMousePlugin translating;	
+	private PickingGraphMousePlugin picking;
+	private boolean mouseMode = false;
+	private DefaultModalGraphMouse graphMouse;
 
 	private boolean esEquis(String n) {
 		return !n.equals("1") && !n.equals("N");
@@ -93,7 +100,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 		graph = new UndirectedSparseMultigraph<Transfer, Object>();
 		// Inicializa el layout, el visualizador y el renderer
 		layout = new GrafoLayout<Transfer, Object>(graph);
-
 		// Inserta las entidades, atributos, relaciones al grafo
 		this.generaTablasNodos(entidades, atributos, relaciones);
 		Collection<TransferEntidad> entities = this.entidades.values();
@@ -259,7 +265,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 			}
 		});
 
-		final DefaultModalGraphMouse graphMouse = new DefaultModalGraphMouse() {
+		graphMouse = new DefaultModalGraphMouse() {
 			// Esta historia invierte el zoom de la rueda del raton
 			@Override
 			public void mouseWheelMoved(final MouseWheelEvent e) {
@@ -270,9 +276,21 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 						e.getScrollAmount(), rot));
 			}
 		};
+		translating = new TranslatingGraphMousePlugin() {
+			@Override
+			public void mouseExited(MouseEvent e) {
+		        JComponent c = (JComponent)e.getSource();
+		        c.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		    }
+			@Override
+			public void mouseReleased(MouseEvent e) {
+		        VisualizationViewer vv = (VisualizationViewer)e.getSource();
+		        vv.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		    }
+		};
 
 		// El evento se dispara al terminar de mover un nodo
-		graphMouse.add(new PickingGraphMousePlugin<Transfer, Double>() {
+		picking = new PickingGraphMousePlugin<Transfer, Double>() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				SwingUtilities.invokeLater(doFocus);
@@ -340,7 +358,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 				down = null;
 				vertex = null;
 				edge = null;
-				rect.setFrame(0, 0, 0, 0);
+				rect.setFrame(100, 100, 110, 100);
 				vv2.removePostRenderPaintable(lensPaintable);
 				vv2.repaint();
 			}
@@ -348,8 +366,35 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 			private boolean heyThatsTooClose(Point2D p, Point2D q, double min) {
 				return Math.abs(p.getX() - q.getX()) < min && Math.abs(p.getY() - q.getY()) < min;
 			}
-		});
+		};
+		graphMouse.add(picking);
+		vv.setGraphMouse(graphMouse);
+		vv.addKeyListener(this);
+		vv.setDoubleBuffered(true);
+		this.add(vv);
+		graphMouse.setMode(ModalGraphMouse.Mode.PICKING);
+	}
 
+	public Controlador getControlador() {
+		return controlador;
+	}
+	
+	public void setControlador(Controlador controlador) {
+		this.controlador = controlador;
+		this.clickDerecho.setControlador(controlador);
+	}
+	private void creaGraphMouse() {
+		graphMouse = new DefaultModalGraphMouse() {
+			// Esta historia invierte el zoom de la rueda del raton
+			@Override
+			public void mouseWheelMoved(final MouseWheelEvent e) {
+				int rot = e.getWheelRotation();
+				rot *= -1;
+				super.mouseWheelMoved(new MouseWheelEvent(e.getComponent(), e.getID(), e.getWhen(), e.getModifiersEx(),
+						e.getX(), e.getY(), e.getClickCount(), e.isPopupTrigger(), e.getScrollType(),
+						e.getScrollAmount(), rot));
+			}
+		};
 		// Plugin para el acceso al menú desplegable
 		graphMouse.add(new AbstractPopupGraphMousePlugin() {
 			@Override
@@ -371,22 +416,24 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 				}
 			}
 		});
-		vv.setGraphMouse(graphMouse);
-		vv.addKeyListener(this);
-		vv.setDoubleBuffered(true);
-		this.add(vv);
-		graphMouse.setMode(ModalGraphMouse.Mode.PICKING);
 	}
-
-	public Controlador getControlador() {
-		return controlador;
+	
+	public void toggleDragMode(boolean b) {
+		if(b==mouseMode) return;
+		if(!mouseMode) {
+			creaGraphMouse();
+			graphMouse.add(translating);
+			graphMouse.setMode(ModalGraphMouse.Mode.TRANSFORMING);
+			vv.setGraphMouse(graphMouse);
+		}else {
+			creaGraphMouse();
+			graphMouse.add(picking);
+			graphMouse.setMode(ModalGraphMouse.Mode.PICKING);
+			vv.setGraphMouse(graphMouse);
+		}
+		mouseMode = !mouseMode;
 	}
-
-	public void setControlador(Controlador controlador) {
-		this.controlador = controlador;
-		this.clickDerecho.setControlador(controlador);
-	}
-
+	
 	private void generaTablasNodos(Vector<TransferEntidad> entidades, Vector<TransferAtributo> atributos,
 			Vector<TransferRelacion> relaciones) {
 		this.entidades = new HashMap<Integer, TransferEntidad>();
@@ -428,11 +475,20 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 			if (e.isControlDown())
 				this.controlador.mensajeDesde_GUIPrincipal(TC.GUI_Principal_Click_Submenu_Guardar, null);
 			break;
+		case 32:// Space
+			toggleDragMode(true);
+		break;
 		}
 	}
 
 
-	public void keyReleased(KeyEvent arg0) {}
+	public void keyReleased(KeyEvent e) {
+		switch (e.getKeyCode()) {
+		case 32:// Space
+			toggleDragMode(false);
+		break;
+		}
+	}
 
 	public void keyTyped(KeyEvent arg0) {}
 
