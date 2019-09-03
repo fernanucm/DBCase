@@ -251,7 +251,13 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 		});
 		vv.getRenderer().setEdgeRenderer(new CreaLineas<Transfer, Object>());
 		// add a listener for ToolTips
-		vv.setVertexToolTipTransformer(new ToStringLabeller<Transfer>());
+		vv.setVertexToolTipTransformer(new ToStringLabeller<Transfer>() {
+			@Override
+			public String transform(Transfer t) {
+				return "<html><p><font color=\""+theme.labelFontColorDark().hexValue()+"\"" +
+			            "size=\"5\">"+t+"</font></p></html>";
+			}
+		});
 
 		final DefaultModalGraphMouse graphMouse = new DefaultModalGraphMouse() {
 			// Esta historia invierte el zoom de la rueda del raton
