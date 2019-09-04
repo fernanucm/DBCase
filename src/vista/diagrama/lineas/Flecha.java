@@ -75,7 +75,7 @@ public class Flecha extends JPanel implements ChangeListener {
 		//Variables para calcular las coordenadas del triángulo (Ver TransferRelacion)
 		int tri1 = 25;
 		int tri2 = 15;
-		int tri3 = 13;
+		int tri3 = 27;
 		/*Variables para calcular las coordenadas del rectángulo(Ver TransferRelacion)
 		 * Sólo importa cuando la flecha va de IsA-> Hija. La longitud del rectángulo depende de la 
 		 * longitud del nombre de la entidad hija.*/
