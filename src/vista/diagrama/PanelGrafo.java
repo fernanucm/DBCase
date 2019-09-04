@@ -367,6 +367,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 				return Math.abs(p.getX() - q.getX()) < min && Math.abs(p.getY() - q.getY()) < min;
 			}
 		};
+		creaGraphMouse();
 		graphMouse.add(picking);
 		vv.setGraphMouse(graphMouse);
 		vv.addKeyListener(this);
