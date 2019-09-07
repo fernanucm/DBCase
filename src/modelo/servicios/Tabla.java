@@ -252,24 +252,29 @@ public class Tabla {
 		if(p)mr+="</p>";
 		return mr;
 	}
-	public String restriccionIR(){
+	public String restriccionIR(boolean prim, String referencia){
 		String mr="";
+		boolean atr = false;
 		mr+=this.ponGuionesBajos(nombreTabla)+" (";
-		Vector<String[]>definitivo= new Vector<String[]>();
+		//Vector<String[]>definitivo= new Vector<String[]>();
 		//dejamos los elementos en las 3 listas sin duplicados.
-		definitivo=this.filtra(atributos, primaries);
+		//definitivo=this.filtra(atributos, primaries);
 		for (int i=0;i<primaries.size();i++)
-			if (nombreTabla == primaries.elementAt(i)[2]) {
+			if (prim && primaries.elementAt(i)[2] == referencia) {
+				mr+=primaries.elementAt(i)[2] + "_" +this.ponGuionesBajos(primaries.elementAt(i)[0]);
+				mr+=", ";atr = true;
+			}else if(nombreTabla == primaries.elementAt(i)[2]){
 				mr+=this.ponGuionesBajos(primaries.elementAt(i)[0]);
-				mr+=", ";
+				mr+=", ";atr = true;
 			}
-		for (int j=0;j<definitivo.size();j++)
+		/*for (int j=0;j<definitivo.size();j++)
 			if (nombreTabla == definitivo.elementAt(j)[2]) {
 				mr+=this.ponGuionesBajos(definitivo.elementAt(j)[0]);
-				mr+=", ";
-			}
+				mr+=", ";atr = true;
+			}*/
 		mr = mr.substring(0, mr.length()-2);
-		return mr+=")";
+		if(atr)mr+=")";
+		return mr;
 	}
 	private String asterisco(String[] a) {
 		return c.isNullAttrs() && a[4]=="0"?"*":"";
