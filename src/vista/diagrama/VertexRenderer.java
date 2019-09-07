@@ -37,7 +37,6 @@ public class VertexRenderer<V,E> implements Renderer.Vertex<V,E> {
 	PickedState<V> pickedState;
 	boolean cyclic;
 	private Theme theme;
-	
 
     public VertexRenderer(Color colorOne, Color colorTwo, boolean cyclic) {
 		this.colorOne = colorOne;
@@ -64,7 +63,6 @@ public class VertexRenderer<V,E> implements Renderer.Vertex<V,E> {
             AffineTransform xform = AffineTransform.getTranslateInstance(x,y);
             // transform the vertex shape with xtransform
             shape = xform.createTransformedShape(shape);
-            
             vertexHit = vertexHit(rc, shape);
 
             // Si es atributo multivalorado dibujo la segunda elipse

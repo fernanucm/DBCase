@@ -81,7 +81,7 @@ public class Flecha extends JPanel implements ChangeListener {
 		 * longitud del nombre de la entidad hija.*/
 		int ancho; 
 		int alto;
-		if(anchoRect < 8 ){
+		if(anchoRect < 8){
 			ancho = 45;
 			alto= 18;
 		}

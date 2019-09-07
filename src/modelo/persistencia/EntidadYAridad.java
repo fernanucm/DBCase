@@ -7,7 +7,7 @@ public class EntidadYAridad {
 	private int pRango;
 	private int fRango;
 	private String rol;
-	
+
 	@Override
 	public EntidadYAridad clone() {
 		EntidadYAridad clon_eya = new EntidadYAridad();
@@ -21,7 +21,6 @@ public class EntidadYAridad {
 	public EntidadYAridad() {}
 
 	public EntidadYAridad(int entidad, int principioRango, int finalRango, String rol) {
-		super();
 		this.entidad = entidad;
 		this.pRango = principioRango;
 		this.fRango = finalRango;
@@ -92,5 +91,4 @@ public class EntidadYAridad {
 		a = a + Lenguaje.text(Lenguaje.ROL) + rol + Lenguaje.text(Lenguaje.ID_ENT) + entidad; 
 		return a;
 	}
-
 }

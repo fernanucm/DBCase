@@ -90,10 +90,6 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 	private DefaultModalGraphMouse graphMouse;
 	private Theme theme = Theme.getInstancia();
 
-	private boolean esEquis(String n) {
-		return !n.equals("1") && !n.equals("N");
-	}
-
 	public PanelGrafo(Vector<TransferEntidad> entidades, Vector<TransferAtributo> atributos, Vector<TransferRelacion> relaciones) {
 		this.setLayout(new GridLayout(1, 1));
 		// Para que los grafos admitan paralelas el tipo de grafo debe ser este:
@@ -223,8 +219,7 @@ public class PanelGrafo extends JPanel implements Printable, KeyListener {
 					else finRango = String.valueOf(dato.getFinalRango());
 
 					if (dato.getPrincipioRango() == 0) {
-						if (!esEquis(finRango)) numerito = finRango;// Es Max = 1 o Max = N
-						else if (dato.getFinalRango() == 0)
+						if (dato.getFinalRango() == 0)
 							return null;// es IsA
 						else {// Es rango min max
 							if (dato.getPrincipioRango() == Integer.MAX_VALUE) iniRango = "N";

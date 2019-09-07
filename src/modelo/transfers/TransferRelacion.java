@@ -3,6 +3,7 @@ package modelo.transfers;
 import java.awt.Polygon;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
+import java.util.Iterator;
 import java.util.Vector;
 
 import modelo.persistencia.EntidadYAridad;
@@ -115,6 +116,14 @@ public class TransferRelacion extends Transfer {
 			vectorIdsEntidades.add((vectorTupla.get(cont)).getEntidad());
 			cont++;
 		}			
+	}
+	
+	public boolean hayFlechas() {
+		for (Iterator it = listaEntidadesYAridades.iterator(); it.hasNext();){
+			EntidadYAridad e = (EntidadYAridad)it.next();
+			if(e.getFinalRango() == 1)return true;
+		}
+		return false;
 	}
 
 	@Override
