@@ -7,7 +7,6 @@ import java.awt.event.KeyListener;
 import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
@@ -22,6 +21,7 @@ import modelo.lenguaje.Lenguaje;
 import modelo.transfers.TransferConexion;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
+import vista.components.MyFileChooser;
 import vista.imagenes.ImagePath;
 
 @SuppressWarnings("serial")
@@ -549,11 +549,11 @@ public class GUI_Conexion extends Parent_GUI{
 		btnExaminar.addActionListener(new ActionListener() {
 			// Comprueba si los datos de conexión son correctos
 			public void actionPerformed(ActionEvent evt) {
-				JFileChooser chooser = new JFileChooser();
+				MyFileChooser chooser = new MyFileChooser();
 			    FileNameExtensionFilter filter = new FileNameExtensionFilter("Access databases (*.mdb)", "mdb");
 			    chooser.setFileFilter(filter);
 			    int returnVal = chooser.showOpenDialog(null);
-			    if(returnVal == JFileChooser.APPROVE_OPTION) {
+			    if(returnVal == MyFileChooser.APPROVE_OPTION) {
 			       cajaBase.setText(chooser.getSelectedFile().getPath());
 			    }
 			}
