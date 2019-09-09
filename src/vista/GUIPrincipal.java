@@ -943,17 +943,14 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	 * LISTENER DEL ARBOL DOMINIOS
 	 * */
 	MouseListener ml = new MouseAdapter() {
-	     @Override
+	    @Override
 		public void mousePressed(MouseEvent e) {
 	         int selRow = arbolDom.getRowForLocation(e.getX(), e.getY());
 	         TreePath selPath = arbolDom.getPathForLocation(e.getX(), e.getY());
 	         if(selRow != -1) {
-	        	 if (javax.swing.SwingUtilities.isRightMouseButton(e)) {
+	        	 if (javax.swing.SwingUtilities.isRightMouseButton(e))
 	        	     muestraMenu(e, selPath);
-	             }
-	        	 else{
-		        	 getPopUp().setVisible(false);
-		         }
+	        	 else getPopUp().setVisible(false);
 	         }
 	         else{
 	        	 if (javax.swing.SwingUtilities.isRightMouseButton(e)) {

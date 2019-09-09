@@ -26,7 +26,6 @@ import modelo.transfers.TransferRelacion;
 import vista.components.MyComboBoxRenderer;
 import vista.imagenes.ImagePath;
 
-
 @SuppressWarnings({"rawtypes" ,"unchecked", "serial"})
 public class GUI_InsertarEntidad extends Parent_GUI{
 	private Controlador controlador;
@@ -91,9 +90,7 @@ public class GUI_InsertarEntidad extends Parent_GUI{
 			explicacion.setFocusable(false);
 			explicacion.setAlignmentX(0.0f);
 		}
-		{
 			getContentPane().add(cajaNombre);
-		}
 		{
 			CasillaEsDebil = new JCheckBox();
 			getContentPane().add(CasillaEsDebil);
@@ -199,7 +196,6 @@ public class GUI_InsertarEntidad extends Parent_GUI{
 		}
 		this.addMouseListener(this);
 		this.addKeyListener(this);
-
 	}
 	
 	/*Redimensiona la ventana para que se puedan mostrar y solicitar los datos necesarios 

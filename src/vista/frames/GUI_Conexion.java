@@ -130,7 +130,6 @@ public class GUI_Conexion extends Parent_GUI{
 				this.puerto.setEnabled(false);
 				this.usuario.setEnabled(false);
 				this.password.setEnabled(false);
-				
 				this.cajaServer.setEnabled(false);
 				this.cajaServer.setText("");
 				this.cajaPuerto.setEnabled(false);
