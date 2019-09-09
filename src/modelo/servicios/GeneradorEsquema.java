@@ -179,7 +179,7 @@ public class GeneradorEsquema {
 					tabla.aniadeListaClavesForaneas(primarias, ent.getNombreTabla(), referenciadas);
 					
 					// Si es 0..1 o 1..1 poner como clave
-					if (eya.getFinalRango() == 1 || eya.getFinalRango() == Integer.MAX_VALUE) tabla.aniadeListaClavesPrimarias(primarias);
+					if (eya.getFinalRango() > 1) tabla.aniadeListaClavesPrimarias(primarias);
 					else{
 						if (soloHayUnos && esLaPrimeraDel1a1){
 							tabla.aniadeListaClavesPrimarias(primarias);
@@ -676,7 +676,7 @@ public class GeneradorEsquema {
 				claves+= t.getNombreTabla()+"."+foreigns.elementAt(j)[3]+"_"+foreigns.elementAt(j)[0];
 				valores+=foreigns.elementAt(j)[2];
 				if(foreigns.size()-j>1) {
-					if(foreigns.elementAt(j+1)[3]!=foreigns.elementAt(j)[3]) {
+					if(foreigns.elementAt(j+1)[3]!=foreigns.elementAt(j)[3] || foreigns.elementAt(j+1)[2].equals(foreigns.elementAt(j)[2])) {
 						code+=claves+" -> "+valores+"</p>";
 						abierto = false;claves="";valores="";
 					}
