@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -18,7 +19,6 @@ import org.w3c.dom.NodeList;
 import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
-import vista.components.MyFileChooser;
 import vista.imagenes.ImagePath;
 
 
@@ -27,7 +27,7 @@ public class GUI_SaveAs extends Parent_GUI{
 
 	private Controlador controlador;
 	private JPanel panelPrincipal;
-	private MyFileChooser jfc;
+	private JFileChooser jfc;
 	private JLabel jLabel1;
 	private int abrir;
 	private boolean actuado; //vale true tras guardar o abrir, false si pulsa en cancelar o cierra la ventana
@@ -50,13 +50,13 @@ public class GUI_SaveAs extends Parent_GUI{
 		jLabel1.setFont(theme.font());
 		panelPrincipal.add(jLabel1);
 		jLabel1.setBounds(12, 12, 521, 14);
-		jfc = new MyFileChooser();
+		jfc = new JFileChooser();
 		jfc.setFont(theme.font());
 		jfc.setCurrentDirectory(new File(System.getProperty("user.dir")+"/projects"));
 		panelPrincipal.add(jfc);
 		jfc.setBounds(0, 32, 547, 286);
 		jfc.setDialogType(2);
-		jfc.setFileSelectionMode(MyFileChooser.FILES_ONLY);
+		jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		jfc.setAcceptAllFileFilterUsed(false);
 		XMLFileFilter filter = new XMLFileFilter();
 		jfc.addChoosableFileFilter(filter);
@@ -114,11 +114,11 @@ public class GUI_SaveAs extends Parent_GUI{
 	}
 
 	/*
-	 * Oyente del MyFileChooser
+	 * Oyente del jfilechooser
 	 */
 	private void jfcActionPerformed(ActionEvent evt) {
 		String command = evt.getActionCommand();
-		if (command.equals(MyFileChooser.APPROVE_SELECTION)){
+		if (command.equals(JFileChooser.APPROVE_SELECTION)){
 			actuado=true;
 			switch (abrir){
 				case 1: abrirProyecto(); break;
@@ -128,7 +128,7 @@ public class GUI_SaveAs extends Parent_GUI{
 			this.dispose();
 		}
 		// Si se ha pulsado el boton cancelar
-		else if (command.equals(MyFileChooser.CANCEL_SELECTION)) {
+		else if (command.equals(JFileChooser.CANCEL_SELECTION)) {
 			actuado=false;
 			this.dispose();
 		}

@@ -11,6 +11,7 @@ import java.util.Vector;
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -293,7 +294,7 @@ public class MyMenu extends JMenuBar{
 	 * Listeners
 	 ******************/
 	private void exportarJPG(ActionEvent evt) {
-		MyFileChooser fileChooser = new MyFileChooser();
+		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setDialogTitle(Lenguaje.text(Lenguaje.DBCASE));
 		fileChooser.setFileFilter(new FileNameExtensionFilter(Lenguaje.text(Lenguaje.JPEG_FILES), "jpg"));
 		int resul = fileChooser.showSaveDialog(null);
