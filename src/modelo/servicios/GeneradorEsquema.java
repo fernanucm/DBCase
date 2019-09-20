@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Vector;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import controlador.Controlador;
@@ -20,11 +19,13 @@ import modelo.persistencia.DAOAtributos;
 import modelo.persistencia.DAODominios;
 import modelo.persistencia.DAOEntidades;
 import modelo.persistencia.DAORelaciones;
+import modelo.persistencia.EntidadYAridad;
 import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferConexion;
 import modelo.transfers.TransferDominio;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
+import vista.components.MyFileChooser;
 
 @SuppressWarnings({"unchecked","rawtypes"})
 public class GeneradorEsquema {
@@ -212,6 +213,7 @@ public class GeneradorEsquema {
 									aux.setPrimaries(b);
 									recurs=true;
 								}
+									
 							}
 						}
 						restriccionesPerdidas.add(new restriccionPerdida(recurs?aux.restriccionIR(true,ent.getNombreTabla()):tabla.restriccionIR(true,ent.getNombreTabla()),ent.restriccionIR(false, ""), 
@@ -369,7 +371,7 @@ public class GeneradorEsquema {
 		text="# "+Lenguaje.text(Lenguaje.SCRIPT_GENERATED)+"\n"+
 		(sql?"# "+Lenguaje.text(Lenguaje.SYNTAX) + ": " +conexionScriptGenerado.getRuta()+ "\n\n":"")+text;
 		// Si ya se ha generado el Script
-		JFileChooser jfc = new JFileChooser();
+		MyFileChooser jfc = new MyFileChooser();
 		jfc.setDialogTitle(Lenguaje.text(Lenguaje.DBCASE));
 		jfc.setCurrentDirectory(new File(System.getProperty("user.dir")+"/projects"));
 		jfc.setFileFilter(new FileNameExtensionFilter("Text", "txt"));

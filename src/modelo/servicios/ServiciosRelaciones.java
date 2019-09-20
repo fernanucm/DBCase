@@ -8,6 +8,7 @@ import controlador.TC;
 import modelo.persistencia.DAOAtributos;
 import modelo.persistencia.DAOEntidades;
 import modelo.persistencia.DAORelaciones;
+import modelo.persistencia.EntidadYAridad;
 import modelo.transfers.Transfer;
 import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferEntidad;

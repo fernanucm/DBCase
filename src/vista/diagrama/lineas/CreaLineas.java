@@ -22,7 +22,7 @@ import edu.uci.ics.jung.visualization.Layer;
 import edu.uci.ics.jung.visualization.RenderContext;
 import edu.uci.ics.jung.visualization.renderers.Renderer;
 import edu.uci.ics.jung.visualization.transform.shape.GraphicsDecorator;
-import modelo.servicios.EntidadYAridad;
+import modelo.persistencia.EntidadYAridad;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
 import vista.tema.Theme;

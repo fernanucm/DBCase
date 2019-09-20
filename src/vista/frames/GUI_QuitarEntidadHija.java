@@ -16,7 +16,7 @@ import javax.swing.SwingUtilities;
 import controlador.Controlador;
 import controlador.TC;
 import modelo.lenguaje.Lenguaje;
-import modelo.servicios.EntidadYAridad;
+import modelo.persistencia.EntidadYAridad;
 import modelo.transfers.Transfer;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;

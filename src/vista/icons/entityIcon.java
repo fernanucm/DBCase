@@ -31,5 +31,5 @@ public class entityIcon extends icon{
 	    	g2d.draw(new Line2D.Double(getIconWidth()*.4,getIconHeight()*.4,getIconWidth()*.5,getIconHeight()*.4));
 	        g2d.draw(new Line2D.Double(getIconWidth()*.45,getIconHeight()*.3,getIconWidth()*.45,getIconHeight()*.5));
     	}
-    }Math.sin
+    }	
 }

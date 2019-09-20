@@ -20,7 +20,6 @@ import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 import modelo.lenguaje.Lenguaje;
-import modelo.servicios.EntidadYAridad;
 import modelo.transfers.TransferRelacion;
 
 @SuppressWarnings("rawtypes")
