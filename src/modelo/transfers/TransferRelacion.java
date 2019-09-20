@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.Iterator;
 import java.util.Vector;
 
-import modelo.persistencia.EntidadYAridad;
+import modelo.servicios.EntidadYAridad;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class TransferRelacion extends Transfer {
 

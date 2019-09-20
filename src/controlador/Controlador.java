@@ -13,11 +13,11 @@ import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.UnsupportedLookAndFeelException;
 import modelo.lenguaje.Lenguaje;
-import modelo.persistencia.EntidadYAridad;
 import modelo.servicios.ServiciosAtributos;
 import modelo.servicios.ServiciosDominios;
 import modelo.servicios.ServiciosEntidades;
 import modelo.servicios.ServiciosRelaciones;
+import modelo.servicios.EntidadYAridad;
 import modelo.servicios.GeneradorEsquema;
 import vista.frames.GUI_Pregunta;
 import modelo.transfers.Transfer;
@@ -382,8 +382,9 @@ public class Controlador {
 					Lenguaje.text(Lenguaje.ADD_ENTITY_RELATION),
 					JOptionPane.PLAIN_MESSAGE);
 			else {
-				this.getTheGUIAnadirAtributo().setListaTransfers(listaTransfers);
-				this.getTheGUIAnadirAtributo().setActiva();
+				this.theGUIAnadirAtributo.setListaDominios(theGUIPrincipal.getListaDominios());
+				this.theGUIAnadirAtributo.setListaTransfers(listaTransfers);
+				this.theGUIAnadirAtributo.setActiva();
 			}
 			break;
 		}

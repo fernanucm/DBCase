@@ -19,7 +19,6 @@ import modelo.persistencia.DAOAtributos;
 import modelo.persistencia.DAODominios;
 import modelo.persistencia.DAOEntidades;
 import modelo.persistencia.DAORelaciones;
-import modelo.persistencia.EntidadYAridad;
 import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferConexion;
 import modelo.transfers.TransferDominio;
@@ -213,7 +212,6 @@ public class GeneradorEsquema {
 									aux.setPrimaries(b);
 									recurs=true;
 								}
-									
 							}
 						}
 						restriccionesPerdidas.add(new restriccionPerdida(recurs?aux.restriccionIR(true,ent.getNombreTabla()):tabla.restriccionIR(true,ent.getNombreTabla()),ent.restriccionIR(false, ""), 

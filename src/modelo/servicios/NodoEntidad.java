@@ -1,4 +1,4 @@
-package modelo.persistencia;
+package modelo.servicios;
 
 public class NodoEntidad {
 	private String nombre;
