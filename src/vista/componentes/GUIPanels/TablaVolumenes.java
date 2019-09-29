@@ -1,8 +1,9 @@
-package vista.components.GUIPanels;
+package vista.componentes.GUIPanels;
 
 import javax.swing.JTable;
-import vista.components.CustomCellEditor;
-import vista.components.MyTableModel;
+
+import vista.componentes.CustomCellEditor;
+import vista.componentes.MyTableModel;
 
 @SuppressWarnings("serial")
 public class TablaVolumenes extends JTable{

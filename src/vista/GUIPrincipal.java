@@ -57,13 +57,13 @@ import modelo.transfers.TransferConexion;
 import modelo.transfers.TransferDominio;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
-import vista.components.ArbolDominiosRender;
-import vista.components.ArbolElementosRender;
-import vista.components.MyComboBoxRenderer;
-import vista.components.MyMenu;
-import vista.components.GUIPanels.TablaVolumenes;
-import vista.components.GUIPanels.addTransfersPanel;
-import vista.components.GUIPanels.ReportPanel;
+import vista.componentes.ArbolDominiosRender;
+import vista.componentes.ArbolElementosRender;
+import vista.componentes.MyComboBoxRenderer;
+import vista.componentes.MyMenu;
+import vista.componentes.GUIPanels.ReportPanel;
+import vista.componentes.GUIPanels.TablaVolumenes;
+import vista.componentes.GUIPanels.addTransfersPanel;
 import vista.diagrama.PanelGrafo;
 import vista.diagrama.PanelThumbnail;
 import vista.imagenes.ImagePath;
@@ -107,7 +107,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 	private JTabbedPane infoTabPane;
 	protected ReportPanel codigoText;
 	protected ReportPanel modeloText;
-	private ViewDealer dealer;
+	private Perspectiva dealer;
 	
 	/*
 	 * Activar y desctivar la ventana
@@ -128,7 +128,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		setLookAndFeel();
 		initComponents();
 		changeFont(this,theme.font());
-		dealer = new ViewDealer(this.getContentPane(), panelDiagrama, panelGeneracion, infoTabPane);
+		dealer = new Perspectiva(this.getContentPane(), panelDiagrama, panelGeneracion, infoTabPane);
 		setModoVista(modo);
 		
     	pack();
@@ -146,7 +146,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		conexionActual = listaConexiones.get(0);
 		setLookAndFeel();
 		initComponents();
-		dealer = new ViewDealer(this.getContentPane(), panelDiagrama, panelGeneracion, infoTabPane);
+		dealer = new Perspectiva(this.getContentPane(), panelDiagrama, panelGeneracion, infoTabPane);
 		setModoVista(modo);
     	loadInfo();
     	c.mensajeDesde_GUIPrincipal(TC.GUI_Principal_IniciaFrames, null);

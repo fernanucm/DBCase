@@ -24,7 +24,7 @@ import persistencia.DAODominios;
 import persistencia.DAOEntidades;
 import persistencia.DAORelaciones;
 import persistencia.EntidadYAridad;
-import vista.components.MyFileChooser;
+import vista.componentes.MyFileChooser;
 import vista.lenguaje.Lenguaje;
 
 @SuppressWarnings({"unchecked","rawtypes"})

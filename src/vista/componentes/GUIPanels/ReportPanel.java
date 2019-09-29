@@ -1,4 +1,4 @@
-package vista.components.GUIPanels;
+package vista.componentes.GUIPanels;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;

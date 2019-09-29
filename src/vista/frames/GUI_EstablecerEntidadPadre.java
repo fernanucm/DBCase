@@ -18,7 +18,7 @@ import controlador.TC;
 import modelo.transfers.Transfer;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
-import vista.components.MyComboBoxRenderer;
+import vista.componentes.MyComboBoxRenderer;
 import vista.imagenes.ImagePath;
 import vista.lenguaje.Lenguaje;
 

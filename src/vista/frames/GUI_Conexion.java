@@ -20,7 +20,7 @@ import modelo.conectorDBMS.FactoriaConectores;
 import modelo.transfers.TransferConexion;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
-import vista.components.MyFileChooser;
+import vista.componentes.MyFileChooser;
 import vista.imagenes.ImagePath;
 import vista.lenguaje.Lenguaje;
 

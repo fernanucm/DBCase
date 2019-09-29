@@ -4,7 +4,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JTextPane;
 
-import vista.components.GUIPanels.ReportPanel;
+import vista.componentes.GUIPanels.ReportPanel;
 import vista.imagenes.ImagePath;
 import vista.lenguaje.Lenguaje;
 import vista.tema.Theme;

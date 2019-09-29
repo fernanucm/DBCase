@@ -12,7 +12,7 @@ import javax.swing.SwingUtilities;
 import controlador.Controlador;
 import controlador.TC;
 import modelo.transfers.TransferRelacion;
-import vista.components.GUIPanels.ReportPanel;
+import vista.componentes.GUIPanels.ReportPanel;
 import vista.imagenes.ImagePath;
 import vista.lenguaje.Lenguaje;
 

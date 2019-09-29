@@ -1,4 +1,4 @@
-package vista.components.GUIPanels;
+package vista.componentes.GUIPanels;
 
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;

@@ -22,7 +22,7 @@ import controlador.Controlador;
 import controlador.TC;
 import modelo.conectorDBMS.FactoriaConectores;
 import modelo.transfers.TransferConexion;
-import vista.components.CustomCellEditor;
+import vista.componentes.CustomCellEditor;
 import vista.imagenes.ImagePath;
 import vista.lenguaje.Lenguaje;
 

@@ -7,9 +7,9 @@ import javax.swing.JTabbedPane;
 
 
 /*
- * Clase que maneja que paneles se ven y cuales no
+ * Clase que maneja las perspectivas
  * */
-public class ViewDealer {
+public class Perspectiva {
 	
 	private Container mainPanel;
 	private JPanel diagrama;
@@ -21,7 +21,7 @@ public class ViewDealer {
 	private JTabbedPane infoPanel;
 	private byte modo;
 		
-	public ViewDealer(Container mainPanel, JPanel diagrama, JPanel codigos, JTabbedPane infoPanel){
+	public Perspectiva(Container mainPanel, JPanel diagrama, JPanel codigos, JTabbedPane infoPanel){
 		this.mainPanel = mainPanel;
 		this.diagrama = diagrama;
 		this.codigos = codigos;

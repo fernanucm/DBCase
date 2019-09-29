@@ -22,7 +22,7 @@ import controlador.Controlador;
 import controlador.TC;
 import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferEntidad;
-import vista.components.CustomCellEditor;
+import vista.componentes.CustomCellEditor;
 import vista.imagenes.ImagePath;
 import vista.lenguaje.Lenguaje;
 

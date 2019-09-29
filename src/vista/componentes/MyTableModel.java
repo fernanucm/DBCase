@@ -1,4 +1,4 @@
-package vista.components;
+package vista.componentes;
 
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;

@@ -15,7 +15,7 @@ import controlador.Controlador;
 import controlador.TC;
 import modelo.transfers.TipoDominio;
 import modelo.transfers.TransferDominio;
-import vista.components.MyComboBoxRenderer;
+import vista.componentes.MyComboBoxRenderer;
 import vista.imagenes.ImagePath;
 import vista.lenguaje.Lenguaje;
 

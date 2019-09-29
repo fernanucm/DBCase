@@ -54,7 +54,7 @@ import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
 import persistencia.EntidadYAridad;
 import persistencia.NodoEntidad;
-import vista.components.MyTableModel;
+import vista.componentes.MyTableModel;
 import vista.diagrama.lineas.CreaLineas;
 import vista.diagrama.lineas.EtiquetaSobreLinea;
 import vista.lenguaje.Lenguaje;

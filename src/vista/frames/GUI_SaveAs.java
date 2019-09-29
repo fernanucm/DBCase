@@ -17,7 +17,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import controlador.Controlador;
 import controlador.TC;
-import vista.components.MyFileChooser;
+import vista.componentes.MyFileChooser;
 import vista.imagenes.ImagePath;
 import vista.lenguaje.Lenguaje;
 
