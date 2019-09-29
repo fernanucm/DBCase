@@ -1,6 +1,6 @@
 package modelo.servicios;
 
-import modelo.lenguaje.Lenguaje;
+import vista.lenguaje.Lenguaje;
 
 public class restriccionPerdida {
 

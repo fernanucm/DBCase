@@ -21,10 +21,10 @@ import controlador.ConfiguradorInicial;
 import controlador.Controlador;
 import controlador.TC;
 import modelo.conectorDBMS.FactoriaConectores;
-import modelo.lenguaje.Lenguaje;
 import modelo.transfers.TransferConexion;
 import vista.components.CustomCellEditor;
 import vista.imagenes.ImagePath;
+import vista.lenguaje.Lenguaje;
 
 @SuppressWarnings("serial")
 public class GUI_SeleccionarConexion extends Parent_GUI{

@@ -12,8 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.UnsupportedLookAndFeelException;
-import modelo.lenguaje.Lenguaje;
-import modelo.persistencia.EntidadYAridad;
+
 import modelo.servicios.ServiciosAtributos;
 import modelo.servicios.ServiciosDominios;
 import modelo.servicios.ServiciosEntidades;
@@ -26,6 +25,7 @@ import modelo.transfers.TransferConexion;
 import modelo.transfers.TransferDominio;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
+import persistencia.EntidadYAridad;
 import vista.GUIPrincipal;
 import vista.frames.GUI_About;
 import vista.frames.GUI_AnadirAtributo;
@@ -55,6 +55,7 @@ import vista.frames.GUI_RenombrarRelacion;
 import vista.frames.GUI_SeleccionarConexion;
 import vista.frames.GUI_TablaUniqueEntidad;
 import vista.frames.GUI_TablaUniqueRelacion;
+import vista.lenguaje.Lenguaje;
 import vista.frames.GUI_SaveAs;
 import vista.tema.Theme;
 

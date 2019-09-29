@@ -3,7 +3,7 @@ package vista.components;
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
-import modelo.lenguaje.Lenguaje;
+import vista.lenguaje.Lenguaje;
 
 @SuppressWarnings("serial")
 public class MyTableModel extends AbstractTableModel{

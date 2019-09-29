@@ -16,12 +16,12 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import controlador.Controlador;
 import controlador.TC;
-import modelo.lenguaje.Lenguaje;
 import modelo.transfers.TipoDominio;
 import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferDominio;
 import vista.components.MyComboBoxRenderer;
 import vista.imagenes.ImagePath;
+import vista.lenguaje.Lenguaje;
 
 @SuppressWarnings({"rawtypes" ,"unchecked", "serial"})
 public class GUI_EditarDominioAtributo extends Parent_GUI {

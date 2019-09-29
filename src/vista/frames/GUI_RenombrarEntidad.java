@@ -12,9 +12,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import controlador.Controlador;
 import controlador.TC;
-import modelo.lenguaje.Lenguaje;
 import modelo.transfers.TransferEntidad;
 import vista.imagenes.ImagePath;
+import vista.lenguaje.Lenguaje;
 
 @SuppressWarnings("serial")
 public class GUI_RenombrarEntidad extends Parent_GUI {

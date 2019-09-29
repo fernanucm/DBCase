@@ -13,11 +13,11 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import controlador.Controlador;
 import controlador.TC;
-import modelo.lenguaje.Lenguaje;
 import modelo.transfers.TipoDominio;
 import modelo.transfers.TransferDominio;
 import vista.components.MyComboBoxRenderer;
 import vista.imagenes.ImagePath;
+import vista.lenguaje.Lenguaje;
 
 @SuppressWarnings({ "rawtypes", "serial" , "unchecked"})
 public class GUI_ModificarDominio extends Parent_GUI {

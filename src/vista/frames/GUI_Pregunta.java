@@ -7,8 +7,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
-import modelo.lenguaje.Lenguaje;
+
 import vista.frames.Parent_GUI;
+import vista.lenguaje.Lenguaje;
 
 @SuppressWarnings("serial")
 public class GUI_Pregunta extends Parent_GUI {

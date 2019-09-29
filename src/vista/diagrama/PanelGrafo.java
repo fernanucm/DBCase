@@ -48,16 +48,16 @@ import edu.uci.ics.jung.visualization.control.TranslatingGraphMousePlugin;
 import edu.uci.ics.jung.visualization.decorators.EdgeShape;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import edu.uci.ics.jung.visualization.picking.PickedState;
-import modelo.lenguaje.Lenguaje;
-import modelo.persistencia.EntidadYAridad;
-import modelo.persistencia.NodoEntidad;
 import modelo.transfers.Transfer;
 import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
+import persistencia.EntidadYAridad;
+import persistencia.NodoEntidad;
 import vista.components.MyTableModel;
 import vista.diagrama.lineas.CreaLineas;
 import vista.diagrama.lineas.EtiquetaSobreLinea;
+import vista.lenguaje.Lenguaje;
 import vista.tema.Theme;
 
 /**

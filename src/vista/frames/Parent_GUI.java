@@ -7,7 +7,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
-import modelo.lenguaje.Lenguaje;
+import vista.lenguaje.Lenguaje;
 import vista.tema.Theme;
 
 @SuppressWarnings("serial")

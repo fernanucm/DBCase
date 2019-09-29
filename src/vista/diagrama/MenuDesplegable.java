@@ -15,11 +15,11 @@ import controlador.Controlador;
 import controlador.TC;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.picking.PickedState;
-import modelo.lenguaje.Lenguaje;
 import modelo.transfers.Transfer;
 import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
+import vista.lenguaje.Lenguaje;
 import vista.tema.Theme;
 
 @SuppressWarnings("serial")

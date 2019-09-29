@@ -50,7 +50,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import controlador.Controlador;
 import controlador.TC;
-import modelo.lenguaje.Lenguaje;
 import modelo.transfers.TipoDominio;
 import modelo.transfers.Transfer;
 import modelo.transfers.TransferAtributo;
@@ -68,6 +67,7 @@ import vista.components.GUIPanels.ReportPanel;
 import vista.diagrama.PanelGrafo;
 import vista.diagrama.PanelThumbnail;
 import vista.imagenes.ImagePath;
+import vista.lenguaje.Lenguaje;
 import vista.tema.Theme;
 
 @SuppressWarnings({ "rawtypes", "unchecked", "serial" })

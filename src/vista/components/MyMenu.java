@@ -22,11 +22,11 @@ import javax.swing.event.MenuListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import controlador.Controlador;
 import controlador.TC;
-import modelo.lenguaje.Lenguaje;
 import vista.icons.IconLabel;
 import vista.icons.perspective.allIcon;
 import vista.icons.perspective.codeIcon;
 import vista.icons.perspective.diagramIcon;
+import vista.lenguaje.Lenguaje;
 import vista.tema.Theme;
 
 @SuppressWarnings("serial")

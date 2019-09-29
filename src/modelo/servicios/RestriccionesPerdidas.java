@@ -2,7 +2,7 @@ package modelo.servicios;
 
 import java.util.ArrayList;
 
-import modelo.lenguaje.Lenguaje;
+import vista.lenguaje.Lenguaje;
 
 @SuppressWarnings("serial")
 public class RestriccionesPerdidas extends ArrayList<restriccionPerdida>{

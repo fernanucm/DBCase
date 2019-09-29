@@ -11,16 +11,16 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import controlador.Controlador;
 import controlador.TC;
-import modelo.lenguaje.Lenguaje;
-import modelo.persistencia.DAOAtributos;
-import modelo.persistencia.DAOEntidades;
-import modelo.persistencia.DAORelaciones;
 import modelo.transfers.Transfer;
+import persistencia.DAOAtributos;
+import persistencia.DAOEntidades;
+import persistencia.DAORelaciones;
 import vista.icons.IconLabel;
 import vista.icons.attributeIcon;
 import vista.icons.entityIcon;
 import vista.icons.isaIcon;
 import vista.icons.relationIcon;
+import vista.lenguaje.Lenguaje;
 import vista.tema.Theme;
 
 @SuppressWarnings("serial")

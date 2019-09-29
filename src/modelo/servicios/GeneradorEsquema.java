@@ -14,18 +14,18 @@ import controlador.Controlador;
 import controlador.TC;
 import modelo.conectorDBMS.ConectorDBMS;
 import modelo.conectorDBMS.FactoriaConectores;
-import modelo.lenguaje.Lenguaje;
-import modelo.persistencia.DAOAtributos;
-import modelo.persistencia.DAODominios;
-import modelo.persistencia.DAOEntidades;
-import modelo.persistencia.DAORelaciones;
-import modelo.persistencia.EntidadYAridad;
 import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferConexion;
 import modelo.transfers.TransferDominio;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
+import persistencia.DAOAtributos;
+import persistencia.DAODominios;
+import persistencia.DAOEntidades;
+import persistencia.DAORelaciones;
+import persistencia.EntidadYAridad;
 import vista.components.MyFileChooser;
+import vista.lenguaje.Lenguaje;
 
 @SuppressWarnings({"unchecked","rawtypes"})
 public class GeneradorEsquema {

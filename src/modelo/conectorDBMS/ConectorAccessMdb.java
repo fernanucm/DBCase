@@ -9,7 +9,8 @@ import java.io.OutputStream;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-import modelo.lenguaje.Lenguaje;
+
+import vista.lenguaje.Lenguaje;
 
 public class ConectorAccessMdb extends ConectorAccessOdbc {
 

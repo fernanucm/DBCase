@@ -4,13 +4,13 @@ import java.util.Vector;
 
 import controlador.Controlador;
 import controlador.TC;
-import modelo.persistencia.DAOAtributos;
-import modelo.persistencia.DAOEntidades;
-import modelo.persistencia.DAORelaciones;
 import modelo.transfers.Transfer;
 import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
+import persistencia.DAOAtributos;
+import persistencia.DAOEntidades;
+import persistencia.DAORelaciones;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class ServiciosAtributos {

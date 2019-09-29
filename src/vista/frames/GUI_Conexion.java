@@ -17,12 +17,12 @@ import controlador.ConfiguradorInicial;
 import controlador.Controlador;
 import controlador.TC;
 import modelo.conectorDBMS.FactoriaConectores;
-import modelo.lenguaje.Lenguaje;
 import modelo.transfers.TransferConexion;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
 import vista.components.MyFileChooser;
 import vista.imagenes.ImagePath;
+import vista.lenguaje.Lenguaje;
 
 @SuppressWarnings("serial")
 public class GUI_Conexion extends Parent_GUI{

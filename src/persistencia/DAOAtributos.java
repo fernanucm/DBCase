@@ -1,4 +1,4 @@
-package modelo.persistencia;
+package persistencia;
 
 
 import java.awt.geom.Point2D;
@@ -21,8 +21,8 @@ import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 import controlador.Controlador;
-import modelo.lenguaje.Lenguaje;
 import modelo.transfers.TransferAtributo;
+import vista.lenguaje.Lenguaje;
 @SuppressWarnings("rawtypes")
 public class DAOAtributos{
 	

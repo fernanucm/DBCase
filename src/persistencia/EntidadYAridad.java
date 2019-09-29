@@ -1,6 +1,6 @@
-package modelo.persistencia;
+package persistencia;
 
-import modelo.lenguaje.Lenguaje;
+import vista.lenguaje.Lenguaje;
 
 public class EntidadYAridad {
 	private int entidad;

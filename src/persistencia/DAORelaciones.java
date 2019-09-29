@@ -1,4 +1,4 @@
-package modelo.persistencia;
+package persistencia;
 
 import java.awt.geom.Point2D;
 import java.io.FileWriter;
@@ -19,8 +19,8 @@ import org.w3c.dom.NodeList;
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
-import modelo.lenguaje.Lenguaje;
 import modelo.transfers.TransferRelacion;
+import vista.lenguaje.Lenguaje;
 
 @SuppressWarnings("rawtypes")
 public class DAORelaciones{

@@ -17,10 +17,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import controlador.Controlador;
 import controlador.TC;
-import modelo.lenguaje.Lenguaje;
 import modelo.transfers.TransferEntidad;
 import vista.components.CustomCellEditor;
 import vista.imagenes.ImagePath;
+import vista.lenguaje.Lenguaje;
 
 @SuppressWarnings("serial")
 public class GUI_InsertarRestriccionAEntidad extends Parent_GUI {

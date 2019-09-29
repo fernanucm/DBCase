@@ -13,13 +13,13 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import controlador.Controlador;
 import controlador.TC;
-import modelo.lenguaje.Lenguaje;
-import modelo.persistencia.EntidadYAridad;
 import modelo.transfers.Transfer;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
+import persistencia.EntidadYAridad;
 import vista.components.MyComboBoxRenderer;
 import vista.imagenes.ImagePath;
+import vista.lenguaje.Lenguaje;
 
 @SuppressWarnings({"rawtypes" ,"unchecked", "serial"})
 public class GUI_AnadirEntidadHija extends Parent_GUI {

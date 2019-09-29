@@ -3,9 +3,10 @@ package vista.frames;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JTextPane;
-import modelo.lenguaje.Lenguaje;
+
 import vista.components.GUIPanels.ReportPanel;
 import vista.imagenes.ImagePath;
+import vista.lenguaje.Lenguaje;
 import vista.tema.Theme;
 
 @SuppressWarnings("serial")
