@@ -1,4 +1,4 @@
-package vista.icons.perspective;
+package vista.iconos.perspective;
 
 import java.awt.BasicStroke;
 import java.awt.Component;
@@ -7,11 +7,12 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
 import java.awt.geom.RoundRectangle2D;
-import vista.icons.icon;
+
+import vista.iconos.icon;
 import vista.tema.Theme;
 
-public class allIcon extends icon{
-	public allIcon(boolean selected) {
+public class codeIcon extends icon{
+	public codeIcon(boolean selected) {
 		super("perspective", selected);
 	}
 
@@ -32,6 +33,5 @@ public class allIcon extends icon{
     	g2d.draw(rect);
     	g2d.draw(new Line2D.Double(getIconWidth()*.35,getIconHeight()*offset,getIconWidth()*.35,getIconHeight()*offset*8));
     	g2d.draw(new Line2D.Double(getIconWidth()*.6,getIconHeight()*offset,getIconWidth()*.6,getIconHeight()*offset*8));
-    	g2d.draw(new Line2D.Double(getIconWidth()*.6,getIconHeight()*.45,getIconWidth()*offset*8,getIconHeight()*.45));
     }	
 }

@@ -241,7 +241,6 @@ public class ValidadorBD extends GeneradorEsquema{
 			}
 			i++;
 		}
-
 		return enDebil;	
 	}
 	

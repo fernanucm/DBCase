@@ -1,4 +1,4 @@
-package vista.icons;
+package vista.iconos;
 
 import java.awt.Component;
 import java.awt.Graphics;

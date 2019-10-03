@@ -1,4 +1,4 @@
-package vista.icons;
+package vista.iconos;
 
 import java.awt.Cursor;
 import javax.swing.Icon;

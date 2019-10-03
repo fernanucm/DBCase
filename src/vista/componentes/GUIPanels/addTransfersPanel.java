@@ -15,11 +15,11 @@ import modelo.transfers.Transfer;
 import persistencia.DAOAtributos;
 import persistencia.DAOEntidades;
 import persistencia.DAORelaciones;
-import vista.icons.IconLabel;
-import vista.icons.attributeIcon;
-import vista.icons.entityIcon;
-import vista.icons.isaIcon;
-import vista.icons.relationIcon;
+import vista.iconos.IconLabel;
+import vista.iconos.attributeIcon;
+import vista.iconos.entityIcon;
+import vista.iconos.isaIcon;
+import vista.iconos.relationIcon;
 import vista.lenguaje.Lenguaje;
 import vista.tema.Theme;
 

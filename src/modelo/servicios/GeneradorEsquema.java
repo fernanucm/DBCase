@@ -207,13 +207,14 @@ public class GeneradorEsquema {
 						Vector<String[]> a = tabla.getPrimaries();
 						for(int j=0;j<a.size();j++) {
 							if(j+1==a.size() && j>0) {
-								if(a.get(j)[2].equals(a.get(j-1)[2]) && a.get(j)[0].split("_")[1].equals(a.get(j-1)[0].split("_")[1])) {
-									Vector<String[]> b = new Vector<String[]>();
-									b.add(a.get(j));
-									aux.setPrimaries(b);
-									recurs=true;
+								if(a.get(j)[2].equals(a.get(j-1)[2])) {
+									if(a.get(j)[0].split("_").length>1 && a.get(j)[0].split("_")[1].equals(a.get(j-1)[0].split("_")[1])) {
+										Vector<String[]> b = new Vector<String[]>();
+										b.add(a.get(j));
+										aux.setPrimaries(b);
+										recurs=true;
+									}
 								}
-									
 							}
 						}
 						restriccionesPerdidas.add(new restriccionPerdida(recurs?aux.restriccionIR(true,ent.getNombreTabla()):tabla.restriccionIR(true,ent.getNombreTabla()),ent.restriccionIR(false, ""), 

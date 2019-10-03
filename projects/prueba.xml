@@ -12,8 +12,10 @@
                 <PrimaryKey>2</PrimaryKey>
             </PrimaryKeyList>
             <AssertionList/>
-            <UniqueList/>
-            <Position>112,394</Position>
+            <UniqueList>
+                <Uniques>b</Uniques>
+            </UniqueList>
+            <Position>114,391</Position>
         </Entity>
         <Entity EntityId="2">
             <Name>s</Name>
@@ -26,7 +28,7 @@
             </PrimaryKeyList>
             <AssertionList/>
             <UniqueList/>
-            <Position>478,390</Position>
+            <Position>481,392</Position>
         </Entity>
     </EntityList>
     <RelationList proximoID="2">
@@ -55,7 +57,7 @@
             <ComponentList/>
             <Multivalued>false</Multivalued>
             <AssertionList/>
-            <Position>300,280</Position>
+            <Position>298,301</Position>
         </Attribute>
         <Attribute AttributeId="2">
             <Name>a</Name>
@@ -66,7 +68,7 @@
             <ComponentList/>
             <Multivalued>false</Multivalued>
             <AssertionList/>
-            <Position>118,299</Position>
+            <Position>63,308</Position>
         </Attribute>
         <Attribute AttributeId="3">
             <Name>a</Name>
@@ -77,18 +79,18 @@
             <ComponentList/>
             <Multivalued>false</Multivalued>
             <AssertionList/>
-            <Position>474,276</Position>
+            <Position>482,300</Position>
         </Attribute>
         <Attribute AttributeId="4">
             <Name>b</Name>
             <Dom>VARCHAR(10)</Dom>
             <Composed>false</Composed>
             <NotNull>false</NotNull>
-            <Unique>false</Unique>
+            <Unique>true</Unique>
             <ComponentList/>
             <Multivalued>false</Multivalued>
             <AssertionList/>
-            <Position>119,475</Position>
+            <Position>176,309</Position>
         </Attribute>
     </AttributeList>
     <DomainList proximoID="1"/>

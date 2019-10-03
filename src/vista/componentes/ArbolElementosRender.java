@@ -9,12 +9,12 @@ import modelo.transfers.TransferAtributo;
 import modelo.transfers.TransferEntidad;
 import modelo.transfers.TransferRelacion;
 import persistencia.NodoEntidad;
-import vista.icons.attributeIcon;
-import vista.icons.entityChildIcon;
-import vista.icons.entityIcon;
-import vista.icons.isaIcon;
-import vista.icons.relationIcon;
-import vista.icons.subAttributeIcon;
+import vista.iconos.attributeIcon;
+import vista.iconos.entityChildIcon;
+import vista.iconos.entityIcon;
+import vista.iconos.isaIcon;
+import vista.iconos.relationIcon;
+import vista.iconos.subAttributeIcon;
 import vista.tema.Theme;
 /*
  * Clase para representar el arbol de elementos del panel de informacion
