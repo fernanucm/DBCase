@@ -150,6 +150,7 @@ public class GUIPrincipal extends JFrame implements WindowListener, KeyListener{
 		setModoVista(modo);
     	loadInfo();
     	c.mensajeDesde_GUIPrincipal(TC.GUI_Principal_IniciaFrames, null);
+    	c.getTheGUIAnadirAtributo().setListaDominios(getListaDominios());
 	}
 	
 	public static void changeFont (Component component, Font font){

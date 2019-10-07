@@ -228,85 +228,85 @@ public class Controlador {
 	}
 	private void iniciaFrames() {
 		// Creamos todos los servicios y les asignamos el controlador
-				theServiciosEntidades = new ServiciosEntidades(); 
-				theServiciosEntidades.setControlador(this);		
-				theServiciosAtributos = new ServiciosAtributos();
-				theServiciosAtributos.setControlador(this);
-				theServiciosRelaciones = new ServiciosRelaciones();
-				theServiciosRelaciones.setControlador(this);
-				theServiciosDominios = new ServiciosDominios();
-				theServiciosDominios.setControlador(this);
-				theServiciosSistema = new GeneradorEsquema();
-				theServiciosSistema.reset();
-				theServiciosSistema.setControlador(this);
+		theServiciosEntidades = new ServiciosEntidades(); 
+		theServiciosEntidades.setControlador(this);		
+		theServiciosAtributos = new ServiciosAtributos();
+		theServiciosAtributos.setControlador(this);
+		theServiciosRelaciones = new ServiciosRelaciones();
+		theServiciosRelaciones.setControlador(this);
+		theServiciosDominios = new ServiciosDominios();
+		theServiciosDominios.setControlador(this);
+		theServiciosSistema = new GeneradorEsquema();
+		theServiciosSistema.reset();
+		theServiciosSistema.setControlador(this);
 
-				// Fuera
-				theGUIInsertarEntidad = new GUI_InsertarEntidad();
-				theGUIInsertarEntidad.setControlador(this);
-				theGUIInsertarRelacion = new GUI_InsertarRelacion();
-				theGUIInsertarRelacion.setControlador(this);
-				theGUIInsertarDominio = new GUI_InsertarDominio();
-				theGUIInsertarDominio.setControlador(this);
-				theGUIConexion = new GUI_Conexion();
-				theGUIConexion.setControlador(this);
-				theGUISeleccionarConexion = new GUI_SeleccionarConexion();
-				theGUISeleccionarConexion.setControlador(this);
+		// Fuera
+		theGUIInsertarEntidad = new GUI_InsertarEntidad();
+		theGUIInsertarEntidad.setControlador(this);
+		theGUIInsertarRelacion = new GUI_InsertarRelacion();
+		theGUIInsertarRelacion.setControlador(this);
+		theGUIInsertarDominio = new GUI_InsertarDominio();
+		theGUIInsertarDominio.setControlador(this);
+		theGUIConexion = new GUI_Conexion();
+		theGUIConexion.setControlador(this);
+		theGUISeleccionarConexion = new GUI_SeleccionarConexion();
+		theGUISeleccionarConexion.setControlador(this);
 
-				// Entidades
-				theGUIRenombrarEntidad = new GUI_RenombrarEntidad();
-				theGUIRenombrarEntidad.setControlador(this);
-				theGUIAnadirAtributoEntidad = new GUI_AnadirAtributoEntidad();
-				theGUIAnadirAtributoEntidad.setControlador(this);
-				theGUIAnadirRestriccionAEntidad = new GUI_InsertarRestriccionAEntidad();
-				theGUIAnadirRestriccionAEntidad.setControlador(this);
-				theGUIAnadirAtributo = new GUI_AnadirAtributo();
-				theGUIAnadirAtributo.setControlador(this);
+		// Entidades
+		theGUIRenombrarEntidad = new GUI_RenombrarEntidad();
+		theGUIRenombrarEntidad.setControlador(this);
+		theGUIAnadirAtributoEntidad = new GUI_AnadirAtributoEntidad();
+		theGUIAnadirAtributoEntidad.setControlador(this);
+		theGUIAnadirRestriccionAEntidad = new GUI_InsertarRestriccionAEntidad();
+		theGUIAnadirRestriccionAEntidad.setControlador(this);
+		theGUIAnadirAtributo = new GUI_AnadirAtributo();
+		theGUIAnadirAtributo.setControlador(this);
 
-				// Atributos
-				theGUIRenombrarAtributo = new GUI_RenombrarAtributo();
-				theGUIRenombrarAtributo.setControlador(this);
-				theGUIEditarDominioAtributo = new GUI_EditarDominioAtributo();
-				theGUIEditarDominioAtributo.setControlador(this);
-				theGUIAnadirSubAtributoAtributo = new GUI_AnadirSubAtributoAtributo();
-				theGUIAnadirSubAtributoAtributo.setControlador(this);
-				theGUIAnadirRestriccionAAtributo = new GUI_InsertarRestriccionAAtributo();
-				theGUIAnadirRestriccionAAtributo.setControlador(this);
+		// Atributos
+		theGUIRenombrarAtributo = new GUI_RenombrarAtributo();
+		theGUIRenombrarAtributo.setControlador(this);
+		theGUIEditarDominioAtributo = new GUI_EditarDominioAtributo();
+		theGUIEditarDominioAtributo.setControlador(this);
+		theGUIAnadirSubAtributoAtributo = new GUI_AnadirSubAtributoAtributo();
+		theGUIAnadirSubAtributoAtributo.setControlador(this);
+		theGUIAnadirRestriccionAAtributo = new GUI_InsertarRestriccionAAtributo();
+		theGUIAnadirRestriccionAAtributo.setControlador(this);
 
-				// Relaciones IsA
-				theGUIEstablecerEntidadPadre = new GUI_EstablecerEntidadPadre();
-				theGUIEstablecerEntidadPadre.setControlador(this);
-				theGUIQuitarEntidadPadre = new GUI_QuitarEntidadPadre();
-				theGUIQuitarEntidadPadre.setControlador(this);
-				theGUIAnadirEntidadHija = new GUI_AnadirEntidadHija();
-				theGUIAnadirEntidadHija.setControlador(this);
-				theGUIQuitarEntidadHija = new GUI_QuitarEntidadHija();
-				theGUIQuitarEntidadHija.setControlador(this);
+		// Relaciones IsA
+		theGUIEstablecerEntidadPadre = new GUI_EstablecerEntidadPadre();
+		theGUIEstablecerEntidadPadre.setControlador(this);
+		theGUIQuitarEntidadPadre = new GUI_QuitarEntidadPadre();
+		theGUIQuitarEntidadPadre.setControlador(this);
+		theGUIAnadirEntidadHija = new GUI_AnadirEntidadHija();
+		theGUIAnadirEntidadHija.setControlador(this);
+		theGUIQuitarEntidadHija = new GUI_QuitarEntidadHija();
+		theGUIQuitarEntidadHija.setControlador(this);
 
-				// Relaciones Normales
-				theGUIRenombrarRelacion = new GUI_RenombrarRelacion();
-				theGUIRenombrarRelacion.setControlador(this);
-				theGUIAnadirEntidadARelacion = new GUI_AnadirEntidadARelacion();
-				theGUIAnadirEntidadARelacion.setControlador(this);
-				theGUIQuitarEntidadARelacion = new GUI_QuitarEntidadARelacion();
-				theGUIQuitarEntidadARelacion.setControlador(this);
-				theGUIEditarCardinalidadEntidad = new GUI_EditarCardinalidadEntidad();
-				theGUIEditarCardinalidadEntidad.setControlador(this);
-				theGUIAnadirAtributoRelacion = new GUI_AnadirAtributoRelacion();
-				theGUIAnadirAtributoRelacion.setControlador(this);
-				theGUIAnadirRestriccionARelacion = new GUI_InsertarRestriccionARelacion();
-				theGUIAnadirRestriccionARelacion.setControlador(this);
+		// Relaciones Normales
+		theGUIRenombrarRelacion = new GUI_RenombrarRelacion();
+		theGUIRenombrarRelacion.setControlador(this);
+		theGUIAnadirEntidadARelacion = new GUI_AnadirEntidadARelacion();
+		theGUIAnadirEntidadARelacion.setControlador(this);
+		theGUIQuitarEntidadARelacion = new GUI_QuitarEntidadARelacion();
+		theGUIQuitarEntidadARelacion.setControlador(this);
+		theGUIEditarCardinalidadEntidad = new GUI_EditarCardinalidadEntidad();
+		theGUIEditarCardinalidadEntidad.setControlador(this);
+		theGUIAnadirAtributoRelacion = new GUI_AnadirAtributoRelacion();
+		theGUIAnadirAtributoRelacion.setControlador(this);
+		theGUIAnadirRestriccionARelacion = new GUI_InsertarRestriccionARelacion();
+		theGUIAnadirRestriccionARelacion.setControlador(this);
 
-				// Dominios
-				theGUIRenombrarDominio = new GUI_RenombrarDominio();
-				theGUIRenombrarDominio.setControlador(this);
-				theGUIModificarElementosDominio = new GUI_ModificarDominio();
-				theGUIModificarElementosDominio.setControlador(this);
-				
-				// Otras
-				about = new GUI_About();
-				theGUIWorkSpace = new GUI_SaveAs();
-				theGUIWorkSpace.setControlador(this);
-				panelOpciones= new GUI_Pregunta();
+		// Dominios
+		theGUIRenombrarDominio = new GUI_RenombrarDominio();
+		theGUIRenombrarDominio.setControlador(this);
+		theGUIModificarElementosDominio = new GUI_ModificarDominio();
+		theGUIModificarElementosDominio.setControlador(this);
+		
+		// Otras
+		about = new GUI_About();
+		theGUIWorkSpace = new GUI_SaveAs();
+		theGUIWorkSpace.setControlador(this);
+		panelOpciones= new GUI_Pregunta();
 	}
 		
 	// Mensajes que le manda la GUI_WorkSpace al Controlador

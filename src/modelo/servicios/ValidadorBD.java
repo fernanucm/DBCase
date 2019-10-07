@@ -616,6 +616,6 @@ public class ValidadorBD extends GeneradorEsquema{
 				}
 			}
 		}
-		return  valido;
+		return valido;
 	}
 }
