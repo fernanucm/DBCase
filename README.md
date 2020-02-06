@@ -1,5 +1,5 @@
 # Disclaimer
-My EOG work consist in continue with the development of this project, so the project has had another contributors:
+My EOG work consist in continuing with the development of this project, so the project has had another contributors:
 
 - 2007 / 2008
   * Alberto Milán Gutiérrez
@@ -36,8 +36,8 @@ diagrams described in the most commonly used database design literature. This ma
 notation more user-friendly.
 
 Besides making possible to design and test a scheme, the application performs the task of
-generating and executing a SQL script adapted to three different data base management systems:
-MySQL, Oracle, and ACCESS. This process is automatic and simplifies both time and
+generating and executing an SQL script adapted to three different database management systems:
+MySQL, Oracle, and Access. This process is automatic and simplifies both time and
 complexity of a theoretical design implemented in practice.
 
 The main purpose of the tool is to help students of database theory in the design of databases,
